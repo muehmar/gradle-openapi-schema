@@ -1,0 +1,60 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '0.12.0'
+    id 'com.github.sherter.google-java-format' version '0.9'
+}
+
+repositories {
+    mavenCentral()
+}
+
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
+
+dependencies {
+    implementation "org.openapitools.swagger.parser:swagger-parser-v3:2.0.14-OpenAPITools.org-1"
+
+    def junitVersion = "5.7.1"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junitVersion
+    testRuntime files(createClasspathManifest)
+}
+
+group = 'com.github.muehmar.openapischema'
+version = '0.1.0'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+test {
+    useJUnitPlatform()
+}
+
+pluginBundle {
+    website = "https://github.com/muehmar/gradle-openapi-schema"
+    vcsUrl = "https://github.com/muehmar/gradle-openapi-schema.git"
+    tags = ['java', 'openapi']
+}
+
+gradlePlugin {
+    plugins {
+        openApiSchemaPlugin {
+            id = 'com.github.muehmar.openapischema'
+            displayName = 'OpenApiSchema'
+            description = 'Generate schema sources for Java from an OpenAPI 3.0 specification.'
+            implementationClass = 'com.github.muehmar.gradle.openapi.OpenApiSchemaGenerator'
+        }
+    }
+}
+
+compileJava.dependsOn tasks.googleJavaFormat
+
