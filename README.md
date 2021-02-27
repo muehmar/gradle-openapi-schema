@@ -34,6 +34,7 @@ generateApiSchemas {
     outputDir = "$buildDir/generated/openapi"
     packageName = "${project.group}.${project.name}.api.model"
     suffix = "Dto"
+    jsonSupport = "jackson"
     
     classMappings {
         customList {
@@ -65,6 +66,7 @@ generateApiSchemas {
 | outputDir | String | $buildDir/generated/openapi | The location in which the generated sources should be stored. |
 | packageName | String | ${project.group}.${project.name}.api.model | Name of the package for the generated classes. |
 | suffix | String | None | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided. |
+| jsonSupport | String | jackson | Used json support library. Possible values are `jackson` or `none`. |
 
 ### Class Mappings
 

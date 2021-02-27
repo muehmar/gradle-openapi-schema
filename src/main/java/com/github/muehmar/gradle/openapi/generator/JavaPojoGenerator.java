@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
+import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -11,24 +13,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.gradle.api.Project;
 
-// TODO: Safe Builder
-// TODO: Only used imports
-// TODO: Inline enums?
 public class JavaPojoGenerator {
-  private final Project project;
+  private final PojoSettings pojoSettings;
   private final OpenApiSchemaGeneratorExtension config;
   private final OpenAPI openAPI;
   private final Function<String, Writer> createWriter;
   private final Resolver resolver;
 
   public JavaPojoGenerator(
-      Project project,
+      PojoSettings pojoSettings,
       OpenApiSchemaGeneratorExtension config,
       OpenAPI openAPI,
       Function<String, Writer> createWriter) {
-    this.project = project;
+    this.pojoSettings = pojoSettings;
     this.config = config;
     this.openAPI = openAPI;
     this.createWriter = createWriter;
@@ -47,21 +45,22 @@ public class JavaPojoGenerator {
                 return;
               }
 
-              final Pojo pojo = JavaPojo.fromSchema(config, schema.getKey(), schema.getValue());
-              final String packagePath = config.getPackageName(project).replaceAll("\\.", "/");
+              final Pojo pojo =
+                  JavaPojo.fromSchema(config, pojoSettings, schema.getKey(), schema.getValue());
+              final String packagePath = pojoSettings.getPackageName().replaceAll("\\.", "/");
 
               final Writer writer =
                   createWriter.apply(
                       directory + "/" + packagePath + "/" + pojo.className(resolver) + ".java");
 
-              printPackage(writer, config.getPackageName(project));
-              printImports(writer, pojo);
+              printPackage(writer, pojoSettings.getPackageName());
+              printImports(writer, pojo, pojoSettings.getJsonSupport());
               printClassStart(writer, pojo);
 
-              printFields(writer, pojo);
-              printConstructor(writer, pojo);
+              printFields(writer, pojo, pojoSettings.getJsonSupport());
+              printConstructor(writer, pojo, pojoSettings.getJsonSupport());
 
-              printGetters(writer, pojo);
+              printGetters(writer, pojo, pojoSettings.getJsonSupport());
               printWithers(writer, pojo);
               printToString(writer, pojo);
               printEqualsAndHash(writer, pojo);
@@ -77,16 +76,19 @@ public class JavaPojoGenerator {
     writer.println("package %s;", packageName);
   }
 
-  private void printImports(Writer writer, Pojo pojo) {
+  private void printImports(Writer writer, Pojo pojo, JsonSupport jsonSupport) {
     writer.println();
     writer.println("import java.util.Objects;");
     writer.println("import java.util.Optional;");
     writer.println();
-    writer.println("import com.fasterxml.jackson.annotation.JsonIgnore;");
-    writer.println("import com.fasterxml.jackson.annotation.JsonProperty;");
-    writer.println("import com.fasterxml.jackson.annotation.JsonCreator;");
-    writer.println("import com.fasterxml.jackson.annotation.JsonValue;");
-    writer.println();
+
+    if (jsonSupport.equals(JsonSupport.JACKSON)) {
+      writer.println("import com.fasterxml.jackson.annotation.JsonIgnore;");
+      writer.println("import com.fasterxml.jackson.annotation.JsonProperty;");
+      writer.println("import com.fasterxml.jackson.annotation.JsonCreator;");
+      writer.println("import com.fasterxml.jackson.annotation.JsonValue;");
+      writer.println();
+    }
 
     pojo.getMembers().stream()
         .flatMap(member -> member.getImports().stream())
@@ -119,8 +121,8 @@ public class JavaPojoGenerator {
     writer.tab(0).println("public class %s {", pojo.className(resolver));
   }
 
-  private void printFields(Writer writer, Pojo pojo) {
-    if (pojo.isArray()) {
+  private void printFields(Writer writer, Pojo pojo, JsonSupport jsonSupport) {
+    if (pojo.isArray() && jsonSupport.equals(JsonSupport.JACKSON)) {
       writer.tab(1).println("@JsonValue");
     }
 
@@ -133,16 +135,18 @@ public class JavaPojoGenerator {
                         "private final %s %s;", member.getTypeName(), member.memberName(resolver)));
   }
 
-  private void printConstructor(Writer writer, Pojo pojo) {
+  private void printConstructor(Writer writer, Pojo pojo, JsonSupport jsonSupport) {
     writer.println();
-    if (pojo.isArray()) {
-      writer.tab(1).println("@JsonCreator");
-    } else {
-      writer.tab(1).println("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
+    if (jsonSupport.equals(JsonSupport.JACKSON)) {
+      if (pojo.isArray()) {
+        writer.tab(1).println("@JsonCreator");
+      } else {
+        writer.tab(1).println("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
+      }
     }
     writer.tab(1).println("public %s(", pojo.className(resolver));
 
-    final List<String> memberArguments = createMemberArguments(pojo);
+    final List<String> memberArguments = createMemberArguments(pojo, jsonSupport);
 
     for (int i = 0; i < memberArguments.size(); i++) {
       writer.tab(3).print(memberArguments.get(i));
@@ -164,7 +168,15 @@ public class JavaPojoGenerator {
     writer.tab(1).println("}");
   }
 
-  private List<String> createMemberArguments(Pojo pojo) {
+  private List<String> createMemberArguments(Pojo pojo, JsonSupport jsonSupport) {
+    final Function<PojoMember, String> createJsonSupport =
+        member -> {
+          if (jsonSupport.equals(JsonSupport.JACKSON)) {
+            return String.format("@JsonProperty(\"%s\") ", member.memberName(resolver));
+          } else {
+            return "";
+          }
+        };
     return pojo.getMembers().stream()
         .map(
             member -> {
@@ -172,8 +184,10 @@ public class JavaPojoGenerator {
                 return String.format("%s %s", member.getTypeName(), member.memberName(resolver));
               } else {
                 return String.format(
-                    "@JsonProperty(\"%s\") %s %s",
-                    member.memberName(resolver), member.getTypeName(), member.memberName(resolver));
+                    "%s%s %s",
+                    createJsonSupport.apply(member),
+                    member.getTypeName(),
+                    member.memberName(resolver));
               }
             })
         .collect(Collectors.toList());
@@ -192,7 +206,7 @@ public class JavaPojoGenerator {
     writer.println("}");
   }
 
-  protected void printGetters(Writer writer, Pojo pojo) {
+  protected void printGetters(Writer writer, Pojo pojo, JsonSupport jsonSupport) {
     pojo.getMembers()
         .forEach(
             member -> {
@@ -210,7 +224,7 @@ public class JavaPojoGenerator {
                       ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver))
                       : String.format("this.%s", member.memberName(resolver));
 
-              if (nullable) {
+              if (nullable && jsonSupport.equals(JsonSupport.JACKSON)) {
                 writer.tab(1).println("@JsonIgnore");
               }
               writer
@@ -224,7 +238,9 @@ public class JavaPojoGenerator {
               if (nullable) {
                 writer.println();
                 printJavaDoc(writer, 1, member.getDescription());
-                writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver));
+                if (jsonSupport.equals(JsonSupport.JACKSON)) {
+                  writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver));
+                }
                 writer
                     .tab(1)
                     .println(

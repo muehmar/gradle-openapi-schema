@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.task;
 
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
 import com.github.muehmar.gradle.openapi.generator.JavaPojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.WriterImpl;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.OpenAPIV3Parser;
@@ -27,7 +28,7 @@ public class GenerateSchemasTask extends DefaultTask {
           @Override
           public void execute(Task task) {
             try {
-              runTask(project, config, task);
+              runTask(project, config);
             } catch (IOException e) {
               throw new GradleException("Error while generating the schema classes", e);
             }
@@ -35,14 +36,16 @@ public class GenerateSchemasTask extends DefaultTask {
         });
   }
 
-  private void runTask(Project project, OpenApiSchemaGeneratorExtension config, Task task)
-      throws IOException {
+  private void runTask(Project project, OpenApiSchemaGeneratorExtension config) throws IOException {
     final OpenAPI openAPI = parseSpec(config.getInputSpec());
 
     final String outputDir = config.getOutputDir(project);
 
+    final PojoSettings pojoSettings =
+        PojoSettings.fromOpenApiSchemaGeneratorExtension(config, project);
+
     final JavaPojoGenerator javaPojoGenerator =
-        new JavaPojoGenerator(task.getProject(), config, openAPI, WriterImpl::new);
+        new JavaPojoGenerator(pojoSettings, config, openAPI, WriterImpl::new);
     javaPojoGenerator.generate(outputDir);
   }
 

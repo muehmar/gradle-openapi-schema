@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.DateSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
@@ -37,7 +38,11 @@ public class JavaPojoMember extends PojoMember {
   }
 
   public static JavaPojoMember ofSchema(
-      OpenApiSchemaGeneratorExtension config, Schema<?> schema, String key, boolean nullable) {
+      OpenApiSchemaGeneratorExtension config,
+      PojoSettings pojoSettings,
+      Schema<?> schema,
+      String key,
+      boolean nullable) {
 
     final Function<Type, JavaPojoMember> createPojoMember =
         type -> {
@@ -66,12 +71,12 @@ public class JavaPojoMember extends PojoMember {
     }
 
     final Type type =
-        getType(config, schema)
+        getType(pojoSettings, schema)
             .map(name -> nullable ? name : primitivesMap.getOrDefault(name, name));
     return createPojoMember.apply(type);
   }
 
-  private static Type getType(OpenApiSchemaGeneratorExtension config, Schema<?> schema) {
+  private static Type getType(PojoSettings pojoSettings, Schema<?> schema) {
     final String type = schema.getType();
     if ("integer".equals(type)) {
       return getIntegerType(schema.getFormat());
@@ -85,7 +90,7 @@ public class JavaPojoMember extends PojoMember {
       final MapSchema mapSchema = (MapSchema) schema;
       final Object additionalProperties = mapSchema.getAdditionalProperties();
       if (additionalProperties instanceof Schema) {
-        return getRefType(config, ((Schema<?>) additionalProperties).get$ref())
+        return getRefType(pojoSettings, ((Schema<?>) additionalProperties).get$ref())
             .map(
                 name -> String.format("Map<String, %s>", name),
                 imports -> {
@@ -98,7 +103,7 @@ public class JavaPojoMember extends PojoMember {
     } else if (schema instanceof ArraySchema) {
       final ArraySchema arraySchema = (ArraySchema) schema;
       final Schema<?> items = arraySchema.getItems();
-      return getType(config, items)
+      return getType(pojoSettings, items)
           .map(
               name -> String.format("List<%s>", name),
               imports -> {
@@ -107,7 +112,7 @@ public class JavaPojoMember extends PojoMember {
               });
     } else if (schema.get$ref() != null) {
       final String $ref = schema.get$ref();
-      return getRefType(config, $ref);
+      return getRefType(pojoSettings, $ref);
     } else {
       return new Type("Void");
     }
@@ -142,9 +147,9 @@ public class JavaPojoMember extends PojoMember {
         dateTypeFormatMap.getOrDefault(schema.getFormat(), new Type("Void")));
   }
 
-  private static Type getRefType(OpenApiSchemaGeneratorExtension config, String ref) {
+  private static Type getRefType(PojoSettings pojoSettings, String ref) {
     final int i = ref.lastIndexOf('/');
-    return new Type(ref.substring(Math.max(i + 1, 0)) + config.getSuffix());
+    return new Type(ref.substring(Math.max(i + 1, 0)) + pojoSettings.getSuffix());
   }
 
   private static Type getIntegerType(String format) {

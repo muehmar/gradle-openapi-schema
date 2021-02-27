@@ -18,6 +18,7 @@ public class OpenApiSchemaGeneratorExtension {
   private String outputDir;
   private String suffix;
   private String packageName;
+  private String jsonSupport;
   private final NamedDomainObjectContainer<ClassMapping> classMappings;
   private final NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings;
 
@@ -76,7 +77,7 @@ public class OpenApiSchemaGeneratorExtension {
   }
 
   public String getSuffix() {
-    return suffix;
+    return Optional.ofNullable(suffix).orElse("");
   }
 
   public void setSuffix(String suffix) {
@@ -90,6 +91,14 @@ public class OpenApiSchemaGeneratorExtension {
 
   public void setPackageName(String packageName) {
     this.packageName = packageName;
+  }
+
+  public Optional<String> getJsonSupport() {
+    return Optional.ofNullable(jsonSupport);
+  }
+
+  public void setJsonSupport(String jsonSupport) {
+    this.jsonSupport = jsonSupport;
   }
 
   @Override
@@ -109,6 +118,9 @@ public class OpenApiSchemaGeneratorExtension {
         + '\''
         + ", packageName='"
         + packageName
+        + '\''
+        + ", jsonSupport='"
+        + jsonSupport
         + '\''
         + ", classMappings="
         + new ArrayList<>(classMappings)

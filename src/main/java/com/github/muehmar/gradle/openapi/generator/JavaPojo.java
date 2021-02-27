@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Collections;
@@ -16,10 +17,13 @@ public class JavaPojo extends Pojo {
   }
 
   public static JavaPojo fromSchema(
-      OpenApiSchemaGeneratorExtension config, String key, Schema<?> schema) {
+      OpenApiSchemaGeneratorExtension config,
+      PojoSettings pojoSettings,
+      String key,
+      Schema<?> schema) {
 
     if (schema instanceof ArraySchema) {
-      return fromArraySchema(config, key, (ArraySchema) schema);
+      return fromArraySchema(config, pojoSettings, key, (ArraySchema) schema);
     }
 
     final Map<String, Schema> properties = schema.getProperties();
@@ -33,20 +37,24 @@ public class JavaPojo extends Pojo {
                             .map(req -> req.stream().anyMatch(entry.getKey()::equals))
                             .orElse(false);
                     return JavaPojoMember.ofSchema(
-                        config, entry.getValue(), entry.getKey(), !required);
+                        config, pojoSettings, entry.getValue(), entry.getKey(), !required);
                   })
               .collect(Collectors.toList());
 
-      return new JavaPojo(key, schema.getDescription(), config.getSuffix(), members, false);
+      return new JavaPojo(key, schema.getDescription(), pojoSettings.getSuffix(), members, false);
     }
 
     return new JavaPojo(
-        key, schema.getDescription(), config.getSuffix(), Collections.emptyList(), false);
+        key, schema.getDescription(), pojoSettings.getSuffix(), Collections.emptyList(), false);
   }
 
   private static JavaPojo fromArraySchema(
-      OpenApiSchemaGeneratorExtension config, String key, ArraySchema schema) {
-    final JavaPojoMember member = JavaPojoMember.ofSchema(config, schema, "value", false);
+      OpenApiSchemaGeneratorExtension config,
+      PojoSettings pojoSettings,
+      String key,
+      ArraySchema schema) {
+    final JavaPojoMember member =
+        JavaPojoMember.ofSchema(config, pojoSettings, schema, "value", false);
     return new JavaPojo(
         key, schema.getDescription(), config.getSuffix(), Collections.singletonList(member), true);
   }
