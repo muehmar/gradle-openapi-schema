@@ -32,8 +32,14 @@ public class OpenApiSchemaGenerator implements Plugin<Project> {
     final TaskProvider<GenerateSchemasTask> createTask =
         project
             .getTasks()
-            .register("generateApiSchemas", GenerateSchemasTask.class, config, project);
-    createTask.configure(task -> task.setGroup("openapi schema generator"));
+            .register("generateApiSchemas", GenerateSchemasTask.class, project, config);
+
+    createTask.configure(
+        task -> {
+          task.getInputs().file(config.getInputSpec());
+          task.getOutputs().dir(config.getOutputDir(project));
+          task.setGroup("openapi schema generator");
+        });
 
     project.afterEvaluate(
         prj -> {

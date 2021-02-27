@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
+import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 
@@ -53,8 +54,12 @@ public class OpenApiSchemaGeneratorExtension {
     this.sourceSet = sourceSet;
   }
 
-  public Optional<String> getInputSpec() {
-    return Optional.ofNullable(inputSpec);
+  public String getInputSpec() {
+    return Optional.ofNullable(inputSpec)
+        .orElseThrow(
+            () ->
+                new InvalidUserDataException(
+                    "Could not generate schema, no input spec defined: Declare a correct path to a valid openapi spec."));
   }
 
   public void setInputSpec(String inputSpec) {
