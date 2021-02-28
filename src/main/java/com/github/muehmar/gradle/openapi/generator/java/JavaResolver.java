@@ -1,10 +1,15 @@
-package com.github.muehmar.gradle.openapi.generator;
+package com.github.muehmar.gradle.openapi.generator.java;
+
+import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.BOOLEAN;
+
+import com.github.muehmar.gradle.openapi.generator.Resolver;
+import com.github.muehmar.gradle.openapi.generator.Type;
 
 public class JavaResolver implements Resolver {
 
   @Override
   public String getterName(String key, Type type) {
-    final String prefix = type.getName().equals("boolean") ? "is" : "get";
+    final String prefix = type.getName().equals(BOOLEAN.getName()) ? "is" : "get";
     return prefix + toCamelCase(key);
   }
 

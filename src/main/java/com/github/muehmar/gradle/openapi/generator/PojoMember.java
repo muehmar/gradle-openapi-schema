@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class PojoMember {
   private final boolean nullable;
@@ -49,7 +49,7 @@ public abstract class PojoMember {
     return resolver.memberName(key);
   }
 
-  public List<String> getImports() {
+  public Set<String> getImports() {
     return type.getImports();
   }
 
@@ -81,7 +81,7 @@ public abstract class PojoMember {
         + ", description='"
         + description
         + '\''
-        + ", type="
+        + ", javaType="
         + type
         + ", key='"
         + key

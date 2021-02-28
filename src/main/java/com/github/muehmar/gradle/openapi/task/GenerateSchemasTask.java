@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.task;
 
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
-import com.github.muehmar.gradle.openapi.generator.JavaPojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.JavaPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.WriterImpl;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -45,7 +45,7 @@ public class GenerateSchemasTask extends DefaultTask {
         PojoSettings.fromOpenApiSchemaGeneratorExtension(config, project);
 
     final JavaPojoGenerator javaPojoGenerator =
-        new JavaPojoGenerator(pojoSettings, config, openAPI, WriterImpl::new);
+        new JavaPojoGenerator(pojoSettings, openAPI, WriterImpl::new);
     javaPojoGenerator.generate(outputDir);
   }
 

@@ -1,6 +1,8 @@
-package com.github.muehmar.gradle.openapi.generator;
+package com.github.muehmar.gradle.openapi.generator.java;
 
-import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
+import com.github.muehmar.gradle.openapi.generator.Pojo;
+import com.github.muehmar.gradle.openapi.generator.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
@@ -16,18 +18,13 @@ import java.util.stream.Collectors;
 
 public class JavaPojoGenerator {
   private final PojoSettings pojoSettings;
-  private final OpenApiSchemaGeneratorExtension config;
   private final OpenAPI openAPI;
   private final Function<String, Writer> createWriter;
   private final Resolver resolver;
 
   public JavaPojoGenerator(
-      PojoSettings pojoSettings,
-      OpenApiSchemaGeneratorExtension config,
-      OpenAPI openAPI,
-      Function<String, Writer> createWriter) {
+      PojoSettings pojoSettings, OpenAPI openAPI, Function<String, Writer> createWriter) {
     this.pojoSettings = pojoSettings;
-    this.config = config;
     this.openAPI = openAPI;
     this.createWriter = createWriter;
     this.resolver = new JavaResolver();
@@ -46,7 +43,7 @@ public class JavaPojoGenerator {
               }
 
               final Pojo pojo =
-                  JavaPojo.fromSchema(config, pojoSettings, schema.getKey(), schema.getValue());
+                  JavaPojo.fromSchema(pojoSettings, schema.getKey(), schema.getValue());
               final String packagePath = pojoSettings.getPackageName().replaceAll("\\.", "/");
 
               final Writer writer =
