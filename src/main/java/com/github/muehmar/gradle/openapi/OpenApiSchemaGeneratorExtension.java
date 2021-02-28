@@ -19,6 +19,7 @@ public class OpenApiSchemaGeneratorExtension {
   private String suffix;
   private String packageName;
   private String jsonSupport;
+  private Boolean enableSafeBuilder;
   private final NamedDomainObjectContainer<ClassMapping> classMappings;
   private final NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings;
 
@@ -101,9 +102,17 @@ public class OpenApiSchemaGeneratorExtension {
     this.jsonSupport = jsonSupport;
   }
 
+  public boolean getEnableSafeBuilder() {
+    return Optional.ofNullable(enableSafeBuilder).orElse(true);
+  }
+
+  public void setEnableSafeBuilder(Boolean enableSafeBuilder) {
+    this.enableSafeBuilder = enableSafeBuilder;
+  }
+
   @Override
   public String toString() {
-    return "OpenApiPojoGeneratorExtension{"
+    return "OpenApiSchemaGeneratorExtension{"
         + "sourceSet='"
         + sourceSet
         + '\''
@@ -122,6 +131,8 @@ public class OpenApiSchemaGeneratorExtension {
         + ", jsonSupport='"
         + jsonSupport
         + '\''
+        + ", enableSafeBuilder="
+        + enableSafeBuilder
         + ", classMappings="
         + new ArrayList<>(classMappings)
         + ", formatTypeMappings="

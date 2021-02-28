@@ -33,6 +33,10 @@ public abstract class PojoMember {
     return nullable;
   }
 
+  public boolean isRequired() {
+    return !isNullable();
+  }
+
   public String getterName(Resolver resolver) {
     return resolver.getterName(key, type);
   }
