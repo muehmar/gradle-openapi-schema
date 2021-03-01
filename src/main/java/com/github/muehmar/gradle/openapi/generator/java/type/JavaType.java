@@ -41,7 +41,8 @@ public class JavaType implements Type {
 
   public JavaType replaceClass(String fromClass, String toClass, Optional<String> imports) {
     final List<JavaType> generics =
-        genericTypes.stream()
+        genericTypes
+            .stream()
             .map(t -> t.replaceClass(fromClass, toClass, imports))
             .collect(Collectors.toList());
 

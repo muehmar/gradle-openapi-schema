@@ -26,7 +26,9 @@ public class JavaPojo extends Pojo {
     final Map<String, Schema> properties = schema.getProperties();
     if (properties != null) {
       final List<PojoMember> members =
-          properties.entrySet().stream()
+          properties
+              .entrySet()
+              .stream()
               .map(
                   entry -> {
                     final Boolean required =

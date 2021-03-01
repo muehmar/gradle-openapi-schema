@@ -30,7 +30,9 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
   }
 
   private Optional<JavaType> getFormatMappedType(PojoSettings pojoSettings, Schema<?> schema) {
-    return pojoSettings.getFormatTypeMappings().stream()
+    return pojoSettings
+        .getFormatTypeMappings()
+        .stream()
         .filter(mapping -> mapping.getFormatType().equals(schema.getFormat()))
         .findFirst()
         .map(

@@ -91,7 +91,8 @@ public class JavaPojoGenerator {
       writer.println();
     }
 
-    pojo.getMembers().stream()
+    pojo.getMembers()
+        .stream()
         .flatMap(member -> member.getImports().stream())
         .distinct()
         .forEach(classImport -> writer.println("import %s;", classImport));
@@ -178,7 +179,8 @@ public class JavaPojoGenerator {
             return "";
           }
         };
-    return pojo.getMembers().stream()
+    return pojo.getMembers()
+        .stream()
         .map(
             member -> {
               if (pojo.isArray()) {
@@ -196,7 +198,8 @@ public class JavaPojoGenerator {
 
   private String createNamesCommaSeparated(Pojo pojo) {
     final List<String> formattedPairs =
-        pojo.getMembers().stream()
+        pojo.getMembers()
+            .stream()
             .map(member -> String.format("%s", member.memberName(resolver)))
             .collect(Collectors.toList());
 
@@ -453,7 +456,8 @@ public class JavaPojoGenerator {
         .println("final %s v = (%s) other;", pojo.className(resolver), pojo.className(resolver));
 
     final List<String> objectEquals =
-        pojo.getMembers().stream()
+        pojo.getMembers()
+            .stream()
             .map(
                 member -> {
                   final String fieldName = member.memberName(resolver);
@@ -481,7 +485,8 @@ public class JavaPojoGenerator {
     writer.tab(1).println("public int hashCode() {");
 
     final List<String> fieldNames =
-        pojo.getMembers().stream()
+        pojo.getMembers()
+            .stream()
             .map(member -> member.memberName(resolver))
             .collect(Collectors.toList());
 

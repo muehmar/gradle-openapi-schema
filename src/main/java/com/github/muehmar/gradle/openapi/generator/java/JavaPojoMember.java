@@ -29,7 +29,9 @@ public class JavaPojoMember extends PojoMember {
             .mapPrimitiveType(name -> nullable ? name : primitivesMap.getOrDefault(name, name));
 
     final JavaType classMappedJavaType =
-        pojoSettings.getClassTypeMappings().stream()
+        pojoSettings
+            .getClassTypeMappings()
+            .stream()
             .<Function<JavaType, JavaType>>map(
                 mapping ->
                     t ->

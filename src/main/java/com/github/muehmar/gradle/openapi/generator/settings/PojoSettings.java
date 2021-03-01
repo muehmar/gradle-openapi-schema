@@ -37,10 +37,14 @@ public class PojoSettings {
         extension.getPackageName(project),
         extension.getSuffix(),
         extension.getEnableSafeBuilder(),
-        extension.getClassMappings().stream()
+        extension
+            .getClassMappings()
+            .stream()
             .map(ClassTypeMapping::fromExtension)
             .collect(Collectors.toList()),
-        extension.getFormatTypeMappings().stream()
+        extension
+            .getFormatTypeMappings()
+            .stream()
             .map(FormatTypeMapping::fromExtension)
             .collect(Collectors.toList()));
   }
