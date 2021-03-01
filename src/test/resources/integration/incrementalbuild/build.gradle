@@ -1,0 +1,8 @@
+plugins {
+    id 'java-library'
+    id 'com.github.muehmar.openapischema' version '0.2.0-SNAPSHOT'
+}
+
+generateApiSchemas {
+    inputSpec = "$projectDir/openapi.yml"
+}

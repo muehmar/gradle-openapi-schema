@@ -1,14 +1,16 @@
 package com.github.muehmar.gradle.openapi;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.HashSet;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Util {
   private Util() {}
 
-  public static <T> void assertEqualsIgnoreOrder(List<T> l1, List<T> l2) {
-    assertEquals(new HashSet<>(l1), new HashSet<>(l2));
+  public static void writeFile(File destination, String content) throws IOException {
+    try (BufferedWriter output = new BufferedWriter(new FileWriter(destination))) {
+      output.write(content);
+    }
   }
 }

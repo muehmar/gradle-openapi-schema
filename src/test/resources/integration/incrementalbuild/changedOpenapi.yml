@@ -1,0 +1,15 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      properties:
+        user:
+          type: string
+        age:
+          type: integer
+
+
