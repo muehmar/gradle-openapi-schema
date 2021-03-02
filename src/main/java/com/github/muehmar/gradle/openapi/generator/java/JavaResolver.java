@@ -9,35 +9,35 @@ public class JavaResolver implements Resolver {
 
   @Override
   public String getterName(String key, Type type) {
-    final String prefix = type.getName().equals(BOOLEAN.getName()) ? "is" : "get";
-    return prefix + toCamelCase(key);
+    final String prefix = type.getName().equalsIgnoreCase(BOOLEAN.getName()) ? "is" : "get";
+    return prefix + toPascalCase(key);
   }
 
   @Override
   public String setterName(String key) {
-    return "set" + toCamelCase(key);
+    return "set" + toPascalCase(key);
   }
 
   @Override
   public String witherName(String key) {
-    return "with" + toCamelCase(key);
+    return "with" + toPascalCase(key);
   }
 
   @Override
   public String memberName(String key) {
-    return toSnakeCase(key);
+    return toCamelCase(key);
   }
 
   @Override
   public String className(String key) {
-    return toCamelCase(key);
-  }
-
-  public static String toSnakeCase(String key) {
-    return key.substring(0, 1).toLowerCase() + key.substring(1);
+    return toPascalCase(key);
   }
 
   public static String toCamelCase(String key) {
+    return key.substring(0, 1).toLowerCase() + key.substring(1);
+  }
+
+  public static String toPascalCase(String key) {
     return key.substring(0, 1).toUpperCase() + key.substring(1);
   }
 }

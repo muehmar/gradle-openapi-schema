@@ -5,7 +5,7 @@
 
 This is a gradle plugin to generate Java code given an openapi 3.x specification. Unlike other codegen tools, this
 focuses only on the `#/component/schema` section. It generates immutable classes and special builder classes to support
-a safe way creating instances. The data classes supports JSON conversions via jackson.
+a safe way creating instances. The data classes support JSON conversions via jackson.
 
 * Immutable Java classes.
 * Special builder pattern for safe creation of instances.
@@ -22,7 +22,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.2.0'
+    id 'com.github.muehmar.openapischema' version '0.2.1'
 }
 ```
 
@@ -60,6 +60,8 @@ generateApiSchemas {
         }
     }
 }
+
+compileJava.dependsOn tasks.generateApiSchemas
 ```
 
 | Key | Data Type | Default | Description | 
@@ -71,6 +73,9 @@ generateApiSchemas {
 | suffix | String | None | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided. |
 | jsonSupport | String | jackson | Used json support library. Possible values are `jackson` or `none`. |
 | enableSafeBuilder | Boolean | true | Enables creating the safe builder. |
+
+The plugin creates a task named `generateApiSchemas`. The dependency of the compile task of the corresponding source
+must be set manually like in the example above.
 
 ### Class Mappings
 
@@ -164,11 +169,12 @@ required property in this example the returned class for `setCity()` offers thre
   used in the example above, i.e. the compiler enforces one to set the `age` property too.
 
 Setting all required properties in a class could theoretically also be achieved with a constructor with all required
-properties as arguments but the pattern used here is safer in terms of refactoring, i.e. adding or removing properties
-or changing the required properties or change the order of the properties.
+properties as arguments, but the pattern used here is safer in terms of refactoring, i.e. adding or removing properties,
+changing the required properties or changing the order of the properties.
 
 ## Change Log
 
+* 0.2.1 Fix the setter name for booleans
 * 0.2.0
     * Support incremental build
     * Add the 'Safe Builder' pattern
