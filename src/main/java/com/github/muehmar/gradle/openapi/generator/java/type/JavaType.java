@@ -1,5 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.type;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
+
 import com.github.muehmar.gradle.openapi.generator.Type;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
@@ -15,28 +22,40 @@ public class JavaType implements Type {
   private final String name;
   private final Set<String> imports;
   private final List<JavaType> genericTypes;
+  private final List<String> enumMembers;
 
-  private JavaType(String name, Set<String> imports, List<JavaType> genericTypes) {
+  private JavaType(
+      String name, Set<String> imports, List<JavaType> genericTypes, List<String> enumMembers) {
     this.name = name;
-    this.imports = Collections.unmodifiableSet(imports);
-    this.genericTypes = genericTypes;
+    this.imports = unmodifiableSet(imports);
+    this.genericTypes = unmodifiableList(genericTypes);
+    this.enumMembers = unmodifiableList(enumMembers);
   }
 
   public static JavaType ofNameAndImport(String name, String singleImport) {
-    return new JavaType(name, Collections.singleton(singleImport), Collections.emptyList());
+    return new JavaType(
+        name, singleton(singleImport), Collections.emptyList(), Collections.emptyList());
   }
 
   public static JavaType ofName(String name) {
-    return new JavaType(name, Collections.emptySet(), Collections.emptyList());
+    return new JavaType(name, emptySet(), Collections.emptyList(), Collections.emptyList());
   }
 
   public static JavaType javaMap(JavaType key, JavaType value) {
-    return new JavaType("Map", Collections.singleton("java.util.Map"), Arrays.asList(key, value));
+    return new JavaType(
+        "Map", singleton("java.util.Map"), Arrays.asList(key, value), Collections.emptyList());
   }
 
   public static JavaType javaList(JavaType itemType) {
     return new JavaType(
-        "List", Collections.singleton("java.util.List"), Collections.singletonList(itemType));
+        "List",
+        singleton("java.util.List"),
+        Collections.singletonList(itemType),
+        Collections.emptyList());
+  }
+
+  public static JavaType javaEnum(List<String> members) {
+    return new JavaType("enum", emptySet(), emptyList(), members);
   }
 
   public JavaType replaceClass(String fromClass, String toClass, Optional<String> imports) {
@@ -48,14 +67,17 @@ public class JavaType implements Type {
 
     if (name.equals(fromClass)) {
       return new JavaType(
-          toClass, imports.map(Collections::singleton).orElseGet(Collections::emptySet), generics);
+          toClass,
+          imports.map(Collections::singleton).orElseGet(Collections::emptySet),
+          generics,
+          enumMembers);
     } else {
-      return new JavaType(name, this.imports, generics);
+      return new JavaType(name, this.imports, generics, enumMembers);
     }
   }
 
   public JavaType mapPrimitiveType(UnaryOperator<String> mapName) {
-    return new JavaType(mapName.apply(name), imports, genericTypes);
+    return new JavaType(mapName.apply(name), imports, genericTypes, enumMembers);
   }
 
   @Override
@@ -64,6 +86,18 @@ public class JavaType implements Type {
         genericTypes.stream().map(JavaType::getName).collect(Collectors.joining(", "));
     return String.format(
         "%s%s", name, genericTypes.isEmpty() ? "" : String.format("<%s>", genericNames));
+  }
+
+  @Override
+  public boolean isEnum() {
+    return enumMembers.size() > 0;
+  }
+
+  @Override
+  public void onEnum(Consumer<List<String>> code) {
+    if (isEnum()) {
+      code.accept(enumMembers);
+    }
   }
 
   @Override

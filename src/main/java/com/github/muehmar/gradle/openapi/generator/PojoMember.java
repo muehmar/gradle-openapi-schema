@@ -1,8 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public abstract class PojoMember {
   private final boolean nullable;
@@ -21,8 +23,8 @@ public abstract class PojoMember {
     return description;
   }
 
-  public String getTypeName() {
-    return type.getName();
+  public String getTypeName(Resolver resolver) {
+    return type.isEnum() ? resolver.enumName(key) : type.getName();
   }
 
   public String getKey() {
@@ -39,6 +41,13 @@ public abstract class PojoMember {
 
   public String getterName(Resolver resolver) {
     return resolver.getterName(key, type);
+  }
+  /**
+   * The provided {@code code} is executed in case this type is an enum with the list of members in
+   * the enum as arguments.
+   */
+  public void onEnum(Consumer<List<String>> code) {
+    type.onEnum(code);
   }
 
   public String setterName(Resolver resolver) {

@@ -15,11 +15,11 @@ import org.gradle.testkit.runner.TaskOutcome;
 import org.junit.jupiter.api.Test;
 
 class IncrementalBuildTest {
-  private static final String RESOURCE_PATH = "/integration/incrementalbuild";
+  private static final String MODULE_NAME = "incrementalbuild";
 
   @Test
   void runTwice_when_noModification_then_secondTimeTaskIsUpToDate() throws IOException {
-    final TemporaryProject project = TemporaryProject.createStandard(RESOURCE_PATH);
+    final TemporaryProject project = TemporaryProject.createStandard(MODULE_NAME);
 
     final BuildResult result =
         GradleRunner.create()
@@ -46,7 +46,7 @@ class IncrementalBuildTest {
 
   @Test
   void runTwice_when_inputSpecChanged_then_secondTimeTaskWasExecutedAgain() throws IOException {
-    final TemporaryProject project = TemporaryProject.createStandard(RESOURCE_PATH);
+    final TemporaryProject project = TemporaryProject.createStandard(MODULE_NAME);
 
     final BuildResult result =
         GradleRunner.create()
@@ -60,7 +60,12 @@ class IncrementalBuildTest {
     assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
 
     writeFile(
-        project.getOpenApiSpec(), Resources.readString(RESOURCE_PATH + "/changedOpenapi.yml"));
+        project.getOpenApiSpec(),
+        Resources.readString(
+            TemporaryProject.INTEGRATION_RESOURCE_BASE_PATH
+                + "/"
+                + MODULE_NAME
+                + "/changedOpenapi.yml"));
 
     final BuildResult secondResult =
         GradleRunner.create()
@@ -76,7 +81,7 @@ class IncrementalBuildTest {
 
   @Test
   void runTwice_when_outputChanged_then_secondTimeTaskWasExecutedAgain() throws IOException {
-    final TemporaryProject project = TemporaryProject.createStandard(RESOURCE_PATH);
+    final TemporaryProject project = TemporaryProject.createStandard(MODULE_NAME);
 
     final BuildResult result =
         GradleRunner.create()

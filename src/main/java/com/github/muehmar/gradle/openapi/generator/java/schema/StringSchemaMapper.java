@@ -7,7 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.UR
 
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.swagger.v3.oas.models.media.Schema;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,12 +24,18 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
   @Override
   JavaType mapSpecificSchema(
       PojoSettings pojoSettings, StringSchema schema, JavaSchemaMapper chain) {
-    return Optional.ofNullable(schema.getFormat())
-        .map(formatMap::get)
-        .orElseGet(() -> getFormatMappedType(pojoSettings, schema).orElse(STRING));
+    return Optionals.or(
+            () -> getFromStandardFormat(schema),
+            () -> getFormatMappedType(pojoSettings, schema),
+            () -> getEnumType(schema))
+        .orElse(STRING);
   }
 
-  private Optional<JavaType> getFormatMappedType(PojoSettings pojoSettings, Schema<?> schema) {
+  private Optional<JavaType> getFromStandardFormat(StringSchema schema) {
+    return Optional.ofNullable(schema.getFormat()).map(formatMap::get);
+  }
+
+  private Optional<JavaType> getFormatMappedType(PojoSettings pojoSettings, StringSchema schema) {
     return pojoSettings
         .getFormatTypeMappings()
         .stream()
@@ -40,6 +46,10 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
                 Optional.ofNullable(mapping.getImports())
                     .map(imports -> JavaType.ofNameAndImport(mapping.getClassType(), imports))
                     .orElseGet(() -> JavaType.ofName(mapping.getClassType())));
+  }
+
+  private Optional<JavaType> getEnumType(StringSchema schema) {
+    return Optional.ofNullable(schema.getEnum()).map(JavaType::javaEnum);
   }
 
   private static Map<String, JavaType> createFormatMap() {

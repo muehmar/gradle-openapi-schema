@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - user
+        - city
+      properties:
+        user:
+          type: string
+        city:
+          type: string
+        age:
+          type: integer
+        role:
+          type: string
+          enum: [ "admin", "user", "visitor" ]
+
+    UserGroup:
+      properties:
+        owner:
+          $ref: "#/components/schemas/User"
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"

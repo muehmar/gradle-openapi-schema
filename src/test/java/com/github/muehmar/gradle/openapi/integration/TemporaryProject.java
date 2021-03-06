@@ -8,6 +8,8 @@ import java.io.IOException;
 import org.gradle.internal.impldep.org.junit.rules.TemporaryFolder;
 
 public class TemporaryProject {
+  public static final String INTEGRATION_RESOURCE_BASE_PATH = "/integration";
+
   private final TemporaryFolder projectDir;
   private final File settingsFile;
   private final File buildFile;
@@ -30,12 +32,16 @@ public class TemporaryProject {
     return new TemporaryProject(projectDir, settingsFile, buildFile, openApiSpec);
   }
 
-  public static TemporaryProject createStandard(String resourcePath) throws IOException {
+  public static TemporaryProject createStandard(String module) throws IOException {
     final TemporaryProject project = createEmpty();
 
     writeFile(project.getSettingsFile(), "rootProject.name = 'openapi-schema'");
-    writeFile(project.getBuildFile(), Resources.readString(resourcePath + "/build.gradle"));
-    writeFile(project.getOpenApiSpec(), Resources.readString(resourcePath + "/openapi.yml"));
+    writeFile(
+        project.getBuildFile(),
+        Resources.readString(INTEGRATION_RESOURCE_BASE_PATH + "/build.gradle"));
+    writeFile(
+        project.getOpenApiSpec(),
+        Resources.readString(INTEGRATION_RESOURCE_BASE_PATH + "/" + module + "/openapi.yml"));
     return project;
   }
 

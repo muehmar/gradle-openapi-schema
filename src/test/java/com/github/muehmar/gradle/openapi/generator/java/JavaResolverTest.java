@@ -49,4 +49,11 @@ class JavaResolverTest {
     final String memberName = javaResolver.memberName("LastName");
     assertEquals("lastName", memberName);
   }
+
+  @Test
+  void enumName_when_anyCamelCaseName_then_correctEnumName() {
+    final JavaResolver javaResolver = new JavaResolver();
+    final String memberName = javaResolver.enumName("lastName");
+    assertEquals("LastNameEnum", memberName);
+  }
 }

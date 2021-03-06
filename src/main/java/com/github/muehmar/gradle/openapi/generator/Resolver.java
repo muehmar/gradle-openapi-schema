@@ -10,4 +10,6 @@ public interface Resolver {
   String memberName(String key);
 
   String className(String key);
+
+  String enumName(String key);
 }

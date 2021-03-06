@@ -57,6 +57,8 @@ public class JavaPojoGenerator {
               printFields(writer, pojo, pojoSettings);
               printConstructor(writer, pojo, pojoSettings);
 
+              printEnums(writer, pojo);
+
               printGetters(writer, pojo, pojoSettings);
               printWithers(writer, pojo);
 
@@ -134,7 +136,8 @@ public class JavaPojoGenerator {
                 writer
                     .tab(1)
                     .println(
-                        "private final %s %s;", member.getTypeName(), member.memberName(resolver)));
+                        "private final %s %s;",
+                        member.getTypeName(resolver), member.memberName(resolver)));
   }
 
   private void printConstructor(Writer writer, Pojo pojo, PojoSettings settings) {
@@ -184,12 +187,13 @@ public class JavaPojoGenerator {
         .map(
             member -> {
               if (pojo.isArray()) {
-                return String.format("%s %s", member.getTypeName(), member.memberName(resolver));
+                return String.format(
+                    "%s %s", member.getTypeName(resolver), member.memberName(resolver));
               } else {
                 return String.format(
                     "%s%s %s",
                     createJsonSupport.apply(member),
-                    member.getTypeName(),
+                    member.getTypeName(resolver),
                     member.memberName(resolver));
               }
             })
@@ -206,8 +210,19 @@ public class JavaPojoGenerator {
     return String.join(", ", formattedPairs);
   }
 
-  private void printClassEnd(Writer writer) {
-    writer.println("}");
+  protected void printEnums(Writer writer, Pojo pojo) {
+    pojo.getMembers()
+        .forEach(
+            member ->
+                member.onEnum(
+                    enumMembers -> {
+                      writer.println();
+                      printJavaDoc(writer, 1, member.getDescription());
+
+                      writer.tab(1).println("public enum %s {", member.getTypeName(resolver));
+                      writer.tab(2).println("%s", String.join(", ", enumMembers));
+                      writer.tab(1).println("}");
+                    }));
   }
 
   protected void printGetters(Writer writer, Pojo pojo, PojoSettings settings) {
@@ -221,8 +236,8 @@ public class JavaPojoGenerator {
 
               final String returnType =
                   nullable
-                      ? String.format("Optional<%s>", member.getTypeName())
-                      : member.getTypeName();
+                      ? String.format("Optional<%s>", member.getTypeName(resolver))
+                      : member.getTypeName(resolver);
               final String field =
                   nullable
                       ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver))
@@ -249,7 +264,7 @@ public class JavaPojoGenerator {
                     .tab(1)
                     .println(
                         "public %s %sNullable() {",
-                        member.getTypeName(), member.getterName(resolver));
+                        member.getTypeName(resolver), member.getterName(resolver));
                 writer.tab(2).println("return %s;", member.memberName(resolver));
                 writer.tab(1).println("}");
               }
@@ -268,7 +283,7 @@ public class JavaPojoGenerator {
                       "public %s %s(%s %s) {",
                       pojo.className(resolver),
                       member.witherName(resolver),
-                      member.getTypeName(),
+                      member.getTypeName(resolver),
                       member.memberName(resolver));
               writer
                   .tab(2)
@@ -300,7 +315,7 @@ public class JavaPojoGenerator {
     pojo.getMembers()
         .forEach(
             member -> {
-              final String type = member.getTypeName();
+              final String type = member.getTypeName(resolver);
               final String fieldName = member.memberName(resolver);
               writer.tab(2).println("private %s %s;", type, fieldName);
             });
@@ -308,7 +323,7 @@ public class JavaPojoGenerator {
     pojo.getMembers()
         .forEach(
             member -> {
-              final String type = member.getTypeName();
+              final String type = member.getTypeName(resolver);
               final String fieldName = member.memberName(resolver);
               final String setterModifier =
                   settings.isEnableSafeBuilder() && member.isRequired() ? "private" : "public";
@@ -350,7 +365,7 @@ public class JavaPojoGenerator {
             idx -> {
               final PojoMember member = requiredMembers.get(idx);
               final String memberName = member.memberName(resolver);
-              final String memberType = member.getTypeName();
+              final String memberType = member.getTypeName(resolver);
               writer.println();
               writer.tab(1).println("public static final class Builder%d {", idx);
 
@@ -399,7 +414,7 @@ public class JavaPojoGenerator {
             idx -> {
               final PojoMember member = optionalMembers.get(idx);
               final String memberName = member.memberName(resolver);
-              final String memberType = member.getTypeName();
+              final String memberType = member.getTypeName(resolver);
               writer.println();
               writer.tab(1).println("public static final class OptBuilder%d {", idx);
 
@@ -511,5 +526,9 @@ public class JavaPojoGenerator {
     }
     writer.tab(3).println("\"}\";");
     writer.tab(1).println("}");
+  }
+
+  private void printClassEnd(Writer writer) {
+    writer.println("}");
   }
 }

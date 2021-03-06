@@ -33,6 +33,11 @@ public class JavaResolver implements Resolver {
     return toPascalCase(key);
   }
 
+  @Override
+  public String enumName(String key) {
+    return toPascalCase(key) + "Enum";
+  }
+
   public static String toCamelCase(String key) {
     return key.substring(0, 1).toLowerCase() + key.substring(1);
   }
