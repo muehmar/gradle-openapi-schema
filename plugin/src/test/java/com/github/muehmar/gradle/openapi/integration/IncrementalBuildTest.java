@@ -80,6 +80,39 @@ class IncrementalBuildTest {
   }
 
   @Test
+  void runTwice_when_inputPluginConfigChanged_then_secondTimeTaskWasExecutedAgain()
+      throws IOException {
+    final TemporaryProject project = TemporaryProject.createStandard(MODULE_NAME);
+
+    final BuildResult result =
+        GradleRunner.create()
+            .withProjectDir(project.getProjectDir().getRoot())
+            .withPluginClasspath()
+            .withArguments("generateApiSchemas")
+            .build();
+
+    final BuildTask generateTask = result.task(":generateApiSchemas");
+    assertNotNull(generateTask);
+    assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
+
+    writeFile(
+        project.getBuildFile(),
+        Resources.readString(TemporaryProject.INTEGRATION_RESOURCE_BASE_PATH + "/build.gradle")
+            .replace("suffix = \"Dto\"", "suffix = \"\""));
+
+    final BuildResult secondResult =
+        GradleRunner.create()
+            .withProjectDir(project.getProjectDir().getRoot())
+            .withPluginClasspath()
+            .withArguments("generateApiSchemas")
+            .build();
+
+    final BuildTask generateTaskSecondTime = secondResult.task(":generateApiSchemas");
+    assertNotNull(generateTaskSecondTime);
+    assertEquals(TaskOutcome.SUCCESS, generateTaskSecondTime.getOutcome());
+  }
+
+  @Test
   void runTwice_when_outputChanged_then_secondTimeTaskWasExecutedAgain() throws IOException {
     final TemporaryProject project = TemporaryProject.createStandard(MODULE_NAME);
 
@@ -97,7 +130,7 @@ class IncrementalBuildTest {
     Files.delete(
         Paths.get(
             project.getProjectDir().getRoot().getPath()
-                + "/build/generated/openapi/openapi-schema/api/model/User.java"));
+                + "/build/generated/openapi/openapi-schema/api/model/UserDto.java"));
 
     final BuildResult secondResult =
         GradleRunner.create()
