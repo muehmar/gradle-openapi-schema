@@ -22,7 +22,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.2.1'
+    id 'com.github.muehmar.openapischema' version '0.3.0'
 }
 ```
 
@@ -132,6 +132,8 @@ method will only be present after each required property is set.
 For example, given the schema:
 
 ```
+components:
+  schemas:
    User:
       required:
         - name
@@ -172,8 +174,55 @@ Setting all required properties in a class could theoretically also be achieved 
 properties as arguments, but the pattern used here is safer in terms of refactoring, i.e. adding or removing properties,
 changing the required properties or changing the order of the properties.
 
+## Known Issues
+
+* Inline definitions of objects are currently not supported. For example the following schema definition
+
+```
+components:
+  schemas:
+    User:
+      properties:
+        languages:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              key:
+                type: integer
+              name:
+                type: string
+```
+
+will throw an exception. The same can be achieved by moving the definition of the object to an own schema like the
+following.
+
+```
+components:
+  schemas:
+    User:
+      properties:
+        languages:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Language'
+            
+    Language:
+      required:
+        - key
+        - name
+      properties:
+        key:
+          type: integer
+        name:
+          type: string
+```
+
 ## Change Log
 
+* 0.3.0
+    * Add support for enums
+    * Fix incremental build
 * 0.2.1 Fix the setter name for booleans
 * 0.2.0
     * Support incremental build
