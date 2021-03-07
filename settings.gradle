@@ -1,3 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+    }
+}
+
 rootProject.name = 'OpenApiSchema'
 
 include 'plugin'
+include 'example'

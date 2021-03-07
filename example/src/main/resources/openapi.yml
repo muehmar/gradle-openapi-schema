@@ -1,0 +1,58 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - id
+        - externalId
+        - user
+        - city
+      properties:
+        id:
+          type: string
+          format: uuid
+        externalId:
+          type: integer
+          format: int64
+        user:
+          type: string
+        birthday:
+          type: string
+          format: date
+        city:
+          type: string
+        age:
+          type: integer
+        lastLogin:
+          type: string
+          format: date-time
+        role:
+          type: string
+          enum: [ "Admin", "User", "Visitor" ]
+        languages:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Language'
+
+    UserGroup:
+      properties:
+        owner:
+          $ref: "#/components/schemas/User"
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+
+    Language:
+      required:
+        - key
+        - name
+      properties:
+        key:
+          type: integer
+        name:
+          type: string

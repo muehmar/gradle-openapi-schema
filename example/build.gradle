@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id "com.github.muehmar.openapischema" version "0.2.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.2'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.2'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.7.1'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.7.1'
+
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+generateApiSchemas {
+    sourceSet = 'main'
+    inputSpec = "$projectDir/src/main/resources/openapi.yml"
+    outputDir = "$buildDir/generated/openapi"
+    packageName = "${project.group}.${project.name}.api.model"
+    jsonSupport = "jackson"
+    suffix = "Dto"
+
+    classMappings {
+        arrayList {
+            fromClass = "List"
+            toClass = "ArrayList"
+            imports = "java.util.ArrayList"
+        }
+    }
+
+    formatTypeMappings {
+        name {
+            formatType = "username"
+            classType = "UserName"
+            imports = "com.package.UserName"
+        }
+        pass {
+            formatType = "password"
+            classType = "Password"
+            imports = "com.package.Password"
+        }
+    }
+}
+
+compileJava.dependsOn tasks.generateApiSchemas
+
+test {
+    useJUnitPlatform()
+}
