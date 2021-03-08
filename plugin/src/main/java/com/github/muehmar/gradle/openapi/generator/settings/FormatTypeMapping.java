@@ -1,9 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class FormatTypeMapping {
+public class FormatTypeMapping implements Serializable {
   private final String formatType;
   private final String classType;
   private final String imports;

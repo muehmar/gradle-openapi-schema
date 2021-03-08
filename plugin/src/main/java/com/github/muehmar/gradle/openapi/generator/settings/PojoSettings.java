@@ -1,13 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.gradle.api.Project;
 
-public class PojoSettings {
+public class PojoSettings implements Serializable {
   private final JsonSupport jsonSupport;
   private final String packageName;
   private final String suffix;

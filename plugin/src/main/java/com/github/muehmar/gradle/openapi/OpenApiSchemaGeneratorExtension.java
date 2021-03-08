@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi;
 
 import groovy.lang.Closure;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +10,7 @@ import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 
-public class OpenApiSchemaGeneratorExtension {
+public class OpenApiSchemaGeneratorExtension implements Serializable {
 
   private static final String DEFAULT_SOURCE_SET = "main";
 

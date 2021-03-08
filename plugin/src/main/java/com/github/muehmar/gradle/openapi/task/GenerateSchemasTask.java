@@ -17,18 +17,33 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.provider.Provider;
+import org.gradle.api.tasks.Input;
 
 public class GenerateSchemasTask extends DefaultTask {
 
+  private final Provider<String> inputSpec;
+  private final Provider<String> outputDir;
+  private final Provider<PojoSettings> pojoSettings;
+  private final Provider<String> sourceSet;
+
   @Inject
   public GenerateSchemasTask(Project project, OpenApiSchemaGeneratorExtension config) {
+    sourceSet = project.getProviders().provider(config::getSourceSet);
+    inputSpec = project.getProviders().provider(config::getInputSpec);
+    outputDir = project.getProviders().provider(() -> config.getOutputDir(project));
+    pojoSettings =
+        project
+            .getProviders()
+            .provider(() -> PojoSettings.fromOpenApiSchemaGeneratorExtension(config, project));
+
     // Use an inner class instead of a lambda to support incremental build properly
     doLast(
         new Action<Task>() {
           @Override
           public void execute(Task task) {
             try {
-              runTask(project, config);
+              runTask();
             } catch (IOException e) {
               throw new GradleException("Error while generating the schema classes", e);
             }
@@ -36,17 +51,12 @@ public class GenerateSchemasTask extends DefaultTask {
         });
   }
 
-  private void runTask(Project project, OpenApiSchemaGeneratorExtension config) throws IOException {
-    final OpenAPI openAPI = parseSpec(config.getInputSpec());
-
-    final String outputDir = config.getOutputDir(project);
-
-    final PojoSettings pojoSettings =
-        PojoSettings.fromOpenApiSchemaGeneratorExtension(config, project);
+  private void runTask() throws IOException {
+    final OpenAPI openAPI = parseSpec(inputSpec.get());
 
     final JavaPojoGenerator javaPojoGenerator =
-        new JavaPojoGenerator(pojoSettings, openAPI, WriterImpl::new);
-    javaPojoGenerator.generate(outputDir);
+        new JavaPojoGenerator(pojoSettings.get(), openAPI, WriterImpl::new);
+    javaPojoGenerator.generate(outputDir.get());
   }
 
   private OpenAPI parseSpec(String inputSpec) throws IOException {
@@ -56,5 +66,25 @@ public class GenerateSchemasTask extends DefaultTask {
     final SwaggerParseResult swaggerParseResult = new OpenAPIV3Parser().readContents(openapiString);
 
     return swaggerParseResult.getOpenAPI();
+  }
+
+  @Input
+  public Provider<String> getInputSpec() {
+    return inputSpec;
+  }
+
+  @Input
+  public Provider<String> getOutputDir() {
+    return outputDir;
+  }
+
+  @Input
+  public Provider<PojoSettings> getPojoSettings() {
+    return pojoSettings;
+  }
+
+  @Input
+  public Provider<String> getSourceSet() {
+    return sourceSet;
   }
 }

@@ -36,7 +36,6 @@ public class OpenApiSchemaGenerator implements Plugin<Project> {
 
     createTask.configure(
         task -> {
-          task.getInputs().file("build.gradle");
           task.getInputs().file(config.getInputSpec());
           task.getOutputs().dir(config.getOutputDir(project));
           task.setGroup("openapi schema generator");
