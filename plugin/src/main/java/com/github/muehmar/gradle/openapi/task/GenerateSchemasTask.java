@@ -1,9 +1,12 @@
 package com.github.muehmar.gradle.openapi.task;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
-import com.github.muehmar.gradle.openapi.generator.java.JavaPojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
+import com.github.muehmar.gradle.openapi.generator.OpenApiGenerator;
+import com.github.muehmar.gradle.openapi.generator.Pojo;
+import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.writer.WriterImpl;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
@@ -11,6 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 import javax.inject.Inject;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
@@ -54,9 +58,19 @@ public class GenerateSchemasTask extends DefaultTask {
   private void runTask() throws IOException {
     final OpenAPI openAPI = parseSpec(inputSpec.get());
 
-    final JavaPojoGenerator javaPojoGenerator =
-        new JavaPojoGenerator(pojoSettings.get(), openAPI, WriterImpl::new);
-    javaPojoGenerator.generate(outputDir.get());
+    final OpenApiGenerator openApiGenerator =
+        GeneratorFactory.create(Language.JAVA, outputDir.get());
+
+    final PList<Pojo> pojos =
+        PList.fromIter(openAPI.getComponents().getSchemas().entrySet())
+            .filter(Objects::nonNull)
+            .flatMap(
+                entry ->
+                    openApiGenerator
+                        .getMapper()
+                        .fromSchema(entry.getKey(), entry.getValue(), pojoSettings.get()));
+
+    pojos.forEach(pojo -> openApiGenerator.getGenerator().generatePojo(pojo, pojoSettings.get()));
   }
 
   private OpenAPI parseSpec(String inputSpec) throws IOException {

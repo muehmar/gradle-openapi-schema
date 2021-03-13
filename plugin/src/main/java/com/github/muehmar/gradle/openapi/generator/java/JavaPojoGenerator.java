@@ -2,76 +2,55 @@ package com.github.muehmar.gradle.openapi.generator.java;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Pojo;
+import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-public class JavaPojoGenerator {
-  private final PojoSettings pojoSettings;
-  private final OpenAPI openAPI;
-  private final Function<String, Writer> createWriter;
+public class JavaPojoGenerator implements PojoGenerator {
+  private final Supplier<Writer> createWriter;
   private final Resolver resolver;
 
-  public JavaPojoGenerator(
-      PojoSettings pojoSettings, OpenAPI openAPI, Function<String, Writer> createWriter) {
-    this.pojoSettings = pojoSettings;
-    this.openAPI = openAPI;
+  public JavaPojoGenerator(Supplier<Writer> createWriter) {
     this.createWriter = createWriter;
     this.resolver = new JavaResolver();
   }
 
-  public void generate(String directory) {
-    final Components components = openAPI.getComponents();
-    final Map<String, Schema> schemas = components.getSchemas();
+  @Override
+  public void generatePojo(Pojo pojo, PojoSettings pojoSettings) {
 
-    schemas
-        .entrySet()
-        .forEach(
-            schema -> {
-              if (schema == null) {
-                return;
-              }
+    final String packagePath =
+        pojoSettings.getPackageName().replace(".", "/").replaceFirst("^/", "");
 
-              final Pojo pojo =
-                  JavaPojo.fromSchema(pojoSettings, schema.getKey(), schema.getValue());
-              final String packagePath = pojoSettings.getPackageName().replaceAll("\\.", "/");
+    final Writer writer = createWriter.get();
+    printPackage(writer, pojoSettings.getPackageName());
+    printImports(writer, pojo, pojoSettings);
+    printClassStart(writer, pojo);
 
-              final Writer writer =
-                  createWriter.apply(
-                      directory + "/" + packagePath + "/" + pojo.className(resolver) + ".java");
+    printFields(writer, pojo, pojoSettings);
+    printConstructor(writer, pojo, pojoSettings);
 
-              printPackage(writer, pojoSettings.getPackageName());
-              printImports(writer, pojo, pojoSettings);
-              printClassStart(writer, pojo);
+    printEnums(writer, pojo);
 
-              printFields(writer, pojo, pojoSettings);
-              printConstructor(writer, pojo, pojoSettings);
+    printGetters(writer, pojo, pojoSettings);
+    printWithers(writer, pojo);
 
-              printEnums(writer, pojo);
+    printEqualsAndHash(writer, pojo);
+    printToString(writer, pojo);
 
-              printGetters(writer, pojo, pojoSettings);
-              printWithers(writer, pojo);
+    printBuilder(writer, pojo, pojoSettings);
+    if (pojoSettings.isEnableSafeBuilder()) {
+      printSafeBuilder(writer, pojo);
+    }
+    printClassEnd(writer);
 
-              printEqualsAndHash(writer, pojo);
-              printToString(writer, pojo);
-
-              printBuilder(writer, pojo, pojoSettings);
-              if (pojoSettings.isEnableSafeBuilder()) {
-                printSafeBuilder(writer, pojo);
-              }
-              printClassEnd(writer);
-
-              writer.close();
-            });
+    writer.close(packagePath + "/" + pojo.className(resolver) + ".java");
   }
 
   private void printPackage(Writer writer, String packageName) {

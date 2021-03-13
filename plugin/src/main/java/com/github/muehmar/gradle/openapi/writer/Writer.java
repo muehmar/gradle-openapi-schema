@@ -41,5 +41,5 @@ public interface Writer {
 
   Writer ref(String ref);
 
-  boolean close();
+  boolean close(String path);
 }

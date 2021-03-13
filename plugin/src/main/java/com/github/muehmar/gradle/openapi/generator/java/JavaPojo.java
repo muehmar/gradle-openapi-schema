@@ -15,18 +15,16 @@ public class JavaPojo extends Pojo {
     super(key, description, suffix, members, isArray);
   }
 
-  public static JavaPojo fromSchema(PojoSettings pojoSettings, String key, Schema<?> schema) {
+  public static JavaPojo fromSchema(String key, Schema<?> schema, PojoSettings pojoSettings) {
 
     if (schema instanceof ArraySchema) {
-      return fromArraySchema(pojoSettings, key, (ArraySchema) schema);
+      return fromArraySchema(key, (ArraySchema) schema, pojoSettings);
     }
 
     final Map<String, Schema> properties = schema.getProperties();
     if (properties != null) {
       final PList<PojoMember> members =
-          properties
-              .entrySet()
-              .stream()
+          properties.entrySet().stream()
               .map(
                   entry -> {
                     final Boolean required =
@@ -46,7 +44,7 @@ public class JavaPojo extends Pojo {
   }
 
   private static JavaPojo fromArraySchema(
-      PojoSettings pojoSettings, String key, ArraySchema schema) {
+      String key, ArraySchema schema, PojoSettings pojoSettings) {
     final JavaPojoMember member = JavaPojoMember.ofSchema(pojoSettings, schema, "value", false);
     return new JavaPojo(
         key, schema.getDescription(), pojoSettings.getSuffix(), PList.single(member), true);
