@@ -1,19 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class JavaPojo extends Pojo {
   public JavaPojo(
-      String key, String description, String suffix, List<PojoMember> members, boolean isArray) {
+      String key, String description, String suffix, PList<PojoMember> members, boolean isArray) {
     super(key, description, suffix, members, isArray);
   }
 
@@ -25,7 +23,7 @@ public class JavaPojo extends Pojo {
 
     final Map<String, Schema> properties = schema.getProperties();
     if (properties != null) {
-      final List<PojoMember> members =
+      final PList<PojoMember> members =
           properties
               .entrySet()
               .stream()
@@ -38,23 +36,19 @@ public class JavaPojo extends Pojo {
                     return JavaPojoMember.ofSchema(
                         pojoSettings, entry.getValue(), entry.getKey(), !required);
                   })
-              .collect(Collectors.toList());
+              .collect(PList.collector());
 
       return new JavaPojo(key, schema.getDescription(), pojoSettings.getSuffix(), members, false);
     }
 
     return new JavaPojo(
-        key, schema.getDescription(), pojoSettings.getSuffix(), Collections.emptyList(), false);
+        key, schema.getDescription(), pojoSettings.getSuffix(), PList.empty(), false);
   }
 
   private static JavaPojo fromArraySchema(
       PojoSettings pojoSettings, String key, ArraySchema schema) {
     final JavaPojoMember member = JavaPojoMember.ofSchema(pojoSettings, schema, "value", false);
     return new JavaPojo(
-        key,
-        schema.getDescription(),
-        pojoSettings.getSuffix(),
-        Collections.singletonList(member),
-        true);
+        key, schema.getDescription(), pojoSettings.getSuffix(), PList.single(member), true);
   }
 }

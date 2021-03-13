@@ -1,76 +1,53 @@
 package com.github.muehmar.gradle.openapi.generator.java.type;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
-import static java.util.Collections.unmodifiableList;
-import static java.util.Collections.unmodifiableSet;
-
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Type;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 
 public class JavaType implements Type {
   private final String name;
-  private final Set<String> imports;
-  private final List<JavaType> genericTypes;
-  private final List<String> enumMembers;
+  private final PList<String> imports;
+  private final PList<JavaType> genericTypes;
+  private final PList<String> enumMembers;
 
   private JavaType(
-      String name, Set<String> imports, List<JavaType> genericTypes, List<String> enumMembers) {
+      String name, PList<String> imports, PList<JavaType> genericTypes, PList<String> enumMembers) {
     this.name = name;
-    this.imports = unmodifiableSet(imports);
-    this.genericTypes = unmodifiableList(genericTypes);
-    this.enumMembers = unmodifiableList(enumMembers);
+    this.imports = imports;
+    this.genericTypes = genericTypes;
+    this.enumMembers = enumMembers;
   }
 
   public static JavaType ofNameAndImport(String name, String singleImport) {
-    return new JavaType(
-        name, singleton(singleImport), Collections.emptyList(), Collections.emptyList());
+    return new JavaType(name, PList.single(singleImport), PList.empty(), PList.empty());
   }
 
   public static JavaType ofName(String name) {
-    return new JavaType(name, emptySet(), Collections.emptyList(), Collections.emptyList());
+    return new JavaType(name, PList.empty(), PList.empty(), PList.empty());
   }
 
   public static JavaType javaMap(JavaType key, JavaType value) {
-    return new JavaType(
-        "Map", singleton("java.util.Map"), Arrays.asList(key, value), Collections.emptyList());
+    return new JavaType("Map", PList.single("java.util.Map"), PList.of(key, value), PList.empty());
   }
 
   public static JavaType javaList(JavaType itemType) {
     return new JavaType(
-        "List",
-        singleton("java.util.List"),
-        Collections.singletonList(itemType),
-        Collections.emptyList());
+        "List", PList.single("java.util.List"), PList.single(itemType), PList.empty());
   }
 
-  public static JavaType javaEnum(List<String> members) {
-    return new JavaType("enum", emptySet(), emptyList(), members);
+  public static JavaType javaEnum(PList<String> members) {
+    return new JavaType("enum", PList.empty(), PList.empty(), members);
   }
 
   public JavaType replaceClass(String fromClass, String toClass, Optional<String> imports) {
-    final List<JavaType> generics =
-        genericTypes
-            .stream()
-            .map(t -> t.replaceClass(fromClass, toClass, imports))
-            .collect(Collectors.toList());
-
+    final PList<JavaType> generics =
+        genericTypes.map(t -> t.replaceClass(fromClass, toClass, imports));
     if (name.equals(fromClass)) {
-      return new JavaType(
-          toClass,
-          imports.map(Collections::singleton).orElseGet(Collections::emptySet),
-          generics,
-          enumMembers);
+      return new JavaType(toClass, PList.fromOptional(imports), generics, enumMembers);
     } else {
       return new JavaType(name, this.imports, generics, enumMembers);
     }
@@ -82,8 +59,7 @@ public class JavaType implements Type {
 
   @Override
   public String getName() {
-    final String genericNames =
-        genericTypes.stream().map(JavaType::getName).collect(Collectors.joining(", "));
+    final String genericNames = genericTypes.map(JavaType::getName).mkString(", ");
     return String.format(
         "%s%s", name, genericTypes.isEmpty() ? "" : String.format("<%s>", genericNames));
   }
@@ -94,21 +70,18 @@ public class JavaType implements Type {
   }
 
   @Override
-  public void onEnum(Consumer<List<String>> code) {
+  public void onEnum(Consumer<PList<String>> code) {
     if (isEnum()) {
       code.accept(enumMembers);
     }
   }
 
   @Override
-  public Set<String> getImports() {
-    final Set<String> allImports = new HashSet<>();
-    genericTypes.forEach(t -> allImports.addAll(t.getImports()));
-    allImports.addAll(this.imports);
-    return allImports;
+  public PList<String> getImports() {
+    return genericTypes.flatMap(Type::getImports).concat(imports).distinct(Function.identity());
   }
 
-  public List<JavaType> getGenericTypes() {
+  public PList<JavaType> getGenericTypes() {
     return genericTypes;
   }
 
@@ -119,12 +92,13 @@ public class JavaType implements Type {
     JavaType javaType = (JavaType) o;
     return Objects.equals(name, javaType.name)
         && Objects.equals(imports, javaType.imports)
-        && Objects.equals(genericTypes, javaType.genericTypes);
+        && Objects.equals(genericTypes, javaType.genericTypes)
+        && Objects.equals(enumMembers, javaType.enumMembers);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, imports, genericTypes);
+    return Objects.hash(name, imports, genericTypes, enumMembers);
   }
 
   @Override
@@ -137,6 +111,8 @@ public class JavaType implements Type {
         + imports
         + ", genericTypes="
         + genericTypes
+        + ", enumMembers="
+        + enumMembers
         + '}';
   }
 }

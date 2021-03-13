@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator;
 
-import java.util.List;
-import java.util.Set;
+import ch.bluecare.commons.data.PList;
 import java.util.function.Consumer;
 
 public interface Type {
@@ -17,7 +16,7 @@ public interface Type {
    * The provided {@code code} is executed in case this type is an enum with the list of members in
    * the enum as arguments.
    */
-  void onEnum(Consumer<List<String>> code);
+  void onEnum(Consumer<PList<String>> code);
 
-  Set<String> getImports();
+  PList<String> getImports();
 }

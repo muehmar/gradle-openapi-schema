@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
@@ -10,10 +11,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class JavaPojoGenerator {
@@ -94,9 +93,8 @@ public class JavaPojoGenerator {
     }
 
     pojo.getMembers()
-        .stream()
-        .flatMap(member -> member.getImports().stream())
-        .distinct()
+        .flatMap(PojoMember::getImports)
+        .distinct(Function.identity())
         .forEach(classImport -> writer.println("import %s;", classImport));
   }
 
@@ -151,10 +149,10 @@ public class JavaPojoGenerator {
     }
     writer.tab(1).println("public %s(", pojo.className(resolver));
 
-    final List<String> memberArguments = createMemberArguments(pojo, settings);
+    final PList<String> memberArguments = createMemberArguments(pojo, settings);
 
     for (int i = 0; i < memberArguments.size(); i++) {
-      writer.tab(3).print(memberArguments.get(i));
+      writer.tab(3).print(memberArguments.apply(i));
       if (i == memberArguments.size() - 1) {
         writer.println(") {");
       } else {
@@ -173,7 +171,7 @@ public class JavaPojoGenerator {
     writer.tab(1).println("}");
   }
 
-  private List<String> createMemberArguments(Pojo pojo, PojoSettings settings) {
+  private PList<String> createMemberArguments(Pojo pojo, PojoSettings settings) {
     final Function<PojoMember, String> createJsonSupport =
         member -> {
           if (settings.isJacksonJson()) {
@@ -183,7 +181,6 @@ public class JavaPojoGenerator {
           }
         };
     return pojo.getMembers()
-        .stream()
         .map(
             member -> {
               if (pojo.isArray()) {
@@ -196,16 +193,12 @@ public class JavaPojoGenerator {
                     member.getTypeName(resolver),
                     member.memberName(resolver));
               }
-            })
-        .collect(Collectors.toList());
+            });
   }
 
   private String createNamesCommaSeparated(Pojo pojo) {
-    final List<String> formattedPairs =
-        pojo.getMembers()
-            .stream()
-            .map(member -> String.format("%s", member.memberName(resolver)))
-            .collect(Collectors.toList());
+    final PList<String> formattedPairs =
+        pojo.getMembers().map(member -> String.format("%s", member.memberName(resolver)));
 
     return String.join(", ", formattedPairs);
   }
@@ -355,15 +348,13 @@ public class JavaPojoGenerator {
     writer.tab(2).println("return new Builder0(new Builder());");
     writer.tab(1).println("}");
 
-    final List<PojoMember> optionalMembers =
-        pojo.getMembers().stream().filter(PojoMember::isNullable).collect(Collectors.toList());
-    final List<PojoMember> requiredMembers =
-        pojo.getMembers().stream().filter(PojoMember::isRequired).collect(Collectors.toList());
+    final PList<PojoMember> optionalMembers = pojo.getMembers().filter(PojoMember::isNullable);
+    final PList<PojoMember> requiredMembers = pojo.getMembers().filter(PojoMember::isRequired);
 
     IntStream.range(0, requiredMembers.size())
         .forEach(
             idx -> {
-              final PojoMember member = requiredMembers.get(idx);
+              final PojoMember member = requiredMembers.apply(idx);
               final String memberName = member.memberName(resolver);
               final String memberType = member.getTypeName(resolver);
               writer.println();
@@ -412,7 +403,7 @@ public class JavaPojoGenerator {
     IntStream.range(0, optionalMembers.size())
         .forEach(
             idx -> {
-              final PojoMember member = optionalMembers.get(idx);
+              final PojoMember member = optionalMembers.apply(idx);
               final String memberName = member.memberName(resolver);
               final String memberType = member.getTypeName(resolver);
               writer.println();
@@ -470,22 +461,20 @@ public class JavaPojoGenerator {
         .tab(2)
         .println("final %s v = (%s) other;", pojo.className(resolver), pojo.className(resolver));
 
-    final List<String> objectEquals =
+    final PList<String> objectEquals =
         pojo.getMembers()
-            .stream()
             .map(
                 member -> {
                   final String fieldName = member.memberName(resolver);
                   return String.format("Objects.equals(%s, v.%s)", fieldName, fieldName);
-                })
-            .collect(Collectors.toList());
+                });
 
     writer.tab(2).print("return ");
     for (int i = 0; i < objectEquals.size(); i++) {
       if (i > 0) {
         writer.tab(4).print("&& ");
       }
-      writer.tab(4).print(objectEquals.get(i));
+      writer.tab(4).print(objectEquals.apply(i));
       if (i == objectEquals.size() - 1) {
         writer.println(";");
       } else {
@@ -499,11 +488,7 @@ public class JavaPojoGenerator {
     writer.tab(1).println("@Override");
     writer.tab(1).println("public int hashCode() {");
 
-    final List<String> fieldNames =
-        pojo.getMembers()
-            .stream()
-            .map(member -> member.memberName(resolver))
-            .collect(Collectors.toList());
+    final PList<String> fieldNames = pojo.getMembers().map(member -> member.memberName(resolver));
 
     writer.tab(2).println("return Objects.hash(%s);", String.join(", ", fieldNames));
     writer.tab(1).println("}");

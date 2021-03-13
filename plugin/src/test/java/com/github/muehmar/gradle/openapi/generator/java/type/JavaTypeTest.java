@@ -22,7 +22,7 @@ class JavaTypeTest {
         JavaType.javaMap(JavaTypes.STRING, JavaType.javaList(JavaTypes.LOCAL_TIME));
     assertEquals(
         new HashSet<>(Arrays.asList("java.util.Map", "java.time.LocalTime", "java.util.List")),
-        javaType.getImports());
+        javaType.getImports().toHashSet());
   }
 
   @Test
@@ -38,6 +38,6 @@ class JavaTypeTest {
     assertEquals(
         new HashSet<>(
             Arrays.asList("java.util.Map", "java.time.LocalTime", "com.package.CustomList")),
-        classReplacedType.getImports());
+        classReplacedType.getImports().toHashSet());
   }
 }

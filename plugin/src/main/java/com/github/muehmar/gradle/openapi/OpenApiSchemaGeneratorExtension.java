@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi;
 
+import ch.bluecare.commons.data.PList;
 import groovy.lang.Closure;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import org.gradle.api.InvalidUserDataException;
@@ -33,16 +33,16 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
     this.formatTypeMappings = formatTypeMappings;
   }
 
-  public List<ClassMapping> getClassMappings() {
-    return new ArrayList<>(classMappings);
+  public PList<ClassMapping> getClassMappings() {
+    return PList.fromIter(classMappings);
   }
 
   public void classMappings(Closure<ClassMapping> closure) {
     this.classMappings.configure(closure);
   }
 
-  public List<FormatTypeMapping> getFormatTypeMappings() {
-    return new ArrayList<>(formatTypeMappings);
+  public PList<FormatTypeMapping> getFormatTypeMappings() {
+    return PList.fromIter(formatTypeMappings);
   }
 
   public void formatTypeMappings(Closure<FormatTypeMapping> closure) {

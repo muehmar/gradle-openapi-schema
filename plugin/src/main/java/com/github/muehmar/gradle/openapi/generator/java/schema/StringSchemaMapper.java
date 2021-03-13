@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.ST
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.URI;
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.URL;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -38,9 +39,8 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
   private Optional<JavaType> getFormatMappedType(PojoSettings pojoSettings, StringSchema schema) {
     return pojoSettings
         .getFormatTypeMappings()
-        .stream()
         .filter(mapping -> mapping.getFormatType().equals(schema.getFormat()))
-        .findFirst()
+        .headOption()
         .map(
             mapping ->
                 Optional.ofNullable(mapping.getImports())
@@ -49,7 +49,7 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
   }
 
   private Optional<JavaType> getEnumType(StringSchema schema) {
-    return Optional.ofNullable(schema.getEnum()).map(JavaType::javaEnum);
+    return Optional.ofNullable(schema.getEnum()).map(PList::fromIter).map(JavaType::javaEnum);
   }
 
   private static Map<String, JavaType> createFormatMap() {

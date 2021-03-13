@@ -1,9 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator;
 
-import java.util.List;
+import ch.bluecare.commons.data.PList;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public abstract class PojoMember {
@@ -12,7 +11,7 @@ public abstract class PojoMember {
   private final Type type;
   private final String key;
 
-  public PojoMember(boolean nullable, String description, Type type, String key) {
+  protected PojoMember(boolean nullable, String description, Type type, String key) {
     this.nullable = nullable;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
@@ -46,7 +45,7 @@ public abstract class PojoMember {
    * The provided {@code code} is executed in case this type is an enum with the list of members in
    * the enum as arguments.
    */
-  public void onEnum(Consumer<List<String>> code) {
+  public void onEnum(Consumer<PList<String>> code) {
     type.onEnum(code);
   }
 
@@ -62,7 +61,7 @@ public abstract class PojoMember {
     return resolver.memberName(key);
   }
 
-  public Set<String> getImports() {
+  public PList<String> getImports() {
     return type.getImports();
   }
 

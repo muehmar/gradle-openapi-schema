@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator;
 
-import java.util.List;
+import ch.bluecare.commons.data.PList;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -8,11 +8,11 @@ public abstract class Pojo {
   private final String key;
   private final String description;
   private final String suffix;
-  private final List<PojoMember> members;
+  private final PList<PojoMember> members;
   private final boolean isArray;
 
-  public Pojo(
-      String key, String description, String suffix, List<PojoMember> members, boolean isArray) {
+  protected Pojo(
+      String key, String description, String suffix, PList<PojoMember> members, boolean isArray) {
     this.key = key;
     this.description = Optional.ofNullable(description).orElse("");
     this.suffix = suffix;
@@ -32,7 +32,7 @@ public abstract class Pojo {
     return description;
   }
 
-  public List<PojoMember> getMembers() {
+  public PList<PojoMember> getMembers() {
     return members;
   }
 

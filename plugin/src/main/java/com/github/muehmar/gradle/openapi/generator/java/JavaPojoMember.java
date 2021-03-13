@@ -31,7 +31,6 @@ public class JavaPojoMember extends PojoMember {
     final JavaType classMappedJavaType =
         pojoSettings
             .getClassTypeMappings()
-            .stream()
             .<Function<JavaType, JavaType>>map(
                 mapping ->
                     t ->

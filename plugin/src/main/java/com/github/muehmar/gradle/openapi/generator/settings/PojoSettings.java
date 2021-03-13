@@ -1,11 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import org.gradle.api.Project;
 
 public class PojoSettings implements Serializable {
@@ -21,14 +20,14 @@ public class PojoSettings implements Serializable {
       String packageName,
       String suffix,
       boolean enableSafeBuilder,
-      List<ClassTypeMapping> classTypeMappings,
-      List<FormatTypeMapping> formatTypeMappings) {
+      PList<ClassTypeMapping> classTypeMappings,
+      PList<FormatTypeMapping> formatTypeMappings) {
     this.jsonSupport = jsonSupport;
     this.packageName = packageName;
     this.suffix = suffix;
     this.enableSafeBuilder = enableSafeBuilder;
-    this.classTypeMappings = Collections.unmodifiableList(classTypeMappings);
-    this.formatTypeMappings = Collections.unmodifiableList(formatTypeMappings);
+    this.classTypeMappings = classTypeMappings.toArrayList();
+    this.formatTypeMappings = formatTypeMappings.toArrayList();
   }
 
   public static PojoSettings fromOpenApiSchemaGeneratorExtension(
@@ -38,16 +37,8 @@ public class PojoSettings implements Serializable {
         extension.getPackageName(project),
         extension.getSuffix(),
         extension.getEnableSafeBuilder(),
-        extension
-            .getClassMappings()
-            .stream()
-            .map(ClassTypeMapping::fromExtension)
-            .collect(Collectors.toList()),
-        extension
-            .getFormatTypeMappings()
-            .stream()
-            .map(FormatTypeMapping::fromExtension)
-            .collect(Collectors.toList()));
+        extension.getClassMappings().map(ClassTypeMapping::fromExtension),
+        extension.getFormatTypeMappings().map(FormatTypeMapping::fromExtension));
   }
 
   public String getPackageName() {
@@ -66,12 +57,12 @@ public class PojoSettings implements Serializable {
     return jsonSupport.equals(JsonSupport.JACKSON);
   }
 
-  public List<ClassTypeMapping> getClassTypeMappings() {
-    return classTypeMappings;
+  public PList<ClassTypeMapping> getClassTypeMappings() {
+    return PList.fromIter(classTypeMappings);
   }
 
-  public List<FormatTypeMapping> getFormatTypeMappings() {
-    return formatTypeMappings;
+  public PList<FormatTypeMapping> getFormatTypeMappings() {
+    return PList.fromIter(formatTypeMappings);
   }
 
   public boolean isEnableSafeBuilder() {
