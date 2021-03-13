@@ -10,6 +10,14 @@ import io.swagger.v3.oas.models.media.Schema;
 public class ThrowingSchemaMapper implements JavaSchemaMapper {
   @Override
   public JavaType mapSchema(PojoSettings pojoSettings, Schema<?> schema, JavaSchemaMapper chain) {
-    throw new IllegalArgumentException("Not supported schema " + schema.getClass());
+    throw new IllegalArgumentException(
+        "Not supported schema "
+            + schema.getClass()
+            + " for type "
+            + schema.getType()
+            + " and format "
+            + schema.getFormat()
+            + ": "
+            + schema.toString());
   }
 }
