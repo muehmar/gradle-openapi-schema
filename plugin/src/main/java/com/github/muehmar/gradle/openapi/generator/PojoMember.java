@@ -5,17 +5,17 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public abstract class PojoMember {
+public class PojoMember {
+  private final String key;
   private final boolean nullable;
   private final String description;
   private final Type type;
-  private final String key;
 
-  protected PojoMember(boolean nullable, String description, Type type, String key) {
+  public PojoMember(String key, String description, Type type, boolean nullable) {
+    this.key = key;
     this.nullable = nullable;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
-    this.key = key;
   }
 
   public String getDescription() {
@@ -67,37 +67,33 @@ public abstract class PojoMember {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     PojoMember that = (PojoMember) o;
     return nullable == that.nullable
+        && Objects.equals(key, that.key)
         && Objects.equals(description, that.description)
-        && Objects.equals(type, that.type)
-        && Objects.equals(key, that.key);
+        && Objects.equals(type, that.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(nullable, description, type, key);
+    return Objects.hash(key, nullable, description, type);
   }
 
   @Override
   public String toString() {
     return "PojoMember{"
-        + "nullable="
+        + "key='"
+        + key
+        + '\''
+        + ", nullable="
         + nullable
         + ", description='"
         + description
         + '\''
-        + ", javaType="
+        + ", type="
         + type
-        + ", key='"
-        + key
-        + '\''
         + '}';
   }
 }

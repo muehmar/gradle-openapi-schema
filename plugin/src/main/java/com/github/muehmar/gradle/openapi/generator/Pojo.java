@@ -4,14 +4,14 @@ import ch.bluecare.commons.data.PList;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class Pojo {
+public class Pojo {
   private final String key;
   private final String description;
   private final String suffix;
   private final PList<PojoMember> members;
   private final boolean isArray;
 
-  protected Pojo(
+  public Pojo(
       String key, String description, String suffix, PList<PojoMember> members, boolean isArray) {
     this.key = key;
     this.description = Optional.ofNullable(description).orElse("");
