@@ -16,9 +16,14 @@ public class MapSchemaMapper extends BaseSchemaMapper<MapSchema> {
   JavaType mapSpecificSchema(PojoSettings pojoSettings, MapSchema schema, JavaSchemaMapper chain) {
     final Object additionalProperties = schema.getAdditionalProperties();
     if (additionalProperties instanceof Schema) {
-      final JavaType valueType =
-          ReferenceMapper.getRefType(pojoSettings, ((Schema<?>) additionalProperties).get$ref());
-      return JavaType.javaMap(JavaTypes.STRING, valueType);
+      final String $ref = ((Schema<?>) additionalProperties).get$ref();
+      if ($ref != null) {
+        final JavaType valueType = ReferenceMapper.getRefType(pojoSettings, $ref);
+        return JavaType.javaMap(JavaTypes.STRING, valueType);
+      } else {
+        throw new IllegalArgumentException(
+            "Only map schemas with references are supported yet: " + additionalProperties);
+      }
     } else {
       throw new IllegalArgumentException(
           "Not supported additionalProperties of class " + additionalProperties.getClass());
