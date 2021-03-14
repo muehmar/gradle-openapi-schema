@@ -22,7 +22,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.3.0'
+    id 'com.github.muehmar.openapischema' version '0.4.0'
 }
 ```
 
@@ -174,56 +174,22 @@ Setting all required properties in a class could theoretically also be achieved 
 properties as arguments, but the pattern used here is safer in terms of refactoring, i.e. adding or removing properties,
 changing the required properties or changing the order of the properties.
 
+## Credits
+
+* @eikek for the famous `PList`
+
 ## Known Issues
 
-* Inline definitions of objects are currently not supported. For example the following schema definition
-
-```
-components:
-  schemas:
-    User:
-      properties:
-        languages:
-          type: object
-          additionalProperties:
-            type: object
-            properties:
-              key:
-                type: integer
-              name:
-                type: string
-```
-
-will throw an exception. The same can be achieved by moving the definition of the object to an own schema like the
-following.
-
-```
-components:
-  schemas:
-    User:
-      properties:
-        languages:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Language'
-            
-    Language:
-      required:
-        - key
-        - name
-      properties:
-        key:
-          type: integer
-        name:
-          type: string
-```
+* The keywords to combine schemas are not yet supported (oneOf, anyOf, allOf, not).
+* Bean validation annotations are not yet supported.
 
 ## Change Log
 
+* 0.4.0 - Support for inline object definitions
 * 0.3.0
     * Add support for enums
     * Fix incremental build
-* 0.2.1 Fix the setter name for booleans
+* 0.2.1 - Fix the setter name for booleans
 * 0.2.0
     * Support incremental build
     * Add the 'Safe Builder' pattern
