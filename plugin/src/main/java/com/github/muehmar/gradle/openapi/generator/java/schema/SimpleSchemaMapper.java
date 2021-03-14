@@ -18,7 +18,8 @@ public class SimpleSchemaMapper<T extends Schema<?>> extends BaseSchemaMapper<T>
   }
 
   @Override
-  JavaType mapSpecificSchema(PojoSettings pojoSettings, T schema, JavaSchemaMapper chain) {
+  JavaType mapSpecificSchema(
+      String pojoKey, String key, T schema, PojoSettings pojoSettings, JavaSchemaMapper chain) {
     return javaType;
   }
 }

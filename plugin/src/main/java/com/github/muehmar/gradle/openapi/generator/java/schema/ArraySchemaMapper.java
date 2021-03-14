@@ -13,9 +13,13 @@ public class ArraySchemaMapper extends BaseSchemaMapper<ArraySchema> {
 
   @Override
   JavaType mapSpecificSchema(
-      PojoSettings pojoSettings, ArraySchema schema, JavaSchemaMapper chain) {
+      String pojoKey,
+      String key,
+      ArraySchema schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain) {
     final Schema<?> items = schema.getItems();
-    final JavaType itemType = chain.mapSchema(pojoSettings, items, chain);
+    final JavaType itemType = chain.mapSchema(pojoKey, key, items, pojoSettings, chain);
     return JavaType.javaList(itemType);
   }
 }

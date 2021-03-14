@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi;
 import OpenApiSchema.example.api.model.LanguageDto;
 import OpenApiSchema.example.api.model.UserDto;
 import OpenApiSchema.example.api.model.UserGroupDto;
+import OpenApiSchema.example.api.model.UserHobbiesDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -16,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestSerialisation {
+class TestSerialisation {
 
   @Test
   void serializeAndDeserializeWithJackson() throws JsonProcessingException {
@@ -40,6 +41,10 @@ public class TestSerialisation {
     languages.put("ger", langGerman);
     languages.put("eng", langEnglish);
 
+    final UserHobbiesDto userHobbySport = UserHobbiesDto.newBuilder().setName("Sport").build();
+    final HashMap<String, UserHobbiesDto> hobbies = new HashMap<>();
+    hobbies.put("sport", userHobbySport);
+
     final UserDto userPaul =
         UserDto.newBuilder()
             .setId(UUID.randomUUID())
@@ -52,6 +57,7 @@ public class TestSerialisation {
             .setLastLogin(LocalDateTime.now())
             .setRole(UserDto.RoleEnum.User)
             .setLanguages(languages)
+            .setHobbies(hobbies)
             .build();
 
     final UserDto userFred =

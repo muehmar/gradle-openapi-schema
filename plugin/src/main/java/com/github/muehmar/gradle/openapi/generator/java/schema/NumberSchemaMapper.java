@@ -19,7 +19,11 @@ public class NumberSchemaMapper extends BaseSchemaMapper<NumberSchema> {
 
   @Override
   JavaType mapSpecificSchema(
-      PojoSettings pojoSettings, NumberSchema schema, JavaSchemaMapper chain) {
+      String pojoKey,
+      String key,
+      NumberSchema schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain) {
     return Optional.ofNullable(schema.getFormat()).map(formatMap::get).orElse(FLOAT);
   }
 

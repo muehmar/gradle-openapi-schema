@@ -16,7 +16,8 @@ class ArraySchemaMapperTest {
   void mapSchema_when_arraySchemaWithDateTimeItems_then_correctJavaType() {
     final ArraySchema arraySchema = new ArraySchema().items(new DateTimeSchema());
     final JavaType javaType =
-        arraySchemaMapper.mapSchema(null, arraySchema, new DateTimeSchemaMapper(null));
+        arraySchemaMapper.mapSchema(
+            "pojoKey", "key", arraySchema, null, new DateTimeSchemaMapper(null));
     assertEquals(JavaType.javaList(JavaTypes.LOCAL_DATE_TIME), javaType);
   }
 }

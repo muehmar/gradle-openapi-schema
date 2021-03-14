@@ -12,11 +12,16 @@ public class ReferenceSchemaMapper implements JavaSchemaMapper {
   }
 
   @Override
-  public JavaType mapSchema(PojoSettings pojoSettings, Schema<?> schema, JavaSchemaMapper chain) {
+  public JavaType mapSchema(
+      String pojoKey,
+      String key,
+      Schema<?> schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain) {
     if (schema.getType() == null && schema.getFormat() == null && schema.get$ref() != null) {
       return ReferenceMapper.getRefType(pojoSettings, schema.get$ref());
     }
 
-    return nextMapper.mapSchema(pojoSettings, schema, chain);
+    return nextMapper.mapSchema(pojoKey, key, schema, pojoSettings, chain);
   }
 }

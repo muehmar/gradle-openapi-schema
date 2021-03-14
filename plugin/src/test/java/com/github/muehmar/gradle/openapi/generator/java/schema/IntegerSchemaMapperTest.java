@@ -13,14 +13,14 @@ class IntegerSchemaMapperTest {
   @Test
   void mapSchema_when_int32Format_then_integerTypeReturned() {
     final IntegerSchema schema = new IntegerSchema().format("int32");
-    final JavaType javaType = integerSchemaMapper.mapSchema(null, schema, null);
+    final JavaType javaType = integerSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
     assertEquals(JavaTypes.INTEGER, javaType);
   }
 
   @Test
   void mapSchema_when_int64Format_then_longTypeReturned() {
     final IntegerSchema schema = new IntegerSchema().format("int64");
-    final JavaType javaType = integerSchemaMapper.mapSchema(null, schema, null);
+    final JavaType javaType = integerSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
     assertEquals(JavaTypes.LONG, javaType);
   }
 }

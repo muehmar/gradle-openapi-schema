@@ -40,7 +40,7 @@ public abstract class BasePojoMapper implements PojoMapper {
                           .map(req -> req.stream().noneMatch(entry.getKey()::equals))
                           .orElse(true);
                   return pojoMemberFromSchema(
-                      entry.getKey(), entry.getValue(), pojoSettings, nullable);
+                      key, entry.getKey(), entry.getValue(), pojoSettings, nullable);
                 });
 
     final Pojo pojo =
@@ -71,7 +71,7 @@ public abstract class BasePojoMapper implements PojoMapper {
    * container {@link PojoMemberAndOpenApiPojos}.
    */
   protected abstract PojoMemberAndOpenApiPojos pojoMemberFromSchema(
-      String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable);
+      String pojoKey, String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable);
 
   /**
    * Container holding a {@link PojoMember} as well as a list of {@link OpenApiPojo} which in turn

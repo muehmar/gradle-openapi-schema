@@ -24,7 +24,7 @@ public class JavaPojoMapper extends BasePojoMapper {
   protected PojoAndOpenApiPojos createArrayPojo(
       String key, ArraySchema schema, PojoSettings pojoSettings) {
     final PojoMemberAndOpenApiPojos pojoMemberAndOpenApiPojos =
-        pojoMemberFromSchema("value", schema, pojoSettings, false);
+        pojoMemberFromSchema(key, "value", schema, pojoSettings, false);
     final Pojo pojo =
         new Pojo(
             key,
@@ -37,10 +37,10 @@ public class JavaPojoMapper extends BasePojoMapper {
 
   @Override
   protected PojoMemberAndOpenApiPojos pojoMemberFromSchema(
-      String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable) {
+      String pojoKey, String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable) {
     final JavaType javaType =
         typeMapperChain
-            .mapSchema(pojoSettings, schema, typeMapperChain)
+            .mapSchema(pojoKey, key, schema, pojoSettings, typeMapperChain)
             .mapPrimitiveType(name -> nullable ? name : primitivesMap.getOrDefault(name, name));
 
     final JavaType classMappedJavaType =
@@ -59,7 +59,7 @@ public class JavaPojoMapper extends BasePojoMapper {
 
     final PojoMember pojoMember =
         new PojoMember(key, schema.getDescription(), classMappedJavaType, nullable);
-    return new PojoMemberAndOpenApiPojos(pojoMember, PList.empty());
+    return new PojoMemberAndOpenApiPojos(pojoMember, classMappedJavaType.getOpenApiPojos());
   }
 
   private static Map<String, String> createPrimitivesMap() {

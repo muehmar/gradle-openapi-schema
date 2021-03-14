@@ -1,10 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
+import com.github.muehmar.gradle.openapi.generator.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.util.Map;
 
 public class MapSchemaMapper extends BaseSchemaMapper<MapSchema> {
 
@@ -13,16 +16,28 @@ public class MapSchemaMapper extends BaseSchemaMapper<MapSchema> {
   }
 
   @Override
-  JavaType mapSpecificSchema(PojoSettings pojoSettings, MapSchema schema, JavaSchemaMapper chain) {
+  JavaType mapSpecificSchema(
+      String pojoKey,
+      String key,
+      MapSchema schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain) {
     final Object additionalProperties = schema.getAdditionalProperties();
     if (additionalProperties instanceof Schema) {
-      final String $ref = ((Schema<?>) additionalProperties).get$ref();
+      final Schema<?> additionalPropertiesSchema = (Schema<?>) additionalProperties;
+      final String $ref = additionalPropertiesSchema.get$ref();
+      final Map<String, Schema> properties = additionalPropertiesSchema.getProperties();
+
       if ($ref != null) {
         final JavaType valueType = ReferenceMapper.getRefType(pojoSettings, $ref);
         return JavaType.javaMap(JavaTypes.STRING, valueType);
+      } else if (properties != null) {
+        final String name = JavaResolver.toPascalCase(pojoKey + JavaResolver.toPascalCase(key));
+        return JavaType.javaMap(JavaTypes.STRING, JavaType.ofName(name + pojoSettings.getSuffix()))
+            .withOpenApiPojo(new OpenApiPojo(name, additionalPropertiesSchema));
       } else {
         throw new IllegalArgumentException(
-            "Only map schemas with references are supported yet: " + additionalProperties);
+            "Not supported schema for the map with key " + key + ": " + additionalPropertiesSchema);
       }
     } else {
       throw new IllegalArgumentException(

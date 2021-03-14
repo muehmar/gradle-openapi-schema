@@ -24,7 +24,11 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
 
   @Override
   JavaType mapSpecificSchema(
-      PojoSettings pojoSettings, StringSchema schema, JavaSchemaMapper chain) {
+      String pojoKey,
+      String key,
+      StringSchema schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain) {
     return Optionals.or(
             () -> getFromStandardFormat(schema),
             () -> getFormatMappedType(pojoSettings, schema),

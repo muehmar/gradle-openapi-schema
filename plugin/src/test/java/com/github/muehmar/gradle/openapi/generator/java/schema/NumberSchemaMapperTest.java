@@ -14,14 +14,14 @@ class NumberSchemaMapperTest {
   @Test
   void mapSchema_when_int32Format_then_integerTypeReturned() {
     final Schema<?> schema = new NumberSchema().format("float");
-    final JavaType javaType = numberSchemaMapper.mapSchema(null, schema, null);
+    final JavaType javaType = numberSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
     assertEquals(JavaTypes.FLOAT, javaType);
   }
 
   @Test
   void mapSchema_when_int64Format_then_longTypeReturned() {
     final Schema<?> schema = new NumberSchema().format("double");
-    final JavaType javaType = numberSchemaMapper.mapSchema(null, schema, null);
+    final JavaType javaType = numberSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
     assertEquals(JavaTypes.DOUBLE, javaType);
   }
 }

@@ -20,7 +20,11 @@ public class IntegerSchemaMapper extends BaseSchemaMapper<IntegerSchema> {
 
   @Override
   JavaType mapSpecificSchema(
-      PojoSettings pojoSettings, IntegerSchema schema, JavaSchemaMapper chain) {
+      String pojoKey,
+      String key,
+      IntegerSchema schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain) {
     return Optional.ofNullable(schema.getFormat()).map(formatMap::get).orElse(INTEGER);
   }
 

@@ -37,6 +37,17 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Language'
+        hobbies:
+          type: object
+          additionalProperties:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+              description:
+                type: string
 
     UserGroup:
       properties:

@@ -15,21 +15,21 @@ class StringSchemaMapperTest {
   @Test
   void mapSchema_when_urlFormat_then_correctUrlJavaTypeReturned() {
     final Schema<?> schema = new StringSchema().format("url");
-    final JavaType javaType = stringSchemaMapper.mapSchema(null, schema, null);
+    final JavaType javaType = stringSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
     assertEquals(JavaTypes.URL, javaType);
   }
 
   @Test
   void mapSchema_when_uriFormat_then_correctUriJavaTypeReturned() {
     final Schema<?> schema = new StringSchema().format("uri");
-    final JavaType javaType = stringSchemaMapper.mapSchema(null, schema, null);
+    final JavaType javaType = stringSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
     assertEquals(JavaTypes.URI, javaType);
   }
 
   @Test
   void mapSchema_when_partialTimeFormat_then_localTimeTypeReturned() {
     final Schema<?> schema = new StringSchema().format("partial-time");
-    final JavaType javaType = stringSchemaMapper.mapSchema(null, schema, null);
+    final JavaType javaType = stringSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
     assertEquals(JavaTypes.LOCAL_TIME, javaType);
   }
 }

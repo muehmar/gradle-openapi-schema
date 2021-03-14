@@ -25,74 +25,76 @@ class SchemaMapperChainTest {
 
   @Test
   void mapSchema_when_dateSchema_then_localDateReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new DateSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new DateSchema(), null, CHAIN);
     Assertions.assertEquals(JavaTypes.LOCAL_DATE, javaType);
   }
 
   @Test
   void mapSchema_when_dateTimeSchema_then_localDateTimeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new DateTimeSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new DateTimeSchema(), null, CHAIN);
     assertEquals(JavaTypes.LOCAL_DATE_TIME, javaType);
   }
 
   @Test
   void mapSchema_when_booleanSchema_then_booleanTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new BooleanSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new BooleanSchema(), null, CHAIN);
     assertEquals(JavaTypes.BOOLEAN, javaType);
   }
 
   @Test
   void mapSchema_when_integerSchema_then_integerTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new IntegerSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new IntegerSchema(), null, CHAIN);
     assertEquals(JavaTypes.INTEGER, javaType);
   }
 
   @Test
   void mapSchema_when_numberSchema_then_floatTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new NumberSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new NumberSchema(), null, CHAIN);
     assertEquals(JavaTypes.FLOAT, javaType);
   }
 
   @Test
   void mapSchema_when_arraySchema_then_correctListReturned() {
     final JavaType javaType =
-        CHAIN.mapSchema(null, new ArraySchema().items(new IntegerSchema()), CHAIN);
+        CHAIN.mapSchema(
+            "pojoKey", "key", new ArraySchema().items(new IntegerSchema()), null, CHAIN);
     assertEquals(JavaType.javaList(JavaTypes.INTEGER), javaType);
   }
 
   @Test
   void mapSchema_when_uuidSchema_then_uuidTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new UUIDSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new UUIDSchema(), null, CHAIN);
     assertEquals(JavaTypes.UUID, javaType);
   }
 
   @Test
   void mapSchema_when_stringSchema_then_correctStringTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new StringSchema().format("url"), CHAIN);
+    final JavaType javaType =
+        CHAIN.mapSchema("pojoKey", "key", new StringSchema().format("url"), null, CHAIN);
     assertEquals(JavaTypes.URL, javaType);
   }
 
   @Test
   void mapSchema_when_passwordSchema_then_stringTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new PasswordSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new PasswordSchema(), null, CHAIN);
     assertEquals(JavaTypes.STRING, javaType);
   }
 
   @Test
   void mapSchema_when_binarySchema_then_byteArrayTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new BinarySchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new BinarySchema(), null, CHAIN);
     assertEquals(JavaTypes.BYTE_ARRAY, javaType);
   }
 
   @Test
   void mapSchema_when_fileSchema_then_stringTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new FileSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new FileSchema(), null, CHAIN);
     assertEquals(JavaTypes.STRING, javaType);
   }
 
   @Test
   void mapSchema_when_emailSchema_then_stringTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema(null, new EmailSchema(), CHAIN);
+    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new EmailSchema(), null, CHAIN);
     assertEquals(JavaTypes.STRING, javaType);
   }
 }

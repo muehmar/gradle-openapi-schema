@@ -6,5 +6,10 @@ import io.swagger.v3.oas.models.media.Schema;
 
 @FunctionalInterface
 public interface JavaSchemaMapper {
-  JavaType mapSchema(PojoSettings pojoSettings, Schema<?> schema, JavaSchemaMapper chain);
+  JavaType mapSchema(
+      String pojoKey,
+      String key,
+      Schema<?> schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain);
 }
