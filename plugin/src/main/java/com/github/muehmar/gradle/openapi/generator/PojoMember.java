@@ -73,12 +73,22 @@ public class PojoMember {
     return nullable == that.nullable
         && Objects.equals(key, that.key)
         && Objects.equals(description, that.description)
-        && Objects.equals(type, that.type);
+        && Objects.equals(type.getName(), that.type.getName())
+        && Objects.equals(type.isEnum(), that.type.isEnum())
+        && Objects.equals(type.getEnumMembers(), that.type.getEnumMembers())
+        && Objects.equals(type.getImports(), that.type.getImports());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, nullable, description, type);
+    return Objects.hash(
+        key,
+        nullable,
+        description,
+        type.getName(),
+        type.isEnum(),
+        type.getEnumMembers(),
+        type.getImports());
   }
 
   @Override

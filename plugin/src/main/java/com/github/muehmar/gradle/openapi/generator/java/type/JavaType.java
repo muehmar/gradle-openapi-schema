@@ -95,6 +95,11 @@ public class JavaType implements Type {
   }
 
   @Override
+  public PList<String> getEnumMembers() {
+    return enumMembers;
+  }
+
+  @Override
   public PList<String> getImports() {
     return genericTypes.flatMap(Type::getImports).concat(imports).distinct(Function.identity());
   }

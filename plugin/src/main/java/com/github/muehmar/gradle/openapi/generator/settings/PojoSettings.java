@@ -15,7 +15,7 @@ public class PojoSettings implements Serializable {
   private final List<ClassTypeMapping> classTypeMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
 
-  private PojoSettings(
+  public PojoSettings(
       JsonSupport jsonSupport,
       String packageName,
       String suffix,

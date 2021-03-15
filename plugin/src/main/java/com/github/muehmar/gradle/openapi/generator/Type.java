@@ -18,5 +18,7 @@ public interface Type {
    */
   void onEnum(Consumer<PList<String>> code);
 
+  PList<String> getEnumMembers();
+
   PList<String> getImports();
 }
