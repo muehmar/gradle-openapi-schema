@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi;
 import OpenApiSchema.example.api.model.LanguageDto;
 import OpenApiSchema.example.api.model.UserDto;
 import OpenApiSchema.example.api.model.UserGroupDto;
+import OpenApiSchema.example.api.model.UserGroupLanguagesDto;
 import OpenApiSchema.example.api.model.UserHobbiesDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,6 +59,7 @@ class TestSerialisation {
             .setRole(UserDto.RoleEnum.User)
             .setLanguages(languages)
             .setHobbies(hobbies)
+            .setData("Data")
             .build();
 
     final UserDto userFred =
@@ -72,8 +74,16 @@ class TestSerialisation {
     members.add(userBruce);
     members.add(userPaul);
     members.add(userFred);
+    final ArrayList<UserGroupLanguagesDto> userGroupLanguages = new ArrayList<>();
+    userGroupLanguages.add(new UserGroupLanguagesDto("GER", "German"));
+    userGroupLanguages.add(new UserGroupLanguagesDto("END", "English"));
     final UserGroupDto userGroup =
-        UserGroupDto.newBuilder().andAllOptionals().setOwner(userBruce).setMembers(members).build();
+        UserGroupDto.newBuilder()
+            .andAllOptionals()
+            .setOwner(userBruce)
+            .setMembers(members)
+            .setLanguages(userGroupLanguages)
+            .build();
 
     final String json = writer.writeValueAsString(userGroup);
     System.out.println(json);

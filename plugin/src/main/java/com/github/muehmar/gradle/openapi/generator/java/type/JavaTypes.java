@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.type;
 public class JavaTypes {
   private JavaTypes() {}
 
+  public static final JavaType OBJECT = JavaType.ofName("Object");
+
   public static final JavaType BOOLEAN = JavaType.ofName("Boolean");
   public static final JavaType BYTE = JavaType.ofName("Byte");
   public static final JavaType STRING = JavaType.ofName("String");

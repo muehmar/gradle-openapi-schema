@@ -56,4 +56,10 @@ class JavaResolverTest {
     final String memberName = javaResolver.enumName("lastName");
     assertEquals("LastNameEnum", memberName);
   }
+
+  @Test
+  void toPascalCase_when_multipleKeys_then_everyKeyIsPascalCaseAndConcatenated() {
+    final String pascalCase = JavaResolver.toPascalCase("userGroup", "language");
+    assertEquals("UserGroupLanguage", pascalCase);
+  }
 }

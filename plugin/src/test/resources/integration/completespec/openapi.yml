@@ -48,6 +48,8 @@ components:
                 type: string
               description:
                 type: string
+        data:
+          description: 'Some user related data'
 
     UserGroup:
       properties:
@@ -57,6 +59,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+        languages:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
 
     Language:
       required:

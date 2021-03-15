@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.type;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.Type;
+import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
+import io.swagger.v3.oas.models.media.Schema;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -36,6 +38,17 @@ public class JavaType implements Type {
 
   public static JavaType ofName(String name) {
     return new JavaType(name, PList.empty(), PList.empty(), PList.empty(), PList.empty());
+  }
+
+  public static JavaType ofOpenApiSchema(
+      String pojoKey, String key, String suffix, Schema<?> schema) {
+    final String newKey = JavaResolver.toPascalCase(pojoKey, key);
+    return new JavaType(
+        newKey + suffix,
+        PList.empty(),
+        PList.empty(),
+        PList.empty(),
+        PList.single(new OpenApiPojo(newKey, schema)));
   }
 
   public static JavaType javaMap(JavaType key, JavaType value) {
@@ -109,7 +122,7 @@ public class JavaType implements Type {
   }
 
   public PList<OpenApiPojo> getOpenApiPojos() {
-    return openApiPojos;
+    return openApiPojos.concat(genericTypes.flatMap(JavaType::getOpenApiPojos));
   }
 
   @Override

@@ -1,7 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
-import com.github.muehmar.gradle.openapi.generator.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -32,9 +30,10 @@ public class MapSchemaMapper extends BaseSchemaMapper<MapSchema> {
         final JavaType valueType = ReferenceMapper.getRefType(pojoSettings, $ref);
         return JavaType.javaMap(JavaTypes.STRING, valueType);
       } else if (properties != null) {
-        final String name = JavaResolver.toPascalCase(pojoKey + JavaResolver.toPascalCase(key));
-        return JavaType.javaMap(JavaTypes.STRING, JavaType.ofName(name + pojoSettings.getSuffix()))
-            .withOpenApiPojo(new OpenApiPojo(name, additionalPropertiesSchema));
+        final JavaType addPropertiesType =
+            JavaType.ofOpenApiSchema(
+                pojoKey, key, pojoSettings.getSuffix(), additionalPropertiesSchema);
+        return JavaType.javaMap(JavaTypes.STRING, addPropertiesType);
       } else {
         throw new IllegalArgumentException(
             "Not supported schema for the map with key " + key + ": " + additionalPropertiesSchema);

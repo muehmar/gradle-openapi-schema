@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java;
 
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.BOOLEAN;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.Type;
 
@@ -44,5 +45,9 @@ public class JavaResolver implements Resolver {
 
   public static String toPascalCase(String key) {
     return key.substring(0, 1).toUpperCase() + key.substring(1);
+  }
+
+  public static String toPascalCase(String... keys) {
+    return PList.fromArray(keys).map(JavaResolver::toPascalCase).mkString("");
   }
 }

@@ -30,7 +30,7 @@ class JavaPojoMapperTest {
             .flatMap(entry -> pojoMapper.fromSchema(entry.getKey(), entry.getValue(), pojoSettings))
             .sort(Comparator.comparing(pojo -> pojo.className(new JavaResolver())));
 
-    assertEquals(4, pojos.size());
+    assertEquals(5, pojos.size());
 
     assertEquals(
         new Pojo(
@@ -67,7 +67,8 @@ class JavaPojoMapperTest {
                     "hobbies",
                     "",
                     JavaType.javaMap(JavaTypes.STRING, JavaType.ofName("UserHobbiesDto")),
-                    true)),
+                    true),
+                new PojoMember("data", "Some user related data", JavaTypes.OBJECT, true)),
             false),
         pojos.apply(1));
 
@@ -78,9 +79,25 @@ class JavaPojoMapperTest {
             "Dto",
             PList.of(
                 new PojoMember("owner", "", JavaType.ofName("UserDto"), true),
-                new PojoMember("members", "", JavaType.javaList(JavaType.ofName("UserDto")), true)),
+                new PojoMember("members", "", JavaType.javaList(JavaType.ofName("UserDto")), true),
+                new PojoMember(
+                    "languages",
+                    "",
+                    JavaType.javaList(JavaType.ofName("UserGroupLanguagesDto")),
+                    true)),
             false),
         pojos.apply(2));
+
+    assertEquals(
+        new Pojo(
+            "UserGroupLanguages",
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember("id", "", JavaTypes.STRING, true),
+                new PojoMember("name", "", JavaTypes.STRING, true)),
+            false),
+        pojos.apply(3));
 
     assertEquals(
         new Pojo(
@@ -91,7 +108,7 @@ class JavaPojoMapperTest {
                 new PojoMember("name", "", JavaTypes.STRING, false),
                 new PojoMember("description", "", JavaTypes.STRING, true)),
             false),
-        pojos.apply(3));
+        pojos.apply(4));
   }
 
   private static PList<Map.Entry<String, Schema>> parseOpenApiResourceEntries(String resource) {
