@@ -477,14 +477,14 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println();
     writer.tab(1).println("@Override");
     writer.tab(1).println("public String toString() {");
-    writer.tab(2).println("return \"%s{\" + ", pojo.className(resolver));
+    writer.tab(2).println("return \"%s{\" +", pojo.className(resolver));
 
     String separator = "";
     for (PojoMember member : pojo.getMembers()) {
       writer
           .tab(3)
           .println(
-              "\"%s%s=\" + %s + ",
+              "\"%s%s=\" + %s +",
               separator, member.memberName(resolver), member.memberName(resolver));
       separator = ", ";
     }

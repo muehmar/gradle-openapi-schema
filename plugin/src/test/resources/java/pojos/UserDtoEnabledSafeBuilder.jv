@@ -1,0 +1,218 @@
+package com.github.muehmar;
+
+import java.util.Objects;
+import java.util.Optional;
+
+
+/**
+ * User of the Application
+ */
+public class UserDto {
+  private final long id;
+  private final String name;
+  private final LanguageEnum language;
+
+  public UserDto(
+      long id,
+      String name,
+      LanguageEnum language) {
+    this.id = id;
+    this.name = name;
+    this.language = language;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public enum LanguageEnum {
+    GERMAN, ENGLISH
+  }
+
+  /**
+   * ID of this user
+   */
+  public long getId() {
+    return this.id;
+  }
+
+  /**
+   * Name of this user
+   */
+  public String getName() {
+    return this.name;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public Optional<LanguageEnum> getLanguageOptional() {
+    return Optional.ofNullable(this.language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public LanguageEnum getLanguageNullable() {
+    return language;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(long id) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(id, name, language);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    final UserDto v = (UserDto) other;
+    return Objects.equals(id, v.id)
+        && Objects.equals(name, v.name)
+        && Objects.equals(language, v.language);
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, language);
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", language=" + language +
+      "}";
+  }
+
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private long id;
+    private String name;
+    private LanguageEnum language;
+
+    /**
+     * ID of this user
+     */
+    private Builder setId(long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    private Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, language);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * ID of this user
+     */
+    public Builder1 setId(long id){
+      return new Builder1(builder.setId(id));
+    }
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Name of this user
+     */
+    public Builder2 setName(String name){
+      return new Builder2(builder.setName(name));
+    }
+  }
+
+  public static final class Builder2 {
+    private final Builder builder;
+    private Builder2(Builder builder) {
+      this.builder = builder;
+    }
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+    public Builder andOptionals(){
+      return builder;
+    }
+    public UserDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public OptBuilder1 setLanguage(LanguageEnum language){
+      return new OptBuilder1(builder.setLanguage(language));
+    }
+  }
+
+  public static final class OptBuilder1 {
+    private final Builder builder;
+    private OptBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+    public UserDto build(){
+      return builder.build();
+    }
+  }
+}

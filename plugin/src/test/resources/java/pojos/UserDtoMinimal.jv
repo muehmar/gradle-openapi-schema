@@ -1,0 +1,147 @@
+package com.github.muehmar;
+
+import java.util.Objects;
+import java.util.Optional;
+
+
+/**
+ * User of the Application
+ */
+public class UserDto {
+  private final long id;
+  private final String name;
+  private final LanguageEnum language;
+
+  public UserDto(
+      long id,
+      String name,
+      LanguageEnum language) {
+    this.id = id;
+    this.name = name;
+    this.language = language;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public enum LanguageEnum {
+    GERMAN, ENGLISH
+  }
+
+  /**
+   * ID of this user
+   */
+  public long getId() {
+    return this.id;
+  }
+
+  /**
+   * Name of this user
+   */
+  public String getName() {
+    return this.name;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public Optional<LanguageEnum> getLanguageOptional() {
+    return Optional.ofNullable(this.language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public LanguageEnum getLanguageNullable() {
+    return language;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(long id) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(id, name, language);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    final UserDto v = (UserDto) other;
+    return Objects.equals(id, v.id)
+        && Objects.equals(name, v.name)
+        && Objects.equals(language, v.language);
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, language);
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", language=" + language +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+
+    private long id;
+    private String name;
+    private LanguageEnum language;
+
+    /**
+     * ID of this user
+     */
+    public Builder setId(long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, language);
+    }
+  }
+}
