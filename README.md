@@ -185,6 +185,9 @@ changing the required properties or changing the order of the properties.
 
 ## Change Log
 
+* 0.5.0
+    * Add support for inline object definitions for array items
+    * Add support for properties without a type
 * 0.4.0 - Support for inline object definitions
 * 0.3.0
     * Add support for enums
