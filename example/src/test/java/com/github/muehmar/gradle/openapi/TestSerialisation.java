@@ -5,6 +5,7 @@ import OpenApiSchema.example.api.model.UserDto;
 import OpenApiSchema.example.api.model.UserGroupDto;
 import OpenApiSchema.example.api.model.UserGroupLanguagesDto;
 import OpenApiSchema.example.api.model.UserHobbiesDto;
+import OpenApiSchema.example.api.model.UserInterestsDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestSerialisation {
@@ -35,6 +37,12 @@ class TestSerialisation {
             .andOptionals()
             .setRole(UserDto.RoleEnum.Admin)
             .build();
+
+    final HashMap<String, ArrayList<UserInterestsDto>> interests = new HashMap<>();
+    interests.put("IT", new ArrayList<>(singletonList(new UserInterestsDto("Programming", 10))));
+
+    final HashMap<String, String> currencies = new HashMap<>();
+    currencies.put("CHF", "Swiss Francs");
 
     final LanguageDto langGerman = LanguageDto.newBuilder().setKey(55).setName("Deutsch").build();
     final LanguageDto langEnglish = LanguageDto.newBuilder().setKey(987).setName("English").build();
@@ -57,6 +65,8 @@ class TestSerialisation {
             .setAge(45)
             .setLastLogin(LocalDateTime.now())
             .setRole(UserDto.RoleEnum.User)
+            .setCurrencies(currencies)
+            .setInterests(interests)
             .setLanguages(languages)
             .setHobbies(hobbies)
             .setData("Data")
