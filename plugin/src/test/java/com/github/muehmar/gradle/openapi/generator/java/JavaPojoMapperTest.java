@@ -30,7 +30,7 @@ class JavaPojoMapperTest {
             .flatMap(entry -> pojoMapper.fromSchema(entry.getKey(), entry.getValue(), pojoSettings))
             .sort(Comparator.comparing(pojo -> pojo.className(new JavaResolver())));
 
-    assertEquals(5, pojos.size());
+    assertEquals(6, pojos.size());
 
     assertEquals(
         new Pojo(
@@ -60,6 +60,12 @@ class JavaPojoMapperTest {
                     "role", "", JavaType.javaEnum(PList.of("Admin", "User", "Visitor")), true),
                 new PojoMember(
                     "currencies", "", JavaType.javaMap(JavaTypes.STRING, JavaTypes.STRING), true),
+                new PojoMember(
+                    "interests",
+                    "",
+                    JavaType.javaMap(
+                        JavaTypes.STRING, JavaType.javaList(JavaType.ofName("UserInterestsDto"))),
+                    true),
                 new PojoMember(
                     "languages",
                     "",
@@ -111,6 +117,17 @@ class JavaPojoMapperTest {
                 new PojoMember("description", "", JavaTypes.STRING, true)),
             false),
         pojos.apply(4));
+
+    assertEquals(
+        new Pojo(
+            "UserInterests",
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember("name", "", JavaTypes.STRING, true),
+                new PojoMember("prio", "", JavaTypes.INTEGER, true)),
+            false),
+        pojos.apply(5));
   }
 
   private static PList<Map.Entry<String, Schema>> parseOpenApiResourceEntries(String resource) {

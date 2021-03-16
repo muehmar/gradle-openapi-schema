@@ -37,6 +37,17 @@ components:
           type: object
           additionalProperties:
             type: string
+        interests:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                prio:
+                  type: integer
         languages:
           type: object
           additionalProperties:
