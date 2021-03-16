@@ -59,6 +59,8 @@ class JavaPojoMapperTest {
                 new PojoMember(
                     "role", "", JavaType.javaEnum(PList.of("Admin", "User", "Visitor")), true),
                 new PojoMember(
+                    "currencies", "", JavaType.javaMap(JavaTypes.STRING, JavaTypes.STRING), true),
+                new PojoMember(
                     "languages",
                     "",
                     JavaType.javaMap(JavaTypes.STRING, JavaType.ofName("LanguageDto")),
