@@ -1,21 +1,29 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 public class PojoMember {
   private final String key;
-  private final boolean nullable;
   private final String description;
   private final Type type;
+  private final boolean nullable;
+  private final Constraints constraints;
 
-  public PojoMember(String key, String description, Type type, boolean nullable) {
+  public PojoMember(
+      String key, String description, Type type, boolean nullable, Constraints constraints) {
     this.key = key;
-    this.nullable = nullable;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
+    this.nullable = nullable;
+    this.constraints = constraints;
+  }
+
+  public PojoMember(String key, String description, Type type, boolean nullable) {
+    this(key, description, type, nullable, Constraints.empty());
   }
 
   public String getDescription() {
@@ -36,6 +44,10 @@ public class PojoMember {
 
   public boolean isRequired() {
     return !isNullable();
+  }
+
+  public Constraints getConstraints() {
+    return constraints;
   }
 
   public String getterName(Resolver resolver) {
@@ -76,19 +88,13 @@ public class PojoMember {
         && Objects.equals(type.getName(), that.type.getName())
         && Objects.equals(type.isEnum(), that.type.isEnum())
         && Objects.equals(type.getEnumMembers(), that.type.getEnumMembers())
-        && Objects.equals(type.getImports(), that.type.getImports());
+        && Objects.equals(type.getImports(), that.type.getImports())
+        && Objects.equals(constraints, that.constraints);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        key,
-        nullable,
-        description,
-        type.getName(),
-        type.isEnum(),
-        type.getEnumMembers(),
-        type.getImports());
+    return Objects.hash(key, description, type, nullable, constraints);
   }
 
   @Override
@@ -97,13 +103,15 @@ public class PojoMember {
         + "key='"
         + key
         + '\''
-        + ", nullable="
-        + nullable
         + ", description='"
         + description
         + '\''
         + ", type="
         + type
+        + ", nullable="
+        + nullable
+        + ", constraints="
+        + constraints
         + '}';
   }
 }
