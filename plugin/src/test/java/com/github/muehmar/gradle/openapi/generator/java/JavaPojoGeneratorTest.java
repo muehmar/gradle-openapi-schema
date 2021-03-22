@@ -6,6 +6,11 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.Resources;
 import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
@@ -22,7 +27,13 @@ class JavaPojoGeneratorTest {
 
     final PojoSettings pojoSettings =
         new PojoSettings(
-            JsonSupport.NONE, "com.github.muehmar", "Dto", false, PList.empty(), PList.empty());
+            JsonSupport.NONE,
+            "com.github.muehmar",
+            "Dto",
+            false,
+            false,
+            PList.empty(),
+            PList.empty());
 
     final Pojo pojo =
         new Pojo(
@@ -51,7 +62,13 @@ class JavaPojoGeneratorTest {
 
     final PojoSettings pojoSettings =
         new PojoSettings(
-            JsonSupport.JACKSON, "com.github.muehmar", "Dto", false, PList.empty(), PList.empty());
+            JsonSupport.JACKSON,
+            "com.github.muehmar",
+            "Dto",
+            false,
+            false,
+            PList.empty(),
+            PList.empty());
 
     final Pojo pojo =
         new Pojo(
@@ -81,7 +98,13 @@ class JavaPojoGeneratorTest {
 
     final PojoSettings pojoSettings =
         new PojoSettings(
-            JsonSupport.NONE, "com.github.muehmar", "Dto", true, PList.empty(), PList.empty());
+            JsonSupport.NONE,
+            "com.github.muehmar",
+            "Dto",
+            true,
+            false,
+            PList.empty(),
+            PList.empty());
 
     final Pojo pojo =
         new Pojo(
@@ -102,5 +125,58 @@ class JavaPojoGeneratorTest {
 
     assertEquals(
         Resources.readString("/java/pojos/UserDtoEnabledSafeBuilder.jv"), writer.asString().trim());
+  }
+
+  @Test
+  void generatePojo_when_enableConstraints_then_correctPojoGenerated() {
+    final TestStringWriter writer = new TestStringWriter();
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+
+    final PojoSettings pojoSettings =
+        new PojoSettings(
+            JsonSupport.NONE,
+            "com.github.muehmar",
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty());
+
+    final Pojo pojo =
+        new Pojo(
+            "User",
+            "User of the Application",
+            "Dto",
+            PList.of(
+                new PojoMember(
+                    "id",
+                    "ID of this user",
+                    JavaType.ofName("long"),
+                    false,
+                    Constraints.ofMax(new Max(50))),
+                new PojoMember(
+                    "name",
+                    "Name of this user",
+                    JavaTypes.STRING,
+                    false,
+                    Constraints.ofSize(new Size(10, 15))),
+                new PojoMember(
+                    "level",
+                    "Level of this user",
+                    JavaType.ofName("Long"),
+                    true,
+                    Constraints.ofMin(new Min(5))),
+                new PojoMember(
+                    "uppercase",
+                    "Something uppercase",
+                    JavaTypes.STRING,
+                    true,
+                    Constraints.ofPattern(new Pattern("[A-Z]")))),
+            false);
+
+    pojoGenerator.generatePojo(pojo, pojoSettings);
+
+    assertEquals(
+        Resources.readString("/java/pojos/UserDtoConstraints.jv"), writer.asString().trim());
   }
 }

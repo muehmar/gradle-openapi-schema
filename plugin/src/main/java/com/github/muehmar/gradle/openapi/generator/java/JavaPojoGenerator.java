@@ -5,10 +5,12 @@ import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -68,6 +70,14 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("import com.fasterxml.jackson.annotation.JsonProperty;");
       writer.println("import com.fasterxml.jackson.annotation.JsonCreator;");
       writer.println("import com.fasterxml.jackson.annotation.JsonValue;");
+      writer.println();
+    }
+
+    if (settings.isEnableConstraints()) {
+      writer.println("javax.validation.constraints.Max;");
+      writer.println("javax.validation.constraints.Min;");
+      writer.println("javax.validation.constraints.Pattern;");
+      writer.println("javax.validation.constraints.Size;");
       writer.println();
     }
 
@@ -201,46 +211,80 @@ public class JavaPojoGenerator implements PojoGenerator {
     pojo.getMembers()
         .forEach(
             member -> {
-              writer.println();
-              printJavaDoc(writer, 1, member.getDescription());
-
-              final boolean nullable = member.isNullable();
-
-              final String returnType =
-                  nullable
-                      ? String.format("Optional<%s>", member.getTypeName(resolver))
-                      : member.getTypeName(resolver);
-              final String field =
-                  nullable
-                      ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver))
-                      : String.format("this.%s", member.memberName(resolver));
-
-              if (nullable && settings.isJacksonJson()) {
-                writer.tab(1).println("@JsonIgnore");
-              }
-              writer
-                  .tab(1)
-                  .println(
-                      "public %s %s%s() {",
-                      returnType, member.getterName(resolver), nullable ? "Optional" : "");
-              writer.tab(2).println("return %s;", field);
-              writer.tab(1).println("}");
-
-              if (nullable) {
-                writer.println();
-                printJavaDoc(writer, 1, member.getDescription());
-                if (settings.isJacksonJson()) {
-                  writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver));
-                }
-                writer
-                    .tab(1)
-                    .println(
-                        "public %s %sNullable() {",
-                        member.getTypeName(resolver), member.getterName(resolver));
-                writer.tab(2).println("return %s;", member.memberName(resolver));
-                writer.tab(1).println("}");
-              }
+              printMainGetter(writer, member, settings);
+              printNullableGetter(writer, member, settings);
             });
+  }
+
+  /**
+   * Prints either a normal getter in case the member is required or wrap it in an {@link Optional}
+   * if its not required.
+   */
+  protected void printMainGetter(Writer writer, PojoMember member, PojoSettings settings) {
+    writer.println();
+    printJavaDoc(writer, 1, member.getDescription());
+
+    final boolean nullable = member.isNullable();
+
+    final String returnType =
+        nullable
+            ? String.format("Optional<%s>", member.getTypeName(resolver))
+            : member.getTypeName(resolver);
+    final String field =
+        nullable
+            ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver))
+            : String.format("this.%s", member.memberName(resolver));
+
+    if (nullable && settings.isJacksonJson()) {
+      writer.tab(1).println("@JsonIgnore");
+    }
+    if (member.isRequired()) {
+      printConstraints(writer, member, 1, settings);
+    }
+
+    writer
+        .tab(1)
+        .println(
+            "public %s %s%s() {",
+            returnType, member.getterName(resolver), nullable ? "Optional" : "");
+    writer.tab(2).println("return %s;", field);
+    writer.tab(1).println("}");
+  }
+
+  /**
+   * Prints a 'nullable' getter in case the member is not required. This getter is suffixed with
+   * 'Nullable' and may return null if the value is not present.
+   */
+  protected void printNullableGetter(Writer writer, PojoMember member, PojoSettings settings) {
+    if (member.isNullable()) {
+      writer.println();
+      printJavaDoc(writer, 1, member.getDescription());
+      printConstraints(writer, member, 1, settings);
+      if (settings.isJacksonJson()) {
+        writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver));
+      }
+      writer
+          .tab(1)
+          .println(
+              "public %s %sNullable() {",
+              member.getTypeName(resolver), member.getterName(resolver));
+      writer.tab(2).println("return %s;", member.memberName(resolver));
+      writer.tab(1).println("}");
+    }
+  }
+
+  protected void printConstraints(
+      Writer writer, PojoMember member, int tabs, PojoSettings settings) {
+    if (settings.isEnableConstraints()) {
+      final Constraints constraints = member.getConstraints();
+      constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
+      constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));
+      constraints.onSize(
+          size ->
+              writer.tab(tabs).println("@Size(min = %d, max = %d)", size.getMin(), size.getMax()));
+      constraints.onPattern(
+          pattern -> writer.tab(tabs).println("@Pattern(regexp=\"%s\")", pattern.getPattern()));
+    }
   }
 
   protected void printWithers(Writer writer, Pojo pojo) {

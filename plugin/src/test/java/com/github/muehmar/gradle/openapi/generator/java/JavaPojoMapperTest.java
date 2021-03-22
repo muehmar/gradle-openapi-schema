@@ -24,7 +24,7 @@ class JavaPojoMapperTest {
   void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
     final PojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, PList.empty(), PList.empty());
+        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
     final PList<Pojo> pojos =
         parseOpenApiResourceEntries("/integration/completespec/openapi.yml")
             .flatMap(entry -> pojoMapper.fromSchema(entry.getKey(), entry.getValue(), pojoSettings))

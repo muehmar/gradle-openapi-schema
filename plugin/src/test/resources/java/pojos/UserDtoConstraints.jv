@@ -1,0 +1,184 @@
+package com.github.muehmar;
+
+import java.util.Objects;
+import java.util.Optional;
+
+javax.validation.constraints.Max;
+javax.validation.constraints.Min;
+javax.validation.constraints.Pattern;
+javax.validation.constraints.Size;
+
+
+/**
+ * User of the Application
+ */
+public class UserDto {
+  private final long id;
+  private final String name;
+  private final Long level;
+  private final String uppercase;
+
+  public UserDto(
+      long id,
+      String name,
+      Long level,
+      String uppercase) {
+    this.id = id;
+    this.name = name;
+    this.level = level;
+    this.uppercase = uppercase;
+  }
+
+  /**
+   * ID of this user
+   */
+  @Max(value = 50)
+  public long getId() {
+    return this.id;
+  }
+
+  /**
+   * Name of this user
+   */
+  @Size(min = 10, max = 15)
+  public String getName() {
+    return this.name;
+  }
+
+  /**
+   * Level of this user
+   */
+  public Optional<Long> getLevelOptional() {
+    return Optional.ofNullable(this.level);
+  }
+
+  /**
+   * Level of this user
+   */
+  @Min(value = 5)
+  public Long getLevelNullable() {
+    return level;
+  }
+
+  /**
+   * Something uppercase
+   */
+  public Optional<String> getUppercaseOptional() {
+    return Optional.ofNullable(this.uppercase);
+  }
+
+  /**
+   * Something uppercase
+   */
+  @Pattern(regexp="[A-Z]")
+  public String getUppercaseNullable() {
+    return uppercase;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(long id) {
+    return new UserDto(id, name, level, uppercase);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, level, uppercase);
+  }
+
+  /**
+   * Level of this user
+   */
+  public UserDto withLevel(Long level) {
+    return new UserDto(id, name, level, uppercase);
+  }
+
+  /**
+   * Something uppercase
+   */
+  public UserDto withUppercase(String uppercase) {
+    return new UserDto(id, name, level, uppercase);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    final UserDto v = (UserDto) other;
+    return Objects.equals(id, v.id)
+        && Objects.equals(name, v.name)
+        && Objects.equals(level, v.level)
+        && Objects.equals(uppercase, v.uppercase);
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, level, uppercase);
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", level=" + level +
+      ", uppercase=" + uppercase +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+
+    private long id;
+    private String name;
+    private Long level;
+    private String uppercase;
+
+    /**
+     * ID of this user
+     */
+    public Builder setId(long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Level of this user
+     */
+    public Builder setLevel(Long level) {
+      this.level = level;
+      return this;
+    }
+
+    /**
+     * Something uppercase
+     */
+    public Builder setUppercase(String uppercase) {
+      this.uppercase = uppercase;
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, level, uppercase);
+    }
+  }
+}
