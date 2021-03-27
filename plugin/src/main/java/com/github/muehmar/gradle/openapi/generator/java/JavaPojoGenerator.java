@@ -76,6 +76,7 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("javax.validation.constraints.Min;");
       writer.println("javax.validation.constraints.Pattern;");
       writer.println("javax.validation.constraints.Size;");
+      writer.println("javax.validation.constraints.NotNull;");
       writer.println();
     }
 
@@ -274,6 +275,11 @@ public class JavaPojoGenerator implements PojoGenerator {
   protected void printConstraints(
       Writer writer, PojoMember member, int tabs, PojoSettings settings) {
     if (settings.isEnableConstraints()) {
+
+      if (member.isRequired()) {
+        writer.tab(tabs).println("@NotNull");
+      }
+
       final Constraints constraints = member.getConstraints();
       constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
       constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));

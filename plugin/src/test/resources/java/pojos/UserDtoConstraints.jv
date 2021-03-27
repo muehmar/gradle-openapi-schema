@@ -7,6 +7,7 @@ javax.validation.constraints.Max;
 javax.validation.constraints.Min;
 javax.validation.constraints.Pattern;
 javax.validation.constraints.Size;
+javax.validation.constraints.NotNull;
 
 
 /**
@@ -38,6 +39,7 @@ public class UserDto {
   /**
    * ID of this user
    */
+  @NotNull
   @Max(value = 50)
   public long getId() {
     return this.id;
@@ -46,6 +48,7 @@ public class UserDto {
   /**
    * Name of this user
    */
+  @NotNull
   @Size(min = 10, max = 15)
   public String getName() {
     return this.name;
@@ -54,6 +57,7 @@ public class UserDto {
   /**
    * Lastname of this user
    */
+  @NotNull
   @Size(min = 10)
   public String getLastName() {
     return this.lastName;
@@ -62,6 +66,7 @@ public class UserDto {
   /**
    * Nickname of this user
    */
+  @NotNull
   @Size(max = 50)
   public String getNickName() {
     return this.nickName;
