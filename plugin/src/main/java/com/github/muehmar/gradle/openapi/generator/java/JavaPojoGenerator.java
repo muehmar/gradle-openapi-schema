@@ -8,8 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -89,19 +87,19 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   private void printJavaDoc(Writer writer, int tabs, String javadoc) {
     writer.tab(tabs).println("/**");
-    final ArrayList<String> words = new ArrayList<>(Arrays.asList(javadoc.split("\\s")));
-    int idx = 0;
-    while (idx < words.size()) {
-      final ArrayList<String> lineWords = new ArrayList<>();
-      int characters = 0;
-      while (characters < 80 && idx < words.size()) {
-        final String word = words.get(idx);
-        lineWords.add(word);
-        characters += word.length();
-        idx++;
-      }
-      writer.tab(tabs).println(" * %s", String.join(" ", lineWords));
-    }
+    PList.fromArray(javadoc.split("\\s"))
+        .foldLeft(
+            PList.<String>empty(),
+            (list, word) -> {
+              final String lastLine = list.headOption().orElse("");
+              if (lastLine.length() + word.length() + 1 > 80 || lastLine.isEmpty()) {
+                return list.cons(word);
+              } else {
+                return list.drop(1).cons(lastLine + " " + word);
+              }
+            })
+        .reverse()
+        .forEach(line -> writer.tab(tabs).println(" * %s", line));
 
     writer.tab(tabs).println(" */");
   }

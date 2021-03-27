@@ -38,7 +38,7 @@ class JavaPojoGeneratorTest {
     final Pojo pojo =
         new Pojo(
             "User",
-            "User of the Application",
+            "User of the Application. This description is intentionally longer to see if its wrapped to a new line.",
             "Dto",
             PList.of(
                 new PojoMember("id", "ID of this user", JavaType.ofName("long"), false),
