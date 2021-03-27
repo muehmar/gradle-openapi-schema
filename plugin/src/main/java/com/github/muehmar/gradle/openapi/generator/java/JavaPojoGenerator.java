@@ -280,8 +280,15 @@ public class JavaPojoGenerator implements PojoGenerator {
       constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
       constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));
       constraints.onSize(
-          size ->
-              writer.tab(tabs).println("@Size(min = %d, max = %d)", size.getMin(), size.getMax()));
+          size -> {
+            final String minMax =
+                PList.of(
+                        size.getMin().map(min -> String.format("min = %d", min)),
+                        size.getMax().map(max -> String.format("max = %d", max)))
+                    .flatMapOptional(Function.identity())
+                    .mkString(", ");
+            writer.tab(tabs).println("@Size(%s)", minMax);
+          });
       constraints.onPattern(
           pattern -> writer.tab(tabs).println("@Pattern(regexp=\"%s\")", pattern.getPattern()));
     }

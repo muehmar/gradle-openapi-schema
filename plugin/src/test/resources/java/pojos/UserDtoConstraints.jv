@@ -15,16 +15,22 @@ javax.validation.constraints.Size;
 public class UserDto {
   private final long id;
   private final String name;
+  private final String lastName;
+  private final String nickName;
   private final Long level;
   private final String uppercase;
 
   public UserDto(
       long id,
       String name,
+      String lastName,
+      String nickName,
       Long level,
       String uppercase) {
     this.id = id;
     this.name = name;
+    this.lastName = lastName;
+    this.nickName = nickName;
     this.level = level;
     this.uppercase = uppercase;
   }
@@ -43,6 +49,22 @@ public class UserDto {
   @Size(min = 10, max = 15)
   public String getName() {
     return this.name;
+  }
+
+  /**
+   * Lastname of this user
+   */
+  @Size(min = 10)
+  public String getLastName() {
+    return this.lastName;
+  }
+
+  /**
+   * Nickname of this user
+   */
+  @Size(max = 50)
+  public String getNickName() {
+    return this.nickName;
   }
 
   /**
@@ -79,28 +101,42 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(long id) {
-    return new UserDto(id, name, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase);
+  }
+
+  /**
+   * Lastname of this user
+   */
+  public UserDto withLastName(String lastName) {
+    return new UserDto(id, name, lastName, nickName, level, uppercase);
+  }
+
+  /**
+   * Nickname of this user
+   */
+  public UserDto withNickName(String nickName) {
+    return new UserDto(id, name, lastName, nickName, level, uppercase);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase);
   }
 
   @Override
@@ -114,6 +150,8 @@ public class UserDto {
     final UserDto v = (UserDto) other;
     return Objects.equals(id, v.id)
         && Objects.equals(name, v.name)
+        && Objects.equals(lastName, v.lastName)
+        && Objects.equals(nickName, v.nickName)
         && Objects.equals(level, v.level)
         && Objects.equals(uppercase, v.uppercase);
   }
@@ -121,7 +159,7 @@ public class UserDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, level, uppercase);
+    return Objects.hash(id, name, lastName, nickName, level, uppercase);
   }
 
   @Override
@@ -129,6 +167,8 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id +
       ", name=" + name +
+      ", lastName=" + lastName +
+      ", nickName=" + nickName +
       ", level=" + level +
       ", uppercase=" + uppercase +
       "}";
@@ -142,6 +182,8 @@ public class UserDto {
 
     private long id;
     private String name;
+    private String lastName;
+    private String nickName;
     private Long level;
     private String uppercase;
 
@@ -162,6 +204,22 @@ public class UserDto {
     }
 
     /**
+     * Lastname of this user
+     */
+    public Builder setLastName(String lastName) {
+      this.lastName = lastName;
+      return this;
+    }
+
+    /**
+     * Nickname of this user
+     */
+    public Builder setNickName(String nickName) {
+      this.nickName = nickName;
+      return this;
+    }
+
+    /**
      * Level of this user
      */
     public Builder setLevel(Long level) {
@@ -178,7 +236,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, level, uppercase);
+      return new UserDto(id, name, lastName, nickName, level, uppercase);
     }
   }
 }

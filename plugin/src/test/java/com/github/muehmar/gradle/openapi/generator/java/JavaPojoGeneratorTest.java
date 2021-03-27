@@ -159,7 +159,19 @@ class JavaPojoGeneratorTest {
                     "Name of this user",
                     JavaTypes.STRING,
                     false,
-                    Constraints.ofSize(new Size(10, 15))),
+                    Constraints.ofSize(Size.of(10, 15))),
+                new PojoMember(
+                    "lastName",
+                    "Lastname of this user",
+                    JavaTypes.STRING,
+                    false,
+                    Constraints.ofSize(Size.ofMin(10))),
+                new PojoMember(
+                    "nickName",
+                    "Nickname of this user",
+                    JavaTypes.STRING,
+                    false,
+                    Constraints.ofSize(Size.ofMax(50))),
                 new PojoMember(
                     "level",
                     "Level of this user",
