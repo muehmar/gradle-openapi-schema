@@ -34,6 +34,10 @@ public class PojoMember {
     return type.isEnum() ? resolver.enumName(key) : type.getName();
   }
 
+  public Type getType() {
+    return type;
+  }
+
   public String getKey() {
     return key;
   }
@@ -85,10 +89,7 @@ public class PojoMember {
     return nullable == that.nullable
         && Objects.equals(key, that.key)
         && Objects.equals(description, that.description)
-        && Objects.equals(type.getName(), that.type.getName())
-        && Objects.equals(type.isEnum(), that.type.isEnum())
-        && Objects.equals(type.getEnumMembers(), that.type.getEnumMembers())
-        && Objects.equals(type.getImports(), that.type.getImports())
+        && Objects.equals(type, that.type)
         && Objects.equals(constraints, that.constraints);
   }
 

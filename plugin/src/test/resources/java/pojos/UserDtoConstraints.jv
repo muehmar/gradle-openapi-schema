@@ -8,6 +8,7 @@ javax.validation.constraints.Min;
 javax.validation.constraints.Pattern;
 javax.validation.constraints.Size;
 javax.validation.constraints.NotNull;
+javax.validation.constraints.Valid;
 
 
 /**
@@ -20,6 +21,7 @@ public class UserDto {
   private final String nickName;
   private final Long level;
   private final String uppercase;
+  private final AnotherPojo anotherPojo;
 
   public UserDto(
       long id,
@@ -27,13 +29,15 @@ public class UserDto {
       String lastName,
       String nickName,
       Long level,
-      String uppercase) {
+      String uppercase,
+      AnotherPojo anotherPojo) {
     this.id = id;
     this.name = name;
     this.lastName = lastName;
     this.nickName = nickName;
     this.level = level;
     this.uppercase = uppercase;
+    this.anotherPojo = anotherPojo;
   }
 
   /**
@@ -103,45 +107,67 @@ public class UserDto {
   }
 
   /**
+   * Another Pojo
+   */
+  public Optional<AnotherPojo> getAnotherPojoOptional() {
+    return Optional.ofNullable(this.anotherPojo);
+  }
+
+  /**
+   * Another Pojo
+   */
+  @Valid
+  public AnotherPojo getAnotherPojoNullable() {
+    return anotherPojo;
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(long id) {
-    return new UserDto(id, name, lastName, nickName, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, level, uppercase);
+    return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Another Pojo
+   */
+  public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
+    return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
   }
 
   @Override
@@ -158,13 +184,14 @@ public class UserDto {
         && Objects.equals(lastName, v.lastName)
         && Objects.equals(nickName, v.nickName)
         && Objects.equals(level, v.level)
-        && Objects.equals(uppercase, v.uppercase);
+        && Objects.equals(uppercase, v.uppercase)
+        && Objects.equals(anotherPojo, v.anotherPojo);
   }
 
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, lastName, nickName, level, uppercase);
+    return Objects.hash(id, name, lastName, nickName, level, uppercase, anotherPojo);
   }
 
   @Override
@@ -176,6 +203,7 @@ public class UserDto {
       ", nickName=" + nickName +
       ", level=" + level +
       ", uppercase=" + uppercase +
+      ", anotherPojo=" + anotherPojo +
       "}";
   }
 
@@ -191,6 +219,7 @@ public class UserDto {
     private String nickName;
     private Long level;
     private String uppercase;
+    private AnotherPojo anotherPojo;
 
     /**
      * ID of this user
@@ -240,8 +269,16 @@ public class UserDto {
       return this;
     }
 
+    /**
+     * Another Pojo
+     */
+    public Builder setAnotherPojo(AnotherPojo anotherPojo) {
+      this.anotherPojo = anotherPojo;
+      return this;
+    }
+
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, level, uppercase);
+      return new UserDto(id, name, lastName, nickName, level, uppercase, anotherPojo);
     }
   }
 }

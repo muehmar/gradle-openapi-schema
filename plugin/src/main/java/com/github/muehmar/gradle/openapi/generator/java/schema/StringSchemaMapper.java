@@ -48,8 +48,9 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
         .map(
             mapping ->
                 Optional.ofNullable(mapping.getImports())
-                    .map(imports -> JavaType.ofNameAndImport(mapping.getClassType(), imports))
-                    .orElseGet(() -> JavaType.ofName(mapping.getClassType())));
+                    .map(
+                        imports -> JavaType.ofUserDefinedAndImport(mapping.getClassType(), imports))
+                    .orElseGet(() -> JavaType.ofUserDefined(mapping.getClassType())));
   }
 
   private Optional<JavaType> getEnumType(StringSchema schema) {

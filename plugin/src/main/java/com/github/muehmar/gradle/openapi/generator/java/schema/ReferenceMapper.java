@@ -8,6 +8,6 @@ public class ReferenceMapper {
 
   public static JavaType getRefType(PojoSettings pojoSettings, String ref) {
     final int i = ref.lastIndexOf('/');
-    return JavaType.ofName(ref.substring(Math.max(i + 1, 0)) + pojoSettings.getSuffix());
+    return JavaType.ofReference(ref.substring(Math.max(i + 1, 0)), pojoSettings.getSuffix());
   }
 }

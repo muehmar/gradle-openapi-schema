@@ -64,17 +64,18 @@ class JavaPojoMapperTest {
                     "interests",
                     "",
                     JavaType.javaMap(
-                        JavaTypes.STRING, JavaType.javaList(JavaType.ofName("UserInterestsDto"))),
+                        JavaTypes.STRING,
+                        JavaType.javaList(JavaType.ofReference("UserInterests", "Dto"))),
                     true),
                 new PojoMember(
                     "languages",
                     "",
-                    JavaType.javaMap(JavaTypes.STRING, JavaType.ofName("LanguageDto")),
+                    JavaType.javaMap(JavaTypes.STRING, JavaType.ofReference("Language", "Dto")),
                     true),
                 new PojoMember(
                     "hobbies",
                     "",
-                    JavaType.javaMap(JavaTypes.STRING, JavaType.ofName("UserHobbiesDto")),
+                    JavaType.javaMap(JavaTypes.STRING, JavaType.ofReference("UserHobbies", "Dto")),
                     true),
                 new PojoMember("data", "Some user related data", JavaTypes.OBJECT, true)),
             false),
@@ -86,12 +87,13 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember("owner", "", JavaType.ofName("UserDto"), true),
-                new PojoMember("members", "", JavaType.javaList(JavaType.ofName("UserDto")), true),
+                new PojoMember("owner", "", JavaType.ofReference("User", "Dto"), true),
+                new PojoMember(
+                    "members", "", JavaType.javaList(JavaType.ofReference("User", "Dto")), true),
                 new PojoMember(
                     "languages",
                     "",
-                    JavaType.javaList(JavaType.ofName("UserGroupLanguagesDto")),
+                    JavaType.javaList(JavaType.ofReference("UserGroupLanguages", "Dto")),
                     true)),
             false),
         pojos.apply(2));

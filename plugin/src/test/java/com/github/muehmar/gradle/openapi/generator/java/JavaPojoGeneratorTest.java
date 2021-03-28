@@ -183,7 +183,9 @@ class JavaPojoGeneratorTest {
                     "Something uppercase",
                     JavaTypes.STRING,
                     true,
-                    Constraints.ofPattern(new Pattern("[A-Z]")))),
+                    Constraints.ofPattern(new Pattern("[A-Z]"))),
+                new PojoMember(
+                    "anotherPojo", "Another Pojo", JavaType.ofUserDefined("AnotherPojo"), true)),
             false);
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
