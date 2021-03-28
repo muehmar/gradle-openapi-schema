@@ -173,6 +173,8 @@ class JavaPojoGeneratorTest {
                     false,
                     Constraints.ofSize(Size.ofMax(50))),
                 new PojoMember(
+                    "email", "Email of this user", JavaTypes.STRING, false, Constraints.ofEmail()),
+                new PojoMember(
                     "level",
                     "Level of this user",
                     JavaType.ofName("Long"),

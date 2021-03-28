@@ -72,12 +72,13 @@ public class JavaPojoGenerator implements PojoGenerator {
     }
 
     if (settings.isEnableConstraints()) {
-      writer.println("javax.validation.constraints.Max;");
-      writer.println("javax.validation.constraints.Min;");
-      writer.println("javax.validation.constraints.Pattern;");
-      writer.println("javax.validation.constraints.Size;");
-      writer.println("javax.validation.constraints.NotNull;");
-      writer.println("javax.validation.constraints.Valid;");
+      writer.println("import javax.validation.constraints.Max;");
+      writer.println("import javax.validation.constraints.Min;");
+      writer.println("import javax.validation.constraints.Pattern;");
+      writer.println("import javax.validation.constraints.Size;");
+      writer.println("import javax.validation.constraints.NotNull;");
+      writer.println("import javax.validation.constraints.Valid;");
+      writer.println("import javax.validation.constraints.Email;");
       writer.println();
     }
 
@@ -286,6 +287,7 @@ public class JavaPojoGenerator implements PojoGenerator {
       }
 
       final Constraints constraints = member.getConstraints();
+      constraints.onEmail(email -> writer.tab(tabs).println("@Email"));
       constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
       constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));
       constraints.onSize(

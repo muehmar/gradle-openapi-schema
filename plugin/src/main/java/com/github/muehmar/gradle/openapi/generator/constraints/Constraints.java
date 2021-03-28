@@ -9,48 +9,58 @@ public class Constraints {
   private final Max max;
   private final Size size;
   private final Pattern pattern;
+  private final Email email;
 
-  private Constraints(Min min, Max max, Size size, Pattern pattern) {
+  private Constraints(Min min, Max max, Size size, Pattern pattern, Email email) {
     this.min = min;
     this.max = max;
     this.size = size;
     this.pattern = pattern;
+    this.email = email;
   }
 
   public static Constraints empty() {
-    return new Constraints(null, null, null, null);
+    return new Constraints(null, null, null, null, null);
   }
 
   public static Constraints ofMin(Min min) {
-    return new Constraints(min, null, null, null);
+    return Constraints.empty().withMin(min);
   }
 
   public static Constraints ofMax(Max max) {
-    return new Constraints(null, max, null, null);
+    return Constraints.empty().withMax(max);
   }
 
   public static Constraints ofSize(Size size) {
-    return new Constraints(null, null, size, null);
+    return Constraints.empty().withSize(size);
   }
 
   public static Constraints ofPattern(Pattern pattern) {
-    return new Constraints(null, null, null, pattern);
+    return Constraints.empty().withPattern(pattern);
+  }
+
+  public static Constraints ofEmail() {
+    return Constraints.empty().withEmail(new Email());
   }
 
   public Constraints withMin(Min min) {
-    return new Constraints(min, max, size, pattern);
+    return new Constraints(min, max, size, pattern, email);
   }
 
   public Constraints withMax(Max max) {
-    return new Constraints(min, max, size, pattern);
+    return new Constraints(min, max, size, pattern, email);
   }
 
   public Constraints withSize(Size size) {
-    return new Constraints(min, max, size, pattern);
+    return new Constraints(min, max, size, pattern, email);
   }
 
   public Constraints withPattern(Pattern pattern) {
-    return new Constraints(min, max, size, pattern);
+    return new Constraints(min, max, size, pattern, email);
+  }
+
+  public Constraints withEmail(Email email) {
+    return new Constraints(min, max, size, pattern, email);
   }
 
   public void onMin(Consumer<Min> onMin) {
@@ -69,20 +79,29 @@ public class Constraints {
     Optional.ofNullable(pattern).ifPresent(onPattern);
   }
 
+  public void onEmail(Consumer<Email> onEmail) {
+    Optional.ofNullable(email).ifPresent(onEmail);
+  }
+
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Constraints that = (Constraints) o;
     return Objects.equals(min, that.min)
         && Objects.equals(max, that.max)
         && Objects.equals(size, that.size)
-        && Objects.equals(pattern, that.pattern);
+        && Objects.equals(pattern, that.pattern)
+        && Objects.equals(email, that.email);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(min, max, size, pattern);
+    return Objects.hash(min, max, size, pattern, email);
   }
 
   @Override
@@ -96,6 +115,8 @@ public class Constraints {
         + size
         + ", pattern="
         + pattern
+        + ", email="
+        + email
         + '}';
   }
 }
