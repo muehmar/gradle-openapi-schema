@@ -10,7 +10,7 @@ public class JavaResolver implements Resolver {
 
   @Override
   public String getterName(String key, Type type) {
-    final String prefix = type.getName().equalsIgnoreCase(BOOLEAN.getName()) ? "is" : "get";
+    final String prefix = type.getFullName().equalsIgnoreCase(BOOLEAN.getFullName()) ? "is" : "get";
     return prefix + toPascalCase(key);
   }
 

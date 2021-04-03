@@ -7,6 +7,9 @@ import com.github.muehmar.gradle.openapi.Resources;
 import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -53,8 +56,21 @@ class JavaPojoMapperTest {
                 new PojoMember("externalId", "", JavaType.ofName("long"), false),
                 new PojoMember("user", "", JavaTypes.STRING, false),
                 new PojoMember("birthday", "", JavaTypes.LOCAL_DATE, true),
+                new PojoMember(
+                    "email", "", JavaTypes.STRING.withConstraints(Constraints.ofEmail()), true),
                 new PojoMember("city", "", JavaTypes.STRING, false),
-                new PojoMember("age", "", JavaTypes.INTEGER, true),
+                new PojoMember(
+                    "age",
+                    "",
+                    JavaTypes.INTEGER.withConstraints(
+                        Constraints.ofMin(new Min(18)).withMax(new Max(50))),
+                    true),
+                new PojoMember(
+                    "height",
+                    "",
+                    JavaTypes.FLOAT.withConstraints(
+                        Constraints.ofMinAndMax(new Min(120), new Max(195))),
+                    true),
                 new PojoMember("lastLogin", "", JavaTypes.LOCAL_DATE_TIME, true),
                 new PojoMember(
                     "role", "", JavaType.javaEnum(PList.of("Admin", "User", "Visitor")), true),

@@ -23,10 +23,19 @@ components:
         birthday:
           type: string
           format: date
+        email:
+          type: string
+          format: email
         city:
           type: string
         age:
+          minimum: 18
+          maximum: 50
           type: integer
+        height:
+          minimum: 120
+          maximum: 195
+          type: number
         lastLogin:
           type: string
           format: date-time

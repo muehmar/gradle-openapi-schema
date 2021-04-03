@@ -286,7 +286,7 @@ public class JavaPojoGenerator implements PojoGenerator {
         writer.tab(tabs).println("@NotNull");
       }
 
-      final Constraints constraints = member.getConstraints();
+      final Constraints constraints = member.getType().getConstraints();
       constraints.onEmail(email -> writer.tab(tabs).println("@Email"));
       constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
       constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));

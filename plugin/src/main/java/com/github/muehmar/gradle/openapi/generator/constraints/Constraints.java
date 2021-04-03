@@ -31,6 +31,10 @@ public class Constraints {
     return Constraints.empty().withMax(max);
   }
 
+  public static Constraints ofMinAndMax(Min min, Max max) {
+    return Constraints.empty().withMin(min).withMax(max);
+  }
+
   public static Constraints ofSize(Size size) {
     return Constraints.empty().withSize(size);
   }

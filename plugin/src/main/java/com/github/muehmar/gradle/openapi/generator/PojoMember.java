@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -11,19 +10,12 @@ public class PojoMember {
   private final String description;
   private final Type type;
   private final boolean nullable;
-  private final Constraints constraints;
 
-  public PojoMember(
-      String key, String description, Type type, boolean nullable, Constraints constraints) {
+  public PojoMember(String key, String description, Type type, boolean nullable) {
     this.key = key;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
     this.nullable = nullable;
-    this.constraints = constraints;
-  }
-
-  public PojoMember(String key, String description, Type type, boolean nullable) {
-    this(key, description, type, nullable, Constraints.empty());
   }
 
   public String getDescription() {
@@ -31,7 +23,7 @@ public class PojoMember {
   }
 
   public String getTypeName(Resolver resolver) {
-    return type.isEnum() ? resolver.enumName(key) : type.getName();
+    return type.isEnum() ? resolver.enumName(key) : type.getFullName();
   }
 
   public Type getType() {
@@ -48,10 +40,6 @@ public class PojoMember {
 
   public boolean isRequired() {
     return !isNullable();
-  }
-
-  public Constraints getConstraints() {
-    return constraints;
   }
 
   public String getterName(Resolver resolver) {
@@ -83,19 +71,22 @@ public class PojoMember {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     PojoMember that = (PojoMember) o;
     return nullable == that.nullable
         && Objects.equals(key, that.key)
         && Objects.equals(description, that.description)
-        && Objects.equals(type, that.type)
-        && Objects.equals(constraints, that.constraints);
+        && Objects.equals(type, that.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, description, type, nullable, constraints);
+    return Objects.hash(key, description, type, nullable);
   }
 
   @Override
@@ -111,8 +102,6 @@ public class PojoMember {
         + type
         + ", nullable="
         + nullable
-        + ", constraints="
-        + constraints
         + '}';
   }
 }

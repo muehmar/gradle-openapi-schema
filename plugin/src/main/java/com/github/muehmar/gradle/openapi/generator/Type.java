@@ -1,12 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import java.util.function.Consumer;
 
 public interface Type {
-  String getName();
-
-  boolean isEnum();
+  /** Returns the full-name of this type, i.e. it includes also any generic type. */
+  String getFullName();
 
   /**
    * Returns true in case this type contains a pojo as generic type or is a pojo itself. False in
@@ -15,6 +15,8 @@ public interface Type {
    * no info what kind of type it is.
    */
   boolean containsPojo();
+
+  boolean isEnum();
 
   /**
    * The provided {@code code} is executed in case this type is an enum with the list of members in
@@ -25,4 +27,6 @@ public interface Type {
   PList<String> getEnumMembers();
 
   PList<String> getImports();
+
+  Constraints getConstraints();
 }

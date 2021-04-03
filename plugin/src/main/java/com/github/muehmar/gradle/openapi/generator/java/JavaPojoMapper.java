@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.BasePojoMapper;
+import com.github.muehmar.gradle.openapi.generator.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.schema.JavaSchemaMapper;
@@ -38,9 +39,12 @@ public class JavaPojoMapper extends BasePojoMapper {
   @Override
   protected PojoMemberAndOpenApiPojos pojoMemberFromSchema(
       String pojoKey, String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable) {
+    final MappedSchema<JavaType> mappedSchema =
+        typeMapperChain.mapSchema(pojoKey, key, schema, pojoSettings, typeMapperChain);
+
     final JavaType javaType =
-        typeMapperChain
-            .mapSchema(pojoKey, key, schema, pojoSettings, typeMapperChain)
+        mappedSchema
+            .getType()
             .mapPrimitiveType(name -> nullable ? name : primitivesMap.getOrDefault(name, name));
 
     final JavaType classMappedJavaType =
@@ -59,7 +63,7 @@ public class JavaPojoMapper extends BasePojoMapper {
 
     final PojoMember pojoMember =
         new PojoMember(key, schema.getDescription(), classMappedJavaType, nullable);
-    return new PojoMemberAndOpenApiPojos(pojoMember, classMappedJavaType.getOpenApiPojos());
+    return new PojoMemberAndOpenApiPojos(pojoMember, mappedSchema.getOpenApiPojos());
   }
 
   private static Map<String, String> createPrimitivesMap() {

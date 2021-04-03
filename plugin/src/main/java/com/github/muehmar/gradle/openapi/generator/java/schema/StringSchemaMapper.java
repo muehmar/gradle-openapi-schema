@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.UR
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.URL;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -23,17 +24,19 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
   }
 
   @Override
-  JavaType mapSpecificSchema(
+  MappedSchema<JavaType> mapSpecificSchema(
       String pojoKey,
       String key,
       StringSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
-    return Optionals.or(
-            () -> getFromStandardFormat(schema),
-            () -> getFormatMappedType(pojoSettings, schema),
-            () -> getEnumType(schema))
-        .orElse(STRING);
+    final JavaType javaType =
+        Optionals.or(
+                () -> getFromStandardFormat(schema),
+                () -> getFormatMappedType(pojoSettings, schema),
+                () -> getEnumType(schema))
+            .orElse(STRING);
+    return MappedSchema.ofType(javaType);
   }
 
   private Optional<JavaType> getFromStandardFormat(StringSchema schema) {
