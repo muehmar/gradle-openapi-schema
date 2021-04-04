@@ -74,6 +74,8 @@ public class JavaPojoGenerator implements PojoGenerator {
     if (settings.isEnableConstraints()) {
       writer.println("import javax.validation.constraints.Max;");
       writer.println("import javax.validation.constraints.Min;");
+      writer.println("import javax.validation.constraints.DecimalMax;");
+      writer.println("import javax.validation.constraints.DecimalMin;");
       writer.println("import javax.validation.constraints.Pattern;");
       writer.println("import javax.validation.constraints.Size;");
       writer.println("import javax.validation.constraints.NotNull;");
@@ -290,6 +292,20 @@ public class JavaPojoGenerator implements PojoGenerator {
       constraints.onEmail(email -> writer.tab(tabs).println("@Email"));
       constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
       constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));
+      constraints.onDecimalMin(
+          decMin ->
+              writer
+                  .tab(tabs)
+                  .println(
+                      "@DecimalMin(value = \"%s\", inclusive = %b)",
+                      decMin.getValue(), decMin.isInclusiveMin()));
+      constraints.onDecimalMax(
+          decMax ->
+              writer
+                  .tab(tabs)
+                  .println(
+                      "@DecimalMax(value = \"%s\", inclusive = %b)",
+                      decMax.getValue(), decMax.isInclusiveMax()));
       constraints.onSize(
           size -> {
             final String minMax =

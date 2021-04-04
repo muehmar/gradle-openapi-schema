@@ -7,20 +7,31 @@ import java.util.function.Consumer;
 public class Constraints {
   private final Min min;
   private final Max max;
+  private final DecimalMin decimalMin;
+  private final DecimalMax decimalMax;
   private final Size size;
   private final Pattern pattern;
   private final Email email;
 
-  private Constraints(Min min, Max max, Size size, Pattern pattern, Email email) {
+  private Constraints(
+      Min min,
+      Max max,
+      DecimalMin decimalMin,
+      DecimalMax decimalMax,
+      Size size,
+      Pattern pattern,
+      Email email) {
     this.min = min;
     this.max = max;
+    this.decimalMin = decimalMin;
+    this.decimalMax = decimalMax;
     this.size = size;
     this.pattern = pattern;
     this.email = email;
   }
 
   public static Constraints empty() {
-    return new Constraints(null, null, null, null, null);
+    return new Constraints(null, null, null, null, null, null, null);
   }
 
   public static Constraints ofMin(Min min) {
@@ -47,24 +58,40 @@ public class Constraints {
     return Constraints.empty().withEmail(new Email());
   }
 
+  public static Constraints ofDecimalMin(DecimalMin decimalMin) {
+    return Constraints.empty().withDecimalMin(decimalMin);
+  }
+
+  public static Constraints ofDecimalMax(DecimalMax decimalMax) {
+    return Constraints.empty().withDecimalMax(decimalMax);
+  }
+
   public Constraints withMin(Min min) {
-    return new Constraints(min, max, size, pattern, email);
+    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
   }
 
   public Constraints withMax(Max max) {
-    return new Constraints(min, max, size, pattern, email);
+    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
   }
 
   public Constraints withSize(Size size) {
-    return new Constraints(min, max, size, pattern, email);
+    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
   }
 
   public Constraints withPattern(Pattern pattern) {
-    return new Constraints(min, max, size, pattern, email);
+    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
   }
 
   public Constraints withEmail(Email email) {
-    return new Constraints(min, max, size, pattern, email);
+    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+  }
+
+  public Constraints withDecimalMin(DecimalMin decimalMin) {
+    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+  }
+
+  public Constraints withDecimalMax(DecimalMax decimalMax) {
+    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
   }
 
   public void onMin(Consumer<Min> onMin) {
@@ -73,6 +100,14 @@ public class Constraints {
 
   public void onMax(Consumer<Max> onMax) {
     Optional.ofNullable(max).ifPresent(onMax);
+  }
+
+  public void onDecimalMin(Consumer<DecimalMin> onDecimalMin) {
+    Optional.ofNullable(decimalMin).ifPresent(onDecimalMin);
+  }
+
+  public void onDecimalMax(Consumer<DecimalMax> onDecimalMax) {
+    Optional.ofNullable(decimalMax).ifPresent(onDecimalMax);
   }
 
   public void onSize(Consumer<Size> onSize) {

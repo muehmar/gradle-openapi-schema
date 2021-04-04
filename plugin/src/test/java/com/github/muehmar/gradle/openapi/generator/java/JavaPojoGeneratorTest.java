@@ -7,6 +7,8 @@ import com.github.muehmar.gradle.openapi.Resources;
 import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
@@ -172,6 +174,13 @@ class JavaPojoGeneratorTest {
                     "email",
                     "Email of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofEmail()),
+                    false),
+                new PojoMember(
+                    "height",
+                    "Height of this user",
+                    JavaTypes.DOUBLE.withConstraints(
+                        Constraints.ofDecimalMin(new DecimalMin("120.0", true))
+                            .withDecimalMax(new DecimalMax("199", false))),
                     false),
                 new PojoMember(
                     "level",

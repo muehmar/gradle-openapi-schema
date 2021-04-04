@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
@@ -21,6 +23,7 @@ public class UserDto {
   private final String lastName;
   private final String nickName;
   private final String email;
+  private final Double height;
   private final Long level;
   private final String uppercase;
   private final AnotherPojo anotherPojo;
@@ -31,6 +34,7 @@ public class UserDto {
       String lastName,
       String nickName,
       String email,
+      Double height,
       Long level,
       String uppercase,
       AnotherPojo anotherPojo) {
@@ -39,6 +43,7 @@ public class UserDto {
     this.lastName = lastName;
     this.nickName = nickName;
     this.email = email;
+    this.height = height;
     this.level = level;
     this.uppercase = uppercase;
     this.anotherPojo = anotherPojo;
@@ -90,6 +95,16 @@ public class UserDto {
   }
 
   /**
+   * Height of this user
+   */
+  @NotNull
+  @DecimalMin(value = "120.0", inclusive = true)
+  @DecimalMax(value = "199", inclusive = false)
+  public Double getHeight() {
+    return this.height;
+  }
+
+  /**
    * Level of this user
    */
   public Optional<Long> getLevelOptional() {
@@ -138,56 +153,63 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(long id) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Height of this user
+   */
+  public UserDto withHeight(Double height) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   @Override
@@ -204,6 +226,7 @@ public class UserDto {
         && Objects.equals(lastName, v.lastName)
         && Objects.equals(nickName, v.nickName)
         && Objects.equals(email, v.email)
+        && Objects.equals(height, v.height)
         && Objects.equals(level, v.level)
         && Objects.equals(uppercase, v.uppercase)
         && Objects.equals(anotherPojo, v.anotherPojo);
@@ -212,7 +235,7 @@ public class UserDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+    return Objects.hash(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
   @Override
@@ -223,6 +246,7 @@ public class UserDto {
       ", lastName=" + lastName +
       ", nickName=" + nickName +
       ", email=" + email +
+      ", height=" + height +
       ", level=" + level +
       ", uppercase=" + uppercase +
       ", anotherPojo=" + anotherPojo +
@@ -240,6 +264,7 @@ public class UserDto {
     private String lastName;
     private String nickName;
     private String email;
+    private Double height;
     private Long level;
     private String uppercase;
     private AnotherPojo anotherPojo;
@@ -285,6 +310,14 @@ public class UserDto {
     }
 
     /**
+     * Height of this user
+     */
+    public Builder setHeight(Double height) {
+      this.height = height;
+      return this;
+    }
+
+    /**
      * Level of this user
      */
     public Builder setLevel(Long level) {
@@ -309,7 +342,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, email, level, uppercase, anotherPojo);
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
     }
   }
 }
