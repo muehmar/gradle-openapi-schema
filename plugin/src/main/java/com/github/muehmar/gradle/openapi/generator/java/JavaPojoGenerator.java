@@ -72,6 +72,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     }
 
     if (settings.isEnableConstraints()) {
+      writer.println("import javax.validation.Valid;");
       writer.println("import javax.validation.constraints.Max;");
       writer.println("import javax.validation.constraints.Min;");
       writer.println("import javax.validation.constraints.DecimalMax;");
@@ -79,7 +80,6 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("import javax.validation.constraints.Pattern;");
       writer.println("import javax.validation.constraints.Size;");
       writer.println("import javax.validation.constraints.NotNull;");
-      writer.println("import javax.validation.constraints.Valid;");
       writer.println("import javax.validation.constraints.Email;");
       writer.println();
     }
