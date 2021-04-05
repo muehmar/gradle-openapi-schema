@@ -5,19 +5,38 @@ import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.util.Booleans;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.swagger.v3.oas.models.media.Schema;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ConstraintsMapper {
   private ConstraintsMapper() {}
 
+  public static Constraints getPattern(Schema<?> schema) {
+    return Optional.ofNullable(schema.getPattern())
+        .map(Pattern::new)
+        .map(Constraints::ofPattern)
+        .orElseGet(Constraints::empty);
+  }
+
+  public static Constraints getMinAndMaxLength(Schema<?> schema) {
+    return getSizeConstraints(schema::getMinLength, schema::getMaxLength);
+  }
+
   public static Constraints getMinAndMaxItems(Schema<?> schema) {
-    final Optional<Integer> minItems = Optional.ofNullable(schema.getMinItems());
-    final Optional<Integer> maxItems = Optional.ofNullable(schema.getMaxItems());
+    return getSizeConstraints(schema::getMinItems, schema::getMaxItems);
+  }
+
+  @SuppressWarnings("java:S4276")
+  private static Constraints getSizeConstraints(
+      Supplier<Integer> getMin, Supplier<Integer> getMax) {
+    final Optional<Integer> minItems = Optional.ofNullable(getMin.get());
+    final Optional<Integer> maxItems = Optional.ofNullable(getMax.get());
 
     return Optionals.combine(minItems, maxItems, Size::ofMin, Size::ofMax, Size::of)
         .map(Constraints::ofSize)

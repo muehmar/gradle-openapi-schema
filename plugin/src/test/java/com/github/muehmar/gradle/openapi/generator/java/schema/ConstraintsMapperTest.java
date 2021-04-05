@@ -45,6 +45,37 @@ class ConstraintsMapperTest {
   }
 
   @Test
+  void getMinAndMaxLength_when_nothing_then_emptyConstraint() {
+    final Constraints minAndMaxLength = ConstraintsMapper.getMinAndMaxLength(new Schema<>());
+
+    assertEquals(Constraints.empty(), minAndMaxLength);
+  }
+
+  @Test
+  void getMinAndMaxLength_when_minLengthDefined_then_minSize() {
+    final Constraints minAndMaxLength =
+        ConstraintsMapper.getMinAndMaxLength(new Schema<>().minLength(10));
+
+    assertEquals(Constraints.ofSize(Size.ofMin(10)), minAndMaxLength);
+  }
+
+  @Test
+  void getMinAndMaxLength_when_maxLengthDefined_then_maxSize() {
+    final Constraints minAndMaxLength =
+        ConstraintsMapper.getMinAndMaxLength(new Schema<>().maxLength(50));
+
+    assertEquals(Constraints.ofSize(Size.ofMax(50)), minAndMaxLength);
+  }
+
+  @Test
+  void getMinAndMaxLength_when_bothDefined_then_fullSize() {
+    final Constraints minAndMaxLength =
+        ConstraintsMapper.getMinAndMaxLength(new Schema<>().minLength(10).maxLength(50));
+
+    assertEquals(Constraints.ofSize(Size.of(10, 50)), minAndMaxLength);
+  }
+
+  @Test
   void getMinimumAndMaximum_when_nothing_then_emptyConstraint() {
     final Constraints minAndMaxItems = ConstraintsMapper.getMinimumAndMaximum(new Schema<>());
 

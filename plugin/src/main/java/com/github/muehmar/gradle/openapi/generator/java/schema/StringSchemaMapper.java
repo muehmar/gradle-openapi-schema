@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.UR
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -30,12 +31,16 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
       StringSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
+
+    final Constraints patternConstraints = ConstraintsMapper.getPattern(schema);
+    final Constraints minAndMaxLengthConstraints = ConstraintsMapper.getMinAndMaxLength(schema);
+
     final JavaType javaType =
         Optionals.or(
                 () -> getFromStandardFormat(schema),
                 () -> getFormatMappedType(pojoSettings, schema),
                 () -> getEnumType(schema))
-            .orElse(STRING);
+            .orElse(STRING.withConstraints(patternConstraints.and(minAndMaxLengthConstraints)));
     return MappedSchema.ofType(javaType);
   }
 

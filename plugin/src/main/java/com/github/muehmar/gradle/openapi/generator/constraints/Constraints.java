@@ -98,6 +98,17 @@ public class Constraints {
     return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
   }
 
+  public Constraints and(Constraints other) {
+    return new Constraints(
+        Optional.ofNullable(min).orElse(other.min),
+        Optional.ofNullable(max).orElse(other.max),
+        Optional.ofNullable(decimalMin).orElse(other.decimalMin),
+        Optional.ofNullable(decimalMax).orElse(other.decimalMax),
+        Optional.ofNullable(size).orElse(other.size),
+        Optional.ofNullable(pattern).orElse(other.pattern),
+        Optional.ofNullable(email).orElse(other.email));
+  }
+
   public void onMin(Consumer<Min> onMin) {
     Optional.ofNullable(min).ifPresent(onMin);
   }
