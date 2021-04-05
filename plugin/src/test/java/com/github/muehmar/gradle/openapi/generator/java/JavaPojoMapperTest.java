@@ -14,16 +14,73 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class JavaPojoMapperTest {
+
+  @Test
+  void fromSchema_when_arraySchema_then_returnArrayPojo() {
+    final JavaPojoMapper pojoMapper = new JavaPojoMapper();
+    final PojoSettings pojoSettings =
+        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+    final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
+    final PList<Pojo> pojos = pojoMapper.fromSchema("key", schema, pojoSettings);
+
+    assertEquals(1, pojos.size());
+    final Pojo pojo = pojos.head();
+    assertEquals(
+        new Pojo(
+            "key",
+            "",
+            "Dto",
+            PList.single(new PojoMember("value", "", JavaType.javaList(JavaTypes.INTEGER), false)),
+            true),
+        pojo);
+  }
+
+  @Test
+  void fromSchema_when_classMappedType_then_correctMappedTypePojo() {
+    final JavaPojoMapper pojoMapper = new JavaPojoMapper();
+    final ClassTypeMapping classTypeMapping =
+        new ClassTypeMapping("String", "CustomString", "ch.custom.string.package");
+    final PojoSettings pojoSettings =
+        new PojoSettings(
+            null, null, "Dto", false, true, PList.single(classTypeMapping), PList.empty());
+
+    final HashMap<String, Schema> properties = new HashMap<>();
+    properties.put("name", new StringSchema());
+    final Schema<?> schema = new ObjectSchema().properties(properties);
+    final PList<Pojo> pojos = pojoMapper.fromSchema("key", schema, pojoSettings);
+
+    assertEquals(1, pojos.size());
+    final Pojo pojo = pojos.head();
+    assertEquals(
+        new Pojo(
+            "key",
+            "",
+            "Dto",
+            PList.single(
+                new PojoMember(
+                    "name",
+                    "",
+                    JavaType.ofUserDefinedAndImport("CustomString", "ch.custom.string.package"),
+                    true)),
+            false),
+        pojo);
+  }
 
   @Test
   void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
