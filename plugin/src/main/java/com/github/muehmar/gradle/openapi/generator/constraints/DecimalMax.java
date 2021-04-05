@@ -15,8 +15,8 @@ public class DecimalMax {
     return new DecimalMax(value, true);
   }
 
-  public DecimalMax exclusiveMax() {
-    return new DecimalMax(value, false);
+  public DecimalMax withInclusiveMax(boolean inclusiveMax) {
+    return new DecimalMax(value, inclusiveMax);
   }
 
   public String getValue() {

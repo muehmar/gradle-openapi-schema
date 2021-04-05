@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.constraints.Max;
-import com.github.muehmar.gradle.openapi.generator.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import io.swagger.v3.oas.models.media.NumberSchema;
@@ -32,12 +32,12 @@ class NumberSchemaMapperTest {
   @ParameterizedTest
   @ValueSource(strings = {"float", "double"})
   void mapSchema_when_minConstraint_then_typeWithCorrectMinConstraint(String format) {
-    final Schema<?> schema = new NumberSchema().format(format).minimum(new BigDecimal(18));
+    final Schema<?> schema = new NumberSchema().format(format).minimum(new BigDecimal("18.18"));
     final MappedSchema<JavaType> mappedSchema =
         NUMBER_SCHEMA_MAPPER.mapSchema("pojoKey", "key", schema, null, null);
 
     final JavaType expectedType =
-        fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)));
+        fromFormat(format).withConstraints(Constraints.ofDecimalMin(new DecimalMin("18.18", true)));
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
@@ -46,12 +46,12 @@ class NumberSchemaMapperTest {
   @ParameterizedTest
   @ValueSource(strings = {"float", "double"})
   void mapSchema_when_maxConstraint_then_typeWithCorrectMaxConstraint(String format) {
-    final Schema<?> schema = new NumberSchema().format(format).maximum(new BigDecimal(18));
+    final Schema<?> schema = new NumberSchema().format(format).maximum(new BigDecimal("50.50"));
     final MappedSchema<JavaType> mappedSchema =
         NUMBER_SCHEMA_MAPPER.mapSchema("pojoKey", "key", schema, null, null);
 
     final JavaType expectedType =
-        fromFormat(format).withConstraints(Constraints.ofMax(new Max(18)));
+        fromFormat(format).withConstraints(Constraints.ofDecimalMax(new DecimalMax("50.50", true)));
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
@@ -61,12 +61,18 @@ class NumberSchemaMapperTest {
   @ValueSource(strings = {"float", "double"})
   void mapSchema_when_minAndMaxConstraint_then_typeWithCorrectMinAndMaxConstraint(String format) {
     final Schema<?> schema =
-        new NumberSchema().format(format).minimum(new BigDecimal(18)).maximum(new BigDecimal(50));
+        new NumberSchema()
+            .format(format)
+            .minimum(new BigDecimal("18.18"))
+            .maximum(new BigDecimal("50.50"));
     final MappedSchema<JavaType> mappedSchema =
         NUMBER_SCHEMA_MAPPER.mapSchema("pojoKey", "key", schema, null, null);
 
     final JavaType expectedType =
-        fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50)));
+        fromFormat(format)
+            .withConstraints(
+                Constraints.ofDecimalMinAndMax(
+                    new DecimalMin("18.18", true), new DecimalMax("50.50", true)));
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());

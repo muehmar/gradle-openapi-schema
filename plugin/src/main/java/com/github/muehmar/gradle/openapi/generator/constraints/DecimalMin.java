@@ -15,8 +15,8 @@ public class DecimalMin {
     return new DecimalMin(value, true);
   }
 
-  public DecimalMin exclusiveMax() {
-    return new DecimalMin(value, false);
+  public DecimalMin withInclusiveMin(boolean inclusiveMin) {
+    return new DecimalMin(value, inclusiveMin);
   }
 
   public String getValue() {

@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.schema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
@@ -72,5 +74,64 @@ class ConstraintsMapperTest {
             new Schema<>().minimum(new BigDecimal(10)).maximum(new BigDecimal(50)));
 
     assertEquals(Constraints.ofMinAndMax(new Min(10), new Max(50)), constraints);
+  }
+
+  @Test
+  void getDecimalMinimumAndMaximum_when_nothing_then_emptyConstraint() {
+    final Constraints minAndMaxItems =
+        ConstraintsMapper.getDecimalMinimumAndMaximum(new Schema<>());
+
+    assertEquals(Constraints.empty(), minAndMaxItems);
+  }
+
+  @Test
+  void getDecimalMinimumAndMaximum_when_minimumDefined_then_decimalMinConstraint() {
+    final Constraints constraints =
+        ConstraintsMapper.getDecimalMinimumAndMaximum(
+            new Schema<>().minimum(new BigDecimal("10.10")));
+
+    assertEquals(Constraints.ofDecimalMin(new DecimalMin("10.10", true)), constraints);
+  }
+
+  @Test
+  void getDecimalMinimumAndMaximum_when_minimumExclusiveDefined_then_decimalMinConstraint() {
+    final Constraints constraints =
+        ConstraintsMapper.getDecimalMinimumAndMaximum(
+            new Schema<>().minimum(new BigDecimal("10.10")).exclusiveMinimum(true));
+
+    assertEquals(Constraints.ofDecimalMin(new DecimalMin("10.10", false)), constraints);
+  }
+
+  @Test
+  void getDecimalMinimumAndMaximum_when_maximumDefined_then_maxConstraint() {
+    final Constraints constraints =
+        ConstraintsMapper.getDecimalMinimumAndMaximum(
+            new Schema<>().maximum(new BigDecimal("50.50")));
+
+    assertEquals(Constraints.ofDecimalMax(new DecimalMax("50.50", true)), constraints);
+  }
+
+  @Test
+  void getDecimalMinimumAndMaximum_when_maximumExclusiveDefined_then_maxConstraint() {
+    final Constraints constraints =
+        ConstraintsMapper.getDecimalMinimumAndMaximum(
+            new Schema<>().maximum(new BigDecimal("50.50")).exclusiveMaximum(true));
+
+    assertEquals(Constraints.ofDecimalMax(new DecimalMax("50.50", false)), constraints);
+  }
+
+  @Test
+  void getDecimalMinimumAndMaximum_when_bothDefined_then_minAndMaxConstraint() {
+    final Constraints constraints =
+        ConstraintsMapper.getDecimalMinimumAndMaximum(
+            new Schema<>()
+                .minimum(new BigDecimal("10.10"))
+                .maximum(new BigDecimal("50.50"))
+                .exclusiveMaximum(true));
+
+    assertEquals(
+        Constraints.ofDecimalMinAndMax(
+            new DecimalMin("10.10", true), new DecimalMax("50.50", false)),
+        constraints);
   }
 }

@@ -66,6 +66,10 @@ public class Constraints {
     return Constraints.empty().withDecimalMax(decimalMax);
   }
 
+  public static Constraints ofDecimalMinAndMax(DecimalMin decimalMin, DecimalMax decimalMax) {
+    return Constraints.empty().withDecimalMin(decimalMin).withDecimalMax(decimalMax);
+  }
+
   public Constraints withMin(Min min) {
     return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
   }
@@ -133,6 +137,8 @@ public class Constraints {
     Constraints that = (Constraints) o;
     return Objects.equals(min, that.min)
         && Objects.equals(max, that.max)
+        && Objects.equals(decimalMin, that.decimalMin)
+        && Objects.equals(decimalMax, that.decimalMax)
         && Objects.equals(size, that.size)
         && Objects.equals(pattern, that.pattern)
         && Objects.equals(email, that.email);
@@ -140,7 +146,7 @@ public class Constraints {
 
   @Override
   public int hashCode() {
-    return Objects.hash(min, max, size, pattern, email);
+    return Objects.hash(min, max, decimalMin, decimalMax, size, pattern, email);
   }
 
   @Override
@@ -150,6 +156,10 @@ public class Constraints {
         + min
         + ", max="
         + max
+        + ", decimalMin="
+        + decimalMin
+        + ", decimalMax="
+        + decimalMax
         + ", size="
         + size
         + ", pattern="
