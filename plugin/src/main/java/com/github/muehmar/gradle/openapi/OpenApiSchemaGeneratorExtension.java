@@ -21,6 +21,7 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   private String packageName;
   private String jsonSupport;
   private Boolean enableSafeBuilder;
+  private Boolean enableValidation;
   private final NamedDomainObjectContainer<ClassMapping> classMappings;
   private final NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings;
 
@@ -111,6 +112,14 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
     this.enableSafeBuilder = enableSafeBuilder;
   }
 
+  public boolean getEnableValidation() {
+    return Optional.ofNullable(enableValidation).orElse(false);
+  }
+
+  public void setEnableValidation(Boolean enableValidation) {
+    this.enableValidation = enableValidation;
+  }
+
   @Override
   public String toString() {
     return "OpenApiSchemaGeneratorExtension{"
@@ -134,6 +143,8 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
         + '\''
         + ", enableSafeBuilder="
         + enableSafeBuilder
+        + ", enableValidation="
+        + enableValidation
         + ", classMappings="
         + new ArrayList<>(classMappings)
         + ", formatTypeMappings="

@@ -40,7 +40,7 @@ public class PojoSettings implements Serializable {
         extension.getPackageName(project),
         extension.getSuffix(),
         extension.getEnableSafeBuilder(),
-        false,
+        extension.getEnableValidation(),
         extension.getClassMappings().map(ClassTypeMapping::fromExtension),
         extension.getFormatTypeMappings().map(FormatTypeMapping::fromExtension));
   }
