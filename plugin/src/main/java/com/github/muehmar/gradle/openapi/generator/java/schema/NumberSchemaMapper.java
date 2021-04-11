@@ -27,7 +27,7 @@ public class NumberSchemaMapper extends BaseSchemaMapper<NumberSchema> {
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
 
-    final Constraints constraints = ConstraintsMapper.getDecimalMinimumAndMaximum(schema);
+    final Constraints constraints = ConstraintsMapper.getMinimumAndMaximum(schema);
 
     final JavaType javaType =
         Optional.ofNullable(schema.getFormat())

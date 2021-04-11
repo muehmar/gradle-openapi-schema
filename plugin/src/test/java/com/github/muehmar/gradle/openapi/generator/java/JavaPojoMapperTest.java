@@ -8,8 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
-import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
@@ -128,8 +126,7 @@ class JavaPojoMapperTest {
                     "height",
                     "",
                     JavaTypes.FLOAT.withConstraints(
-                        Constraints.ofDecimalMinAndMax(
-                            new DecimalMin("120.0", true), new DecimalMax("199.99", false))),
+                        Constraints.ofMinAndMax(new Min(120), new Max(199))),
                     true),
                 new PojoMember("lastLogin", "", JavaTypes.LOCAL_DATE_TIME, true),
                 new PojoMember(

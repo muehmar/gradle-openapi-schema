@@ -33,9 +33,8 @@ components:
           maximum: 50
           type: integer
         height:
-          minimum: 120.0
-          maximum: 199.99
-          exclusiveMaximum: true
+          minimum: 120
+          maximum: 199
           type: number
         lastLogin:
           type: string
