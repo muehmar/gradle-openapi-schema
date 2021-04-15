@@ -75,8 +75,6 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("import javax.validation.Valid;");
       writer.println("import javax.validation.constraints.Max;");
       writer.println("import javax.validation.constraints.Min;");
-      writer.println("import javax.validation.constraints.DecimalMax;");
-      writer.println("import javax.validation.constraints.DecimalMin;");
       writer.println("import javax.validation.constraints.Pattern;");
       writer.println("import javax.validation.constraints.Size;");
       writer.println("import javax.validation.constraints.NotNull;");
