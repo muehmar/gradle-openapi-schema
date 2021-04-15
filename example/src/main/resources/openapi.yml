@@ -20,6 +20,8 @@ components:
           format: int64
         user:
           type: string
+          minLength: 7
+          maxLength: 25
         birthday:
           type: string
           format: date
@@ -27,6 +29,8 @@ components:
           type: string
         age:
           type: integer
+          minimum: 15
+          maximum: 49
         lastLogin:
           type: string
           format: date-time
@@ -72,6 +76,8 @@ components:
           $ref: "#/components/schemas/User"
         members:
           type: array
+          minItems: 1
+          maxItems: 5
           items:
             $ref: "#/components/schemas/User"
         languages:

@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.muehmar.openapischema" version "0.5.0"
+    id "com.github.muehmar.openapischema" version "0.6.0"
 }
 
 repositories {
@@ -16,6 +16,13 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.7.1'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.7.1'
 
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    implementation group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.1.Final'
+    implementation group: 'javax.el', name: 'javax.el-api', version: '2.2.4'
+    implementation group: 'org.glassfish.web', name: 'javax.el', version: '2.2.4'
+    implementation group: 'javax.xml.ws', name: 'jaxws-api', version: '2.2.11'
+
+
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -28,6 +35,7 @@ generateApiSchemas {
     packageName = "${project.group}.${project.name}.api.model"
     jsonSupport = "jackson"
     suffix = "Dto"
+    enableValidation = true
 
     classMappings {
         arrayList {
