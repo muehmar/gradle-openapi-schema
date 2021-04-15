@@ -6,6 +6,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.UR
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.URL;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -23,17 +25,23 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
   }
 
   @Override
-  JavaType mapSpecificSchema(
+  MappedSchema<JavaType> mapSpecificSchema(
       String pojoKey,
       String key,
       StringSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
-    return Optionals.or(
-            () -> getFromStandardFormat(schema),
-            () -> getFormatMappedType(pojoSettings, schema),
-            () -> getEnumType(schema))
-        .orElse(STRING);
+
+    final Constraints patternConstraints = ConstraintsMapper.getPattern(schema);
+    final Constraints minAndMaxLengthConstraints = ConstraintsMapper.getMinAndMaxLength(schema);
+
+    final JavaType javaType =
+        Optionals.or(
+                () -> getFromStandardFormat(schema),
+                () -> getFormatMappedType(pojoSettings, schema),
+                () -> getEnumType(schema))
+            .orElse(STRING.withConstraints(patternConstraints.and(minAndMaxLengthConstraints)));
+    return MappedSchema.ofType(javaType);
   }
 
   private Optional<JavaType> getFromStandardFormat(StringSchema schema) {
@@ -48,8 +56,9 @@ public class StringSchemaMapper extends BaseSchemaMapper<StringSchema> {
         .map(
             mapping ->
                 Optional.ofNullable(mapping.getImports())
-                    .map(imports -> JavaType.ofNameAndImport(mapping.getClassType(), imports))
-                    .orElseGet(() -> JavaType.ofName(mapping.getClassType())));
+                    .map(
+                        imports -> JavaType.ofUserDefinedAndImport(mapping.getClassType(), imports))
+                    .orElseGet(() -> JavaType.ofUserDefined(mapping.getClassType())));
   }
 
   private Optional<JavaType> getEnumType(StringSchema schema) {

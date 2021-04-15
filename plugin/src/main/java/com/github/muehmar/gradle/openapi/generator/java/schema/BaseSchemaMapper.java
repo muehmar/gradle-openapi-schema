@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
+import com.github.muehmar.gradle.openapi.generator.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.Schema;
@@ -19,7 +20,7 @@ abstract class BaseSchemaMapper<T extends Schema<?>> implements JavaSchemaMapper
   }
 
   @Override
-  public JavaType mapSchema(
+  public MappedSchema<JavaType> mapSchema(
       String pojoKey,
       String key,
       Schema<?> schema,
@@ -34,6 +35,6 @@ abstract class BaseSchemaMapper<T extends Schema<?>> implements JavaSchemaMapper
   /**
    * Is called in case the given {@link Schema} is an instance of the supported schema {@link T}.
    */
-  abstract JavaType mapSpecificSchema(
+  abstract MappedSchema<JavaType> mapSpecificSchema(
       String pojoKey, String key, T schema, PojoSettings pojoSettings, JavaSchemaMapper chain);
 }

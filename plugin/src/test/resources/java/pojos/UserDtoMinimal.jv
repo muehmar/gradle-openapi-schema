@@ -5,7 +5,8 @@ import java.util.Optional;
 
 
 /**
- * User of the Application
+ * User of the Application. This description is intentionally longer to see if its
+ * wrapped to a new line.
  */
 public class UserDto {
   private final long id;

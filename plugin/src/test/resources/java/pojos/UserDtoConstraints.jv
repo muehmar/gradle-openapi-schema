@@ -1,0 +1,346 @@
+package com.github.muehmar;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+
+
+/**
+ * User of the Application
+ */
+public class UserDto {
+  private final long id;
+  private final String name;
+  private final String lastName;
+  private final String nickName;
+  private final String email;
+  private final Double height;
+  private final Long level;
+  private final String uppercase;
+  private final AnotherPojo anotherPojo;
+
+  public UserDto(
+      long id,
+      String name,
+      String lastName,
+      String nickName,
+      String email,
+      Double height,
+      Long level,
+      String uppercase,
+      AnotherPojo anotherPojo) {
+    this.id = id;
+    this.name = name;
+    this.lastName = lastName;
+    this.nickName = nickName;
+    this.email = email;
+    this.height = height;
+    this.level = level;
+    this.uppercase = uppercase;
+    this.anotherPojo = anotherPojo;
+  }
+
+  /**
+   * ID of this user
+   */
+  @NotNull
+  @Max(value = 50)
+  public long getId() {
+    return this.id;
+  }
+
+  /**
+   * Name of this user
+   */
+  @NotNull
+  @Size(min = 10, max = 15)
+  public String getName() {
+    return this.name;
+  }
+
+  /**
+   * Lastname of this user
+   */
+  @NotNull
+  @Size(min = 10)
+  public String getLastName() {
+    return this.lastName;
+  }
+
+  /**
+   * Nickname of this user
+   */
+  @NotNull
+  @Size(max = 50)
+  public String getNickName() {
+    return this.nickName;
+  }
+
+  /**
+   * Email of this user
+   */
+  @NotNull
+  @Email
+  public String getEmail() {
+    return this.email;
+  }
+
+  /**
+   * Height of this user
+   */
+  @NotNull
+  @DecimalMin(value = "120.0", inclusive = true)
+  @DecimalMax(value = "199", inclusive = false)
+  public Double getHeight() {
+    return this.height;
+  }
+
+  /**
+   * Level of this user
+   */
+  public Optional<Long> getLevelOptional() {
+    return Optional.ofNullable(this.level);
+  }
+
+  /**
+   * Level of this user
+   */
+  @Min(value = 5)
+  public Long getLevelNullable() {
+    return level;
+  }
+
+  /**
+   * Something uppercase
+   */
+  public Optional<String> getUppercaseOptional() {
+    return Optional.ofNullable(this.uppercase);
+  }
+
+  /**
+   * Something uppercase
+   */
+  @Pattern(regexp="[A-Z]")
+  public String getUppercaseNullable() {
+    return uppercase;
+  }
+
+  /**
+   * Another Pojo
+   */
+  public Optional<AnotherPojo> getAnotherPojoOptional() {
+    return Optional.ofNullable(this.anotherPojo);
+  }
+
+  /**
+   * Another Pojo
+   */
+  @Valid
+  public AnotherPojo getAnotherPojoNullable() {
+    return anotherPojo;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(long id) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Lastname of this user
+   */
+  public UserDto withLastName(String lastName) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Nickname of this user
+   */
+  public UserDto withNickName(String nickName) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Email of this user
+   */
+  public UserDto withEmail(String email) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Height of this user
+   */
+  public UserDto withHeight(Double height) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Level of this user
+   */
+  public UserDto withLevel(Long level) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Something uppercase
+   */
+  public UserDto withUppercase(String uppercase) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Another Pojo
+   */
+  public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    final UserDto v = (UserDto) other;
+    return Objects.equals(id, v.id)
+        && Objects.equals(name, v.name)
+        && Objects.equals(lastName, v.lastName)
+        && Objects.equals(nickName, v.nickName)
+        && Objects.equals(email, v.email)
+        && Objects.equals(height, v.height)
+        && Objects.equals(level, v.level)
+        && Objects.equals(uppercase, v.uppercase)
+        && Objects.equals(anotherPojo, v.anotherPojo);
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", lastName=" + lastName +
+      ", nickName=" + nickName +
+      ", email=" + email +
+      ", height=" + height +
+      ", level=" + level +
+      ", uppercase=" + uppercase +
+      ", anotherPojo=" + anotherPojo +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+
+    private long id;
+    private String name;
+    private String lastName;
+    private String nickName;
+    private String email;
+    private Double height;
+    private Long level;
+    private String uppercase;
+    private AnotherPojo anotherPojo;
+
+    /**
+     * ID of this user
+     */
+    public Builder setId(long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Lastname of this user
+     */
+    public Builder setLastName(String lastName) {
+      this.lastName = lastName;
+      return this;
+    }
+
+    /**
+     * Nickname of this user
+     */
+    public Builder setNickName(String nickName) {
+      this.nickName = nickName;
+      return this;
+    }
+
+    /**
+     * Email of this user
+     */
+    public Builder setEmail(String email) {
+      this.email = email;
+      return this;
+    }
+
+    /**
+     * Height of this user
+     */
+    public Builder setHeight(Double height) {
+      this.height = height;
+      return this;
+    }
+
+    /**
+     * Level of this user
+     */
+    public Builder setLevel(Long level) {
+      this.level = level;
+      return this;
+    }
+
+    /**
+     * Something uppercase
+     */
+    public Builder setUppercase(String uppercase) {
+      this.uppercase = uppercase;
+      return this;
+    }
+
+    /**
+     * Another Pojo
+     */
+    public Builder setAnotherPojo(AnotherPojo anotherPojo) {
+      this.anotherPojo = anotherPojo;
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    }
+  }
+}

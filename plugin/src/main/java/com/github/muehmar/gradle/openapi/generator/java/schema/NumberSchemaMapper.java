@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.schema;
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.DOUBLE;
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.FLOAT;
 
+import com.github.muehmar.gradle.openapi.generator.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.NumberSchema;
@@ -18,13 +20,21 @@ public class NumberSchemaMapper extends BaseSchemaMapper<NumberSchema> {
   }
 
   @Override
-  JavaType mapSpecificSchema(
+  MappedSchema<JavaType> mapSpecificSchema(
       String pojoKey,
       String key,
       NumberSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
-    return Optional.ofNullable(schema.getFormat()).map(formatMap::get).orElse(FLOAT);
+
+    final Constraints constraints = ConstraintsMapper.getMinimumAndMaximum(schema);
+
+    final JavaType javaType =
+        Optional.ofNullable(schema.getFormat())
+            .map(formatMap::get)
+            .orElse(FLOAT)
+            .withConstraints(constraints);
+    return MappedSchema.ofType(javaType);
   }
 
   private static Map<String, JavaType> createFormatMap() {

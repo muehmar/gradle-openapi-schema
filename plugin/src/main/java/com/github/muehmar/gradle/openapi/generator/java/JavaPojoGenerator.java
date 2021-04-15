@@ -5,10 +5,10 @@ import com.github.muehmar.gradle.openapi.generator.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -71,6 +71,17 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println();
     }
 
+    if (settings.isEnableConstraints()) {
+      writer.println("import javax.validation.Valid;");
+      writer.println("import javax.validation.constraints.Max;");
+      writer.println("import javax.validation.constraints.Min;");
+      writer.println("import javax.validation.constraints.Pattern;");
+      writer.println("import javax.validation.constraints.Size;");
+      writer.println("import javax.validation.constraints.NotNull;");
+      writer.println("import javax.validation.constraints.Email;");
+      writer.println();
+    }
+
     pojo.getMembers()
         .flatMap(PojoMember::getImports)
         .distinct(Function.identity())
@@ -79,19 +90,19 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   private void printJavaDoc(Writer writer, int tabs, String javadoc) {
     writer.tab(tabs).println("/**");
-    final ArrayList<String> words = new ArrayList<>(Arrays.asList(javadoc.split("\\s")));
-    int idx = 0;
-    while (idx < words.size()) {
-      final ArrayList<String> lineWords = new ArrayList<>();
-      int characters = 0;
-      while (characters < 80 && idx < words.size()) {
-        final String word = words.get(idx);
-        lineWords.add(word);
-        characters += word.length();
-        idx++;
-      }
-      writer.tab(tabs).println(" * %s", String.join(" ", lineWords));
-    }
+    PList.fromArray(javadoc.split("\\s"))
+        .foldLeft(
+            PList.<String>empty(),
+            (list, word) -> {
+              final String lastLine = list.headOption().orElse("");
+              if (lastLine.length() + word.length() + 1 > 80 || lastLine.isEmpty()) {
+                return list.cons(word);
+              } else {
+                return list.drop(1).cons(lastLine + " " + word);
+              }
+            })
+        .reverse()
+        .forEach(line -> writer.tab(tabs).println(" * %s", line));
 
     writer.tab(tabs).println(" */");
   }
@@ -201,46 +212,111 @@ public class JavaPojoGenerator implements PojoGenerator {
     pojo.getMembers()
         .forEach(
             member -> {
-              writer.println();
-              printJavaDoc(writer, 1, member.getDescription());
-
-              final boolean nullable = member.isNullable();
-
-              final String returnType =
-                  nullable
-                      ? String.format("Optional<%s>", member.getTypeName(resolver))
-                      : member.getTypeName(resolver);
-              final String field =
-                  nullable
-                      ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver))
-                      : String.format("this.%s", member.memberName(resolver));
-
-              if (nullable && settings.isJacksonJson()) {
-                writer.tab(1).println("@JsonIgnore");
-              }
-              writer
-                  .tab(1)
-                  .println(
-                      "public %s %s%s() {",
-                      returnType, member.getterName(resolver), nullable ? "Optional" : "");
-              writer.tab(2).println("return %s;", field);
-              writer.tab(1).println("}");
-
-              if (nullable) {
-                writer.println();
-                printJavaDoc(writer, 1, member.getDescription());
-                if (settings.isJacksonJson()) {
-                  writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver));
-                }
-                writer
-                    .tab(1)
-                    .println(
-                        "public %s %sNullable() {",
-                        member.getTypeName(resolver), member.getterName(resolver));
-                writer.tab(2).println("return %s;", member.memberName(resolver));
-                writer.tab(1).println("}");
-              }
+              printMainGetter(writer, member, settings);
+              printNullableGetter(writer, member, settings);
             });
+  }
+
+  /**
+   * Prints either a normal getter in case the member is required or wrap it in an {@link Optional}
+   * if its not required.
+   */
+  protected void printMainGetter(Writer writer, PojoMember member, PojoSettings settings) {
+    writer.println();
+    printJavaDoc(writer, 1, member.getDescription());
+
+    final boolean nullable = member.isNullable();
+
+    final String returnType =
+        nullable
+            ? String.format("Optional<%s>", member.getTypeName(resolver))
+            : member.getTypeName(resolver);
+    final String field =
+        nullable
+            ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver))
+            : String.format("this.%s", member.memberName(resolver));
+
+    if (nullable && settings.isJacksonJson()) {
+      writer.tab(1).println("@JsonIgnore");
+    }
+    if (member.isRequired()) {
+      printConstraints(writer, member, 1, settings);
+    }
+
+    writer
+        .tab(1)
+        .println(
+            "public %s %s%s() {",
+            returnType, member.getterName(resolver), nullable ? "Optional" : "");
+    writer.tab(2).println("return %s;", field);
+    writer.tab(1).println("}");
+  }
+
+  /**
+   * Prints a 'nullable' getter in case the member is not required. This getter is suffixed with
+   * 'Nullable' and may return null if the value is not present.
+   */
+  protected void printNullableGetter(Writer writer, PojoMember member, PojoSettings settings) {
+    if (member.isNullable()) {
+      writer.println();
+      printJavaDoc(writer, 1, member.getDescription());
+      printConstraints(writer, member, 1, settings);
+      if (settings.isJacksonJson()) {
+        writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver));
+      }
+      writer
+          .tab(1)
+          .println(
+              "public %s %sNullable() {",
+              member.getTypeName(resolver), member.getterName(resolver));
+      writer.tab(2).println("return %s;", member.memberName(resolver));
+      writer.tab(1).println("}");
+    }
+  }
+
+  protected void printConstraints(
+      Writer writer, PojoMember member, int tabs, PojoSettings settings) {
+    if (settings.isEnableConstraints()) {
+
+      if (member.getType().containsPojo()) {
+        writer.tab(tabs).println("@Valid");
+      }
+
+      if (member.isRequired()) {
+        writer.tab(tabs).println("@NotNull");
+      }
+
+      final Constraints constraints = member.getType().getConstraints();
+      constraints.onEmail(email -> writer.tab(tabs).println("@Email"));
+      constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
+      constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));
+      constraints.onDecimalMin(
+          decMin ->
+              writer
+                  .tab(tabs)
+                  .println(
+                      "@DecimalMin(value = \"%s\", inclusive = %b)",
+                      decMin.getValue(), decMin.isInclusiveMin()));
+      constraints.onDecimalMax(
+          decMax ->
+              writer
+                  .tab(tabs)
+                  .println(
+                      "@DecimalMax(value = \"%s\", inclusive = %b)",
+                      decMax.getValue(), decMax.isInclusiveMax()));
+      constraints.onSize(
+          size -> {
+            final String minMax =
+                PList.of(
+                        size.getMin().map(min -> String.format("min = %d", min)),
+                        size.getMax().map(max -> String.format("max = %d", max)))
+                    .flatMapOptional(Function.identity())
+                    .mkString(", ");
+            writer.tab(tabs).println("@Size(%s)", minMax);
+          });
+      constraints.onPattern(
+          pattern -> writer.tab(tabs).println("@Pattern(regexp=\"%s\")", pattern.getPattern()));
+    }
   }
 
   protected void printWithers(Writer writer, Pojo pojo) {

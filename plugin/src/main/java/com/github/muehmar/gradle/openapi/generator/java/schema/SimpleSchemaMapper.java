@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
+import com.github.muehmar.gradle.openapi.generator.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.Schema;
@@ -18,8 +19,8 @@ public class SimpleSchemaMapper<T extends Schema<?>> extends BaseSchemaMapper<T>
   }
 
   @Override
-  JavaType mapSpecificSchema(
+  MappedSchema<JavaType> mapSpecificSchema(
       String pojoKey, String key, T schema, PojoSettings pojoSettings, JavaSchemaMapper chain) {
-    return javaType;
+    return MappedSchema.ofType(javaType);
   }
 }

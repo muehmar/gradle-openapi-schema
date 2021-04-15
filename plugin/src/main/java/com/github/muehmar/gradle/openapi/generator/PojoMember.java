@@ -7,15 +7,15 @@ import java.util.function.Consumer;
 
 public class PojoMember {
   private final String key;
-  private final boolean nullable;
   private final String description;
   private final Type type;
+  private final boolean nullable;
 
   public PojoMember(String key, String description, Type type, boolean nullable) {
     this.key = key;
-    this.nullable = nullable;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
+    this.nullable = nullable;
   }
 
   public String getDescription() {
@@ -23,7 +23,11 @@ public class PojoMember {
   }
 
   public String getTypeName(Resolver resolver) {
-    return type.isEnum() ? resolver.enumName(key) : type.getName();
+    return type.isEnum() ? resolver.enumName(key) : type.getFullName();
+  }
+
+  public Type getType() {
+    return type;
   }
 
   public String getKey() {
@@ -67,28 +71,22 @@ public class PojoMember {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     PojoMember that = (PojoMember) o;
     return nullable == that.nullable
         && Objects.equals(key, that.key)
         && Objects.equals(description, that.description)
-        && Objects.equals(type.getName(), that.type.getName())
-        && Objects.equals(type.isEnum(), that.type.isEnum())
-        && Objects.equals(type.getEnumMembers(), that.type.getEnumMembers())
-        && Objects.equals(type.getImports(), that.type.getImports());
+        && Objects.equals(type, that.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        key,
-        nullable,
-        description,
-        type.getName(),
-        type.isEnum(),
-        type.getEnumMembers(),
-        type.getImports());
+    return Objects.hash(key, description, type, nullable);
   }
 
   @Override
@@ -97,13 +95,13 @@ public class PojoMember {
         + "key='"
         + key
         + '\''
-        + ", nullable="
-        + nullable
         + ", description='"
         + description
         + '\''
         + ", type="
         + type
+        + ", nullable="
+        + nullable
         + '}';
   }
 }

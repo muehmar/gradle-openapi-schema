@@ -2,6 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.java.schema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -25,76 +28,98 @@ class SchemaMapperChainTest {
 
   @Test
   void mapSchema_when_dateSchema_then_localDateReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new DateSchema(), null, CHAIN);
-    Assertions.assertEquals(JavaTypes.LOCAL_DATE, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new DateSchema(), null, CHAIN);
+    Assertions.assertEquals(JavaTypes.LOCAL_DATE, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_dateTimeSchema_then_localDateTimeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new DateTimeSchema(), null, CHAIN);
-    assertEquals(JavaTypes.LOCAL_DATE_TIME, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new DateTimeSchema(), null, CHAIN);
+    assertEquals(JavaTypes.LOCAL_DATE_TIME, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_booleanSchema_then_booleanTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new BooleanSchema(), null, CHAIN);
-    assertEquals(JavaTypes.BOOLEAN, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new BooleanSchema(), null, CHAIN);
+    assertEquals(JavaTypes.BOOLEAN, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_integerSchema_then_integerTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new IntegerSchema(), null, CHAIN);
-    assertEquals(JavaTypes.INTEGER, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new IntegerSchema(), null, CHAIN);
+    assertEquals(JavaTypes.INTEGER, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_numberSchema_then_floatTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new NumberSchema(), null, CHAIN);
-    assertEquals(JavaTypes.FLOAT, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new NumberSchema(), null, CHAIN);
+    assertEquals(JavaTypes.FLOAT, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_arraySchema_then_correctListReturned() {
-    final JavaType javaType =
+    final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
             "pojoKey", "key", new ArraySchema().items(new IntegerSchema()), null, CHAIN);
-    assertEquals(JavaType.javaList(JavaTypes.INTEGER), javaType);
+    assertEquals(JavaType.javaList(JavaTypes.INTEGER), mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_uuidSchema_then_uuidTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new UUIDSchema(), null, CHAIN);
-    assertEquals(JavaTypes.UUID, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new UUIDSchema(), null, CHAIN);
+    assertEquals(JavaTypes.UUID, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_stringSchema_then_correctStringTypeReturned() {
-    final JavaType javaType =
+    final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema("pojoKey", "key", new StringSchema().format("url"), null, CHAIN);
-    assertEquals(JavaTypes.URL, javaType);
+    assertEquals(JavaTypes.URL, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_passwordSchema_then_stringTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new PasswordSchema(), null, CHAIN);
-    assertEquals(JavaTypes.STRING, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new PasswordSchema(), null, CHAIN);
+    assertEquals(JavaTypes.STRING, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_binarySchema_then_byteArrayTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new BinarySchema(), null, CHAIN);
-    assertEquals(JavaTypes.BYTE_ARRAY, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new BinarySchema(), null, CHAIN);
+    assertEquals(JavaTypes.BYTE_ARRAY, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_fileSchema_then_stringTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new FileSchema(), null, CHAIN);
-    assertEquals(JavaTypes.STRING, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new FileSchema(), null, CHAIN);
+    assertEquals(JavaTypes.STRING, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 
   @Test
   void mapSchema_when_emailSchema_then_stringTypeReturned() {
-    final JavaType javaType = CHAIN.mapSchema("pojoKey", "key", new EmailSchema(), null, CHAIN);
-    assertEquals(JavaTypes.STRING, javaType);
+    final MappedSchema<JavaType> mappedSchema =
+        CHAIN.mapSchema("pojoKey", "key", new EmailSchema(), null, CHAIN);
+    assertEquals(JavaTypes.STRING.withConstraints(Constraints.ofEmail()), mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 }

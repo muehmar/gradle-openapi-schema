@@ -12,6 +12,7 @@ public class PojoSettings implements Serializable {
   private final String packageName;
   private final String suffix;
   private final boolean enableSafeBuilder;
+  private final boolean enableConstraints;
   private final List<ClassTypeMapping> classTypeMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
 
@@ -20,12 +21,14 @@ public class PojoSettings implements Serializable {
       String packageName,
       String suffix,
       boolean enableSafeBuilder,
+      boolean enableConstraints,
       PList<ClassTypeMapping> classTypeMappings,
       PList<FormatTypeMapping> formatTypeMappings) {
     this.jsonSupport = jsonSupport;
     this.packageName = packageName;
     this.suffix = suffix;
     this.enableSafeBuilder = enableSafeBuilder;
+    this.enableConstraints = enableConstraints;
     this.classTypeMappings = classTypeMappings.toArrayList();
     this.formatTypeMappings = formatTypeMappings.toArrayList();
   }
@@ -37,6 +40,7 @@ public class PojoSettings implements Serializable {
         extension.getPackageName(project),
         extension.getSuffix(),
         extension.getEnableSafeBuilder(),
+        extension.getEnableValidation(),
         extension.getClassMappings().map(ClassTypeMapping::fromExtension),
         extension.getFormatTypeMappings().map(FormatTypeMapping::fromExtension));
   }
@@ -55,6 +59,10 @@ public class PojoSettings implements Serializable {
 
   public boolean isJacksonJson() {
     return jsonSupport.equals(JsonSupport.JACKSON);
+  }
+
+  public boolean isEnableConstraints() {
+    return enableConstraints;
   }
 
   public PList<ClassTypeMapping> getClassTypeMappings() {
@@ -93,6 +101,7 @@ public class PojoSettings implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     PojoSettings that = (PojoSettings) o;
     return enableSafeBuilder == that.enableSafeBuilder
+        && enableConstraints == that.enableConstraints
         && jsonSupport == that.jsonSupport
         && Objects.equals(packageName, that.packageName)
         && Objects.equals(suffix, that.suffix)
@@ -103,7 +112,13 @@ public class PojoSettings implements Serializable {
   @Override
   public int hashCode() {
     return Objects.hash(
-        jsonSupport, packageName, suffix, enableSafeBuilder, classTypeMappings, formatTypeMappings);
+        jsonSupport,
+        packageName,
+        suffix,
+        enableSafeBuilder,
+        enableConstraints,
+        classTypeMappings,
+        formatTypeMappings);
   }
 
   @Override
@@ -119,6 +134,8 @@ public class PojoSettings implements Serializable {
         + '\''
         + ", enableSafeBuilder="
         + enableSafeBuilder
+        + ", enableConstraints="
+        + enableConstraints
         + ", classTypeMappings="
         + classTypeMappings
         + ", formatTypeMappings="
