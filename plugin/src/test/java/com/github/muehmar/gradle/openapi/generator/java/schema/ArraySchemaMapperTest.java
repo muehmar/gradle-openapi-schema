@@ -3,9 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.java.schema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import io.swagger.v3.oas.models.media.ArraySchema;

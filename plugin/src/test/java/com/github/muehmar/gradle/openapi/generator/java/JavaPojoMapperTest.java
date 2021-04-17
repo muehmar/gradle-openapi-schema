@@ -4,12 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.Resources;
-import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.PojoMapper;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.data.Pojo;
+import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
@@ -35,7 +36,7 @@ class JavaPojoMapperTest {
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
     final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
-    final PList<Pojo> pojos = pojoMapper.fromSchema("key", schema, pojoSettings);
+    final PList<Pojo> pojos = pojoMapper.fromSchema(new OpenApiPojo("key", schema), pojoSettings);
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -61,7 +62,7 @@ class JavaPojoMapperTest {
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("name", new StringSchema());
     final Schema<?> schema = new ObjectSchema().properties(properties);
-    final PList<Pojo> pojos = pojoMapper.fromSchema("key", schema, pojoSettings);
+    final PList<Pojo> pojos = pojoMapper.fromSchema(new OpenApiPojo("key", schema), pojoSettings);
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -87,7 +88,10 @@ class JavaPojoMapperTest {
         new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
     final PList<Pojo> pojos =
         parseOpenApiResourceEntries("/integration/completespec/openapi.yml")
-            .flatMap(entry -> pojoMapper.fromSchema(entry.getKey(), entry.getValue(), pojoSettings))
+            .flatMap(
+                entry ->
+                    pojoMapper.fromSchema(
+                        new OpenApiPojo(entry.getKey(), entry.getValue()), pojoSettings))
             .sort(Comparator.comparing(pojo -> pojo.className(new JavaResolver())));
 
     assertEquals(6, pojos.size());

@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.data;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;

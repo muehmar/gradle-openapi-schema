@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.schema;
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.DOUBLE;
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.FLOAT;
 
-import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.NumberSchema;

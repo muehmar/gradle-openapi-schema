@@ -1,29 +1,32 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import java.util.Optional;
 
 public abstract class BasePojoMapper implements PojoMapper {
+
   @Override
-  public PList<Pojo> fromSchema(String key, Schema<?> schema, PojoSettings pojoSettings) {
+  public PList<Pojo> fromSchema(PList<OpenApiPojo> openApiPojos, PojoSettings pojoSettings) {
+    return openApiPojos.flatMap(openApiPojo -> fromSingleSchema(openApiPojo, pojoSettings));
+  }
+
+  private PList<Pojo> fromSingleSchema(OpenApiPojo openApiPojo, PojoSettings pojoSettings) {
     final PojoProcessResult pojoProcessResult =
-        schema instanceof ArraySchema
-            ? createArrayPojo(key, (ArraySchema) schema, pojoSettings)
-            : processSchema(key, schema, pojoSettings);
+        openApiPojo.getSchema() instanceof ArraySchema
+            ? createArrayPojo(
+                openApiPojo.getKey(), (ArraySchema) openApiPojo.getSchema(), pojoSettings)
+            : processSchema(openApiPojo.getKey(), openApiPojo.getSchema(), pojoSettings);
 
     final PList<Pojo> innerPojos =
-        pojoProcessResult
-            .getOpenApiPojos()
-            .flatMap(
-                openApiPojo ->
-                    fromSchema(openApiPojo.getKey(), openApiPojo.getSchema(), pojoSettings));
+        pojoProcessResult.getOpenApiPojos().flatMap(oaPojo -> fromSchema(oaPojo, pojoSettings));
 
     return innerPojos.cons(pojoProcessResult.getPojo());
   }
@@ -59,6 +62,23 @@ public abstract class BasePojoMapper implements PojoMapper {
         pojoMemberAndOpenApiPojos.flatMap(PojoMemberProcessResult::getOpenApiPojos);
 
     return new PojoProcessResult(pojo, openApiPojos);
+  }
+
+  private ComposedPojo processComposedSchema(
+      String key, ComposedSchema schema, PojoSettings pojoSettings) {
+    if (schema.getOneOf() != null) {
+      throw new IllegalArgumentException("oneOf composition is currently not supported");
+    }
+
+    if (schema.getAnyOf() != null) {
+      throw new IllegalArgumentException("anyOf composition is currently not supported");
+    }
+
+    if (schema.getAllOf() == null) {
+      throw new IllegalArgumentException("Schema composition does not contain any schemas.");
+    }
+
+    throw new UnsupportedOperationException("Not implemented yet");
   }
 
   /**
