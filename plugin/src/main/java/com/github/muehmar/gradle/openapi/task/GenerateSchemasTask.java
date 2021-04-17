@@ -4,7 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.OpenApiGenerator;
-import com.github.muehmar.gradle.openapi.generator.Pojo;
+import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -32,6 +32,7 @@ public class GenerateSchemasTask extends DefaultTask {
   private final Provider<String> sourceSet;
 
   @Inject
+  @SuppressWarnings("java:S1604")
   public GenerateSchemasTask(Project project, OpenApiSchemaGeneratorExtension config) {
     sourceSet = project.getProviders().provider(config::getSourceSet);
     inputSpec = project.getProviders().provider(config::getInputSpec);

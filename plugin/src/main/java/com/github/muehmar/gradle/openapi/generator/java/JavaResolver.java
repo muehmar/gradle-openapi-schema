@@ -4,7 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.BO
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
-import com.github.muehmar.gradle.openapi.generator.Type;
+import com.github.muehmar.gradle.openapi.generator.data.Type;
 
 public class JavaResolver implements Resolver {
 

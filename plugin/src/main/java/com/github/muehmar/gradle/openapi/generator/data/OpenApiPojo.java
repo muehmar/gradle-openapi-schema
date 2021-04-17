@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator;
+package com.github.muehmar.gradle.openapi.generator.data;
 
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -16,6 +16,7 @@ public class OpenApiPojo {
     return key;
   }
 
+  @SuppressWarnings("java:S1452")
   public Schema<?> getSchema() {
     return schema;
   }

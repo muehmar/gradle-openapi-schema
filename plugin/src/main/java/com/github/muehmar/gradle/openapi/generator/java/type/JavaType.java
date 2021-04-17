@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.Type;
+import com.github.muehmar.gradle.openapi.generator.data.Type;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import java.util.Objects;
 import java.util.Optional;

@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator;
 
+import com.github.muehmar.gradle.openapi.generator.data.Type;
+
 public interface Resolver {
   String getterName(String key, Type type);
 

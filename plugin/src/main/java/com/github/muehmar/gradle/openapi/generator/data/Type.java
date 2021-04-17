@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator;
+package com.github.muehmar.gradle.openapi.generator.data;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;

@@ -6,7 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.UR
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.URL;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;

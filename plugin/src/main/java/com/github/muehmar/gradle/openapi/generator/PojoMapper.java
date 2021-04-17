@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.Schema;
 

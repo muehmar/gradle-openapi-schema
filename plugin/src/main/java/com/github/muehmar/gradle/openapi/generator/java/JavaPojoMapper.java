@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.java;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.BasePojoMapper;
-import com.github.muehmar.gradle.openapi.generator.MappedSchema;
-import com.github.muehmar.gradle.openapi.generator.Pojo;
-import com.github.muehmar.gradle.openapi.generator.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Pojo;
+import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.schema.JavaSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.java.schema.SchemaMapperChainFactory;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
@@ -22,22 +22,22 @@ public class JavaPojoMapper extends BasePojoMapper {
   private static final Map<String, String> primitivesMap = createPrimitivesMap();
 
   @Override
-  protected PojoAndOpenApiPojos createArrayPojo(
+  protected PojoProcessResult createArrayPojo(
       String key, ArraySchema schema, PojoSettings pojoSettings) {
-    final PojoMemberAndOpenApiPojos pojoMemberAndOpenApiPojos =
+    final PojoMemberProcessResult pojoMemberProcessResult =
         pojoMemberFromSchema(key, "value", schema, pojoSettings, false);
     final Pojo pojo =
         new Pojo(
             key,
             schema.getDescription(),
             pojoSettings.getSuffix(),
-            PList.single(pojoMemberAndOpenApiPojos.getPojoMember()),
+            PList.single(pojoMemberProcessResult.getPojoMember()),
             true);
-    return new PojoAndOpenApiPojos(pojo, PList.empty());
+    return new PojoProcessResult(pojo, PList.empty());
   }
 
   @Override
-  protected PojoMemberAndOpenApiPojos pojoMemberFromSchema(
+  protected PojoMemberProcessResult pojoMemberFromSchema(
       String pojoKey, String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable) {
     final MappedSchema<JavaType> mappedSchema =
         typeMapperChain.mapSchema(pojoKey, key, schema, pojoSettings, typeMapperChain);
@@ -63,7 +63,7 @@ public class JavaPojoMapper extends BasePojoMapper {
 
     final PojoMember pojoMember =
         new PojoMember(key, schema.getDescription(), classMappedJavaType, nullable);
-    return new PojoMemberAndOpenApiPojos(pojoMember, mappedSchema.getOpenApiPojos());
+    return new PojoMemberProcessResult(pojoMember, mappedSchema.getOpenApiPojos());
   }
 
   private static Map<String, String> createPrimitivesMap() {

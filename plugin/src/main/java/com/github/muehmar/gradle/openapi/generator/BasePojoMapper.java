@@ -1,38 +1,42 @@
 package com.github.muehmar.gradle.openapi.generator;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.data.Pojo;
+import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+
 import java.util.Optional;
 
 public abstract class BasePojoMapper implements PojoMapper {
   @Override
   public PList<Pojo> fromSchema(String key, Schema<?> schema, PojoSettings pojoSettings) {
-    final PojoAndOpenApiPojos pojoAndOpenApiPojos =
+    final PojoProcessResult pojoProcessResult =
         schema instanceof ArraySchema
             ? createArrayPojo(key, (ArraySchema) schema, pojoSettings)
             : processSchema(key, schema, pojoSettings);
 
     final PList<Pojo> innerPojos =
-        pojoAndOpenApiPojos
+        pojoProcessResult
             .getOpenApiPojos()
             .flatMap(
                 openApiPojo ->
                     fromSchema(openApiPojo.getKey(), openApiPojo.getSchema(), pojoSettings));
 
-    return innerPojos.cons(pojoAndOpenApiPojos.getPojo());
+    return innerPojos.cons(pojoProcessResult.getPojo());
   }
 
-  private PojoAndOpenApiPojos processSchema(
-      String key, Schema<?> schema, PojoSettings pojoSettings) {
-    final PList<PojoMemberAndOpenApiPojos> pojoMemberAndOpenApiPojos =
+  private PojoProcessResult processSchema(String key, Schema<?> schema, PojoSettings pojoSettings) {
+
+    final PList<PojoMemberProcessResult> pojoMemberAndOpenApiPojos =
         Optional.ofNullable(schema.getProperties())
             .map(properties -> PList.fromIter(properties.entrySet()))
             .orElseThrow(
                 () ->
                     new IllegalArgumentException(
-                        "Could only create pojo from schema with properties: " + schema))
+                        "The following schema is currently not supported: " + schema))
             .map(
                 entry -> {
                   final Boolean nullable =
@@ -48,40 +52,37 @@ public abstract class BasePojoMapper implements PojoMapper {
             key,
             schema.getDescription(),
             pojoSettings.getSuffix(),
-            pojoMemberAndOpenApiPojos.map(PojoMemberAndOpenApiPojos::getPojoMember),
+            pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember),
             false);
 
     final PList<OpenApiPojo> openApiPojos =
-        pojoMemberAndOpenApiPojos.flatMap(PojoMemberAndOpenApiPojos::getOpenApiPojos);
+        pojoMemberAndOpenApiPojos.flatMap(PojoMemberProcessResult::getOpenApiPojos);
 
-    return new PojoAndOpenApiPojos(pojo, openApiPojos);
+    return new PojoProcessResult(pojo, openApiPojos);
   }
 
   /**
    * An implementation should create the {@link Pojo} representation for the given {@code key} and
    * {@link ArraySchema}. Possible inline definitions of objects can be included in the returned
-   * container {@link PojoAndOpenApiPojos}.
+   * container {@link PojoProcessResult}.
    */
-  protected abstract PojoAndOpenApiPojos createArrayPojo(
+  protected abstract PojoProcessResult createArrayPojo(
       String key, ArraySchema schema, PojoSettings pojoSettings);
 
   /**
    * An implementation should create the {@link PojoMember} representation for the given {@code key}
    * and {@link ArraySchema}. Possible inline definitions of objects can be included in the returned
-   * container {@link PojoMemberAndOpenApiPojos}.
+   * container {@link PojoMemberProcessResult}.
    */
-  protected abstract PojoMemberAndOpenApiPojos pojoMemberFromSchema(
+  protected abstract PojoMemberProcessResult pojoMemberFromSchema(
       String pojoKey, String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable);
 
-  /**
-   * Container holding a {@link PojoMember} as well as a list of {@link OpenApiPojo} which in turn
-   * contains a key and a {@link Schema}.
-   */
-  public static class PojoMemberAndOpenApiPojos {
+  /** Data class holding the result of processing a schema as a member of a pojo. */
+  public static class PojoMemberProcessResult {
     private final PojoMember pojoMember;
     private final PList<OpenApiPojo> openApiPojos;
 
-    public PojoMemberAndOpenApiPojos(PojoMember pojoMember, PList<OpenApiPojo> openApiPojos) {
+    public PojoMemberProcessResult(PojoMember pojoMember, PList<OpenApiPojo> openApiPojos) {
       this.pojoMember = pojoMember;
       this.openApiPojos = openApiPojos;
     }
@@ -95,15 +96,12 @@ public abstract class BasePojoMapper implements PojoMapper {
     }
   }
 
-  /**
-   * Container holding a {@link Pojo} as well as a list of {@link OpenApiPojo} which in turn
-   * contains a key and a {@link Schema}.
-   */
-  public static class PojoAndOpenApiPojos {
+  /** Data class holding the result of processing a schema as a pojo. */
+  public static class PojoProcessResult {
     private final Pojo pojo;
     private final PList<OpenApiPojo> openApiPojos;
 
-    public PojoAndOpenApiPojos(Pojo pojo, PList<OpenApiPojo> openApiPojos) {
+    public PojoProcessResult(Pojo pojo, PList<OpenApiPojo> openApiPojos) {
       this.pojo = pojo;
       this.openApiPojos = openApiPojos;
     }
