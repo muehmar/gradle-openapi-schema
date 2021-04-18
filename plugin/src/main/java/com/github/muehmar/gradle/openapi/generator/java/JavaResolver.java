@@ -50,4 +50,11 @@ public class JavaResolver implements Resolver {
   public static String toPascalCase(String... keys) {
     return PList.fromArray(keys).map(JavaResolver::toPascalCase).mkString("");
   }
+
+  public static String snakeCaseToPascalCase(String key) {
+    return PList.fromArray(key.split("_"))
+        .map(String::toLowerCase)
+        .map(JavaResolver::toPascalCase)
+        .mkString("");
+  }
 }

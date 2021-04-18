@@ -62,4 +62,10 @@ class JavaResolverTest {
     final String pascalCase = JavaResolver.toPascalCase("userGroup", "language");
     assertEquals("UserGroupLanguage", pascalCase);
   }
+
+  @Test
+  void snakeCaseToPascalCase_when_snakeCase_then_convertedToPascalCase() {
+    final String pascalCase = JavaResolver.snakeCaseToPascalCase("SNAKE_CASE");
+    assertEquals("SnakeCase", pascalCase);
+  }
 }

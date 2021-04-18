@@ -10,4 +10,9 @@ public class ReferenceMapper {
     final int i = ref.lastIndexOf('/');
     return JavaType.ofReference(ref.substring(Math.max(i + 1, 0)), pojoSettings.getSuffix());
   }
+
+  public static String getRefKey(String ref) {
+    final int i = ref.lastIndexOf('/');
+    return ref.substring(Math.max(i + 1, 0));
+  }
 }
