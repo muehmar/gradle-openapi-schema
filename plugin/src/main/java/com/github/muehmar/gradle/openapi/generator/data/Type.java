@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public interface Type {
   /** Returns the full-name of this type, i.e. it includes also any generic type. */
-  String getFullName();
+  Name getFullName();
 
   /**
    * Returns true in case this type contains a pojo as generic type or is a pojo itself. False in

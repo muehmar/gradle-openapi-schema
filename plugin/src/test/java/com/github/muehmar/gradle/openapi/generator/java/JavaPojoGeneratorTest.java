@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
@@ -39,14 +40,14 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         new Pojo(
-            "User",
+            Name.of("User"),
             "User of the Application. This description is intentionally longer to see if its wrapped to a new line.",
             "Dto",
             PList.of(
-                new PojoMember("id", "ID of this user", JavaType.ofName("long"), false),
-                new PojoMember("name", "Name of this user", JavaTypes.STRING, false),
+                new PojoMember(Name.of("id"), "ID of this user", JavaType.ofName("long"), false),
+                new PojoMember(Name.of("name"), "Name of this user", JavaTypes.STRING, false),
                 new PojoMember(
-                    "language",
+                    Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                     true)),
@@ -74,14 +75,14 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         new Pojo(
-            "User",
+            Name.of("User"),
             "User of the Application",
             "Dto",
             PList.of(
-                new PojoMember("id", "ID of this user", JavaType.ofName("long"), false),
-                new PojoMember("name", "Name of this user", JavaTypes.STRING, false),
+                new PojoMember(Name.of("id"), "ID of this user", JavaType.ofName("long"), false),
+                new PojoMember(Name.of("name"), "Name of this user", JavaTypes.STRING, false),
                 new PojoMember(
-                    "language",
+                    Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                     true)),
@@ -110,14 +111,14 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         new Pojo(
-            "User",
+            Name.of("User"),
             "User of the Application",
             "Dto",
             PList.of(
-                new PojoMember("id", "ID of this user", JavaType.ofName("long"), false),
-                new PojoMember("name", "Name of this user", JavaTypes.STRING, false),
+                new PojoMember(Name.of("id"), "ID of this user", JavaType.ofName("long"), false),
+                new PojoMember(Name.of("name"), "Name of this user", JavaTypes.STRING, false),
                 new PojoMember(
-                    "language",
+                    Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                     true)),
@@ -146,54 +147,57 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         new Pojo(
-            "User",
+            Name.of("User"),
             "User of the Application",
             "Dto",
             PList.of(
                 new PojoMember(
-                    "id",
+                    Name.of("id"),
                     "ID of this user",
                     JavaType.ofName("long").withConstraints(Constraints.ofMax(new Max(50))),
                     false),
                 new PojoMember(
-                    "name",
+                    Name.of("name"),
                     "Name of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.of(10, 15))),
                     false),
                 new PojoMember(
-                    "lastName",
+                    Name.of("lastName"),
                     "Lastname of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMin(10))),
                     false),
                 new PojoMember(
-                    "nickName",
+                    Name.of("nickName"),
                     "Nickname of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMax(50))),
                     false),
                 new PojoMember(
-                    "email",
+                    Name.of("email"),
                     "Email of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofEmail()),
                     false),
                 new PojoMember(
-                    "height",
+                    Name.of("height"),
                     "Height of this user",
                     JavaTypes.DOUBLE.withConstraints(
                         Constraints.ofDecimalMin(new DecimalMin("120.0", true))
                             .withDecimalMax(new DecimalMax("199", false))),
                     false),
                 new PojoMember(
-                    "level",
+                    Name.of("level"),
                     "Level of this user",
                     JavaType.ofName("Long").withConstraints(Constraints.ofMin(new Min(5))),
                     true),
                 new PojoMember(
-                    "uppercase",
+                    Name.of("uppercase"),
                     "Something uppercase",
                     JavaTypes.STRING.withConstraints(Constraints.ofPattern(new Pattern("[A-Z]"))),
                     true),
                 new PojoMember(
-                    "anotherPojo", "Another Pojo", JavaType.ofUserDefined("AnotherPojo"), true)),
+                    Name.of("anotherPojo"),
+                    "Another Pojo",
+                    JavaType.ofUserDefined("AnotherPojo"),
+                    true)),
             false);
 
     pojoGenerator.generatePojo(pojo, pojoSettings);

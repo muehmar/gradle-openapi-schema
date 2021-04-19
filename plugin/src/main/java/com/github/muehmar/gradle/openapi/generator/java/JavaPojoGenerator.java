@@ -50,7 +50,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     }
     printClassEnd(writer);
 
-    writer.close(packagePath + "/" + pojo.className(resolver) + ".java");
+    writer.close(packagePath + "/" + pojo.className(resolver).asString() + ".java");
   }
 
   private void printPackage(Writer writer, String packageName) {
@@ -110,7 +110,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   private void printClassStart(Writer writer, Pojo pojo) {
     writer.println();
     printJavaDoc(writer, 0, pojo.getDescription());
-    writer.tab(0).println("public class %s {", pojo.className(resolver));
+    writer.tab(0).println("public class %s {", pojo.className(resolver).asString());
   }
 
   private void printFields(Writer writer, Pojo pojo, PojoSettings settings) {
@@ -125,7 +125,8 @@ public class JavaPojoGenerator implements PojoGenerator {
                     .tab(1)
                     .println(
                         "private final %s %s;",
-                        member.getTypeName(resolver), member.memberName(resolver)));
+                        member.getTypeName(resolver).asString(),
+                        member.memberName(resolver).asString()));
   }
 
   private void printConstructor(Writer writer, Pojo pojo, PojoSettings settings) {
@@ -137,7 +138,7 @@ public class JavaPojoGenerator implements PojoGenerator {
         writer.tab(1).println("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
       }
     }
-    writer.tab(1).println("public %s(", pojo.className(resolver));
+    writer.tab(1).println("public %s(", pojo.className(resolver).asString());
 
     final PList<String> memberArguments = createMemberArguments(pojo, settings);
 
@@ -156,7 +157,9 @@ public class JavaPojoGenerator implements PojoGenerator {
                 writer
                     .tab(2)
                     .println(
-                        "this.%s = %s;", member.memberName(resolver), member.memberName(resolver)));
+                        "this.%s = %s;",
+                        member.memberName(resolver).asString(),
+                        member.memberName(resolver).asString()));
 
     writer.tab(1).println("}");
   }
@@ -165,7 +168,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     final Function<PojoMember, String> createJsonSupport =
         member -> {
           if (settings.isJacksonJson()) {
-            return String.format("@JsonProperty(\"%s\") ", member.memberName(resolver));
+            return String.format("@JsonProperty(\"%s\") ", member.memberName(resolver).asString());
           } else {
             return "";
           }
@@ -175,20 +178,23 @@ public class JavaPojoGenerator implements PojoGenerator {
             member -> {
               if (pojo.isArray()) {
                 return String.format(
-                    "%s %s", member.getTypeName(resolver), member.memberName(resolver));
+                    "%s %s",
+                    member.getTypeName(resolver).asString(),
+                    member.memberName(resolver).asString());
               } else {
                 return String.format(
                     "%s%s %s",
                     createJsonSupport.apply(member),
-                    member.getTypeName(resolver),
-                    member.memberName(resolver));
+                    member.getTypeName(resolver).asString(),
+                    member.memberName(resolver).asString());
               }
             });
   }
 
   private String createNamesCommaSeparated(Pojo pojo) {
     final PList<String> formattedPairs =
-        pojo.getMembers().map(member -> String.format("%s", member.memberName(resolver)));
+        pojo.getMembers()
+            .map(member -> String.format("%s", member.memberName(resolver).asString()));
 
     return String.join(", ", formattedPairs);
   }
@@ -202,7 +208,9 @@ public class JavaPojoGenerator implements PojoGenerator {
                       writer.println();
                       printJavaDoc(writer, 1, member.getDescription());
 
-                      writer.tab(1).println("public enum %s {", member.getTypeName(resolver));
+                      writer
+                          .tab(1)
+                          .println("public enum %s {", member.getTypeName(resolver).asString());
                       writer.tab(2).println("%s", String.join(", ", enumMembers));
                       writer.tab(1).println("}");
                     }));
@@ -229,12 +237,12 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     final String returnType =
         nullable
-            ? String.format("Optional<%s>", member.getTypeName(resolver))
-            : member.getTypeName(resolver);
+            ? String.format("Optional<%s>", member.getTypeName(resolver).asString())
+            : member.getTypeName(resolver).asString();
     final String field =
         nullable
-            ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver))
-            : String.format("this.%s", member.memberName(resolver));
+            ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver).asString())
+            : String.format("this.%s", member.memberName(resolver).asString());
 
     if (nullable && settings.isJacksonJson()) {
       writer.tab(1).println("@JsonIgnore");
@@ -247,7 +255,7 @@ public class JavaPojoGenerator implements PojoGenerator {
         .tab(1)
         .println(
             "public %s %s%s() {",
-            returnType, member.getterName(resolver), nullable ? "Optional" : "");
+            returnType, member.getterName(resolver).asString(), nullable ? "Optional" : "");
     writer.tab(2).println("return %s;", field);
     writer.tab(1).println("}");
   }
@@ -262,14 +270,14 @@ public class JavaPojoGenerator implements PojoGenerator {
       printJavaDoc(writer, 1, member.getDescription());
       printConstraints(writer, member, 1, settings);
       if (settings.isJacksonJson()) {
-        writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver));
+        writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver).asString());
       }
       writer
           .tab(1)
           .println(
               "public %s %sNullable() {",
-              member.getTypeName(resolver), member.getterName(resolver));
-      writer.tab(2).println("return %s;", member.memberName(resolver));
+              member.getTypeName(resolver).asString(), member.getterName(resolver).asString());
+      writer.tab(2).println("return %s;", member.memberName(resolver).asString());
       writer.tab(1).println("}");
     }
   }
@@ -329,15 +337,15 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(1)
                   .println(
                       "public %s %s(%s %s) {",
-                      pojo.className(resolver),
-                      member.witherName(resolver),
-                      member.getTypeName(resolver),
-                      member.memberName(resolver));
+                      pojo.className(resolver).asString(),
+                      member.witherName(resolver).asString(),
+                      member.getTypeName(resolver).asString(),
+                      member.memberName(resolver).asString());
               writer
                   .tab(2)
                   .println(
                       "return new %s(%s);",
-                      pojo.className(resolver), createNamesCommaSeparated(pojo));
+                      pojo.className(resolver).asString(), createNamesCommaSeparated(pojo));
               writer.tab(1).println("}");
             });
   }
@@ -363,16 +371,16 @@ public class JavaPojoGenerator implements PojoGenerator {
     pojo.getMembers()
         .forEach(
             member -> {
-              final String type = member.getTypeName(resolver);
-              final String fieldName = member.memberName(resolver);
+              final String type = member.getTypeName(resolver).asString();
+              final String fieldName = member.memberName(resolver).asString();
               writer.tab(2).println("private %s %s;", type, fieldName);
             });
 
     pojo.getMembers()
         .forEach(
             member -> {
-              final String type = member.getTypeName(resolver);
-              final String fieldName = member.memberName(resolver);
+              final String type = member.getTypeName(resolver).asString();
+              final String fieldName = member.memberName(resolver).asString();
               final String setterModifier =
                   settings.isEnableSafeBuilder() && member.isRequired() ? "private" : "public";
               writer.println();
@@ -381,17 +389,19 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(2)
                   .println(
                       "%s Builder %s(%s %s) {",
-                      setterModifier, member.setterName(resolver), type, fieldName);
+                      setterModifier, member.setterName(resolver).asString(), type, fieldName);
               writer.tab(3).println("this.%s = %s;", fieldName, fieldName);
               writer.tab(3).println("return this;");
               writer.tab(2).println("}");
             });
 
     writer.println();
-    writer.tab(2).println("public %s build() {", pojo.className(resolver));
+    writer.tab(2).println("public %s build() {", pojo.className(resolver).asString());
     writer
         .tab(3)
-        .println("return new %s(%s);", pojo.className(resolver), createNamesCommaSeparated(pojo));
+        .println(
+            "return new %s(%s);",
+            pojo.className(resolver).asString(), createNamesCommaSeparated(pojo));
     writer.tab(2).println("}");
 
     writer.tab(1).println("}");
@@ -410,8 +420,8 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(
             idx -> {
               final PojoMember member = requiredMembers.apply(idx);
-              final String memberName = member.memberName(resolver);
-              final String memberType = member.getTypeName(resolver);
+              final String memberName = member.memberName(resolver).asString();
+              final String memberType = member.getTypeName(resolver).asString();
               writer.println();
               writer.tab(1).println("public static final class Builder%d {", idx);
 
@@ -426,12 +436,12 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(2)
                   .println(
                       "public Builder%d %s(%s %s){",
-                      idx + 1, member.setterName(resolver), memberType, memberName);
+                      idx + 1, member.setterName(resolver).asString(), memberType, memberName);
               writer
                   .tab(3)
                   .println(
                       "return new Builder%d(builder.%s(%s));",
-                      idx + 1, member.setterName(resolver), memberName);
+                      idx + 1, member.setterName(resolver).asString(), memberName);
               writer.tab(2).println("}");
 
               writer.tab(1).println("}");
@@ -450,7 +460,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(2).println("public Builder andOptionals(){");
     writer.tab(3).println("return builder;");
     writer.tab(2).println("}");
-    writer.tab(2).println("public %s build(){", pojo.className(resolver));
+    writer.tab(2).println("public %s build(){", pojo.className(resolver).asString());
     writer.tab(3).println("return builder.build();");
     writer.tab(2).println("}");
     writer.tab(1).println("}");
@@ -459,8 +469,8 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(
             idx -> {
               final PojoMember member = optionalMembers.apply(idx);
-              final String memberName = member.memberName(resolver);
-              final String memberType = member.getTypeName(resolver);
+              final String memberName = member.memberName(resolver).asString();
+              final String memberType = member.getTypeName(resolver).asString();
               writer.println();
               writer.tab(1).println("public static final class OptBuilder%d {", idx);
 
@@ -475,12 +485,12 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(2)
                   .println(
                       "public OptBuilder%d %s(%s %s){",
-                      idx + 1, member.setterName(resolver), memberType, memberName);
+                      idx + 1, member.setterName(resolver).asString(), memberType, memberName);
               writer
                   .tab(3)
                   .println(
                       "return new OptBuilder%d(builder.%s(%s));",
-                      idx + 1, member.setterName(resolver), memberName);
+                      idx + 1, member.setterName(resolver).asString(), memberName);
               writer.tab(2).println("}");
 
               writer.tab(1).println("}");
@@ -493,7 +503,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(2).println("private OptBuilder%d(Builder builder) {", optionalMembers.size());
     writer.tab(3).println("this.builder = builder;");
     writer.tab(2).println("}");
-    writer.tab(2).println("public %s build(){", pojo.className(resolver));
+    writer.tab(2).println("public %s build(){", pojo.className(resolver).asString());
     writer.tab(3).println("return builder.build();");
     writer.tab(2).println("}");
     writer.tab(1).println("}");
@@ -514,13 +524,15 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     writer
         .tab(2)
-        .println("final %s v = (%s) other;", pojo.className(resolver), pojo.className(resolver));
+        .println(
+            "final %s v = (%s) other;",
+            pojo.className(resolver).asString(), pojo.className(resolver).asString());
 
     final PList<String> objectEquals =
         pojo.getMembers()
             .map(
                 member -> {
-                  final String fieldName = member.memberName(resolver);
+                  final String fieldName = member.memberName(resolver).asString();
                   return String.format("Objects.equals(%s, v.%s)", fieldName, fieldName);
                 });
 
@@ -543,7 +555,8 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(1).println("@Override");
     writer.tab(1).println("public int hashCode() {");
 
-    final PList<String> fieldNames = pojo.getMembers().map(member -> member.memberName(resolver));
+    final PList<String> fieldNames =
+        pojo.getMembers().map(member -> member.memberName(resolver).asString());
 
     writer.tab(2).println("return Objects.hash(%s);", String.join(", ", fieldNames));
     writer.tab(1).println("}");
@@ -553,7 +566,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println();
     writer.tab(1).println("@Override");
     writer.tab(1).println("public String toString() {");
-    writer.tab(2).println("return \"%s{\" +", pojo.className(resolver));
+    writer.tab(2).println("return \"%s{\" +", pojo.className(resolver).asString());
 
     String separator = "";
     for (PojoMember member : pojo.getMembers()) {
@@ -561,7 +574,9 @@ public class JavaPojoGenerator implements PojoGenerator {
           .tab(3)
           .println(
               "\"%s%s=\" + %s +",
-              separator, member.memberName(resolver), member.memberName(resolver));
+              separator,
+              member.memberName(resolver).asString(),
+              member.memberName(resolver).asString());
       separator = ", ";
     }
     writer.tab(3).println("\"}\";");

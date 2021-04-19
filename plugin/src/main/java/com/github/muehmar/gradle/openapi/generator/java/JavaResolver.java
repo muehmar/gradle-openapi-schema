@@ -4,57 +4,63 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.BO
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Type;
 
 public class JavaResolver implements Resolver {
 
   @Override
-  public String getterName(String key, Type type) {
+  public Name getterName(Name name, Type type) {
     final String prefix = type.getFullName().equalsIgnoreCase(BOOLEAN.getFullName()) ? "is" : "get";
-    return prefix + toPascalCase(key);
+    return toPascalCase(name).prefix(prefix);
   }
 
   @Override
-  public String setterName(String key) {
-    return "set" + toPascalCase(key);
+  public Name setterName(Name name) {
+    return toPascalCase(name).prefix("set");
   }
 
   @Override
-  public String witherName(String key) {
-    return "with" + toPascalCase(key);
+  public Name witherName(Name name) {
+    return toPascalCase(name).prefix("with");
   }
 
   @Override
-  public String memberName(String key) {
-    return toCamelCase(key);
+  public Name memberName(Name name) {
+    return toCamelCase(name);
   }
 
   @Override
-  public String className(String key) {
-    return toPascalCase(key);
+  public Name className(Name name) {
+    return toPascalCase(name);
   }
 
   @Override
-  public String enumName(String key) {
-    return toPascalCase(key) + "Enum";
+  public Name enumName(Name name) {
+    return toPascalCase(name).append("Enum");
   }
 
-  public static String toCamelCase(String key) {
-    return key.substring(0, 1).toLowerCase() + key.substring(1);
+  public static Name toCamelCase(Name name) {
+    return name.map(n -> n.substring(0, 1).toLowerCase() + n.substring(1));
   }
 
-  public static String toPascalCase(String key) {
-    return key.substring(0, 1).toUpperCase() + key.substring(1);
+  public static Name toPascalCase(Name name) {
+    return name.map(n -> n.substring(0, 1).toUpperCase() + n.substring(1));
   }
 
-  public static String toPascalCase(String... keys) {
-    return PList.fromArray(keys).map(JavaResolver::toPascalCase).mkString("");
-  }
-
-  public static String snakeCaseToPascalCase(String key) {
-    return PList.fromArray(key.split("_"))
-        .map(String::toLowerCase)
+  public static Name toPascalCase(Name... names) {
+    return PList.fromArray(names)
         .map(JavaResolver::toPascalCase)
-        .mkString("");
+        .reduce(Name::append)
+        .orElseThrow(() -> new IllegalArgumentException("No names supplied"));
+  }
+
+  public static Name snakeCaseToPascalCase(String name) {
+    return PList.fromArray(name.split("_"))
+        .map(String::toLowerCase)
+        .map(Name::of)
+        .map(JavaResolver::toPascalCase)
+        .reduce(Name::append)
+        .orElseThrow(() -> new IllegalArgumentException("No names supplied"));
   }
 }

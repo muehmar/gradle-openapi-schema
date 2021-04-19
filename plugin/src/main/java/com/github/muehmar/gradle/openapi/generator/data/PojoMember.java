@@ -7,13 +7,13 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class PojoMember {
-  private final String key;
+  private final Name name;
   private final String description;
   private final Type type;
   private final boolean nullable;
 
-  public PojoMember(String key, String description, Type type, boolean nullable) {
-    this.key = key;
+  public PojoMember(Name name, String description, Type type, boolean nullable) {
+    this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
     this.nullable = nullable;
@@ -23,16 +23,16 @@ public class PojoMember {
     return description;
   }
 
-  public String getTypeName(Resolver resolver) {
-    return type.isEnum() ? resolver.enumName(key) : type.getFullName();
+  public Name getTypeName(Resolver resolver) {
+    return type.isEnum() ? resolver.enumName(name) : type.getFullName();
   }
 
   public Type getType() {
     return type;
   }
 
-  public String getKey() {
-    return key;
+  public Name getName() {
+    return name;
   }
 
   public boolean isNullable() {
@@ -43,8 +43,8 @@ public class PojoMember {
     return !isNullable();
   }
 
-  public String getterName(Resolver resolver) {
-    return resolver.getterName(key, type);
+  public Name getterName(Resolver resolver) {
+    return resolver.getterName(name, type);
   }
   /**
    * The provided {@code code} is executed in case this type is an enum with the list of members in
@@ -54,16 +54,16 @@ public class PojoMember {
     type.onEnum(code);
   }
 
-  public String setterName(Resolver resolver) {
-    return resolver.setterName(key);
+  public Name setterName(Resolver resolver) {
+    return resolver.setterName(name);
   }
 
-  public String witherName(Resolver resolver) {
-    return resolver.witherName(key);
+  public Name witherName(Resolver resolver) {
+    return resolver.witherName(name);
   }
 
-  public String memberName(Resolver resolver) {
-    return resolver.memberName(key);
+  public Name memberName(Resolver resolver) {
+    return resolver.memberName(name);
   }
 
   public PList<String> getImports() {
@@ -80,21 +80,21 @@ public class PojoMember {
     }
     PojoMember that = (PojoMember) o;
     return nullable == that.nullable
-        && Objects.equals(key, that.key)
+        && Objects.equals(name, that.name)
         && Objects.equals(description, that.description)
         && Objects.equals(type, that.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, description, type, nullable);
+    return Objects.hash(name, description, type, nullable);
   }
 
   @Override
   public String toString() {
     return "PojoMember{"
         + "key='"
-        + key
+        + name
         + '\''
         + ", description='"
         + description

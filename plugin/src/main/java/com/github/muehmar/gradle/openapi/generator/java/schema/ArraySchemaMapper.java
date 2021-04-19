@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.schema;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
@@ -18,8 +19,8 @@ public class ArraySchemaMapper extends BaseSchemaMapper<ArraySchema> {
 
   @Override
   MappedSchema<JavaType> mapSpecificSchema(
-      String pojoKey,
-      String key,
+      Name pojoName,
+      Name pojoMemberName,
       ArraySchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
@@ -28,14 +29,14 @@ public class ArraySchemaMapper extends BaseSchemaMapper<ArraySchema> {
     final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
 
     if (items instanceof ObjectSchema) {
-      final String openApiPojoKey = JavaResolver.toPascalCase(pojoKey, key);
-      final JavaType itemType = JavaType.ofOpenApiSchema(openApiPojoKey, pojoSettings.getSuffix());
+      final Name openApiPojoName = JavaResolver.toPascalCase(pojoName, pojoMemberName);
+      final JavaType itemType = JavaType.ofOpenApiSchema(openApiPojoName, pojoSettings.getSuffix());
       final JavaType javaList = JavaType.javaList(itemType);
-      final OpenApiPojo openApiPojo = new OpenApiPojo(openApiPojoKey, items);
+      final OpenApiPojo openApiPojo = new OpenApiPojo(openApiPojoName, items);
       return MappedSchema.ofTypeAndOpenApiPojo(javaList.withConstraints(constraints), openApiPojo);
     } else {
       return chain
-          .mapSchema(pojoKey, key, items, pojoSettings, chain)
+          .mapSchema(pojoName, pojoMemberName, items, pojoSettings, chain)
           .mapType(itemType -> JavaType.javaList(itemType).withConstraints(constraints));
     }
   }

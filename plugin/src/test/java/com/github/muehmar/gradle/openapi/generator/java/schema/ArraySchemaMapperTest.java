@@ -6,6 +6,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -22,7 +23,11 @@ class ArraySchemaMapperTest {
     final ArraySchema arraySchema = new ArraySchema().items(new DateTimeSchema());
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            "pojoKey", "key", arraySchema, null, new DateTimeSchemaMapper(null));
+            Name.of("pojoName"),
+            Name.of("pojoMemberName"),
+            arraySchema,
+            null,
+            new DateTimeSchemaMapper(null));
     assertEquals(JavaType.javaList(JavaTypes.LOCAL_DATE_TIME), mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -32,7 +37,11 @@ class ArraySchemaMapperTest {
     final Schema<?> arraySchema = new ArraySchema().items(new DateTimeSchema()).minItems(10);
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            "pojoKey", "key", arraySchema, null, new DateTimeSchemaMapper(null));
+            Name.of("pojoName"),
+            Name.of("pojoMemberName"),
+            arraySchema,
+            null,
+            new DateTimeSchemaMapper(null));
 
     assertEquals(
         JavaType.javaList(JavaTypes.LOCAL_DATE_TIME)
@@ -46,7 +55,11 @@ class ArraySchemaMapperTest {
     final Schema<?> arraySchema = new ArraySchema().items(new DateTimeSchema()).maxItems(50);
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            "pojoKey", "key", arraySchema, null, new DateTimeSchemaMapper(null));
+            Name.of("pojoName"),
+            Name.of("pojoMemberName"),
+            arraySchema,
+            null,
+            new DateTimeSchemaMapper(null));
 
     assertEquals(
         JavaType.javaList(JavaTypes.LOCAL_DATE_TIME)
@@ -61,7 +74,11 @@ class ArraySchemaMapperTest {
         new ArraySchema().items(new DateTimeSchema()).minItems(10).maxItems(50);
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            "pojoKey", "key", arraySchema, null, new DateTimeSchemaMapper(null));
+            Name.of("pojoName"),
+            Name.of("pojoMemberName"),
+            arraySchema,
+            null,
+            new DateTimeSchemaMapper(null));
 
     assertEquals(
         JavaType.javaList(JavaTypes.LOCAL_DATE_TIME)

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
@@ -15,7 +16,7 @@ class TypeTest {
   void getName_when_genericType_then_correctName() {
     final JavaType javaType =
         JavaType.javaMap(JavaTypes.STRING, JavaType.javaList(JavaTypes.LOCAL_TIME));
-    assertEquals("Map<String, List<LocalTime>>", javaType.getFullName());
+    assertEquals("Map<String, List<LocalTime>>", javaType.getFullName().asString());
   }
 
   @Test
@@ -35,7 +36,7 @@ class TypeTest {
     final JavaType classReplacedType =
         javaType.replaceClass("List", "CustomList", Optional.of("com.package.CustomList"));
 
-    assertEquals("Map<String, CustomList<LocalTime>>", classReplacedType.getFullName());
+    assertEquals("Map<String, CustomList<LocalTime>>", classReplacedType.getFullName().asString());
 
     assertEquals(
         new HashSet<>(
@@ -46,15 +47,15 @@ class TypeTest {
 
   @Test
   void ofOpenApiSchema_when_normalData_then_correctName() {
-    final JavaType javaType = JavaType.ofOpenApiSchema("PojoKeyKey", "Dto");
-    assertEquals("PojoKeyKeyDto", javaType.getFullName());
+    final JavaType javaType = JavaType.ofOpenApiSchema(Name.of("PojoKeyKey"), "Dto");
+    assertEquals("PojoKeyKeyDto", javaType.getFullName().asString());
     assertTrue(javaType.containsPojo());
   }
 
   @Test
   void javaEnum_when_normalData_then_correctTypeReturned() {
     final JavaType javaType = JavaType.javaEnum(PList.of("Admin", "User"));
-    assertEquals("enum", javaType.getFullName());
+    assertEquals("enum", javaType.getFullName().asString());
     assertEquals(PList.of("Admin", "User"), javaType.getEnumMembers());
     assertTrue(javaType.isEnum());
   }

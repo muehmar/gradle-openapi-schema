@@ -5,16 +5,16 @@ import java.util.Objects;
 
 /** Container holding a key and the corresponding {@link Schema}. */
 public class OpenApiPojo {
-  private final String key;
+  private final Name name;
   private final Schema<?> schema;
 
-  public OpenApiPojo(String key, Schema<?> schema) {
-    this.key = key;
+  public OpenApiPojo(Name name, Schema<?> schema) {
+    this.name = name;
     this.schema = schema;
   }
 
-  public String getKey() {
-    return key;
+  public Name getName() {
+    return name;
   }
 
   @SuppressWarnings("java:S1452")
@@ -31,16 +31,16 @@ public class OpenApiPojo {
       return false;
     }
     OpenApiPojo that = (OpenApiPojo) o;
-    return Objects.equals(key, that.key) && Objects.equals(schema, that.schema);
+    return Objects.equals(name, that.name) && Objects.equals(schema, that.schema);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, schema);
+    return Objects.hash(name, schema);
   }
 
   @Override
   public String toString() {
-    return "OpenApiPojo{" + "key='" + key + '\'' + ", schema=" + schema + '}';
+    return "OpenApiPojo{" + "name='" + name + '\'' + ", schema=" + schema + '}';
   }
 }

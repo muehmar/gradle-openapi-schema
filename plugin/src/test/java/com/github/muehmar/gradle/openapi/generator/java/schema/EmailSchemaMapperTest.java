@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import io.swagger.v3.oas.models.media.EmailSchema;
@@ -19,7 +20,8 @@ class EmailSchemaMapperTest {
   void mapSchema_when_emailSchema_then_correctJavaType() {
     final EmailSchema emailSchema = new EmailSchema();
     final MappedSchema<JavaType> mappedSchema =
-        EMAIL_SCHEMA_MAPPER.mapSchema("pojoKey", "key", emailSchema, null, null);
+        EMAIL_SCHEMA_MAPPER.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), emailSchema, null, null);
     assertEquals(JavaTypes.STRING.withConstraints(Constraints.ofEmail()), mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -30,7 +32,8 @@ class EmailSchemaMapperTest {
     final EmailSchema emailSchema = new EmailSchema();
     emailSchema.pattern("pattern").minLength(5).maxLength(50);
     final MappedSchema<JavaType> mappedSchema =
-        EMAIL_SCHEMA_MAPPER.mapSchema("pojoKey", "key", emailSchema, null, null);
+        EMAIL_SCHEMA_MAPPER.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), emailSchema, null, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(
             Constraints.ofEmail()

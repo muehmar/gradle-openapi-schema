@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.BasePojoMapper;
 import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -27,12 +28,12 @@ public class JavaPojoMapper extends BasePojoMapper {
 
   @Override
   protected PojoProcessResult fromArraysSchema(
-      String key, ArraySchema schema, PojoSettings pojoSettings) {
+      Name pojoName, ArraySchema schema, PojoSettings pojoSettings) {
     final PojoMemberProcessResult pojoMemberProcessResult =
-        toPojoMemberFromSchema(key, "value", schema, pojoSettings, false);
+        toPojoMemberFromSchema(pojoName, Name.of("value"), schema, pojoSettings, false);
     final Pojo pojo =
         new Pojo(
-            key,
+            pojoName,
             schema.getDescription(),
             pojoSettings.getSuffix(),
             PList.single(pojoMemberProcessResult.getPojoMember()),
@@ -42,9 +43,13 @@ public class JavaPojoMapper extends BasePojoMapper {
 
   @Override
   protected PojoMemberProcessResult toPojoMemberFromSchema(
-      String pojoKey, String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable) {
+      Name pojoName,
+      Name pojoMemberName,
+      Schema<?> schema,
+      PojoSettings pojoSettings,
+      boolean nullable) {
     final MappedSchema<JavaType> mappedSchema =
-        typeMapperChain.mapSchema(pojoKey, key, schema, pojoSettings, typeMapperChain);
+        typeMapperChain.mapSchema(pojoName, pojoMemberName, schema, pojoSettings, typeMapperChain);
 
     final JavaType javaType =
         mappedSchema
@@ -66,52 +71,42 @@ public class JavaPojoMapper extends BasePojoMapper {
             .orElse(javaType);
 
     final PojoMember pojoMember =
-        new PojoMember(key, schema.getDescription(), classMappedJavaType, nullable);
+        new PojoMember(pojoMemberName, schema.getDescription(), classMappedJavaType, nullable);
     return new PojoMemberProcessResult(pojoMember, mappedSchema.getOpenApiPojos());
   }
 
   @Override
   protected ComposedPojo fromComposedSchema(
-      String key,
+      Name name,
       String description,
       ComposedPojo.CompositionType type,
       PList<Schema<?>> schemas,
       PojoSettings pojoSettings) {
 
-    final PList<String> pojoNames =
+    final PList<Name> pojoNames =
         schemas.flatMapOptional(
-            schema -> {
-              final String $ref = schema.get$ref();
-              return Optional.ofNullable($ref).map(ref -> ReferenceMapper.getRefKey($ref));
-            });
+            schema -> Optional.ofNullable(schema.get$ref()).map(ReferenceMapper::getRefName));
 
     final PList<Schema<?>> inlineDefinitions =
         schemas.filter(schema -> Objects.isNull(schema.get$ref()));
 
-    final PList<OpenApiPojo> openApiPojos;
-    if (inlineDefinitions.size() > 1) {
-      openApiPojos =
-          inlineDefinitions
-              .zipWithIndex()
-              .map(
-                  p -> {
-                    final Schema<?> schema = p.first();
-                    final Integer index = p.second();
-                    final String name =
-                        key + JavaResolver.snakeCaseToPascalCase(type.name()) + index;
-                    return new OpenApiPojo(name, schema);
-                  });
-    } else {
-      openApiPojos =
-          inlineDefinitions.map(
-              schema -> {
-                final String name = key + JavaResolver.snakeCaseToPascalCase(type.name());
-                return new OpenApiPojo(name, schema);
-              });
-    }
+    final PList<OpenApiPojo> openApiPojos =
+        inlineDefinitions
+            .zipWithIndex()
+            .map(
+                p -> {
+                  final Schema<?> schema = p.first();
+                  final Integer index = p.second();
+                  final String openApiPojoNameSuffix =
+                      inlineDefinitions.size() > 1 ? "" + index : "";
+                  final Name openApiPojoName =
+                      name.append(JavaResolver.snakeCaseToPascalCase(type.name()))
+                          .append(openApiPojoNameSuffix);
+                  return new OpenApiPojo(openApiPojoName, schema);
+                });
 
     return new ComposedPojo(
-        key, description, pojoSettings.getSuffix(), type, pojoNames, openApiPojos);
+        name, description, pojoSettings.getSuffix(), type, pojoNames, openApiPojos);
   }
 
   private static Map<String, String> createPrimitivesMap() {

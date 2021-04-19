@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
@@ -24,7 +25,8 @@ class StringSchemaMapperTest {
   void mapSchema_when_urlFormat_then_correctUrlJavaTypeReturned() {
     final Schema<?> schema = new StringSchema().format("url");
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
     assertEquals(JavaTypes.URL, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -33,7 +35,8 @@ class StringSchemaMapperTest {
   void mapSchema_when_uriFormat_then_correctUriJavaTypeReturned() {
     final Schema<?> schema = new StringSchema().format("uri");
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
     assertEquals(JavaTypes.URI, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -42,7 +45,8 @@ class StringSchemaMapperTest {
   void mapSchema_when_partialTimeFormat_then_localTimeTypeReturned() {
     final Schema<?> schema = new StringSchema().format("partial-time");
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, null, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
     assertEquals(JavaTypes.LOCAL_TIME, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -53,7 +57,8 @@ class StringSchemaMapperTest {
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, pojoSettings, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(Constraints.ofPattern(new Pattern("[A-Z]"))),
         mappedSchema.getType());
@@ -66,7 +71,8 @@ class StringSchemaMapperTest {
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, pojoSettings, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMin(10))),
         mappedSchema.getType());
@@ -79,7 +85,8 @@ class StringSchemaMapperTest {
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, pojoSettings, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMax(33))),
         mappedSchema.getType());
@@ -92,7 +99,8 @@ class StringSchemaMapperTest {
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, pojoSettings, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.of(10, 33))),
         mappedSchema.getType());
@@ -105,7 +113,8 @@ class StringSchemaMapperTest {
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, pojoSettings, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
     assertEquals(JavaType.javaEnum(PList.of("User", "Visitor")), mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -121,7 +130,8 @@ class StringSchemaMapperTest {
             null, null, null, false, false, PList.empty(), PList.single(formatTypeMapping));
 
     final MappedSchema<JavaType> mappedSchema =
-        stringSchemaMapper.mapSchema("pojoKey", "key", schema, pojoSettings, null);
+        stringSchemaMapper.mapSchema(
+            Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
     assertEquals(
         JavaType.ofUserDefinedAndImport("UserType", "ch.user.type.package"),
         mappedSchema.getType());

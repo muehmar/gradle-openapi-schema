@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.Schema;
@@ -21,20 +22,25 @@ abstract class BaseSchemaMapper<T extends Schema<?>> implements JavaSchemaMapper
 
   @Override
   public MappedSchema<JavaType> mapSchema(
-      String pojoKey,
-      String key,
+      Name pojoName,
+      Name pojoMemberName,
       Schema<?> schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
     if (schema.getClass().equals(schemaClass)) {
-      return mapSpecificSchema(pojoKey, key, schemaClass.cast(schema), pojoSettings, chain);
+      return mapSpecificSchema(
+          pojoName, pojoMemberName, schemaClass.cast(schema), pojoSettings, chain);
     }
-    return nextMapper.mapSchema(pojoKey, key, schema, pojoSettings, chain);
+    return nextMapper.mapSchema(pojoName, pojoMemberName, schema, pojoSettings, chain);
   }
 
   /**
    * Is called in case the given {@link Schema} is an instance of the supported schema {@link T}.
    */
   abstract MappedSchema<JavaType> mapSpecificSchema(
-      String pojoKey, String key, T schema, PojoSettings pojoSettings, JavaSchemaMapper chain);
+      Name pojoName,
+      Name pojoMemberName,
+      T schema,
+      PojoSettings pojoSettings,
+      JavaSchemaMapper chain);
 }

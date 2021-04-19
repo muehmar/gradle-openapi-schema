@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import io.swagger.v3.oas.models.media.Schema;
@@ -16,7 +17,7 @@ class TypeLessSchemaMapperTest {
     final Schema<Object> schema = new Schema<>();
 
     final MappedSchema<JavaType> mappedSchema =
-        schemaMapper.mapSchema("pojoKey", "key", schema, null, null);
+        schemaMapper.mapSchema(Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
     assertEquals(JavaTypes.OBJECT, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }

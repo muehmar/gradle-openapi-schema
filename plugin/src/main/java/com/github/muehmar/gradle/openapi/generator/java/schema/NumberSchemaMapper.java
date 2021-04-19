@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.FL
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.NumberSchema;
@@ -21,8 +22,8 @@ public class NumberSchemaMapper extends BaseSchemaMapper<NumberSchema> {
 
   @Override
   MappedSchema<JavaType> mapSpecificSchema(
-      String pojoKey,
-      String key,
+      Name pojoName,
+      Name pojoMemberName,
       NumberSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {

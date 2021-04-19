@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.OpenApiGenerator;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
@@ -67,7 +68,7 @@ public class GenerateSchemasTask extends DefaultTask {
     final PList<OpenApiPojo> openApiPojos =
         PList.fromIter(openAPI.getComponents().getSchemas().entrySet())
             .filter(Objects::nonNull)
-            .map(entry -> new OpenApiPojo(entry.getKey(), (Schema<?>) entry.getValue()));
+            .map(entry -> new OpenApiPojo(Name.of(entry.getKey()), (Schema<?>) entry.getValue()));
 
     final PList<Pojo> pojos =
         openApiGenerator.getMapper().fromSchema(openApiPojos, pojoSettings.get());

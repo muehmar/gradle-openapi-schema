@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.type;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Type;
 import java.util.Objects;
 import java.util.Optional;
@@ -10,7 +11,7 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class JavaType implements Type {
-  private final String name;
+  private final Name name;
   private final PList<String> imports;
   private final PList<JavaType> genericTypes;
   private final PList<String> enumMembers;
@@ -18,7 +19,7 @@ public class JavaType implements Type {
   private final boolean containsPojo;
 
   private JavaType(
-      String name,
+      Name name,
       PList<String> imports,
       PList<JavaType> genericTypes,
       PList<String> enumMembers,
@@ -32,39 +33,65 @@ public class JavaType implements Type {
     this.containsPojo = containsPojo;
   }
 
-  public static JavaType ofNameAndImport(String name, String singleImport) {
+  public static JavaType ofNameAndImport(Name name, String singleImport) {
     return new JavaType(
         name, PList.single(singleImport), PList.empty(), PList.empty(), Constraints.empty(), false);
   }
 
-  public static JavaType ofName(String name) {
+  public static JavaType ofNameAndImport(String name, String singleImport) {
+    return JavaType.ofNameAndImport(Name.of(name), singleImport);
+  }
+
+  public static JavaType ofName(Name name) {
     return new JavaType(
         name, PList.empty(), PList.empty(), PList.empty(), Constraints.empty(), false);
   }
 
-  public static JavaType ofUserDefined(String name) {
+  public static JavaType ofName(String name) {
+    return JavaType.ofName(Name.of(name));
+  }
+
+  public static JavaType ofUserDefined(Name name) {
     return new JavaType(
         name, PList.empty(), PList.empty(), PList.empty(), Constraints.empty(), true);
   }
 
-  public static JavaType ofUserDefinedAndImport(String name, String singleImport) {
+  public static JavaType ofUserDefined(String name) {
+    return JavaType.ofUserDefined(Name.of(name));
+  }
+
+  public static JavaType ofUserDefinedAndImport(Name name, String singleImport) {
     return new JavaType(
         name, PList.single(singleImport), PList.empty(), PList.empty(), Constraints.empty(), true);
   }
 
-  public static JavaType ofReference(String name, String suffix) {
-    return new JavaType(
-        name + suffix, PList.empty(), PList.empty(), PList.empty(), Constraints.empty(), true);
+  public static JavaType ofUserDefinedAndImport(String name, String singleImport) {
+    return JavaType.ofUserDefinedAndImport(Name.of(name), singleImport);
   }
 
-  public static JavaType ofOpenApiSchema(String name, String suffix) {
+  public static JavaType ofReference(Name name, String suffix) {
     return new JavaType(
-        name + suffix, PList.empty(), PList.empty(), PList.empty(), Constraints.empty(), true);
+        name.append(suffix),
+        PList.empty(),
+        PList.empty(),
+        PList.empty(),
+        Constraints.empty(),
+        true);
+  }
+
+  public static JavaType ofOpenApiSchema(Name name, String suffix) {
+    return new JavaType(
+        name.append(suffix),
+        PList.empty(),
+        PList.empty(),
+        PList.empty(),
+        Constraints.empty(),
+        true);
   }
 
   public static JavaType javaMap(JavaType key, JavaType value) {
     return new JavaType(
-        "Map",
+        Name.of("Map"),
         PList.single("java.util.Map"),
         PList.of(key, value),
         PList.empty(),
@@ -74,7 +101,7 @@ public class JavaType implements Type {
 
   public static JavaType javaList(JavaType itemType) {
     return new JavaType(
-        "List",
+        Name.of("List"),
         PList.single("java.util.List"),
         PList.single(itemType),
         PList.empty(),
@@ -83,15 +110,21 @@ public class JavaType implements Type {
   }
 
   public static JavaType javaEnum(PList<String> members) {
-    return new JavaType("enum", PList.empty(), PList.empty(), members, Constraints.empty(), false);
+    return new JavaType(
+        Name.of("enum"), PList.empty(), PList.empty(), members, Constraints.empty(), false);
   }
 
   public JavaType replaceClass(String fromClass, String toClass, Optional<String> newImports) {
     final PList<JavaType> generics =
         genericTypes.map(t -> t.replaceClass(fromClass, toClass, newImports));
-    if (name.equals(fromClass)) {
+    if (name.asString().equals(fromClass)) {
       return new JavaType(
-          toClass, PList.fromOptional(newImports), generics, enumMembers, constraints, true);
+          Name.of(toClass),
+          PList.fromOptional(newImports),
+          generics,
+          enumMembers,
+          constraints,
+          true);
     } else {
       return new JavaType(name, imports, generics, enumMembers, constraints, containsPojo);
     }
@@ -99,7 +132,7 @@ public class JavaType implements Type {
 
   public JavaType mapPrimitiveType(UnaryOperator<String> mapName) {
     return new JavaType(
-        mapName.apply(name), imports, genericTypes, enumMembers, constraints, containsPojo);
+        name.map(mapName), imports, genericTypes, enumMembers, constraints, containsPojo);
   }
 
   public JavaType withConstraints(Constraints constraints) {
@@ -107,10 +140,10 @@ public class JavaType implements Type {
   }
 
   @Override
-  public String getFullName() {
-    final String genericNames = genericTypes.map(JavaType::getFullName).mkString(", ");
-    return String.format(
-        "%s%s", name, genericTypes.isEmpty() ? "" : String.format("<%s>", genericNames));
+  public Name getFullName() {
+    final String genericNames =
+        genericTypes.map(JavaType::getFullName).map(Name::asString).mkString(", ");
+    return name.append(genericTypes.isEmpty() ? "" : String.format("<%s>", genericNames));
   }
 
   @Override

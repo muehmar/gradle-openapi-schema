@@ -6,27 +6,27 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Pojo {
-  private final String key;
+  private final Name name;
   private final String description;
   private final String suffix;
   private final PList<PojoMember> members;
   private final boolean isArray;
 
   public Pojo(
-      String key, String description, String suffix, PList<PojoMember> members, boolean isArray) {
-    this.key = key;
+      Name name, String description, String suffix, PList<PojoMember> members, boolean isArray) {
+    this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.suffix = suffix;
     this.members = members;
     this.isArray = isArray;
   }
 
-  public String getKey() {
-    return key;
+  public Name getName() {
+    return name;
   }
 
-  public String className(Resolver resolver) {
-    return resolver.className(key + suffix);
+  public SuffixedName className(Resolver resolver) {
+    return resolver.className(name).suffix(suffix);
   }
 
   public String getDescription() {
@@ -51,7 +51,7 @@ public class Pojo {
     }
     Pojo pojo = (Pojo) o;
     return isArray == pojo.isArray
-        && Objects.equals(key, pojo.key)
+        && Objects.equals(name, pojo.name)
         && Objects.equals(description, pojo.description)
         && Objects.equals(suffix, pojo.suffix)
         && Objects.equals(members, pojo.members);
@@ -59,14 +59,14 @@ public class Pojo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, description, suffix, members, isArray);
+    return Objects.hash(name, description, suffix, members, isArray);
   }
 
   @Override
   public String toString() {
     return "Pojo{"
-        + "key='"
-        + key
+        + "name='"
+        + name
         + '\''
         + ", description='"
         + description

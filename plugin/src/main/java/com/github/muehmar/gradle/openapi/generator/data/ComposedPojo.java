@@ -8,11 +8,11 @@ import java.util.Objects;
  * of compositions, see {@link CompositionType}.
  */
 public class ComposedPojo {
-  private final String key;
+  private final Name name;
   private final String description;
   private final String suffix;
   private final CompositionType type;
-  private final PList<String> pojoNames;
+  private final PList<Name> pojoNames;
   private final PList<OpenApiPojo> openApiPojos;
 
   public enum CompositionType {
@@ -22,13 +22,13 @@ public class ComposedPojo {
   }
 
   public ComposedPojo(
-      String key,
+      Name name,
       String description,
       String suffix,
       CompositionType type,
-      PList<String> pojoNames,
+      PList<Name> pojoNames,
       PList<OpenApiPojo> openApiPojos) {
-    this.key = key;
+    this.name = name;
     this.description = description;
     this.suffix = suffix;
     this.type = type;
@@ -36,8 +36,8 @@ public class ComposedPojo {
     this.openApiPojos = openApiPojos;
   }
 
-  public String getKey() {
-    return key;
+  public Name getName() {
+    return name;
   }
 
   public String getDescription() {
@@ -52,7 +52,7 @@ public class ComposedPojo {
     return type;
   }
 
-  public PList<String> getPojoNames() {
+  public PList<Name> getPojoNames() {
     return pojoNames;
   }
 
@@ -69,7 +69,7 @@ public class ComposedPojo {
       return false;
     }
     ComposedPojo that = (ComposedPojo) o;
-    return Objects.equals(key, that.key)
+    return Objects.equals(name, that.name)
         && Objects.equals(description, that.description)
         && Objects.equals(suffix, that.suffix)
         && type == that.type
@@ -79,14 +79,14 @@ public class ComposedPojo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, description, suffix, type, pojoNames, openApiPojos);
+    return Objects.hash(name, description, suffix, type, pojoNames, openApiPojos);
   }
 
   @Override
   public String toString() {
     return "ComposedPojo{"
-        + "key='"
-        + key
+        + "name='"
+        + name
         + '\''
         + ", description='"
         + description

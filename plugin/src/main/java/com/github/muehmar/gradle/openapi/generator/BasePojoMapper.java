@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -30,7 +31,7 @@ public abstract class BasePojoMapper implements PojoMapper {
     if (openApiPojo.getSchema() instanceof ComposedSchema) {
       final ComposedPojo composedPojo =
           fromComposedSchema(
-              openApiPojo.getKey(), (ComposedSchema) openApiPojo.getSchema(), pojoSettings);
+              openApiPojo.getName(), (ComposedSchema) openApiPojo.getSchema(), pojoSettings);
 
       final SchemaProcessResult schemaProcessResult =
           composedPojo
@@ -42,8 +43,8 @@ public abstract class BasePojoMapper implements PojoMapper {
       final PojoProcessResult pojoProcessResult =
           openApiPojo.getSchema() instanceof ArraySchema
               ? fromArraysSchema(
-                  openApiPojo.getKey(), (ArraySchema) openApiPojo.getSchema(), pojoSettings)
-              : fromObjectSchema(openApiPojo.getKey(), openApiPojo.getSchema(), pojoSettings);
+                  openApiPojo.getName(), (ArraySchema) openApiPojo.getSchema(), pojoSettings)
+              : fromObjectSchema(openApiPojo.getName(), openApiPojo.getSchema(), pojoSettings);
 
       final SchemaProcessResult schemaProcessResult =
           pojoProcessResult
@@ -56,7 +57,7 @@ public abstract class BasePojoMapper implements PojoMapper {
   }
 
   private PojoProcessResult fromObjectSchema(
-      String key, Schema<?> schema, PojoSettings pojoSettings) {
+      Name pojoName, Schema<?> schema, PojoSettings pojoSettings) {
 
     final PList<PojoMemberProcessResult> pojoMemberAndOpenApiPojos =
         Optional.ofNullable(schema.getProperties())
@@ -72,12 +73,12 @@ public abstract class BasePojoMapper implements PojoMapper {
                           .map(req -> req.stream().noneMatch(entry.getKey()::equals))
                           .orElse(true);
                   return toPojoMemberFromSchema(
-                      key, entry.getKey(), entry.getValue(), pojoSettings, nullable);
+                      pojoName, Name.of(entry.getKey()), entry.getValue(), pojoSettings, nullable);
                 });
 
     final Pojo pojo =
         new Pojo(
-            key,
+            pojoName,
             schema.getDescription(),
             pojoSettings.getSuffix(),
             pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember),
@@ -90,10 +91,10 @@ public abstract class BasePojoMapper implements PojoMapper {
   }
 
   private ComposedPojo fromComposedSchema(
-      String key, ComposedSchema schema, PojoSettings pojoSettings) {
+      Name name, ComposedSchema schema, PojoSettings pojoSettings) {
     if (schema.getOneOf() != null) {
       return fromComposedSchema(
-          key,
+          name,
           schema.getDescription(),
           ComposedPojo.CompositionType.ONE_OF,
           PList.fromIter(schema.getOneOf()).map(s -> (Schema<?>) s),
@@ -102,7 +103,7 @@ public abstract class BasePojoMapper implements PojoMapper {
 
     if (schema.getAnyOf() != null) {
       return fromComposedSchema(
-          key,
+          name,
           schema.getDescription(),
           ComposedPojo.CompositionType.ANY_OF,
           PList.fromIter(schema.getAnyOf()).map(s -> (Schema<?>) s),
@@ -111,7 +112,7 @@ public abstract class BasePojoMapper implements PojoMapper {
 
     if (schema.getAllOf() != null) {
       return fromComposedSchema(
-          key,
+          name,
           schema.getDescription(),
           ComposedPojo.CompositionType.ALL_OF,
           PList.fromIter(schema.getAllOf()).map(s -> (Schema<?>) s),
@@ -130,14 +131,14 @@ public abstract class BasePojoMapper implements PojoMapper {
                 composedPojo -> composedPojo.getType().equals(ComposedPojo.CompositionType.ALL_OF))
             .map(
                 composedPojo -> {
-                  final PList<String> pojoNames = composedPojo.getPojoNames();
-                  final PList<String> openApiPojoNames =
-                      composedPojo.getOpenApiPojos().map(OpenApiPojo::getKey);
+                  final PList<Name> pojoNames = composedPojo.getPojoNames();
+                  final PList<Name> openApiPojoNames =
+                      composedPojo.getOpenApiPojos().map(OpenApiPojo::getName);
 
                   final PList<Optional<Pojo>> foundPojos =
                       pojoNames
                           .concat(openApiPojoNames)
-                          .map(name -> pojos.find(pojo -> pojo.getKey().equalsIgnoreCase(name)));
+                          .map(name -> pojos.find(pojo -> pojo.getName().equalsIgnoreCase(name)));
                   if (foundPojos.exists(p -> !p.isPresent())) {
                     return new SchemaProcessResult(PList.empty(), PList.single(composedPojo));
                   } else {
@@ -145,7 +146,7 @@ public abstract class BasePojoMapper implements PojoMapper {
                         foundPojos.flatMapOptional(Function.identity()).flatMap(Pojo::getMembers);
                     final Pojo pojo =
                         new Pojo(
-                            composedPojo.getKey(),
+                            composedPojo.getName(),
                             composedPojo.getDescription(),
                             composedPojo.getSuffix(),
                             members,
@@ -168,23 +169,27 @@ public abstract class BasePojoMapper implements PojoMapper {
   }
 
   /**
-   * An implementation should create the {@link Pojo} representation for the given {@code key} and
-   * {@link ArraySchema}. Possible inline definitions of objects can be included in the returned
+   * An implementation should create the {@link Pojo} representation for the given {@code pojoName}
+   * and {@link ArraySchema}. Possible inline definitions of objects can be included in the returned
    * container {@link PojoProcessResult}.
    */
   protected abstract PojoProcessResult fromArraysSchema(
-      String key, ArraySchema schema, PojoSettings pojoSettings);
+      Name pojoName, ArraySchema schema, PojoSettings pojoSettings);
 
   /**
-   * An implementation should create the {@link PojoMember} representation for the given {@code key}
-   * and {@link ArraySchema}. Possible inline definitions of objects can be included in the returned
-   * container {@link PojoMemberProcessResult}.
+   * An implementation should create the {@link PojoMember} representation for the given {@code
+   * pojoMemberName} and {@link ArraySchema}. Possible inline definitions of objects can be included
+   * in the returned container {@link PojoMemberProcessResult}.
    */
   protected abstract PojoMemberProcessResult toPojoMemberFromSchema(
-      String pojoKey, String key, Schema<?> schema, PojoSettings pojoSettings, boolean nullable);
+      Name pojoName,
+      Name pojoMemberName,
+      Schema<?> schema,
+      PojoSettings pojoSettings,
+      boolean nullable);
 
   protected abstract ComposedPojo fromComposedSchema(
-      String key,
+      Name name,
       String description,
       ComposedPojo.CompositionType type,
       PList<Schema<?>> schemas,
