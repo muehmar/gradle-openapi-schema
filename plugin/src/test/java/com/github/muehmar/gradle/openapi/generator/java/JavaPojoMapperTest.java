@@ -18,6 +18,8 @@ import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.DateSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -37,14 +39,16 @@ class JavaPojoMapperTest {
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
     final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
+
+    // method call
     final PList<Pojo> pojos =
-        pojoMapper.fromSchema(new OpenApiPojo(Name.of("pojoName"), schema), pojoSettings);
+        pojoMapper.fromSchema(new OpenApiPojo(Name.of("PojoName"), schema), pojoSettings);
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
     assertEquals(
         new Pojo(
-            Name.of("pojoName"),
+            Name.of("PojoName"),
             "",
             "Dto",
             PList.single(
@@ -65,14 +69,16 @@ class JavaPojoMapperTest {
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("name", new StringSchema());
     final Schema<?> schema = new ObjectSchema().properties(properties);
+
+    // method call
     final PList<Pojo> pojos =
-        pojoMapper.fromSchema(new OpenApiPojo(Name.of("pojoName"), schema), pojoSettings);
+        pojoMapper.fromSchema(new OpenApiPojo(Name.of("PojoName"), schema), pojoSettings);
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
     assertEquals(
         new Pojo(
-            Name.of("pojoName"),
+            Name.of("PojoName"),
             "",
             "Dto",
             PList.single(
@@ -90,10 +96,12 @@ class JavaPojoMapperTest {
     final PojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
         new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+
     final PList<Pojo> pojos =
         parseOpenApiResourceEntries("/integration/completespec/openapi.yml")
             .flatMap(
                 entry ->
+                    // method call
                     pojoMapper.fromSchema(
                         new OpenApiPojo(Name.of(entry.getKey()), entry.getValue()), pojoSettings))
             .sort(Comparator.comparing(pojo -> pojo.className(new JavaResolver()).asString()));
@@ -226,6 +234,141 @@ class JavaPojoMapperTest {
                 new PojoMember(Name.of("prio"), "", JavaTypes.INTEGER, true)),
             false),
         pojos.apply(5));
+  }
+
+  @Test
+  void fromSchema_when_singleInlineDefinition_then_composedPojoAndInlineDefinitionPojoCreated() {
+    final JavaPojoMapper pojoMapper = new JavaPojoMapper();
+    final PojoSettings pojoSettings =
+        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+
+    final Schema<?> objectSchema =
+        new ObjectSchema()
+            .addProperties("user", new StringSchema())
+            .addProperties("key", new IntegerSchema());
+
+    final ComposedSchema composedSchema = new ComposedSchema();
+    composedSchema.addAllOfItem(objectSchema);
+
+    // method call
+    final PList<Pojo> pojos =
+        pojoMapper
+            .fromSchema(new OpenApiPojo(Name.of("ComposedPojoName"), composedSchema), pojoSettings)
+            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+
+    assertEquals(2, pojos.size());
+
+    assertEquals(
+        new Pojo(
+            Name.of("ComposedPojoName"),
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, true),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, true)),
+            false),
+        pojos.apply(0));
+
+    assertEquals(
+        new Pojo(
+            Name.of("ComposedPojoNameAllOf"),
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, true),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, true)),
+            false),
+        pojos.apply(1));
+  }
+
+  @Test
+  void fromSchema_when_twoInlineDefinitionAndReference_then_allPojosCreated() {
+    final JavaPojoMapper pojoMapper = new JavaPojoMapper();
+    final PojoSettings pojoSettings =
+        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+
+    final Schema<?> objectSchema1 =
+        new ObjectSchema()
+            .addProperties("user", new StringSchema())
+            .addProperties("key", new IntegerSchema());
+
+    final Schema<?> objectSchema2 =
+        new ObjectSchema()
+            .addProperties("registerDate", new DateSchema())
+            .addProperties("languages", new ArraySchema().items(new StringSchema()));
+
+    final Schema<?> referenceSchema =
+        new ObjectSchema()
+            .addProperties("color", new StringSchema())
+            .addProperties("group", new IntegerSchema());
+
+    final ComposedSchema composedSchema = new ComposedSchema();
+    composedSchema
+        .addAllOfItem(objectSchema1)
+        .addAllOfItem(objectSchema2)
+        .addAllOfItem(new Schema<>().$ref("#/components/schemas/ReferenceSchema"));
+
+    // method call
+    final PList<Pojo> pojos =
+        pojoMapper
+            .fromSchema(
+                PList.of(
+                    new OpenApiPojo(Name.of("ComposedPojoName"), composedSchema),
+                    new OpenApiPojo(Name.of("ReferenceSchema"), referenceSchema)),
+                pojoSettings)
+            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+
+    assertEquals(4, pojos.size());
+
+    assertEquals(
+        new Pojo(
+            Name.of("ComposedPojoName"),
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember(Name.of("color"), "", JavaTypes.STRING, true),
+                new PojoMember(Name.of("group"), "", JavaTypes.INTEGER, true),
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, true),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, true),
+                new PojoMember(Name.of("registerDate"), "", JavaTypes.LOCAL_DATE, true),
+                new PojoMember(
+                    Name.of("languages"), "", JavaType.javaList(JavaTypes.STRING), true)),
+            false),
+        pojos.apply(0));
+
+    assertEquals(
+        new Pojo(
+            Name.of("ComposedPojoNameAllOf0"),
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, true),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, true)),
+            false),
+        pojos.apply(1));
+
+    assertEquals(
+        new Pojo(
+            Name.of("ComposedPojoNameAllOf1"),
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember(Name.of("registerDate"), "", JavaTypes.LOCAL_DATE, true),
+                new PojoMember(
+                    Name.of("languages"), "", JavaType.javaList(JavaTypes.STRING), true)),
+            false),
+        pojos.apply(2));
+
+    assertEquals(
+        new Pojo(
+            Name.of("ReferenceSchema"),
+            "",
+            "Dto",
+            PList.of(
+                new PojoMember(Name.of("color"), "", JavaTypes.STRING, true),
+                new PojoMember(Name.of("group"), "", JavaTypes.INTEGER, true)),
+            false),
+        pojos.apply(3));
   }
 
   private static PList<Map.Entry<String, Schema>> parseOpenApiResourceEntries(String resource) {
