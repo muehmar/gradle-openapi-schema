@@ -1,7 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
-import com.github.muehmar.gradle.openapi.generator.MappedSchema;
-import com.github.muehmar.gradle.openapi.generator.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
+import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
@@ -18,8 +19,8 @@ public class MapSchemaMapper extends BaseSchemaMapper<MapSchema> {
 
   @Override
   MappedSchema<JavaType> mapSpecificSchema(
-      String pojoKey,
-      String key,
+      Name pojoName,
+      Name pojoMemberName,
       MapSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
@@ -32,15 +33,16 @@ public class MapSchemaMapper extends BaseSchemaMapper<MapSchema> {
         final JavaType valueType = ReferenceMapper.getRefType(pojoSettings, $ref);
         return MappedSchema.ofType(JavaType.javaMap(JavaTypes.STRING, valueType));
       } else if (additionalPropertiesSchema instanceof ObjectSchema) {
-        final String openApiPojoKey = JavaResolver.toPascalCase(pojoKey, key);
+        final Name openApiPojoName = JavaResolver.toPascalCase(pojoName, pojoMemberName);
         final JavaType addPropertiesType =
-            JavaType.ofOpenApiSchema(openApiPojoKey, pojoSettings.getSuffix());
+            JavaType.ofOpenApiSchema(openApiPojoName, pojoSettings.getSuffix());
         final JavaType javaType = JavaType.javaMap(JavaTypes.STRING, addPropertiesType);
-        final OpenApiPojo openApiPojo = new OpenApiPojo(openApiPojoKey, additionalPropertiesSchema);
+        final OpenApiPojo openApiPojo =
+            new OpenApiPojo(openApiPojoName, additionalPropertiesSchema);
         return MappedSchema.ofTypeAndOpenApiPojo(javaType, openApiPojo);
       } else {
         return chain
-            .mapSchema(pojoKey, key, additionalPropertiesSchema, pojoSettings, chain)
+            .mapSchema(pojoName, pojoMemberName, additionalPropertiesSchema, pojoSettings, chain)
             .mapType(
                 additionalPropertiesType ->
                     JavaType.javaMap(JavaTypes.STRING, additionalPropertiesType));

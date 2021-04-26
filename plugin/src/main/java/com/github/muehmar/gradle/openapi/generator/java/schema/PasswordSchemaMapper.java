@@ -1,7 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
-import com.github.muehmar.gradle.openapi.generator.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -14,8 +15,8 @@ public class PasswordSchemaMapper extends BaseSchemaMapper<PasswordSchema> {
 
   @Override
   MappedSchema<JavaType> mapSpecificSchema(
-      String pojoKey,
-      String key,
+      Name pojoName,
+      Name pojoMemberName,
       PasswordSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {

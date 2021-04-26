@@ -3,8 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.java.schema;
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.INTEGER;
 import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.LONG;
 
-import com.github.muehmar.gradle.openapi.generator.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -22,8 +23,8 @@ public class IntegerSchemaMapper extends BaseSchemaMapper<IntegerSchema> {
 
   @Override
   MappedSchema<JavaType> mapSpecificSchema(
-      String pojoKey,
-      String key,
+      Name pojoName,
+      Name pojoMemberName,
       IntegerSchema schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {

@@ -23,7 +23,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.6.0'
+    id 'com.github.muehmar.openapischema' version '0.7.0'
 }
 ```
 
@@ -195,10 +195,11 @@ annotations from the package `javax.validation.constraints` are currently genera
 
 ## Known Issues
 
-* The keywords to combine schemas are not yet supported (oneOf, anyOf, allOf, not).
+* Only `allOf` is supported to combine schemas. Currently, `oneOf`, `anyOf`, and `not` are not yet supported.
 
 ## Change Log
 
+* 0.7.0 - Add support for `allOf` combinator
 * 0.6.0 - Support Java Bean Validation
 * 0.5.0
     * Add support for inline object definitions for array items

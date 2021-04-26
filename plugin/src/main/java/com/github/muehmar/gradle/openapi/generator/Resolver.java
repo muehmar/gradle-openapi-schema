@@ -1,15 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator;
 
+import com.github.muehmar.gradle.openapi.generator.data.Name;
+import com.github.muehmar.gradle.openapi.generator.data.Type;
+
 public interface Resolver {
-  String getterName(String key, Type type);
+  Name getterName(Name name, Type type);
 
-  String setterName(String key);
+  Name setterName(Name name);
 
-  String witherName(String key);
+  Name witherName(Name name);
 
-  String memberName(String key);
+  Name memberName(Name name);
 
-  String className(String key);
+  Name className(Name name);
 
-  String enumName(String key);
+  Name enumName(Name name);
 }

@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.schema;
 
-import com.github.muehmar.gradle.openapi.generator.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -16,14 +17,14 @@ public class TypeLessSchemaMapper implements JavaSchemaMapper {
 
   @Override
   public MappedSchema<JavaType> mapSchema(
-      String pojoKey,
-      String key,
+      Name pojoName,
+      Name pojoMemberName,
       Schema<?> schema,
       PojoSettings pojoSettings,
       JavaSchemaMapper chain) {
     if (schema.getType() == null && schema.getFormat() == null) {
       return MappedSchema.ofType(JavaTypes.OBJECT);
     }
-    return nextMapper.mapSchema(pojoKey, key, schema, pojoSettings, chain);
+    return nextMapper.mapSchema(pojoName, pojoMemberName, schema, pojoSettings, chain);
   }
 }
