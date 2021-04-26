@@ -23,7 +23,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.6.0'
+    id 'com.github.muehmar.openapischema' version '0.7.0'
 }
 ```
 
