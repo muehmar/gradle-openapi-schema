@@ -99,3 +99,27 @@ components:
           type: integer
         name:
           type: string
+
+    Color:
+      required:
+        - colorKey
+        - colorName
+      properties:
+        colorKey:
+          type: integer
+        colorName:
+          type: string
+
+    Car:
+      allOf:
+        - $ref: '#/components/schemas/Color'
+        - type: object
+          required:
+            - model
+          properties:
+            model:
+              type: string
+            isCombi:
+              type: boolean
+
+
