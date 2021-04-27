@@ -42,7 +42,7 @@ class JavaPojoMapperTest {
 
     // method call
     final PList<Pojo> pojos =
-        pojoMapper.fromSchema(new OpenApiPojo(Name.of("PojoName"), schema), pojoSettings);
+        pojoMapper.fromSchemas(new OpenApiPojo(Name.of("PojoName"), schema), pojoSettings);
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -72,7 +72,7 @@ class JavaPojoMapperTest {
 
     // method call
     final PList<Pojo> pojos =
-        pojoMapper.fromSchema(new OpenApiPojo(Name.of("PojoName"), schema), pojoSettings);
+        pojoMapper.fromSchemas(new OpenApiPojo(Name.of("PojoName"), schema), pojoSettings);
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -102,7 +102,7 @@ class JavaPojoMapperTest {
             .flatMap(
                 entry ->
                     // method call
-                    pojoMapper.fromSchema(
+                    pojoMapper.fromSchemas(
                         new OpenApiPojo(Name.of(entry.getKey()), entry.getValue()), pojoSettings))
             .sort(Comparator.comparing(pojo -> pojo.className(new JavaResolver()).asString()));
 
@@ -253,7 +253,7 @@ class JavaPojoMapperTest {
     // method call
     final PList<Pojo> pojos =
         pojoMapper
-            .fromSchema(new OpenApiPojo(Name.of("ComposedPojoName"), composedSchema), pojoSettings)
+            .fromSchemas(new OpenApiPojo(Name.of("ComposedPojoName"), composedSchema), pojoSettings)
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
@@ -311,7 +311,7 @@ class JavaPojoMapperTest {
     // method call
     final PList<Pojo> pojos =
         pojoMapper
-            .fromSchema(
+            .fromSchemas(
                 PList.of(
                     new OpenApiPojo(Name.of("ComposedPojoName"), composedSchema),
                     new OpenApiPojo(Name.of("ReferenceSchema"), referenceSchema)),

@@ -9,9 +9,9 @@ import io.swagger.v3.oas.models.media.Schema;
 /** Maps a {@link Schema} with the corresponding key to {@link Pojo}'s. */
 @FunctionalInterface
 public interface PojoMapper {
-  PList<Pojo> fromSchema(PList<OpenApiPojo> openApiPojos, PojoSettings pojoSettings);
+  PList<Pojo> fromSchemas(PList<OpenApiPojo> openApiPojos, PojoSettings pojoSettings);
 
-  default PList<Pojo> fromSchema(OpenApiPojo openApiPojo, PojoSettings pojoSettings) {
-    return fromSchema(PList.single(openApiPojo), pojoSettings);
+  default PList<Pojo> fromSchemas(OpenApiPojo openApiPojo, PojoSettings pojoSettings) {
+    return fromSchemas(PList.single(openApiPojo), pojoSettings);
   }
 }
