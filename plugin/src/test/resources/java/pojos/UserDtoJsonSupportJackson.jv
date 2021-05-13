@@ -31,7 +31,34 @@ public class UserDto {
    * Preferred language of this user
    */
   public enum LanguageEnum {
-    GERMAN, ENGLISH
+    GERMAN("GERMAN"),
+    ENGLISH("ENGLISH");
+
+    private final String value;
+
+    LanguageEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e : LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
   }
 
   /**

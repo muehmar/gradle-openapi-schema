@@ -15,4 +15,6 @@ public interface Resolver {
   Name className(Name name);
 
   Name enumName(Name name);
+
+  Name enumMemberName(Name name);
 }
