@@ -35,7 +35,7 @@ class TestSerialisation {
             .setUser("Bruce")
             .setCity("Winterthur")
             .andOptionals()
-            .setRole(UserDto.RoleEnum.Admin)
+            .setRole(UserDto.RoleEnum.ADMIN)
             .build();
 
     final HashMap<String, ArrayList<UserInterestsDto>> interests = new HashMap<>();
@@ -64,7 +64,7 @@ class TestSerialisation {
             .setBirthday(LocalDate.now())
             .setAge(45)
             .setLastLogin(LocalDateTime.now())
-            .setRole(UserDto.RoleEnum.User)
+            .setRole(UserDto.RoleEnum.USER)
             .setCurrencies(currencies)
             .setInterests(interests)
             .setLanguages(languages)

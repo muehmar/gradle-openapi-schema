@@ -13,8 +13,7 @@ components:
         - city
       properties:
         id:
-          type: string
-          format: uuid
+          $ref: "#/components/schemas/UserKey"
         externalId:
           type: integer
           format: int64
@@ -122,4 +121,8 @@ components:
             isCombi:
               type: boolean
 
+    UserKey:
+      type: string
+      format: uuid
+      description: Key for a user
 
