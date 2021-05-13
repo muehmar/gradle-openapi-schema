@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -36,7 +37,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     printFields(writer, pojo, pojoSettings);
     printConstructor(writer, pojo, pojoSettings);
 
-    printEnums(writer, pojo);
+    printEnums(writer, pojo, pojoSettings);
 
     printGetters(writer, pojo, pojoSettings);
     printWithers(writer, pojo);
@@ -199,7 +200,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     return String.join(", ", formattedPairs);
   }
 
-  protected void printEnums(Writer writer, Pojo pojo) {
+  protected void printEnums(Writer writer, Pojo pojo, PojoSettings settings) {
     pojo.getMembers()
         .forEach(
             member ->
@@ -208,10 +209,70 @@ public class JavaPojoGenerator implements PojoGenerator {
                       writer.println();
                       printJavaDoc(writer, 1, member.getDescription());
 
+                      final String resolvedMemberType = member.getTypeName(resolver).asString();
+                      writer.tab(1).println("public enum %s {", resolvedMemberType);
+                      enumMembers
+                          .map(Name::of)
+                          .zipWithIndex()
+                          .forEach(
+                              p -> {
+                                final Name memberName = p.first();
+                                final Integer idx = p.second();
+                                writer
+                                    .tab(2)
+                                    .print(
+                                        "%s(\"%s\")",
+                                        resolver.enumMemberName(memberName).asString(),
+                                        memberName.asString());
+                                if (idx + 1 < enumMembers.size()) {
+                                  writer.println(",");
+                                } else {
+                                  writer.println(";");
+                                }
+                              });
+                      writer.println();
+                      writer.tab(2).println("private final String value;");
+                      writer.println();
+                      writer.tab(2).println("%s(String value) {", resolvedMemberType);
+                      writer.tab(3).println("this.value = value;");
+                      writer.tab(2).println("}");
+
+                      writer.println();
+                      if (settings.isJacksonJson()) {
+                        writer.tab(2).println("@JsonValue");
+                      }
+                      writer.tab(2).println("public String getValue() {");
+                      writer.tab(3).println("return value;");
+                      writer.tab(2).println("}");
+
+                      writer.println();
+                      writer.tab(2).println("@Override");
+                      writer.tab(2).println("public String toString() {");
+                      writer.tab(3).println("return String.valueOf(value);");
+                      writer.tab(2).println("}");
+
+                      writer.println();
+                      if (settings.isJacksonJson()) {
+                        writer.tab(2).println("@JsonCreator");
+                      }
                       writer
-                          .tab(1)
-                          .println("public enum %s {", member.getTypeName(resolver).asString());
-                      writer.tab(2).println("%s", String.join(", ", enumMembers));
+                          .tab(2)
+                          .println(
+                              "public static %s fromValue(String value) {", resolvedMemberType);
+                      writer
+                          .tab(3)
+                          .println(
+                              "for (%s e : %s.values()) {", resolvedMemberType, resolvedMemberType);
+                      writer.tab(4).println("if (e.value.equals(value)) {");
+                      writer.tab(5).println("return e;");
+                      writer.tab(4).println("}");
+                      writer.tab(3).println("}");
+                      writer
+                          .tab(3)
+                          .println(
+                              "throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
+                      writer.tab(2).println("}");
+
                       writer.tab(1).println("}");
                     }));
   }

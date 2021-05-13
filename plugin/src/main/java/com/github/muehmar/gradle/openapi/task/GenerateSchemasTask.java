@@ -71,7 +71,7 @@ public class GenerateSchemasTask extends DefaultTask {
             .map(entry -> new OpenApiPojo(Name.of(entry.getKey()), (Schema<?>) entry.getValue()));
 
     final PList<Pojo> pojos =
-        openApiGenerator.getMapper().fromSchema(openApiPojos, pojoSettings.get());
+        openApiGenerator.getMapper().fromSchemas(openApiPojos, pojoSettings.get());
 
     pojos.forEach(pojo -> openApiGenerator.getGenerator().generatePojo(pojo, pojoSettings.get()));
   }

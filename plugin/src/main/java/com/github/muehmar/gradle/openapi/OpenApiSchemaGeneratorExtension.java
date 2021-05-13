@@ -89,7 +89,8 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
 
   public String getPackageName(Project project) {
     return Optional.ofNullable(packageName)
-        .orElseGet(() -> String.format("%s.%s.api.model", project.getGroup(), project.getName()));
+        .orElseGet(() -> String.format("%s.%s.api.model", project.getGroup(), project.getName()))
+        .replace("-", "");
   }
 
   public void setPackageName(String packageName) {

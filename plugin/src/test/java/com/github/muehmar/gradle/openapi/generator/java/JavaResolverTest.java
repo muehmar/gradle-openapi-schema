@@ -6,6 +6,8 @@ import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class JavaResolverTest {
 
@@ -69,5 +71,12 @@ class JavaResolverTest {
   void snakeCaseToPascalCase_when_snakeCase_then_convertedToPascalCase() {
     final Name pascalCase = JavaResolver.snakeCaseToPascalCase("SNAKE_CASE");
     assertEquals("SnakeCase", pascalCase.asString());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"anyCase", "AnyCase", " anyCase ", "ANY_CASE", "Any_Case"})
+  void toUppercaseSnakeCase_when_pascalCase_then_convertedToSnakeCase(String in) {
+    final Name snakeCase = JavaResolver.toUppercaseSnakeCase(in);
+    assertEquals("ANY_CASE", snakeCase.asString());
   }
 }

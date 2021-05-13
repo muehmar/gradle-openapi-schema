@@ -23,7 +23,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.7.0'
+    id 'com.github.muehmar.openapischema' version '0.8.0'
 }
 ```
 
@@ -199,6 +199,9 @@ annotations from the package `javax.validation.constraints` are currently genera
 
 ## Change Log
 
+* 0.8.0
+    * Add support for non-object/non-array schema definitions
+    * Convert enums to uppercase snakecase
 * 0.7.0 - Add support for `allOf` combinator
 * 0.6.0 - Support Java Bean Validation
 * 0.5.0
