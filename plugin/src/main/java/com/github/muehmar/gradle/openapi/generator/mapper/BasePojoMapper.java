@@ -7,19 +7,26 @@ import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.data.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class BasePojoMapper implements PojoMapper {
+  private static final PList<String> SUPPORTED_MEMBER_SCHEMAS =
+      PList.of("string", "integer", "number", "boolean");
 
-  final OpenApiProcessor openApiProcessor;
+  protected final OpenApiProcessor openApiProcessor;
 
   protected BasePojoMapper() {
     openApiProcessor =
-        arrayOpenApiProcessor().or(objectOpenApiProcessor()).or(composedOpenApiProcessor());
+        arrayOpenApiProcessor()
+            .or(objectOpenApiProcessor())
+            .or(composedOpenApiProcessor())
+            .or(memberOpenApiProcessor());
   }
 
   /**
@@ -61,7 +68,19 @@ public abstract class BasePojoMapper implements PojoMapper {
     final PList<Pojo> pojos = map.flatMap(SchemaProcessResult::getPojos);
     final PList<ComposedPojo> composedPojos = map.flatMap(SchemaProcessResult::getComposedPojos);
 
-    return ComposedPojoConverter.convert(composedPojos, pojos);
+    final PList<Pojo> allPojos = ComposedPojoConverter.convert(composedPojos, pojos);
+    final PList<PojoMemberReference> pojoMemberReferences =
+        map.flatMap(SchemaProcessResult::getPojoMemberReferences);
+
+    return pojoMemberReferences.foldLeft(
+        allPojos,
+        (p, memberReference) ->
+            p.map(
+                pojo ->
+                    pojo.replaceMemberReference(
+                        memberReference.getName().append(pojoSettings.getSuffix()),
+                        memberReference.getDescription(),
+                        memberReference.getType())));
   }
 
   private SchemaProcessResult processSchema(OpenApiPojo openApiPojo, PojoSettings pojoSettings) {
@@ -111,6 +130,19 @@ public abstract class BasePojoMapper implements PojoMapper {
         return Optional.empty();
       }
     };
+  }
+
+  private OpenApiProcessor memberOpenApiProcessor() {
+    return ((openApiPojo, pojoSettings) -> {
+      final String type = openApiPojo.getSchema().getType();
+      if (Objects.nonNull(type) && SUPPORTED_MEMBER_SCHEMAS.exists(type::equals)) {
+        return Optional.of(
+            SchemaProcessResult.ofPojoMemberReference(
+                processMemberSchema(openApiPojo.getName(), openApiPojo.getSchema(), pojoSettings)));
+      } else {
+        return Optional.empty();
+      }
+    });
   }
 
   private SchemaProcessResult processPojoProcessResult(
@@ -193,5 +225,14 @@ public abstract class BasePojoMapper implements PojoMapper {
     }
 
     throw new IllegalArgumentException("Composed schema without any schema definitions");
+  }
+
+  private PojoMemberReference processMemberSchema(
+      Name name, Schema<?> schema, PojoSettings pojoSettings) {
+    final PojoMemberProcessResult pojoMemberProcessResult =
+        toPojoMemberFromSchema(Name.of("Unused"), name, schema, pojoSettings, true);
+
+    return new PojoMemberReference(
+        name, schema.getDescription(), pojoMemberProcessResult.getPojoMember().getType());
   }
 }

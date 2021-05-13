@@ -41,6 +41,23 @@ public class Pojo {
     return isArray;
   }
 
+  /**
+   * Replaces a member reference directly with its refType and refDescription.
+   *
+   * @param refName This pojo member has a member reference in case the full name of the type is
+   *     equally to this refName
+   * @param refDescription Description of the member reference which should be used.
+   * @param refType Type of the member reference which should be used
+   */
+  public Pojo replaceMemberReference(Name refName, String refDescription, Type refType) {
+    return new Pojo(
+        name,
+        description,
+        suffix,
+        members.map(member -> member.replaceMemberReference(refName, refDescription, refType)),
+        isArray);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -130,7 +130,7 @@ class IncrementalBuildTest {
     Files.delete(
         Paths.get(
             project.getProjectDir().getRoot().getPath()
-                + "/build/generated/openapi/openapi-schema/api/model/UserDto.java"));
+                + "/build/generated/openapi/openapischema/api/model/UserDto.java"));
 
     final BuildResult secondResult =
         GradleRunner.create()
