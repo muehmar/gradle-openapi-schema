@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.data.Type;
 import java.util.Optional;
 
 public class JavaResolver implements Resolver {
+  public static final String ILLEGAL_FIELD_CHARACTERS_PATTERN = "[^A-Za-z0-9$_]";
 
   @Override
   public Name getterName(Name name, Type type) {
@@ -44,7 +45,7 @@ public class JavaResolver implements Resolver {
 
   @Override
   public Name enumMemberName(Name name) {
-    return toUppercaseSnakeCase(name.asString());
+    return toAsciiJavaName(toUppercaseSnakeCase(name.asString()));
   }
 
   public static Name toCamelCase(Name name) {
@@ -78,18 +79,26 @@ public class JavaResolver implements Resolver {
     }
 
     final String converted =
-        PList.generate(
-                name.trim(),
-                n ->
-                    n.isEmpty()
-                        ? Optional.empty()
-                        : Optional.of(Pair.of(n.substring(1), n.charAt(0))))
-            .reverse()
-            .map(c -> Character.isUpperCase(c) ? "_" + c : c.toString())
-            .mkString("")
+        name.trim()
+            .replaceAll("([A-Z])", "_$1")
             .toUpperCase()
             .replaceFirst("^_", "")
-            .replace("__", "_");
+            .replaceAll("_+", "_");
     return Name.of(converted);
+  }
+
+  public static Name toAsciiJavaName(Name fieldName) {
+    return fieldName.map(
+        str ->
+            str.replaceAll(ILLEGAL_FIELD_CHARACTERS_PATTERN + "+", "_")
+                .replaceAll("_+", "_")
+                .replaceFirst("^([0-9])", "_$1"));
+  }
+
+  private static PList<Character> asCharactersList(String name) {
+    return PList.generate(
+            name.trim(),
+            n -> n.isEmpty() ? Optional.empty() : Optional.of(Pair.of(n.substring(1), n.charAt(0))))
+        .reverse();
   }
 }
