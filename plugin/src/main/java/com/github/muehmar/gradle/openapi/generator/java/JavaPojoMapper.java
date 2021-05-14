@@ -34,12 +34,11 @@ public class JavaPojoMapper extends BasePojoMapper {
     final PojoMemberProcessResult pojoMemberProcessResult =
         toPojoMemberFromSchema(pojoName, Name.of("value"), schema, pojoSettings, false);
     final Pojo pojo =
-        new Pojo(
+        Pojo.ofArray(
             pojoName,
             schema.getDescription(),
             pojoSettings.getSuffix(),
-            PList.single(pojoMemberProcessResult.getPojoMember()),
-            true);
+            pojoMemberProcessResult.getPojoMember());
     return new PojoProcessResult(pojo, PList.empty());
   }
 

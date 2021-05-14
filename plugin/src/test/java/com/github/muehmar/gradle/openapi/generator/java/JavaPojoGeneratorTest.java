@@ -39,7 +39,7 @@ class JavaPojoGeneratorTest {
             PList.empty());
 
     final Pojo pojo =
-        new Pojo(
+        Pojo.ofObject(
             Name.of("User"),
             "User of the Application. This description is intentionally longer to see if its wrapped to a new line.",
             "Dto",
@@ -50,8 +50,7 @@ class JavaPojoGeneratorTest {
                     Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    true)),
-            false);
+                    true)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -74,7 +73,7 @@ class JavaPojoGeneratorTest {
             PList.empty());
 
     final Pojo pojo =
-        new Pojo(
+        Pojo.ofObject(
             Name.of("User"),
             "User of the Application",
             "Dto",
@@ -85,8 +84,7 @@ class JavaPojoGeneratorTest {
                     Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    true)),
-            false);
+                    true)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -110,7 +108,7 @@ class JavaPojoGeneratorTest {
             PList.empty());
 
     final Pojo pojo =
-        new Pojo(
+        Pojo.ofObject(
             Name.of("User"),
             "User of the Application",
             "Dto",
@@ -121,8 +119,7 @@ class JavaPojoGeneratorTest {
                     Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    true)),
-            false);
+                    true)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -146,7 +143,7 @@ class JavaPojoGeneratorTest {
             PList.empty());
 
     final Pojo pojo =
-        new Pojo(
+        Pojo.ofObject(
             Name.of("User"),
             "User of the Application",
             "Dto",
@@ -197,8 +194,7 @@ class JavaPojoGeneratorTest {
                     Name.of("anotherPojo"),
                     "Another Pojo",
                     JavaType.ofUserDefined("AnotherPojo"),
-                    true)),
-            false);
+                    true)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 

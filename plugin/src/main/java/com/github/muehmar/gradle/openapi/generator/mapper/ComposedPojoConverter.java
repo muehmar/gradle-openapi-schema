@@ -38,12 +38,11 @@ class ComposedPojoConverter {
                     final PList<PojoMember> members =
                         foundPojos.flatMapOptional(Function.identity()).flatMap(Pojo::getMembers);
                     final Pojo pojo =
-                        new Pojo(
+                        Pojo.ofObject(
                             composedPojo.getName(),
                             composedPojo.getDescription(),
                             composedPojo.getSuffix(),
-                            members,
-                            false);
+                            members);
                     return SchemaProcessResult.ofPojo(pojo);
                   }
                 });

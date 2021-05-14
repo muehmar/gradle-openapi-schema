@@ -20,24 +20,22 @@ class ComposedPojoConverterTest {
     final Name colorName = Name.of("Color");
 
     final Pojo tiresPojo =
-        new Pojo(
+        Pojo.ofObject(
             tiresName,
             "Tires",
             "Dto",
             PList.of(
                 new PojoMember(Name.of("tireKey"), "Key", SampleTypes.SampleType1, false),
-                new PojoMember(Name.of("tireName"), "Name", SampleTypes.SampleType2, false)),
-            false);
+                new PojoMember(Name.of("tireName"), "Name", SampleTypes.SampleType2, false)));
 
     final Pojo colorPojo =
-        new Pojo(
+        Pojo.ofObject(
             colorName,
             "Colors",
             "Dto",
             PList.of(
                 new PojoMember(Name.of("colorKey"), "Key", SampleTypes.SampleType2, true),
-                new PojoMember(Name.of("colorName"), "Name", SampleTypes.SampleType1, true)),
-            false);
+                new PojoMember(Name.of("colorName"), "Name", SampleTypes.SampleType1, true)));
 
     final ComposedPojo composedPojo =
         new ComposedPojo(
@@ -58,12 +56,11 @@ class ComposedPojoConverterTest {
     assertEquals(tiresPojo, resultingPojos.apply(2));
 
     assertEquals(
-        new Pojo(
+        Pojo.ofObject(
             composedPojo.getName(),
             composedPojo.getDescription(),
             composedPojo.getSuffix(),
-            colorPojo.getMembers().concat(tiresPojo.getMembers()),
-            false),
+            colorPojo.getMembers().concat(tiresPojo.getMembers())),
         resultingPojos.apply(1));
   }
 }

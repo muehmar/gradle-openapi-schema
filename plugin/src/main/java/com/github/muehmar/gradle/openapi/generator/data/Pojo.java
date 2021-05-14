@@ -11,14 +11,35 @@ public class Pojo {
   private final String suffix;
   private final PList<PojoMember> members;
   private final boolean isArray;
+  private final Optional<Type> enumType;
 
-  public Pojo(
-      Name name, String description, String suffix, PList<PojoMember> members, boolean isArray) {
+  private Pojo(
+      Name name,
+      String description,
+      String suffix,
+      PList<PojoMember> members,
+      boolean isArray,
+      Optional<Type> enumType) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.suffix = suffix;
     this.members = members;
     this.isArray = isArray;
+    this.enumType = enumType;
+  }
+
+  public static Pojo ofObject(
+      Name name, String description, String suffix, PList<PojoMember> members) {
+    return new Pojo(name, description, suffix, members, false, Optional.empty());
+  }
+
+  public static Pojo ofArray(Name name, String description, String suffix, PojoMember array) {
+    return new Pojo(name, description, suffix, PList.single(array), true, Optional.empty());
+  }
+
+  public static Pojo ofEnum(String description, String suffix, Type enumType) {
+    return new Pojo(
+        enumType.getFullName(), description, suffix, PList.empty(), false, Optional.of(enumType));
   }
 
   public Name getName() {
@@ -37,8 +58,19 @@ public class Pojo {
     return members;
   }
 
+  /** Returns true in case this pojo is a real pojo, i.e. no array and no enum. */
+  public boolean isObject() {
+    return !isArray() && !isEnum();
+  }
+
+  /** Returns true in case this pojo is an array-pojo. */
   public boolean isArray() {
     return isArray;
+  }
+
+  /** Returns true in case this pojo is an enum. */
+  public boolean isEnum() {
+    return enumType.isPresent();
   }
 
   /**
@@ -55,7 +87,8 @@ public class Pojo {
         description,
         suffix,
         members.map(member -> member.replaceMemberReference(refName, refDescription, refType)),
-        isArray);
+        isArray,
+        enumType);
   }
 
   @Override

@@ -182,12 +182,11 @@ public abstract class BasePojoMapper implements PojoMapper {
                 });
 
     final Pojo pojo =
-        new Pojo(
+        Pojo.ofObject(
             pojoName,
             schema.getDescription(),
             pojoSettings.getSuffix(),
-            pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember),
-            false);
+            pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember));
 
     final PList<OpenApiPojo> openApiPojos =
         pojoMemberAndOpenApiPojos.flatMap(PojoMemberProcessResult::getOpenApiPojos);
