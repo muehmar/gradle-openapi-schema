@@ -71,16 +71,16 @@ public class PojoMember {
   }
 
   /**
-   * Replaces a member reference directly with its refType and refDescription.
+   * Replaces a type of a member with another description and type.
    *
-   * @param refName This pojo member has a member reference in case the full name of the type is
-   *     equally to refName
-   * @param refDescription Description of the member reference which should be used.
-   * @param refType Type of the member reference which should be used
+   * @param memberType If memberType is equally to the full name of the current type, the given
+   *     description and type will be replaced in this member.
+   * @param newDescription Description of the member which should be used.
+   * @param newType Type of the member which should be used
    */
-  public PojoMember replaceMemberReference(Name refName, String refDescription, Type refType) {
-    if (type.getFullName().equals(refName)) {
-      return new PojoMember(name, refDescription, refType, nullable);
+  public PojoMember replaceMemberType(Name memberType, String newDescription, Type newType) {
+    if (type.getFullName().equals(memberType)) {
+      return new PojoMember(name, newDescription, newType, nullable);
     } else {
       return this;
     }

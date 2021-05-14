@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.data.Type;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
@@ -200,5 +201,55 @@ class JavaPojoGeneratorTest {
 
     assertEquals(
         Resources.readString("/java/pojos/UserDtoConstraints.jv"), writer.asString().trim());
+  }
+
+  @Test
+  void generatePojo_when_enumPojo_then_correctPojoGenerated() {
+    final TestStringWriter writer = new TestStringWriter();
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+
+    final PojoSettings pojoSettings =
+        new PojoSettings(
+            JsonSupport.NONE,
+            "com.github.muehmar",
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty());
+
+    final Pojo pojo =
+        Pojo.ofEnum(
+            Name.of("Gender"), "Gender of a user", "Dto", Type.simpleOfName(Name.of("Name")));
+
+    pojoGenerator.generatePojo(pojo, pojoSettings);
+
+    assertEquals(Resources.readString("/java/pojos/GenderEnumDto.jv"), writer.asString().trim());
+  }
+
+  @Test
+  void generatePojo_when_enumPojoAndJacksonSupport_then_correctPojoGenerated() {
+    final TestStringWriter writer = new TestStringWriter();
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+
+    final PojoSettings pojoSettings =
+        new PojoSettings(
+            JsonSupport.JACKSON,
+            "com.github.muehmar",
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty());
+
+    final Pojo pojo =
+        Pojo.ofEnum(
+            Name.of("Gender"), "Gender of a user", "Dto", Type.simpleOfName(Name.of("Name")));
+
+    pojoGenerator.generatePojo(pojo, pojoSettings);
+
+    assertEquals(
+        Resources.readString("/java/pojos/GenderEnumDtoJsonSupportJackson.jv"),
+        writer.asString().trim());
   }
 }

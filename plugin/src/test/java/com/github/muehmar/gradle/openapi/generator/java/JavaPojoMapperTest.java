@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.data.Type;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
@@ -488,7 +489,7 @@ class JavaPojoMapperTest {
             .addProperties("gender", new Schema<>().$ref("#/components/schemas/Gender"));
     final Schema<String> genderSchema = new StringSchema();
     genderSchema.setEnum(Arrays.asList("FEMALE", "MALE", "UNKNOWN"));
-    genderSchema.description("Gender");
+    genderSchema.description("Gender of a user");
 
     // method call
     final PList<Pojo> pojos =
@@ -498,7 +499,14 @@ class JavaPojoMapperTest {
                 new OpenApiPojo(Name.of("User"), userSchema)),
             pojoSettings);
 
-    assertEquals(1, pojos.size());
+    assertEquals(2, pojos.size());
+    assertEquals(
+        Pojo.ofEnum(
+            Name.of("Gender"),
+            "Gender of a user",
+            "Dto",
+            JavaType.javaEnum(PList.of("FEMALE", "MALE", "UNKNOWN"))),
+        pojos.apply(0));
     assertEquals(
         Pojo.ofObject(
             Name.of("User"),
@@ -507,10 +515,10 @@ class JavaPojoMapperTest {
             PList.single(
                 new PojoMember(
                     Name.of("gender"),
-                    "Gender",
-                    JavaType.javaEnum(PList.of("FEMALE", "MALE", "UNKNOWN")),
+                    "Gender of a user",
+                    Type.simpleOfName(Name.of("GenderDto")),
                     true))),
-        pojos.apply(0));
+        pojos.apply(1));
   }
 
   private static PList<Map.Entry<String, Schema>> parseOpenApiResourceEntries(String resource) {

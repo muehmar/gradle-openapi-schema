@@ -8,10 +8,12 @@ import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMemberReference;
+import com.github.muehmar.gradle.openapi.generator.data.Type;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,6 +28,7 @@ public abstract class BasePojoMapper implements PojoMapper {
         arrayOpenApiProcessor()
             .or(objectOpenApiProcessor())
             .or(composedOpenApiProcessor())
+            .or(enumOpenApiProcessor())
             .or(memberOpenApiProcessor());
   }
 
@@ -62,25 +65,49 @@ public abstract class BasePojoMapper implements PojoMapper {
 
   @Override
   public PList<Pojo> fromSchemas(PList<OpenApiPojo> openApiPojos, PojoSettings pojoSettings) {
-    final PList<SchemaProcessResult> map =
+    final PList<SchemaProcessResult> processResults =
         openApiPojos.map(openApiPojo -> processSchema(openApiPojo, pojoSettings));
 
-    final PList<Pojo> pojos = map.flatMap(SchemaProcessResult::getPojos);
-    final PList<ComposedPojo> composedPojos = map.flatMap(SchemaProcessResult::getComposedPojos);
-
-    final PList<Pojo> allPojos = ComposedPojoConverter.convert(composedPojos, pojos);
+    final PList<Pojo> pojos = processResults.flatMap(SchemaProcessResult::getPojos);
+    final PList<ComposedPojo> composedPojos =
+        processResults.flatMap(SchemaProcessResult::getComposedPojos);
     final PList<PojoMemberReference> pojoMemberReferences =
-        map.flatMap(SchemaProcessResult::getPojoMemberReferences);
+        processResults.flatMap(SchemaProcessResult::getPojoMemberReferences);
 
+    return Optional.of(pojos)
+        .map(p -> ComposedPojoConverter.convert(composedPojos, pojos))
+        .map(p -> inlineMemberReferences(p, pojoMemberReferences, pojoSettings))
+        .map(p -> replaceEnumReferences(p, pojoSettings))
+        .orElse(PList.empty());
+  }
+
+  private PList<Pojo> inlineMemberReferences(
+      PList<Pojo> inputPojos,
+      PList<PojoMemberReference> pojoMemberReferences,
+      PojoSettings pojoSettings) {
     return pojoMemberReferences.foldLeft(
-        allPojos,
-        (p, memberReference) ->
-            p.map(
+        inputPojos,
+        (pojos, memberReference) ->
+            pojos.map(
                 pojo ->
-                    pojo.replaceMemberReference(
+                    pojo.replaceMemberType(
                         memberReference.getName().append(pojoSettings.getSuffix()),
                         memberReference.getDescription(),
                         memberReference.getType())));
+  }
+
+  private PList<Pojo> replaceEnumReferences(PList<Pojo> inputPojos, PojoSettings pojoSettings) {
+    return inputPojos
+        .filter(Pojo::isEnum)
+        .foldLeft(
+            inputPojos,
+            (p, enumPojo) ->
+                p.map(
+                    pojo -> {
+                      final Name enumName = enumPojo.getName().append(pojoSettings.getSuffix());
+                      return pojo.replaceMemberType(
+                          enumName, enumPojo.getDescription(), Type.simpleOfName(enumName));
+                    }));
   }
 
   private SchemaProcessResult processSchema(OpenApiPojo openApiPojo, PojoSettings pojoSettings) {
@@ -93,6 +120,7 @@ public abstract class BasePojoMapper implements PojoMapper {
                         + openApiPojo.getSchema()));
   }
 
+  /** Process array schemas */
   private OpenApiProcessor arrayOpenApiProcessor() {
     return (openApiPojo, pojoSettings) -> {
       if (openApiPojo.getSchema() instanceof ArraySchema) {
@@ -106,6 +134,7 @@ public abstract class BasePojoMapper implements PojoMapper {
     };
   }
 
+  /** Processes object schemas (definitions with properties) */
   private OpenApiProcessor objectOpenApiProcessor() {
     return (openApiPojo, pojoSettings) -> {
       if (openApiPojo.getSchema().getProperties() != null) {
@@ -118,6 +147,7 @@ public abstract class BasePojoMapper implements PojoMapper {
     };
   }
 
+  /** Process schema compositions */
   private OpenApiProcessor composedOpenApiProcessor() {
     return (openApiPojo, pojoSettings) -> {
       if (openApiPojo.getSchema() instanceof ComposedSchema) {
@@ -132,6 +162,7 @@ public abstract class BasePojoMapper implements PojoMapper {
     };
   }
 
+  /** Processes schemas which are single member definitions */
   private OpenApiProcessor memberOpenApiProcessor() {
     return ((openApiPojo, pojoSettings) -> {
       final String type = openApiPojo.getSchema().getType();
@@ -139,6 +170,28 @@ public abstract class BasePojoMapper implements PojoMapper {
         return Optional.of(
             SchemaProcessResult.ofPojoMemberReference(
                 processMemberSchema(openApiPojo.getName(), openApiPojo.getSchema(), pojoSettings)));
+      } else {
+        return Optional.empty();
+      }
+    });
+  }
+
+  /** Processes enums as root schema definitions */
+  private OpenApiProcessor enumOpenApiProcessor() {
+    return ((openApiPojo, pojoSettings) -> {
+      final Schema<?> schema = openApiPojo.getSchema();
+      if (new StringSchema().getType().equals(schema.getType())
+          && Objects.nonNull(schema.getEnum())) {
+        final PojoMemberProcessResult pojoMemberProcessResult =
+            toPojoMemberFromSchema(
+                Name.of("Unused"), openApiPojo.getName(), schema, pojoSettings, true);
+        final Pojo pojo =
+            Pojo.ofEnum(
+                openApiPojo.getName(),
+                schema.getDescription(),
+                pojoSettings.getSuffix(),
+                pojoMemberProcessResult.getPojoMember().getType());
+        return Optional.ofNullable(SchemaProcessResult.ofPojo(pojo));
       } else {
         return Optional.empty();
       }

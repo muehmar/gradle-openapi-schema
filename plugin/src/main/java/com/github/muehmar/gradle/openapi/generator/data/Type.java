@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.data;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public interface Type {
@@ -29,4 +30,79 @@ public interface Type {
   PList<String> getImports();
 
   Constraints getConstraints();
+
+  static Type simpleOfName(Name name) {
+    return new Type() {
+      @Override
+      public Name getFullName() {
+        return name;
+      }
+
+      @Override
+      public boolean containsPojo() {
+        return false;
+      }
+
+      @Override
+      public boolean isEnum() {
+        return false;
+      }
+
+      @Override
+      public void onEnum(Consumer<PList<String>> code) {}
+
+      @Override
+      public PList<String> getEnumMembers() {
+        return PList.empty();
+      }
+
+      @Override
+      public PList<String> getImports() {
+        return PList.empty();
+      }
+
+      @Override
+      public Constraints getConstraints() {
+        return Constraints.empty();
+      }
+
+      @Override
+      public boolean equals(Object o) {
+        if (this == o) {
+          return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+          return false;
+        }
+        Type type = (Type) o;
+        return containsPojo() == type.containsPojo()
+            && Objects.equals(getFullName(), type.getFullName())
+            && Objects.equals(getImports(), type.getImports())
+            && Objects.equals(getEnumMembers(), type.getEnumMembers())
+            && Objects.equals(getConstraints(), type.getConstraints());
+      }
+
+      @Override
+      public int hashCode() {
+        return Objects.hash(name, getImports(), getEnumMembers(), getConstraints(), containsPojo());
+      }
+
+      @Override
+      public String toString() {
+        return "Type{"
+            + "name='"
+            + name
+            + '\''
+            + ", imports="
+            + getImports()
+            + ", enumMembers="
+            + getEnumMembers()
+            + ", constraints="
+            + getConstraints()
+            + ", containsPojo="
+            + containsPojo()
+            + '}';
+      }
+    };
+  }
 }

@@ -1,0 +1,38 @@
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+/**
+ * Gender of a user
+ */
+public enum GenderDto {
+
+  private final String value;
+
+  GenderDto(String value) {
+    this.value = value;
+  }
+
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(value);
+  }
+
+  @JsonCreator
+  public static GenderDto fromValue(String value) {
+    for (GenderDto e : GenderDto.values()) {
+      if (e.value.equals(value)) {
+        return e;
+      }
+    }
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+  }
+}
