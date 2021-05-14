@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -15,18 +14,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 class JavaResolverTest {
 
   @Test
-  void getterName_when_primitiveBoolean_then_correctGetter() {
-    final JavaResolver javaResolver = new JavaResolver();
-    final Name getterName =
-        javaResolver.getterName(Name.of("activeUser"), JavaType.ofName("boolean"));
-    assertEquals("isActiveUser", getterName.asString());
-  }
-
-  @Test
   void getterName_when_booleanType_then_correctGetter() {
     final JavaResolver javaResolver = new JavaResolver();
     final Name getterName = javaResolver.getterName(Name.of("activeUser"), JavaTypes.BOOLEAN);
-    assertEquals("isActiveUser", getterName.asString());
+    assertEquals("getActiveUser", getterName.asString());
   }
 
   @Test
@@ -85,7 +76,8 @@ class JavaResolverTest {
 
   @ParameterizedTest
   @MethodSource("asciiJavaNameArguments")
-  void toAsciiJavaName_when_variousInput_then_callConvertedToAsciiJavaNames(String in, String expected) {
+  void toAsciiJavaName_when_variousInput_then_callConvertedToAsciiJavaNames(
+      String in, String expected) {
     final Name asciiJavaName = JavaResolver.toAsciiJavaName(Name.of(in));
     assertEquals(expected, asciiJavaName.asString());
   }

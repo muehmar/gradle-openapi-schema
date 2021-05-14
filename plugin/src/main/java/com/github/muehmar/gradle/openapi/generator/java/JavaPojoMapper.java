@@ -17,8 +17,6 @@ import com.github.muehmar.gradle.openapi.generator.mapper.PojoProcessResult;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -26,7 +24,6 @@ import java.util.function.Function;
 public class JavaPojoMapper extends BasePojoMapper {
 
   private static final JavaSchemaMapper typeMapperChain = SchemaMapperChainFactory.createChain();
-  private static final Map<String, String> primitivesMap = createPrimitivesMap();
 
   @Override
   protected PojoProcessResult fromArraysSchema(
@@ -52,10 +49,7 @@ public class JavaPojoMapper extends BasePojoMapper {
     final MappedSchema<JavaType> mappedSchema =
         typeMapperChain.mapSchema(pojoName, pojoMemberName, schema, pojoSettings, typeMapperChain);
 
-    final JavaType javaType =
-        mappedSchema
-            .getType()
-            .mapPrimitiveType(name -> nullable ? name : primitivesMap.getOrDefault(name, name));
+    final JavaType javaType = mappedSchema.getType();
 
     final JavaType classMappedJavaType =
         pojoSettings
@@ -108,16 +102,5 @@ public class JavaPojoMapper extends BasePojoMapper {
 
     return new ComposedPojo(
         name, description, pojoSettings.getSuffix(), type, pojoNames, openApiPojos);
-  }
-
-  private static Map<String, String> createPrimitivesMap() {
-    final Map<String, String> formatMap = new HashMap<>();
-    formatMap.put("Boolean", "boolean");
-    formatMap.put("Integer", "int");
-    formatMap.put("Long", "long");
-    formatMap.put("Float", "float");
-    formatMap.put("Double", "double");
-    formatMap.put("Byte", "byte");
-    return formatMap;
   }
 }

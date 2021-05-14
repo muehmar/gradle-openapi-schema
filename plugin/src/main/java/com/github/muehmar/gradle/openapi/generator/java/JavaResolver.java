@@ -1,7 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import static com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes.BOOLEAN;
-
 import ch.bluecare.commons.data.PList;
 import ch.bluecare.commons.data.Pair;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
@@ -14,8 +12,7 @@ public class JavaResolver implements Resolver {
 
   @Override
   public Name getterName(Name name, Type type) {
-    final String prefix = type.getFullName().equalsIgnoreCase(BOOLEAN.getFullName()) ? "is" : "get";
-    return toPascalCase(name).prefix(prefix);
+    return toPascalCase(name).prefix("get");
   }
 
   @Override

@@ -116,8 +116,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("key"), "", JavaType.ofName("int"), false),
-                new PojoMember(Name.of("name"), "", JavaType.ofName("String"), false))),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, false),
+                new PojoMember(Name.of("name"), "", JavaTypes.STRING, false))),
         pojos.apply(0));
 
     assertEquals(
@@ -127,7 +127,7 @@ class JavaPojoMapperTest {
             "Dto",
             PList.of(
                 new PojoMember(Name.of("id"), "", JavaTypes.UUID, false),
-                new PojoMember(Name.of("externalId"), "", JavaType.ofName("long"), false),
+                new PojoMember(Name.of("externalId"), "", JavaTypes.LONG, false),
                 new PojoMember(Name.of("user"), "", JavaTypes.STRING, false),
                 new PojoMember(Name.of("birthday"), "", JavaTypes.LOCAL_DATE, true),
                 new PojoMember(
