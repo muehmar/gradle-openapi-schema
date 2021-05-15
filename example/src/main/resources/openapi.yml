@@ -24,6 +24,8 @@ components:
         birthday:
           type: string
           format: date
+        gender:
+          $ref: "#/components/schemas/Gender"
         city:
           type: string
         age:
@@ -125,4 +127,30 @@ components:
       type: string
       format: uuid
       description: Key for a user
+
+    Gender:
+      type: string
+      enum:
+        - MALE
+        - FEMALE
+        - UNKNOWN
+      description: Gender
+
+    SpecialCharacterEnum:
+      type: string
+      enum:
+        - EVENT:SUB_EVENT
+        - EVENT:*WILDCARD
+        - 123456
+
+    Flags:
+      required:
+        - boolFlag
+        - intFlag
+      properties:
+        boolFlag:
+          type: boolean
+        intFlag:
+          type: integer
+
 

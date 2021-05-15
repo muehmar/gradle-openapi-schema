@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi;
 
+import OpenApiSchema.example.api.model.FlagsDto;
 import OpenApiSchema.example.api.model.UserDto;
 import OpenApiSchema.example.api.model.UserGroupDto;
 import org.junit.jupiter.api.Test;
@@ -86,7 +87,7 @@ class TestValidation {
 
   @ParameterizedTest
   @ValueSource(ints = {13, 14, 15, 16, 48, 49, 50, 51})
-  void validate_when_differentAge_then_noConstraintViolationForCorrectAge(int age) {
+  void validate_when_differentOptionalAge_then_noConstraintViolationForCorrectAge(int age) {
     final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     final Validator validator = validatorFactory.getValidator();
 
@@ -153,5 +154,17 @@ class TestValidation {
     final Set<ConstraintViolation<UserDto>> constraintViolations = validator.validate(userDto);
 
     assertTrue(constraintViolations.isEmpty());
+  }
+
+  @Test
+  void validate_when_requiredBooleanAndIntegerMissing_then_bothViolationDetected() {
+    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    final Validator validator = validatorFactory.getValidator();
+
+    final FlagsDto flagsDto = FlagsDto.newBuilder().setBoolFlag(null).setIntFlag(null).build();
+
+    final Set<ConstraintViolation<FlagsDto>> constraintViolations = validator.validate(flagsDto);
+
+    assertEquals(2, constraintViolations.size());
   }
 }

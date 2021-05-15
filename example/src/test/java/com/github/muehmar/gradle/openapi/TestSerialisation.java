@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi;
 
+import OpenApiSchema.example.api.model.GenderDto;
 import OpenApiSchema.example.api.model.LanguageDto;
 import OpenApiSchema.example.api.model.UserDto;
 import OpenApiSchema.example.api.model.UserGroupDto;
@@ -31,7 +32,7 @@ class TestSerialisation {
     final UserDto userBruce =
         UserDto.newBuilder()
             .setId(UUID.randomUUID())
-            .setExternalId(555555)
+            .setExternalId(555555L)
             .setUser("Bruce")
             .setCity("Winterthur")
             .andOptionals()
@@ -62,6 +63,7 @@ class TestSerialisation {
             .setCity("Moskau")
             .andAllOptionals()
             .setBirthday(LocalDate.now())
+            .setGender(GenderDto.FEMALE)
             .setAge(45)
             .setLastLogin(LocalDateTime.now())
             .setRole(UserDto.RoleEnum.USER)
@@ -75,7 +77,7 @@ class TestSerialisation {
     final UserDto userFred =
         UserDto.newBuilder()
             .setId(UUID.randomUUID())
-            .setExternalId(123456789)
+            .setExternalId(123456789L)
             .setUser("Fred")
             .setCity("San Diego")
             .build();
