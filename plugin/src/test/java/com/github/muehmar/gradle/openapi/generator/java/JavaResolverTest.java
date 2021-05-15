@@ -3,27 +3,21 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class JavaResolverTest {
 
   @Test
-  void getterName_when_primitiveBoolean_then_correctGetter() {
-    final JavaResolver javaResolver = new JavaResolver();
-    final Name getterName =
-        javaResolver.getterName(Name.of("activeUser"), JavaType.ofName("boolean"));
-    assertEquals("isActiveUser", getterName.asString());
-  }
-
-  @Test
   void getterName_when_booleanType_then_correctGetter() {
     final JavaResolver javaResolver = new JavaResolver();
     final Name getterName = javaResolver.getterName(Name.of("activeUser"), JavaTypes.BOOLEAN);
-    assertEquals("isActiveUser", getterName.asString());
+    assertEquals("getActiveUser", getterName.asString());
   }
 
   @Test
@@ -78,5 +72,21 @@ class JavaResolverTest {
   void toUppercaseSnakeCase_when_pascalCase_then_convertedToSnakeCase(String in) {
     final Name snakeCase = JavaResolver.toUppercaseSnakeCase(in);
     assertEquals("ANY_CASE", snakeCase.asString());
+  }
+
+  @ParameterizedTest
+  @MethodSource("asciiJavaNameArguments")
+  void toAsciiJavaName_when_variousInput_then_callConvertedToAsciiJavaNames(
+      String in, String expected) {
+    final Name asciiJavaName = JavaResolver.toAsciiJavaName(Name.of(in));
+    assertEquals(expected, asciiJavaName.asString());
+  }
+
+  private static Stream<Arguments> asciiJavaNameArguments() {
+    return Stream.of(
+        Arguments.of("field:Name", "field_Name"),
+        Arguments.of("*fieldName*", "_fieldName_"),
+        Arguments.of("field**Name", "field_Name"),
+        Arguments.of("123FieldName", "_123FieldName"));
   }
 }

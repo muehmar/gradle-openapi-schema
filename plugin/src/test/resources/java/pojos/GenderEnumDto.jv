@@ -1,0 +1,31 @@
+package com.github.muehmar;
+
+/**
+ * Gender of a user
+ */
+public enum GenderDto {
+
+  private final String value;
+
+  GenderDto(String value) {
+    this.value = value;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(value);
+  }
+
+  public static GenderDto fromValue(String value) {
+    for (GenderDto e : GenderDto.values()) {
+      if (e.value.equals(value)) {
+        return e;
+      }
+    }
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+  }
+}

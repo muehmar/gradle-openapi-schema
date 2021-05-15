@@ -25,31 +25,44 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   @Override
   public void generatePojo(Pojo pojo, PojoSettings pojoSettings) {
-
     final String packagePath =
         pojoSettings.getPackageName().replace(".", "/").replaceFirst("^/", "");
 
     final Writer writer = createWriter.get();
+
+    final boolean isEnum = pojo.isEnum();
+
     printPackage(writer, pojoSettings.getPackageName());
-    printImports(writer, pojo, pojoSettings);
-    printClassStart(writer, pojo);
 
-    printFields(writer, pojo, pojoSettings);
-    printConstructor(writer, pojo, pojoSettings);
+    if (isEnum) {
+      printJsonSupportImports(writer, pojoSettings);
+      printEnum(
+          writer,
+          pojo.getName().append(pojoSettings.getSuffix()),
+          pojo.getDescription(),
+          pojo.getEnumType().orElseThrow(IllegalStateException::new).getEnumMembers(),
+          pojoSettings,
+          0);
+    } else {
+      printImports(writer, pojo, pojoSettings);
+      printClassStart(writer, pojo);
+      printFields(writer, pojo, pojoSettings);
+      printConstructor(writer, pojo, pojoSettings);
 
-    printEnums(writer, pojo, pojoSettings);
+      printEnums(writer, pojo, pojoSettings);
 
-    printGetters(writer, pojo, pojoSettings);
-    printWithers(writer, pojo);
+      printGetters(writer, pojo, pojoSettings);
+      printWithers(writer, pojo);
 
-    printEqualsAndHash(writer, pojo);
-    printToString(writer, pojo);
+      printEqualsAndHash(writer, pojo);
+      printToString(writer, pojo);
 
-    printBuilder(writer, pojo, pojoSettings);
-    if (pojoSettings.isEnableSafeBuilder()) {
-      printSafeBuilder(writer, pojo);
+      printBuilder(writer, pojo, pojoSettings);
+      if (pojoSettings.isEnableSafeBuilder()) {
+        printSafeBuilder(writer, pojo);
+      }
+      printClassEnd(writer);
     }
-    printClassEnd(writer);
 
     writer.close(packagePath + "/" + pojo.className(resolver).asString() + ".java");
   }
@@ -59,20 +72,39 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printImports(Writer writer, Pojo pojo, PojoSettings settings) {
+    printJavaUtilImports(writer);
+
+    printJsonSupportImports(writer, settings);
+
+    printValidationImports(writer, settings);
+
+    pojo.getMembers()
+        .flatMap(PojoMember::getImports)
+        .distinct(Function.identity())
+        .forEach(classImport -> writer.println("import %s;", classImport));
+
+    writer.println();
+  }
+
+  private void printJavaUtilImports(Writer writer) {
     writer.println();
     writer.println("import java.util.Objects;");
     writer.println("import java.util.Optional;");
-    writer.println();
+  }
 
+  private void printJsonSupportImports(Writer writer, PojoSettings settings) {
     if (settings.isJacksonJson()) {
+      writer.println();
       writer.println("import com.fasterxml.jackson.annotation.JsonIgnore;");
       writer.println("import com.fasterxml.jackson.annotation.JsonProperty;");
       writer.println("import com.fasterxml.jackson.annotation.JsonCreator;");
       writer.println("import com.fasterxml.jackson.annotation.JsonValue;");
-      writer.println();
     }
+  }
 
+  private void printValidationImports(Writer writer, PojoSettings settings) {
     if (settings.isEnableConstraints()) {
+      writer.println();
       writer.println("import javax.validation.Valid;");
       writer.println("import javax.validation.constraints.Max;");
       writer.println("import javax.validation.constraints.Min;");
@@ -80,13 +112,7 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("import javax.validation.constraints.Size;");
       writer.println("import javax.validation.constraints.NotNull;");
       writer.println("import javax.validation.constraints.Email;");
-      writer.println();
     }
-
-    pojo.getMembers()
-        .flatMap(PojoMember::getImports)
-        .distinct(Function.identity())
-        .forEach(classImport -> writer.println("import %s;", classImport));
   }
 
   private void printJavaDoc(Writer writer, int tabs, String javadoc) {
@@ -205,76 +231,83 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(
             member ->
                 member.onEnum(
-                    enumMembers -> {
-                      writer.println();
-                      printJavaDoc(writer, 1, member.getDescription());
+                    enumMembers ->
+                        printEnum(
+                            writer,
+                            member.getTypeName(resolver),
+                            member.getDescription(),
+                            enumMembers,
+                            settings,
+                            1)));
+  }
 
-                      final String resolvedMemberType = member.getTypeName(resolver).asString();
-                      writer.tab(1).println("public enum %s {", resolvedMemberType);
-                      enumMembers
-                          .map(Name::of)
-                          .zipWithIndex()
-                          .forEach(
-                              p -> {
-                                final Name memberName = p.first();
-                                final Integer idx = p.second();
-                                writer
-                                    .tab(2)
-                                    .print(
-                                        "%s(\"%s\")",
-                                        resolver.enumMemberName(memberName).asString(),
-                                        memberName.asString());
-                                if (idx + 1 < enumMembers.size()) {
-                                  writer.println(",");
-                                } else {
-                                  writer.println(";");
-                                }
-                              });
-                      writer.println();
-                      writer.tab(2).println("private final String value;");
-                      writer.println();
-                      writer.tab(2).println("%s(String value) {", resolvedMemberType);
-                      writer.tab(3).println("this.value = value;");
-                      writer.tab(2).println("}");
+  protected void printEnum(
+      Writer writer,
+      Name enumName,
+      String description,
+      PList<String> enumMembers,
+      PojoSettings settings,
+      int indention) {
+    writer.println();
+    printJavaDoc(writer, indention, description);
 
-                      writer.println();
-                      if (settings.isJacksonJson()) {
-                        writer.tab(2).println("@JsonValue");
-                      }
-                      writer.tab(2).println("public String getValue() {");
-                      writer.tab(3).println("return value;");
-                      writer.tab(2).println("}");
+    final String enumNameString = enumName.asString();
+    writer.tab(indention).println("public enum %s {", enumNameString);
+    enumMembers
+        .map(Name::of)
+        .zipWithIndex()
+        .forEach(
+            p -> {
+              final Name memberName = p.first();
+              final Integer idx = p.second();
+              writer
+                  .tab(indention + 1)
+                  .print(
+                      "%s(\"%s\")",
+                      resolver.enumMemberName(memberName).asString(), memberName.asString());
+              if (idx + 1 < enumMembers.size()) {
+                writer.println(",");
+              } else {
+                writer.println(";");
+              }
+            });
+    writer.println();
+    writer.tab(indention + 1).println("private final String value;");
+    writer.println();
+    writer.tab(indention + 1).println("%s(String value) {", enumNameString);
+    writer.tab(indention + 2).println("this.value = value;");
+    writer.tab(indention + 1).println("}");
 
-                      writer.println();
-                      writer.tab(2).println("@Override");
-                      writer.tab(2).println("public String toString() {");
-                      writer.tab(3).println("return String.valueOf(value);");
-                      writer.tab(2).println("}");
+    writer.println();
+    if (settings.isJacksonJson()) {
+      writer.tab(indention + 1).println("@JsonValue");
+    }
+    writer.tab(indention + 1).println("public String getValue() {");
+    writer.tab(indention + 2).println("return value;");
+    writer.tab(indention + 1).println("}");
 
-                      writer.println();
-                      if (settings.isJacksonJson()) {
-                        writer.tab(2).println("@JsonCreator");
-                      }
-                      writer
-                          .tab(2)
-                          .println(
-                              "public static %s fromValue(String value) {", resolvedMemberType);
-                      writer
-                          .tab(3)
-                          .println(
-                              "for (%s e : %s.values()) {", resolvedMemberType, resolvedMemberType);
-                      writer.tab(4).println("if (e.value.equals(value)) {");
-                      writer.tab(5).println("return e;");
-                      writer.tab(4).println("}");
-                      writer.tab(3).println("}");
-                      writer
-                          .tab(3)
-                          .println(
-                              "throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
-                      writer.tab(2).println("}");
+    writer.println();
+    writer.tab(indention + 1).println("@Override");
+    writer.tab(indention + 1).println("public String toString() {");
+    writer.tab(indention + 2).println("return String.valueOf(value);");
+    writer.tab(indention + 1).println("}");
 
-                      writer.tab(1).println("}");
-                    }));
+    writer.println();
+    if (settings.isJacksonJson()) {
+      writer.tab(indention + 1).println("@JsonCreator");
+    }
+    writer.tab(indention + 1).println("public static %s fromValue(String value) {", enumNameString);
+    writer.tab(indention + 2).println("for (%s e : %s.values()) {", enumNameString, enumNameString);
+    writer.tab(indention + 3).println("if (e.value.equals(value)) {");
+    writer.tab(indention + 4).println("return e;");
+    writer.tab(indention + 3).println("}");
+    writer.tab(indention + 2).println("}");
+    writer
+        .tab(indention + 2)
+        .println("throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
+    writer.tab(indention + 1).println("}");
+
+    writer.tab(indention).println("}");
   }
 
   protected void printGetters(Writer writer, Pojo pojo, PojoSettings settings) {
