@@ -23,7 +23,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.8.0'
+    id 'com.github.muehmar.openapischema' version '0.9.0'
 }
 ```
 
@@ -199,6 +199,12 @@ annotations from the package `javax.validation.constraints` are currently genera
 
 ## Change Log
 
+* 0.9.0
+    * Create top level enums for root enum definitions
+    * Convert enum fields to ASCII java names
+    * Fix Java-Bean validation issues
+        * Do not use primitive java types to allow checking `@NotNull`
+        * Use Java-Bean getter for Booleans (`get` prefix instead of `is`)
 * 0.8.0
     * Add support for non-object/non-array schema definitions
     * Convert enums to uppercase snakecase
