@@ -19,7 +19,7 @@ public class ConstraintsMapper {
 
   public static Constraints getPattern(Schema<?> schema) {
     return Optional.ofNullable(schema.getPattern())
-        .map(Pattern::new)
+        .map(Pattern::ofUnescapedString)
         .map(Constraints::ofPattern)
         .orElseGet(Constraints::empty);
   }

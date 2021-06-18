@@ -189,7 +189,8 @@ class JavaPojoGeneratorTest {
                 new PojoMember(
                     Name.of("uppercase"),
                     "Something uppercase",
-                    JavaTypes.STRING.withConstraints(Constraints.ofPattern(new Pattern("[A-Z]"))),
+                    JavaTypes.STRING.withConstraints(
+                        Constraints.ofPattern(Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
                     true),
                 new PojoMember(
                     Name.of("anotherPojo"),

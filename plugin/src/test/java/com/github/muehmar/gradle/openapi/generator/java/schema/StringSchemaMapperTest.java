@@ -60,7 +60,7 @@ class StringSchemaMapperTest {
         stringSchemaMapper.mapSchema(
             Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
     assertEquals(
-        JavaTypes.STRING.withConstraints(Constraints.ofPattern(new Pattern("[A-Z]"))),
+        JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("[A-Z]"))),
         mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }

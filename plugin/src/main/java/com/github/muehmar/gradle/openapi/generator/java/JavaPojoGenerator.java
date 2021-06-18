@@ -417,7 +417,11 @@ public class JavaPojoGenerator implements PojoGenerator {
             writer.tab(tabs).println("@Size(%s)", minMax);
           });
       constraints.onPattern(
-          pattern -> writer.tab(tabs).println("@Pattern(regexp=\"%s\")", pattern.getPattern()));
+          pattern ->
+              writer
+                  .tab(tabs)
+                  .println(
+                      "@Pattern(regexp=\"%s\")", pattern.getPatternEscaped(JavaEscaper::escape)));
     }
   }
 

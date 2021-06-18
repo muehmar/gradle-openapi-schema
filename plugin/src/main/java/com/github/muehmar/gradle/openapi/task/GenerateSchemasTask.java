@@ -82,7 +82,19 @@ public class GenerateSchemasTask extends DefaultTask {
 
     final SwaggerParseResult swaggerParseResult = new OpenAPIV3Parser().readContents(openapiString);
 
-    return swaggerParseResult.getOpenAPI();
+    final OpenAPI openAPI = swaggerParseResult.getOpenAPI();
+    if (openAPI == null) {
+      if (swaggerParseResult.getMessages() != null) {
+        final String messages =
+            PList.fromIter(swaggerParseResult.getMessages())
+                .map(message -> String.format("%s", message))
+                .mkString("\n\n");
+        throw new GradleException(
+            "Failed to parse the OpenAPI specification with the following messages: " + messages);
+      }
+      throw new GradleException("Unable to parse OpenAPI specification.");
+    }
+    return openAPI;
   }
 
   @Input
