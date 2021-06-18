@@ -27,7 +27,8 @@ class PasswordSchemaMapperTest {
             Name.of("pojoName"), Name.of("pojoMemberName"), passwordSchema, null, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(
-            Constraints.ofSize(Size.of(5, 50)).and(Constraints.ofPattern(new Pattern("pattern")))),
+            Constraints.ofSize(Size.of(5, 50))
+                .and(Constraints.ofPattern(Pattern.ofUnescapedString("pattern")))),
         mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }

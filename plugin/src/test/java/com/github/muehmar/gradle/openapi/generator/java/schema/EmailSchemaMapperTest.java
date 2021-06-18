@@ -38,7 +38,7 @@ class EmailSchemaMapperTest {
         JavaTypes.STRING.withConstraints(
             Constraints.ofEmail()
                 .and(Constraints.ofSize(Size.of(5, 50)))
-                .and(Constraints.ofPattern(new Pattern("pattern")))),
+                .and(Constraints.ofPattern(Pattern.ofUnescapedString("pattern")))),
         mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }

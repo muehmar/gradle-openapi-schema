@@ -17,6 +17,9 @@ components:
         externalId:
           type: integer
           format: int64
+        locationId:
+          type: string
+          pattern: '^(\d[A-Z]*)'
         user:
           type: string
           minLength: 7
