@@ -199,6 +199,7 @@ annotations from the package `javax.validation.constraints` are currently genera
 
 ## Change Log
 
+* 0.9.1 - Escape patterns for Java
 * 0.9.0
     * Create top level enums for root enum definitions
     * Convert enum fields to ASCII java names
