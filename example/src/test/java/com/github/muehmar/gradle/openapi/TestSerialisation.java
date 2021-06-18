@@ -62,6 +62,7 @@ class TestSerialisation {
             .setUser("Paul")
             .setCity("Moskau")
             .andAllOptionals()
+            .setLocationId("1TEST")
             .setBirthday(LocalDate.now())
             .setGender(GenderDto.FEMALE)
             .setAge(45)
