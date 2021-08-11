@@ -229,6 +229,13 @@ public class UserDto {
     public OptBuilder1 setLanguage(LanguageEnum language){
       return new OptBuilder1(builder.setLanguage(language));
     }
+
+    /**
+     * Preferred language of this user
+     */
+    public OptBuilder1 setLanguage(Optional<LanguageEnum> language){
+      return new OptBuilder1(language.map(builder::setLanguage).orElse(builder));
+    }
   }
 
   public static final class OptBuilder1 {

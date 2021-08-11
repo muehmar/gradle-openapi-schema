@@ -591,6 +591,20 @@ public class JavaPojoGenerator implements PojoGenerator {
                       idx + 1, member.setterName(resolver).asString(), memberName);
               writer.tab(2).println("}");
 
+              writer.println();
+              printJavaDoc(writer, 2, member.getDescription());
+              writer
+                  .tab(2)
+                  .println(
+                      "public OptBuilder%d %s(Optional<%s> %s){",
+                      idx + 1, member.setterName(resolver).asString(), memberType, memberName);
+              writer
+                  .tab(3)
+                  .println(
+                      "return new OptBuilder%d(%s.map(builder::%s).orElse(builder));",
+                      idx + 1, memberName, member.setterName(resolver).asString());
+              writer.tab(2).println("}");
+
               writer.tab(1).println("}");
             });
 
