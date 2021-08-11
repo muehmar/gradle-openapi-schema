@@ -23,7 +23,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.9.0'
+    id 'com.github.muehmar.openapischema' version '0.10.0'
 }
 ```
 
@@ -177,6 +177,15 @@ Setting all required properties in a class could theoretically also be achieved 
 properties as arguments, but the pattern used here is safer in terms of refactoring, i.e. adding or removing properties,
 changing the required properties or changing the order of the properties.
 
+When using `andAllOptionals()` after all required properties are set, the safe builder provides overloaded methods to
+add the optional properties. The property can be set directly or wrapped in an `Optional`. In the example above, the
+safe builder provides methods with the following signature:
+```
+  public Builder setAge(int age);
+  
+  public Builder setAge(Optional<Integer> age);
+```
+
 ## Java Bean Validation
 
 This plugin supports the generation of java bean validation annotations (JSR 380). It requires version 2.0 or above of
@@ -199,6 +208,7 @@ annotations from the package `javax.validation.constraints` are currently genera
 
 ## Change Log
 
+* 0.10.0 - Improve adding optional properties with 'Safe Builder'
 * 0.9.1 - Escape patterns for Java
 * 0.9.0
     * Create top level enums for root enum definitions
