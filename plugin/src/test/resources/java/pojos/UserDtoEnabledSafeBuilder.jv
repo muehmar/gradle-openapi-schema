@@ -164,6 +164,14 @@ public class UserDto {
       return this;
     }
 
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      return this;
+    }
+
     public UserDto build() {
       return new UserDto(id, name, language);
     }

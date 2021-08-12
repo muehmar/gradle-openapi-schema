@@ -481,6 +481,8 @@ public class JavaPojoGenerator implements PojoGenerator {
               final String fieldName = member.memberName(resolver).asString();
               final String setterModifier =
                   settings.isEnableSafeBuilder() && member.isRequired() ? "private" : "public";
+
+              // Normal setter
               writer.println();
               printJavaDoc(writer, 2, member.getDescription());
               writer
@@ -491,6 +493,20 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(3).println("this.%s = %s;", fieldName, fieldName);
               writer.tab(3).println("return this;");
               writer.tab(2).println("}");
+
+              // Optional setter
+              if (member.isNullable()) {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "%s Builder %s(Optional<%s> %s) {",
+                        setterModifier, member.setterName(resolver).asString(), type, fieldName);
+                writer.tab(3).println("this.%s = %s.orElse(null);", fieldName, fieldName);
+                writer.tab(3).println("return this;");
+                writer.tab(2).println("}");
+              }
             });
 
     writer.println();

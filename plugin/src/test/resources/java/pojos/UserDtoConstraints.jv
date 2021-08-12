@@ -324,6 +324,14 @@ public class UserDto {
     }
 
     /**
+     * Level of this user
+     */
+    public Builder setLevel(Optional<Long> level) {
+      this.level = level.orElse(null);
+      return this;
+    }
+
+    /**
      * Something uppercase
      */
     public Builder setUppercase(String uppercase) {
@@ -332,10 +340,26 @@ public class UserDto {
     }
 
     /**
+     * Something uppercase
+     */
+    public Builder setUppercase(Optional<String> uppercase) {
+      this.uppercase = uppercase.orElse(null);
+      return this;
+    }
+
+    /**
      * Another Pojo
      */
     public Builder setAnotherPojo(AnotherPojo anotherPojo) {
       this.anotherPojo = anotherPojo;
+      return this;
+    }
+
+    /**
+     * Another Pojo
+     */
+    public Builder setAnotherPojo(Optional<AnotherPojo> anotherPojo) {
+      this.anotherPojo = anotherPojo.orElse(null);
       return this;
     }
 
