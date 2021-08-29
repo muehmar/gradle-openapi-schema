@@ -23,7 +23,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.11.0'
+    id 'com.github.muehmar.openapischema' version '0.12.0'
 }
 ```
 
@@ -209,7 +209,8 @@ annotations from the package `javax.validation.constraints` are currently genera
 
 ## Change Log
 
-* 0.11.0 - Improve adding optional properties also for the standard Builder
+* 0.12.0 - Improve adding optional properties also for the standard Builder
+* 0.11.0 - Unreleased (gradle plugin portal problems)
 * 0.10.0 - Improve adding optional properties with 'Safe Builder'
 * 0.9.1 - Escape patterns for Java
 * 0.9.0
