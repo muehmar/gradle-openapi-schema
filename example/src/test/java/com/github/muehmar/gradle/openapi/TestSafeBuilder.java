@@ -37,4 +37,25 @@ class TestSafeBuilder {
     assertEquals(Optional.of(GenderDto.FEMALE), userDto.getGenderOptional());
     assertEquals(Optional.of(UserDto.RoleEnum.USER), userDto.getRoleOptional());
   }
+
+  @Test
+  void andOptionals_when_useEmptyAndNonEmptyOptionals_then_allValuesCorrectSet() {
+    final UserDto userDto =
+        UserDto.newBuilder()
+            .setId(UUID.randomUUID())
+            .setExternalId(123L)
+            .setUser("user")
+            .setCity("city")
+            .andOptionals()
+            .setLocationId("locationId")
+            .setBirthday(Optional.empty())
+            .setGender(Optional.of(GenderDto.FEMALE))
+            .setRole(UserDto.RoleEnum.USER)
+            .build();
+
+    assertEquals(Optional.empty(), userDto.getBirthdayOptional());
+    assertEquals(Optional.of(GenderDto.FEMALE), userDto.getGenderOptional());
+    assertEquals(Optional.of(UserDto.RoleEnum.USER), userDto.getRoleOptional());
+    assertEquals(Optional.empty(), userDto.getAgeOptional());
+  }
 }
