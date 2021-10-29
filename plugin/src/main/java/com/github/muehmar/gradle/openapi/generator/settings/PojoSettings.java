@@ -15,6 +15,7 @@ public class PojoSettings implements Serializable {
   private final boolean enableConstraints;
   private final List<ClassTypeMapping> classTypeMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
+  private final EnumDescriptionSettings enumDescriptionSettings;
 
   public PojoSettings(
       JsonSupport jsonSupport,
@@ -23,7 +24,8 @@ public class PojoSettings implements Serializable {
       boolean enableSafeBuilder,
       boolean enableConstraints,
       PList<ClassTypeMapping> classTypeMappings,
-      PList<FormatTypeMapping> formatTypeMappings) {
+      PList<FormatTypeMapping> formatTypeMappings,
+      EnumDescriptionSettings enumDescriptionSettings) {
     this.jsonSupport = jsonSupport;
     this.packageName = packageName;
     this.suffix = suffix;
@@ -31,6 +33,7 @@ public class PojoSettings implements Serializable {
     this.enableConstraints = enableConstraints;
     this.classTypeMappings = classTypeMappings.toArrayList();
     this.formatTypeMappings = formatTypeMappings.toArrayList();
+    this.enumDescriptionSettings = enumDescriptionSettings;
   }
 
   public static PojoSettings fromOpenApiSchemaGeneratorExtension(
@@ -42,7 +45,8 @@ public class PojoSettings implements Serializable {
         extension.getEnableSafeBuilder(),
         extension.getEnableValidation(),
         extension.getClassMappings().map(ClassTypeMapping::fromExtension),
-        extension.getFormatTypeMappings().map(FormatTypeMapping::fromExtension));
+        extension.getFormatTypeMappings().map(FormatTypeMapping::fromExtension),
+        EnumDescriptionSettings.disabled());
   }
 
   public String getPackageName() {
@@ -95,10 +99,18 @@ public class PojoSettings implements Serializable {
         .orElse(JsonSupport.NONE);
   }
 
+  public EnumDescriptionSettings getEnumDescriptionSettings() {
+    return enumDescriptionSettings;
+  }
+
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     PojoSettings that = (PojoSettings) o;
     return enableSafeBuilder == that.enableSafeBuilder
         && enableConstraints == that.enableConstraints
@@ -106,7 +118,8 @@ public class PojoSettings implements Serializable {
         && Objects.equals(packageName, that.packageName)
         && Objects.equals(suffix, that.suffix)
         && Objects.equals(classTypeMappings, that.classTypeMappings)
-        && Objects.equals(formatTypeMappings, that.formatTypeMappings);
+        && Objects.equals(formatTypeMappings, that.formatTypeMappings)
+        && Objects.equals(enumDescriptionSettings, that.enumDescriptionSettings);
   }
 
   @Override
@@ -118,7 +131,8 @@ public class PojoSettings implements Serializable {
         enableSafeBuilder,
         enableConstraints,
         classTypeMappings,
-        formatTypeMappings);
+        formatTypeMappings,
+        enumDescriptionSettings);
   }
 
   @Override
@@ -140,6 +154,8 @@ public class PojoSettings implements Serializable {
         + classTypeMappings
         + ", formatTypeMappings="
         + formatTypeMappings
+        + ", enumDescriptionExtraction="
+        + enumDescriptionSettings
         + '}';
   }
 }

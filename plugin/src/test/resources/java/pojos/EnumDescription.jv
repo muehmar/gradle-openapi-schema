@@ -3,36 +3,33 @@ package com.github.muehmar;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
 
 
 /**
  * User of the Application
  */
 public class UserDto {
-  private final long id;
-  private final String name;
   private final LanguageEnum language;
 
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
   public UserDto(
-      @JsonProperty("id") long id,
-      @JsonProperty("name") String name,
-      @JsonProperty("language") LanguageEnum language) {
-    this.id = id;
-    this.name = name;
+      LanguageEnum language) {
     this.language = language;
   }
 
   /**
-   * Preferred language of this user
+   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
+   * language
    */
   public enum LanguageEnum {
-    GERMAN("GERMAN", ""),
-    ENGLISH("ENGLISH", "");
+    GERMAN("GERMAN", "German language"),
+    ENGLISH("ENGLISH", "English language");
 
     private final String value;
     private final String description;
@@ -42,9 +39,12 @@ public class UserDto {
       this.description = description;
     }
 
-    @JsonValue
     public String getValue() {
       return value;
+    }
+
+    public String getDescription() {
+      return description;
     }
 
     @Override
@@ -52,7 +52,6 @@ public class UserDto {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static LanguageEnum fromValue(String value) {
       for (LanguageEnum e : LanguageEnum.values()) {
         if (e.value.equals(value)) {
@@ -64,54 +63,27 @@ public class UserDto {
   }
 
   /**
-   * ID of this user
+   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
+   * language
    */
-  public long getId() {
-    return this.id;
-  }
-
-  /**
-   * Name of this user
-   */
-  public String getName() {
-    return this.name;
-  }
-
-  /**
-   * Preferred language of this user
-   */
-  @JsonIgnore
   public Optional<LanguageEnum> getLanguageOptional() {
     return Optional.ofNullable(this.language);
   }
 
   /**
-   * Preferred language of this user
+   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
+   * language
    */
-  @JsonProperty("language")
   public LanguageEnum getLanguageNullable() {
     return language;
   }
 
   /**
-   * ID of this user
-   */
-  public UserDto withId(long id) {
-    return new UserDto(id, name, language);
-  }
-
-  /**
-   * Name of this user
-   */
-  public UserDto withName(String name) {
-    return new UserDto(id, name, language);
-  }
-
-  /**
-   * Preferred language of this user
+   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
+   * language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language);
+    return new UserDto(language);
   }
 
   @Override
@@ -123,23 +95,19 @@ public class UserDto {
       return false;
     }
     final UserDto v = (UserDto) other;
-    return Objects.equals(id, v.id)
-        && Objects.equals(name, v.name)
-        && Objects.equals(language, v.language);
+    return Objects.equals(language, v.language);
   }
 
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, language);
+    return Objects.hash(language);
   }
 
   @Override
   public String toString() {
     return "UserDto{" +
-      "id=" + id +
-      ", name=" + name +
-      ", language=" + language +
+      "language=" + language +
       "}";
   }
 
@@ -149,28 +117,11 @@ public class UserDto {
 
   public static final class Builder {
 
-    private long id;
-    private String name;
     private LanguageEnum language;
 
     /**
-     * ID of this user
-     */
-    public Builder setId(long id) {
-      this.id = id;
-      return this;
-    }
-
-    /**
-     * Name of this user
-     */
-    public Builder setName(String name) {
-      this.name = name;
-      return this;
-    }
-
-    /**
-     * Preferred language of this user
+     * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
+     * language
      */
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
@@ -178,7 +129,8 @@ public class UserDto {
     }
 
     /**
-     * Preferred language of this user
+     * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
+     * language
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
@@ -186,7 +138,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, language);
+      return new UserDto(language);
     }
   }
 }

@@ -26,13 +26,15 @@ public class UserDto {
    * Preferred language of this user
    */
   public enum LanguageEnum {
-    GERMAN("GERMAN"),
-    ENGLISH("ENGLISH");
+    GERMAN("GERMAN", ""),
+    ENGLISH("ENGLISH", "");
 
     private final String value;
+    private final String description;
 
-    LanguageEnum(String value) {
+    LanguageEnum(String value, String description) {
       this.value = value;
+      this.description = description;
     }
 
     public String getValue() {
