@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.data.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -253,18 +254,21 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     final String enumNameString = enumName.asString();
     writer.tab(indention).println("public enum %s {", enumNameString);
-    enumMembers
-        .map(Name::of)
+    EnumMember.extractDescriptions(
+            enumMembers.map(Name::of), settings.getEnumDescriptionSettings(), description)
         .zipWithIndex()
         .forEach(
             p -> {
-              final Name memberName = p.first();
+              final EnumMember anEnumMember = p.first();
+              final Name memberName = anEnumMember.getName();
               final Integer idx = p.second();
               writer
                   .tab(indention + 1)
                   .print(
-                      "%s(\"%s\")",
-                      resolver.enumMemberName(memberName).asString(), memberName.asString());
+                      "%s(\"%s\", \"%s\")",
+                      resolver.enumMemberName(memberName).asString(),
+                      memberName.asString(),
+                      anEnumMember.getDescription());
               if (idx + 1 < enumMembers.size()) {
                 writer.println(",");
               } else {
@@ -273,9 +277,11 @@ public class JavaPojoGenerator implements PojoGenerator {
             });
     writer.println();
     writer.tab(indention + 1).println("private final String value;");
+    writer.tab(indention + 1).println("private final String description;");
     writer.println();
-    writer.tab(indention + 1).println("%s(String value) {", enumNameString);
+    writer.tab(indention + 1).println("%s(String value, String description) {", enumNameString);
     writer.tab(indention + 2).println("this.value = value;");
+    writer.tab(indention + 2).println("this.description = description;");
     writer.tab(indention + 1).println("}");
 
     writer.println();
@@ -285,6 +291,16 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(indention + 1).println("public String getValue() {");
     writer.tab(indention + 2).println("return value;");
     writer.tab(indention + 1).println("}");
+
+    if (settings.getEnumDescriptionSettings().isEnabled()) {
+      writer.println();
+      if (settings.isJacksonJson()) {
+        writer.tab(indention + 1).println("@JsonIgnore");
+      }
+      writer.tab(indention + 1).println("public String getDescription() {");
+      writer.tab(indention + 2).println("return description;");
+      writer.tab(indention + 1).println("}");
+    }
 
     writer.println();
     writer.tab(indention + 1).println("@Override");

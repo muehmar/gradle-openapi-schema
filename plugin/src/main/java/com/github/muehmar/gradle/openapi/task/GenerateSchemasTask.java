@@ -40,10 +40,7 @@ public class GenerateSchemasTask extends DefaultTask {
     sourceSet = project.getProviders().provider(config::getSourceSet);
     inputSpec = project.getProviders().provider(config::getInputSpec);
     outputDir = project.getProviders().provider(() -> config.getOutputDir(project));
-    pojoSettings =
-        project
-            .getProviders()
-            .provider(() -> PojoSettings.fromOpenApiSchemaGeneratorExtension(config, project));
+    pojoSettings = project.getProviders().provider(() -> config.toPojoSettings(project));
 
     // Use an inner class instead of a lambda to support incremental build properly
     doLast(

@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.Schema;
@@ -55,7 +56,15 @@ class StringSchemaMapperTest {
   void mapSchema_when_patternDefined_then_patternConstraint() {
     final Schema<?> schema = new StringSchema().pattern("[A-Z]");
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            null,
+            false,
+            false,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
             Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
@@ -69,7 +78,15 @@ class StringSchemaMapperTest {
   void mapSchema_when_minLengthDefined_then_minSizeConstraint() {
     final Schema<?> schema = new StringSchema().minLength(10);
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            null,
+            false,
+            false,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
             Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
@@ -83,7 +100,15 @@ class StringSchemaMapperTest {
   void mapSchema_when_maxLengthDefined_then_maxSizeConstraint() {
     final Schema<?> schema = new StringSchema().maxLength(33);
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            null,
+            false,
+            false,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
             Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
@@ -97,7 +122,15 @@ class StringSchemaMapperTest {
   void mapSchema_when_minAndMaxLengthDefined_then_fullSizeConstraint() {
     final Schema<?> schema = new StringSchema().minLength(10).maxLength(33);
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            null,
+            false,
+            false,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
             Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
@@ -111,7 +144,15 @@ class StringSchemaMapperTest {
   void mapSchema_when_enumItems_then_enumType() {
     final Schema<?> schema = new StringSchema()._enum(Arrays.asList("User", "Visitor"));
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, null, false, false, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            null,
+            false,
+            false,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
             Name.of("pojoName"), Name.of("pojoMemberName"), schema, pojoSettings, null);
@@ -127,7 +168,14 @@ class StringSchemaMapperTest {
         new FormatTypeMapping("userType", "UserType", "ch.user.type.package");
     final PojoSettings pojoSettings =
         new PojoSettings(
-            null, null, null, false, false, PList.empty(), PList.single(formatTypeMapping));
+            null,
+            null,
+            null,
+            false,
+            false,
+            PList.empty(),
+            PList.single(formatTypeMapping),
+            EnumDescriptionSettings.disabled());
 
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(

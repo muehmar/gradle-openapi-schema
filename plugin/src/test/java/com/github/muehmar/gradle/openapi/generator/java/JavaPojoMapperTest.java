@@ -16,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.data.Type;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -42,7 +43,15 @@ class JavaPojoMapperTest {
   void fromSchema_when_arraySchema_then_returnArrayPojo() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
     final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
 
     // method call
@@ -67,7 +76,14 @@ class JavaPojoMapperTest {
         new ClassTypeMapping("String", "CustomString", "ch.custom.string.package");
     final PojoSettings pojoSettings =
         new PojoSettings(
-            null, null, "Dto", false, true, PList.single(classTypeMapping), PList.empty());
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.single(classTypeMapping),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("name", new StringSchema());
@@ -97,7 +113,15 @@ class JavaPojoMapperTest {
   void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
     final PojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final PList<Pojo> pojos =
         parseOpenApiResourceEntries("/integration/completespec/openapi.yml")
@@ -236,7 +260,15 @@ class JavaPojoMapperTest {
   void fromSchema_when_singleInlineDefinition_then_composedPojoAndInlineDefinitionPojoCreated() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final Schema<?> objectSchema =
         new ObjectSchema()
@@ -279,7 +311,15 @@ class JavaPojoMapperTest {
   void fromSchema_when_twoInlineDefinitionAndReference_then_allPojosCreated() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final Schema<?> objectSchema1 =
         new ObjectSchema()
@@ -365,7 +405,15 @@ class JavaPojoMapperTest {
   void fromSchemas_when_rootUuidSchemaUsedAsReference_then_inlinedInPojo() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -394,7 +442,15 @@ class JavaPojoMapperTest {
   void fromSchemas_when_rootIntegerSchemaUsedAsReference_then_inlinedInPojo() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -423,7 +479,15 @@ class JavaPojoMapperTest {
   void fromSchemas_when_rootNumberSchemaUsedAsReference_then_inlinedInPojo() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -452,7 +516,15 @@ class JavaPojoMapperTest {
   void fromSchemas_when_rootBooleanSchemaUsedAsReference_then_inlinedInPojo() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -482,7 +554,15 @@ class JavaPojoMapperTest {
   void fromSchemas_when_rootEnumSchemaUsedAsReference_then_() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
     final PojoSettings pojoSettings =
-        new PojoSettings(null, null, "Dto", false, true, PList.empty(), PList.empty());
+        new PojoSettings(
+            null,
+            null,
+            "Dto",
+            false,
+            true,
+            PList.empty(),
+            PList.empty(),
+            EnumDescriptionSettings.disabled());
 
     final Schema<?> userSchema =
         new ObjectSchema()

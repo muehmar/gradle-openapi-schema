@@ -9,11 +9,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gender of a user
  */
 public enum GenderDto {
+  MALE("MALE", ""),
+  FEMALE("FEMALE", "");
 
   private final String value;
+  private final String description;
 
-  GenderDto(String value) {
+  GenderDto(String value, String description) {
     this.value = value;
+    this.description = description;
   }
 
   @JsonValue
