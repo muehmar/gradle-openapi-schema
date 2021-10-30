@@ -8,6 +8,7 @@ import groovy.lang.Closure;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.function.Supplier;
 import javax.inject.Inject;
 import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
@@ -149,15 +150,15 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   }
 
   private JsonSupport getJsonSupport() {
+    final Supplier<IllegalArgumentException> unsupportedValueException =
+        () ->
+            new IllegalArgumentException(
+                "Unsupported value for jsonSupport: '"
+                    + jsonSupport
+                    + "'. Supported values are ["
+                    + PList.of(JsonSupport.values()).map(JsonSupport::getValue).mkString(", "));
     return Optional.ofNullable(jsonSupport)
-        .map(
-            support -> {
-              if ("jackson".equalsIgnoreCase(support)) {
-                return JsonSupport.JACKSON;
-              } else {
-                return JsonSupport.NONE;
-              }
-            })
+        .map(support -> JsonSupport.fromString(support).orElseThrow(unsupportedValueException))
         .orElse(JsonSupport.NONE);
   }
 
