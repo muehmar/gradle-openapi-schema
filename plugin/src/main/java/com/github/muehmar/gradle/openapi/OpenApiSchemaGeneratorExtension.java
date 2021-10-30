@@ -1,14 +1,19 @@
 package com.github.muehmar.gradle.openapi;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import groovy.lang.Closure;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Optional;
 import javax.inject.Inject;
+import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
+import org.gradle.api.model.ObjectFactory;
 
 public class OpenApiSchemaGeneratorExtension implements Serializable {
 
@@ -24,14 +29,17 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   private Boolean enableValidation;
   private final NamedDomainObjectContainer<ClassMapping> classMappings;
   private final NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings;
+  private final EnumDescriptionExtension enumDescriptionExtension;
 
   @Inject
   public OpenApiSchemaGeneratorExtension(
       NamedDomainObjectContainer<ClassMapping> classMappings,
-      NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings) {
+      NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings,
+      ObjectFactory objects) {
     this.suffix = "";
     this.classMappings = classMappings;
     this.formatTypeMappings = formatTypeMappings;
+    this.enumDescriptionExtension = objects.newInstance(EnumDescriptionExtension.class);
   }
 
   public PList<ClassMapping> getClassMappings() {
@@ -97,10 +105,6 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
     this.packageName = packageName;
   }
 
-  public Optional<String> getJsonSupport() {
-    return Optional.ofNullable(jsonSupport);
-  }
-
   public void setJsonSupport(String jsonSupport) {
     this.jsonSupport = jsonSupport;
   }
@@ -119,6 +123,42 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
 
   public void setEnableValidation(Boolean enableValidation) {
     this.enableValidation = enableValidation;
+  }
+
+  public EnumDescriptionExtension getEnumDescriptionExtension() {
+    return enumDescriptionExtension;
+  }
+
+  public void enumDescriptionExtraction(Action<? super EnumDescriptionExtension> action) {
+    action.execute(enumDescriptionExtension);
+  }
+
+  public PojoSettings toPojoSettings(Project project) {
+    return new PojoSettings(
+        getJsonSupport(),
+        getPackageName(project),
+        getSuffix(),
+        getEnableSafeBuilder(),
+        getEnableValidation(),
+        getClassMappings().map(ClassTypeMapping::fromExtension),
+        getFormatTypeMappings()
+            .map(
+                com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping
+                    ::fromExtension),
+        getEnumDescriptionExtension().toEnumDescriptionSettings());
+  }
+
+  private JsonSupport getJsonSupport() {
+    return Optional.ofNullable(jsonSupport)
+        .map(
+            support -> {
+              if ("jackson".equalsIgnoreCase(support)) {
+                return JsonSupport.JACKSON;
+              } else {
+                return JsonSupport.NONE;
+              }
+            })
+        .orElse(JsonSupport.NONE);
   }
 
   @Override
@@ -150,6 +190,8 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
         + new ArrayList<>(classMappings)
         + ", formatTypeMappings="
         + new ArrayList<>(formatTypeMappings)
+        + ", enumDescriptionExtraction="
+        + enumDescriptionExtension
         + '}';
   }
 

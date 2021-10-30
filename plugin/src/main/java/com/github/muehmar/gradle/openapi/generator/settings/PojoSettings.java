@@ -1,11 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import org.gradle.api.Project;
 
 public class PojoSettings implements Serializable {
   private final JsonSupport jsonSupport;
@@ -34,19 +32,6 @@ public class PojoSettings implements Serializable {
     this.classTypeMappings = classTypeMappings.toArrayList();
     this.formatTypeMappings = formatTypeMappings.toArrayList();
     this.enumDescriptionSettings = enumDescriptionSettings;
-  }
-
-  public static PojoSettings fromOpenApiSchemaGeneratorExtension(
-      OpenApiSchemaGeneratorExtension extension, Project project) {
-    return new PojoSettings(
-        getJsonSupport(extension),
-        extension.getPackageName(project),
-        extension.getSuffix(),
-        extension.getEnableSafeBuilder(),
-        extension.getEnableValidation(),
-        extension.getClassMappings().map(ClassTypeMapping::fromExtension),
-        extension.getFormatTypeMappings().map(FormatTypeMapping::fromExtension),
-        EnumDescriptionSettings.disabled());
   }
 
   public String getPackageName() {
@@ -83,20 +68,6 @@ public class PojoSettings implements Serializable {
 
   public boolean isDisableSafeBuilder() {
     return !isEnableSafeBuilder();
-  }
-
-  private static JsonSupport getJsonSupport(OpenApiSchemaGeneratorExtension extension) {
-    return extension
-        .getJsonSupport()
-        .map(
-            jsonSupport -> {
-              if ("jackson".equalsIgnoreCase(jsonSupport)) {
-                return JsonSupport.JACKSON;
-              } else {
-                return JsonSupport.NONE;
-              }
-            })
-        .orElse(JsonSupport.NONE);
   }
 
   public EnumDescriptionSettings getEnumDescriptionSettings() {

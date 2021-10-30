@@ -11,7 +11,7 @@ public class EnumDescriptionSettings implements Serializable {
   private final String prefixMatcher;
   private final boolean failOnIncompleteDescriptions;
 
-  private EnumDescriptionSettings(
+  public EnumDescriptionSettings(
       boolean enabled, String prefixMatcher, boolean failOnIncompleteDescriptions) {
     if (enabled && !prefixMatcher.contains(ENUM_PLACEHOLDER)) {
       throw new IllegalArgumentException(
