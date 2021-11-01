@@ -8,8 +8,10 @@ import com.github.muehmar.gradle.openapi.generator.data.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
+import io.github.muehmar.pojoextension.generator.Generator;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -117,22 +119,10 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printJavaDoc(Writer writer, int tabs, String javadoc) {
-    writer.tab(tabs).println("/**");
-    PList.fromArray(javadoc.split("\\s"))
-        .foldLeft(
-            PList.<String>empty(),
-            (list, word) -> {
-              final String lastLine = list.headOption().orElse("");
-              if (lastLine.length() + word.length() + 1 > 80 || lastLine.isEmpty()) {
-                return list.cons(word);
-              } else {
-                return list.drop(1).cons(lastLine + " " + word);
-              }
-            })
-        .reverse()
-        .forEach(line -> writer.tab(tabs).println(" * %s", line));
-
-    writer.tab(tabs).println(" */");
+    final Generator<String, Void> gen =
+        Generator.<String, Void>emptyGen().append(JavaDocGenerator.javaDoc(), tabs);
+    final String output = applyGen(gen, javadoc);
+    writer.println(output);
   }
 
   private void printClassStart(Writer writer, Pojo pojo) {
@@ -729,5 +719,16 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   private void printClassEnd(Writer writer) {
     writer.println("}");
+  }
+
+  private static <T, S> String applyGen(Generator<T, S> gen, T data, S settings) {
+    return gen.generate(
+            data, settings, io.github.muehmar.pojoextension.generator.writer.Writer.createDefault())
+        .asString();
+  }
+
+  private static <T> String applyGen(Generator<T, Void> gen, T data) {
+    final Void noSettings = null;
+    return applyGen(gen, data, noSettings);
   }
 }

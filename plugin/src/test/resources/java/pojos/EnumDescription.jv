@@ -24,8 +24,9 @@ public class UserDto {
   }
 
   /**
-   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
-   * language
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
    */
   public enum LanguageEnum {
     GERMAN("GERMAN", "German language"),
@@ -63,24 +64,27 @@ public class UserDto {
   }
 
   /**
-   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
-   * language
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
    */
   public Optional<LanguageEnum> getLanguageOptional() {
     return Optional.ofNullable(this.language);
   }
 
   /**
-   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
-   * language
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
    */
   public LanguageEnum getLanguageNullable() {
     return language;
   }
 
   /**
-   * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
-   * language
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
     return new UserDto(language);
@@ -120,8 +124,9 @@ public class UserDto {
     private LanguageEnum language;
 
     /**
-     * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
-     * language
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
      */
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
@@ -129,8 +134,9 @@ public class UserDto {
     }
 
     /**
-     * Preferred language of this user * `GERMAN`: German language * `ENGLISH`: English
-     * language
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);

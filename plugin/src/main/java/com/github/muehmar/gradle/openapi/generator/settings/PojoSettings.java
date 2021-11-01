@@ -1,11 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
+import io.github.muehmar.pojoextension.annotations.PojoExtension;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class PojoSettings implements Serializable {
+@PojoExtension
+public class PojoSettings extends PojoSettingsExtension implements Serializable {
   private final JsonSupport jsonSupport;
   private final String packageName;
   private final String suffix;
@@ -14,6 +16,25 @@ public class PojoSettings implements Serializable {
   private final List<ClassTypeMapping> classTypeMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
   private final EnumDescriptionSettings enumDescriptionSettings;
+
+  PojoSettings(
+      JsonSupport jsonSupport,
+      String packageName,
+      String suffix,
+      boolean enableSafeBuilder,
+      boolean enableConstraints,
+      List<ClassTypeMapping> classTypeMappings,
+      List<FormatTypeMapping> formatTypeMappings,
+      EnumDescriptionSettings enumDescriptionSettings) {
+    this.jsonSupport = jsonSupport;
+    this.packageName = packageName;
+    this.suffix = suffix;
+    this.enableSafeBuilder = enableSafeBuilder;
+    this.enableConstraints = enableConstraints;
+    this.classTypeMappings = classTypeMappings;
+    this.formatTypeMappings = formatTypeMappings;
+    this.enumDescriptionSettings = enumDescriptionSettings;
+  }
 
   public PojoSettings(
       JsonSupport jsonSupport,

@@ -135,18 +135,22 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   }
 
   public PojoSettings toPojoSettings(Project project) {
-    return new PojoSettings(
-        getJsonSupport(),
-        getPackageName(project),
-        getSuffix(),
-        getEnableSafeBuilder(),
-        getEnableValidation(),
-        getClassMappings().map(ClassTypeMapping::fromExtension),
-        getFormatTypeMappings()
-            .map(
-                com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping
-                    ::fromExtension),
-        getEnumDescriptionExtension().toEnumDescriptionSettings());
+    return PojoSettings.newBuilder()
+        .setJsonSupport(getJsonSupport())
+        .setPackageName(getPackageName(project))
+        .setSuffix(getSuffix())
+        .setEnableSafeBuilder(getEnableSafeBuilder())
+        .setEnableConstraints(getEnableValidation())
+        .setClassTypeMappings(getClassMappings().map(ClassTypeMapping::fromExtension).toArrayList())
+        .setFormatTypeMappings(
+            getFormatTypeMappings()
+                .map(
+                    com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping
+                        ::fromExtension)
+                .toArrayList())
+        .setEnumDescriptionSettings(getEnumDescriptionExtension().toEnumDescriptionSettings())
+        .andAllOptionals()
+        .build();
   }
 
   private JsonSupport getJsonSupport() {
