@@ -24,7 +24,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.12.0'
+    id 'com.github.muehmar.openapischema' version '0.13.0'
 }
 ```
 
@@ -263,6 +263,9 @@ member without adding the description.
 
 ## Change Log
 
+* 0.13.0 
+    * Add extraction of enum description
+    * Fix javadoc rendering
 * 0.12.0 - Improve adding optional properties also for the standard Builder
 * 0.11.0 - Unreleased (gradle plugin portal problems)
 * 0.10.0 - Improve adding optional properties with 'Safe Builder'
