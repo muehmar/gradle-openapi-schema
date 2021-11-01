@@ -41,6 +41,11 @@ components:
         role:
           type: string
           enum: [ "Admin", "User", "Visitor" ]
+          description: |
+            Role of the user
+            * `Admin`: Administrator role
+            * `User`: User role
+            * `Visitor`: Visitor role
         currencies:
           type: object
           additionalProperties:
