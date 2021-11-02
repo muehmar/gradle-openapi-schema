@@ -25,8 +25,8 @@ public class EnumMember {
       return Optional.empty();
     }
 
-    final String prefixMatcher = settings.getPrefixMatcherForMember(memberName);
-    final Pattern pattern = Pattern.compile(".*" + prefixMatcher + "(.*)");
+    final String prefixMatcher = Pattern.quote(settings.getPrefixMatcherForMember(memberName));
+    final Pattern pattern = Pattern.compile(".*?" + prefixMatcher + "(.*)");
 
     return PList.fromArray(description.split("\n"))
         .map(pattern::matcher)
@@ -38,8 +38,8 @@ public class EnumMember {
 
   /**
    * Returns a list of enums with found description. If no description is found, the description
-   * will be set to an empty string in case failOnMissingDescription is turned off. In case it is
-   * turned on, this method will fail if a description of a member is not found.
+   * will be set to an empty string in case failOnIncompleteDescriptions is turned off. In case it
+   * is turned on, this method will fail if a description of a member is not found.
    */
   public static PList<EnumMember> extractDescriptions(
       PList<Name> enumMembers, EnumDescriptionSettings settings, String description) {
@@ -67,7 +67,7 @@ public class EnumMember {
           String.format(
               "No description found for the following enum members [%s]. "
                   + "Either complete the description for these members or turn off the "
-                  + "failOnMissingDescription setting for the enum extraction.",
+                  + "failOnIncompleteDescriptions setting for the enum extraction.",
               missingEnumMembers);
       throw new IllegalStateException(message);
     } else {

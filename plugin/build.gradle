@@ -33,7 +33,7 @@ dependencies {
 }
 
 group = 'com.github.muehmar.openapischema'
-version = '0.13.0'
+version = '0.13.1'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8

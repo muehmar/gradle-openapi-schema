@@ -42,6 +42,29 @@ class EnumMemberTest {
         Arguments.of("BLUE", Optional.of("This is for blue")));
   }
 
+  @ParameterizedTest
+  @MethodSource("enumDescriptionExtractionArguments")
+  void
+      extractDescription_when_prefixMatcherWithSpecialCharacters_then_quotedAndCorrectDescriptionExtracted(
+          String memberName, Optional<String> foundDescription) {
+    final String input =
+        "* `GREEN`:.* This is for green\n"
+            + "* `RED`:.* This is for red\n"
+            + "* `BLUE`:.* This is for blue";
+
+    final Name memberNames = Name.of(memberName);
+    final EnumDescriptionSettings settings =
+        EnumDescriptionSettings.enabled("`__ENUM__`:.*", false);
+
+    final Optional<EnumMember> enumMember =
+        EnumMember.extractDescription(memberNames, settings, input);
+
+    assertEquals(foundDescription, enumMember.map(EnumMember::getDescription));
+    assertEquals(
+        Optional.of(memberNames).filter(ign -> foundDescription.isPresent()),
+        enumMember.map(EnumMember::getName));
+  }
+
   @Test
   void
       extractDescriptions_when_notForEveryMemberADescriptionIsPresentAndDontFailOnIncompleteDescription_then_partiallyExtracted() {

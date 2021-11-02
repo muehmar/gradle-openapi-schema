@@ -32,8 +32,8 @@ public class EnumDescriptionSettings implements Serializable {
   }
 
   public static EnumDescriptionSettings enabled(
-      String prefixMatcher, boolean failOnMissingDescription) {
-    return new EnumDescriptionSettings(true, prefixMatcher, failOnMissingDescription);
+      String prefixMatcher, boolean failOnIncompleteDescriptions) {
+    return new EnumDescriptionSettings(true, prefixMatcher, failOnIncompleteDescriptions);
   }
 
   public boolean isEnabled() {
