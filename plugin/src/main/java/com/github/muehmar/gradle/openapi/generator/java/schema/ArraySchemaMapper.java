@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -28,7 +29,7 @@ public class ArraySchemaMapper extends BaseSchemaMapper<ArraySchema> {
 
     final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
 
-    if (items instanceof ObjectSchema) {
+    if (items instanceof ObjectSchema || items instanceof ComposedSchema) {
       final Name openApiPojoName = JavaResolver.toPascalCase(pojoName, pojoMemberName);
       final JavaType itemType = JavaType.ofOpenApiSchema(openApiPojoName, pojoSettings.getSuffix());
       final JavaType javaList = JavaType.javaList(itemType);

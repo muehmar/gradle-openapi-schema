@@ -24,8 +24,8 @@ task createClasspathManifest {
 dependencies {
     implementation "org.openapitools.swagger.parser:swagger-parser-v3:2.0.14-OpenAPITools.org-1"
 
-    implementation "io.github.muehmar:pojo-extension:0.2.5"
-    annotationProcessor "io.github.muehmar:pojo-extension:0.2.5"
+    implementation "io.github.muehmar:pojo-extension:0.5.0"
+    annotationProcessor "io.github.muehmar:pojo-extension:0.5.0"
 
     def junitVersion = "5.7.1"
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junitVersion
@@ -33,7 +33,7 @@ dependencies {
 }
 
 group = 'com.github.muehmar.openapischema'
-version = '0.13.1'
+version = '0.13.2'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8

@@ -131,6 +131,15 @@ components:
             isCombi:
               type: boolean
 
+    Reports:
+      properties:
+        invoice:
+          type: array
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Color"
+              - $ref: "#/components/schemas/Flags"
+
     UserKey:
       type: string
       format: uuid

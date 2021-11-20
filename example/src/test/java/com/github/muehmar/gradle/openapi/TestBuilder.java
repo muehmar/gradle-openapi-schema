@@ -1,14 +1,15 @@
 package com.github.muehmar.gradle.openapi;
 
 import OpenApiSchema.example.api.model.UserDto;
+import org.junit.jupiter.api.Test;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Optional;
 import java.util.UUID;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class TestBuilder {
 
@@ -41,10 +42,10 @@ class TestBuilder {
 
     for (Method declaredMethod : declaredMethods) {
       if (Modifier.isPublic(declaredMethod.getModifiers())) {
-        assertFalse(declaredMethod.getName().equals("setId"));
-        assertFalse(declaredMethod.getName().equals("setExternalId"));
-        assertFalse(declaredMethod.getName().equals("setUser"));
-        assertFalse(declaredMethod.getName().equals("setCity"));
+        assertNotEquals("setId", declaredMethod.getName());
+        assertNotEquals("setExternalId", declaredMethod.getName());
+        assertNotEquals("setUser", declaredMethod.getName());
+        assertNotEquals("setCity", declaredMethod.getName());
       }
     }
   }

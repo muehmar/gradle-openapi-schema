@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.writer.TestStringWriter;
 import org.junit.jupiter.api.Test;
 
@@ -30,15 +31,10 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.NONE,
-            "com.github.muehmar",
-            "Dto",
-            false,
-            false,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.disabled());
+        TestPojoSettings.defaultSettings()
+            .withJsonSupport(JsonSupport.NONE)
+            .withEnableSafeBuilder(false)
+            .withEnableConstraints(false);
 
     final Pojo pojo =
         Pojo.ofObject(
@@ -65,15 +61,9 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.JACKSON,
-            "com.github.muehmar",
-            "Dto",
-            false,
-            false,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.disabled());
+        TestPojoSettings.defaultSettings()
+            .withEnableSafeBuilder(false)
+            .withEnableConstraints(false);
 
     final Pojo pojo =
         Pojo.ofObject(
@@ -101,15 +91,10 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.NONE,
-            "com.github.muehmar",
-            "Dto",
-            true,
-            false,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.disabled());
+        TestPojoSettings.defaultSettings()
+            .withJsonSupport(JsonSupport.NONE)
+            .withEnableSafeBuilder(true)
+            .withEnableConstraints(false);
 
     final Pojo pojo =
         Pojo.ofObject(
@@ -137,15 +122,10 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.NONE,
-            "com.github.muehmar",
-            "Dto",
-            false,
-            true,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.disabled());
+        TestPojoSettings.defaultSettings()
+            .withJsonSupport(JsonSupport.NONE)
+            .withEnableSafeBuilder(false)
+            .withEnableConstraints(true);
 
     final Pojo pojo =
         Pojo.ofObject(
@@ -214,15 +194,10 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.NONE,
-            "com.github.muehmar",
-            "Dto",
-            false,
-            true,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.disabled());
+        TestPojoSettings.defaultSettings()
+            .withJsonSupport(JsonSupport.NONE)
+            .withEnableSafeBuilder(false)
+            .withEnableConstraints(true);
 
     final Pojo pojo =
         Pojo.ofEnum(
@@ -242,15 +217,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.JACKSON,
-            "com.github.muehmar",
-            "Dto",
-            false,
-            true,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.disabled());
+        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableConstraints(true);
 
     final Pojo pojo =
         Pojo.ofEnum(
@@ -272,15 +239,10 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.NONE,
-            "com.github.muehmar",
-            "Dto",
-            false,
-            true,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.enabled("`__ENUM__`:", false));
+        TestPojoSettings.defaultSettings()
+            .withJsonSupport(JsonSupport.NONE)
+            .withEnableSafeBuilder(false)
+            .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
 
     final Pojo pojo =
         Pojo.ofObject(
@@ -308,15 +270,9 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        new PojoSettings(
-            JsonSupport.JACKSON,
-            "com.github.muehmar",
-            "Dto",
-            false,
-            true,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.enabled("`__ENUM__`:", false));
+        TestPojoSettings.defaultSettings()
+            .withEnableSafeBuilder(false)
+            .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
 
     final Pojo pojo =
         Pojo.ofObject(
