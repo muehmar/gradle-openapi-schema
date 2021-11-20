@@ -10,8 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
-import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
@@ -41,16 +40,6 @@ class ArraySchemaMapperTest {
     final ComposedSchema composedSchema = new ComposedSchema();
     composedSchema.addAllOfItem(new Schema<>().$ref("#/components/schemas/ReferenceSchema1"));
     composedSchema.addAllOfItem(new Schema<>().$ref("#/components/schemas/ReferenceSchema2"));
-    final PojoSettings pojoSettings =
-        new PojoSettings(
-            null,
-            null,
-            "Dto",
-            false,
-            true,
-            PList.empty(),
-            PList.empty(),
-            EnumDescriptionSettings.disabled());
 
     final ArraySchema arraySchema = new ArraySchema().items(composedSchema);
 
@@ -59,7 +48,7 @@ class ArraySchemaMapperTest {
             Name.of("Reports"),
             Name.of("Invoice"),
             arraySchema,
-            pojoSettings,
+            TestPojoSettings.defaultSettings(),
             new DateTimeSchemaMapper(null));
     final JavaType itemType = JavaType.ofOpenApiSchema(Name.of("ReportsInvoice"), "Dto");
     assertEquals(JavaType.javaList(itemType), mappedSchema.getType());
