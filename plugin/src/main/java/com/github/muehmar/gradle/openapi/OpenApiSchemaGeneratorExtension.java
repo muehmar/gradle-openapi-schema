@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,20 +136,20 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   }
 
   public PojoSettings toPojoSettings(Project project) {
-    return PojoSettings.newBuilder()
-        .setJsonSupport(getJsonSupport())
-        .setPackageName(getPackageName(project))
-        .setSuffix(getSuffix())
-        .setEnableSafeBuilder(getEnableSafeBuilder())
-        .setEnableConstraints(getEnableValidation())
-        .setClassTypeMappings(getClassMappings().map(ClassTypeMapping::fromExtension).toArrayList())
-        .setFormatTypeMappings(
+    return PojoSettingsBuilder.create()
+        .jsonSupport(getJsonSupport())
+        .packageName(getPackageName(project))
+        .suffix(getSuffix())
+        .enableSafeBuilder(getEnableSafeBuilder())
+        .enableConstraints(getEnableValidation())
+        .classTypeMappings(getClassMappings().map(ClassTypeMapping::fromExtension).toArrayList())
+        .formatTypeMappings(
             getFormatTypeMappings()
                 .map(
                     com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping
                         ::fromExtension)
                 .toArrayList())
-        .setEnumDescriptionSettings(getEnumDescriptionExtension().toEnumDescriptionSettings())
+        .enumDescriptionSettings(getEnumDescriptionExtension().toEnumDescriptionSettings())
         .andAllOptionals()
         .build();
   }
