@@ -4,15 +4,14 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import groovy.lang.Closure;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import javax.inject.Inject;
 import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
-import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 import org.gradle.api.model.ObjectFactory;
 
@@ -28,18 +27,15 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   private String jsonSupport;
   private Boolean enableSafeBuilder;
   private Boolean enableValidation;
-  private final NamedDomainObjectContainer<ClassMapping> classMappings;
-  private final NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings;
+  private final List<ClassMapping> classMappings;
+  private final List<FormatTypeMapping> formatTypeMappings;
   private final EnumDescriptionExtension enumDescriptionExtension;
 
   @Inject
-  public OpenApiSchemaGeneratorExtension(
-      NamedDomainObjectContainer<ClassMapping> classMappings,
-      NamedDomainObjectContainer<FormatTypeMapping> formatTypeMappings,
-      ObjectFactory objects) {
+  public OpenApiSchemaGeneratorExtension(ObjectFactory objects) {
     this.suffix = "";
-    this.classMappings = classMappings;
-    this.formatTypeMappings = formatTypeMappings;
+    this.classMappings = new ArrayList<>();
+    this.formatTypeMappings = new ArrayList<>();
     this.enumDescriptionExtension = objects.newInstance(EnumDescriptionExtension.class);
   }
 
@@ -47,16 +43,20 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
     return PList.fromIter(classMappings);
   }
 
-  public void classMappings(Closure<ClassMapping> closure) {
-    this.classMappings.configure(closure);
+  public void classMapping(Action<ClassMapping> action) {
+    final ClassMapping classMapping = new ClassMapping();
+    action.execute(classMapping);
+    this.classMappings.add(classMapping);
   }
 
   public PList<FormatTypeMapping> getFormatTypeMappings() {
     return PList.fromIter(formatTypeMappings);
   }
 
-  public void formatTypeMappings(Closure<FormatTypeMapping> closure) {
-    this.formatTypeMappings.configure(closure);
+  public void formatTypeMapping(Action<FormatTypeMapping> action) {
+    final FormatTypeMapping formatTypeMapping = new FormatTypeMapping();
+    action.execute(formatTypeMapping);
+    this.formatTypeMappings.add(formatTypeMapping);
   }
 
   public String getSourceSet() {
@@ -201,14 +201,9 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   }
 
   public static class FormatTypeMapping {
-    private final String name;
     private String formatType;
     private String classType;
     private String imports;
-
-    public FormatTypeMapping(String name) {
-      this.name = name;
-    }
 
     public String getFormatType() {
       return formatType;
@@ -237,10 +232,7 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
     @Override
     public String toString() {
       return "FormatTypeMapping{"
-          + "name='"
-          + name
-          + '\''
-          + ", formatType='"
+          + "formatType='"
           + formatType
           + '\''
           + ", classType='"
@@ -254,14 +246,9 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
   }
 
   public static class ClassMapping {
-    private final String name;
     private String fromClass;
     private String toClass;
     private String imports;
-
-    public ClassMapping(String name) {
-      this.name = name;
-    }
 
     public String getFromClass() {
       return fromClass;
@@ -290,10 +277,7 @@ public class OpenApiSchemaGeneratorExtension implements Serializable {
     @Override
     public String toString() {
       return "ClassMapping{"
-          + "name='"
-          + name
-          + '\''
-          + ", fromClass='"
+          + "fromClass='"
           + fromClass
           + '\''
           + ", toClass='"
