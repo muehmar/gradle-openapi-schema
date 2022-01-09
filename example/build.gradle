@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.muehmar.openapischema" version "0.13.2"
+    id "com.github.muehmar.openapischema" version "0.14.0"
 }
 
 repositories {
@@ -43,25 +43,22 @@ generateApiSchemas {
         failOnIncompleteDescriptions = true
     }
 
-    classMappings {
-        arrayList {
-            fromClass = "List"
-            toClass = "ArrayList"
-            imports = "java.util.ArrayList"
-        }
+    classMapping {
+        fromClass = "List"
+        toClass = "ArrayList"
+        imports = "java.util.ArrayList"
     }
 
-    formatTypeMappings {
-        name {
-            formatType = "username"
-            classType = "UserName"
-            imports = "com.package.UserName"
-        }
-        pass {
-            formatType = "password"
-            classType = "Password"
-            imports = "com.package.Password"
-        }
+    formatTypeMapping {
+        formatType = "username"
+        classType = "UserName"
+        imports = "com.package.UserName"
+    }
+
+    formatTypeMapping {
+        formatType = "password"
+        classType = "Password"
+        imports = "com.package.Password"
     }
 }
 
