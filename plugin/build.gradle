@@ -1,12 +1,8 @@
 plugins {
     id 'java-gradle-plugin'
     id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '0.12.0'
-    id 'com.github.sherter.google-java-format' version '0.8'
-}
-
-repositories {
-    mavenCentral()
+    id 'com.gradle.plugin-publish' version '0.19.0'
+    id 'openapischema.java'
 }
 
 task createClasspathManifest {
@@ -24,23 +20,16 @@ task createClasspathManifest {
 dependencies {
     implementation "org.openapitools.swagger.parser:swagger-parser-v3:2.0.14-OpenAPITools.org-1"
 
-    implementation "io.github.muehmar:pojo-extension:0.5.0"
-    annotationProcessor "io.github.muehmar:pojo-extension:0.5.0"
+    implementation "io.github.muehmar:pojo-extension:0.10.0"
+    annotationProcessor "io.github.muehmar:pojo-extension:0.10.0"
 
-    def junitVersion = "5.7.1"
+    def junitVersion = "5.8.2"
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junitVersion
     testRuntimeOnly files(createClasspathManifest)
 }
 
 group = 'com.github.muehmar.openapischema'
-version = '0.14.0-SNAPSHOT'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-test {
-    useJUnitPlatform()
-}
+version = '0.15.0-SNAPSHOT'
 
 pluginBundle {
     website = "https://github.com/muehmar/gradle-openapi-schema"
@@ -58,6 +47,4 @@ gradlePlugin {
         }
     }
 }
-
-compileJava.dependsOn tasks.googleJavaFormat
 

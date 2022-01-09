@@ -1,13 +1,12 @@
 package com.github.muehmar.gradle.openapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import OpenApiSchema.example.api.model.ReportsDto;
 import OpenApiSchema.example.api.model.ReportsInvoiceDto;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 class TestAllOfArray {
   @Test

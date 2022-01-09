@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 @PojoExtension
-@SuppressWarnings("java:S2160") // Created by PojoExtension
-public class PojoSettings extends PojoSettingsExtension implements Serializable {
+@SuppressWarnings("java:S2160")
+public class PojoSettings extends PojoSettingsBase implements Serializable {
   private final JsonSupport jsonSupport;
   private final String packageName;
   private final String suffix;
@@ -59,12 +59,12 @@ public class PojoSettings extends PojoSettingsExtension implements Serializable 
   }
 
   @Getter("classTypeMappings")
-  List<ClassTypeMapping> getClassTypeMappingsList() {
+  public List<ClassTypeMapping> getClassTypeMappingsList() {
     return classTypeMappings;
   }
 
   @Getter("formatTypeMappings")
-  List<FormatTypeMapping> getFormatTypeMappingsList() {
+  public List<FormatTypeMapping> getFormatTypeMappingsList() {
     return formatTypeMappings;
   }
 
@@ -86,29 +86,5 @@ public class PojoSettings extends PojoSettingsExtension implements Serializable 
 
   public EnumDescriptionSettings getEnumDescriptionSettings() {
     return enumDescriptionSettings;
-  }
-
-  @Override
-  public String toString() {
-    return "PojoSettings{"
-        + "jsonSupport="
-        + jsonSupport
-        + ", packageName='"
-        + packageName
-        + '\''
-        + ", suffix='"
-        + suffix
-        + '\''
-        + ", enableSafeBuilder="
-        + enableSafeBuilder
-        + ", enableConstraints="
-        + enableConstraints
-        + ", classTypeMappings="
-        + classTypeMappings
-        + ", formatTypeMappings="
-        + formatTypeMappings
-        + ", enumDescriptionSettings="
-        + enumDescriptionSettings
-        + '}';
   }
 }

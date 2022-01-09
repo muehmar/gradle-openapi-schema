@@ -1,14 +1,13 @@
 package com.github.muehmar.gradle.openapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import OpenApiSchema.example.api.model.GenderDto;
 import OpenApiSchema.example.api.model.UserDto;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 class TestSafeBuilder {
   @Test

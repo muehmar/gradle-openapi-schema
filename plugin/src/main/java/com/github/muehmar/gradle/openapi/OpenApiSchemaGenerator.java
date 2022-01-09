@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi;
 
 import com.github.muehmar.gradle.openapi.task.GenerateSchemasTask;
 import java.io.File;
-import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaPluginConvention;
@@ -12,22 +11,8 @@ import org.gradle.api.tasks.TaskProvider;
 public class OpenApiSchemaGenerator implements Plugin<Project> {
   @Override
   public void apply(Project project) {
-
-    final NamedDomainObjectContainer<OpenApiSchemaGeneratorExtension.ClassMapping> classMappings =
-        project.container(OpenApiSchemaGeneratorExtension.ClassMapping.class);
-
-    final NamedDomainObjectContainer<OpenApiSchemaGeneratorExtension.FormatTypeMapping>
-        formatTypeMappings =
-            project.container(OpenApiSchemaGeneratorExtension.FormatTypeMapping.class);
-
     final OpenApiSchemaGeneratorExtension config =
-        project
-            .getExtensions()
-            .create(
-                "generateApiSchemas",
-                OpenApiSchemaGeneratorExtension.class,
-                classMappings,
-                formatTypeMappings);
+        project.getExtensions().create("generateApiSchemas", OpenApiSchemaGeneratorExtension.class);
 
     final TaskProvider<GenerateSchemasTask> createTask =
         project

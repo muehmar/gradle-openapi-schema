@@ -6,15 +6,15 @@ public class TestPojoSettings {
   private TestPojoSettings() {}
 
   public static PojoSettings defaultSettings() {
-    return PojoSettings.newBuilder()
-        .setJsonSupport(JsonSupport.JACKSON)
-        .setPackageName("com.github.muehmar")
-        .setSuffix("Dto")
-        .setEnableSafeBuilder(true)
-        .setEnableConstraints(true)
-        .setClassTypeMappings(Collections.emptyList())
-        .setFormatTypeMappings(Collections.emptyList())
-        .setEnumDescriptionSettings(EnumDescriptionSettings.disabled())
+    return PojoSettingsBuilder.create()
+        .jsonSupport(JsonSupport.JACKSON)
+        .packageName("com.github.muehmar")
+        .suffix("Dto")
+        .enableSafeBuilder(true)
+        .enableConstraints(true)
+        .classTypeMappings(Collections.emptyList())
+        .formatTypeMappings(Collections.emptyList())
+        .enumDescriptionSettings(EnumDescriptionSettings.disabled())
         .andAllOptionals()
         .build();
   }

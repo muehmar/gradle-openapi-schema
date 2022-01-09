@@ -24,7 +24,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.13.2'
+    id 'com.github.muehmar.openapischema' version '0.14.0'
 }
 ```
 
@@ -42,25 +42,22 @@ generateApiSchemas {
     jsonSupport = "jackson"
     enableValidation = true
     
-    classMappings {
-        customList {
-            fromClass = "List"
-            toClass = "CustomList"
-            imports = "com.package.CustomList"
-        }
+    classMapping {
+        fromClass = "List"
+        toClass = "CustomList"
+        imports = "com.package.CustomList"        
     }
     
-    formatTypeMappings {
-        name {
-            formatType = "username"
-            classType = "UserName"
-            imports = "com.package.UserName"
-        }
-        pass {
-            formatType = "password"
-            classType = "Password"
-            imports = "com.package.Password"
-        }
+    formatTypeMapping {
+        formatType = "username"
+        classType = "UserName"
+        imports = "com.package.UserName"
+    }
+        
+    formatTypeMapping {
+        formatType = "password"
+        classType = "Password"
+        imports = "com.package.Password"
     }
         
     enumDescriptionExtraction {
@@ -73,18 +70,18 @@ generateApiSchemas {
 compileJava.dependsOn tasks.generateApiSchemas
 ```
 
-| Key | Data Type | Default | Description | 
-| --- | --- | --- | --- | 
-| sourceSet | String | main | Source set to which the generated classes should be added. |
-| inputSpec | String | None | The OpenApi 3.x specification location. |
-| outputDir | String | $buildDir/generated/openapi | The location in which the generated sources should be stored. |
-| packageName | String | ${project.group}.${project.name}.api.model | Name of the package for the generated classes. |
-| suffix | String | None | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided. |
-| jsonSupport | String | jackson | Used json support library. Possible values are `jackson` or `none`. |
-| enableSafeBuilder | Boolean | true | Enables creating the safe builder. |
-| enableValidation | Boolean | false | Enables the generation of annotations for java bean validation (JSR 380) |
+| Key               | Data Type | Default                                    | Description                                                                                             | 
+|-------------------|-----------|--------------------------------------------|---------------------------------------------------------------------------------------------------------| 
+| sourceSet         | String    | main                                       | Source set to which the generated classes should be added.                                              |
+| inputSpec         | String    | None                                       | The OpenApi 3.x specification location.                                                                 |
+| outputDir         | String    | $buildDir/generated/openapi                | The location in which the generated sources should be stored.                                           |
+| packageName       | String    | ${project.group}.${project.name}.api.model | Name of the package for the generated classes.                                                          |
+| suffix            | String    | None                                       | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided. |
+| jsonSupport       | String    | jackson                                    | Used json support library. Possible values are `jackson` or `none`.                                     |
+| enableSafeBuilder | Boolean   | true                                       | Enables creating the safe builder.                                                                      |
+| enableValidation  | Boolean   | false                                      | Enables the generation of annotations for java bean validation (JSR 380)                                |
 
-The plugin creates a task named `generateApiSchemas`. The dependency of the compile task of the corresponding source
+The plugin creates a task named `generateApiSchemas`. The dependency of the compile-task of the corresponding source
 must be set manually like in the example above.
 
 ### Class Mappings
@@ -93,15 +90,15 @@ The plugin allows one to map specific classes to custom types. The following exa
 implementation `com.package.CustomList` for lists instead of `java.util.List`.
 
 ```
-classMappings {
-    customList {
-        fromClass = "List"
-        toClass = "CustomList"
-        imports = "com.package.CustomList"
-    }
+classMapping {
+    fromClass = "List"
+    toClass = "CustomList"
+    imports = "com.package.CustomList"
 }
 
 ```
+
+Repeat this block for each class mapping.
 
 ### Format Type Mappings
 
@@ -119,16 +116,16 @@ class. For example the spec
 and a formatTypeMapping block in the configuration
 
 ```
-formatTypeMappings {
-    name {
-        formatType = "username"
-        classType = "UserName"
-        imports = "com.package.UserName"
-    }
+formatTypeMapping {
+    formatType = "username"
+    classType = "UserName"
+    imports = "com.package.UserName"
 }
 ```
 
 will use the class `com.package.UserName` for the property `accountName`.
+
+Repeat this block for each format type mapping.
 
 ### Enum description extraction
 
@@ -143,11 +140,11 @@ enumDescriptionExtraction {
 }
 ```
 
-| Key | Data Type | Default | Description | 
-| --- | --- | --- | --- | 
-| enabled | Boolean | false | Enables the extraction of descriptions for enum from the openapi specification. |
-| prefixMatcher | String | None | The prefix which matches the start of the description for the enums. |
-| failOnIncompleteDescriptions | Boolean | false | Either no description or a description for each members of an enum must be present if set, otherwise the generation will fail.|
+| Key                          | Data Type | Default | Description                                                                                                                    | 
+|------------------------------|-----------|---------|--------------------------------------------------------------------------------------------------------------------------------| 
+| enabled                      | Boolean   | false   | Enables the extraction of descriptions for enum from the openapi specification.                                                |
+| prefixMatcher                | String    | None    | The prefix which matches the start of the description for the enums.                                                           |
+| failOnIncompleteDescriptions | Boolean   | false   | Either no description or a description for each members of an enum must be present if set, otherwise the generation will fail. |
 
 ## Safe Builder
 
@@ -263,6 +260,7 @@ member without adding the description.
 
 ## Change Log
 
+* 0.14.0 - Simplify the format- and class-mapping configuration
 * 0.13.2 - Support `allOf` for array items
 * 0.13.1 - Quote prefixMatcher to allow special characters
 * 0.13.0
