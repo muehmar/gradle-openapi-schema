@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi;
 
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import OpenApiSchema.example.api.model.GenderDto;
 import OpenApiSchema.example.api.model.LanguageDto;
 import OpenApiSchema.example.api.model.UserDto;
@@ -17,9 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
-
-import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestSerialisation {
 

@@ -1,18 +1,17 @@
 package com.github.muehmar.gradle.openapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import OpenApiSchema.example.api.model.CarAllOfDto;
 import OpenApiSchema.example.api.model.CarDto;
 import OpenApiSchema.example.api.model.ColorDto;
-import org.junit.jupiter.api.Test;
-
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 class TestAllOf {
   @Test
