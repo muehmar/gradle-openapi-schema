@@ -9,7 +9,7 @@ public class OpenApiPojo {
   private final Schema<?> schema;
 
   public OpenApiPojo(Name name, Schema<?> schema) {
-    this.name = name;
+    this.name = name.startUpperCase();
     this.schema = schema;
   }
 

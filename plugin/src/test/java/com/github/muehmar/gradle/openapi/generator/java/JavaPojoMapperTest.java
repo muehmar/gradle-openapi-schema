@@ -469,7 +469,7 @@ class JavaPojoMapperTest {
   }
 
   @Test
-  void fromSchemas_when_rootEnumSchemaUsedAsReference_then_() {
+  void fromSchemas_when_rootEnumSchemaUsedAsReference_then_discreteEnumPojoCreated() {
     final JavaPojoMapper pojoMapper = new JavaPojoMapper();
 
     final Schema<?> userSchema =
@@ -507,6 +507,33 @@ class JavaPojoMapperTest {
                     Type.simpleOfName(Name.of("GenderDto")),
                     true))),
         pojos.apply(1));
+  }
+
+  @Test
+  void fromSchemas_when_lowercaseNamesAndReferences_then_allNamesStartUppercase() {
+    final JavaPojoMapper pojoMapper = new JavaPojoMapper();
+
+    final Schema<?> userSchema =
+        new ObjectSchema()
+            .addProperties("gender", new Schema<>().$ref("#/components/schemas/gender"));
+    final Schema<String> genderSchema = new StringSchema();
+    genderSchema.setEnum(Arrays.asList("FEMALE", "MALE", "UNKNOWN"));
+    genderSchema.description("Gender of a user");
+
+    // method call
+    final PList<Pojo> pojos =
+        pojoMapper.fromSchemas(
+            PList.of(
+                new OpenApiPojo(Name.of("gender"), genderSchema),
+                new OpenApiPojo(Name.of("user"), userSchema)),
+            TestPojoSettings.defaultSettings());
+
+    assertEquals(2, pojos.size());
+    assertEquals(Name.of("Gender"), pojos.apply(0).getName());
+    assertEquals(Name.of("User"), pojos.apply(1).getName());
+    assertEquals(1, pojos.apply(1).getMembers().size());
+    assertEquals(
+        Name.of("GenderDto"), pojos.apply(1).getMembers().apply(0).getType().getFullName());
   }
 
   private static PList<Map.Entry<String, Schema>> parseOpenApiResourceEntries(String resource) {

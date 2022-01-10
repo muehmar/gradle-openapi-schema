@@ -51,6 +51,10 @@ public class Name {
     return value.equalsIgnoreCase(other.value);
   }
 
+  public Name startUpperCase() {
+    return map(s -> s.substring(0, 1).toUpperCase() + s.substring(1));
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
