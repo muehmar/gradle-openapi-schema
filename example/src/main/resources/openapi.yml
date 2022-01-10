@@ -28,7 +28,7 @@ components:
           type: string
           format: date
         gender:
-          $ref: "#/components/schemas/Gender"
+          $ref: "#/components/schemas/gender"
         city:
           type: string
         age:
@@ -145,7 +145,7 @@ components:
       format: uuid
       description: Key for a user
 
-    Gender:
+    gender:
       type: string
       enum:
         - MALE
