@@ -24,7 +24,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.14.0'
+    id 'com.github.muehmar.openapischema' version '0.14.1'
 }
 ```
 
@@ -260,6 +260,7 @@ member without adding the description.
 
 ## Change Log
 
+* 0.14.1 - Fix issue `#1`
 * 0.14.0 - Simplify the format- and class-mapping configuration
 * 0.13.2 - Support `allOf` for array items
 * 0.13.1 - Quote prefixMatcher to allow special characters
