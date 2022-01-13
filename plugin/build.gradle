@@ -28,9 +28,7 @@ dependencies {
     testRuntimeOnly files(createClasspathManifest)
 }
 
-def isSnapshot = true
 group = 'com.github.muehmar.openapischema'
-version = '0.15.0' + (isSnapshot ? "-SNPASHOT" : "")
 
 pluginBundle {
     website = "https://github.com/muehmar/gradle-openapi-schema"

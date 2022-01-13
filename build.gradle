@@ -1,0 +1,14 @@
+plugins {
+    id 'net.researchgate.release' version '2.8.1'
+}
+
+task build {
+    // Make the release plugin happy
+}
+
+release {
+    preTagCommitMessage = 'Release '
+    tagCommitMessage = 'Release '
+    newVersionCommitMessage = 'Setting new version: '
+    tagTemplate = 'v${version}'
+}
