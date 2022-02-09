@@ -21,10 +21,10 @@ class CompleteSpecTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTask = result.task(":generateApiSchemas");
+    final BuildTask generateTask = result.task(":generateV1Model");
     assertNotNull(generateTask);
     assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
   }

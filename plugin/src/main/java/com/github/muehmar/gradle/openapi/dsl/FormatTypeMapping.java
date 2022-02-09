@@ -1,29 +1,29 @@
-package com.github.muehmar.gradle.openapi.generator.settings;
+package com.github.muehmar.gradle.openapi.dsl;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 public class FormatTypeMapping implements Serializable {
-  private final String formatType;
-  private final String classType;
-  private final String imports;
+  private String formatType;
+  private String classType;
+  private String imports;
 
-  public FormatTypeMapping(String formatType, String classType, String imports) {
+  public void setFormatType(String formatType) {
     this.formatType = formatType;
+  }
+
+  public void setClassType(String classType) {
     this.classType = classType;
+  }
+
+  public void setImports(String imports) {
     this.imports = imports;
   }
 
-  public String getFormatType() {
-    return formatType;
-  }
-
-  public String getClassType() {
-    return classType;
-  }
-
-  public String getImports() {
-    return imports;
+  public com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping
+      toSettingsFormatTypeMapping() {
+    return new com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping(
+        formatType, classType, imports);
   }
 
   @Override

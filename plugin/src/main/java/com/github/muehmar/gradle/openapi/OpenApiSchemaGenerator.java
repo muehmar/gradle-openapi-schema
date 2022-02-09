@@ -1,44 +1,88 @@
 package com.github.muehmar.gradle.openapi;
 
+import com.github.muehmar.gradle.openapi.dsl.OpenApiSchemaExtension;
+import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.task.GenerateSchemasTask;
 import java.io.File;
+import java.util.Optional;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.plugins.JavaPluginConvention;
+import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskProvider;
 
 public class OpenApiSchemaGenerator implements Plugin<Project> {
   @Override
   public void apply(Project project) {
-    final OpenApiSchemaGeneratorExtension config =
-        project.getExtensions().create("generateApiSchemas", OpenApiSchemaGeneratorExtension.class);
-
-    final TaskProvider<GenerateSchemasTask> createTask =
-        project
-            .getTasks()
-            .register("generateApiSchemas", GenerateSchemasTask.class, project, config);
-
-    createTask.configure(
-        task -> {
-          task.getInputs().file(config.getInputSpec());
-          task.getOutputs().dir(config.getOutputDir(project));
-          task.setGroup("openapi schema generator");
-        });
+    final OpenApiSchemaExtension openApiGenerator =
+        project.getExtensions().create("openApiGenerator", OpenApiSchemaExtension.class);
 
     project.afterEvaluate(
-        prj -> {
-          final SourceSetContainer sourceSets =
-              prj.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
+        p ->
+            openApiGenerator
+                .getSchemaExtensions()
+                .forEach(
+                    singleSchemaExtension -> setupGenerateModelTask(p, singleSchemaExtension)));
+  }
 
-          sourceSets.forEach(
-              sourceSet -> {
-                if (sourceSet.getName().equals(config.getSourceSet())) {
-                  final String sourceDir = config.getOutputDir(project);
-                  new File(sourceDir).mkdirs();
-                  sourceSet.getJava().srcDir(sourceDir);
-                }
-              });
+  private void setupGenerateModelTask(Project project, SingleSchemaExtension extension) {
+    final TaskProvider<GenerateSchemasTask> generateModelTask = createTask(project, extension);
+    attachToCompileJavaTask(project, extension, generateModelTask);
+    setupSourceSet(project, extension);
+  }
+
+  private void setupSourceSet(Project project, SingleSchemaExtension extension) {
+    final SourceSetContainer sourceSets =
+        Optional.ofNullable(project.getExtensions().findByType(JavaPluginExtension.class))
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        "Unable to obtain the Java SourceSets, most likely the Java Plugin is not applied to project "
+                            + project.getName()))
+            .getSourceSets();
+
+    sourceSets.forEach(
+        sourceSet -> {
+          if (sourceSet.getName().equals(extension.getSourceSet())) {
+            final String sourceDir = extension.getOutputDir(project);
+            new File(sourceDir).mkdirs();
+            sourceSet.getJava().srcDir(sourceDir);
+          }
         });
+  }
+
+  private void attachToCompileJavaTask(
+      Project project,
+      SingleSchemaExtension extension,
+      TaskProvider<GenerateSchemasTask> generateModelTask) {
+    final String compileJavaTaskName =
+        String.format("compile%sJava", capitalize(extension.getSourceSet()))
+            .replace("compileMainJava", "compileJava");
+
+    Optional.ofNullable(project.getTasks().findByName(compileJavaTaskName))
+        .ifPresent(javaTask -> javaTask.dependsOn(generateModelTask));
+  }
+
+  private TaskProvider<GenerateSchemasTask> createTask(
+      Project project, SingleSchemaExtension extension) {
+    final String generateModelTaskName =
+        String.format("generate%sModel", capitalize(extension.getName()));
+
+    final TaskProvider<GenerateSchemasTask> generateModelTask =
+        project
+            .getTasks()
+            .register(generateModelTaskName, GenerateSchemasTask.class, project, extension);
+
+    generateModelTask.configure(
+        task -> {
+          task.getInputs().file(extension.getInputSpec());
+          task.getOutputs().dir(extension.getOutputDir(project));
+          task.setGroup("openapi schema generator");
+        });
+    return generateModelTask;
+  }
+
+  private static String capitalize(String input) {
+    return input.substring(0, 1).toUpperCase() + input.substring(1);
   }
 }

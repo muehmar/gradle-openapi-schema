@@ -1,10 +1,11 @@
-package com.github.muehmar.gradle.openapi;
+package com.github.muehmar.gradle.openapi.dsl;
 
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.inject.Inject;
 
-public class EnumDescriptionExtension {
+public class EnumDescriptionExtension implements Serializable {
   private boolean enabled;
   private String prefixMatcher;
   private boolean failOnIncompleteDescriptions;

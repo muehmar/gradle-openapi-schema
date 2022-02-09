@@ -25,10 +25,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTask = result.task(":generateApiSchemas");
+    final BuildTask generateTask = result.task(":generateV1Model");
     assertNotNull(generateTask);
     assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
 
@@ -36,10 +36,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTaskSecondTime = secondResult.task(":generateApiSchemas");
+    final BuildTask generateTaskSecondTime = secondResult.task(":generateV1Model");
     assertNotNull(generateTaskSecondTime);
     assertEquals(TaskOutcome.UP_TO_DATE, generateTaskSecondTime.getOutcome());
   }
@@ -52,10 +52,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTask = result.task(":generateApiSchemas");
+    final BuildTask generateTask = result.task(":generateV1Model");
     assertNotNull(generateTask);
     assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
 
@@ -71,10 +71,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTaskSecondTime = secondResult.task(":generateApiSchemas");
+    final BuildTask generateTaskSecondTime = secondResult.task(":generateV1Model");
     assertNotNull(generateTaskSecondTime);
     assertEquals(TaskOutcome.SUCCESS, generateTaskSecondTime.getOutcome());
   }
@@ -88,10 +88,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTask = result.task(":generateApiSchemas");
+    final BuildTask generateTask = result.task(":generateV1Model");
     assertNotNull(generateTask);
     assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
 
@@ -104,10 +104,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTaskSecondTime = secondResult.task(":generateApiSchemas");
+    final BuildTask generateTaskSecondTime = secondResult.task(":generateV1Model");
     assertNotNull(generateTaskSecondTime);
     assertEquals(TaskOutcome.SUCCESS, generateTaskSecondTime.getOutcome());
   }
@@ -120,10 +120,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTask = result.task(":generateApiSchemas");
+    final BuildTask generateTask = result.task(":generateV1Model");
     assertNotNull(generateTask);
     assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
 
@@ -136,10 +136,10 @@ class IncrementalBuildTest {
         GradleRunner.create()
             .withProjectDir(project.getProjectDir().getRoot())
             .withPluginClasspath()
-            .withArguments("generateApiSchemas")
+            .withArguments("generateV1Model")
             .build();
 
-    final BuildTask generateTaskSecondTime = secondResult.task(":generateApiSchemas");
+    final BuildTask generateTaskSecondTime = secondResult.task(":generateV1Model");
     assertNotNull(generateTaskSecondTime);
     assertEquals(TaskOutcome.SUCCESS, generateTaskSecondTime.getOutcome());
   }

@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.task;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.OpenApiSchemaGeneratorExtension;
+import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.OpenApiGenerator;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
@@ -36,11 +36,11 @@ public class GenerateSchemasTask extends DefaultTask {
 
   @Inject
   @SuppressWarnings("java:S1604")
-  public GenerateSchemasTask(Project project, OpenApiSchemaGeneratorExtension config) {
-    sourceSet = project.getProviders().provider(config::getSourceSet);
-    inputSpec = project.getProviders().provider(config::getInputSpec);
-    outputDir = project.getProviders().provider(() -> config.getOutputDir(project));
-    pojoSettings = project.getProviders().provider(() -> config.toPojoSettings(project));
+  public GenerateSchemasTask(Project project, SingleSchemaExtension extension) {
+    sourceSet = project.getProviders().provider(extension::getSourceSet);
+    inputSpec = project.getProviders().provider(extension::getInputSpec);
+    outputDir = project.getProviders().provider(() -> extension.getOutputDir(project));
+    pojoSettings = project.getProviders().provider(() -> extension.toPojoSettings(project));
 
     // Use an inner class instead of a lambda to support incremental build properly
     doLast(
