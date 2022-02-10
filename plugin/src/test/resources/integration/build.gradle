@@ -3,7 +3,11 @@ plugins {
     id 'com.github.muehmar.openapischema'
 }
 
-generateApiSchemas {
-    inputSpec = "$projectDir/openapi.yml"
-    suffix = "Dto"
+openApiGenerator {
+    schemas {
+        v1 {
+            inputSpec = "$projectDir/openapi.yml"
+            suffix = "Dto"
+        }
+    }
 }

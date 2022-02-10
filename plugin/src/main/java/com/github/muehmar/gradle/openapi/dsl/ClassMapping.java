@@ -1,36 +1,35 @@
-package com.github.muehmar.gradle.openapi.generator.settings;
+package com.github.muehmar.gradle.openapi.dsl;
 
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ClassTypeMapping implements Serializable {
-  private final String fromClass;
-  private final String toClass;
-  private final String imports;
+public class ClassMapping implements Serializable {
+  private String fromClass;
+  private String toClass;
+  private String imports;
 
-  public ClassTypeMapping(String fromClass, String toClass, String imports) {
+  public void setFromClass(String fromClass) {
     this.fromClass = fromClass;
+  }
+
+  public void setToClass(String toClass) {
     this.toClass = toClass;
+  }
+
+  public void setImports(String imports) {
     this.imports = imports;
   }
 
-  public String getFromClass() {
-    return fromClass;
-  }
-
-  public String getToClass() {
-    return toClass;
-  }
-
-  public String getImports() {
-    return imports;
+  public ClassTypeMapping toSettingsClassMapping() {
+    return new ClassTypeMapping(fromClass, toClass, imports);
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ClassTypeMapping that = (ClassTypeMapping) o;
+    ClassMapping that = (ClassMapping) o;
     return Objects.equals(fromClass, that.fromClass)
         && Objects.equals(toClass, that.toClass)
         && Objects.equals(imports, that.imports);
@@ -43,7 +42,7 @@ public class ClassTypeMapping implements Serializable {
 
   @Override
   public String toString() {
-    return "ClassTypeMapping{"
+    return "ClassMapping{"
         + "fromClass='"
         + fromClass
         + '\''
