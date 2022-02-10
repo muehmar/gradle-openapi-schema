@@ -61,13 +61,9 @@ public class OpenApiSchemaExtension implements Serializable {
 
   public PList<SingleSchemaExtension> getSchemaExtensions() {
     return PList.fromIter(schemaExtensions)
-        .map(ext -> ext.addClassMappings(getCommonClassMappings()))
-        .map(ext -> ext.addFormatTypeMappings(getCommonFormatTypeMappings()))
-        .map(
-            ext ->
-                getCommonEnumDescription()
-                    .map(ext::setEnumDescriptionExtensionIfAbsent)
-                    .orElse(ext));
+        .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
+        .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
+        .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()));
   }
 
   @Override

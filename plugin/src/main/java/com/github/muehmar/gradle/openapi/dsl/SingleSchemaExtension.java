@@ -133,7 +133,7 @@ public class SingleSchemaExtension implements Serializable {
     return PList.fromIter(classMappings);
   }
 
-  public SingleSchemaExtension addClassMappings(PList<ClassMapping> other) {
+  public SingleSchemaExtension withCommonClassMappings(PList<ClassMapping> other) {
     classMappings.addAll(other.toArrayList());
     return this;
   }
@@ -144,7 +144,7 @@ public class SingleSchemaExtension implements Serializable {
     formatTypeMappings.add(formatTypeMapping);
   }
 
-  public SingleSchemaExtension addFormatTypeMappings(PList<FormatTypeMapping> other) {
+  public SingleSchemaExtension withCommonFormatTypeMappings(PList<FormatTypeMapping> other) {
     formatTypeMappings.addAll(other.toArrayList());
     return this;
   }
@@ -162,10 +162,10 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(enumDescriptionExtension);
   }
 
-  public SingleSchemaExtension setEnumDescriptionExtensionIfAbsent(
-      EnumDescriptionExtension enumDescriptionExtension) {
-    if (enumDescriptionExtension == null) {
-      this.enumDescriptionExtension = enumDescriptionExtension;
+  public SingleSchemaExtension withCommonEnumDescription(
+      Optional<EnumDescriptionExtension> enumDescriptionExtension) {
+    if (this.enumDescriptionExtension == null) {
+      this.enumDescriptionExtension = enumDescriptionExtension.orElse(null);
     }
     return this;
   }
