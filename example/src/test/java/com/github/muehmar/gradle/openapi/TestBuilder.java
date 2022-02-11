@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import OpenApiSchema.example.api.model.UserDto;
+import OpenApiSchema.example.api.v1.model.UserDto;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Optional;

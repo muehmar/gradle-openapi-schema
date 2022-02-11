@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.14.1"
+    id "com.github.muehmar.openapischema" version "0.15.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -20,25 +20,11 @@ dependencies {
     implementation group: 'javax.xml.ws', name: 'jaxws-api', version: '2.2.11'
 }
 
-generateApiSchemas {
-    sourceSet = 'main'
-    inputSpec = "$projectDir/src/main/resources/openapi.yml"
-    outputDir = "$buildDir/generated/openapi"
-    packageName = "${project.group}.${project.name}.api.model"
-    jsonSupport = "jackson"
-    suffix = "Dto"
-    enableValidation = true
-
+openApiGenerator {
     enumDescriptionExtraction {
         enabled = true
         prefixMatcher = "`__ENUM__`:"
         failOnIncompleteDescriptions = true
-    }
-
-    classMapping {
-        fromClass = "List"
-        toClass = "ArrayList"
-        imports = "java.util.ArrayList"
     }
 
     formatTypeMapping {
@@ -52,6 +38,55 @@ generateApiSchemas {
         classType = "Password"
         imports = "com.package.Password"
     }
+
+    classMapping {
+        fromClass = "List"
+        toClass = "ArrayList"
+        imports = "java.util.ArrayList"
+    }
+    schemas {
+        apiV1 {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.v1.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+
+            enumDescriptionExtraction {
+                enabled = true
+                prefixMatcher = "`__ENUM__`:"
+                failOnIncompleteDescriptions = true
+            }
+
+            formatTypeMapping {
+                formatType = "username"
+                classType = "UserName"
+                imports = "com.package.UserName"
+            }
+
+            formatTypeMapping {
+                formatType = "password"
+                classType = "Password"
+                imports = "com.package.Password"
+            }
+
+            classMapping {
+                fromClass = "List"
+                toClass = "ArrayList"
+                imports = "java.util.ArrayList"
+            }
+        }
+        apiV2 {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.v2.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+        }
+    }
 }
 
-compileJava.dependsOn tasks.generateApiSchemas

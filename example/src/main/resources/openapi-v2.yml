@@ -1,0 +1,22 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    ErrorMessage:
+      required:
+        - key
+        - message
+      properties:
+        key:
+          type: string
+          enum:
+            - A1
+            - A2
+        message:
+          type: string
+
+
+

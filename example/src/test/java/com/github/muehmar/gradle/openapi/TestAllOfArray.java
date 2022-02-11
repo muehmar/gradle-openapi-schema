@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.model.ReportsDto;
-import OpenApiSchema.example.api.model.ReportsInvoiceDto;
+import OpenApiSchema.example.api.v1.model.ReportsDto;
+import OpenApiSchema.example.api.v1.model.ReportsInvoiceDto;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;

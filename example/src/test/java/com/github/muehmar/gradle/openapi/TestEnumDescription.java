@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.model.UserDto;
+import OpenApiSchema.example.api.v1.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class TestEnumDescription {

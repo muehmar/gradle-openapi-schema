@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.model.CarAllOfDto;
-import OpenApiSchema.example.api.model.CarDto;
-import OpenApiSchema.example.api.model.ColorDto;
+import OpenApiSchema.example.api.v1.model.CarAllOfDto;
+import OpenApiSchema.example.api.v1.model.CarDto;
+import OpenApiSchema.example.api.v1.model.ColorDto;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;

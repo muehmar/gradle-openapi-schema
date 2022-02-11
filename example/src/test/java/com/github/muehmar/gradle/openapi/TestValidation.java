@@ -3,9 +3,9 @@ package com.github.muehmar.gradle.openapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import OpenApiSchema.example.api.model.FlagsDto;
-import OpenApiSchema.example.api.model.UserDto;
-import OpenApiSchema.example.api.model.UserGroupDto;
+import OpenApiSchema.example.api.v1.model.FlagsDto;
+import OpenApiSchema.example.api.v1.model.UserDto;
+import OpenApiSchema.example.api.v1.model.UserGroupDto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;

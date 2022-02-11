@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.model.GenderDto;
-import OpenApiSchema.example.api.model.UserDto;
+import OpenApiSchema.example.api.v1.model.GenderDto;
+import OpenApiSchema.example.api.v1.model.UserDto;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
