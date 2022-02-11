@@ -13,6 +13,7 @@ a safe way creating instances. The data classes support JSON conversions via jac
 * Customization of the code generation
 * Support for Java Bean Validation (JSR 380)
 * Extraction of description for enums
+* Supports processing multiple specifications
 
 The implementation is based on the
 [swagger-parser](https://github.com/swagger-api/swagger-parser)
@@ -24,51 +25,105 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.14.1'
+    id 'com.github.muehmar.openapischema' version '0.15.0'
 }
 ```
 
 ## Configuration
 
-Add a `generateApiSchemas` block into your `build.gradle` file.
+Add an `openApiGenerator` block into your `build.gradle` file.
 
 ```
-generateApiSchemas {
-    sourceSet = 'main'
-    inputSpec = "$projectDir/src/main/resources/public/openapi/openapi.yml"
-    outputDir = "$buildDir/generated/openapi"
-    packageName = "${project.group}.${project.name}.api.model"
-    suffix = "Dto"
-    jsonSupport = "jackson"
-    enableValidation = true
+openApiGenerator {
+    schemas {    
     
-    classMapping {
-        fromClass = "List"
-        toClass = "CustomList"
-        imports = "com.package.CustomList"        
+        // Custom name for this schema
+        apiV1 {         
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.v1.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+
+            // This would overwrite any global configuration
+            enumDescriptionExtraction {
+                enabled = true
+                prefixMatcher = "`__ENUM__`:"
+                failOnIncompleteDescriptions = true
+            }
+
+            // Additional format type mapping
+            formatTypeMapping {
+                formatType = "username"
+                classType = "UserName"
+                imports = "com.package.UserName"
+            }
+
+            // Additional format type mapping
+            formatTypeMapping {
+                formatType = "password"
+                classType = "Password"
+                imports = "com.package.Password"
+            }
+
+            // Additional class mapping
+            classMapping {
+                fromClass = "List"
+                toClass = "ArrayList"
+                imports = "java.util.ArrayList"
+            }
+        }
+        
+        // Custom name for this schema
+        apiV2 {         
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.v2.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            
+            // No specific config for enum description extraction
+            // or mappings. Will inherit the global configuration
+        }
     }
     
-    formatTypeMapping {
-        formatType = "username"
-        classType = "UserName"
-        imports = "com.package.UserName"
-    }
-        
-    formatTypeMapping {
-        formatType = "password"
-        classType = "Password"
-        imports = "com.package.Password"
-    }
-        
+    // Global configuration for enum description extraction, 
+    // used in case no specific configuration is present
     enumDescriptionExtraction {
         enabled = true
         prefixMatcher = "`__ENUM__`:"
         failOnIncompleteDescriptions = true
     }
-}
 
-compileJava.dependsOn tasks.generateApiSchemas
+    // Global format type mapping which gets applied to each schema
+    formatTypeMapping {
+        formatType = "username"
+        classType = "UserName"
+        imports = "com.package.UserName"
+    }
+
+    // Global format type mapping which gets applied to each schema
+    formatTypeMapping {
+        formatType = "password"
+        classType = "Password"
+        imports = "com.package.Password"
+    }
+
+    // Global class mapping which gets applied to each schema
+    classMapping {
+        fromClass = "List"
+        toClass = "ArrayList"
+        imports = "java.util.ArrayList"
+    }
+}
 ```
+
+Add in the `schemas` block for each specification a new block with custom name (`apiV1` and `apiV2` in the example
+above) and configure the generation with the following attributes for each schema:
 
 | Key               | Data Type | Default                                    | Description                                                                                             | 
 |-------------------|-----------|--------------------------------------------|---------------------------------------------------------------------------------------------------------| 
@@ -81,8 +136,9 @@ compileJava.dependsOn tasks.generateApiSchemas
 | enableSafeBuilder | Boolean   | true                                       | Enables creating the safe builder.                                                                      |
 | enableValidation  | Boolean   | false                                      | Enables the generation of annotations for java bean validation (JSR 380)                                |
 
-The plugin creates a task named `generateApiSchemas`. The dependency of the compile-task of the corresponding source
-must be set manually like in the example above.
+The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
+the schema, in the example above a task `generateApiV1Model` and a task `generateApiV2Model` would get created. The
+tasks are automatically registered as dependency of the corresponding java-compile task.
 
 ### Class Mappings
 
@@ -260,6 +316,7 @@ member without adding the description.
 
 ## Change Log
 
+* 0.15.0 - Support multiple specifications (breaking change in DSL)
 * 0.14.1 - Fix issue `#1`
 * 0.14.0 - Simplify the format- and class-mapping configuration
 * 0.13.2 - Support `allOf` for array items
