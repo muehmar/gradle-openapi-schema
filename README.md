@@ -25,7 +25,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.15.0'
+    id 'com.github.muehmar.openapischema' version '0.15.1'
 }
 ```
 
@@ -316,6 +316,7 @@ member without adding the description.
 
 ## Change Log
 
+* 0.15.1 - Support inline object definitions
 * 0.15.0 - Support multiple specifications (breaking change in DSL)
 * 0.14.1 - Fix issue `#1`
 * 0.14.0 - Simplify the format- and class-mapping configuration
