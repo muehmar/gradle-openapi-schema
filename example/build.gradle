@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.15.0"
+    id "com.github.muehmar.openapischema" version "0.15.1"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -83,6 +83,15 @@ openApiGenerator {
             inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
             outputDir = "$buildDir/generated/openapi"
             packageName = "${project.group}.${project.name}.api.v2.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+        }
+        inlineObject {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-inline-object.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.inlineobject.model"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true

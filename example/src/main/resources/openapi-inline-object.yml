@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Customer:
+      required:
+        - inlineObject
+      properties:
+        inlineObject:
+          description: Inline object definition
+          type: object
+          required:
+            - key
+          properties:
+            key:
+              type: string
+            data:
+              type: string
+            anotherObject:
+              type: object
+              required:
+                - key
+              properties:
+                key:
+                  type: string
+                data:
+                  type: string
