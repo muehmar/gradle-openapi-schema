@@ -22,7 +22,8 @@ public class SchemaMapperChainFactory {
             BinarySchemaMapper::new,
             FileSchemaMapper::new,
             EmailSchemaMapper::new,
-            TypeLessSchemaMapper::new)
+            TypeLessSchemaMapper::new,
+            ObjectSchemaMapper::new)
         .reduce(Function::compose)
         .orElseThrow(IllegalStateException::new)
         .apply(new ThrowingSchemaMapper());
