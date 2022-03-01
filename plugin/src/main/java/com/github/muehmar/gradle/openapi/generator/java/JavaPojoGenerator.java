@@ -357,18 +357,18 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println();
     printJavaDoc(writer, 1, member.getDescription());
 
-    final boolean nullable = member.isOptional();
+    final boolean optional = member.isOptional();
 
     final String returnType =
-        nullable
+        optional
             ? String.format("Optional<%s>", member.getTypeName(resolver).asString())
             : member.getTypeName(resolver).asString();
     final String field =
-        nullable
+        optional
             ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver).asString())
             : String.format("this.%s", member.memberName(resolver).asString());
 
-    if (nullable && settings.isJacksonJson()) {
+    if (optional && settings.isJacksonJson()) {
       writer.tab(1).println("@JsonIgnore");
     }
     if (member.isRequired()) {
@@ -379,7 +379,7 @@ public class JavaPojoGenerator implements PojoGenerator {
         .tab(1)
         .println(
             "public %s %s%s() {",
-            returnType, member.getterName(resolver).asString(), nullable ? "Optional" : "");
+            returnType, member.getterName(resolver).asString(), optional ? "Optional" : "");
     writer.tab(2).println("return %s;", field);
     writer.tab(1).println("}");
   }

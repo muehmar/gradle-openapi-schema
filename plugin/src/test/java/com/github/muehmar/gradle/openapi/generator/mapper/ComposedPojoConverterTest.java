@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
+import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -25,8 +27,8 @@ class ComposedPojoConverterTest {
             "Tires",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("tireKey"), "Key", SampleTypes.SampleType1, false),
-                new PojoMember(Name.of("tireName"), "Name", SampleTypes.SampleType2, false)));
+                new PojoMember(Name.of("tireKey"), "Key", SampleTypes.SampleType1, REQUIRED),
+                new PojoMember(Name.of("tireName"), "Name", SampleTypes.SampleType2, REQUIRED)));
 
     final Pojo colorPojo =
         Pojo.ofObject(
@@ -34,8 +36,8 @@ class ComposedPojoConverterTest {
             "Colors",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("colorKey"), "Key", SampleTypes.SampleType2, true),
-                new PojoMember(Name.of("colorName"), "Name", SampleTypes.SampleType1, true)));
+                new PojoMember(Name.of("colorKey"), "Key", SampleTypes.SampleType2, OPTIONAL),
+                new PojoMember(Name.of("colorName"), "Name", SampleTypes.SampleType1, OPTIONAL)));
 
     final ComposedPojo composedPojo =
         new ComposedPojo(

@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
+import com.github.muehmar.gradle.openapi.generator.data.Necessity;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -50,7 +51,7 @@ public abstract class BasePojoMapper implements PojoMapper {
       Name pojoMemberName,
       Schema<?> schema,
       PojoSettings pojoSettings,
-      boolean nullable);
+      Necessity necessity);
 
   /**
    * An implementation should create a {@link ComposedPojo} from the given {@link Schema}'s
@@ -184,7 +185,7 @@ public abstract class BasePojoMapper implements PojoMapper {
           && Objects.nonNull(schema.getEnum())) {
         final PojoMemberProcessResult pojoMemberProcessResult =
             toPojoMemberFromSchema(
-                Name.of("Unused"), openApiPojo.getName(), schema, pojoSettings, true);
+                Name.of("Unused"), openApiPojo.getName(), schema, pojoSettings, Necessity.OPTIONAL);
         final Pojo pojo =
             Pojo.ofEnum(
                 openApiPojo.getName(),
@@ -226,12 +227,13 @@ public abstract class BasePojoMapper implements PojoMapper {
                 () -> new IllegalArgumentException("Object schema without properties: " + schema))
             .map(
                 entry -> {
-                  final Boolean nullable =
+                  final Necessity necessity =
                       Optional.ofNullable(schema.getRequired())
-                          .map(req -> req.stream().noneMatch(entry.getKey()::equals))
-                          .orElse(true);
+                          .map(req -> req.stream().anyMatch(entry.getKey()::equals))
+                          .map(Necessity::fromBoolean)
+                          .orElse(Necessity.OPTIONAL);
                   return toPojoMemberFromSchema(
-                      pojoName, Name.of(entry.getKey()), entry.getValue(), pojoSettings, nullable);
+                      pojoName, Name.of(entry.getKey()), entry.getValue(), pojoSettings, necessity);
                 });
 
     final Pojo pojo =
@@ -282,7 +284,7 @@ public abstract class BasePojoMapper implements PojoMapper {
   private PojoMemberReference processMemberSchema(
       Name name, Schema<?> schema, PojoSettings pojoSettings) {
     final PojoMemberProcessResult pojoMemberProcessResult =
-        toPojoMemberFromSchema(Name.of("Unused"), name, schema, pojoSettings, true);
+        toPojoMemberFromSchema(Name.of("Unused"), name, schema, pojoSettings, Necessity.OPTIONAL);
 
     return new PojoMemberReference(
         name, schema.getDescription(), pojoMemberProcessResult.getPojoMember().getType());
