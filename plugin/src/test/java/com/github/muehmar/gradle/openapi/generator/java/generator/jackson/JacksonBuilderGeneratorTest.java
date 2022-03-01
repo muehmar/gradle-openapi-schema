@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator;
+package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 
 import static com.github.muehmar.gradle.openapi.generator.java.JacksonRefs.JSON_POJO_BUILDER;
 import static org.junit.jupiter.api.Assertions.assertEquals;

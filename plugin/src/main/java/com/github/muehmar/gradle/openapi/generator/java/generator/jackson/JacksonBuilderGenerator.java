@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator;
+package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
 
