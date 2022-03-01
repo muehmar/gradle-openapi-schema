@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.data;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NULLABLE;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
@@ -29,6 +30,6 @@ public class Pojos {
                 "Preferred language of this user",
                 JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                 OPTIONAL,
-                NOT_NULLABLE)));
+                NULLABLE)));
   }
 }

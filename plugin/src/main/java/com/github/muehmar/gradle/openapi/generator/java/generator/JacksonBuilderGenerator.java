@@ -12,6 +12,7 @@ import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.impl.JavaModifier;
 import io.github.muehmar.pojoextension.generator.impl.gen.ClassGen;
 import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
+import io.github.muehmar.pojoextension.generator.writer.Writer;
 
 public class JacksonBuilderGenerator {
   private static final Resolver RESOLVER = new JavaResolver();
@@ -48,13 +49,18 @@ public class JacksonBuilderGenerator {
 
   public static Generator<Pojo, PojoSettings> builderFields() {
     return (pojo, settings, writer) ->
-        pojo.getMembers()
-            .foldLeft(
-                writer,
-                (w, member) ->
-                    w.println(
-                        "private %s %s;",
-                        member.getTypeName(RESOLVER).asString(), member.getName().asString()));
+        pojo.getMembers().foldLeft(writer, JacksonBuilderGenerator::printMemberFields);
+  }
+
+  private static Writer printMemberFields(Writer writer, PojoMember member) {
+    final Writer writerMemberField =
+        writer.println("private %s %s;", member.getTypeName(RESOLVER), member.getName());
+    if (member.isNullable()) {
+      return writerMemberField.println(
+          "private boolean is%sNull = false;", member.getName().startUpperCase());
+    } else {
+      return writerMemberField;
+    }
   }
 
   public static <A, B> Generator<A, B> builderConstructor() {
@@ -67,15 +73,25 @@ public class JacksonBuilderGenerator {
         .returnType("Builder")
         .methodName(member -> member.getName().asString())
         .singleArgument(
-            member ->
-                String.format(
-                    "%s %s", member.getTypeName(RESOLVER).asString(), member.getName().asString()))
-        .content(
-            (member, settings, writer) ->
-                writer
-                    .println(
-                        "this.%s = %s;", member.getName().asString(), member.getName().asString())
-                    .println("return this;"));
+            member -> String.format("%s %s", member.getTypeName(RESOLVER), member.getName()))
+        .content(memberMethodContent());
+  }
+
+  public static Generator<PojoMember, PojoSettings> memberMethodContent() {
+    final Generator<PojoMember, PojoSettings> assignment =
+        (member, settings, writer) ->
+            writer.println("this.%s = %s;", member.getName(), member.getName());
+
+    final Generator<PojoMember, PojoSettings> nullableAssignment =
+        (member, settings, writer) ->
+            writer
+                .println("if(%s == null) {", member.getName())
+                .println("  this.is%sNull = true;", member.getName().startUpperCase())
+                .println("}");
+
+    return assignment
+        .appendConditionally(PojoMember::isNullable, nullableAssignment)
+        .append(w -> w.println("return this;"));
   }
 
   public static Generator<Pojo, PojoSettings> buildMethod() {
@@ -87,11 +103,8 @@ public class JacksonBuilderGenerator {
         .content(
             pojo -> {
               final String members =
-                  pojo.getMembers()
-                      .map(member -> member.memberName(RESOLVER).asString())
-                      .mkString(", ");
-              return String.format(
-                  "return new %s(%s);", pojo.className(RESOLVER).asString(), members);
+                  pojo.getMembers().map(member -> member.memberName(RESOLVER)).mkString(", ");
+              return String.format("return new %s(%s);", pojo.className(RESOLVER), members);
             });
   }
 }
