@@ -357,7 +357,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println();
     printJavaDoc(writer, 1, member.getDescription());
 
-    final boolean nullable = member.isNullable();
+    final boolean nullable = member.isOptional();
 
     final String returnType =
         nullable
@@ -389,7 +389,7 @@ public class JavaPojoGenerator implements PojoGenerator {
    * 'Nullable' and may return null if the value is not present.
    */
   protected void printNullableGetter(Writer writer, PojoMember member, PojoSettings settings) {
-    if (member.isNullable()) {
+    if (member.isOptional()) {
       writer.println();
       printJavaDoc(writer, 1, member.getDescription());
       printConstraints(writer, member, 1, settings);
@@ -525,7 +525,7 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(2).println("}");
 
               // Optional setter
-              if (member.isNullable()) {
+              if (member.isOptional()) {
                 writer.println();
                 printJavaDoc(writer, 2, member.getDescription());
                 writer
@@ -557,7 +557,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(2).println("return new Builder0(new Builder());");
     writer.tab(1).println("}");
 
-    final PList<PojoMember> optionalMembers = pojo.getMembers().filter(PojoMember::isNullable);
+    final PList<PojoMember> optionalMembers = pojo.getMembers().filter(PojoMember::isOptional);
     final PList<PojoMember> requiredMembers = pojo.getMembers().filter(PojoMember::isRequired);
 
     IntStream.range(0, requiredMembers.size())

@@ -10,13 +10,13 @@ public class PojoMember {
   private final Name name;
   private final String description;
   private final Type type;
-  private final boolean nullable;
+  private final boolean optional;
 
-  public PojoMember(Name name, String description, Type type, boolean nullable) {
+  public PojoMember(Name name, String description, Type type, boolean optional) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
-    this.nullable = nullable;
+    this.optional = optional;
   }
 
   public String getDescription() {
@@ -35,12 +35,12 @@ public class PojoMember {
     return name;
   }
 
-  public boolean isNullable() {
-    return nullable;
+  public boolean isOptional() {
+    return optional;
   }
 
   public boolean isRequired() {
-    return !isNullable();
+    return !isOptional();
   }
 
   public Name getterName(Resolver resolver) {
@@ -80,7 +80,7 @@ public class PojoMember {
    */
   public PojoMember replaceMemberType(Name memberType, String newDescription, Type newType) {
     if (type.getFullName().equals(memberType)) {
-      return new PojoMember(name, newDescription, newType, nullable);
+      return new PojoMember(name, newDescription, newType, optional);
     } else {
       return this;
     }
@@ -95,7 +95,7 @@ public class PojoMember {
       return false;
     }
     PojoMember that = (PojoMember) o;
-    return nullable == that.nullable
+    return optional == that.optional
         && Objects.equals(name, that.name)
         && Objects.equals(description, that.description)
         && Objects.equals(type, that.type);
@@ -103,7 +103,7 @@ public class PojoMember {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, type, nullable);
+    return Objects.hash(name, description, type, optional);
   }
 
   @Override
@@ -118,7 +118,7 @@ public class PojoMember {
         + ", type="
         + type
         + ", nullable="
-        + nullable
+        + optional
         + '}';
   }
 }
