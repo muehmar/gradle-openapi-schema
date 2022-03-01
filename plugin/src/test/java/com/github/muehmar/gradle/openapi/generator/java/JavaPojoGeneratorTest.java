@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java;
 
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -44,13 +45,20 @@ class JavaPojoGeneratorTest {
             "User of the Application. This description is intentionally longer to see if its wrapped to a new line.",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("id"), "ID of this user", JavaType.ofName("long"), REQUIRED),
-                new PojoMember(Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED),
+                new PojoMember(
+                    Name.of("id"),
+                    "ID of this user",
+                    JavaType.ofName("long"),
+                    REQUIRED,
+                    NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
                 new PojoMember(
                     Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    OPTIONAL)));
+                    OPTIONAL,
+                    NOT_NULLABLE)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -73,13 +81,20 @@ class JavaPojoGeneratorTest {
             "User of the Application",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("id"), "ID of this user", JavaType.ofName("long"), REQUIRED),
-                new PojoMember(Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED),
+                new PojoMember(
+                    Name.of("id"),
+                    "ID of this user",
+                    JavaType.ofName("long"),
+                    REQUIRED,
+                    NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
                 new PojoMember(
                     Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    OPTIONAL)));
+                    OPTIONAL,
+                    NOT_NULLABLE)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -104,13 +119,20 @@ class JavaPojoGeneratorTest {
             "User of the Application",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("id"), "ID of this user", JavaType.ofName("long"), REQUIRED),
-                new PojoMember(Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED),
+                new PojoMember(
+                    Name.of("id"),
+                    "ID of this user",
+                    JavaType.ofName("long"),
+                    REQUIRED,
+                    NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
                 new PojoMember(
                     Name.of("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    OPTIONAL)));
+                    OPTIONAL,
+                    NOT_NULLABLE)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -139,50 +161,59 @@ class JavaPojoGeneratorTest {
                     Name.of("id"),
                     "ID of this user",
                     JavaType.ofName("long").withConstraints(Constraints.ofMax(new Max(50))),
-                    REQUIRED),
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("name"),
                     "Name of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.of(10, 15))),
-                    REQUIRED),
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("lastName"),
                     "Lastname of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMin(10))),
-                    REQUIRED),
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("nickName"),
                     "Nickname of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMax(50))),
-                    REQUIRED),
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("email"),
                     "Email of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofEmail()),
-                    REQUIRED),
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("height"),
                     "Height of this user",
                     JavaTypes.DOUBLE.withConstraints(
                         Constraints.ofDecimalMin(new DecimalMin("120.0", true))
                             .withDecimalMax(new DecimalMax("199", false))),
-                    REQUIRED),
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("level"),
                     "Level of this user",
                     JavaType.ofName("Long").withConstraints(Constraints.ofMin(new Min(5))),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("uppercase"),
                     "Something uppercase",
                     JavaTypes.STRING.withConstraints(
                         Constraints.ofPattern(Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("anotherPojo"),
                     "Another Pojo",
                     JavaType.ofUserDefined("AnotherPojo"),
-                    OPTIONAL)));
+                    OPTIONAL,
+                    NOT_NULLABLE)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -258,7 +289,8 @@ class JavaPojoGeneratorTest {
                         + "* `GERMAN`: German language\n"
                         + "* `ENGLISH`: English language",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    OPTIONAL)));
+                    OPTIONAL,
+                    NOT_NULLABLE)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
@@ -288,7 +320,8 @@ class JavaPojoGeneratorTest {
                         + "* `GERMAN`: German language\n"
                         + "* `ENGLISH`: English language",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
-                    OPTIONAL)));
+                    OPTIONAL,
+                    NOT_NULLABLE)));
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 

@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java;
 
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -59,7 +60,12 @@ class JavaPojoMapperTest {
             Name.of("PojoName"),
             "",
             "Dto",
-            new PojoMember(Name.of("value"), "", JavaType.javaList(JavaTypes.INTEGER), REQUIRED)),
+            new PojoMember(
+                Name.of("value"),
+                "",
+                JavaType.javaList(JavaTypes.INTEGER),
+                REQUIRED,
+                NOT_NULLABLE)),
         pojo);
   }
 
@@ -92,7 +98,8 @@ class JavaPojoMapperTest {
                     Name.of("name"),
                     "",
                     JavaType.ofUserDefinedAndImport("CustomString", "ch.custom.string.package"),
-                    OPTIONAL))),
+                    OPTIONAL,
+                    NOT_NULLABLE))),
         pojo);
   }
 
@@ -118,8 +125,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, REQUIRED),
-                new PojoMember(Name.of("name"), "", JavaTypes.STRING, REQUIRED))),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, REQUIRED, NOT_NULLABLE),
+                new PojoMember(Name.of("name"), "", JavaTypes.STRING, REQUIRED, NOT_NULLABLE))),
         pojos.apply(0));
 
     assertEquals(
@@ -128,60 +135,74 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("id"), "", JavaTypes.UUID, REQUIRED),
-                new PojoMember(Name.of("externalId"), "", JavaTypes.LONG, REQUIRED),
-                new PojoMember(Name.of("user"), "", JavaTypes.STRING, REQUIRED),
-                new PojoMember(Name.of("birthday"), "", JavaTypes.LOCAL_DATE, OPTIONAL),
+                new PojoMember(Name.of("id"), "", JavaTypes.UUID, REQUIRED, NOT_NULLABLE),
+                new PojoMember(Name.of("externalId"), "", JavaTypes.LONG, REQUIRED, NOT_NULLABLE),
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("birthday"), "", JavaTypes.LOCAL_DATE, OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
                     Name.of("email"),
                     "",
                     JavaTypes.STRING.withConstraints(Constraints.ofEmail()),
-                    OPTIONAL),
-                new PojoMember(Name.of("city"), "", JavaTypes.STRING, REQUIRED),
+                    OPTIONAL,
+                    NOT_NULLABLE),
+                new PojoMember(Name.of("city"), "", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
                 new PojoMember(
                     Name.of("age"),
                     "",
                     JavaTypes.INTEGER.withConstraints(
                         Constraints.ofMin(new Min(18)).withMax(new Max(50))),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("height"),
                     "",
                     JavaTypes.FLOAT.withConstraints(
                         Constraints.ofMinAndMax(new Min(120), new Max(199))),
-                    OPTIONAL),
-                new PojoMember(Name.of("lastLogin"), "", JavaTypes.LOCAL_DATE_TIME, OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("lastLogin"), "", JavaTypes.LOCAL_DATE_TIME, OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
                     Name.of("role"),
                     "",
                     JavaType.javaEnum(PList.of("Admin", "User", "Visitor")),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("currencies"),
                     "",
                     JavaType.javaMap(JavaTypes.STRING, JavaTypes.STRING),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("interests"),
                     "",
                     JavaType.javaMap(
                         JavaTypes.STRING,
                         JavaType.javaList(JavaType.ofReference(Name.of("UserInterests"), "Dto"))),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("languages"),
                     "",
                     JavaType.javaMap(
                         JavaTypes.STRING, JavaType.ofReference(Name.of("Language"), "Dto")),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("hobbies"),
                     "",
                     JavaType.javaMap(
                         JavaTypes.STRING, JavaType.ofReference(Name.of("UserHobbies"), "Dto")),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("data"), "Some user related data", JavaTypes.OBJECT, OPTIONAL))),
+                    Name.of("data"),
+                    "Some user related data",
+                    JavaTypes.OBJECT,
+                    OPTIONAL,
+                    NOT_NULLABLE))),
         pojos.apply(1));
 
     assertEquals(
@@ -191,17 +212,23 @@ class JavaPojoMapperTest {
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("owner"), "", JavaType.ofReference(Name.of("User"), "Dto"), OPTIONAL),
+                    Name.of("owner"),
+                    "",
+                    JavaType.ofReference(Name.of("User"), "Dto"),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("members"),
                     "",
                     JavaType.javaList(JavaType.ofReference(Name.of("User"), "Dto")),
-                    OPTIONAL),
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.of("languages"),
                     "",
                     JavaType.javaList(JavaType.ofReference(Name.of("UserGroupLanguages"), "Dto")),
-                    OPTIONAL))),
+                    OPTIONAL,
+                    NOT_NULLABLE))),
         pojos.apply(2));
 
     assertEquals(
@@ -210,8 +237,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("id"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("name"), "", JavaTypes.STRING, OPTIONAL))),
+                new PojoMember(Name.of("id"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("name"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(3));
 
     assertEquals(
@@ -220,8 +247,9 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("name"), "", JavaTypes.STRING, REQUIRED),
-                new PojoMember(Name.of("description"), "", JavaTypes.STRING, OPTIONAL))),
+                new PojoMember(Name.of("name"), "", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("description"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(4));
 
     assertEquals(
@@ -230,8 +258,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("name"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("prio"), "", JavaTypes.INTEGER, OPTIONAL))),
+                new PojoMember(Name.of("name"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("prio"), "", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(5));
   }
 
@@ -263,8 +291,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL))),
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(0));
 
     assertEquals(
@@ -273,8 +301,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL))),
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(1));
   }
 
@@ -321,13 +349,18 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("color"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("group"), "", JavaTypes.INTEGER, OPTIONAL),
-                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL),
-                new PojoMember(Name.of("registerDate"), "", JavaTypes.LOCAL_DATE, OPTIONAL),
+                new PojoMember(Name.of("color"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("group"), "", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("languages"), "", JavaType.javaList(JavaTypes.STRING), OPTIONAL))),
+                    Name.of("registerDate"), "", JavaTypes.LOCAL_DATE, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("languages"),
+                    "",
+                    JavaType.javaList(JavaTypes.STRING),
+                    OPTIONAL,
+                    NOT_NULLABLE))),
         pojos.apply(0));
 
     assertEquals(
@@ -336,8 +369,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL))),
+                new PojoMember(Name.of("user"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("key"), "", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(1));
 
     assertEquals(
@@ -346,9 +379,14 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("registerDate"), "", JavaTypes.LOCAL_DATE, OPTIONAL),
                 new PojoMember(
-                    Name.of("languages"), "", JavaType.javaList(JavaTypes.STRING), OPTIONAL))),
+                    Name.of("registerDate"), "", JavaTypes.LOCAL_DATE, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(
+                    Name.of("languages"),
+                    "",
+                    JavaType.javaList(JavaTypes.STRING),
+                    OPTIONAL,
+                    NOT_NULLABLE))),
         pojos.apply(2));
 
     assertEquals(
@@ -357,8 +395,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.of(
-                new PojoMember(Name.of("color"), "", JavaTypes.STRING, OPTIONAL),
-                new PojoMember(Name.of("group"), "", JavaTypes.INTEGER, OPTIONAL))),
+                new PojoMember(Name.of("color"), "", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE),
+                new PojoMember(Name.of("group"), "", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(3));
   }
 
@@ -385,7 +423,9 @@ class JavaPojoMapperTest {
             Name.of("User"),
             "",
             "Dto",
-            PList.single(new PojoMember(Name.of("key"), "User key", JavaTypes.UUID, OPTIONAL))),
+            PList.single(
+                new PojoMember(
+                    Name.of("key"), "User key", JavaTypes.UUID, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(0));
   }
 
@@ -412,7 +452,9 @@ class JavaPojoMapperTest {
             Name.of("User"),
             "",
             "Dto",
-            PList.single(new PojoMember(Name.of("age"), "User age", JavaTypes.INTEGER, OPTIONAL))),
+            PList.single(
+                new PojoMember(
+                    Name.of("age"), "User age", JavaTypes.INTEGER, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(0));
   }
 
@@ -440,7 +482,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.single(
-                new PojoMember(Name.of("height"), "User height", JavaTypes.FLOAT, OPTIONAL))),
+                new PojoMember(
+                    Name.of("height"), "User height", JavaTypes.FLOAT, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(0));
   }
 
@@ -468,7 +511,8 @@ class JavaPojoMapperTest {
             "",
             "Dto",
             PList.single(
-                new PojoMember(Name.of("admin"), "User is admin", JavaTypes.BOOLEAN, OPTIONAL))),
+                new PojoMember(
+                    Name.of("admin"), "User is admin", JavaTypes.BOOLEAN, OPTIONAL, NOT_NULLABLE))),
         pojos.apply(0));
   }
 
@@ -509,7 +553,8 @@ class JavaPojoMapperTest {
                     Name.of("gender"),
                     "Gender of a user",
                     Type.simpleOfName(Name.of("GenderDto")),
-                    OPTIONAL))),
+                    OPTIONAL,
+                    NOT_NULLABLE))),
         pojos.apply(1));
   }
 

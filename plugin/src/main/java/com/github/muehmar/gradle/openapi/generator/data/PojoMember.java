@@ -11,12 +11,15 @@ public class PojoMember {
   private final String description;
   private final Type type;
   private final Necessity necessity;
+  private final Nullability nullability;
 
-  public PojoMember(Name name, String description, Type type, Necessity necessity) {
+  public PojoMember(
+      Name name, String description, Type type, Necessity necessity, Nullability nullability) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
     this.necessity = necessity;
+    this.nullability = nullability;
   }
 
   public String getDescription() {
@@ -45,6 +48,10 @@ public class PojoMember {
 
   public boolean isRequired() {
     return !isOptional();
+  }
+
+  public boolean isNullable() {
+    return nullability.equals(Nullability.NULLABLE);
   }
 
   public Name getterName(Resolver resolver) {
@@ -84,7 +91,7 @@ public class PojoMember {
    */
   public PojoMember replaceMemberType(Name memberType, String newDescription, Type newType) {
     if (type.getFullName().equals(memberType)) {
-      return new PojoMember(name, newDescription, newType, necessity);
+      return new PojoMember(name, newDescription, newType, necessity, nullability);
     } else {
       return this;
     }
