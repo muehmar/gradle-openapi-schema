@@ -29,6 +29,7 @@ class JacksonBuilderGeneratorTest {
             + "static class Builder {\n"
             + "  private long id;\n"
             + "  private String name;\n"
+            + "  private LocalDate birthdate;\n"
             + "  private LanguageEnum language;\n"
             + "  private boolean isLanguageNull = false;\n"
             + "\n"
@@ -44,6 +45,11 @@ class JacksonBuilderGeneratorTest {
             + "    return this;\n"
             + "  }\n"
             + "\n"
+            + "  Builder birthdate(LocalDate birthdate) {\n"
+            + "    this.birthdate = birthdate;\n"
+            + "    return this;\n"
+            + "  }\n"
+            + "\n"
             + "  Builder language(LanguageEnum language) {\n"
             + "    this.language = language;\n"
             + "    if(language == null) {\n"
@@ -53,7 +59,7 @@ class JacksonBuilderGeneratorTest {
             + "  }\n"
             + "\n"
             + "  public UserDto build() {\n"
-            + "    return new UserDto(id, name, language);\n"
+            + "    return new UserDto(id, name, birthdate, language);\n"
             + "  }\n"
             + "}",
         output);

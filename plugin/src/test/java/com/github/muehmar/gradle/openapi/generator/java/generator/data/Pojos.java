@@ -26,10 +26,25 @@ public class Pojos {
             new PojoMember(
                 Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
             new PojoMember(
+                Name.of("birthdate"),
+                "Name of this user",
+                JavaTypes.LOCAL_DATE,
+                REQUIRED,
+                NOT_NULLABLE),
+            new PojoMember(
                 Name.of("language"),
                 "Preferred language of this user",
                 JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                 OPTIONAL,
                 NULLABLE)));
+  }
+
+  public static Pojo array() {
+    return Pojo.ofArray(
+        Name.of("Array"),
+        "Sample Array",
+        "Dto",
+        new PojoMember(
+            Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE));
   }
 }
