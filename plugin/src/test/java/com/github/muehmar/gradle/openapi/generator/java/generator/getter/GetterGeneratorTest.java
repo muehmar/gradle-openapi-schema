@@ -1,14 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Necessity;
 import com.github.muehmar.gradle.openapi.generator.data.Nullability;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -19,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class GetterGeneratorTest {
 
   @Test
-  void generator_when_requiredAndNotNullableField_then_correctOutputAndRefs() {
+  void generator_when_requiredAndNotNullableField_then_correctOutput() {
     final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
     final PojoMember pojoMember =
         new PojoMember(
@@ -32,14 +29,39 @@ class GetterGeneratorTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-
     assertEquals(
-        "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}\n", writer.asString());
+        "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}", writer.asString());
   }
 
   @Test
-  void generator_when_optionalAndNotNullableField_then_correctOutputAndRefs() {
+  void generator_when_requiredAndNullableField_then_correctOutput() {
+    final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
+    final PojoMember pojoMember =
+        new PojoMember(
+            Name.of("birthdate"),
+            "Birthdate",
+            JavaTypes.LOCAL_DATE,
+            Necessity.REQUIRED,
+            Nullability.NULLABLE);
+
+    final Writer writer =
+        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertEquals(
+        "@JsonIgnore\n"
+            + "public Optional<LocalDate> getBirthdate() {\n"
+            + "  return Optional.ofNullable(birthdate);\n"
+            + "}\n"
+            + "\n"
+            + "@JsonProperty(\"birthdate\")\n"
+            + "private LocalDate getBirthdateJackson() {\n"
+            + "  return birthdate;\n"
+            + "}",
+        writer.asString());
+  }
+
+  @Test
+  void generator_when_optionalAndNotNullableField_then_correctOutput() {
     final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
     final PojoMember pojoMember =
         new PojoMember(
@@ -52,10 +74,6 @@ class GetterGeneratorTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
-
     assertEquals(
         "@JsonIgnore\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
@@ -63,14 +81,15 @@ class GetterGeneratorTest {
             + "}\n"
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
-            + "private LocalDate getBirthdateNullable() {\n"
+            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
+            + "private LocalDate getBirthdateJackson() {\n"
             + "  return birthdate;\n"
-            + "}\n",
+            + "}",
         writer.asString());
   }
 
   @Test
-  void generator_when_optionalAndNullableField_then_correctOutputAndRefs() {
+  void generator_when_optionalAndNullableField_then_correctOutputAnd() {
     final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
     final PojoMember pojoMember =
         new PojoMember(
@@ -83,29 +102,17 @@ class GetterGeneratorTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
-
     assertEquals(
         "@JsonIgnore\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
+            + "public Tristate<birthdate> getBirthdate() {\n"
+            + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
             + "}\n"
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
-            + "@JsonInclude(JsonInclude.Include.NON_NULL\n"
+            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
             + "private Object getBirthdateJackson() {\n"
-            + "  return isbirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@JsonIgnore\n"
-            + "public boolean isBirthdateNull() {\n"
-            + "  return birthdate;\n"
+            + "  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
             + "}",
         writer.asString());
   }
-
-  // FIXME: Tests without jackson
 }

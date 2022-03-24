@@ -54,6 +54,22 @@ public class PojoMember {
     return nullability.equals(Nullability.NULLABLE);
   }
 
+  public boolean isRequiredAndNullable() {
+    return isRequired() && isNullable();
+  }
+
+  public boolean isRequiredAndNotNullable() {
+    return isRequired() && !isNullable();
+  }
+
+  public boolean isOptionalAndNullable() {
+    return isOptional() && isNullable();
+  }
+
+  public boolean isOptionalAndNotNullable() {
+    return isOptional() && !isNullable();
+  }
+
   public Name getterName(Resolver resolver) {
     return resolver.getterName(name, type);
   }
