@@ -18,6 +18,7 @@ import io.github.muehmar.pojoextension.generator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 class JacksonAnnotationGeneratorTest {
+
   @Test
   void jsonIgnore_when_enabledJackson_then_correctOutputAndRefs() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIgnore();
@@ -75,6 +76,31 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer =
         generator.generate(
             pojoMember,
+            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            Writer.createDefault());
+
+    assertTrue(writer.getRefs().isEmpty());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
+  void jsonIncludeNonNull_when_enabledJackson_then_correctOutputAndRefs() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIncludeNonNull();
+
+    final Writer writer =
+        generator.generate(noData(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
+    assertEquals("@JsonInclude(JsonInclude.Include.NON_NULL)", writer.asString());
+  }
+
+  @Test
+  void jsonIncludeNonNull_when_disabledJackson_then_noOutput() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIncludeNonNull();
+
+    final Writer writer =
+        generator.generate(
+            noData(),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 

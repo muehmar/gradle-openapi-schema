@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.jacksonNullGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonProperty;
 
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -12,8 +13,8 @@ import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 import java.util.function.BiPredicate;
 
-public class RequiredNullableGetter {
-  private RequiredNullableGetter() {}
+public class OptionalNotNullableGetter {
+  private OptionalNotNullableGetter() {}
 
   public static Generator<PojoMember, PojoSettings> getter() {
     final BiPredicate<PojoMember, PojoSettings> isJacksonJson =
@@ -24,6 +25,7 @@ public class RequiredNullableGetter {
         .append(wrapNullableInOptionalGetterMethod())
         .appendConditionally(isJacksonJson, Generator.ofWriterFunction(Writer::println))
         .appendConditionally(isJacksonJson, jsonProperty())
+        .appendConditionally(isJacksonJson, jsonIncludeNonNull())
         .appendConditionally(isJacksonJson, jacksonNullGetterMethod())
         .append(RefsGenerator.fieldRefs());
   }

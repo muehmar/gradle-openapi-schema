@@ -22,4 +22,11 @@ public class JacksonAnnotationGenerator {
         .append(w -> w.ref(JacksonRefs.JSON_IGNORE))
         .filter((ignore, settings) -> settings.isJacksonJson());
   }
+
+  public static <A> Generator<A, PojoSettings> jsonIncludeNonNull() {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.println("@JsonInclude(JsonInclude.Include.NON_NULL)"))
+        .append(w -> w.ref(JacksonRefs.JSON_INCLUDE))
+        .filter((ignore, settings) -> settings.isJacksonJson());
+  }
 }
