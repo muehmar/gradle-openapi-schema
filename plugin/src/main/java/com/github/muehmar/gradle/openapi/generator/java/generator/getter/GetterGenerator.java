@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator;
+package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PRIVATE;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
+import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
