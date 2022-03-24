@@ -3,8 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java;
 public class JavaRefs {
   private JavaRefs() {}
 
-  public static final String OPENAPI_UTIL_PACKAGE = "com.github.muehmar.openapi.util";
-
   public static final String JAVA_TIME_LOCAL_DATE = "java.time.LocalDate";
 
   public static final String JAVA_UTIL_OBJECTS = "java.util.Objects";
