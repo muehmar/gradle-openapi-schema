@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
+import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import io.github.muehmar.pojoextension.generator.Generator;
 
 public class JacksonNullContainerGenerator {
@@ -9,7 +10,9 @@ public class JacksonNullContainerGenerator {
   public static Generator<Void, Void> containerClass() {
     return Generator.ofWriterFunction(
         w ->
-            w.println("public static class JacksonNullContainer<T> {")
+            w.println("package %s;", OpenApiUtilRefs.OPENAPI_UTIL_PACKAGE)
+                .println()
+                .println("public static class JacksonNullContainer<T> {")
                 .tab(1)
                 .println("private final T value;")
                 .println()

@@ -35,6 +35,7 @@ class OptionalNullableGetterTest {
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
+    assertTrue(writer.getRefs().exists(OpenApiUtilRefs.JACKSON_NULL_CONTAINER::equals));
     assertEquals(
         "@JsonIgnore\n"
             + "public Tristate<birthdate> getBirthdate() {\n"

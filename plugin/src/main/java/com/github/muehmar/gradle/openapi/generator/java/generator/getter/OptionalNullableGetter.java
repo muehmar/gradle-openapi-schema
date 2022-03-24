@@ -61,6 +61,7 @@ public class OptionalNullableGetter {
                 String.format(
                     "return is%sNull ? new JacksonNullContainer<>(%s) : %s;",
                     f.memberName(RESOLVER).startUpperCase(), f.getName(), f.getName()))
-        .append(RefsGenerator.fieldRefs());
+        .append(RefsGenerator.fieldRefs())
+        .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER));
   }
 }

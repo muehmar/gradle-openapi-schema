@@ -18,7 +18,9 @@ class JacksonNullContainerGeneratorTest {
 
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_VALUE::equals));
     assertEquals(
-        "public static class JacksonNullContainer<T> {\n"
+        "package com.github.muehmar.openapi.util;\n"
+            + "\n"
+            + "public static class JacksonNullContainer<T> {\n"
             + "  private final T value;\n"
             + "\n"
             + "  public JacksonNullContainer(T value) {\n"
