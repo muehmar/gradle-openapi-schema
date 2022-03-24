@@ -15,7 +15,7 @@ public class RefsGenerator {
   }
 
   public static <A, B> Generator<A, B> optionalRef() {
-    return Generator.ofWriterFunction(w -> w.ref(JavaRefs.OPTIONAL));
+    return Generator.ofWriterFunction(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
 
   private static Writer addRefs(Writer writer, PList<String> imports) {

@@ -32,7 +32,7 @@ class GetterGeneratorTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.LOCAL_DATE::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
 
     assertEquals(
         "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}\n", writer.asString());
@@ -52,7 +52,7 @@ class GetterGeneratorTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.LOCAL_DATE::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
 
@@ -83,7 +83,7 @@ class GetterGeneratorTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.LOCAL_DATE::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));

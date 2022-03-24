@@ -22,7 +22,7 @@ class FieldsGeneratorTest {
     final Writer writer =
         gen.generate(Pojos.sample(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.LOCAL_DATE::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
 
     final String output = writer.asString();
     assertEquals(
