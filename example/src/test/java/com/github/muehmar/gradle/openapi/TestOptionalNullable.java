@@ -1,12 +1,9 @@
 package com.github.muehmar.gradle.openapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class TestOptionalNullable {
@@ -19,8 +16,7 @@ class TestOptionalNullable {
         mapper.readValue("{\"prop1\":\"Hello\"}", OptionalNullableDto.class);
 
     assertEquals("Hello", dto.getProp1());
-    assertEquals(Optional.empty(), dto.getProp2());
-    assertFalse(dto.isProp2Null());
+    assertEquals(OptionalNullableDto.Tristate.ofAbsent(), dto.getProp2());
   }
 
   @Test
@@ -31,8 +27,7 @@ class TestOptionalNullable {
         mapper.readValue("{\"prop1\":\"Hello\",\"prop2\":null}", OptionalNullableDto.class);
 
     assertEquals("Hello", dto.getProp1());
-    assertEquals(Optional.empty(), dto.getProp2());
-    assertTrue(dto.isProp2Null());
+    assertEquals(OptionalNullableDto.Tristate.ofNull(), dto.getProp2());
   }
 
   @Test
@@ -43,7 +38,7 @@ class TestOptionalNullable {
         mapper.readValue("{\"prop1\":\"Hello\",\"prop2\":\"World!\"}", OptionalNullableDto.class);
 
     assertEquals("Hello", dto.getProp1());
-    assertEquals(Optional.of("World!"), dto.getProp2());
+    assertEquals(OptionalNullableDto.Tristate.ofValue("World!"), dto.getProp2());
   }
 
   @Test

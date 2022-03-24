@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @JsonDeserialize(builder = OptionalNullableDto.Builder.class)
 public class OptionalNullableDto {
@@ -24,15 +27,15 @@ public class OptionalNullableDto {
     return prop1;
   }
 
+  @JsonIgnore
+  public Tristate<String> getProp2() {
+    return Tristate.ofNullableAndNullFlag(prop2, isProp2Null);
+  }
+
   @JsonProperty("prop2")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getProp2Jackson() {
     return isProp2Null ? new JacksonNullContainer<>(prop2) : prop2;
-  }
-
-  @JsonIgnore
-  public Optional<String> getProp2() {
-    return Optional.ofNullable(prop2);
   }
 
   @JsonIgnore
@@ -76,6 +79,60 @@ public class OptionalNullableDto {
     @JsonValue
     public T getValue() {
       return value;
+    }
+  }
+
+  public static class Tristate<T> {
+    private final Optional<T> value;
+    private final boolean isNull;
+
+    private Tristate(Optional<T> value, boolean isNull) {
+      this.value = value;
+      this.isNull = isNull;
+    }
+
+    public static <T> Tristate<T> ofNullableAndNullFlag(T nullableValue, boolean isNull) {
+      return new Tristate<>(Optional.ofNullable(nullableValue), isNull);
+    }
+
+    public static <T> Tristate<T> ofNull() {
+      return new Tristate<>(Optional.empty(), true);
+    }
+
+    public static <T> Tristate<T> ofValue(T value) {
+      return new Tristate<>(Optional.of(value), false);
+    }
+
+    public static <T> Tristate<T> ofAbsent() {
+      return new Tristate<>(Optional.empty(), false);
+    }
+
+    public <R> OnValue<R> onValue(Function<T, R> onValue) {
+      return onNull ->
+          onAbsent -> value.map(onValue).orElseGet(() -> isNull ? onNull.get() : onAbsent.get());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Tristate<?> tristate = (Tristate<?>) o;
+      return isNull == tristate.isNull && Objects.equals(value, tristate.value);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(value, isNull);
+    }
+
+    @FunctionalInterface
+    public interface OnValue<R> {
+      OnNull<R> onNull(Supplier<R> onNull);
+    }
+
+    @FunctionalInterface
+    public interface OnNull<R> {
+      R onAbsent(Supplier<R> onAbsent);
     }
   }
 }
