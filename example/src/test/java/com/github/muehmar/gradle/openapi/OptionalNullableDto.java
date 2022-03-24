@@ -13,14 +13,33 @@ import java.util.function.Supplier;
 
 @JsonDeserialize(builder = OptionalNullableDto.Builder.class)
 public class OptionalNullableDto {
+  // Required, not nullable
   private final String prop1;
-  private final String prop2;
-  private final boolean isProp2Null;
 
-  OptionalNullableDto(String prop1, String prop2, boolean isProp2Null) {
+  // Required, nullable
+  private final String prop2;
+  private final boolean isProp2Present;
+
+  // Optional, not nullable
+  private final String prop3;
+
+  // Optional, nullable
+  private final String prop4;
+  private final boolean isProp4Null;
+
+  OptionalNullableDto(
+      String prop1,
+      String prop2,
+      boolean isProp2Present,
+      String prop3,
+      String prop4,
+      boolean isProp4Null) {
     this.prop1 = prop1;
     this.prop2 = prop2;
-    this.isProp2Null = isProp2Null;
+    this.isProp2Present = isProp2Present;
+    this.prop3 = prop3;
+    this.prop4 = prop4;
+    this.isProp4Null = isProp4Null;
   }
 
   public String getProp1() {
@@ -28,26 +47,46 @@ public class OptionalNullableDto {
   }
 
   @JsonIgnore
-  public Tristate<String> getProp2() {
-    return Tristate.ofNullableAndNullFlag(prop2, isProp2Null);
+  public Optional<String> getProp2() {
+    return Optional.ofNullable(prop2);
   }
 
   @JsonProperty("prop2")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Object getProp2Jackson() {
-    return isProp2Null ? new JacksonNullContainer<>(prop2) : prop2;
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  private String getProp2Jackson() {
+    return prop2;
   }
 
   @JsonIgnore
-  public boolean isProp2Null() {
-    return isProp2Null;
+  public Optional<String> getProp3() {
+    return Optional.ofNullable(prop3);
+  }
+
+  @JsonProperty("prop3")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getProp3Jackson() {
+    return prop3;
+  }
+
+  @JsonIgnore
+  public Tristate<String> getProp4() {
+    return Tristate.ofNullableAndNullFlag(prop4, isProp4Null);
+  }
+
+  @JsonProperty("prop4")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getProp4Jackson() {
+    return isProp4Null ? new JacksonNullContainer<>(prop4) : prop4;
   }
 
   @JsonPOJOBuilder(withPrefix = "")
   static class Builder {
     private String prop1;
     private String prop2;
-    private boolean isProp2Null = false;
+    private boolean isProp2Present = false;
+    private String prop3;
+    private String prop4;
+    private boolean isProp4Null = false;
 
     private Builder() {}
 
@@ -58,14 +97,25 @@ public class OptionalNullableDto {
 
     Builder prop2(String prop2) {
       this.prop2 = prop2;
-      if (prop2 == null) {
-        this.isProp2Null = true;
+      this.isProp2Present = true;
+      return this;
+    }
+
+    Builder prop3(String prop3) {
+      this.prop3 = prop3;
+      return this;
+    }
+
+    Builder prop4(String prop4) {
+      this.prop4 = prop4;
+      if (prop4 == null) {
+        this.isProp4Null = true;
       }
       return this;
     }
 
     public OptionalNullableDto build() {
-      return new OptionalNullableDto(prop1, prop2, isProp2Null);
+      return new OptionalNullableDto(prop1, prop2, isProp2Present, prop3, prop4, isProp4Null);
     }
   }
 
@@ -118,6 +168,11 @@ public class OptionalNullableDto {
       if (o == null || getClass() != o.getClass()) return false;
       Tristate<?> tristate = (Tristate<?>) o;
       return isNull == tristate.isNull && Objects.equals(value, tristate.value);
+    }
+
+    @Override
+    public String toString() {
+      return "Tristate{" + "value=" + value + ", isNull=" + isNull + '}';
     }
 
     @Override
