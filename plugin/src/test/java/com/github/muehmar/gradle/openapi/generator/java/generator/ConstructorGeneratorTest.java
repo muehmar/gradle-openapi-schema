@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -21,7 +22,7 @@ class ConstructorGeneratorTest {
 
     final PList<String> data = PList.of("Customer", "String a", "int b");
 
-    final String output = generator.generate(data, null, Writer.createDefault()).asString();
+    final String output = generator.generate(data, noSettings(), Writer.createDefault()).asString();
     assertEquals(
         "public Customer(String a, int b) {\n" + "  System.out.println(\"Hello World\");\n" + "}",
         output);

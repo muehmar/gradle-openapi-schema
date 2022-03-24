@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +23,7 @@ class JacksonAnnotationGeneratorTest {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIgnore();
 
     final Writer writer =
-        generator.generate(null, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(noData(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
     assertEquals("@JsonIgnore", writer.asString());
@@ -34,7 +35,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            null,
+            noData(),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 

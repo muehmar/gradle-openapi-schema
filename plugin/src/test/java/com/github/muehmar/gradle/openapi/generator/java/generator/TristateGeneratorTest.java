@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.muehmar.pojoextension.generator.Generator;
@@ -10,7 +12,7 @@ class TristateGeneratorTest {
   @Test
   void tristateClass_when_called_then_correctOutput() {
     final Generator<Void, Void> gen = TristateGenerator.tristateClass();
-    final Writer writer = gen.generate(null, null, Writer.createDefault());
+    final Writer writer = gen.generate(noData(), noSettings(), Writer.createDefault());
     assertEquals(
         "package com.github.muehmar.openapi.util;\n"
             + "\n"
