@@ -30,7 +30,8 @@ class GetterGeneratorTest {
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertEquals(
-        "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}", writer.asString());
+        "@NotNull\n" + "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}",
+        writer.asString());
   }
 
   @Test
