@@ -26,11 +26,11 @@ public class CommonGetter {
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
 
-  public static Generator<PojoMember, PojoSettings> jacksonNullGetterMethod() {
+  public static Generator<PojoMember, PojoSettings> nullableGetterMethod() {
     return MethodGen.<PojoMember, PojoSettings>modifiers(PRIVATE)
         .noGenericTypes()
         .returnType(f -> f.getTypeName(RESOLVER).asString())
-        .methodName(f -> f.getterName(RESOLVER).asString() + "Jackson")
+        .methodName(f -> f.getterName(RESOLVER).asString() + "Nullable")
         .noArguments()
         .content(f -> String.format("return %s;", f.memberName(RESOLVER)));
   }

@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.jacksonNullGetterMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
@@ -26,7 +26,7 @@ public class OptionalNotNullableGetter {
         .appendConditionally(isJacksonJson, Generator.ofWriterFunction(Writer::println))
         .appendConditionally(isJacksonJson, jsonProperty())
         .appendConditionally(isJacksonJson, jsonIncludeNonNull())
-        .appendConditionally(isJacksonJson, jacksonNullGetterMethod())
+        .appendConditionally(isJacksonJson, nullableGetterMethod())
         .append(RefsGenerator.fieldRefs());
   }
 }

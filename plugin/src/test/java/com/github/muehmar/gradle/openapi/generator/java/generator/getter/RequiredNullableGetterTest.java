@@ -39,7 +39,7 @@ class RequiredNullableGetterTest {
             + "}\n"
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
-            + "private LocalDate getBirthdateJackson() {\n"
+            + "private LocalDate getBirthdateNullable() {\n"
             + "  return birthdate;\n"
             + "}",
         writer.asString());

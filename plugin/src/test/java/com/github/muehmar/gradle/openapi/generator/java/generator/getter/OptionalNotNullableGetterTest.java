@@ -42,7 +42,7 @@ class OptionalNotNullableGetterTest {
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
             + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private LocalDate getBirthdateJackson() {\n"
+            + "private LocalDate getBirthdateNullable() {\n"
             + "  return birthdate;\n"
             + "}",
         writer.asString());
