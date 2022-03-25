@@ -2,16 +2,19 @@ package com.github.muehmar.gradle.openapi.generator.data;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
-import java.util.Objects;
+import io.github.muehmar.pojoextension.annotations.PojoExtension;
 import java.util.Optional;
 import java.util.function.Consumer;
+import lombok.Value;
 
-public class PojoMember {
-  private final Name name;
-  private final String description;
-  private final Type type;
-  private final Necessity necessity;
-  private final Nullability nullability;
+@Value
+@PojoExtension
+public class PojoMember implements PojoMemberExtension {
+  Name name;
+  String description;
+  Type type;
+  Necessity necessity;
+  Nullability nullability;
 
   public PojoMember(
       Name name, String description, Type type, Necessity necessity, Nullability nullability) {
@@ -22,24 +25,8 @@ public class PojoMember {
     this.nullability = nullability;
   }
 
-  public String getDescription() {
-    return description;
-  }
-
   public Name getTypeName(Resolver resolver) {
     return type.isEnum() ? resolver.enumName(name) : type.getFullName();
-  }
-
-  public Type getType() {
-    return type;
-  }
-
-  public Name getName() {
-    return name;
-  }
-
-  public Necessity getNecessity() {
-    return necessity;
   }
 
   public boolean isOptional() {
@@ -111,41 +98,5 @@ public class PojoMember {
     } else {
       return this;
     }
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    PojoMember that = (PojoMember) o;
-    return necessity == that.necessity
-        && Objects.equals(name, that.name)
-        && Objects.equals(description, that.description)
-        && Objects.equals(type, that.type);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, description, type, necessity);
-  }
-
-  @Override
-  public String toString() {
-    return "PojoMember{"
-        + "key='"
-        + name
-        + '\''
-        + ", description='"
-        + description
-        + '\''
-        + ", type="
-        + type
-        + ", nullable="
-        + necessity
-        + '}';
   }
 }

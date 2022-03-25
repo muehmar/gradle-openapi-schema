@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.constraints;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Constraints {
   private final Min min;
@@ -113,28 +114,56 @@ public class Constraints {
     Optional.ofNullable(min).ifPresent(onMin);
   }
 
+  public <R> Optional<R> onMinFn(Function<Min, R> onMin) {
+    return Optional.ofNullable(min).map(onMin);
+  }
+
   public void onMax(Consumer<Max> onMax) {
     Optional.ofNullable(max).ifPresent(onMax);
+  }
+
+  public <R> Optional<R> onMaxFn(Function<Max, R> onMax) {
+    return Optional.ofNullable(max).map(onMax);
   }
 
   public void onDecimalMin(Consumer<DecimalMin> onDecimalMin) {
     Optional.ofNullable(decimalMin).ifPresent(onDecimalMin);
   }
 
+  public <R> Optional<R> onDecimalMinFn(Function<DecimalMin, R> onDecimalMin) {
+    return Optional.ofNullable(decimalMin).map(onDecimalMin);
+  }
+
   public void onDecimalMax(Consumer<DecimalMax> onDecimalMax) {
     Optional.ofNullable(decimalMax).ifPresent(onDecimalMax);
+  }
+
+  public <R> Optional<R> onDecimalMaxFn(Function<DecimalMax, R> onDecimalMax) {
+    return Optional.ofNullable(decimalMax).map(onDecimalMax);
   }
 
   public void onSize(Consumer<Size> onSize) {
     Optional.ofNullable(size).ifPresent(onSize);
   }
 
+  public <R> Optional<R> onSizeFn(Function<Size, R> onSize) {
+    return Optional.ofNullable(size).map(onSize);
+  }
+
   public void onPattern(Consumer<Pattern> onPattern) {
     Optional.ofNullable(pattern).ifPresent(onPattern);
   }
 
+  public <R> Optional<R> onPatternFn(Function<Pattern, R> onPattern) {
+    return Optional.ofNullable(pattern).map(onPattern);
+  }
+
   public void onEmail(Consumer<Email> onEmail) {
     Optional.ofNullable(email).ifPresent(onEmail);
+  }
+
+  public <R> Optional<R> onEmailFn(Function<Email, R> onEmail) {
+    return Optional.ofNullable(email).map(onEmail);
   }
 
   @Override
