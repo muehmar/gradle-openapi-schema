@@ -10,6 +10,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @JsonDeserialize(builder = OptionalNullableDto.Builder.class)
 public class OptionalNullableDto {
@@ -42,6 +45,7 @@ public class OptionalNullableDto {
     this.isProp4Null = isProp4Null;
   }
 
+  @NotNull
   public String getProp1() {
     return prop1;
   }
@@ -53,8 +57,13 @@ public class OptionalNullableDto {
 
   @JsonProperty("prop2")
   @JsonInclude(JsonInclude.Include.ALWAYS)
-  private String getProp2Jackson() {
+  private String getProp2Nullable() {
     return prop2;
+  }
+
+  @AssertTrue(message = "Prop2 is absent but is required")
+  private boolean isProp2Present() {
+    return isProp2Present;
   }
 
   @JsonIgnore
@@ -64,7 +73,8 @@ public class OptionalNullableDto {
 
   @JsonProperty("prop3")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getProp3Jackson() {
+  @Pattern(regexp = "World")
+  private String getProp3Nullable() {
     return prop3;
   }
 
@@ -77,6 +87,11 @@ public class OptionalNullableDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getProp4Jackson() {
     return isProp4Null ? new JacksonNullContainer<>(prop4) : prop4;
+  }
+
+  @Pattern(regexp = "World")
+  private String getProp4Nullable() {
+    return prop4;
   }
 
   @JsonPOJOBuilder(withPrefix = "")

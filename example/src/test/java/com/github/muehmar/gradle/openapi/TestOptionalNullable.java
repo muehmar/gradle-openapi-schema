@@ -5,6 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -137,5 +142,61 @@ class TestOptionalNullable {
     final String output = mapper.writeValueAsString(dto);
 
     assertEquals("{\"prop1\":\"Hello\",\"prop2\":null,\"prop4\":\"World\"}", output);
+  }
+
+  @Test
+  void validate_when_allOk_then_noViolations() {
+    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    final Validator validator = validatorFactory.getValidator();
+
+    final OptionalNullableDto dto =
+        new OptionalNullableDto("Hello", null, true, null, "World", false);
+
+    final Set<ConstraintViolation<OptionalNullableDto>> constraintViolations =
+        validator.validate(dto);
+
+    assertEquals(0, constraintViolations.size());
+  }
+
+  @Test
+  void validate_when_prop2NotPresent_then_singleViolation() {
+    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    final Validator validator = validatorFactory.getValidator();
+
+    final OptionalNullableDto dto =
+        new OptionalNullableDto("Hello", null, false, null, null, false);
+
+    final Set<ConstraintViolation<OptionalNullableDto>> constraintViolations =
+        validator.validate(dto);
+
+    assertEquals(1, constraintViolations.size());
+  }
+
+  @Test
+  void validate_when_prop3DoesNotMatchPattern_then_singleViolation() {
+    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    final Validator validator = validatorFactory.getValidator();
+
+    final OptionalNullableDto dto =
+        new OptionalNullableDto("Hello", null, true, "Welt", null, false);
+
+    final Set<ConstraintViolation<OptionalNullableDto>> constraintViolations =
+        validator.validate(dto);
+
+    assertEquals(1, constraintViolations.size());
+  }
+
+  @Test
+  void validate_when_prop4DoesNotMatchPattern_then_singleViolation() {
+    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+    final Validator validator = validatorFactory.getValidator();
+
+    final OptionalNullableDto dto =
+        new OptionalNullableDto("Hello", null, true, null, "Welt", false);
+
+    final Set<ConstraintViolation<OptionalNullableDto>> constraintViolations =
+        validator.validate(dto);
+
+    assertEquals(1, constraintViolations.size());
   }
 }
