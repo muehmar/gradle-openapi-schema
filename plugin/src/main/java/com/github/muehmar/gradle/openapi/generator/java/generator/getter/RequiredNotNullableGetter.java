@@ -9,7 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
+import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
 import java.util.function.BiPredicate;
 
 public class RequiredNotNullableGetter {
@@ -27,12 +27,14 @@ public class RequiredNotNullableGetter {
   }
 
   public static Generator<PojoMember, PojoSettings> getterMethod() {
-    return MethodGen.<PojoMember, PojoSettings>modifiers(PUBLIC)
+    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+        .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(f -> f.getTypeName(RESOLVER).asString())
         .methodName(f -> f.getterName(RESOLVER).asString())
         .noArguments()
         .content(f -> String.format("return %s;", f.memberName(RESOLVER)))
+        .build()
         .append(RefsGenerator.fieldRefs());
   }
 }

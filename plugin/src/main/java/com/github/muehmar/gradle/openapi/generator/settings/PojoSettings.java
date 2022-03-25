@@ -5,50 +5,19 @@ import io.github.muehmar.pojoextension.annotations.Getter;
 import io.github.muehmar.pojoextension.annotations.PojoExtension;
 import java.io.Serializable;
 import java.util.List;
+import lombok.Value;
 
+@Value
 @PojoExtension
-@SuppressWarnings("java:S2160")
-public class PojoSettings extends PojoSettingsBase implements Serializable {
-  private final JsonSupport jsonSupport;
-  private final String packageName;
-  private final String suffix;
-  private final boolean enableSafeBuilder;
-  private final boolean enableConstraints;
-  private final List<ClassTypeMapping> classTypeMappings;
-  private final List<FormatTypeMapping> formatTypeMappings;
-  private final EnumDescriptionSettings enumDescriptionSettings;
-
-  @SuppressWarnings("java:S107")
-  PojoSettings(
-      JsonSupport jsonSupport,
-      String packageName,
-      String suffix,
-      boolean enableSafeBuilder,
-      boolean enableConstraints,
-      List<ClassTypeMapping> classTypeMappings,
-      List<FormatTypeMapping> formatTypeMappings,
-      EnumDescriptionSettings enumDescriptionSettings) {
-    this.jsonSupport = jsonSupport;
-    this.packageName = packageName;
-    this.suffix = suffix;
-    this.enableSafeBuilder = enableSafeBuilder;
-    this.enableConstraints = enableConstraints;
-    this.classTypeMappings = classTypeMappings;
-    this.formatTypeMappings = formatTypeMappings;
-    this.enumDescriptionSettings = enumDescriptionSettings;
-  }
-
-  public String getPackageName() {
-    return packageName;
-  }
-
-  public String getSuffix() {
-    return suffix;
-  }
-
-  public JsonSupport getJsonSupport() {
-    return jsonSupport;
-  }
+public class PojoSettings implements PojoSettingsExtension, Serializable {
+  JsonSupport jsonSupport;
+  String packageName;
+  String suffix;
+  boolean enableSafeBuilder;
+  boolean enableConstraints;
+  List<ClassTypeMapping> classTypeMappings;
+  List<FormatTypeMapping> formatTypeMappings;
+  EnumDescriptionSettings enumDescriptionSettings;
 
   public boolean isJacksonJson() {
     return jsonSupport.equals(JsonSupport.JACKSON);
@@ -82,9 +51,5 @@ public class PojoSettings extends PojoSettingsBase implements Serializable {
 
   public boolean isDisableSafeBuilder() {
     return !isEnableSafeBuilder();
-  }
-
-  public EnumDescriptionSettings getEnumDescriptionSettings() {
-    return enumDescriptionSettings;
   }
 }

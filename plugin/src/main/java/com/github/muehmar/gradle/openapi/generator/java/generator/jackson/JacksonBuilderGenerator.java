@@ -10,8 +10,8 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.impl.JavaModifier;
-import io.github.muehmar.pojoextension.generator.impl.gen.ClassGen;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
+import io.github.muehmar.pojoextension.generator.impl.gen.ClassGenBuilder;
+import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 
 public class JacksonBuilderGenerator {
@@ -30,12 +30,16 @@ public class JacksonBuilderGenerator {
   }
 
   public static Generator<Pojo, PojoSettings> builderClass() {
-    return ClassGen.<Pojo, PojoSettings>clazz()
+    return ClassGenBuilder.<Pojo, PojoSettings>create()
+        .clazz()
         .nested()
+        .packageGen(Generator.emptyGen())
         .modifiers(JavaModifier.STATIC)
         .className("Builder")
-        .noSuperClassAndInterface()
-        .content(builderClassContent());
+        .noSuperClass()
+        .noInterfaces()
+        .content(builderClassContent())
+        .build();
   }
 
   public static Generator<Pojo, PojoSettings> builderClassContent() {
@@ -68,13 +72,15 @@ public class JacksonBuilderGenerator {
   }
 
   public static Generator<PojoMember, PojoSettings> memberMethod() {
-    return MethodGen.<PojoMember, PojoSettings>modifiers()
+    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+        .modifiers()
         .noGenericTypes()
         .returnType("Builder")
         .methodName(member -> member.getName().asString())
         .singleArgument(
             member -> String.format("%s %s", member.getTypeName(RESOLVER), member.getName()))
-        .content(memberMethodContent());
+        .content(memberMethodContent())
+        .build();
   }
 
   public static Generator<PojoMember, PojoSettings> memberMethodContent() {
@@ -95,7 +101,8 @@ public class JacksonBuilderGenerator {
   }
 
   public static Generator<Pojo, PojoSettings> buildMethod() {
-    return MethodGen.<Pojo, PojoSettings>modifiers(PUBLIC)
+    return MethodGenBuilder.<Pojo, PojoSettings>create()
+        .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(pojo -> pojo.className(RESOLVER).asString())
         .methodName("build")
@@ -105,6 +112,7 @@ public class JacksonBuilderGenerator {
               final String members =
                   pojo.getMembers().map(member -> member.memberName(RESOLVER)).mkString(", ");
               return String.format("return new %s(%s);", pojo.className(RESOLVER), members);
-            });
+            })
+        .build();
   }
 }

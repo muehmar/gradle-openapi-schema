@@ -13,7 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
+import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 import java.util.function.BiPredicate;
 
@@ -37,7 +37,8 @@ public class OptionalNullableGetter {
   }
 
   private static Generator<PojoMember, PojoSettings> tristateGetterMethod() {
-    return MethodGen.<PojoMember, PojoSettings>modifiers(PUBLIC)
+    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+        .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(f -> String.format("Tristate<%s>", f.memberName(RESOLVER)))
         .methodName(f -> f.getterName(RESOLVER).asString())
@@ -47,11 +48,13 @@ public class OptionalNullableGetter {
                 String.format(
                     "return Tristate.ofNullableAndNullFlag(%s, is%sNull);",
                     f.memberName(RESOLVER), f.memberName(RESOLVER).startUpperCase()))
+        .build()
         .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
   }
 
   private static Generator<PojoMember, PojoSettings> jacksonSerializerMethod() {
-    return MethodGen.<PojoMember, PojoSettings>modifiers(PRIVATE)
+    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+        .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("Object")
         .methodName(f -> String.format("%sJackson", f.getterName(RESOLVER)))
@@ -61,6 +64,7 @@ public class OptionalNullableGetter {
                 String.format(
                     "return is%sNull ? new JacksonNullContainer<>(%s) : %s;",
                     f.memberName(RESOLVER).startUpperCase(), f.getName(), f.getName()))
+        .build()
         .append(RefsGenerator.fieldRefs())
         .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER));
   }

@@ -6,21 +6,23 @@ import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.gen.ClassGen;
+import io.github.muehmar.pojoextension.generator.impl.gen.ClassGenBuilder;
 
 public class TristateGenerator {
   private TristateGenerator() {}
 
   public static <A, B> Generator<A, B> tristateClass() {
-    return ClassGen.<A, B>clazz()
+    return ClassGenBuilder.<A, B>create()
+        .clazz()
         .topLevel()
         .packageGen(
             (a, b, writer) -> writer.println("package %s;", OpenApiUtilRefs.OPENAPI_UTIL_PACKAGE))
         .modifiers(PUBLIC, FINAL)
         .className("Tristate<T>")
         .noSuperClass()
-        .doesNotImplementInterfaces()
-        .content(tristateClassContent());
+        .noInterfaces()
+        .content(tristateClassContent())
+        .build();
   }
 
   private static <B, A> Generator<A, B> tristateClassContent() {
