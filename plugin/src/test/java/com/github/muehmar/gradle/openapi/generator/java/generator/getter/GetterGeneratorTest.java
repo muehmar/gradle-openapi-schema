@@ -110,7 +110,7 @@ class GetterGeneratorTest {
 
     assertEquals(
         "@JsonIgnore\n"
-            + "public Tristate<birthdate> getBirthdate() {\n"
+            + "public Tristate<LocalDate> getBirthdate() {\n"
             + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
             + "}\n"
             + "\n"
@@ -118,6 +118,10 @@ class GetterGeneratorTest {
             + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
             + "private Object getBirthdateJackson() {\n"
             + "  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
+            + "}\n"
+            + "\n"
+            + "private LocalDate getBirthdateNullable() {\n"
+            + "  return birthdate;\n"
             + "}",
         writer.asString());
   }

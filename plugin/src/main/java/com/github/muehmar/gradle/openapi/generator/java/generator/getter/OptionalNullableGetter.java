@@ -1,12 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters.isJacksonJson;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters.isValidationEnabled;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PRIVATE;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
-import static io.github.muehmar.pojoextension.generator.impl.gen.Generators.newLine;
 
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -26,10 +28,8 @@ public class OptionalNullableGetter {
     return Generator.<PojoMember, PojoSettings>emptyGen()
         .append(jsonIgnore())
         .append(tristateGetterMethod())
-        .appendConditionally(isJacksonJson(), newLine())
-        .append(jsonProperty())
-        .append(jsonIncludeNonNull())
-        .append(jacksonSerializerMethod())
+        .append(jacksonSerializerMethodWithAnnotations())
+        .append(validationMethod())
         .append(RefsGenerator.fieldRefs());
   }
 
@@ -37,7 +37,7 @@ public class OptionalNullableGetter {
     return MethodGenBuilder.<PojoMember, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(f -> String.format("Tristate<%s>", f.memberName(RESOLVER)))
+        .returnType(f -> String.format("Tristate<%s>", f.getType().getFullName()))
         .methodName(f -> f.getterName(RESOLVER).asString())
         .noArguments()
         .content(
@@ -47,6 +47,15 @@ public class OptionalNullableGetter {
                     f.memberName(RESOLVER), f.memberName(RESOLVER).startUpperCase()))
         .build()
         .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
+  }
+
+  private static Generator<PojoMember, PojoSettings> jacksonSerializerMethodWithAnnotations() {
+    return Generator.<PojoMember, PojoSettings>emptyGen()
+        .appendNewLine()
+        .append(jsonProperty())
+        .append(jsonIncludeNonNull())
+        .append(jacksonSerializerMethod())
+        .filter(isJacksonJson());
   }
 
   private static Generator<PojoMember, PojoSettings> jacksonSerializerMethod() {
@@ -65,5 +74,13 @@ public class OptionalNullableGetter {
         .append(RefsGenerator.fieldRefs())
         .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
         .filter(isJacksonJson());
+  }
+
+  private static Generator<PojoMember, PojoSettings> validationMethod() {
+    return Generator.<PojoMember, PojoSettings>emptyGen()
+        .appendNewLine()
+        .append(validationAnnotations())
+        .append(nullableGetterMethod())
+        .filter(isValidationEnabled());
   }
 }
