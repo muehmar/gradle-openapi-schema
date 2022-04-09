@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
@@ -16,15 +17,22 @@ public class RequiredNullableGetter {
   private RequiredNullableGetter() {}
 
   public static Generator<PojoMember, PojoSettings> getter() {
-    final BiPredicate<PojoMember, PojoSettings> isJacksonJson =
-        (f, settings) -> settings.isJacksonJson();
+    final BiPredicate<PojoMember, PojoSettings> isJacksonJsonOrValidation =
+        (f, settings) -> settings.isJacksonJson() || settings.isEnableConstraints();
 
     return Generator.<PojoMember, PojoSettings>emptyGen()
-        .appendConditionally(isJacksonJson, jsonIgnore())
+        .append(jsonIgnore())
         .append(wrapNullableInOptionalGetterMethod())
-        .appendConditionally(isJacksonJson, Generator.ofWriterFunction(Writer::println))
-        .appendConditionally(isJacksonJson, jsonProperty())
-        .appendConditionally(isJacksonJson, nullableGetterMethod())
+        .appendConditionally(isJacksonJsonOrValidation, Generator.ofWriterFunction(Writer::println))
+        .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))
         .append(RefsGenerator.fieldRefs());
+  }
+
+  public static Generator<PojoMember, PojoSettings> nullableGetterMethodWithAnnotations(
+      BiPredicate<PojoMember, PojoSettings> isJacksonJsonOrValidation) {
+    return Generator.<PojoMember, PojoSettings>emptyGen()
+        .append(validationAnnotations())
+        .append(jsonProperty())
+        .appendConditionally(isJacksonJsonOrValidation, nullableGetterMethod());
   }
 }

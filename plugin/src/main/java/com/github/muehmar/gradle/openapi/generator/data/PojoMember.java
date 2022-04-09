@@ -41,6 +41,10 @@ public class PojoMember implements PojoMemberExtension {
     return nullability.equals(Nullability.NULLABLE);
   }
 
+  public boolean isNotNullable() {
+    return !isNullable();
+  }
+
   public boolean isRequiredAndNullable() {
     return isRequired() && isNullable();
   }

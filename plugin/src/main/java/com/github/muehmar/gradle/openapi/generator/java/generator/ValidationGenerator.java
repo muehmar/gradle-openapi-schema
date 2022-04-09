@@ -38,7 +38,7 @@ public class ValidationGenerator {
   private static Generator<PojoMember, PojoSettings> notNullAnnotation() {
     return Generator.<PojoMember, PojoSettings>ofWriterFunction(w -> w.println("@NotNull"))
         .append(w -> w.ref(JavaValidationRefs.NOT_NULL))
-        .filter((field, settings) -> field.isRequired());
+        .filter((field, settings) -> field.isRequired() && field.isNotNullable());
   }
 
   private static Generator<PojoMember, PojoSettings> emailAnnotation() {

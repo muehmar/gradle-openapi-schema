@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.data.Nullability;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers;
@@ -39,6 +40,18 @@ class ValidationGeneratorTest {
 
     assertEquals(PList.single(JavaValidationRefs.NOT_NULL), writer.getRefs());
     assertEquals("@NotNull", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForRequiredButNullableField_then_noAnnotation() {
+    final PojoMember member = PojoMembers.requiredBirthdate().withNullability(Nullability.NULLABLE);
+    final Generator<PojoMember, PojoSettings> generator =
+        ValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.empty(), writer.getRefs());
+    assertEquals("", writer.asString());
   }
 
   @Test

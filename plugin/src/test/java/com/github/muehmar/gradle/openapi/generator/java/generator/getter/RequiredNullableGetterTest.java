@@ -2,6 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Necessity;
 import com.github.muehmar.gradle.openapi.generator.data.Nullability;
@@ -52,7 +54,8 @@ class RequiredNullableGetterTest {
         new PojoMember(
             Name.of("birthdate"),
             "Birthdate",
-            JavaTypes.LOCAL_DATE,
+            JavaTypes.LOCAL_DATE.withConstraints(
+                Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern"))),
             Necessity.REQUIRED,
             Nullability.NULLABLE);
 
@@ -60,6 +63,39 @@ class RequiredNullableGetterTest {
         generator.generate(
             pojoMember,
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            Writer.createDefault());
+
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
+    assertEquals(
+        "public Optional<LocalDate> getBirthdate() {\n"
+            + "  return Optional.ofNullable(birthdate);\n"
+            + "}\n"
+            + "\n"
+            + "@Pattern(regexp=\"DatePattern\")\n"
+            + "private LocalDate getBirthdateNullable() {\n"
+            + "  return birthdate;\n"
+            + "}",
+        writer.asString());
+  }
+
+  @Test
+  void generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs() {
+    final Generator<PojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final PojoMember pojoMember =
+        new PojoMember(
+            Name.of("birthdate"),
+            "Birthdate",
+            JavaTypes.LOCAL_DATE,
+            Necessity.REQUIRED,
+            Nullability.NULLABLE);
+
+    final Writer writer =
+        generator.generate(
+            pojoMember,
+            TestPojoSettings.defaultSettings()
+                .withJsonSupport(JsonSupport.NONE)
+                .withEnableConstraints(false),
             Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
