@@ -8,7 +8,9 @@ import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Necessity;
 import com.github.muehmar.gradle.openapi.generator.data.Nullability;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -32,8 +34,12 @@ class RequiredNullableGetterTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
+    assertEquals(5, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
+    assertTrue(writer.getRefs().exists(JavaValidationRefs.ASSERT_TRUE::equals));
     assertEquals(
         "@JsonIgnore\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
@@ -43,6 +49,11 @@ class RequiredNullableGetterTest {
             + "@JsonProperty(\"birthdate\")\n"
             + "private LocalDate getBirthdateNullable() {\n"
             + "  return birthdate;\n"
+            + "}\n"
+            + "\n"
+            + "@AssertTrue(\"birthdate is required but it is not present\")\n"
+            + "private boolean isBirthdatePresent() {\n"
+            + "  return isBirthdatePresent;\n"
             + "}",
         writer.asString());
   }
@@ -65,8 +76,11 @@ class RequiredNullableGetterTest {
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
+    assertEquals(4, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
+    assertTrue(writer.getRefs().exists(JavaValidationRefs.ASSERT_TRUE::equals));
+    assertTrue(writer.getRefs().exists(JavaValidationRefs.PATTERN::equals));
     assertEquals(
         "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
@@ -75,6 +89,11 @@ class RequiredNullableGetterTest {
             + "@Pattern(regexp=\"DatePattern\")\n"
             + "private LocalDate getBirthdateNullable() {\n"
             + "  return birthdate;\n"
+            + "}\n"
+            + "\n"
+            + "@AssertTrue(\"birthdate is required but it is not present\")\n"
+            + "private boolean isBirthdatePresent() {\n"
+            + "  return isBirthdatePresent;\n"
             + "}",
         writer.asString());
   }
@@ -98,6 +117,7 @@ class RequiredNullableGetterTest {
                 .withEnableConstraints(false),
             Writer.createDefault());
 
+    assertEquals(2, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertEquals(
