@@ -10,7 +10,6 @@ import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 public class ValidationGenerator {
@@ -23,7 +22,7 @@ public class ValidationGenerator {
             (field, settings, writer) ->
                 writer.println(String.format("@AssertTrue(\"%s\")", message.apply(field))))
         .append(w -> w.ref(JavaValidationRefs.ASSERT_TRUE))
-        .filter(isValidationEnabled());
+        .filter(Filters.isValidationEnabled());
   }
 
   public static Generator<PojoMember, PojoSettings> validationAnnotations() {
@@ -37,7 +36,7 @@ public class ValidationGenerator {
         .append(decimalMaxAnnotation())
         .append(sizeAnnotation())
         .append(patternAnnotation())
-        .filter(isValidationEnabled());
+        .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<PojoMember, PojoSettings> validAnnotation() {
@@ -150,9 +149,5 @@ public class ValidationGenerator {
       BiFunction<Constraints, Writer, Optional<Writer>> writeConstraints) {
     return (constraints, settings, writer) ->
         writeConstraints.apply(constraints, writer).orElse(writer);
-  }
-
-  private static BiPredicate<PojoMember, PojoSettings> isValidationEnabled() {
-    return (field, settings) -> settings.isEnableConstraints();
   }
 }

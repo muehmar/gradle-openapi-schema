@@ -10,6 +10,7 @@ import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PRIVAT
 
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
+import com.github.muehmar.gradle.openapi.generator.java.generator.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
@@ -24,7 +25,7 @@ public class RequiredNullableGetter {
 
   public static Generator<PojoMember, PojoSettings> getter() {
     final BiPredicate<PojoMember, PojoSettings> isJacksonJsonOrValidation =
-        (f, settings) -> settings.isJacksonJson() || settings.isEnableConstraints();
+        Filters.<PojoMember>isJacksonJson().or(Filters.isValidationEnabled());
 
     return Generator.<PojoMember, PojoSettings>emptyGen()
         .append(jsonIgnore())
@@ -51,7 +52,7 @@ public class RequiredNullableGetter {
             assertTrue(
                 f -> String.format("%s is required but it is not present", f.memberName(RESOLVER))))
         .append(requiredValidationMethod())
-        .filter((field, settings) -> settings.isEnableConstraints());
+        .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<PojoMember, PojoSettings> requiredValidationMethod() {
