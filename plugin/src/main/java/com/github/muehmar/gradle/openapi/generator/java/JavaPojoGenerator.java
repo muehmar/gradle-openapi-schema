@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.data.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.generator.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
@@ -140,19 +141,11 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printFields(Writer writer, Pojo pojo, PojoSettings settings) {
-    if (pojo.isArray() && settings.isJacksonJson()) {
-      writer.tab(1).println("@JsonValue");
-    }
-
-    pojo.getMembers()
-        .forEach(
-            member ->
-                writer
-                    .tab(1)
-                    .println(
-                        "private final %s %s;",
-                        member.getTypeName(resolver).asString(),
-                        member.memberName(resolver).asString()));
+    final Generator<Pojo, PojoSettings> fieldsGen = FieldsGenerator.fields();
+    final Generator<Pojo, PojoSettings> indentedFieldsGen =
+        Generator.<Pojo, PojoSettings>emptyGen().append(fieldsGen, 1);
+    final String output = applyGen(indentedFieldsGen, pojo, settings);
+    writer.println(output);
   }
 
   private void printConstructor(Writer writer, Pojo pojo, PojoSettings settings) {

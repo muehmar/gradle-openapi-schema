@@ -26,6 +26,7 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer =
         generator.generate(noData(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
+    assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
     assertEquals("@JsonIgnore", writer.asString());
   }
@@ -58,6 +59,7 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
+    assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
     assertEquals("@JsonProperty(\"birthdate\")", writer.asString());
   }
@@ -90,6 +92,7 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer =
         generator.generate(noData(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
+    assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
     assertEquals("@JsonInclude(JsonInclude.Include.NON_NULL)", writer.asString());
   }
@@ -97,6 +100,32 @@ class JacksonAnnotationGeneratorTest {
   @Test
   void jsonIncludeNonNull_when_disabledJackson_then_noOutput() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIncludeNonNull();
+
+    final Writer writer =
+        generator.generate(
+            noData(),
+            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            Writer.createDefault());
+
+    assertTrue(writer.getRefs().isEmpty());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
+  void jsonValue_when_enabledJackson_then_correctOutputAndRefs() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonValue();
+
+    final Writer writer =
+        generator.generate(noData(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertEquals(1, writer.getRefs().size());
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_VALUE::equals));
+    assertEquals("@JsonValue", writer.asString());
+  }
+
+  @Test
+  void jsonValue_when_disabledJackson_then_correctOutputAndRefs() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonValue();
 
     final Writer writer =
         generator.generate(

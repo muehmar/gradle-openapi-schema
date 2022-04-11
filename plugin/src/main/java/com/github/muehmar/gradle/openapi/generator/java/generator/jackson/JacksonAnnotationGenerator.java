@@ -31,4 +31,11 @@ public class JacksonAnnotationGenerator {
         .append(w -> w.ref(JacksonRefs.JSON_INCLUDE))
         .filter(isJacksonJson());
   }
+
+  public static <A> Generator<A, PojoSettings> jsonValue() {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.println("@JsonValue"))
+        .append(w -> w.ref(JacksonRefs.JSON_VALUE))
+        .filter(isJacksonJson());
+  }
 }

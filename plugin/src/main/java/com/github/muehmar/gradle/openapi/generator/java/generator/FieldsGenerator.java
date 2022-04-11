@@ -3,11 +3,12 @@ package com.github.muehmar.gradle.openapi.generator.java.generator;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
+import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
+import java.util.function.BiPredicate;
 
 public class FieldsGenerator {
   private static final Resolver RESOLVER = new JavaResolver();
@@ -37,10 +38,10 @@ public class FieldsGenerator {
   }
 
   private static Generator<Pojo, PojoSettings> jsonValueAnnotation() {
-    final Generator<Pojo, PojoSettings> jsonValueGen =
-        Generator.ofWriterFunction(w -> w.println("@JsonValue").ref(JacksonRefs.JSON_VALUE));
-    return Generator.<Pojo, PojoSettings>emptyGen()
-        .appendConditionally(
-            (pojo, settings) -> pojo.isArray() && settings.isJacksonJson(), jsonValueGen);
+    return JacksonAnnotationGenerator.<Pojo>jsonValue().filter(isArrayPojo());
+  }
+
+  private static BiPredicate<Pojo, PojoSettings> isArrayPojo() {
+    return (pojo, settings) -> pojo.isArray();
   }
 }
