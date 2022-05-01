@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.assertTrue;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethod;
@@ -28,6 +30,7 @@ public class RequiredNullableGetter {
         Filters.<PojoMember>isJacksonJson().or(Filters.isValidationEnabled());
 
     return Generator.<PojoMember, PojoSettings>emptyGen()
+        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
         .append(jsonIgnore())
         .append(wrapNullableInOptionalGetterMethod())
         .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))

@@ -41,7 +41,10 @@ class RequiredNullableGetterTest {
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
     assertTrue(writer.getRefs().exists(JavaValidationRefs.ASSERT_TRUE::equals));
     assertEquals(
-        "@JsonIgnore\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
             + "}\n"
@@ -82,7 +85,10 @@ class RequiredNullableGetterTest {
     assertTrue(writer.getRefs().exists(JavaValidationRefs.ASSERT_TRUE::equals));
     assertTrue(writer.getRefs().exists(JavaValidationRefs.PATTERN::equals));
     assertEquals(
-        "public Optional<LocalDate> getBirthdate() {\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
             + "}\n"
             + "\n"
@@ -121,7 +127,10 @@ class RequiredNullableGetterTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertEquals(
-        "public Optional<LocalDate> getBirthdate() {\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
             + "}",
         writer.asString());

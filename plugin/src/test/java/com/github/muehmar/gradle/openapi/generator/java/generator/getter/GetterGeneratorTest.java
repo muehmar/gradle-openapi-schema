@@ -30,7 +30,13 @@ class GetterGeneratorTest {
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertEquals(
-        "@NotNull\n" + "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}",
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@NotNull\n"
+            + "public LocalDate getBirthdate() {\n"
+            + "  return birthdate;\n"
+            + "}",
         writer.asString());
   }
 
@@ -49,7 +55,10 @@ class GetterGeneratorTest {
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertEquals(
-        "@JsonIgnore\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
             + "}\n"
@@ -81,7 +90,10 @@ class GetterGeneratorTest {
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertEquals(
-        "@JsonIgnore\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
             + "}\n"
@@ -109,7 +121,10 @@ class GetterGeneratorTest {
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertEquals(
-        "@JsonIgnore\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
             + "public Tristate<LocalDate> getBirthdate() {\n"
             + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
             + "}\n"

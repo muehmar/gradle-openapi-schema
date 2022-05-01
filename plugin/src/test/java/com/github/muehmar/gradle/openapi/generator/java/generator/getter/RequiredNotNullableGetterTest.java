@@ -34,7 +34,13 @@ class RequiredNotNullableGetterTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaValidationRefs.NOT_NULL::equals));
     assertEquals(
-        "@NotNull\n" + "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}",
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@NotNull\n"
+            + "public LocalDate getBirthdate() {\n"
+            + "  return birthdate;\n"
+            + "}",
         writer.asString());
   }
 
@@ -57,6 +63,12 @@ class RequiredNotNullableGetterTest {
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertEquals(
-        "public LocalDate getBirthdate() {\n" + "  return birthdate;\n" + "}", writer.asString());
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public LocalDate getBirthdate() {\n"
+            + "  return birthdate;\n"
+            + "}",
+        writer.asString());
   }
 }

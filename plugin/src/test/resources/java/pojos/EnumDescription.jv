@@ -78,16 +78,11 @@ public class UserDto {
    * * `GERMAN`: German language
    * * `ENGLISH`: English language
    */
-  public Optional<LanguageEnum> getLanguageOptional() {
-    return Optional.ofNullable(this.language);
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
   }
 
-  /**
-   * Preferred language of this user
-   * * `GERMAN`: German language
-   * * `ENGLISH`: English language
-   */
-  public LanguageEnum getLanguageNullable() {
+  private LanguageEnum getLanguageNullable() {
     return language;
   }
 

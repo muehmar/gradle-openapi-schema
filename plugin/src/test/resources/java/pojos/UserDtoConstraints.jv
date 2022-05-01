@@ -56,7 +56,7 @@ public class UserDto {
   @NotNull
   @Max(value = 50)
   public long getId() {
-    return this.id;
+    return id;
   }
 
   /**
@@ -65,7 +65,7 @@ public class UserDto {
   @NotNull
   @Size(min = 10, max = 15)
   public String getName() {
-    return this.name;
+    return name;
   }
 
   /**
@@ -74,7 +74,7 @@ public class UserDto {
   @NotNull
   @Size(min = 10)
   public String getLastName() {
-    return this.lastName;
+    return lastName;
   }
 
   /**
@@ -83,7 +83,7 @@ public class UserDto {
   @NotNull
   @Size(max = 50)
   public String getNickName() {
-    return this.nickName;
+    return nickName;
   }
 
   /**
@@ -92,7 +92,7 @@ public class UserDto {
   @NotNull
   @Email
   public String getEmail() {
-    return this.email;
+    return email;
   }
 
   /**
@@ -102,51 +102,42 @@ public class UserDto {
   @DecimalMin(value = "120.0", inclusive = true)
   @DecimalMax(value = "199", inclusive = false)
   public Double getHeight() {
-    return this.height;
+    return height;
   }
 
   /**
    * Level of this user
    */
-  public Optional<Long> getLevelOptional() {
-    return Optional.ofNullable(this.level);
+  public Optional<Long> getLevel() {
+    return Optional.ofNullable(level);
   }
 
-  /**
-   * Level of this user
-   */
   @Min(value = 5)
-  public Long getLevelNullable() {
+  private Long getLevelNullable() {
     return level;
   }
 
   /**
    * Something uppercase
    */
-  public Optional<String> getUppercaseOptional() {
-    return Optional.ofNullable(this.uppercase);
+  public Optional<String> getUppercase() {
+    return Optional.ofNullable(uppercase);
   }
 
-  /**
-   * Something uppercase
-   */
   @Pattern(regexp="^(\\d[A-Z]*)")
-  public String getUppercaseNullable() {
+  private String getUppercaseNullable() {
     return uppercase;
   }
 
   /**
    * Another Pojo
    */
-  public Optional<AnotherPojo> getAnotherPojoOptional() {
-    return Optional.ofNullable(this.anotherPojo);
+  public Optional<AnotherPojo> getAnotherPojo() {
+    return Optional.ofNullable(anotherPojo);
   }
 
-  /**
-   * Another Pojo
-   */
   @Valid
-  public AnotherPojo getAnotherPojoNullable() {
+  private AnotherPojo getAnotherPojoNullable() {
     return anotherPojo;
   }
 

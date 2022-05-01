@@ -3,13 +3,13 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.data.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.generator.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
 import io.github.muehmar.codegenerator.Generator;
@@ -334,118 +334,11 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   protected void printGetters(Writer writer, Pojo pojo, PojoSettings settings) {
-    pojo.getMembers()
-        .forEach(
-            member -> {
-              printMainGetter(writer, member, settings);
-              printNullableGetter(writer, member, settings);
-            });
-  }
-
-  /**
-   * Prints either a normal getter in case the member is required or wrap it in an {@link Optional}
-   * if its not required.
-   */
-  protected void printMainGetter(Writer writer, PojoMember member, PojoSettings settings) {
-    writer.println();
-    printJavaDoc(writer, 1, member.getDescription());
-
-    final boolean optional = member.isOptional();
-
-    final String returnType =
-        optional
-            ? String.format("Optional<%s>", member.getTypeName(resolver).asString())
-            : member.getTypeName(resolver).asString();
-    final String field =
-        optional
-            ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver).asString())
-            : String.format("this.%s", member.memberName(resolver).asString());
-
-    if (optional && settings.isJacksonJson()) {
-      writer.tab(1).println("@JsonIgnore");
-    }
-    if (member.isRequired()) {
-      printConstraints(writer, member, 1, settings);
-    }
-
-    writer
-        .tab(1)
-        .println(
-            "public %s %s%s() {",
-            returnType, member.getterName(resolver).asString(), optional ? "Optional" : "");
-    writer.tab(2).println("return %s;", field);
-    writer.tab(1).println("}");
-  }
-
-  /**
-   * Prints a 'nullable' getter in case the member is not required. This getter is suffixed with
-   * 'Nullable' and may return null if the value is not present.
-   */
-  protected void printNullableGetter(Writer writer, PojoMember member, PojoSettings settings) {
-    if (member.isOptional()) {
-      writer.println();
-      printJavaDoc(writer, 1, member.getDescription());
-      printConstraints(writer, member, 1, settings);
-      if (settings.isJacksonJson()) {
-        writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver).asString());
-      }
-      writer
-          .tab(1)
-          .println(
-              "public %s %sNullable() {",
-              member.getTypeName(resolver).asString(), member.getterName(resolver).asString());
-      writer.tab(2).println("return %s;", member.memberName(resolver).asString());
-      writer.tab(1).println("}");
-    }
-  }
-
-  protected void printConstraints(
-      Writer writer, PojoMember member, int tabs, PojoSettings settings) {
-    if (settings.isEnableConstraints()) {
-
-      if (member.getType().containsPojo()) {
-        writer.tab(tabs).println("@Valid");
-      }
-
-      if (member.isRequired()) {
-        writer.tab(tabs).println("@NotNull");
-      }
-
-      final Constraints constraints = member.getType().getConstraints();
-      constraints.onEmail(email -> writer.tab(tabs).println("@Email"));
-      constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
-      constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));
-      constraints.onDecimalMin(
-          decMin ->
-              writer
-                  .tab(tabs)
-                  .println(
-                      "@DecimalMin(value = \"%s\", inclusive = %b)",
-                      decMin.getValue(), decMin.isInclusiveMin()));
-      constraints.onDecimalMax(
-          decMax ->
-              writer
-                  .tab(tabs)
-                  .println(
-                      "@DecimalMax(value = \"%s\", inclusive = %b)",
-                      decMax.getValue(), decMax.isInclusiveMax()));
-      constraints.onSize(
-          size -> {
-            final String minMax =
-                PList.of(
-                        size.getMin().map(min -> String.format("min = %d", min)),
-                        size.getMax().map(max -> String.format("max = %d", max)))
-                    .flatMapOptional(Function.identity())
-                    .mkString(", ");
-            writer.tab(tabs).println("@Size(%s)", minMax);
-          });
-      constraints.onPattern(
-          pattern ->
-              writer
-                  .tab(tabs)
-                  .println(
-                      "@Pattern(regexp=\"%s\")", pattern.getPatternEscaped(JavaEscaper::escape)));
-    }
+    final Generator<PojoMember, PojoSettings> generator =
+        Generator.<PojoMember, PojoSettings>emptyGen()
+            .append(GetterGenerator.generator(), 1)
+            .prependNewLine();
+    pojo.getMembers().map(member -> applyGen(generator, member, settings)).forEach(writer::println);
   }
 
   protected void printWithers(Writer writer, Pojo pojo) {

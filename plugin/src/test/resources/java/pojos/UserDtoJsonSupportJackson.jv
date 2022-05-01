@@ -77,29 +77,27 @@ public class UserDto {
    * ID of this user
    */
   public long getId() {
-    return this.id;
+    return id;
   }
 
   /**
    * Name of this user
    */
   public String getName() {
-    return this.name;
+    return name;
   }
 
   /**
    * Preferred language of this user
    */
   @JsonIgnore
-  public Optional<LanguageEnum> getLanguageOptional() {
-    return Optional.ofNullable(this.language);
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
   }
 
-  /**
-   * Preferred language of this user
-   */
   @JsonProperty("language")
-  public LanguageEnum getLanguageNullable() {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LanguageEnum getLanguageNullable() {
     return language;
   }
 

@@ -88,17 +88,13 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   @JsonIgnore
-  public Optional<LanguageEnum> getLanguageOptional() {
-    return Optional.ofNullable(this.language);
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
   }
 
-  /**
-   * Preferred language of this user
-   * * `GERMAN`: German language
-   * * `ENGLISH`: English language
-   */
   @JsonProperty("language")
-  public LanguageEnum getLanguageNullable() {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LanguageEnum getLanguageNullable() {
     return language;
   }
 

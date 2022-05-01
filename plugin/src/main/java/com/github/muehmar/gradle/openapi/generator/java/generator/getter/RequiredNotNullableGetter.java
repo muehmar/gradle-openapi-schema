@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
 
@@ -18,6 +20,7 @@ public class RequiredNotNullableGetter {
 
   public static Generator<PojoMember, PojoSettings> getter() {
     return Generator.<PojoMember, PojoSettings>emptyGen()
+        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
         .append(validationAnnotations())
         .append(getterMethod());
   }

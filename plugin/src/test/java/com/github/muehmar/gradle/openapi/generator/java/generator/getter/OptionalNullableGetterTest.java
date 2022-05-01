@@ -51,7 +51,10 @@ class OptionalNullableGetterTest {
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
     assertEquals(
-        "@JsonIgnore\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
             + "public Tristate<LocalDate> getBirthdate() {\n"
             + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
             + "}\n"
@@ -85,7 +88,10 @@ class OptionalNullableGetterTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
     assertEquals(
-        "public Tristate<LocalDate> getBirthdate() {\n"
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public Tristate<LocalDate> getBirthdate() {\n"
             + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
             + "}\n"
             + "\n"
