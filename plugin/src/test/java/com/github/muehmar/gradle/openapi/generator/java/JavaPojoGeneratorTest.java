@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -328,5 +329,39 @@ class JavaPojoGeneratorTest {
     assertEquals(
         Resources.readString("/java/pojos/EnumDescriptionSupportJackson.jv"),
         writer.asString().trim());
+  }
+
+  @Test
+  void generatePojo_when_necessityAndNullabilityVariants_then_correctPojoGenerated() {
+    final TestStringWriter writer = new TestStringWriter();
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+
+    final PojoSettings pojoSettings =
+        TestPojoSettings.defaultSettings()
+            .withEnableSafeBuilder(false)
+            .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
+
+    final PojoMember required =
+        new PojoMember(Name.of("required"), "Required", JavaTypes.STRING, REQUIRED, NOT_NULLABLE);
+    final PojoMember optional =
+        new PojoMember(Name.of("optional"), "Optional", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE);
+    final PojoMember requiredNullable =
+        new PojoMember(
+            Name.of("requiredNullable"), "RequiredNullable", JavaTypes.STRING, REQUIRED, NULLABLE);
+    final PojoMember optionalNullable =
+        new PojoMember(
+            Name.of("optionalNullable"), "OptionalNullable", JavaTypes.STRING, OPTIONAL, NULLABLE);
+
+    final Pojo pojo =
+        Pojo.ofObject(
+            Name.of("NecessityAndNullability"),
+            "NecessityAndNullability",
+            "Dto",
+            PList.of(required, requiredNullable, optional, optionalNullable));
+
+    pojoGenerator.generatePojo(pojo, pojoSettings);
+
+    assertEquals(
+        Resources.readString("/java/pojos/NecessityAndNullability.jv"), writer.asString().trim());
   }
 }

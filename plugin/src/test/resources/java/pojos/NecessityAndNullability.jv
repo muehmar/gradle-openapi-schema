@@ -1,0 +1,238 @@
+package com.github.muehmar;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+
+
+/**
+ * NecessityAndNullability
+ */
+@JsonDeserialize(builder = NecessityAndNullabilityDto.Builder.class)
+public class NecessityAndNullabilityDto {
+  private final String required;
+  private final String requiredNullable;
+  private final boolean isRequiredNullablePresent;
+  private final String optional;
+  private final String optionalNullable;
+  private final boolean isOptionalNullableNull;
+
+  public NecessityAndNullabilityDto(
+      String required,
+      String requiredNullable,
+      boolean isRequiredNullablePresent,
+      String optional,
+      String optionalNullable,
+      boolean isOptionalNullableNull) {
+    this.required = required;
+    this.requiredNullable = requiredNullable;
+    this.isRequiredNullablePresent = isRequiredNullablePresent;
+    this.optional = optional;
+    this.optionalNullable = optionalNullable;
+    this.isOptionalNullableNull = isOptionalNullableNull;
+  }
+
+  /**
+   * Required
+   */
+  @NotNull
+  public String getRequired() {
+    return required;
+  }
+
+  /**
+   * RequiredNullable
+   */
+  @JsonIgnore
+  public Optional<String> getRequiredNullable() {
+    return Optional.ofNullable(requiredNullable);
+  }
+
+  @JsonProperty("requiredNullable")
+  private String getRequiredNullableNullable() {
+    return requiredNullable;
+  }
+
+  @AssertTrue("requiredNullable is required but it is not present")
+  private boolean isRequiredNullablePresent() {
+    return isRequiredNullablePresent;
+  }
+
+  /**
+   * Optional
+   */
+  @JsonIgnore
+  public Optional<String> getOptional() {
+    return Optional.ofNullable(optional);
+  }
+
+  @JsonProperty("optional")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalNullable() {
+    return optional;
+  }
+
+  /**
+   * OptionalNullable
+   */
+  @JsonIgnore
+  public Tristate<String> getOptionalNullable() {
+    return Tristate.ofNullableAndNullFlag(optionalNullable, isOptionalNullableNull);
+  }
+
+  @JsonProperty("optionalNullable")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableJackson() {
+    return isOptionalNullableNull ? new JacksonNullContainer<>(optionalNullable) : optionalNullable;
+  }
+
+  private String getOptionalNullableNullable() {
+    return optionalNullable;
+  }
+
+  /**
+   * Required
+   */
+  public NecessityAndNullabilityDto withRequired(String required) {
+    return new NecessityAndNullabilityDto(required, requiredNullable, isRequiredNullablePresent, optional, optionalNullable, isOptionalNullableNull);
+  }
+
+  /**
+   * RequiredNullable
+   */
+  public NecessityAndNullabilityDto withRequiredNullable(String requiredNullable) {
+    return new NecessityAndNullabilityDto(required, requiredNullable, isRequiredNullablePresent, optional, optionalNullable, isOptionalNullableNull);
+  }
+
+  /**
+   * Optional
+   */
+  public NecessityAndNullabilityDto withOptional(String optional) {
+    return new NecessityAndNullabilityDto(required, requiredNullable, isRequiredNullablePresent, optional, optionalNullable, isOptionalNullableNull);
+  }
+
+  /**
+   * OptionalNullable
+   */
+  public NecessityAndNullabilityDto withOptionalNullable(String optionalNullable) {
+    return new NecessityAndNullabilityDto(required, requiredNullable, isRequiredNullablePresent, optional, optionalNullable, isOptionalNullableNull);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (other == null || getClass() != other.getClass()) {
+      return false;
+    }
+    final NecessityAndNullabilityDto v = (NecessityAndNullabilityDto) other;
+    return Objects.equals(required, v.required)
+        && Objects.equals(requiredNullable, v.requiredNullable)
+        && isRequiredNullablePresent == that.isRequiredNullablePresent
+        && Objects.equals(optional, v.optional)
+        && Objects.equals(optionalNullable, v.optionalNullable)
+        && isOptionalNullableNull == that.isOptionalNullableNull;
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(required, requiredNullable, isRequiredNullablePresent, optional, optionalNullable, isOptionalNullableNull);
+  }
+
+  @Override
+  public String toString() {
+    return "NecessityAndNullabilityDto{" +
+      "required=" + required +
+      ", requiredNullable=" + requiredNullable +
+      ", isRequiredNullablePresent=" + isRequiredNullablePresent +
+      ", optional=" + optional +
+      ", optionalNullable=" + optionalNullable +
+      ", isOptionalNullableNull=" + isOptionalNullableNull +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static final class Builder {
+
+    private String required;
+    private String requiredNullable;
+    private boolean isRequiredNullablePresent = false;
+    private String optional;
+    private String optionalNullable;
+    private boolean isOptionalNullableNull = false;
+
+    /**
+     * Required
+     */
+    public Builder setRequired(String required) {
+      this.required = required;
+      return this;
+    }
+
+    /**
+     * RequiredNullable
+     */
+    public Builder setRequiredNullable(String requiredNullable) {
+      this.requiredNullable = requiredNullable;
+      this.isRequiredNullablePresent = true;
+      return this;
+    }
+
+    /**
+     * Optional
+     */
+    public Builder setOptional(String optional) {
+      this.optional = optional;
+      return this;
+    }
+
+    /**
+     * Optional
+     */
+    public Builder setOptional(Optional<String> optional) {
+      this.optional = optional.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullable
+     */
+    public Builder setOptionalNullable(String optionalNullable) {
+      this.optionalNullable = optionalNullable;
+      if (optionalNullable == null) {
+        this.isOptionalNullableNull = true;
+      }
+      return this;
+    }
+
+    /**
+     * OptionalNullable
+     */
+    public Builder setOptionalNullable(Optional<String> optionalNullable) {
+      this.optionalNullable = optionalNullable.orElse(null);
+      return this;
+    }
+
+    public NecessityAndNullabilityDto build() {
+      return new NecessityAndNullabilityDto(required, requiredNullable, isRequiredNullablePresent, optional, optionalNullable, isOptionalNullableNull);
+    }
+  }
+}
