@@ -1,5 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.data;
 
+import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NULLABLE;
+
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
@@ -75,10 +79,37 @@ public class PojoMembers {
 
   public static PojoMember requiredString() {
     return new PojoMember(
-        Name.of("stringVal"),
-        "stringVal",
+        Name.of("requiredStringVal"),
+        "RequiredStringVal",
         JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         Necessity.REQUIRED,
         Nullability.NOT_NULLABLE);
+  }
+
+  public static PojoMember requiredNullableString() {
+    return new PojoMember(
+        Name.of("requiredNullableStringVal"),
+        "RequiredNullableStringVal",
+        JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+        Necessity.REQUIRED,
+        NULLABLE);
+  }
+
+  public static PojoMember optionalString() {
+    return new PojoMember(
+        Name.of("optionalStringVal"),
+        "OptionalStringVal",
+        JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+        OPTIONAL,
+        NOT_NULLABLE);
+  }
+
+  public static PojoMember optionalNullableString() {
+    return new PojoMember(
+        Name.of("optionalNullableStringVal"),
+        "OptionalNullableStringVal",
+        JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+        OPTIONAL,
+        NULLABLE);
   }
 }

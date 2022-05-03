@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
+import static com.github.muehmar.gradle.openapi.util.Functions.allExceptFirst;
+
 import ch.bluecare.commons.data.PList;
 import io.github.muehmar.pojoextension.annotations.FieldBuilder;
 import io.github.muehmar.pojoextension.annotations.SafeBuilder;
@@ -31,17 +33,29 @@ public class ConstructorGenerator<A, B> implements Generator<A, B> {
 
   @Override
   public Writer generate(A data, B settings, Writer writer) {
-    return Generator.<A, B>ofWriterFunction(
+    return Generator.<A, B>emptyGen()
+        .append(
             w -> {
-              final String arguments = createArguments.apply(data, settings).mkString(", ");
-              final String className = createClassName.apply(data, settings);
               final JavaModifiers modifiers = createModifiers.apply(data, settings);
-              return w.print(
-                  "%s%s(%s) {", modifiers.asStringTrailingWhitespace(), className, arguments);
+              final String className = createClassName.apply(data, settings);
+              return w.println("%s%s(", modifiers.asStringTrailingWhitespace(), className);
             })
+        .append(argumentGenerator(), 2)
+        .append(w -> w.tab(1).println(") {"))
         .append(contentGenerator, 1)
         .append(w -> w.println("}"))
         .generate(data, settings, writer);
+  }
+
+  private Generator<A, B> argumentGenerator() {
+    return (data, settings, writer) ->
+        createArguments
+            .apply(data, settings)
+            .reverse()
+            .zipWithIndex()
+            .map(allExceptFirst(arg -> arg + ","))
+            .reverse()
+            .foldLeft(writer, Writer::println);
   }
 
   @FieldBuilder(fieldName = "createModifiers")

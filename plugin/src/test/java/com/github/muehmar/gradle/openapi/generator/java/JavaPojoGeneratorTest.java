@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
-import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -18,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.generator.data.Pojos;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
@@ -336,30 +336,9 @@ class JavaPojoGeneratorTest {
     final TestStringWriter writer = new TestStringWriter();
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
-    final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
-            .withEnableSafeBuilder(false)
-            .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
-
-    final PojoMember required =
-        new PojoMember(Name.of("required"), "Required", JavaTypes.STRING, REQUIRED, NOT_NULLABLE);
-    final PojoMember optional =
-        new PojoMember(Name.of("optional"), "Optional", JavaTypes.STRING, OPTIONAL, NOT_NULLABLE);
-    final PojoMember requiredNullable =
-        new PojoMember(
-            Name.of("requiredNullable"), "RequiredNullable", JavaTypes.STRING, REQUIRED, NULLABLE);
-    final PojoMember optionalNullable =
-        new PojoMember(
-            Name.of("optionalNullable"), "OptionalNullable", JavaTypes.STRING, OPTIONAL, NULLABLE);
-
-    final Pojo pojo =
-        Pojo.ofObject(
-            Name.of("NecessityAndNullability"),
-            "NecessityAndNullability",
-            "Dto",
-            PList.of(required, requiredNullable, optional, optionalNullable));
-
-    pojoGenerator.generatePojo(pojo, pojoSettings);
+    pojoGenerator.generatePojo(
+        Pojos.allNecessityAndNullabilityVariants(),
+        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false));
 
     assertEquals(
         Resources.readString("/java/pojos/NecessityAndNullability.jv"), writer.asString().trim());

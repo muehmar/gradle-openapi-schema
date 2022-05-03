@@ -4,6 +4,10 @@ import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONA
 import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.optionalNullableString;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.requiredNullableString;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.requiredString;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
@@ -46,5 +50,17 @@ public class Pojos {
         "Dto",
         new PojoMember(
             Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE));
+  }
+
+  public static Pojo allNecessityAndNullabilityVariants() {
+    return Pojo.ofObject(
+        Name.of("NecessityAndNullability"),
+        "NecessityAndNullability",
+        "Dto",
+        PList.of(
+            requiredString(),
+            requiredNullableString(),
+            optionalString(),
+            optionalNullableString()));
   }
 }
