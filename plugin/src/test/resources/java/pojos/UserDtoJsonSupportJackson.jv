@@ -20,11 +20,11 @@ public class UserDto {
   private final String name;
   private final LanguageEnum language;
 
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
   public UserDto(
-      @JsonProperty("id") long id,
-      @JsonProperty("name") String name,
-      @JsonProperty("language") LanguageEnum language) {
+      long id,
+      String name,
+      LanguageEnum language
+    ) {
     this.id = id;
     this.name = name;
     this.language = language;

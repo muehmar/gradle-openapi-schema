@@ -22,7 +22,8 @@ public class UserDto {
   private final LanguageEnum language;
 
   public UserDto(
-      LanguageEnum language) {
+      LanguageEnum language
+    ) {
     this.language = language;
   }
 

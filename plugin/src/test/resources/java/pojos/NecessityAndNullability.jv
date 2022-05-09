@@ -35,7 +35,8 @@ public class NecessityAndNullabilityDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull) {
+      boolean isOptionalNullableStringValNull
+    ) {
     this.requiredStringVal = requiredStringVal;
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;

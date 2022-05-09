@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.generator.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
@@ -149,65 +150,12 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printConstructor(Writer writer, Pojo pojo, PojoSettings settings) {
+    final Generator<Pojo, PojoSettings> generator = PojoConstructorGenerator.generator();
+
     writer.println();
-    if (settings.isJacksonJson()) {
-      if (pojo.isArray()) {
-        writer.tab(1).println("@JsonCreator");
-      } else {
-        writer.tab(1).println("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
-      }
-    }
-    writer.tab(1).println("public %s(", pojo.className(resolver).asString());
-
-    final PList<String> memberArguments = createMemberArguments(pojo, settings);
-
-    for (int i = 0; i < memberArguments.size(); i++) {
-      writer.tab(3).print(memberArguments.apply(i));
-      if (i == memberArguments.size() - 1) {
-        writer.println(") {");
-      } else {
-        writer.println(",");
-      }
-    }
-
-    pojo.getMembers()
-        .forEach(
-            member ->
-                writer
-                    .tab(2)
-                    .println(
-                        "this.%s = %s;",
-                        member.memberName(resolver).asString(),
-                        member.memberName(resolver).asString()));
-
-    writer.tab(1).println("}");
-  }
-
-  private PList<String> createMemberArguments(Pojo pojo, PojoSettings settings) {
-    final Function<PojoMember, String> createJsonSupport =
-        member -> {
-          if (settings.isJacksonJson()) {
-            return String.format("@JsonProperty(\"%s\") ", member.memberName(resolver).asString());
-          } else {
-            return "";
-          }
-        };
-    return pojo.getMembers()
-        .map(
-            member -> {
-              if (pojo.isArray()) {
-                return String.format(
-                    "%s %s",
-                    member.getTypeName(resolver).asString(),
-                    member.memberName(resolver).asString());
-              } else {
-                return String.format(
-                    "%s%s %s",
-                    createJsonSupport.apply(member),
-                    member.getTypeName(resolver).asString(),
-                    member.memberName(resolver).asString());
-              }
-            });
+    final String output =
+        applyGen(Generator.<Pojo, PojoSettings>emptyGen().append(generator, 1), pojo, settings);
+    writer.println(output);
   }
 
   private String createNamesCommaSeparated(Pojo pojo) {

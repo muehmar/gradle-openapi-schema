@@ -18,7 +18,8 @@ public class UserDto {
   public UserDto(
       long id,
       String name,
-      LanguageEnum language) {
+      LanguageEnum language
+    ) {
     this.id = id;
     this.name = name;
     this.language = language;

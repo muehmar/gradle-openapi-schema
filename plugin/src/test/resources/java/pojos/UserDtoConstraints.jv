@@ -38,7 +38,8 @@ public class UserDto {
       Double height,
       Long level,
       String uppercase,
-      AnotherPojo anotherPojo) {
+      AnotherPojo anotherPojo
+    ) {
     this.id = id;
     this.name = name;
     this.lastName = lastName;

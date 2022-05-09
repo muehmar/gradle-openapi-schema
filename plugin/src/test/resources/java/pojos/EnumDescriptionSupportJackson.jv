@@ -26,9 +26,9 @@ import javax.validation.constraints.Email;
 public class UserDto {
   private final LanguageEnum language;
 
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
   public UserDto(
-      @JsonProperty("language") LanguageEnum language) {
+      LanguageEnum language
+    ) {
     this.language = language;
   }
 
