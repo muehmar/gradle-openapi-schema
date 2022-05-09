@@ -4,6 +4,7 @@ import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
+import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
@@ -57,21 +58,19 @@ public class PojoConstructorGenerator {
   }
 
   private static PList<String> createMemberAssignment(PojoMember member) {
-    final String memberAssignment =
-        String.format("this.%s = %s;", member.memberName(RESOLVER), member.memberName(RESOLVER));
-    if (member.isRequired() && member.isNullable()) {
+    final Name memberName = member.memberName(RESOLVER);
+    final String memberAssignment = String.format("this.%s = %s;", memberName, memberName);
+    if (member.isRequiredAndNullable()) {
       final String requiredPresentFlagAssignment =
           String.format(
               "this.is%sPresent = is%sPresent;",
-              member.memberName(RESOLVER).startUpperCase(),
-              member.memberName(RESOLVER).startUpperCase());
+              memberName.startUpperCase(), memberName.startUpperCase());
       return PList.of(memberAssignment, requiredPresentFlagAssignment);
-    } else if (member.isOptional() && member.isNullable()) {
+    } else if (member.isOptionalAndNullable()) {
       final String optionalNullFlagAssignment =
           String.format(
               "this.is%sNull = is%sNull;",
-              member.memberName(RESOLVER).startUpperCase(),
-              member.memberName(RESOLVER).startUpperCase());
+              memberName.startUpperCase(), memberName.startUpperCase());
       return PList.of(memberAssignment, optionalNullFlagAssignment);
     } else {
       return PList.single(memberAssignment);
