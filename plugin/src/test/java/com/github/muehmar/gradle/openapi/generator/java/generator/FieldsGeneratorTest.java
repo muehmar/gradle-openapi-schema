@@ -3,9 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.data.Pojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -20,17 +20,21 @@ class FieldsGeneratorTest {
     final Generator<Pojo, PojoSettings> gen = FieldsGenerator.fields();
 
     final Writer writer =
-        gen.generate(Pojos.sample(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+        gen.generate(
+            Pojos.allNecessityAndNullabilityVariants(),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+    assertEquals(PList.empty(), writer.getRefs());
 
     final String output = writer.asString();
     assertEquals(
-        "private final long id;\n"
-            + "private final String name;\n"
-            + "private final LocalDate birthdate;\n"
-            + "private final LanguageEnum language;\n"
-            + "private final boolean isLanguageNull;",
+        "private final String requiredStringVal;\n"
+            + "private final String requiredNullableStringVal;\n"
+            + "private final boolean isRequiredNullableStringValPresent;\n"
+            + "private final String optionalStringVal;\n"
+            + "private final String optionalNullableStringVal;\n"
+            + "private final boolean isOptionalNullableStringValNull;",
         output);
   }
 

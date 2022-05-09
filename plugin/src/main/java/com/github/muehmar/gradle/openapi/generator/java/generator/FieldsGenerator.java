@@ -26,12 +26,17 @@ public class FieldsGenerator {
         (field, settings, writer) ->
             writer.println(
                 "private final %s %s;", field.getTypeName(RESOLVER), field.memberName(RESOLVER));
-    final Generator<PojoMember, PojoSettings> nullableFieldFlag =
+    final Generator<PojoMember, PojoSettings> requiredNullableFlag =
+        (field, settings, writer) ->
+            writer.println(
+                "private final boolean is%sPresent;", field.memberName(RESOLVER).startUpperCase());
+    final Generator<PojoMember, PojoSettings> optionalNullableFlag =
         (field, settings, writer) ->
             writer.println(
                 "private final boolean is%sNull;", field.memberName(RESOLVER).startUpperCase());
     return fieldDeclaration
-        .appendConditionally(PojoMember::isNullable, nullableFieldFlag)
+        .appendConditionally(PojoMember::isRequiredAndNullable, requiredNullableFlag)
+        .appendConditionally(PojoMember::isOptionalAndNullable, optionalNullableFlag)
         .append(
             (field, settings, writer) ->
                 field.getType().getImports().foldLeft(writer, Writer::ref));
