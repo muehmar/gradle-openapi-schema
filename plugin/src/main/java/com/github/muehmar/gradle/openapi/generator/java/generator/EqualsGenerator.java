@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
 import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 import java.util.function.UnaryOperator;
@@ -20,14 +21,16 @@ public class EqualsGenerator {
   private EqualsGenerator() {}
 
   public static Generator<Pojo, PojoSettings> equalsMethod() {
-    return MethodGenBuilder.<Pojo, PojoSettings>create()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnType("boolean")
-        .methodName("equals")
-        .singleArgument(pojo -> "Object obj")
-        .content(equalsMethodContent())
-        .build();
+    final MethodGen<Pojo, PojoSettings> method =
+        MethodGenBuilder.<Pojo, PojoSettings>create()
+            .modifiers(PUBLIC)
+            .noGenericTypes()
+            .returnType("boolean")
+            .methodName("equals")
+            .singleArgument(pojo -> "Object obj")
+            .content(equalsMethodContent())
+            .build();
+    return AnnotationGenerator.<Pojo, PojoSettings>override().append(method);
   }
 
   private static Generator<Pojo, PojoSettings> equalsMethodContent() {

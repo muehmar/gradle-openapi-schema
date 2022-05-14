@@ -108,21 +108,18 @@ public class UserDto {
   }
 
   @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-    final UserDto v = (UserDto) other;
-    return Objects.equals(language, v.language);
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(language, other.language);
   }
-
 
   @Override
   public int hashCode() {
-    return Objects.hash(language);
+    return Objects.hash(
+      language
+    );
   }
 
   @Override

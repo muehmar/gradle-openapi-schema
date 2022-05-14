@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
 import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 
@@ -19,14 +20,16 @@ public class HashCodeGenerator {
   private HashCodeGenerator() {}
 
   public static Generator<Pojo, PojoSettings> hashCodeMethod() {
-    return MethodGenBuilder.<Pojo, PojoSettings>create()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnType("int")
-        .methodName("hashCode")
-        .noArguments()
-        .content(hashCodeMethodContent())
-        .build();
+    final MethodGen<Pojo, PojoSettings> method =
+        MethodGenBuilder.<Pojo, PojoSettings>create()
+            .modifiers(PUBLIC)
+            .noGenericTypes()
+            .returnType("int")
+            .methodName("hashCode")
+            .noArguments()
+            .content(hashCodeMethodContent())
+            .build();
+    return AnnotationGenerator.<Pojo, PojoSettings>override().append(method);
   }
 
   private static Generator<Pojo, PojoSettings> hashCodeMethodContent() {

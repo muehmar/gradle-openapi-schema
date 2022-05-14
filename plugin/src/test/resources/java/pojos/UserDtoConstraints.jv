@@ -206,29 +206,34 @@ public class UserDto {
   }
 
   @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-    final UserDto v = (UserDto) other;
-    return Objects.equals(id, v.id)
-        && Objects.equals(name, v.name)
-        && Objects.equals(lastName, v.lastName)
-        && Objects.equals(nickName, v.nickName)
-        && Objects.equals(email, v.email)
-        && Objects.equals(height, v.height)
-        && Objects.equals(level, v.level)
-        && Objects.equals(uppercase, v.uppercase)
-        && Objects.equals(anotherPojo, v.anotherPojo);
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(id, other.id)
+        && Objects.equals(name, other.name)
+        && Objects.equals(lastName, other.lastName)
+        && Objects.equals(nickName, other.nickName)
+        && Objects.equals(email, other.email)
+        && Objects.equals(height, other.height)
+        && Objects.equals(level, other.level)
+        && Objects.equals(uppercase, other.uppercase)
+        && Objects.equals(anotherPojo, other.anotherPojo);
   }
-
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return Objects.hash(
+      id,
+      name,
+      lastName,
+      nickName,
+      email,
+      height,
+      level,
+      uppercase,
+      anotherPojo
+    );
   }
 
   @Override

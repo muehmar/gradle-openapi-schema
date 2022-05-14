@@ -26,7 +26,8 @@ class EqualsGeneratorTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
 
     assertEquals(
-        "public boolean equals(Object obj) {\n"
+        "@Override\n"
+            + "public boolean equals(Object obj) {\n"
             + "  if (this == obj) return true;\n"
             + "  if (obj == null || this.getClass() != obj.getClass()) return false;\n"
             + "  final NecessityAndNullabilityDto other = (NecessityAndNullabilityDto) obj;\n"

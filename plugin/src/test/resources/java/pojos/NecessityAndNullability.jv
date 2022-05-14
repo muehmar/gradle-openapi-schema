@@ -136,26 +136,28 @@ public class NecessityAndNullabilityDto {
   }
 
   @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-    final NecessityAndNullabilityDto v = (NecessityAndNullabilityDto) other;
-    return Objects.equals(requiredStringVal, v.requiredStringVal)
-        && Objects.equals(requiredNullableStringVal, v.requiredNullableStringVal)
-        && isRequiredNullableStringValPresent == that.isRequiredNullableStringValPresent
-        && Objects.equals(optionalStringVal, v.optionalStringVal)
-        && Objects.equals(optionalNullableStringVal, v.optionalNullableStringVal)
-        && isOptionalNullableStringValNull == that.isOptionalNullableStringValNull;
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final NecessityAndNullabilityDto other = (NecessityAndNullabilityDto) obj;
+    return Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
-
 
   @Override
   public int hashCode() {
-    return Objects.hash(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return Objects.hash(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
   }
 
   @Override

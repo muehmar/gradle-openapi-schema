@@ -7,7 +7,9 @@ import com.github.muehmar.gradle.openapi.generator.data.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.generator.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator;
@@ -60,7 +62,7 @@ public class JavaPojoGenerator implements PojoGenerator {
       printGetters(writer, pojo, pojoSettings);
       printWithers(writer, pojo);
 
-      printEqualsAndHash(writer, pojo);
+      printEqualsAndHash(writer, pojo, pojoSettings);
       printToString(writer, pojo);
 
       printBuilder(writer, pojo, pojoSettings);
@@ -501,57 +503,18 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(1).println("}");
   }
 
-  protected void printEqualsAndHash(Writer writer, Pojo pojo) {
+  protected void printEqualsAndHash(Writer writer, Pojo pojo, PojoSettings settings) {
+    final Generator<Pojo, PojoSettings> equalsMethod = EqualsGenerator.equalsMethod();
+    final Generator<Pojo, PojoSettings> hashCodeMethod = HashCodeGenerator.hashCodeMethod();
+    final Generator<Pojo, PojoSettings> equalsAndHashCodeMethods =
+        equalsMethod.appendNewLine().append(hashCodeMethod);
+    final Generator<Pojo, PojoSettings> generator =
+        Generator.<Pojo, PojoSettings>emptyGen()
+            .appendNewLine()
+            .append(equalsAndHashCodeMethods, 1);
 
-    writer.println();
-
-    writer.tab(1).println("@Override");
-    writer.tab(1).println("public boolean equals(Object other) {");
-    writer.tab(2).println("if (this == other) {");
-    writer.tab(3).println("return true;");
-    writer.tab(2).println("}");
-    writer.tab(2).println("if (other == null || getClass() != other.getClass()) {");
-    writer.tab(3).println("return false;");
-    writer.tab(2).println("}");
-
-    writer
-        .tab(2)
-        .println(
-            "final %s v = (%s) other;",
-            pojo.className(resolver).asString(), pojo.className(resolver).asString());
-
-    final PList<String> objectEquals =
-        pojo.getMembers()
-            .map(
-                member -> {
-                  final String fieldName = member.memberName(resolver).asString();
-                  return String.format("Objects.equals(%s, v.%s)", fieldName, fieldName);
-                });
-
-    writer.tab(2).print("return ");
-    for (int i = 0; i < objectEquals.size(); i++) {
-      if (i > 0) {
-        writer.tab(4).print("&& ");
-      }
-      writer.tab(4).print(objectEquals.apply(i));
-      if (i == objectEquals.size() - 1) {
-        writer.println(";");
-      } else {
-        writer.println();
-      }
-    }
-    writer.tab(1).println("}");
-    writer.println();
-
-    writer.println();
-    writer.tab(1).println("@Override");
-    writer.tab(1).println("public int hashCode() {");
-
-    final PList<String> fieldNames =
-        pojo.getMembers().map(member -> member.memberName(resolver).asString());
-
-    writer.tab(2).println("return Objects.hash(%s);", String.join(", ", fieldNames));
-    writer.tab(1).println("}");
+    final String output = applyGen(generator, pojo, settings);
+    writer.println(output);
   }
 
   protected void printToString(Writer writer, Pojo pojo) {

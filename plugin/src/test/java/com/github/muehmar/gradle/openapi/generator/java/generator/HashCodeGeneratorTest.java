@@ -25,7 +25,8 @@ class HashCodeGeneratorTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
 
     assertEquals(
-        "public int hashCode() {\n"
+        "@Override\n"
+            + "public int hashCode() {\n"
             + "  return Objects.hash(\n"
             + "    requiredStringVal,\n"
             + "    requiredNullableStringVal,\n"
