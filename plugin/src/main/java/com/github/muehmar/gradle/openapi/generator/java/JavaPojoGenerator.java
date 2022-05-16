@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.FieldsGenerato
 import com.github.muehmar.gradle.openapi.generator.java.generator.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
@@ -63,7 +64,7 @@ public class JavaPojoGenerator implements PojoGenerator {
       printWithers(writer, pojo);
 
       printEqualsAndHash(writer, pojo, pojoSettings);
-      printToString(writer, pojo);
+      printToString(writer, pojo, pojoSettings);
 
       printBuilder(writer, pojo, pojoSettings);
       if (pojoSettings.isEnableSafeBuilder()) {
@@ -517,25 +518,13 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println(output);
   }
 
-  protected void printToString(Writer writer, Pojo pojo) {
-    writer.println();
-    writer.tab(1).println("@Override");
-    writer.tab(1).println("public String toString() {");
-    writer.tab(2).println("return \"%s{\" +", pojo.className(resolver).asString());
+  protected void printToString(Writer writer, Pojo pojo, PojoSettings settings) {
+    final Generator<Pojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
-    String separator = "";
-    for (PojoMember member : pojo.getMembers()) {
-      writer
-          .tab(3)
-          .println(
-              "\"%s%s=\" + %s +",
-              separator,
-              member.memberName(resolver).asString(),
-              member.memberName(resolver).asString());
-      separator = ", ";
-    }
-    writer.tab(3).println("\"}\";");
-    writer.tab(1).println("}");
+    writer.println();
+    final String output =
+        applyGen(Generator.<Pojo, PojoSettings>emptyGen().append(generator, 1), pojo, settings);
+    writer.println(output);
   }
 
   private void printClassEnd(Writer writer) {
