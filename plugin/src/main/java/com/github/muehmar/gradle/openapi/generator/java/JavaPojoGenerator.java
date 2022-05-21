@@ -395,6 +395,9 @@ public class JavaPojoGenerator implements PojoGenerator {
               // Normal setter
               writer.println();
               printJavaDoc(writer, 2, member.getDescription());
+              if (settings.isJacksonJson()) {
+                writer.tab(2).println("@JsonProperty(\"%s\")", member.memberName(resolver));
+              }
               writer
                   .tab(2)
                   .println(

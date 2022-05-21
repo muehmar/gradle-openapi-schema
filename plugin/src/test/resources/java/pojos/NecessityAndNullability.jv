@@ -196,6 +196,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredStringVal
      */
+    @JsonProperty("requiredStringVal")
     public Builder setRequiredStringVal(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
       return this;
@@ -204,6 +205,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableStringVal
      */
+    @JsonProperty("requiredNullableStringVal")
     public Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
       this.requiredNullableStringVal = requiredNullableStringVal;
       this.isRequiredNullableStringValPresent = true;
@@ -213,6 +215,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
+    @JsonProperty("optionalStringVal")
     public Builder setOptionalStringVal(String optionalStringVal) {
       this.optionalStringVal = optionalStringVal;
       return this;
@@ -229,6 +232,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableStringVal
      */
+    @JsonProperty("optionalNullableStringVal")
     public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal;
       if (optionalNullableStringVal == null) {

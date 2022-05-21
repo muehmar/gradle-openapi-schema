@@ -171,6 +171,7 @@ public class UserDto {
     /**
      * ID of this user
      */
+    @JsonProperty("id")
     public Builder setId(long id) {
       this.id = id;
       return this;
@@ -179,6 +180,7 @@ public class UserDto {
     /**
      * Name of this user
      */
+    @JsonProperty("name")
     public Builder setName(String name) {
       this.name = name;
       return this;
@@ -187,6 +189,7 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
+    @JsonProperty("language")
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
       return this;
