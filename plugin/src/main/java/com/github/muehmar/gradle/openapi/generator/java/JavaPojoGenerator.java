@@ -54,7 +54,7 @@ public class JavaPojoGenerator implements PojoGenerator {
           0);
     } else {
       printImports(writer, pojo, pojoSettings);
-      printClassStart(writer, pojo);
+      printClassStart(writer, pojo, pojoSettings);
       printFields(writer, pojo, pojoSettings);
       printConstructor(writer, pojo, pojoSettings);
 
@@ -115,6 +115,8 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("import com.fasterxml.jackson.annotation.JsonProperty;");
       writer.println("import com.fasterxml.jackson.annotation.JsonCreator;");
       writer.println("import com.fasterxml.jackson.annotation.JsonValue;");
+      writer.println("import com.fasterxml.jackson.databind.annotation.JsonDeserialize;");
+      writer.println("import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;");
     }
   }
 
@@ -138,9 +140,12 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println(output);
   }
 
-  private void printClassStart(Writer writer, Pojo pojo) {
+  private void printClassStart(Writer writer, Pojo pojo, PojoSettings settings) {
     writer.println();
     printJavaDoc(writer, 0, pojo.getDescription());
+    if (settings.isJacksonJson()) {
+      writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.className(resolver));
+    }
     writer.tab(0).println("public class %s {", pojo.className(resolver).asString());
   }
 
