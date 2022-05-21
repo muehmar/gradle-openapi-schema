@@ -7,8 +7,14 @@ import com.github.muehmar.gradle.openapi.generator.OpenApiGenerator;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
+import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.TristateGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonNullContainerGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.writer.FileWriter;
+import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.pojoextension.generator.writer.Writer;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
@@ -71,6 +77,23 @@ public class GenerateSchemasTask extends DefaultTask {
         openApiGenerator.getMapper().fromSchemas(openApiPojos, pojoSettings.get());
 
     pojos.forEach(pojo -> openApiGenerator.getGenerator().generatePojo(pojo, pojoSettings.get()));
+
+    writeOpenApiUtils();
+  }
+
+  private void writeOpenApiUtils() {
+    final Generator<Void, Void> tristateGen = TristateGenerator.tristateClass();
+    final FileWriter tristateWriter = new FileWriter(outputDir.get());
+    tristateWriter.println(tristateGen.generate(null, null, Writer.createDefault()).asString());
+    tristateWriter.close(OpenApiUtilRefs.TRISTATE.replace(".", "/") + ".java");
+
+    final Generator<Void, Void> jacksonContainerGen =
+        JacksonNullContainerGenerator.containerClass();
+    final FileWriter jacksonContainerWriter = new FileWriter(outputDir.get());
+    jacksonContainerWriter.println(
+        jacksonContainerGen.generate(null, null, Writer.createDefault()).asString());
+    jacksonContainerWriter.close(
+        OpenApiUtilRefs.JACKSON_NULL_CONTAINER.replace(".", "/") + ".java");
   }
 
   private OpenAPI parseSpec(String inputSpec) throws IOException {
