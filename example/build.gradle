@@ -96,6 +96,15 @@ openApiGenerator {
             suffix = "Dto"
             enableValidation = true
         }
+        inlineObject {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-nullability.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.nullability.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+        }
     }
 }
 
