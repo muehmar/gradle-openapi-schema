@@ -112,6 +112,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     if (settings.isJacksonJson()) {
       writer.println();
       writer.println("import com.fasterxml.jackson.annotation.JsonIgnore;");
+      writer.println("import com.fasterxml.jackson.annotation.JsonInclude;");
       writer.println("import com.fasterxml.jackson.annotation.JsonProperty;");
       writer.println("import com.fasterxml.jackson.annotation.JsonCreator;");
       writer.println("import com.fasterxml.jackson.annotation.JsonValue;");
@@ -130,6 +131,7 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("import javax.validation.constraints.Size;");
       writer.println("import javax.validation.constraints.NotNull;");
       writer.println("import javax.validation.constraints.Email;");
+      writer.println("import javax.validation.constraints.AssertTrue;");
     }
   }
 
