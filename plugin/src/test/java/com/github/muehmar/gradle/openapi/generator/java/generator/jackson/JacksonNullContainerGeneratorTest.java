@@ -20,7 +20,9 @@ class JacksonNullContainerGeneratorTest {
     assertEquals(
         "package com.github.muehmar.openapi.util;\n"
             + "\n"
-            + "public static class JacksonNullContainer<T> {\n"
+            + "import com.fasterxml.jackson.annotation.JsonValue;\n"
+            + "\n"
+            + "public class JacksonNullContainer<T> {\n"
             + "  private final T value;\n"
             + "\n"
             + "  public JacksonNullContainer(T value) {\n"

@@ -12,7 +12,9 @@ public class JacksonNullContainerGenerator {
         w ->
             w.println("package %s;", OpenApiUtilRefs.OPENAPI_UTIL_PACKAGE)
                 .println()
-                .println("public static class JacksonNullContainer<T> {")
+                .println("import com.fasterxml.jackson.annotation.JsonValue;")
+                .println()
+                .println("public class JacksonNullContainer<T> {")
                 .tab(1)
                 .println("private final T value;")
                 .println()
