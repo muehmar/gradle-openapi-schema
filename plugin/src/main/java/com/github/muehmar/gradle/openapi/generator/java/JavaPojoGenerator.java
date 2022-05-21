@@ -81,6 +81,8 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printImports(Writer writer, Pojo pojo, PojoSettings settings) {
+    printOpenApiUtilImports(writer, settings);
+
     printJavaUtilImports(writer);
 
     printJsonSupportImports(writer, settings);
@@ -94,6 +96,14 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(classImport -> writer.println("import %s;", classImport));
 
     writer.println();
+  }
+
+  private void printOpenApiUtilImports(Writer writer, PojoSettings settings) {
+    writer.println();
+    if (settings.isJacksonJson()) {
+      writer.println("import com.github.muehmar.openapi.util.JacksonNullContainer;");
+    }
+    writer.println("import com.github.muehmar.openapi.util.Tristate;");
   }
 
   private void printJavaUtilImports(Writer writer) {

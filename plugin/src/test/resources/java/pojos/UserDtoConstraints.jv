@@ -1,5 +1,7 @@
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.Tristate;
+
 import java.util.Objects;
 import java.util.Optional;
 
