@@ -164,7 +164,21 @@ public class JavaPojoGenerator implements PojoGenerator {
   private String createNamesCommaSeparated(Pojo pojo) {
     final PList<String> formattedPairs =
         pojo.getMembers()
-            .map(member -> String.format("%s", member.memberName(resolver).asString()));
+            .flatMap(
+                member -> {
+                  final Name memberName = member.memberName(resolver);
+                  if (member.isRequiredAndNullable()) {
+                    final String requiredNullableFlagName =
+                        String.format("is%sPresent", memberName.startUpperCase());
+                    return PList.of(memberName.asString(), requiredNullableFlagName);
+                  } else if (member.isOptionalAndNullable()) {
+                    final String optionalNullableFlagName =
+                        String.format("is%sNull", memberName.startUpperCase());
+                    return PList.of(memberName.asString(), optionalNullableFlagName);
+                  } else {
+                    return PList.single(memberName.asString());
+                  }
+                });
 
     return String.join(", ", formattedPairs);
   }
