@@ -237,6 +237,9 @@ public class NecessityAndNullabilityDto {
      */
     public Builder setOptionalNullableStringVal(Optional<String> optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal.orElse(null);
+      if (!optionalNullableStringVal.isPresent()) {
+        this.isOptionalNullableStringValNull = true;
+      }
       return this;
     }
 

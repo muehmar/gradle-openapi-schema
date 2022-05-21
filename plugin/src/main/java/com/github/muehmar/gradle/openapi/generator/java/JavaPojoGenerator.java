@@ -359,15 +359,24 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(
             member -> {
               final String type = member.getTypeName(resolver).asString();
-              final String fieldName = member.memberName(resolver).asString();
+              final Name fieldName = member.memberName(resolver);
               writer.tab(2).println("private %s %s;", type, fieldName);
+              if (member.isRequiredAndNullable()) {
+                writer
+                    .tab(2)
+                    .println("private boolean is%sPresent = false;", fieldName.startUpperCase());
+              } else if (member.isOptionalAndNullable()) {
+                writer
+                    .tab(2)
+                    .println("private boolean is%sNull = false;", fieldName.startUpperCase());
+              }
             });
 
     pojo.getMembers()
         .forEach(
             member -> {
               final String type = member.getTypeName(resolver).asString();
-              final String fieldName = member.memberName(resolver).asString();
+              final Name fieldName = member.memberName(resolver);
               final String setterModifier =
                   settings.isEnableSafeBuilder() && member.isRequired() ? "private" : "public";
 
@@ -380,6 +389,13 @@ public class JavaPojoGenerator implements PojoGenerator {
                       "%s Builder %s(%s %s) {",
                       setterModifier, member.setterName(resolver).asString(), type, fieldName);
               writer.tab(3).println("this.%s = %s;", fieldName, fieldName);
+              if (member.isRequiredAndNullable()) {
+                writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
+              } else if (member.isOptionalAndNullable()) {
+                writer.tab(3).println("if (%s == null) {", fieldName);
+                writer.tab(4).println("this.is%sNull = true;", fieldName.startUpperCase());
+                writer.tab(3).println("}");
+              }
               writer.tab(3).println("return this;");
               writer.tab(2).println("}");
 
@@ -393,6 +409,11 @@ public class JavaPojoGenerator implements PojoGenerator {
                         "%s Builder %s(Optional<%s> %s) {",
                         setterModifier, member.setterName(resolver).asString(), type, fieldName);
                 writer.tab(3).println("this.%s = %s.orElse(null);", fieldName, fieldName);
+                if (member.isOptionalAndNullable()) {
+                  writer.tab(3).println("if (!%s.isPresent()) {", fieldName);
+                  writer.tab(4).println("this.is%sNull = true;", fieldName.startUpperCase());
+                  writer.tab(3).println("}");
+                }
                 writer.tab(3).println("return this;");
                 writer.tab(2).println("}");
               }
