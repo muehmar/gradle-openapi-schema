@@ -68,7 +68,7 @@ class GetterGeneratorTest {
             + "  return birthdate;\n"
             + "}\n"
             + "\n"
-            + "@AssertTrue(\"birthdate is required but it is not present\")\n"
+            + "@AssertTrue(message = \"birthdate is required but it is not present\")\n"
             + "private boolean isBirthdatePresent() {\n"
             + "  return isBirthdatePresent;\n"
             + "}",

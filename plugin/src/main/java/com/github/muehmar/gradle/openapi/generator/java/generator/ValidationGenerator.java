@@ -20,7 +20,8 @@ public class ValidationGenerator {
     return Generator.<PojoMember, PojoSettings>emptyGen()
         .append(
             (field, settings, writer) ->
-                writer.println(String.format("@AssertTrue(\"%s\")", message.apply(field))))
+                writer.println(
+                    String.format("@AssertTrue(message = \"%s\")", message.apply(field))))
         .append(w -> w.ref(JavaValidationRefs.ASSERT_TRUE))
         .filter(Filters.isValidationEnabled());
   }

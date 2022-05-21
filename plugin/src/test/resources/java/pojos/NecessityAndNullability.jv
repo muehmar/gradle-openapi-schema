@@ -75,7 +75,7 @@ public class NecessityAndNullabilityDto {
     return requiredNullableStringVal;
   }
 
-  @AssertTrue("requiredNullableStringVal is required but it is not present")
+  @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
   private boolean isRequiredNullableStringValPresent() {
     return isRequiredNullableStringValPresent;
   }
