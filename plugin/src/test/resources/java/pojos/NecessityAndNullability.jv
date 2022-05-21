@@ -178,7 +178,7 @@ public class NecessityAndNullabilityDto {
     return new Builder();
   }
 
-  @JsonPOJOBuilder(withPrefix = "")
+  @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
     private String requiredStringVal;
@@ -208,7 +208,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
-    public Builder setOptional(String optionalStringVal) {
+    public Builder setOptionalStringVal(String optionalStringVal) {
       this.optionalStringVal = optionalStringVal;
       return this;
     }
@@ -216,7 +216,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
-    public Builder setOptional(Optional<String> optionalStringVal) {
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
       this.optionalStringVal = optionalStringVal.orElse(null);
       return this;
     }

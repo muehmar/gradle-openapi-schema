@@ -343,6 +343,9 @@ public class JavaPojoGenerator implements PojoGenerator {
     }
 
     writer.println();
+    if (settings.isJacksonJson()) {
+      writer.tab(1).println("@JsonPOJOBuilder(withPrefix = \"set\")");
+    }
     writer.tab(1).println("public static final class Builder {");
 
     if (settings.isEnableSafeBuilder()) {

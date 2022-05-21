@@ -157,6 +157,7 @@ public class UserDto {
     return new Builder();
   }
 
+  @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
     private long id;
