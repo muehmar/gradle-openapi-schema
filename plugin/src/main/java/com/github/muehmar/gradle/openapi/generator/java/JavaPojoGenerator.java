@@ -415,7 +415,7 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(2).println("}");
 
               // Optional setter
-              if (member.isOptional()) {
+              if (member.isOptional() || member.isRequiredAndNullable()) {
                 writer.println();
                 printJavaDoc(writer, 2, member.getDescription());
                 writer
@@ -428,6 +428,8 @@ public class JavaPojoGenerator implements PojoGenerator {
                   writer.tab(3).println("if (!%s.isPresent()) {", fieldName);
                   writer.tab(4).println("this.is%sNull = true;", fieldName.startUpperCase());
                   writer.tab(3).println("}");
+                } else if (member.isRequiredAndNullable()) {
+                  writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
                 }
                 writer.tab(3).println("return this;");
                 writer.tab(2).println("}");
