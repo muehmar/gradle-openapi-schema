@@ -41,6 +41,9 @@ public class TristateGenerator {
         .append(AnnotationGenerator.override())
         .append(hashCodeMethod())
         .appendNewLine()
+        .append(AnnotationGenerator.override())
+        .append(toStringMethod())
+        .appendNewLine()
         .append(onValueInterface())
         .appendNewLine()
         .append(onNullInterface());
@@ -113,6 +116,15 @@ public class TristateGenerator {
             .println("return Objects.hash(value, isNull);")
             .println("}")
             .ref(JavaRefs.JAVA_UTIL_OBJECTS);
+  }
+
+  private static <B, A> Generator<A, B> toStringMethod() {
+    return (a, b, writer) ->
+        writer
+            .println("public String toString() {")
+            .tab(1)
+            .println("return \"Tristate{\" + \"value=\" + value + \", isNull=\" + isNull + '}';")
+            .println("}");
   }
 
   private static <B, A> Generator<A, B> onValueInterface() {
