@@ -494,6 +494,7 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(3).println("this.builder = builder;");
               writer.tab(2).println("}");
 
+              // Normal setter method
               writer.println();
               printJavaDoc(writer, 2, member.getDescription());
               writer
@@ -507,6 +508,23 @@ public class JavaPojoGenerator implements PojoGenerator {
                       "return new Builder%d(builder.%s(%s));",
                       idx + 1, member.setterName(resolver).asString(), memberName);
               writer.tab(2).println("}");
+
+              // Required nullable method
+              if (member.isRequiredAndNullable()) {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "public Builder%d %s(Optional<%s> %s){",
+                        idx + 1, member.setterName(resolver).asString(), memberType, memberName);
+                writer
+                    .tab(3)
+                    .println(
+                        "return new Builder%d(builder.%s(%s));",
+                        idx + 1, member.setterName(resolver).asString(), memberName);
+                writer.tab(2).println("}");
+              }
 
               writer.tab(1).println("}");
             });
@@ -543,6 +561,7 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(3).println("this.builder = builder;");
               writer.tab(2).println("}");
 
+              // Normal setter
               writer.println();
               printJavaDoc(writer, 2, member.getDescription());
               writer
@@ -557,19 +576,35 @@ public class JavaPojoGenerator implements PojoGenerator {
                       idx + 1, member.setterName(resolver).asString(), memberName);
               writer.tab(2).println("}");
 
-              writer.println();
-              printJavaDoc(writer, 2, member.getDescription());
-              writer
-                  .tab(2)
-                  .println(
-                      "public OptBuilder%d %s(Optional<%s> %s){",
-                      idx + 1, member.setterName(resolver).asString(), memberType, memberName);
-              writer
-                  .tab(3)
-                  .println(
-                      "return new OptBuilder%d(%s.map(builder::%s).orElse(builder));",
-                      idx + 1, memberName, member.setterName(resolver).asString());
-              writer.tab(2).println("}");
+              if (member.isNotNullable()) {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "public OptBuilder%d %s(Optional<%s> %s){",
+                        idx + 1, member.setterName(resolver).asString(), memberType, memberName);
+                writer
+                    .tab(3)
+                    .println(
+                        "return new OptBuilder%d(%s.map(builder::%s).orElse(builder));",
+                        idx + 1, memberName, member.setterName(resolver).asString());
+                writer.tab(2).println("}");
+              } else {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "public OptBuilder%d %s(Tristate<%s> %s){",
+                        idx + 1, member.setterName(resolver).asString(), memberType, memberName);
+                writer
+                    .tab(3)
+                    .println(
+                        "return new OptBuilder%d(builder.%s(%s));",
+                        idx + 1, member.setterName(resolver).asString(), memberName);
+                writer.tab(2).println("}");
+              }
 
               writer.tab(1).println("}");
             });

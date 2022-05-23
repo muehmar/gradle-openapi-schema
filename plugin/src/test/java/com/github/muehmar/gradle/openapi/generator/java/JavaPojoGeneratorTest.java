@@ -338,7 +338,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(
         Pojos.allNecessityAndNullabilityVariants(),
-        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false));
+        TestPojoSettings.defaultSettings().withEnableSafeBuilder(true));
 
     assertEquals(
         Resources.readString("/java/pojos/NecessityAndNullability.jv"), writer.asString().trim());
