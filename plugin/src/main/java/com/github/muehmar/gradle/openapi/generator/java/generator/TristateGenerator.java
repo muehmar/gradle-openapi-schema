@@ -33,6 +33,12 @@ public class TristateGenerator {
         .appendNewLine()
         .append(ofNullableAndNullFlagFactoryMethod())
         .appendNewLine()
+        .append(ofValueFactoryMethod())
+        .appendNewLine()
+        .append(ofAbsentFactoryMethod())
+        .appendNewLine()
+        .append(ofNullFactoryMethod())
+        .appendNewLine()
         .append(onValueMethod())
         .appendNewLine()
         .append(AnnotationGenerator.override())
@@ -76,6 +82,33 @@ public class TristateGenerator {
                 "public static <T> Tristate<T> ofNullableAndNullFlag(T nullableValue, boolean isNull) {")
             .tab(1)
             .println("return new Tristate<>(Optional.ofNullable(nullableValue), isNull);")
+            .println("}");
+  }
+
+  private static <B, A> Generator<A, B> ofValueFactoryMethod() {
+    return (a, b, writer) ->
+        writer
+            .println("public static <T> Tristate<T> ofValue(T value) {")
+            .tab(1)
+            .println("return new Tristate<>(Optional.of(value), false);")
+            .println("}");
+  }
+
+  private static <B, A> Generator<A, B> ofNullFactoryMethod() {
+    return (a, b, writer) ->
+        writer
+            .println("public static <T> Tristate<T> ofNull() {")
+            .tab(1)
+            .println("return new Tristate<>(Optional.empty(), true);")
+            .println("}");
+  }
+
+  private static <B, A> Generator<A, B> ofAbsentFactoryMethod() {
+    return (a, b, writer) ->
+        writer
+            .println("public static <T> Tristate<T> ofAbsent() {")
+            .tab(1)
+            .println("return new Tristate<>(Optional.empty(), false);")
             .println("}");
   }
 
