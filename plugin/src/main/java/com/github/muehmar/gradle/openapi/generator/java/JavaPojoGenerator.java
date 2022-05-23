@@ -415,7 +415,7 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(2).println("}");
 
               // Optional setter
-              if (member.isOptional() || member.isRequiredAndNullable()) {
+              if ((member.isOptional() && !member.isNullable()) || member.isRequiredAndNullable()) {
                 writer.println();
                 printJavaDoc(writer, 2, member.getDescription());
                 writer
@@ -431,6 +431,29 @@ public class JavaPojoGenerator implements PojoGenerator {
                 } else if (member.isRequiredAndNullable()) {
                   writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
                 }
+                writer.tab(3).println("return this;");
+                writer.tab(2).println("}");
+              }
+
+              // Optional nullable setter
+              if (member.isOptionalAndNullable()) {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "%s Builder %s(Tristate<%s> %s) {",
+                        setterModifier, member.setterName(resolver).asString(), type, fieldName);
+                writer
+                    .tab(3)
+                    .println(
+                        "this.%s = %s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);",
+                        fieldName, fieldName);
+                writer
+                    .tab(3)
+                    .println(
+                        "this.is%sNull = %s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);",
+                        fieldName.startUpperCase(), fieldName);
                 writer.tab(3).println("return this;");
                 writer.tab(2).println("}");
               }

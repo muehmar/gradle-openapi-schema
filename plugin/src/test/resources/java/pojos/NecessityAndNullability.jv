@@ -253,11 +253,9 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableStringVal
      */
-    public Builder setOptionalNullableStringVal(Optional<String> optionalNullableStringVal) {
-      this.optionalNullableStringVal = optionalNullableStringVal.orElse(null);
-      if (!optionalNullableStringVal.isPresent()) {
-        this.isOptionalNullableStringValNull = true;
-      }
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
 
