@@ -9,6 +9,10 @@ public class JavaDocGenerator {
 
   private JavaDocGenerator() {}
 
+  public static <A, B> Generator<A, B> ofJavaDocString(String javaDoc) {
+    return (a, b, writer) -> javaDoc().generate(javaDoc, (Void) null, writer);
+  }
+
   public static Generator<String, Void> javaDoc() {
     return Generator.<String, Void>ofWriterFunction(w -> w.println("/**"))
         .append(content())

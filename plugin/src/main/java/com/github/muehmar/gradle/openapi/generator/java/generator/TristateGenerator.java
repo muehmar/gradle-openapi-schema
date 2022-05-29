@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.AnnotationGenerator.override;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.ofJavaDocString;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.FINAL;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
 
@@ -7,8 +10,16 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.impl.gen.ClassGenBuilder;
+import io.github.muehmar.pojoextension.generator.writer.Writer;
 
 public class TristateGenerator {
+  private static final String ON_VALUE_JAVA_DOC =
+      "Registers a {@link java.util.function.Function} which is applied on the value of the property if it was present and non-null.";
+  private static final String ON_NULL_JAVA_DOC =
+      "Registers a {@link java.util.function.Supplier} which is called in case the property was null.";
+  private static final String ON_ABSENT_JAVA_DOC =
+      "Registers a {@link java.util.function.Supplier} which is called in case the property was absent.";
+
   private TristateGenerator() {}
 
   public static <A, B> Generator<A, B> tristateClass() {
@@ -39,20 +50,21 @@ public class TristateGenerator {
         .appendNewLine()
         .append(ofNullFactoryMethod())
         .appendNewLine()
+        .append(ofJavaDocString(ON_VALUE_JAVA_DOC))
         .append(onValueMethod())
         .appendNewLine()
-        .append(AnnotationGenerator.override())
+        .append(override())
         .append(equalsMethod())
         .appendNewLine()
-        .append(AnnotationGenerator.override())
+        .append(override())
         .append(hashCodeMethod())
         .appendNewLine()
-        .append(AnnotationGenerator.override())
+        .append(override())
         .append(toStringMethod())
         .appendNewLine()
-        .append(onValueInterface())
+        .append(onNullInterface())
         .appendNewLine()
-        .append(onNullInterface());
+        .append(onAbsentInterface());
   }
 
   private static <B, A> Generator<A, B> fields() {
@@ -115,7 +127,7 @@ public class TristateGenerator {
   private static <B, A> Generator<A, B> onValueMethod() {
     return (a, b, writer) ->
         writer
-            .println("public <R> OnValue<R> onValue(Function<T, R> onValue) {")
+            .println("public <R> OnNull<R> onValue(Function<T, R> onValue) {")
             .tab(1)
             .println("return onNull ->")
             .tab(2)
@@ -160,20 +172,22 @@ public class TristateGenerator {
             .println("}");
   }
 
-  private static <B, A> Generator<A, B> onValueInterface() {
-    return (a, b, writer) ->
-        writer
-            .println("public interface OnValue<R> {")
-            .tab(1)
-            .println("OnNull<R> onNull(Supplier<R> onNull);")
-            .println("}")
-            .ref(JavaRefs.JAVA_UTIL_SUPPLIER);
-  }
-
   private static <B, A> Generator<A, B> onNullInterface() {
     return (a, b, writer) ->
         writer
             .println("public interface OnNull<R> {")
+            .append(1, javaDoc().generate(ON_NULL_JAVA_DOC, (Void) null, Writer.createDefault()))
+            .tab(1)
+            .println("OnAbsent<R> onNull(Supplier<R> onNull);")
+            .println("}")
+            .ref(JavaRefs.JAVA_UTIL_SUPPLIER);
+  }
+
+  private static <B, A> Generator<A, B> onAbsentInterface() {
+    return (a, b, writer) ->
+        writer
+            .println("public interface OnAbsent<R> {")
+            .append(1, javaDoc().generate(ON_ABSENT_JAVA_DOC, (Void) null, Writer.createDefault()))
             .tab(1)
             .println("R onAbsent(Supplier<R> onAbsent);")
             .println("}")
