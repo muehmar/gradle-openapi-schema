@@ -3,7 +3,7 @@
 
 # Gradle OpenApi Schema Codegen
 
-This is a gradle plugin to generate Java code given an openapi 3.x specification. Unlike other codegen tools, this
+This is a gradle plugin to generate Java code given an openapi 3.0.x specification. Unlike other codegen tools, this
 focuses only on the `#/component/schema` section. It generates immutable classes and special builder classes to support
 a safe way creating instances. The data classes support JSON conversions via jackson.
 
@@ -201,6 +201,42 @@ enumDescriptionExtraction {
 | enabled                      | Boolean   | false   | Enables the extraction of descriptions for enum from the openapi specification.                                                |
 | prefixMatcher                | String    | None    | The prefix which matches the start of the description for the enums.                                                           |
 | failOnIncompleteDescriptions | Boolean   | false   | Either no description or a description for each members of an enum must be present if set, otherwise the generation will fail. |
+
+## Nullability
+
+With version 3.0.x of the OpenAPI specification one can declare a property to be nullable:
+
+```
+type: string
+nullable: true
+```
+
+This plugin supports all possible combination of required/optional and nullable properties for serialisation (and
+deserialisation) and validation. Required properties which are nullable as well as optional properties which are not
+nullable are wrapped into a `java.util.Optional`. Optional properties which are nullable are wrapped into a
+special `Tristate` class to properly model all three states (value present, null or absent).
+
+| Required/Optional | Nullability  | Getter return type | Remark |
+|-------------------|--------------|:-------------------|:-------|
+| Required          | Not Nullable | T                  |        |
+| Required          | Nullable     | Optional\<T>       |        |
+| Optional          | Not Nullable | Optional\<T>       |        |
+| Optional          | Nullable     | Tristate\<T>       |        |
+
+### Tristate class
+
+The special `Tristate` class is used for optional properties which are nullable. The `Tristate` class offers a compiler
+enforced chain of methods to handle all possible cases:
+
+```
+  String result = dto.getOptionalNullableProperty()
+    .onValue(val -> "Value: " + val)
+    .onNull(() -> "Property was null")
+    .onAbsent(() -> "Property was absent");
+```
+
+The `onValue` method accepts a `Function` as argument, which gets the value as input. The `onNull` and `onAbsent`
+methods accepts a `Supplier` which gets executed in case the property was null or absent.
 
 ## Safe Builder
 
