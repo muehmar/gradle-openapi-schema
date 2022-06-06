@@ -13,6 +13,8 @@ import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
+import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -123,6 +125,47 @@ class OptionalNotNullableGetterTest {
             + " * Birthdate\n"
             + " */\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
+            + "  return Optional.ofNullable(birthdate);\n"
+            + "}",
+        writer.asString());
+  }
+
+  @Test
+  void generator_when_suffixForOptionalNotNullable_then_correctOutputAndRefs() {
+    final Generator<PojoMember, PojoSettings> generator = OptionalNotNullableGetter.getter();
+    final PojoMember pojoMember =
+        new PojoMember(
+            Name.of("birthdate"),
+            "Birthdate",
+            JavaTypes.LOCAL_DATE,
+            Necessity.OPTIONAL,
+            Nullability.NOT_NULLABLE);
+
+    final GetterSuffixes getterSuffixes =
+        GetterSuffixesBuilder.create()
+            .requiredSuffix("")
+            .requiredNullableSuffix("")
+            .optionalSuffix("Opt")
+            .optionalNullableSuffix("")
+            .build();
+
+    final Writer writer =
+        generator.generate(
+            pojoMember,
+            TestPojoSettings.defaultSettings()
+                .withJsonSupport(JsonSupport.NONE)
+                .withEnableConstraints(false)
+                .withGetterSuffixes(getterSuffixes),
+            Writer.createDefault());
+
+    assertEquals(2, writer.getRefs().size());
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
+    assertEquals(
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public Optional<LocalDate> getBirthdateOpt() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
             + "}",
         writer.asString());

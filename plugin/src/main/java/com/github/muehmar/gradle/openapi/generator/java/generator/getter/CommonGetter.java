@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
+import java.util.function.BiFunction;
 
 public class CommonGetter {
   private static final Resolver RESOLVER = new JavaResolver();
@@ -21,11 +22,15 @@ public class CommonGetter {
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(f -> String.format("Optional<%s>", f.getTypeName(RESOLVER).asString()))
-        .methodName(f -> f.getterName(RESOLVER).asString())
+        .methodName(getterName())
         .noArguments()
         .content(f -> String.format("return Optional.ofNullable(%s);", f.memberName(RESOLVER)))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
+  }
+
+  public static BiFunction<PojoMember, PojoSettings, String> getterName() {
+    return (field, settings) -> field.getterName(RESOLVER) + settings.suffixForField(field);
   }
 
   public static Generator<PojoMember, PojoSettings> nullableGetterMethod() {

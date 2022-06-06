@@ -9,10 +9,8 @@ import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
-import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
@@ -26,25 +24,13 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.PasswordSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
-import java.util.Collections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class SchemaMapperChainTest {
 
   private static final JavaSchemaMapper CHAIN = SchemaMapperChainFactory.createChain();
-
-  private static final PojoSettings SETTINGS =
-      PojoSettingsBuilder.create()
-          .jsonSupport(JsonSupport.JACKSON)
-          .packageName("com.github.muehmar")
-          .suffix("Dto")
-          .enableSafeBuilder(true)
-          .enableConstraints(true)
-          .classTypeMappings(Collections.emptyList())
-          .formatTypeMappings(Collections.emptyList())
-          .enumDescriptionSettings(EnumDescriptionSettings.enabled("PREFIX__ENUM__", true))
-          .build();
+  private static final PojoSettings SETTINGS = TestPojoSettings.defaultSettings();
 
   @Test
   void mapSchema_when_dateSchema_then_localDateReturned() {

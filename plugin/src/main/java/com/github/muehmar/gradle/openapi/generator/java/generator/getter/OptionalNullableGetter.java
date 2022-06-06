@@ -41,7 +41,7 @@ public class OptionalNullableGetter {
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(f -> String.format("Tristate<%s>", f.getType().getFullName()))
-        .methodName(f -> f.getterName(RESOLVER).asString())
+        .methodName((f, settings) -> f.getterName(RESOLVER) + settings.suffixForField(f))
         .noArguments()
         .content(
             f ->

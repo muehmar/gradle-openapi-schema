@@ -6,6 +6,13 @@ public class TestPojoSettings {
   private TestPojoSettings() {}
 
   public static PojoSettings defaultSettings() {
+    final GetterSuffixes getterSuffixes =
+        GetterSuffixesBuilder.create()
+            .requiredSuffix("")
+            .requiredNullableSuffix("")
+            .optionalSuffix("")
+            .optionalNullableSuffix("")
+            .build();
     return PojoSettingsBuilder.create()
         .jsonSupport(JsonSupport.JACKSON)
         .packageName("com.github.muehmar")
@@ -15,6 +22,7 @@ public class TestPojoSettings {
         .classTypeMappings(Collections.emptyList())
         .formatTypeMappings(Collections.emptyList())
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
+        .getterSuffixes(getterSuffixes)
         .andAllOptionals()
         .build();
   }

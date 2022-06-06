@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.dsl;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder;
@@ -184,6 +185,13 @@ public class SingleSchemaExtension implements Serializable {
             getEnumDescriptionExtension()
                 .map(EnumDescriptionExtension::toEnumDescriptionSettings)
                 .orElse(EnumDescriptionSettings.disabled()))
+        .getterSuffixes(
+            GetterSuffixesBuilder.create()
+                .requiredSuffix("")
+                .requiredNullableSuffix("")
+                .optionalSuffix("")
+                .optionalNullableSuffix("")
+                .build())
         .andAllOptionals()
         .build();
   }

@@ -30,7 +30,7 @@ public class RequiredNotNullableGetter {
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(f -> f.getTypeName(RESOLVER).asString())
-        .methodName(f -> f.getterName(RESOLVER).asString())
+        .methodName((f, settings) -> f.getterName(RESOLVER) + settings.suffixForField(f))
         .noArguments()
         .content(f -> String.format("return %s;", f.memberName(RESOLVER)))
         .build()
