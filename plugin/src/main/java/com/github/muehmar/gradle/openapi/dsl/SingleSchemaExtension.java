@@ -177,12 +177,9 @@ public class SingleSchemaExtension implements Serializable {
         .suffix(getSuffix())
         .enableSafeBuilder(getEnableSafeBuilder())
         .enableConstraints(getEnableValidation())
-        .classTypeMappings(
-            getClassMappings().map(ClassMapping::toSettingsClassMapping).toArrayList())
+        .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(
-            getFormatTypeMappings()
-                .map(FormatTypeMapping::toSettingsFormatTypeMapping)
-                .toArrayList())
+            getFormatTypeMappings().map(FormatTypeMapping::toSettingsFormatTypeMapping))
         .enumDescriptionSettings(
             getEnumDescriptionExtension()
                 .map(EnumDescriptionExtension::toEnumDescriptionSettings)

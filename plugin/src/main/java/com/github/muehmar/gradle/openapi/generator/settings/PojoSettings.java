@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
+import io.github.muehmar.pojoextension.annotations.FieldBuilder;
 import io.github.muehmar.pojoextension.annotations.Getter;
 import io.github.muehmar.pojoextension.annotations.PojoExtension;
 import java.io.Serializable;
@@ -51,5 +52,17 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
 
   public boolean isDisableSafeBuilder() {
     return !isEnableSafeBuilder();
+  }
+
+  @FieldBuilder(fieldName = "classTypeMappings")
+  public static List<ClassTypeMapping> classTypeMappings(
+      PList<ClassTypeMapping> classTypeMappings) {
+    return classTypeMappings.toArrayList();
+  }
+
+  @FieldBuilder(fieldName = "formatTypeMappings")
+  public static List<FormatTypeMapping> formatTypeMappings(
+      PList<FormatTypeMapping> formatTypeMappings) {
+    return formatTypeMappings.toArrayList();
   }
 }
