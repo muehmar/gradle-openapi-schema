@@ -98,7 +98,7 @@ class OptionalNullableGetterTest {
             + "}\n"
             + "\n"
             + "@Pattern(regexp=\"DatePattern\")\n"
-            + "private LocalDate getBirthdateNullable() {\n"
+            + "private LocalDate getBirthdateForReflection() {\n"
             + "  return birthdate;\n"
             + "}",
         writer.asString());

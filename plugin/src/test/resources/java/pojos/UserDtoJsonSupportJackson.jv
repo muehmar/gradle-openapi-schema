@@ -104,7 +104,7 @@ public class UserDto {
 
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LanguageEnum getLanguageNullable() {
+  private LanguageEnum getLanguageForReflection() {
     return language;
   }
 

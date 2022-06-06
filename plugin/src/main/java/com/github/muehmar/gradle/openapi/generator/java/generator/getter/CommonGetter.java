@@ -33,12 +33,12 @@ public class CommonGetter {
     return (field, settings) -> field.getterName(RESOLVER) + settings.suffixForField(field);
   }
 
-  public static Generator<PojoMember, PojoSettings> nullableGetterMethod() {
+  public static Generator<PojoMember, PojoSettings> nullableGetterMethodForReflection() {
     return MethodGenBuilder.<PojoMember, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType(f -> f.getTypeName(RESOLVER).asString())
-        .methodName(f -> f.getterName(RESOLVER).asString() + "Nullable")
+        .methodName(f -> f.getterName(RESOLVER).asString() + "ForReflection")
         .noArguments()
         .content(f -> String.format("return %s;", f.memberName(RESOLVER)))
         .build();

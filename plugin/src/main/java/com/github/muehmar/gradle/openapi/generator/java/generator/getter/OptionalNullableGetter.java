@@ -5,7 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters
 import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters.isValidationEnabled;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethodForReflection;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonProperty;
@@ -83,7 +83,7 @@ public class OptionalNullableGetter {
     return Generator.<PojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(validationAnnotations())
-        .append(nullableGetterMethod())
+        .append(nullableGetterMethodForReflection())
         .filter(isValidationEnabled());
   }
 }

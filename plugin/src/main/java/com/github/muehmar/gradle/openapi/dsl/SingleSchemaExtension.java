@@ -12,10 +12,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import javax.inject.Inject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Project;
 
+@EqualsAndHashCode
+@ToString
 public class SingleSchemaExtension implements Serializable {
   private static final String DEFAULT_SOURCE_SET = "main";
 
@@ -25,6 +29,7 @@ public class SingleSchemaExtension implements Serializable {
   private String inputSpec;
   private String outputDir;
   private String suffix;
+  private GetterSuffixes getterSuffixes;
   private String packageName;
   private String jsonSupport;
   private Boolean enableSafeBuilder;
@@ -38,6 +43,7 @@ public class SingleSchemaExtension implements Serializable {
     this.name = name;
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
+    this.getterSuffixes = GetterSuffixes.allUndefined();
   }
 
   public String getName() {
@@ -75,6 +81,14 @@ public class SingleSchemaExtension implements Serializable {
 
   public String getSuffix() {
     return Optional.ofNullable(suffix).orElse("");
+  }
+
+  public void getterSuffixes(Action<GetterSuffixes> action) {
+    action.execute(getterSuffixes);
+  }
+
+  public GetterSuffixes getGetterSuffixes() {
+    return getterSuffixes;
   }
 
   public void setSuffix(String suffix) {
@@ -171,7 +185,21 @@ public class SingleSchemaExtension implements Serializable {
     return this;
   }
 
+  public SingleSchemaExtension withCommonGetterSuffixes(GetterSuffixes commonSuffixes) {
+    this.getterSuffixes = getterSuffixes.withCommonSuffixes(commonSuffixes);
+    return this;
+  }
+
   public PojoSettings toPojoSettings(Project project) {
+    final com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes
+        settingsGetterSuffixes =
+            GetterSuffixesBuilder.create()
+                .requiredSuffix(getterSuffixes.getRequiredSuffixOrDefault())
+                .requiredNullableSuffix(getterSuffixes.getRequiredNullableSuffixOrDefault())
+                .optionalSuffix(getterSuffixes.getOptionalSuffixOrDefault())
+                .optionalNullableSuffix(getterSuffixes.getOptionalNullableSuffixOrDefault())
+                .build();
+
     return PojoSettingsBuilder.create()
         .jsonSupport(getJsonSupport())
         .packageName(getPackageName(project))
@@ -185,51 +213,8 @@ public class SingleSchemaExtension implements Serializable {
             getEnumDescriptionExtension()
                 .map(EnumDescriptionExtension::toEnumDescriptionSettings)
                 .orElse(EnumDescriptionSettings.disabled()))
-        .getterSuffixes(
-            GetterSuffixesBuilder.create()
-                .requiredSuffix("")
-                .requiredNullableSuffix("")
-                .optionalSuffix("")
-                .optionalNullableSuffix("")
-                .build())
+        .getterSuffixes(settingsGetterSuffixes)
         .andAllOptionals()
         .build();
-  }
-
-  @Override
-  public String toString() {
-    return "SchemaGenExtension{"
-        + "name='"
-        + name
-        + '\''
-        + ", sourceSet='"
-        + sourceSet
-        + '\''
-        + ", inputSpec='"
-        + inputSpec
-        + '\''
-        + ", outputDir='"
-        + outputDir
-        + '\''
-        + ", suffix='"
-        + suffix
-        + '\''
-        + ", packageName='"
-        + packageName
-        + '\''
-        + ", jsonSupport='"
-        + jsonSupport
-        + '\''
-        + ", enableSafeBuilder="
-        + enableSafeBuilder
-        + ", enableValidation="
-        + enableValidation
-        + ", enumDescriptionExtension="
-        + enumDescriptionExtension
-        + ", classMappingsList="
-        + classMappings
-        + ", formatTypeMappings="
-        + formatTypeMappings
-        + '}';
   }
 }

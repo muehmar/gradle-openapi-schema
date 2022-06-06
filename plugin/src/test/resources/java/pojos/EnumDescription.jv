@@ -86,7 +86,7 @@ public class UserDto {
     return Optional.ofNullable(language);
   }
 
-  private LanguageEnum getLanguageNullable() {
+  private LanguageEnum getLanguageForReflection() {
     return language;
   }
 

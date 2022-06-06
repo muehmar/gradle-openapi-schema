@@ -55,7 +55,7 @@ class OptionalNotNullableGetterTest {
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
             + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private LocalDate getBirthdateNullable() {\n"
+            + "private LocalDate getBirthdateForReflection() {\n"
             + "  return birthdate;\n"
             + "}",
         writer.asString());
@@ -92,7 +92,7 @@ class OptionalNotNullableGetterTest {
             + "}\n"
             + "\n"
             + "@Pattern(regexp=\"DatePattern\")\n"
-            + "private LocalDate getBirthdateNullable() {\n"
+            + "private LocalDate getBirthdateForReflection() {\n"
             + "  return birthdate;\n"
             + "}",
         writer.asString());

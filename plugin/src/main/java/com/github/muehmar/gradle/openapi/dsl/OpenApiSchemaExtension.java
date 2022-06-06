@@ -5,25 +5,28 @@ import groovy.lang.Closure;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import javax.inject.Inject;
+import lombok.EqualsAndHashCode;
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.model.ObjectFactory;
 
+@EqualsAndHashCode
 public class OpenApiSchemaExtension implements Serializable {
   private final NamedDomainObjectContainer<SingleSchemaExtension> schemaExtensions;
 
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
+  private final GetterSuffixes getterSuffixes;
 
   @Inject
   public OpenApiSchemaExtension(ObjectFactory objectFactory) {
     this.schemaExtensions = objectFactory.domainObjectContainer(SingleSchemaExtension.class);
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
+    this.getterSuffixes = GetterSuffixes.allUndefined();
   }
 
   public void schemas(Closure<SingleSchemaExtension> closure) {
@@ -47,6 +50,10 @@ public class OpenApiSchemaExtension implements Serializable {
     action.execute(enumDescriptionExtension);
   }
 
+  public void getterSuffixes(Action<GetterSuffixes> action) {
+    action.execute(getterSuffixes);
+  }
+
   private Optional<EnumDescriptionExtension> getCommonEnumDescription() {
     return Optional.ofNullable(enumDescriptionExtension);
   }
@@ -59,34 +66,22 @@ public class OpenApiSchemaExtension implements Serializable {
     return PList.fromIter(formatTypeMappings);
   }
 
+  public GetterSuffixes getCommonGetterSuffixes() {
+    return getterSuffixes;
+  }
+
   public PList<SingleSchemaExtension> getSchemaExtensions() {
     return PList.fromIter(schemaExtensions)
         .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
         .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
-        .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()));
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    OpenApiSchemaExtension that = (OpenApiSchemaExtension) o;
-    return Objects.equals(schemaExtensions, that.schemaExtensions)
-        && Objects.equals(enumDescriptionExtension, that.enumDescriptionExtension)
-        && Objects.equals(classMappings, that.classMappings)
-        && Objects.equals(formatTypeMappings, that.formatTypeMappings);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        schemaExtensions, enumDescriptionExtension, classMappings, formatTypeMappings);
+        .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()))
+        .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()));
   }
 
   @Override
   public String toString() {
-    return "OpenApiSchemaGenExtension{"
-        + "schemaGenExtensions="
+    return "OpenApiSchemaExtension{"
+        + "schemaExtensions="
         + PList.fromIter(schemaExtensions)
         + ", enumDescriptionExtension="
         + enumDescriptionExtension
@@ -94,6 +89,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + classMappings
         + ", formatTypeMappings="
         + formatTypeMappings
+        + ", getterSuffixes="
+        + getterSuffixes
         + '}';
   }
 }
