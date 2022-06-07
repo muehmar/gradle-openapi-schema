@@ -19,6 +19,8 @@ public class TristateGenerator {
       "Registers a {@link java.util.function.Supplier} which is called in case the property was null.";
   private static final String ON_ABSENT_JAVA_DOC =
       "Registers a {@link java.util.function.Supplier} which is called in case the property was absent.";
+  private static final String MAP_METHOD_JAVA_DOC =
+      "Returns a Tristate class whose value is mapped with the given function.";
 
   private TristateGenerator() {}
 
@@ -41,6 +43,9 @@ public class TristateGenerator {
         .append(fields())
         .appendNewLine()
         .append(constructor())
+        .appendNewLine()
+        .append(ofJavaDocString(MAP_METHOD_JAVA_DOC))
+        .append(mapMethod())
         .appendNewLine()
         .append(ofNullableAndNullFlagFactoryMethod())
         .appendNewLine()
@@ -85,6 +90,15 @@ public class TristateGenerator {
             .println("this.isNull = isNull;")
             .println("}")
             .ref(JavaRefs.JAVA_UTIL_OPTIONAL);
+  }
+
+  private static <A, B> Generator<A, B> mapMethod() {
+    return (a, b, writer) ->
+        writer
+            .println("public <R> Tristate<R> map(Function<T, R> f) {")
+            .tab(1)
+            .println("return new Tristate<>(value.map(f), isNull);")
+            .println("}");
   }
 
   private static <B, A> Generator<A, B> ofNullableAndNullFlagFactoryMethod() {
