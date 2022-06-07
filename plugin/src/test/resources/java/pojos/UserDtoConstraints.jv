@@ -116,6 +116,13 @@ public class UserDto {
     return Optional.ofNullable(level);
   }
 
+  /**
+   * Level of this user
+   */
+  public Long getLevelOr(Long defaultValue) {
+    return level == null ? defaultValue : level;
+  }
+
   @Min(value = 5)
   private Long getLevelForReflection() {
     return level;
@@ -128,6 +135,13 @@ public class UserDto {
     return Optional.ofNullable(uppercase);
   }
 
+  /**
+   * Something uppercase
+   */
+  public String getUppercaseOr(String defaultValue) {
+    return uppercase == null ? defaultValue : uppercase;
+  }
+
   @Pattern(regexp="^(\\d[A-Z]*)")
   private String getUppercaseForReflection() {
     return uppercase;
@@ -138,6 +152,13 @@ public class UserDto {
    */
   public Optional<AnotherPojo> getAnotherPojo() {
     return Optional.ofNullable(anotherPojo);
+  }
+
+  /**
+   * Another Pojo
+   */
+  public AnotherPojo getAnotherPojoOr(AnotherPojo defaultValue) {
+    return anotherPojo == null ? defaultValue : anotherPojo;
   }
 
   @Valid

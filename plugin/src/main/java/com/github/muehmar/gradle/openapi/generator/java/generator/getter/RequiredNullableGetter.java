@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.Validat
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethodForReflection;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterOrMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PRIVATE;
@@ -30,12 +31,26 @@ public class RequiredNullableGetter {
         Filters.<PojoMember>isJacksonJson().or(Filters.isValidationEnabled());
 
     return Generator.<PojoMember, PojoSettings>emptyGen()
-        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
-        .append(jsonIgnore())
-        .append(wrapNullableInOptionalGetterMethod())
+        .append(standardGetter())
+        .append(alternateGetter())
         .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))
         .append(requiredValidationMethodWithAnnotation())
         .append(RefsGenerator.fieldRefs());
+  }
+
+  private static Generator<PojoMember, PojoSettings> standardGetter() {
+    return Generator.<PojoMember, PojoSettings>emptyGen()
+        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
+        .append(jsonIgnore())
+        .append(wrapNullableInOptionalGetterMethod());
+  }
+
+  private static Generator<PojoMember, PojoSettings> alternateGetter() {
+    return Generator.<PojoMember, PojoSettings>emptyGen()
+        .appendNewLine()
+        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
+        .append(jsonIgnore())
+        .append(wrapNullableInOptionalGetterOrMethod());
   }
 
   private static Generator<PojoMember, PojoSettings> nullableGetterMethodWithAnnotations(

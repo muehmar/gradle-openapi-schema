@@ -69,6 +69,14 @@ public class NecessityAndNullabilityDto {
     return Optional.ofNullable(requiredNullableStringVal);
   }
 
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
+  public String getRequiredNullableStringValOr(String defaultValue) {
+    return requiredNullableStringVal == null ? defaultValue : requiredNullableStringVal;
+  }
+
   @Pattern(regexp="Hello")
   @JsonProperty("requiredNullableStringVal")
   private String getRequiredNullableStringValForReflection() {
@@ -86,6 +94,14 @@ public class NecessityAndNullabilityDto {
   @JsonIgnore
   public Optional<String> getOptionalStringVal() {
     return Optional.ofNullable(optionalStringVal);
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
+  public String getOptionalStringValOr(String defaultValue) {
+    return optionalStringVal == null ? defaultValue : optionalStringVal;
   }
 
   @JsonProperty("optionalStringVal")

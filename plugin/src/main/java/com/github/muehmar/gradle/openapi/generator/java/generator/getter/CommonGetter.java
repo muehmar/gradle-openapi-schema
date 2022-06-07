@@ -29,6 +29,22 @@ public class CommonGetter {
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
 
+  public static Generator<PojoMember, PojoSettings> wrapNullableInOptionalGetterOrMethod() {
+    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+        .modifiers(PUBLIC)
+        .noGenericTypes()
+        .returnType(f -> f.getTypeName(RESOLVER).asString())
+        .methodName(f -> String.format("%sOr", f.getterName(RESOLVER)))
+        .singleArgument(f -> String.format("%s defaultValue", f.getTypeName(RESOLVER).asString()))
+        .content(
+            f ->
+                String.format(
+                    "return %s == null ? defaultValue : %s;",
+                    f.memberName(RESOLVER), f.memberName(RESOLVER)))
+        .build()
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
+  }
+
   public static BiFunction<PojoMember, PojoSettings, String> getterName() {
     return (field, settings) -> field.getterName(RESOLVER) + settings.suffixForField(field);
   }

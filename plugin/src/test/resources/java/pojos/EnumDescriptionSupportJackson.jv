@@ -100,6 +100,16 @@ public class UserDto {
     return Optional.ofNullable(language);
   }
 
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  @JsonIgnore
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LanguageEnum getLanguageForReflection() {

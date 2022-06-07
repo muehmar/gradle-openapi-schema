@@ -90,6 +90,13 @@ public class UserDto {
   }
 
   /**
+   * Preferred language of this user
+   */
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(long id) {

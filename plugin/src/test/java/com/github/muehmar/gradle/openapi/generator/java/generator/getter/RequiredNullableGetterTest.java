@@ -36,7 +36,7 @@ class RequiredNullableGetterTest {
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertEquals(5, writer.getRefs().size());
+    assertEquals(5, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
@@ -49,6 +49,14 @@ class RequiredNullableGetterTest {
             + "@JsonIgnore\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
+            + "}\n"
+            + "\n"
+            + "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
+            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
+            + "  return birthdate == null ? defaultValue : birthdate;\n"
             + "}\n"
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
@@ -81,7 +89,7 @@ class RequiredNullableGetterTest {
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
-    assertEquals(4, writer.getRefs().size());
+    assertEquals(4, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertTrue(writer.getRefs().exists(JavaValidationRefs.ASSERT_TRUE::equals));
@@ -92,6 +100,13 @@ class RequiredNullableGetterTest {
             + " */\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
+            + "}\n"
+            + "\n"
+            + "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
+            + "  return birthdate == null ? defaultValue : birthdate;\n"
             + "}\n"
             + "\n"
             + "@Pattern(regexp=\"DatePattern\")\n"
@@ -125,7 +140,7 @@ class RequiredNullableGetterTest {
                 .withEnableConstraints(false),
             Writer.createDefault());
 
-    assertEquals(2, writer.getRefs().size());
+    assertEquals(2, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertEquals(
@@ -134,6 +149,13 @@ class RequiredNullableGetterTest {
             + " */\n"
             + "public Optional<LocalDate> getBirthdate() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
+            + "}\n"
+            + "\n"
+            + "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
+            + "  return birthdate == null ? defaultValue : birthdate;\n"
             + "}",
         writer.asString());
   }
@@ -166,7 +188,7 @@ class RequiredNullableGetterTest {
                 .withGetterSuffixes(getterSuffixes),
             Writer.createDefault());
 
-    assertEquals(2, writer.getRefs().size());
+    assertEquals(2, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertEquals(
@@ -175,6 +197,13 @@ class RequiredNullableGetterTest {
             + " */\n"
             + "public Optional<LocalDate> getBirthdateReqNull() {\n"
             + "  return Optional.ofNullable(birthdate);\n"
+            + "}\n"
+            + "\n"
+            + "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
+            + "  return birthdate == null ? defaultValue : birthdate;\n"
             + "}",
         writer.asString());
   }

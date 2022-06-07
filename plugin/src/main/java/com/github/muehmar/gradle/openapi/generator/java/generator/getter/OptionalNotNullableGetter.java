@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDoc
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethodForReflection;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterOrMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonProperty;
@@ -22,6 +23,7 @@ public class OptionalNotNullableGetter {
   public static Generator<PojoMember, PojoSettings> getter() {
     return Generator.<PojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
+        .append(alternateGetter())
         .append(jacksonOrValidationGetter())
         .append(RefsGenerator.fieldRefs());
   }
@@ -31,6 +33,14 @@ public class OptionalNotNullableGetter {
         .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
         .append(jsonIgnore())
         .append(wrapNullableInOptionalGetterMethod());
+  }
+
+  private static Generator<PojoMember, PojoSettings> alternateGetter() {
+    return Generator.<PojoMember, PojoSettings>emptyGen()
+        .appendNewLine()
+        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
+        .append(jsonIgnore())
+        .append(wrapNullableInOptionalGetterOrMethod());
   }
 
   private static Generator<PojoMember, PojoSettings> jacksonOrValidationGetter() {
