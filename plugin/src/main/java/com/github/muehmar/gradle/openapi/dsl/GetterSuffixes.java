@@ -11,8 +11,8 @@ import lombok.Data;
 public class GetterSuffixes implements Serializable, GetterSuffixesExtension {
   private static final String DEFAULT_REQUIRED = "";
   private static final String DEFAULT_OPTIONAL = "Opt";
-  private static final String DEFAULT_REQUIRED_NULLABLE = "Nullable";
-  private static final String DEFAULT_OPTIONAL_NULLABLE = "OptNullable";
+  private static final String DEFAULT_REQUIRED_NULLABLE = "Opt";
+  private static final String DEFAULT_OPTIONAL_NULLABLE = "Tristate";
 
   @Nullable private String requiredSuffix;
   @Nullable private String requiredNullableSuffix;

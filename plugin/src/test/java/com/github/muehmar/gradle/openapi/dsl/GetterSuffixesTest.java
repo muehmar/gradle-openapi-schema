@@ -93,7 +93,7 @@ class GetterSuffixesTest {
   void withCommonSuffixes_when_onlyOptionalNullableCommonSuffix_then_commonSuffixUsed() {
     final GetterSuffixes getterSuffixes = GetterSuffixes.allUndefined();
     final GetterSuffixes commonSuffixes =
-        GetterSuffixes.allUndefined().withOptionalNullableSuffix("OptNull");
+        GetterSuffixes.allUndefined().withOptionalNullableSuffix("Tristate");
 
     final GetterSuffixes deviatedSuffixes = getterSuffixes.withCommonSuffixes(commonSuffixes);
 
@@ -107,9 +107,9 @@ class GetterSuffixesTest {
   @Test
   void withCommonSuffixes_when_specificOptionalNullableSuffixDefined_then_specificSuffixUsed() {
     final GetterSuffixes getterSuffixes =
-        GetterSuffixes.allUndefined().withOptionalNullableSuffix("OptNull1");
+        GetterSuffixes.allUndefined().withOptionalNullableSuffix("Tristate1");
     final GetterSuffixes commonSuffixes =
-        GetterSuffixes.allUndefined().withOptionalNullableSuffix("OptNull2");
+        GetterSuffixes.allUndefined().withOptionalNullableSuffix("Tristate2");
 
     final GetterSuffixes deviatedSuffixes = getterSuffixes.withCommonSuffixes(commonSuffixes);
 
@@ -124,8 +124,8 @@ class GetterSuffixesTest {
   void getSuffixOrDefault_when_uninitialized_then_returnDefaultSuffixes() {
     final GetterSuffixes getterSuffixes = GetterSuffixes.allUndefined();
     assertEquals("", getterSuffixes.getRequiredSuffixOrDefault());
-    assertEquals("Nullable", getterSuffixes.getRequiredNullableSuffixOrDefault());
+    assertEquals("Opt", getterSuffixes.getRequiredNullableSuffixOrDefault());
     assertEquals("Opt", getterSuffixes.getOptionalSuffixOrDefault());
-    assertEquals("OptNullable", getterSuffixes.getOptionalNullableSuffixOrDefault());
+    assertEquals("Tristate", getterSuffixes.getOptionalNullableSuffixOrDefault());
   }
 }
