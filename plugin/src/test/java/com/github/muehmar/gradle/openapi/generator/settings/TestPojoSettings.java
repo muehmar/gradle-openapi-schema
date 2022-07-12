@@ -13,6 +13,13 @@ public class TestPojoSettings {
             .optionalSuffix("")
             .optionalNullableSuffix("")
             .build();
+    final ValidationGetter validationGetter =
+        ValidationGetterBuilder.create()
+            .modifier(JavaModifier.PRIVATE)
+            .suffix("")
+            .deprecatedAnnotation(false)
+            .andAllOptionals()
+            .build();
     return PojoSettingsBuilder.create()
         .jsonSupport(JsonSupport.JACKSON)
         .packageName("com.github.muehmar")
@@ -23,6 +30,7 @@ public class TestPojoSettings {
         .formatTypeMappings(Collections.emptyList())
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
         .getterSuffixes(getterSuffixes)
+        .validationGetter(validationGetter)
         .andAllOptionals()
         .build();
   }

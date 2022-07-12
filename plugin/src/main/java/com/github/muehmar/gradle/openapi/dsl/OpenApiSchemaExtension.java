@@ -20,6 +20,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
   private final GetterSuffixes getterSuffixes;
+  private final ValidationGetter validationGetter;
 
   @Inject
   public OpenApiSchemaExtension(ObjectFactory objectFactory) {
@@ -27,6 +28,7 @@ public class OpenApiSchemaExtension implements Serializable {
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
+    this.validationGetter = ValidationGetter.allUndefined();
   }
 
   public void schemas(Closure<SingleSchemaExtension> closure) {
@@ -54,6 +56,10 @@ public class OpenApiSchemaExtension implements Serializable {
     action.execute(getterSuffixes);
   }
 
+  public void validationGetter(Action<ValidationGetter> action) {
+    action.execute(validationGetter);
+  }
+
   private Optional<EnumDescriptionExtension> getCommonEnumDescription() {
     return Optional.ofNullable(enumDescriptionExtension);
   }
@@ -70,12 +76,17 @@ public class OpenApiSchemaExtension implements Serializable {
     return getterSuffixes;
   }
 
+  public ValidationGetter getCommonValidationGetter() {
+    return validationGetter;
+  }
+
   public PList<SingleSchemaExtension> getSchemaExtensions() {
     return PList.fromIter(schemaExtensions)
         .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
         .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
         .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()))
-        .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()));
+        .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()))
+        .map(ext -> ext.withCommonValidationGetter(getCommonValidationGetter()));
   }
 
   @Override
@@ -91,6 +102,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + formatTypeMappings
         + ", getterSuffixes="
         + getterSuffixes
+        + ", validationGetter="
+        + validationGetter
         + '}';
   }
 }
