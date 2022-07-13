@@ -1,10 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.AnnotationGenerator.deprecatedValidationGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters.isValidationEnabled;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethodForReflection;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethodForValidation;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterOrMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
@@ -49,7 +50,8 @@ public class OptionalNotNullableGetter {
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
         .append(validationAnnotations())
-        .append(nullableGetterMethodForReflection())
+        .append(deprecatedValidationGetter())
+        .append(nullableGetterMethodForValidation())
         .filter(Filters.<PojoMember>isJacksonJson().or(isValidationEnabled()));
   }
 }

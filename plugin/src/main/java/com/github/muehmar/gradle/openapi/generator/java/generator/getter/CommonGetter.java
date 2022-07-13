@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
-import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PRIVATE;
 import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.Resolver;
@@ -49,12 +48,12 @@ public class CommonGetter {
     return (field, settings) -> field.getterName(RESOLVER) + settings.suffixForField(field);
   }
 
-  public static Generator<PojoMember, PojoSettings> nullableGetterMethodForReflection() {
+  public static Generator<PojoMember, PojoSettings> nullableGetterMethodForValidation() {
     return MethodGenBuilder.<PojoMember, PojoSettings>create()
-        .modifiers(PRIVATE)
+        .createModifiers((f, s) -> s.getValidationGetter().getModifier().asJavaModifiers())
         .noGenericTypes()
         .returnType(f -> f.getTypeName(RESOLVER).asString())
-        .methodName(f -> f.getterName(RESOLVER).asString() + "ForReflection")
+        .methodName((f, s) -> f.getterName(RESOLVER) + s.getValidationGetter().getSuffix())
         .noArguments()
         .content(f -> String.format("return %s;", f.memberName(RESOLVER)))
         .build();

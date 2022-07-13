@@ -15,9 +15,11 @@ import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationGetter;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 import java.util.function.Function;
@@ -141,6 +143,52 @@ class OptionalNullableGetterTest {
             + " */\n"
             + "public Tristate<LocalDate> getBirthdateOptNull() {\n"
             + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
+            + "}",
+        writer.asString());
+  }
+
+  @Test
+  void generator_when_deprecatedAnnotation_then_correctOutputAndRefs() {
+    final Generator<PojoMember, PojoSettings> generator = OptionalNullableGetter.getter();
+    final PojoMember pojoMember =
+        new PojoMember(
+            Name.of("birthdate"),
+            "Birthdate",
+            JavaTypes.LOCAL_DATE,
+            Necessity.OPTIONAL,
+            Nullability.NULLABLE);
+
+    final ValidationGetter validationGetter =
+        TestPojoSettings.defaultValidationGetter()
+            .withDeprecatedAnnotation(true)
+            .withModifier(JavaModifier.PUBLIC);
+
+    final Writer writer =
+        generator.generate(
+            pojoMember,
+            TestPojoSettings.defaultSettings()
+                .withJsonSupport(JsonSupport.JACKSON)
+                .withValidationGetter(validationGetter),
+            Writer.createDefault());
+
+    assertEquals(
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
+            + "public Tristate<LocalDate> getBirthdate() {\n"
+            + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
+            + "}\n"
+            + "\n"
+            + "@JsonProperty(\"birthdate\")\n"
+            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
+            + "private Object getBirthdateJackson() {\n"
+            + "  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
+            + "}\n"
+            + "\n"
+            + "@Deprecated\n"
+            + "public LocalDate getBirthdateForReflection() {\n"
+            + "  return birthdate;\n"
             + "}",
         writer.asString());
   }

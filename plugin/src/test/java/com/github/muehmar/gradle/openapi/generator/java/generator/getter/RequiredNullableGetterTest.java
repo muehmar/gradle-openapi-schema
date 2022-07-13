@@ -14,9 +14,11 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationGetter;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -204,6 +206,61 @@ class RequiredNullableGetterTest {
             + " */\n"
             + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
             + "  return birthdate == null ? defaultValue : birthdate;\n"
+            + "}",
+        writer.asString());
+  }
+
+  @Test
+  void generator_when_deprecatedAnnotation_then_correctOutputAndRefs() {
+    final Generator<PojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final PojoMember pojoMember =
+        new PojoMember(
+            Name.of("birthdate"),
+            "Birthdate",
+            JavaTypes.LOCAL_DATE,
+            Necessity.REQUIRED,
+            Nullability.NULLABLE);
+
+    final ValidationGetter validationGetter =
+        TestPojoSettings.defaultValidationGetter()
+            .withDeprecatedAnnotation(true)
+            .withModifier(JavaModifier.PUBLIC);
+
+    final Writer writer =
+        generator.generate(
+            pojoMember,
+            TestPojoSettings.defaultSettings()
+                .withJsonSupport(JsonSupport.JACKSON)
+                .withValidationGetter(validationGetter),
+            Writer.createDefault());
+
+    assertEquals(
+        "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
+            + "public Optional<LocalDate> getBirthdate() {\n"
+            + "  return Optional.ofNullable(birthdate);\n"
+            + "}\n"
+            + "\n"
+            + "/**\n"
+            + " * Birthdate\n"
+            + " */\n"
+            + "@JsonIgnore\n"
+            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
+            + "  return birthdate == null ? defaultValue : birthdate;\n"
+            + "}\n"
+            + "\n"
+            + "@JsonProperty(\"birthdate\")\n"
+            + "@Deprecated\n"
+            + "public LocalDate getBirthdateForReflection() {\n"
+            + "  return birthdate;\n"
+            + "}\n"
+            + "\n"
+            + "@AssertTrue(message = \"birthdate is required but it is not present\")\n"
+            + "@Deprecated\n"
+            + "public boolean isBirthdatePresent() {\n"
+            + "  return isBirthdatePresent;\n"
             + "}",
         writer.asString());
   }

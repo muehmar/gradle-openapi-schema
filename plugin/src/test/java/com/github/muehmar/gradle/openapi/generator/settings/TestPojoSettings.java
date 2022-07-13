@@ -6,20 +6,6 @@ public class TestPojoSettings {
   private TestPojoSettings() {}
 
   public static PojoSettings defaultSettings() {
-    final GetterSuffixes getterSuffixes =
-        GetterSuffixesBuilder.create()
-            .requiredSuffix("")
-            .requiredNullableSuffix("")
-            .optionalSuffix("")
-            .optionalNullableSuffix("")
-            .build();
-    final ValidationGetter validationGetter =
-        ValidationGetterBuilder.create()
-            .modifier(JavaModifier.PRIVATE)
-            .suffix("")
-            .deprecatedAnnotation(false)
-            .andAllOptionals()
-            .build();
     return PojoSettingsBuilder.create()
         .jsonSupport(JsonSupport.JACKSON)
         .packageName("com.github.muehmar")
@@ -29,8 +15,26 @@ public class TestPojoSettings {
         .classTypeMappings(Collections.emptyList())
         .formatTypeMappings(Collections.emptyList())
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
-        .getterSuffixes(getterSuffixes)
-        .validationGetter(validationGetter)
+        .getterSuffixes(defaultGetterSuffixes())
+        .validationGetter(defaultValidationGetter())
+        .andAllOptionals()
+        .build();
+  }
+
+  public static GetterSuffixes defaultGetterSuffixes() {
+    return GetterSuffixesBuilder.create()
+        .requiredSuffix("")
+        .requiredNullableSuffix("")
+        .optionalSuffix("")
+        .optionalNullableSuffix("")
+        .build();
+  }
+
+  public static ValidationGetter defaultValidationGetter() {
+    return ValidationGetterBuilder.create()
+        .modifier(JavaModifier.PRIVATE)
+        .suffix("ForReflection")
+        .deprecatedAnnotation(false)
         .andAllOptionals()
         .build();
   }
