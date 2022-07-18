@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.AnnotationGenerator.deprecatedValidationGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.AnnotationGenerator.deprecatedRawGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters.isValidationEnabled;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.nullableGetterMethodForValidation;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.rawGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterOrMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
@@ -25,7 +25,7 @@ public class OptionalNotNullableGetter {
     return Generator.<PojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
         .append(alternateGetter())
-        .append(jacksonOrValidationGetter())
+        .append(rawGetter())
         .append(RefsGenerator.fieldRefs());
   }
 
@@ -44,14 +44,14 @@ public class OptionalNotNullableGetter {
         .append(wrapNullableInOptionalGetterOrMethod());
   }
 
-  private static Generator<PojoMember, PojoSettings> jacksonOrValidationGetter() {
+  private static Generator<PojoMember, PojoSettings> rawGetter() {
     return Generator.<PojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
         .append(validationAnnotations())
-        .append(deprecatedValidationGetter())
-        .append(nullableGetterMethodForValidation())
+        .append(deprecatedRawGetter())
+        .append(rawGetterMethod())
         .filter(Filters.<PojoMember>isJacksonJson().or(isValidationEnabled()));
   }
 }

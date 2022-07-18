@@ -16,7 +16,7 @@ public class TestPojoSettings {
         .formatTypeMappings(Collections.emptyList())
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
         .getterSuffixes(defaultGetterSuffixes())
-        .validationGetter(defaultValidationGetter())
+        .rawGetter(defaultRawGetter())
         .andAllOptionals()
         .build();
   }
@@ -30,10 +30,10 @@ public class TestPojoSettings {
         .build();
   }
 
-  public static ValidationGetter defaultValidationGetter() {
-    return ValidationGetterBuilder.create()
+  public static RawGetter defaultRawGetter() {
+    return RawGetterBuilder.create()
         .modifier(JavaModifier.PRIVATE)
-        .suffix("ForReflection")
+        .suffix("Raw")
         .deprecatedAnnotation(false)
         .andAllOptionals()
         .build();

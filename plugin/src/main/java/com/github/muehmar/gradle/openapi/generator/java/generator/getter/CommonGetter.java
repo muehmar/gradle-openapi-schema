@@ -48,12 +48,12 @@ public class CommonGetter {
     return (field, settings) -> field.getterName(RESOLVER) + settings.suffixForField(field);
   }
 
-  public static Generator<PojoMember, PojoSettings> nullableGetterMethodForValidation() {
+  public static Generator<PojoMember, PojoSettings> rawGetterMethod() {
     return MethodGenBuilder.<PojoMember, PojoSettings>create()
-        .createModifiers((f, s) -> s.getValidationGetter().getModifier().asJavaModifiers())
+        .createModifiers((f, s) -> s.getRawGetter().getModifier().asJavaModifiers())
         .noGenericTypes()
         .returnType(f -> f.getTypeName(RESOLVER).asString())
-        .methodName((f, s) -> f.getterName(RESOLVER) + s.getValidationGetter().getSuffix())
+        .methodName((f, s) -> f.getterName(RESOLVER) + s.getRawGetter().getSuffix())
         .noArguments()
         .content(f -> String.format("return %s;", f.memberName(RESOLVER)))
         .build();

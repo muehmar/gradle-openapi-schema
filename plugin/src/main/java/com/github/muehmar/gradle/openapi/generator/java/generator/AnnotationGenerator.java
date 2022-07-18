@@ -10,8 +10,8 @@ public class AnnotationGenerator {
     return Generator.ofWriterFunction(w -> w.println("@Override"));
   }
 
-  public static <A> Generator<A, PojoSettings> deprecatedValidationGetter() {
+  public static <A> Generator<A, PojoSettings> deprecatedRawGetter() {
     return Generator.<A, PojoSettings>ofWriterFunction(w -> w.println("@Deprecated"))
-        .filter((ignore, settings) -> settings.getValidationGetter().isDeprecatedAnnotation());
+        .filter((ignore, settings) -> settings.getRawGetter().isDeprecatedAnnotation());
   }
 }

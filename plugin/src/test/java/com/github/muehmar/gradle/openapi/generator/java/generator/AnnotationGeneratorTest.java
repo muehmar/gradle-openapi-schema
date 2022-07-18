@@ -12,9 +12,8 @@ import org.junit.jupiter.api.Test;
 class AnnotationGeneratorTest {
 
   @Test
-  void deprecatedValidationGetter_when_disabledAnnotation_then_notOutput() {
-    final Generator<Void, PojoSettings> generator =
-        AnnotationGenerator.deprecatedValidationGetter();
+  void deprecatedRawGetter_when_disabledAnnotation_then_notOutput() {
+    final Generator<Void, PojoSettings> generator = AnnotationGenerator.deprecatedRawGetter();
     final PojoSettings settings = TestPojoSettings.defaultSettings();
     final Writer writer = generator.generate(noData(), settings, Writer.createDefault());
 
@@ -22,13 +21,11 @@ class AnnotationGeneratorTest {
   }
 
   @Test
-  void deprecatedValidationGetter_when_enabledAnnotation_then_deprecatedAnnotation() {
-    final Generator<Void, PojoSettings> generator =
-        AnnotationGenerator.deprecatedValidationGetter();
+  void deprecatedRawGetter_when_enabledAnnotation_then_deprecatedAnnotation() {
+    final Generator<Void, PojoSettings> generator = AnnotationGenerator.deprecatedRawGetter();
     final PojoSettings settings =
         TestPojoSettings.defaultSettings()
-            .withValidationGetter(
-                TestPojoSettings.defaultValidationGetter().withDeprecatedAnnotation(true));
+            .withRawGetter(TestPojoSettings.defaultRawGetter().withDeprecatedAnnotation(true));
 
     final Writer writer = generator.generate(noData(), settings, Writer.createDefault());
 

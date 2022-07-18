@@ -21,7 +21,7 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
   List<FormatTypeMapping> formatTypeMappings;
   EnumDescriptionSettings enumDescriptionSettings;
   GetterSuffixes getterSuffixes;
-  ValidationGetter validationGetter;
+  RawGetter rawGetter;
 
   public boolean isJacksonJson() {
     return jsonSupport.equals(JsonSupport.JACKSON);
@@ -81,7 +81,7 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
     return formatTypeMappings.toArrayList();
   }
 
-  public ValidationGetter getValidationGetter() {
-    return validationGetter;
+  public RawGetter getRawGetter() {
+    return rawGetter;
   }
 }

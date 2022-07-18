@@ -17,8 +17,8 @@ import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilde
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.RawGetter;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.ValidationGetter;
 import io.github.muehmar.pojoextension.generator.Generator;
 import io.github.muehmar.pojoextension.generator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -62,7 +62,7 @@ class RequiredNullableGetterTest {
             + "}\n"
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
-            + "private LocalDate getBirthdateForReflection() {\n"
+            + "private LocalDate getBirthdateRaw() {\n"
             + "  return birthdate;\n"
             + "}\n"
             + "\n"
@@ -112,7 +112,7 @@ class RequiredNullableGetterTest {
             + "}\n"
             + "\n"
             + "@Pattern(regexp=\"DatePattern\")\n"
-            + "private LocalDate getBirthdateForReflection() {\n"
+            + "private LocalDate getBirthdateRaw() {\n"
             + "  return birthdate;\n"
             + "}\n"
             + "\n"
@@ -221,8 +221,8 @@ class RequiredNullableGetterTest {
             Necessity.REQUIRED,
             Nullability.NULLABLE);
 
-    final ValidationGetter validationGetter =
-        TestPojoSettings.defaultValidationGetter()
+    final RawGetter rawGetter =
+        TestPojoSettings.defaultRawGetter()
             .withDeprecatedAnnotation(true)
             .withModifier(JavaModifier.PUBLIC);
 
@@ -231,7 +231,7 @@ class RequiredNullableGetterTest {
             pojoMember,
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.JACKSON)
-                .withValidationGetter(validationGetter),
+                .withRawGetter(rawGetter),
             Writer.createDefault());
 
     assertEquals(
@@ -253,7 +253,7 @@ class RequiredNullableGetterTest {
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
             + "@Deprecated\n"
-            + "public LocalDate getBirthdateForReflection() {\n"
+            + "public LocalDate getBirthdateRaw() {\n"
             + "  return birthdate;\n"
             + "}\n"
             + "\n"

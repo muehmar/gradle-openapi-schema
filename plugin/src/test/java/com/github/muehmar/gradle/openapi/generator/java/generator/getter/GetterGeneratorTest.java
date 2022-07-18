@@ -72,7 +72,7 @@ class GetterGeneratorTest {
             + "}\n"
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
-            + "private LocalDate getBirthdateForReflection() {\n"
+            + "private LocalDate getBirthdateRaw() {\n"
             + "  return birthdate;\n"
             + "}\n"
             + "\n"
@@ -116,7 +116,7 @@ class GetterGeneratorTest {
             + "\n"
             + "@JsonProperty(\"birthdate\")\n"
             + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private LocalDate getBirthdateForReflection() {\n"
+            + "private LocalDate getBirthdateRaw() {\n"
             + "  return birthdate;\n"
             + "}",
         writer.asString());
@@ -151,7 +151,7 @@ class GetterGeneratorTest {
             + "  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
             + "}\n"
             + "\n"
-            + "private LocalDate getBirthdateForReflection() {\n"
+            + "private LocalDate getBirthdateRaw() {\n"
             + "  return birthdate;\n"
             + "}",
         writer.asString());

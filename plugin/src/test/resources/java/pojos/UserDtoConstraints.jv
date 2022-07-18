@@ -124,7 +124,7 @@ public class UserDto {
   }
 
   @Min(value = 5)
-  private Long getLevelForReflection() {
+  private Long getLevelRaw() {
     return level;
   }
 
@@ -143,7 +143,7 @@ public class UserDto {
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
-  private String getUppercaseForReflection() {
+  private String getUppercaseRaw() {
     return uppercase;
   }
 
@@ -162,7 +162,7 @@ public class UserDto {
   }
 
   @Valid
-  private AnotherPojo getAnotherPojoForReflection() {
+  private AnotherPojo getAnotherPojoRaw() {
     return anotherPojo;
   }
 

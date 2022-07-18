@@ -6,7 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilde
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder;
-import com.github.muehmar.gradle.openapi.generator.settings.ValidationGetterBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.RawGetterBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class SingleSchemaExtension implements Serializable {
   private String outputDir;
   private String suffix;
   private GetterSuffixes getterSuffixes;
-  private ValidationGetter validationGetter;
+  private RawGetter rawGetter;
   private String packageName;
   private String jsonSupport;
   private Boolean enableSafeBuilder;
@@ -46,7 +46,7 @@ public class SingleSchemaExtension implements Serializable {
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
-    this.validationGetter = ValidationGetter.allUndefined();
+    this.rawGetter = RawGetter.allUndefined();
   }
 
   public String getName() {
@@ -98,13 +98,13 @@ public class SingleSchemaExtension implements Serializable {
     return getterSuffixes;
   }
 
-  public void validationGetter(Action<ValidationGetter> action) {
-    action.execute(validationGetter);
+  public void rawGetter(Action<RawGetter> action) {
+    action.execute(rawGetter);
     System.out.println("Specific validation getter configured...");
   }
 
-  public ValidationGetter getValidationGetter() {
-    return validationGetter;
+  public RawGetter getRawGetter() {
+    return rawGetter;
   }
 
   public String getPackageName(Project project) {
@@ -202,9 +202,8 @@ public class SingleSchemaExtension implements Serializable {
     return this;
   }
 
-  public SingleSchemaExtension withCommonValidationGetter(ValidationGetter commonValidationGetter) {
-    this.validationGetter =
-        this.validationGetter.withCommonValidationGetter(commonValidationGetter);
+  public SingleSchemaExtension withCommonRawGetter(RawGetter commonRawGetter) {
+    this.rawGetter = this.rawGetter.withCommonRawGetter(commonRawGetter);
     return this;
   }
 
@@ -219,14 +218,13 @@ public class SingleSchemaExtension implements Serializable {
                 .andAllOptionals()
                 .build();
 
-    final com.github.muehmar.gradle.openapi.generator.settings.ValidationGetter
-        settingsValidationGetter =
-            ValidationGetterBuilder.create()
-                .modifier(validationGetter.getModifierOrDefault())
-                .suffix(validationGetter.getSuffixOrDefault())
-                .deprecatedAnnotation(validationGetter.getDeprecatedAnnotationOrDefault())
-                .andAllOptionals()
-                .build();
+    final com.github.muehmar.gradle.openapi.generator.settings.RawGetter settingsRawGetter =
+        RawGetterBuilder.create()
+            .modifier(rawGetter.getModifierOrDefault())
+            .suffix(rawGetter.getSuffixOrDefault())
+            .deprecatedAnnotation(rawGetter.getDeprecatedAnnotationOrDefault())
+            .andAllOptionals()
+            .build();
 
     return PojoSettingsBuilder.create()
         .jsonSupport(getJsonSupport())
@@ -242,7 +240,7 @@ public class SingleSchemaExtension implements Serializable {
                 .map(EnumDescriptionExtension::toEnumDescriptionSettings)
                 .orElse(EnumDescriptionSettings.disabled()))
         .getterSuffixes(settingsGetterSuffixes)
-        .validationGetter(settingsValidationGetter)
+        .rawGetter(settingsRawGetter)
         .andAllOptionals()
         .build();
   }

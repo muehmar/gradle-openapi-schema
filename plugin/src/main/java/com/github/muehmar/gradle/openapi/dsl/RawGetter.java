@@ -13,36 +13,36 @@ import org.gradle.api.InvalidUserDataException;
 
 @Data
 @PojoExtension
-public class ValidationGetter implements Serializable, ValidationGetterExtension {
+public class RawGetter implements Serializable, RawGetterExtension {
   private static final String DEFAULT_MODIFIER = JavaModifier.PRIVATE.getValue();
-  private static final String DEFAULT_SUFFIX = "Validation";
+  private static final String DEFAULT_SUFFIX = "Raw";
   private static final boolean DEFAULT_DEPRECATED_ANNOTATION = false;
 
   @Nullable String modifier;
   @Nullable String suffix;
   @Nullable Boolean deprecatedAnnotation;
 
-  public ValidationGetter() {
+  public RawGetter() {
     this(null, null, null);
   }
 
-  public ValidationGetter(String modifier, String suffix, Boolean deprecatedAnnotation) {
+  public RawGetter(String modifier, String suffix, Boolean deprecatedAnnotation) {
     this.modifier = modifier;
     this.suffix = suffix;
     this.deprecatedAnnotation = deprecatedAnnotation;
   }
 
-  public static ValidationGetter allUndefined() {
-    return new ValidationGetter();
+  public static RawGetter allUndefined() {
+    return new RawGetter();
   }
 
-  public ValidationGetter withCommonValidationGetter(ValidationGetter commonValidationGetter) {
-    return ValidationGetterBuilder.create()
+  public RawGetter withCommonRawGetter(RawGetter commonRawGetter) {
+    return RawGetterBuilder.create()
         .andAllOptionals()
-        .modifier(or(getModifier(), commonValidationGetter.getModifier()))
-        .suffix(or(getSuffix(), commonValidationGetter.getSuffix()))
+        .modifier(or(getModifier(), commonRawGetter.getModifier()))
+        .suffix(or(getSuffix(), commonRawGetter.getSuffix()))
         .deprecatedAnnotation(
-            or(getDeprecatedAnnotation(), commonValidationGetter.getDeprecatedAnnotation()))
+            or(getDeprecatedAnnotation(), commonRawGetter.getDeprecatedAnnotation()))
         .build();
   }
 

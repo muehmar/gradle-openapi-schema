@@ -79,7 +79,7 @@ public class NecessityAndNullabilityDto {
 
   @Pattern(regexp="Hello")
   @JsonProperty("requiredNullableStringVal")
-  private String getRequiredNullableStringValForReflection() {
+  private String getRequiredNullableStringValRaw() {
     return requiredNullableStringVal;
   }
 
@@ -107,7 +107,7 @@ public class NecessityAndNullabilityDto {
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   @Pattern(regexp="Hello")
-  private String getOptionalStringValForReflection() {
+  private String getOptionalStringValRaw() {
     return optionalStringVal;
   }
 
@@ -126,7 +126,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @Pattern(regexp="Hello")
-  private String getOptionalNullableStringValForReflection() {
+  private String getOptionalNullableStringValRaw() {
     return optionalNullableStringVal;
   }
 

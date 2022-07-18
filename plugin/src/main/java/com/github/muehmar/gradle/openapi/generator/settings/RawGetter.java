@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @PojoExtension
-public class ValidationGetter implements Serializable, ValidationGetterExtension {
+public class RawGetter implements Serializable, RawGetterExtension {
   JavaModifier modifier;
   String suffix;
   boolean deprecatedAnnotation;

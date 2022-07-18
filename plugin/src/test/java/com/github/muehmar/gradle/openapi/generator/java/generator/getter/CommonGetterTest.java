@@ -14,9 +14,8 @@ import org.junit.jupiter.api.Test;
 class CommonGetterTest {
 
   @Test
-  void nullableGetterMethodForValidation_defaultSettings_then_correctOutput() {
-    final Generator<PojoMember, PojoSettings> generator =
-        CommonGetter.nullableGetterMethodForValidation();
+  void rawGetterMethod_when_defaultSettings_then_correctOutput() {
+    final Generator<PojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
     final Writer writer =
         generator.generate(
             PojoMembers.optionalString(),
@@ -24,21 +23,18 @@ class CommonGetterTest {
             Writer.createDefault());
 
     assertEquals(
-        "private String getOptionalStringValForReflection() {\n"
-            + "  return optionalStringVal;\n"
-            + "}",
+        "private String getOptionalStringValRaw() {\n" + "  return optionalStringVal;\n" + "}",
         writer.asString());
   }
 
   @Test
-  void nullableGetterMethodForValidation_customModifierAndSuffix_then_correctOutput() {
-    final Generator<PojoMember, PojoSettings> generator =
-        CommonGetter.nullableGetterMethodForValidation();
+  void rawGetterMethod_when_customModifierAndSuffix_then_correctOutput() {
+    final Generator<PojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
 
     final PojoSettings settings =
         TestPojoSettings.defaultSettings()
-            .withValidationGetter(
-                TestPojoSettings.defaultValidationGetter()
+            .withRawGetter(
+                TestPojoSettings.defaultRawGetter()
                     .withModifier(JavaModifier.PUBLIC)
                     .withSuffix("CustomSuffix"));
     final Writer writer =

@@ -95,7 +95,7 @@ public class UserDto {
     return language == null ? defaultValue : language;
   }
 
-  private LanguageEnum getLanguageForReflection() {
+  private LanguageEnum getLanguageRaw() {
     return language;
   }
 

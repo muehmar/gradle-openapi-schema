@@ -20,7 +20,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
   private final GetterSuffixes getterSuffixes;
-  private final ValidationGetter validationGetter;
+  private final RawGetter rawGetter;
 
   @Inject
   public OpenApiSchemaExtension(ObjectFactory objectFactory) {
@@ -28,7 +28,7 @@ public class OpenApiSchemaExtension implements Serializable {
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
-    this.validationGetter = ValidationGetter.allUndefined();
+    this.rawGetter = RawGetter.allUndefined();
   }
 
   public void schemas(Closure<SingleSchemaExtension> closure) {
@@ -56,8 +56,8 @@ public class OpenApiSchemaExtension implements Serializable {
     action.execute(getterSuffixes);
   }
 
-  public void validationGetter(Action<ValidationGetter> action) {
-    action.execute(validationGetter);
+  public void rawGetter(Action<RawGetter> action) {
+    action.execute(rawGetter);
   }
 
   private Optional<EnumDescriptionExtension> getCommonEnumDescription() {
@@ -76,8 +76,8 @@ public class OpenApiSchemaExtension implements Serializable {
     return getterSuffixes;
   }
 
-  public ValidationGetter getCommonValidationGetter() {
-    return validationGetter;
+  public RawGetter getCommonRawGetter() {
+    return rawGetter;
   }
 
   public PList<SingleSchemaExtension> getSchemaExtensions() {
@@ -86,7 +86,7 @@ public class OpenApiSchemaExtension implements Serializable {
         .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
         .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()))
         .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()))
-        .map(ext -> ext.withCommonValidationGetter(getCommonValidationGetter()));
+        .map(ext -> ext.withCommonRawGetter(getCommonRawGetter()));
   }
 
   @Override
@@ -102,8 +102,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + formatTypeMappings
         + ", getterSuffixes="
         + getterSuffixes
-        + ", validationGetter="
-        + validationGetter
+        + ", rawGetter="
+        + rawGetter
         + '}';
   }
 }
