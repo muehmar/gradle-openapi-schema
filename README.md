@@ -31,7 +31,19 @@ plugins {
 
 ## Configuration
 
-Add an `openApiGenerator` block into your `build.gradle` file.
+Add an `openApiGenerator` block into your `build.gradle` file:
+
+```
+openaApiGenerator {
+   schemas {
+       apiV1 {
+            inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
+       }
+   }
+}
+```
+
+or a full example:
 
 ```
 openApiGenerator {
@@ -73,6 +85,19 @@ openApiGenerator {
                 fromClass = "List"
                 toClass = "ArrayList"
                 imports = "java.util.ArrayList"
+            }
+            
+            getterSuffixes {
+                requiredSuffix = "Req"
+                requiredNullabeSuffix = "Opt"
+                optionalSuffix = "Opt"
+                optionalNullableSuffix = "Tristae"                
+            }
+            
+            rawGetter {
+                suffix = "Raw"
+                modifier = "public"
+                deprecatedAnnotation = true
             }
         }
         
@@ -119,19 +144,27 @@ openApiGenerator {
         toClass = "ArrayList"
         imports = "java.util.ArrayList"
     }
+    
+    getterSuffixes {
+        // global config goes here
+    }
+    
+    rawGetter {
+       // global config goes here
+    }
 }
 ```
 
 Add in the `schemas` block for each specification a new block with custom name (`apiV1` and `apiV2` in the example
 above) and configure the generation with the following attributes for each schema:
 
-| Key               | Data Type | Default                                    | Description                                                                                             | 
-|-------------------|-----------|--------------------------------------------|---------------------------------------------------------------------------------------------------------| 
+| Key               | Data Type | Default                                    | Description                                                                                             |
+|-------------------|-----------|--------------------------------------------|---------------------------------------------------------------------------------------------------------|
 | sourceSet         | String    | main                                       | Source set to which the generated classes should be added.                                              |
-| inputSpec         | String    | None                                       | The OpenApi 3.x specification location.                                                                 |
+| inputSpec         | String    |                                            | The OpenApi 3.x specification location.                                                                 |
 | outputDir         | String    | $buildDir/generated/openapi                | The location in which the generated sources should be stored.                                           |
 | packageName       | String    | ${project.group}.${project.name}.api.model | Name of the package for the generated classes.                                                          |
-| suffix            | String    | None                                       | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided. |
+| suffix            | String    |                                            | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided. |
 | jsonSupport       | String    | jackson                                    | Used json support library. Possible values are `jackson` or `none`.                                     |
 | enableSafeBuilder | Boolean   | true                                       | Enables creating the safe builder.                                                                      |
 | enableValidation  | Boolean   | false                                      | Enables the generation of annotations for java bean validation (JSR 380)                                |
@@ -196,11 +229,67 @@ enumDescriptionExtraction {
 }
 ```
 
-| Key                          | Data Type | Default | Description                                                                                                                    | 
-|------------------------------|-----------|---------|--------------------------------------------------------------------------------------------------------------------------------| 
+| Key                          | Data Type | Default | Description                                                                                                                    |
+|------------------------------|-----------|:--------|:-------------------------------------------------------------------------------------------------------------------------------|
 | enabled                      | Boolean   | false   | Enables the extraction of descriptions for enum from the openapi specification.                                                |
-| prefixMatcher                | String    | None    | The prefix which matches the start of the description for the enums.                                                           |
+| prefixMatcher                | String    |         | The prefix which matches the start of the description for the enums.                                                           |
 | failOnIncompleteDescriptions | Boolean   | false   | Either no description or a description for each members of an enum must be present if set, otherwise the generation will fail. |
+
+### Getter suffixes
+
+This generator differentiates between 4 different properties (see chapter [Nullability](#Nullability)):
+
+* Required
+* Required and nullable
+* Optional
+* Optional and nullable
+
+It is possible to customize the suffixes of these getters:
+
+```
+getterSuffixes {
+    requiredSuffix = ""
+    requiredNullabeSuffix = "Opt"
+    optionalSuffix = "Opt"
+    optionalNullableSuffix = "Tristate"                
+}
+```
+
+| Key                    | Data Type | Default  | Description                                                             |
+|------------------------|-----------|:---------|:------------------------------------------------------------------------|
+| requiredSuffix         | String    |          | Suffix added to the getter methods for required properties              |
+| requiredNullabeSuffix  | String    | Opt      | Suffix added to the getter methods for required and nullable properties |
+| optionalSuffix         | String    | Opt      | Suffix added to the getter methods for optional properties              |
+| optionalNullableSuffix | String    | Tristate | Suffix added to the getter methods for optional and nullable properties |
+
+### Raw Getter
+
+This generator does not expose optional and/or nullable properties directly, i.e. it does not generate getters for
+which null-handling is needed. Some frameworks like Jackson can operate on private (nullable) getters to serialize
+objects, but other frameworks like Spring requires public (nullable) getters for validation. Therefore, the generator
+allows to customize the generation of such 'raw' getters which return the (nullable) properties. It allows to mark
+these methods as deprecated if needed as these methods should not be used in the code by the programmer but only
+by the framework.
+
+The following is an example to configure the generator to generate public getter methods for properties which might
+be `null`, without a prefix and marked as deprecated which can be used together with the validation in Spring.
+
+```
+rawGetter {
+    suffix = ""
+    modifier = "public"
+    deprecatedAnnotation = true
+}
+```
+
+No raw getters are generated for required properties, as they do return the property directly which cannot be `null` and
+are always public.
+
+| Key                  | Data Type | Default | Description                                                                                              |
+|----------------------|-----------|:--------|:---------------------------------------------------------------------------------------------------------|
+| suffix               | String    | Raw     | Suffix which is added to raw getter methods.                                                             |
+| modifier             | String    | private | Modifier for the raw getter methods. Can be one of `public`, `protected`, `package-private` or `private` |
+| deprecatedAnnotation | boolean   | false   | Determines if the raw getter methods should be annotated with deprecated.                                |
 
 ## Nullability
 
@@ -216,12 +305,12 @@ deserialisation) and validation. Required properties which are nullable as well 
 nullable are wrapped into a `java.util.Optional`. Optional properties which are nullable are wrapped into a
 special `Tristate` class to properly model all three states (value present, null or absent).
 
-| Required/Optional | Nullability  | Getter return type | Remark |
-|-------------------|--------------|:-------------------|:-------|
-| Required          | Not Nullable | T                  |        |
-| Required          | Nullable     | Optional\<T>       |        |
-| Optional          | Not Nullable | Optional\<T>       |        |
-| Optional          | Nullable     | Tristate\<T>       |        |
+| Required/Optional | Nullability  | Getter return type |
+|-------------------|--------------|:-------------------|
+| Required          | Not Nullable | T                  |
+| Required          | Nullable     | Optional\<T>       |
+| Optional          | Not Nullable | Optional\<T>       |
+| Optional          | Nullable     | Tristate\<T>       |
 
 ### Tristate class
 
