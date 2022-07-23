@@ -105,6 +105,15 @@ openApiGenerator {
             suffix = "Dto"
             enableValidation = true
         }
+        arrayProperty {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-array-property.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.arrayproperty.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+        }
     }
 }
 
