@@ -49,7 +49,11 @@ public class Pojos {
         "Sample Array",
         "Dto",
         new PojoMember(
-            Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE));
+            Name.of("value"),
+            "List of names",
+            JavaType.javaList(JavaTypes.STRING),
+            REQUIRED,
+            NOT_NULLABLE));
   }
 
   public static Pojo allNecessityAndNullabilityVariants() {

@@ -24,9 +24,7 @@ class TestArrayProperty {
   @Test
   void testSerialisation() throws JsonProcessingException {
     final PosologyDto posology =
-        PosologyDto.newBuilder()
-            .setValue(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0)))
-            .build();
+        new PosologyDto(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0)));
     final CustomerDto customerDto = CustomerDto.newBuilder().setPosology(posology).build();
     final String json1 = MAPPER.writeValueAsString(customerDto);
 

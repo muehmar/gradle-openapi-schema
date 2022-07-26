@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static io.github.muehmar.pojoextension.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
@@ -52,6 +54,20 @@ public class JavaPojoGenerator implements PojoGenerator {
           pojo.getEnumType().orElseThrow(IllegalStateException::new).getEnumMembers(),
           pojoSettings,
           0);
+    } else if (pojo.isArray()) {
+      printImports(writer, pojo, pojoSettings);
+      printClassStart(writer, pojo, pojoSettings);
+      printFields(writer, pojo, pojoSettings);
+      printConstructor(writer, pojo, pojoSettings);
+
+      printEnums(writer, pojo, pojoSettings);
+
+      printGetters(writer, pojo, pojoSettings);
+      printWithers(writer, pojo);
+
+      printEqualsAndHash(writer, pojo, pojoSettings);
+      printToString(writer, pojo, pojoSettings);
+      printClassEnd(writer);
     } else {
       printImports(writer, pojo, pojoSettings);
       printClassStart(writer, pojo, pojoSettings);
@@ -155,7 +171,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   private void printClassStart(Writer writer, Pojo pojo, PojoSettings settings) {
     writer.println();
     printJavaDoc(writer, 0, pojo.getDescription());
-    if (settings.isJacksonJson()) {
+    if (settings.isJacksonJson() && not(pojo.isArray())) {
       writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.className(resolver));
     }
     writer.tab(0).println("public class %s {", pojo.className(resolver).asString());
@@ -173,6 +189,11 @@ public class JavaPojoGenerator implements PojoGenerator {
     final Generator<Pojo, PojoSettings> generator = PojoConstructorGenerator.generator();
 
     writer.println();
+
+    if (settings.isJacksonJson() && pojo.isArray()) {
+      writer.tab(1).println("@JsonCreator");
+    }
+
     final String output =
         applyGen(Generator.<Pojo, PojoSettings>emptyGen().append(generator, 1), pojo, settings);
     writer.println(output);

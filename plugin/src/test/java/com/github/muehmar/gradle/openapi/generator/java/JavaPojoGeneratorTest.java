@@ -343,4 +343,14 @@ class JavaPojoGeneratorTest {
     assertEquals(
         Resources.readString("/java/pojos/NecessityAndNullability.jv"), writer.asString().trim());
   }
+
+  @Test
+  void generatePojo_when_arrayPojo_then_correctPojoGenerated() {
+    final TestStringWriter writer = new TestStringWriter();
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+
+    pojoGenerator.generatePojo(Pojos.array(), TestPojoSettings.defaultSettings());
+
+    assertEquals(Resources.readString("/java/pojos/ArrayPojo.jv"), writer.asString().trim());
+  }
 }

@@ -48,6 +48,6 @@ class FieldsGeneratorTest {
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_VALUE::equals));
 
     final String output = writer.asString();
-    assertEquals("@JsonValue\n" + "private final String name;", output);
+    assertEquals("@JsonValue\n" + "private final List<String> value;", output);
   }
 }

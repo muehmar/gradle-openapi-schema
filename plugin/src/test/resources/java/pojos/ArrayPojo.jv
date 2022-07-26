@@ -1,0 +1,78 @@
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
+import java.util.List;
+
+
+/**
+ * Sample Array
+ */
+public class ArrayDto {
+  @JsonValue
+  private final List<String> value;
+
+  @JsonCreator
+  public ArrayDto(
+      List<String> value
+    ) {
+    this.value = value;
+  }
+
+  /**
+   * List of names
+   */
+  @NotNull
+  public List<String> getValue() {
+    return value;
+  }
+
+  /**
+   * List of names
+   */
+  public ArrayDto withValue(List<String> value) {
+    return new ArrayDto(value);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ArrayDto other = (ArrayDto) obj;
+    return Objects.equals(value, other.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      value
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ArrayDto{" +
+      "value=" + value +
+      "}";
+  }
+}
