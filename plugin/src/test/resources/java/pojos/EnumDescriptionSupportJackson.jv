@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -68,7 +71,14 @@ public class UserDto {
           return e;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
     }
   }
 
