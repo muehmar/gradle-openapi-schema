@@ -1,5 +1,8 @@
 package com.github.muehmar;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * Gender of a user
  */
@@ -30,6 +33,13 @@ public enum GenderDto {
         return e;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    final String possibleValues =
+      Stream.of(values()).map(GenderDto::getValue).collect(Collectors.joining(", "));
+    throw new IllegalArgumentException(
+      "Unexpected value '"
+        + value
+        + "' for GenderDto, possible values are ["
+        + possibleValues
+        + "]");
   }
 }

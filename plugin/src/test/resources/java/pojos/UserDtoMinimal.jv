@@ -3,6 +3,9 @@ package com.github.muehmar;
 import java.util.Objects;
 import java.util.Optional;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 /**
  * User of the Application. This description is intentionally longer to see if its
@@ -52,7 +55,14 @@ public class UserDto {
           return e;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
     }
   }
 

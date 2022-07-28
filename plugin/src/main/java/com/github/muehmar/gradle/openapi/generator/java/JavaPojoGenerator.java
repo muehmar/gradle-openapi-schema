@@ -39,6 +39,7 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     if (isEnum) {
       printJsonSupportImports(writer, pojoSettings);
+      printStreamImports(writer);
       printEnum(
           writer,
           pojo.getName().append(pojoSettings.getSuffix()),
@@ -78,6 +79,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     printJavaUtilImports(writer);
 
     printJsonSupportImports(writer, settings);
+    printStreamImports(writer);
 
     printValidationImports(writer, settings);
 
@@ -93,6 +95,12 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println();
     writer.println("import java.util.Objects;");
     writer.println("import java.util.Optional;");
+  }
+
+  private void printStreamImports(Writer writer) {
+    writer.println();
+    writer.println("import java.util.stream.Collectors;");
+    writer.println("import java.util.stream.Stream;");
   }
 
   private void printJsonSupportImports(Writer writer, PojoSettings settings) {
@@ -310,7 +318,23 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(indention + 2).println("}");
     writer
         .tab(indention + 2)
-        .println("throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
+        .println("final String possibleValues =")
+        .tab(indention + 3)
+        .println(
+            "Stream.of(values()).map(%s::getValue).collect(Collectors.joining(\", \"));",
+            enumNameString)
+        .tab(indention + 2)
+        .println("throw new IllegalArgumentException(")
+        .tab(indention + 3)
+        .println("\"Unexpected value '\"")
+        .tab(indention + 4)
+        .println("+ value")
+        .tab(indention + 4)
+        .println("+ \"' for %s, possible values are [\"", enumNameString)
+        .tab(indention + 4)
+        .println("+ possibleValues")
+        .tab(indention + 4)
+        .println("+ \"]\");");
     writer.tab(indention + 1).println("}");
 
     writer.tab(indention).println("}");
