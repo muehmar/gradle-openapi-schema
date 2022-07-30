@@ -5,6 +5,9 @@ import com.github.muehmar.gradle.openapi.generator.Resolver;
 import java.util.Objects;
 import java.util.Optional;
 
+// TODO: Create a specific JavaPojo, JavaPojoMember and JavaType, which are all a composition of the
+// generic Pojo, PojoMember and Type. The JavaType will do the mapping to the corresponding java
+// type.
 public class Pojo {
   private final Name name;
   private final String description;

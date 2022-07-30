@@ -5,6 +5,8 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+// TODO: Type should be language agnostic, i.e. the should be mapped to a generic type. The type
+// could still be an interface but with different implementations for enum/array etc.
 public interface Type {
   /** Returns the full-name of this type, i.e. it includes also any generic type. */
   Name getFullName();

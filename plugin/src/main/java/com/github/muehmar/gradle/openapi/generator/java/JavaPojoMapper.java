@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+// TODO: No specific mappers, one mapper should map to the generic pojo/pojomember and type
 public class JavaPojoMapper extends BasePojoMapper {
 
   private static final JavaSchemaMapper typeMapperChain = SchemaMapperChainFactory.createChain();

@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Type;
 import java.util.Optional;
 
+// TODO: Remove this resolver. This should go to the Pojo/PojoMember
 public class JavaResolver implements Resolver {
   public static final String ILLEGAL_FIELD_CHARACTERS_PATTERN = "[^A-Za-z0-9$_]";
 
