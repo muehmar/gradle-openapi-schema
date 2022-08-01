@@ -6,7 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.codegenerator.Generator;
 
 public class JacksonAnnotationGenerator {
   private JacksonAnnotationGenerator() {}

@@ -4,8 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.data.Vo
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import io.github.muehmar.pojoextension.generator.impl.JavaModifier;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
+import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 class ConstructorGeneratorTest {

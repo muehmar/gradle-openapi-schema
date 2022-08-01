@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.codegenerator.Generator;
 
 /** Candidates for the generator class... */
 public class GeneratorUtil {

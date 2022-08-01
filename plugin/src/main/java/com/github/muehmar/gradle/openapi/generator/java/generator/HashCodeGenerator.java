@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
 import static com.github.muehmar.gradle.openapi.util.Functions.allExceptFirst;
-import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
@@ -9,10 +9,9 @@ import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGen;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaGenerators;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 public class HashCodeGenerator {
   private static final JavaResolver RESOLVER = new JavaResolver();
@@ -20,8 +19,8 @@ public class HashCodeGenerator {
   private HashCodeGenerator() {}
 
   public static Generator<Pojo, PojoSettings> hashCodeMethod() {
-    final MethodGen<Pojo, PojoSettings> method =
-        MethodGenBuilder.<Pojo, PojoSettings>create()
+    final Generator<Pojo, PojoSettings> method =
+        JavaGenerators.<Pojo, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("int")

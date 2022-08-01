@@ -13,8 +13,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.Jackso
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.writer.Writer;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.OpenAPIV3Parser;

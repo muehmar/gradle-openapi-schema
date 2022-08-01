@@ -16,8 +16,8 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.generator.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaGenerators;
 import java.util.function.BiPredicate;
 
 public class RequiredNullableGetter {
@@ -76,8 +76,8 @@ public class RequiredNullableGetter {
   }
 
   private static Generator<PojoMember, PojoSettings> requiredValidationMethod() {
-    return MethodGenBuilder.<PojoMember, PojoSettings>create()
-        .createModifiers((f, s) -> s.getRawGetter().getModifier().asJavaModifiers())
+    return JavaGenerators.<PojoMember, PojoSettings>methodGen()
+        .modifiers((f, s) -> s.getRawGetter().getModifier().asJavaModifiers())
         .noGenericTypes()
         .returnType("boolean")
         .methodName(

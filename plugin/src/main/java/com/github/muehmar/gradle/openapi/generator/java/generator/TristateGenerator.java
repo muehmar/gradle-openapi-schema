@@ -3,14 +3,14 @@ package com.github.muehmar.gradle.openapi.generator.java.generator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.AnnotationGenerator.override;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.ofJavaDocString;
-import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.FINAL;
-import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
+import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.gen.ClassGenBuilder;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaGenerators;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 public class TristateGenerator {
   private static final String ON_VALUE_JAVA_DOC =
@@ -25,7 +25,7 @@ public class TristateGenerator {
   private TristateGenerator() {}
 
   public static <A, B> Generator<A, B> tristateClass() {
-    return ClassGenBuilder.<A, B>create()
+    return JavaGenerators.<A, B>classGen()
         .clazz()
         .topLevel()
         .packageGen(

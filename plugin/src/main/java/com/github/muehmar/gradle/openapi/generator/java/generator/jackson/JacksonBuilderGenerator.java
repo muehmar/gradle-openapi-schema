@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 
-import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
@@ -8,11 +8,10 @@ import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.JavaModifier;
-import io.github.muehmar.pojoextension.generator.impl.gen.ClassGenBuilder;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaGenerators;
+import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 public class JacksonBuilderGenerator {
   private static final Resolver RESOLVER = new JavaResolver();
@@ -30,7 +29,7 @@ public class JacksonBuilderGenerator {
   }
 
   public static Generator<Pojo, PojoSettings> builderClass() {
-    return ClassGenBuilder.<Pojo, PojoSettings>create()
+    return JavaGenerators.<Pojo, PojoSettings>classGen()
         .clazz()
         .nested()
         .packageGen(Generator.emptyGen())
@@ -72,7 +71,7 @@ public class JacksonBuilderGenerator {
   }
 
   public static Generator<PojoMember, PojoSettings> memberMethod() {
-    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+    return JavaGenerators.<PojoMember, PojoSettings>methodGen()
         .modifiers()
         .noGenericTypes()
         .returnType("Builder")
@@ -101,7 +100,7 @@ public class JacksonBuilderGenerator {
   }
 
   public static Generator<Pojo, PojoSettings> buildMethod() {
-    return MethodGenBuilder.<Pojo, PojoSettings>create()
+    return JavaGenerators.<Pojo, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(pojo -> pojo.className(RESOLVER).asString())

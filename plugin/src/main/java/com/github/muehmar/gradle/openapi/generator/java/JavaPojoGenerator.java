@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import static io.github.muehmar.pojoextension.Booleans.not;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
@@ -19,7 +19,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterG
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
 import io.github.muehmar.codegenerator.Generator;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;

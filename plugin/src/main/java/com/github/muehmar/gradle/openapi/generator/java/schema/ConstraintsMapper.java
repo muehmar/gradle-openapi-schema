@@ -56,7 +56,7 @@ public class ConstraintsMapper {
 
   public static Constraints getDecimalMinimumAndMaximum(Schema<?> schema) {
     final Boolean inclusiveMin =
-        Optional.ofNullable(schema.getExclusiveMinimum()).map(Booleans::negate).orElse(true);
+        Optional.ofNullable(schema.getExclusiveMinimum()).map(Booleans::not).orElse(true);
 
     final Optional<DecimalMin> min =
         Optional.ofNullable(schema.getMinimum())
@@ -65,7 +65,7 @@ public class ConstraintsMapper {
             .map(decimalMin -> decimalMin.withInclusiveMin(inclusiveMin));
 
     final Boolean inclusiveMax =
-        Optional.ofNullable(schema.getExclusiveMaximum()).map(Booleans::negate).orElse(true);
+        Optional.ofNullable(schema.getExclusiveMaximum()).map(Booleans::not).orElse(true);
 
     final Optional<DecimalMax> max =
         Optional.ofNullable(schema.getMaximum())

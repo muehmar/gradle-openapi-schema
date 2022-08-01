@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.codegenerator.Generator;
 
 public class JacksonNullContainerGenerator {
   private JacksonNullContainerGenerator() {}

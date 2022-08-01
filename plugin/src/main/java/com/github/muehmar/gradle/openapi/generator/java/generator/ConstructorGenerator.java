@@ -3,12 +3,12 @@ package com.github.muehmar.gradle.openapi.generator.java.generator;
 import static com.github.muehmar.gradle.openapi.util.Functions.allExceptFirst;
 
 import ch.bluecare.commons.data.PList;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.java.JavaModifiers;
+import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojoextension.annotations.FieldBuilder;
 import io.github.muehmar.pojoextension.annotations.SafeBuilder;
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.JavaModifier;
-import io.github.muehmar.pojoextension.generator.impl.JavaModifiers;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;

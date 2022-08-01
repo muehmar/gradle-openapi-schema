@@ -10,8 +10,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonProperty;
-import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PRIVATE;
-import static io.github.muehmar.pojoextension.generator.impl.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
+import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.Resolver;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -19,8 +19,8 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.impl.gen.MethodGenBuilder;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaGenerators;
 
 public class OptionalNullableGetter {
   private static final Resolver RESOLVER = new JavaResolver();
@@ -38,7 +38,7 @@ public class OptionalNullableGetter {
   }
 
   private static Generator<PojoMember, PojoSettings> tristateGetterMethod() {
-    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+    return JavaGenerators.<PojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(f -> String.format("Tristate<%s>", f.getType().getFullName()))
@@ -63,7 +63,7 @@ public class OptionalNullableGetter {
   }
 
   private static Generator<PojoMember, PojoSettings> jacksonSerializerMethod() {
-    return MethodGenBuilder.<PojoMember, PojoSettings>create()
+    return JavaGenerators.<PojoMember, PojoSettings>methodGen()
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("Object")

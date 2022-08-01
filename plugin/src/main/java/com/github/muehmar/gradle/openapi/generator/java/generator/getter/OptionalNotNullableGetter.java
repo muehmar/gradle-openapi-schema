@@ -16,7 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.generator.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.codegenerator.Generator;
 
 public class OptionalNotNullableGetter {
   private OptionalNotNullableGetter() {}

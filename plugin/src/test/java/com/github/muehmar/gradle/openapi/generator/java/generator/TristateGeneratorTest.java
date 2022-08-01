@@ -4,8 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.data.Vo
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 class TristateGeneratorTest {

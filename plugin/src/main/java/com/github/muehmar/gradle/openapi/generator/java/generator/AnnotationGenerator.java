@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.pojoextension.generator.Generator;
+import io.github.muehmar.codegenerator.Generator;
 
 public class AnnotationGenerator {
   private AnnotationGenerator() {}
