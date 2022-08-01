@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.github.muehmar.pojoextension.generator.Generator;
-import io.github.muehmar.pojoextension.generator.writer.Writer;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 class JavaDocGeneratorTest {
