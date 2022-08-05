@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.muehmar.codegenerator.Generator;
@@ -33,9 +34,5 @@ class JavaDocGeneratorTest {
             + " * line!\n"
             + " */",
         output);
-  }
-
-  private static Void noSettings() {
-    return null;
   }
 }

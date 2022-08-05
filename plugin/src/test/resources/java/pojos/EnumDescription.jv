@@ -1,5 +1,7 @@
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.Tristate;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
 
 
 /**
@@ -22,7 +25,8 @@ public class UserDto {
   private final LanguageEnum language;
 
   public UserDto(
-      LanguageEnum language) {
+      LanguageEnum language
+    ) {
     this.language = language;
   }
 
@@ -78,8 +82,8 @@ public class UserDto {
    * * `GERMAN`: German language
    * * `ENGLISH`: English language
    */
-  public Optional<LanguageEnum> getLanguageOptional() {
-    return Optional.ofNullable(this.language);
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
   }
 
   /**
@@ -87,7 +91,11 @@ public class UserDto {
    * * `GERMAN`: German language
    * * `ENGLISH`: English language
    */
-  public LanguageEnum getLanguageNullable() {
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
+  private LanguageEnum getLanguageRaw() {
     return language;
   }
 
@@ -101,21 +109,18 @@ public class UserDto {
   }
 
   @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-    final UserDto v = (UserDto) other;
-    return Objects.equals(language, v.language);
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(language, other.language);
   }
-
 
   @Override
   public int hashCode() {
-    return Objects.hash(language);
+    return Objects.hash(
+      language
+    );
   }
 
   @Override

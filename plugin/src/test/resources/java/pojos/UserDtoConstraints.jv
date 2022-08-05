@@ -1,5 +1,7 @@
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.Tristate;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
 
 
 /**
@@ -38,7 +41,8 @@ public class UserDto {
       Double height,
       Long level,
       String uppercase,
-      AnotherPojo anotherPojo) {
+      AnotherPojo anotherPojo
+    ) {
     this.id = id;
     this.name = name;
     this.lastName = lastName;
@@ -56,7 +60,7 @@ public class UserDto {
   @NotNull
   @Max(value = 50)
   public long getId() {
-    return this.id;
+    return id;
   }
 
   /**
@@ -65,7 +69,7 @@ public class UserDto {
   @NotNull
   @Size(min = 10, max = 15)
   public String getName() {
-    return this.name;
+    return name;
   }
 
   /**
@@ -74,7 +78,7 @@ public class UserDto {
   @NotNull
   @Size(min = 10)
   public String getLastName() {
-    return this.lastName;
+    return lastName;
   }
 
   /**
@@ -83,7 +87,7 @@ public class UserDto {
   @NotNull
   @Size(max = 50)
   public String getNickName() {
-    return this.nickName;
+    return nickName;
   }
 
   /**
@@ -92,7 +96,7 @@ public class UserDto {
   @NotNull
   @Email
   public String getEmail() {
-    return this.email;
+    return email;
   }
 
   /**
@@ -102,51 +106,63 @@ public class UserDto {
   @DecimalMin(value = "120.0", inclusive = true)
   @DecimalMax(value = "199", inclusive = false)
   public Double getHeight() {
-    return this.height;
+    return height;
   }
 
   /**
    * Level of this user
    */
-  public Optional<Long> getLevelOptional() {
-    return Optional.ofNullable(this.level);
+  public Optional<Long> getLevel() {
+    return Optional.ofNullable(level);
   }
 
   /**
    * Level of this user
    */
+  public Long getLevelOr(Long defaultValue) {
+    return level == null ? defaultValue : level;
+  }
+
   @Min(value = 5)
-  public Long getLevelNullable() {
+  private Long getLevelRaw() {
     return level;
   }
 
   /**
    * Something uppercase
    */
-  public Optional<String> getUppercaseOptional() {
-    return Optional.ofNullable(this.uppercase);
+  public Optional<String> getUppercase() {
+    return Optional.ofNullable(uppercase);
   }
 
   /**
    * Something uppercase
    */
+  public String getUppercaseOr(String defaultValue) {
+    return uppercase == null ? defaultValue : uppercase;
+  }
+
   @Pattern(regexp="^(\\d[A-Z]*)")
-  public String getUppercaseNullable() {
+  private String getUppercaseRaw() {
     return uppercase;
   }
 
   /**
    * Another Pojo
    */
-  public Optional<AnotherPojo> getAnotherPojoOptional() {
-    return Optional.ofNullable(this.anotherPojo);
+  public Optional<AnotherPojo> getAnotherPojo() {
+    return Optional.ofNullable(anotherPojo);
   }
 
   /**
    * Another Pojo
    */
+  public AnotherPojo getAnotherPojoOr(AnotherPojo defaultValue) {
+    return anotherPojo == null ? defaultValue : anotherPojo;
+  }
+
   @Valid
-  public AnotherPojo getAnotherPojoNullable() {
+  private AnotherPojo getAnotherPojoRaw() {
     return anotherPojo;
   }
 
@@ -214,29 +230,34 @@ public class UserDto {
   }
 
   @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-    final UserDto v = (UserDto) other;
-    return Objects.equals(id, v.id)
-        && Objects.equals(name, v.name)
-        && Objects.equals(lastName, v.lastName)
-        && Objects.equals(nickName, v.nickName)
-        && Objects.equals(email, v.email)
-        && Objects.equals(height, v.height)
-        && Objects.equals(level, v.level)
-        && Objects.equals(uppercase, v.uppercase)
-        && Objects.equals(anotherPojo, v.anotherPojo);
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(id, other.id)
+        && Objects.equals(name, other.name)
+        && Objects.equals(lastName, other.lastName)
+        && Objects.equals(nickName, other.nickName)
+        && Objects.equals(email, other.email)
+        && Objects.equals(height, other.height)
+        && Objects.equals(level, other.level)
+        && Objects.equals(uppercase, other.uppercase)
+        && Objects.equals(anotherPojo, other.anotherPojo);
   }
-
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return Objects.hash(
+      id,
+      name,
+      lastName,
+      nickName,
+      email,
+      height,
+      level,
+      uppercase,
+      anotherPojo
+    );
   }
 
   @Override

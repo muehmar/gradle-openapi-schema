@@ -1,9 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
+import com.github.muehmar.gradle.openapi.generator.data.Necessity;
+import com.github.muehmar.gradle.openapi.generator.data.Nullability;
 import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
@@ -29,7 +33,8 @@ public class JavaPojoMapper extends BasePojoMapper {
   protected PojoProcessResult fromArraysSchema(
       Name pojoName, ArraySchema schema, PojoSettings pojoSettings) {
     final PojoMemberProcessResult pojoMemberProcessResult =
-        toPojoMemberFromSchema(pojoName, Name.of("value"), schema, pojoSettings, false);
+        toPojoMemberFromSchema(
+            pojoName, Name.of("value"), schema, pojoSettings, Necessity.REQUIRED, NOT_NULLABLE);
     final Pojo pojo =
         Pojo.ofArray(
             pojoName,
@@ -45,7 +50,8 @@ public class JavaPojoMapper extends BasePojoMapper {
       Name pojoMemberName,
       Schema<?> schema,
       PojoSettings pojoSettings,
-      boolean nullable) {
+      Necessity necessity,
+      Nullability nullability) {
     final MappedSchema<JavaType> mappedSchema =
         typeMapperChain.mapSchema(pojoName, pojoMemberName, schema, pojoSettings, typeMapperChain);
 
@@ -66,7 +72,8 @@ public class JavaPojoMapper extends BasePojoMapper {
             .orElse(javaType);
 
     final PojoMember pojoMember =
-        new PojoMember(pojoMemberName, schema.getDescription(), classMappedJavaType, nullable);
+        new PojoMember(
+            pojoMemberName, schema.getDescription(), classMappedJavaType, necessity, nullability);
     return new PojoMemberProcessResult(pojoMember, mappedSchema.getOpenApiPojos());
   }
 

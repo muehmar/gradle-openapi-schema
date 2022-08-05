@@ -1,0 +1,391 @@
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
+
+
+/**
+ * NecessityAndNullability
+ */
+@JsonDeserialize(builder = NecessityAndNullabilityDto.Builder.class)
+public class NecessityAndNullabilityDto {
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public NecessityAndNullabilityDto(
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @NotNull
+  @Pattern(regexp="Hello")
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
+  public Optional<String> getRequiredNullableStringVal() {
+    return Optional.ofNullable(requiredNullableStringVal);
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
+  public String getRequiredNullableStringValOr(String defaultValue) {
+    return requiredNullableStringVal == null ? defaultValue : requiredNullableStringVal;
+  }
+
+  @Pattern(regexp="Hello")
+  @JsonProperty("requiredNullableStringVal")
+  private String getRequiredNullableStringValRaw() {
+    return requiredNullableStringVal;
+  }
+
+  @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
+  private boolean isRequiredNullableStringValPresent() {
+    return isRequiredNullableStringValPresent;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
+  public Optional<String> getOptionalStringVal() {
+    return Optional.ofNullable(optionalStringVal);
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
+  public String getOptionalStringValOr(String defaultValue) {
+    return optionalStringVal == null ? defaultValue : optionalStringVal;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Pattern(regexp="Hello")
+  private String getOptionalStringValRaw() {
+    return optionalStringVal;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonIgnore
+  public Tristate<String> getOptionalNullableStringVal() {
+    return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableStringValJackson() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Pattern(regexp="Hello")
+  private String getOptionalNullableStringValRaw() {
+    return optionalNullableStringVal;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final NecessityAndNullabilityDto other = (NecessityAndNullabilityDto) obj;
+    return Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "NecessityAndNullabilityDto{" +
+      "requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String requiredStringVal;
+    private String requiredNullableStringVal;
+    private boolean isRequiredNullableStringValPresent = false;
+    private String optionalStringVal;
+    private String optionalNullableStringVal;
+    private boolean isOptionalNullableStringValNull = false;
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    @JsonProperty("requiredNullableStringVal")
+    private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal;
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    @JsonProperty("optionalStringVal")
+    public Builder setOptionalStringVal(String optionalStringVal) {
+      this.optionalStringVal = optionalStringVal;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+      this.optionalStringVal = optionalStringVal.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    @JsonProperty("optionalNullableStringVal")
+    public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal;
+      if (optionalNullableStringVal == null) {
+        this.isOptionalNullableStringValNull = true;
+      }
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    public NecessityAndNullabilityDto build() {
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    public Builder1 setRequiredStringVal(String requiredStringVal){
+      return new Builder1(builder.setRequiredStringVal(requiredStringVal));
+    }
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    public Builder2 setRequiredNullableStringVal(String requiredNullableStringVal){
+      return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal){
+      return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    }
+  }
+
+  public static final class Builder2 {
+    private final Builder builder;
+    private Builder2(Builder builder) {
+      this.builder = builder;
+    }
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+    public Builder andOptionals(){
+      return builder;
+    }
+    public NecessityAndNullabilityDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public OptBuilder1 setOptionalStringVal(String optionalStringVal){
+      return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public OptBuilder1 setOptionalStringVal(Optional<String> optionalStringVal){
+      return new OptBuilder1(optionalStringVal.map(builder::setOptionalStringVal).orElse(builder));
+    }
+  }
+
+  public static final class OptBuilder1 {
+    private final Builder builder;
+    private OptBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public OptBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal){
+      return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal){
+      return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+    }
+  }
+
+  public static final class OptBuilder2 {
+    private final Builder builder;
+    private OptBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+    public NecessityAndNullabilityDto build(){
+      return builder.build();
+    }
+  }
+}

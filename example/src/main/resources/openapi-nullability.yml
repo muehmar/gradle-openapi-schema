@@ -1,0 +1,31 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - id
+        - username
+      properties:
+        id:
+          type: string
+          minLength: 6
+          maxLength: 10
+        username:
+          type: string
+          nullable: true
+          minLength: 5
+          maxLength: 20
+        email:
+          type: string
+          pattern: '[A-Za-z0-9]+@[A-Za-z0-9]+\.[a-z]+'
+        phone:
+          type: string
+          nullable: true
+          pattern: '\+41[0-9]{7}'
+
+
+

@@ -2,45 +2,63 @@ package com.github.muehmar.gradle.openapi.generator.data;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
-import java.util.Objects;
+import io.github.muehmar.pojoextension.annotations.PojoExtension;
 import java.util.Optional;
 import java.util.function.Consumer;
+import lombok.Value;
 
-public class PojoMember {
-  private final Name name;
-  private final String description;
-  private final Type type;
-  private final boolean nullable;
+@Value
+@PojoExtension
+public class PojoMember implements PojoMemberExtension {
+  Name name;
+  String description;
+  Type type;
+  Necessity necessity;
+  Nullability nullability;
 
-  public PojoMember(Name name, String description, Type type, boolean nullable) {
+  public PojoMember(
+      Name name, String description, Type type, Necessity necessity, Nullability nullability) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
-    this.nullable = nullable;
-  }
-
-  public String getDescription() {
-    return description;
+    this.necessity = necessity;
+    this.nullability = nullability;
   }
 
   public Name getTypeName(Resolver resolver) {
     return type.isEnum() ? resolver.enumName(name) : type.getFullName();
   }
 
-  public Type getType() {
-    return type;
-  }
-
-  public Name getName() {
-    return name;
-  }
-
-  public boolean isNullable() {
-    return nullable;
+  public boolean isOptional() {
+    return necessity.equals(Necessity.OPTIONAL);
   }
 
   public boolean isRequired() {
+    return !isOptional();
+  }
+
+  public boolean isNullable() {
+    return nullability.equals(Nullability.NULLABLE);
+  }
+
+  public boolean isNotNullable() {
     return !isNullable();
+  }
+
+  public boolean isRequiredAndNullable() {
+    return isRequired() && isNullable();
+  }
+
+  public boolean isRequiredAndNotNullable() {
+    return isRequired() && !isNullable();
+  }
+
+  public boolean isOptionalAndNullable() {
+    return isOptional() && isNullable();
+  }
+
+  public boolean isOptionalAndNotNullable() {
+    return isOptional() && !isNullable();
   }
 
   public Name getterName(Resolver resolver) {
@@ -80,45 +98,9 @@ public class PojoMember {
    */
   public PojoMember replaceMemberType(Name memberType, String newDescription, Type newType) {
     if (type.getFullName().equals(memberType)) {
-      return new PojoMember(name, newDescription, newType, nullable);
+      return new PojoMember(name, newDescription, newType, necessity, nullability);
     } else {
       return this;
     }
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    PojoMember that = (PojoMember) o;
-    return nullable == that.nullable
-        && Objects.equals(name, that.name)
-        && Objects.equals(description, that.description)
-        && Objects.equals(type, that.type);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, description, type, nullable);
-  }
-
-  @Override
-  public String toString() {
-    return "PojoMember{"
-        + "key='"
-        + name
-        + '\''
-        + ", description='"
-        + description
-        + '\''
-        + ", type="
-        + type
-        + ", nullable="
-        + nullable
-        + '}';
   }
 }

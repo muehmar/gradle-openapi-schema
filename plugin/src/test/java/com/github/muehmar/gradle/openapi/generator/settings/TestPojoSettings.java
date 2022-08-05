@@ -15,6 +15,26 @@ public class TestPojoSettings {
         .classTypeMappings(Collections.emptyList())
         .formatTypeMappings(Collections.emptyList())
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
+        .getterSuffixes(defaultGetterSuffixes())
+        .rawGetter(defaultRawGetter())
+        .andAllOptionals()
+        .build();
+  }
+
+  public static GetterSuffixes defaultGetterSuffixes() {
+    return GetterSuffixesBuilder.create()
+        .requiredSuffix("")
+        .requiredNullableSuffix("")
+        .optionalSuffix("")
+        .optionalNullableSuffix("")
+        .build();
+  }
+
+  public static RawGetter defaultRawGetter() {
+    return RawGetterBuilder.create()
+        .modifier(JavaModifier.PRIVATE)
+        .suffix("Raw")
+        .deprecatedAnnotation(false)
         .andAllOptionals()
         .build();
   }

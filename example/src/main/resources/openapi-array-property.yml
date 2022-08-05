@@ -1,0 +1,29 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Customer:
+      required:
+        - posology
+      properties:
+        posology:
+          $ref: "#/components/schemas/Posology"
+
+
+    Posology:
+      description: |
+        Doses to be taken (morning, midday, evening, night). Used for
+        package size calculation.
+      type: array
+      maxItems: 4
+      items:
+        type: number
+        format: double
+      example:
+        - 1
+        - 0
+        - 2
+        - 0

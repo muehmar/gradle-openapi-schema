@@ -1,18 +1,24 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.data.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.data.Name;
 import com.github.muehmar.gradle.openapi.generator.data.Pojo;
 import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.generator.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.ToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.Writer;
 import io.github.muehmar.codegenerator.Generator;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -47,9 +53,9 @@ public class JavaPojoGenerator implements PojoGenerator {
           pojo.getEnumType().orElseThrow(IllegalStateException::new).getEnumMembers(),
           pojoSettings,
           0);
-    } else {
+    } else if (pojo.isArray()) {
       printImports(writer, pojo, pojoSettings);
-      printClassStart(writer, pojo);
+      printClassStart(writer, pojo, pojoSettings);
       printFields(writer, pojo, pojoSettings);
       printConstructor(writer, pojo, pojoSettings);
 
@@ -58,8 +64,22 @@ public class JavaPojoGenerator implements PojoGenerator {
       printGetters(writer, pojo, pojoSettings);
       printWithers(writer, pojo);
 
-      printEqualsAndHash(writer, pojo);
-      printToString(writer, pojo);
+      printEqualsAndHash(writer, pojo, pojoSettings);
+      printToString(writer, pojo, pojoSettings);
+      printClassEnd(writer);
+    } else {
+      printImports(writer, pojo, pojoSettings);
+      printClassStart(writer, pojo, pojoSettings);
+      printFields(writer, pojo, pojoSettings);
+      printConstructor(writer, pojo, pojoSettings);
+
+      printEnums(writer, pojo, pojoSettings);
+
+      printGetters(writer, pojo, pojoSettings);
+      printWithers(writer, pojo);
+
+      printEqualsAndHash(writer, pojo, pojoSettings);
+      printToString(writer, pojo, pojoSettings);
 
       printBuilder(writer, pojo, pojoSettings);
       if (pojoSettings.isEnableSafeBuilder()) {
@@ -76,6 +96,8 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printImports(Writer writer, Pojo pojo, PojoSettings settings) {
+    printOpenApiUtilImports(writer, settings);
+
     printJavaUtilImports(writer);
 
     printJsonSupportImports(writer, settings);
@@ -89,6 +111,14 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(classImport -> writer.println("import %s;", classImport));
 
     writer.println();
+  }
+
+  private void printOpenApiUtilImports(Writer writer, PojoSettings settings) {
+    writer.println();
+    if (settings.isJacksonJson()) {
+      writer.println("import com.github.muehmar.openapi.util.JacksonNullContainer;");
+    }
+    writer.println("import com.github.muehmar.openapi.util.Tristate;");
   }
 
   private void printJavaUtilImports(Writer writer) {
@@ -107,9 +137,12 @@ public class JavaPojoGenerator implements PojoGenerator {
     if (settings.isJacksonJson()) {
       writer.println();
       writer.println("import com.fasterxml.jackson.annotation.JsonIgnore;");
+      writer.println("import com.fasterxml.jackson.annotation.JsonInclude;");
       writer.println("import com.fasterxml.jackson.annotation.JsonProperty;");
       writer.println("import com.fasterxml.jackson.annotation.JsonCreator;");
       writer.println("import com.fasterxml.jackson.annotation.JsonValue;");
+      writer.println("import com.fasterxml.jackson.databind.annotation.JsonDeserialize;");
+      writer.println("import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;");
     }
   }
 
@@ -123,6 +156,7 @@ public class JavaPojoGenerator implements PojoGenerator {
       writer.println("import javax.validation.constraints.Size;");
       writer.println("import javax.validation.constraints.NotNull;");
       writer.println("import javax.validation.constraints.Email;");
+      writer.println("import javax.validation.constraints.AssertTrue;");
     }
   }
 
@@ -133,94 +167,55 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println(output);
   }
 
-  private void printClassStart(Writer writer, Pojo pojo) {
+  private void printClassStart(Writer writer, Pojo pojo, PojoSettings settings) {
     writer.println();
     printJavaDoc(writer, 0, pojo.getDescription());
+    if (settings.isJacksonJson() && not(pojo.isArray())) {
+      writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.className(resolver));
+    }
     writer.tab(0).println("public class %s {", pojo.className(resolver).asString());
   }
 
   private void printFields(Writer writer, Pojo pojo, PojoSettings settings) {
-    if (pojo.isArray() && settings.isJacksonJson()) {
-      writer.tab(1).println("@JsonValue");
-    }
-
-    pojo.getMembers()
-        .forEach(
-            member ->
-                writer
-                    .tab(1)
-                    .println(
-                        "private final %s %s;",
-                        member.getTypeName(resolver).asString(),
-                        member.memberName(resolver).asString()));
+    final Generator<Pojo, PojoSettings> fieldsGen = FieldsGenerator.fields();
+    final Generator<Pojo, PojoSettings> indentedFieldsGen =
+        Generator.<Pojo, PojoSettings>emptyGen().append(fieldsGen, 1);
+    final String output = applyGen(indentedFieldsGen, pojo, settings);
+    writer.println(output);
   }
 
   private void printConstructor(Writer writer, Pojo pojo, PojoSettings settings) {
+    final Generator<Pojo, PojoSettings> generator = PojoConstructorGenerator.generator();
+
     writer.println();
-    if (settings.isJacksonJson()) {
-      if (pojo.isArray()) {
-        writer.tab(1).println("@JsonCreator");
-      } else {
-        writer.tab(1).println("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
-      }
-    }
-    writer.tab(1).println("public %s(", pojo.className(resolver).asString());
 
-    final PList<String> memberArguments = createMemberArguments(pojo, settings);
-
-    for (int i = 0; i < memberArguments.size(); i++) {
-      writer.tab(3).print(memberArguments.apply(i));
-      if (i == memberArguments.size() - 1) {
-        writer.println(") {");
-      } else {
-        writer.println(",");
-      }
+    if (settings.isJacksonJson() && pojo.isArray()) {
+      writer.tab(1).println("@JsonCreator");
     }
 
-    pojo.getMembers()
-        .forEach(
-            member ->
-                writer
-                    .tab(2)
-                    .println(
-                        "this.%s = %s;",
-                        member.memberName(resolver).asString(),
-                        member.memberName(resolver).asString()));
-
-    writer.tab(1).println("}");
-  }
-
-  private PList<String> createMemberArguments(Pojo pojo, PojoSettings settings) {
-    final Function<PojoMember, String> createJsonSupport =
-        member -> {
-          if (settings.isJacksonJson()) {
-            return String.format("@JsonProperty(\"%s\") ", member.memberName(resolver).asString());
-          } else {
-            return "";
-          }
-        };
-    return pojo.getMembers()
-        .map(
-            member -> {
-              if (pojo.isArray()) {
-                return String.format(
-                    "%s %s",
-                    member.getTypeName(resolver).asString(),
-                    member.memberName(resolver).asString());
-              } else {
-                return String.format(
-                    "%s%s %s",
-                    createJsonSupport.apply(member),
-                    member.getTypeName(resolver).asString(),
-                    member.memberName(resolver).asString());
-              }
-            });
+    final String output =
+        applyGen(Generator.<Pojo, PojoSettings>emptyGen().append(generator, 1), pojo, settings);
+    writer.println(output);
   }
 
   private String createNamesCommaSeparated(Pojo pojo) {
     final PList<String> formattedPairs =
         pojo.getMembers()
-            .map(member -> String.format("%s", member.memberName(resolver).asString()));
+            .flatMap(
+                member -> {
+                  final Name memberName = member.memberName(resolver);
+                  if (member.isRequiredAndNullable()) {
+                    final String requiredNullableFlagName =
+                        String.format("is%sPresent", memberName.startUpperCase());
+                    return PList.of(memberName.asString(), requiredNullableFlagName);
+                  } else if (member.isOptionalAndNullable()) {
+                    final String optionalNullableFlagName =
+                        String.format("is%sNull", memberName.startUpperCase());
+                    return PList.of(memberName.asString(), optionalNullableFlagName);
+                  } else {
+                    return PList.single(memberName.asString());
+                  }
+                });
 
     return String.join(", ", formattedPairs);
   }
@@ -341,118 +336,11 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   protected void printGetters(Writer writer, Pojo pojo, PojoSettings settings) {
-    pojo.getMembers()
-        .forEach(
-            member -> {
-              printMainGetter(writer, member, settings);
-              printNullableGetter(writer, member, settings);
-            });
-  }
-
-  /**
-   * Prints either a normal getter in case the member is required or wrap it in an {@link Optional}
-   * if its not required.
-   */
-  protected void printMainGetter(Writer writer, PojoMember member, PojoSettings settings) {
-    writer.println();
-    printJavaDoc(writer, 1, member.getDescription());
-
-    final boolean nullable = member.isNullable();
-
-    final String returnType =
-        nullable
-            ? String.format("Optional<%s>", member.getTypeName(resolver).asString())
-            : member.getTypeName(resolver).asString();
-    final String field =
-        nullable
-            ? String.format("Optional.ofNullable(this.%s)", member.memberName(resolver).asString())
-            : String.format("this.%s", member.memberName(resolver).asString());
-
-    if (nullable && settings.isJacksonJson()) {
-      writer.tab(1).println("@JsonIgnore");
-    }
-    if (member.isRequired()) {
-      printConstraints(writer, member, 1, settings);
-    }
-
-    writer
-        .tab(1)
-        .println(
-            "public %s %s%s() {",
-            returnType, member.getterName(resolver).asString(), nullable ? "Optional" : "");
-    writer.tab(2).println("return %s;", field);
-    writer.tab(1).println("}");
-  }
-
-  /**
-   * Prints a 'nullable' getter in case the member is not required. This getter is suffixed with
-   * 'Nullable' and may return null if the value is not present.
-   */
-  protected void printNullableGetter(Writer writer, PojoMember member, PojoSettings settings) {
-    if (member.isNullable()) {
-      writer.println();
-      printJavaDoc(writer, 1, member.getDescription());
-      printConstraints(writer, member, 1, settings);
-      if (settings.isJacksonJson()) {
-        writer.tab(1).println("@JsonProperty(\"%s\")", member.memberName(resolver).asString());
-      }
-      writer
-          .tab(1)
-          .println(
-              "public %s %sNullable() {",
-              member.getTypeName(resolver).asString(), member.getterName(resolver).asString());
-      writer.tab(2).println("return %s;", member.memberName(resolver).asString());
-      writer.tab(1).println("}");
-    }
-  }
-
-  protected void printConstraints(
-      Writer writer, PojoMember member, int tabs, PojoSettings settings) {
-    if (settings.isEnableConstraints()) {
-
-      if (member.getType().containsPojo()) {
-        writer.tab(tabs).println("@Valid");
-      }
-
-      if (member.isRequired()) {
-        writer.tab(tabs).println("@NotNull");
-      }
-
-      final Constraints constraints = member.getType().getConstraints();
-      constraints.onEmail(email -> writer.tab(tabs).println("@Email"));
-      constraints.onMin(min -> writer.tab(tabs).println("@Min(value = %d)", min.getValue()));
-      constraints.onMax(max -> writer.tab(tabs).println("@Max(value = %d)", max.getValue()));
-      constraints.onDecimalMin(
-          decMin ->
-              writer
-                  .tab(tabs)
-                  .println(
-                      "@DecimalMin(value = \"%s\", inclusive = %b)",
-                      decMin.getValue(), decMin.isInclusiveMin()));
-      constraints.onDecimalMax(
-          decMax ->
-              writer
-                  .tab(tabs)
-                  .println(
-                      "@DecimalMax(value = \"%s\", inclusive = %b)",
-                      decMax.getValue(), decMax.isInclusiveMax()));
-      constraints.onSize(
-          size -> {
-            final String minMax =
-                PList.of(
-                        size.getMin().map(min -> String.format("min = %d", min)),
-                        size.getMax().map(max -> String.format("max = %d", max)))
-                    .flatMapOptional(Function.identity())
-                    .mkString(", ");
-            writer.tab(tabs).println("@Size(%s)", minMax);
-          });
-      constraints.onPattern(
-          pattern ->
-              writer
-                  .tab(tabs)
-                  .println(
-                      "@Pattern(regexp=\"%s\")", pattern.getPatternEscaped(JavaEscaper::escape)));
-    }
+    final Generator<PojoMember, PojoSettings> generator =
+        Generator.<PojoMember, PojoSettings>emptyGen()
+            .append(GetterGenerator.generator(), 1)
+            .prependNewLine();
+    pojo.getMembers().map(member -> applyGen(generator, member, settings)).forEach(writer::println);
   }
 
   protected void printWithers(Writer writer, Pojo pojo) {
@@ -487,6 +375,9 @@ public class JavaPojoGenerator implements PojoGenerator {
     }
 
     writer.println();
+    if (settings.isJacksonJson()) {
+      writer.tab(1).println("@JsonPOJOBuilder(withPrefix = \"set\")");
+    }
     writer.tab(1).println("public static final class Builder {");
 
     if (settings.isEnableSafeBuilder()) {
@@ -500,32 +391,51 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(
             member -> {
               final String type = member.getTypeName(resolver).asString();
-              final String fieldName = member.memberName(resolver).asString();
+              final Name fieldName = member.memberName(resolver);
               writer.tab(2).println("private %s %s;", type, fieldName);
+              if (member.isRequiredAndNullable()) {
+                writer
+                    .tab(2)
+                    .println("private boolean is%sPresent = false;", fieldName.startUpperCase());
+              } else if (member.isOptionalAndNullable()) {
+                writer
+                    .tab(2)
+                    .println("private boolean is%sNull = false;", fieldName.startUpperCase());
+              }
             });
 
     pojo.getMembers()
         .forEach(
             member -> {
               final String type = member.getTypeName(resolver).asString();
-              final String fieldName = member.memberName(resolver).asString();
+              final Name fieldName = member.memberName(resolver);
               final String setterModifier =
                   settings.isEnableSafeBuilder() && member.isRequired() ? "private" : "public";
 
               // Normal setter
               writer.println();
               printJavaDoc(writer, 2, member.getDescription());
+              if (settings.isJacksonJson()) {
+                writer.tab(2).println("@JsonProperty(\"%s\")", member.memberName(resolver));
+              }
               writer
                   .tab(2)
                   .println(
                       "%s Builder %s(%s %s) {",
                       setterModifier, member.setterName(resolver).asString(), type, fieldName);
               writer.tab(3).println("this.%s = %s;", fieldName, fieldName);
+              if (member.isRequiredAndNullable()) {
+                writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
+              } else if (member.isOptionalAndNullable()) {
+                writer.tab(3).println("if (%s == null) {", fieldName);
+                writer.tab(4).println("this.is%sNull = true;", fieldName.startUpperCase());
+                writer.tab(3).println("}");
+              }
               writer.tab(3).println("return this;");
               writer.tab(2).println("}");
 
               // Optional setter
-              if (member.isNullable()) {
+              if ((member.isOptional() && !member.isNullable()) || member.isRequiredAndNullable()) {
                 writer.println();
                 printJavaDoc(writer, 2, member.getDescription());
                 writer
@@ -534,6 +444,36 @@ public class JavaPojoGenerator implements PojoGenerator {
                         "%s Builder %s(Optional<%s> %s) {",
                         setterModifier, member.setterName(resolver).asString(), type, fieldName);
                 writer.tab(3).println("this.%s = %s.orElse(null);", fieldName, fieldName);
+                if (member.isOptionalAndNullable()) {
+                  writer.tab(3).println("if (!%s.isPresent()) {", fieldName);
+                  writer.tab(4).println("this.is%sNull = true;", fieldName.startUpperCase());
+                  writer.tab(3).println("}");
+                } else if (member.isRequiredAndNullable()) {
+                  writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
+                }
+                writer.tab(3).println("return this;");
+                writer.tab(2).println("}");
+              }
+
+              // Optional nullable setter
+              if (member.isOptionalAndNullable()) {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "%s Builder %s(Tristate<%s> %s) {",
+                        setterModifier, member.setterName(resolver).asString(), type, fieldName);
+                writer
+                    .tab(3)
+                    .println(
+                        "this.%s = %s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);",
+                        fieldName, fieldName);
+                writer
+                    .tab(3)
+                    .println(
+                        "this.is%sNull = %s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);",
+                        fieldName.startUpperCase(), fieldName);
                 writer.tab(3).println("return this;");
                 writer.tab(2).println("}");
               }
@@ -557,7 +497,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(2).println("return new Builder0(new Builder());");
     writer.tab(1).println("}");
 
-    final PList<PojoMember> optionalMembers = pojo.getMembers().filter(PojoMember::isNullable);
+    final PList<PojoMember> optionalMembers = pojo.getMembers().filter(PojoMember::isOptional);
     final PList<PojoMember> requiredMembers = pojo.getMembers().filter(PojoMember::isRequired);
 
     IntStream.range(0, requiredMembers.size())
@@ -574,6 +514,7 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(3).println("this.builder = builder;");
               writer.tab(2).println("}");
 
+              // Normal setter method
               writer.println();
               printJavaDoc(writer, 2, member.getDescription());
               writer
@@ -587,6 +528,23 @@ public class JavaPojoGenerator implements PojoGenerator {
                       "return new Builder%d(builder.%s(%s));",
                       idx + 1, member.setterName(resolver).asString(), memberName);
               writer.tab(2).println("}");
+
+              // Required nullable method
+              if (member.isRequiredAndNullable()) {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "public Builder%d %s(Optional<%s> %s){",
+                        idx + 1, member.setterName(resolver).asString(), memberType, memberName);
+                writer
+                    .tab(3)
+                    .println(
+                        "return new Builder%d(builder.%s(%s));",
+                        idx + 1, member.setterName(resolver).asString(), memberName);
+                writer.tab(2).println("}");
+              }
 
               writer.tab(1).println("}");
             });
@@ -623,6 +581,7 @@ public class JavaPojoGenerator implements PojoGenerator {
               writer.tab(3).println("this.builder = builder;");
               writer.tab(2).println("}");
 
+              // Normal setter
               writer.println();
               printJavaDoc(writer, 2, member.getDescription());
               writer
@@ -637,19 +596,35 @@ public class JavaPojoGenerator implements PojoGenerator {
                       idx + 1, member.setterName(resolver).asString(), memberName);
               writer.tab(2).println("}");
 
-              writer.println();
-              printJavaDoc(writer, 2, member.getDescription());
-              writer
-                  .tab(2)
-                  .println(
-                      "public OptBuilder%d %s(Optional<%s> %s){",
-                      idx + 1, member.setterName(resolver).asString(), memberType, memberName);
-              writer
-                  .tab(3)
-                  .println(
-                      "return new OptBuilder%d(%s.map(builder::%s).orElse(builder));",
-                      idx + 1, memberName, member.setterName(resolver).asString());
-              writer.tab(2).println("}");
+              if (member.isNotNullable()) {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "public OptBuilder%d %s(Optional<%s> %s){",
+                        idx + 1, member.setterName(resolver).asString(), memberType, memberName);
+                writer
+                    .tab(3)
+                    .println(
+                        "return new OptBuilder%d(%s.map(builder::%s).orElse(builder));",
+                        idx + 1, memberName, member.setterName(resolver).asString());
+                writer.tab(2).println("}");
+              } else {
+                writer.println();
+                printJavaDoc(writer, 2, member.getDescription());
+                writer
+                    .tab(2)
+                    .println(
+                        "public OptBuilder%d %s(Tristate<%s> %s){",
+                        idx + 1, member.setterName(resolver).asString(), memberType, memberName);
+                writer
+                    .tab(3)
+                    .println(
+                        "return new OptBuilder%d(builder.%s(%s));",
+                        idx + 1, member.setterName(resolver).asString(), memberName);
+                writer.tab(2).println("}");
+              }
 
               writer.tab(1).println("}");
             });
@@ -667,78 +642,27 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(1).println("}");
   }
 
-  protected void printEqualsAndHash(Writer writer, Pojo pojo) {
+  protected void printEqualsAndHash(Writer writer, Pojo pojo, PojoSettings settings) {
+    final Generator<Pojo, PojoSettings> equalsMethod = EqualsGenerator.equalsMethod();
+    final Generator<Pojo, PojoSettings> hashCodeMethod = HashCodeGenerator.hashCodeMethod();
+    final Generator<Pojo, PojoSettings> equalsAndHashCodeMethods =
+        equalsMethod.appendNewLine().append(hashCodeMethod);
+    final Generator<Pojo, PojoSettings> generator =
+        Generator.<Pojo, PojoSettings>emptyGen()
+            .appendNewLine()
+            .append(equalsAndHashCodeMethods, 1);
 
-    writer.println();
-
-    writer.tab(1).println("@Override");
-    writer.tab(1).println("public boolean equals(Object other) {");
-    writer.tab(2).println("if (this == other) {");
-    writer.tab(3).println("return true;");
-    writer.tab(2).println("}");
-    writer.tab(2).println("if (other == null || getClass() != other.getClass()) {");
-    writer.tab(3).println("return false;");
-    writer.tab(2).println("}");
-
-    writer
-        .tab(2)
-        .println(
-            "final %s v = (%s) other;",
-            pojo.className(resolver).asString(), pojo.className(resolver).asString());
-
-    final PList<String> objectEquals =
-        pojo.getMembers()
-            .map(
-                member -> {
-                  final String fieldName = member.memberName(resolver).asString();
-                  return String.format("Objects.equals(%s, v.%s)", fieldName, fieldName);
-                });
-
-    writer.tab(2).print("return ");
-    for (int i = 0; i < objectEquals.size(); i++) {
-      if (i > 0) {
-        writer.tab(4).print("&& ");
-      }
-      writer.tab(4).print(objectEquals.apply(i));
-      if (i == objectEquals.size() - 1) {
-        writer.println(";");
-      } else {
-        writer.println();
-      }
-    }
-    writer.tab(1).println("}");
-    writer.println();
-
-    writer.println();
-    writer.tab(1).println("@Override");
-    writer.tab(1).println("public int hashCode() {");
-
-    final PList<String> fieldNames =
-        pojo.getMembers().map(member -> member.memberName(resolver).asString());
-
-    writer.tab(2).println("return Objects.hash(%s);", String.join(", ", fieldNames));
-    writer.tab(1).println("}");
+    final String output = applyGen(generator, pojo, settings);
+    writer.println(output);
   }
 
-  protected void printToString(Writer writer, Pojo pojo) {
-    writer.println();
-    writer.tab(1).println("@Override");
-    writer.tab(1).println("public String toString() {");
-    writer.tab(2).println("return \"%s{\" +", pojo.className(resolver).asString());
+  protected void printToString(Writer writer, Pojo pojo, PojoSettings settings) {
+    final Generator<Pojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
-    String separator = "";
-    for (PojoMember member : pojo.getMembers()) {
-      writer
-          .tab(3)
-          .println(
-              "\"%s%s=\" + %s +",
-              separator,
-              member.memberName(resolver).asString(),
-              member.memberName(resolver).asString());
-      separator = ", ";
-    }
-    writer.tab(3).println("\"}\";");
-    writer.tab(1).println("}");
+    writer.println();
+    final String output =
+        applyGen(Generator.<Pojo, PojoSettings>emptyGen().append(generator, 1), pojo, settings);
+    writer.println(output);
   }
 
   private void printClassEnd(Writer writer) {

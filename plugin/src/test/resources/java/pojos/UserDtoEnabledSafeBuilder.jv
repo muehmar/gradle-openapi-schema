@@ -1,5 +1,7 @@
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.Tristate;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,7 +20,8 @@ public class UserDto {
   public UserDto(
       long id,
       String name,
-      LanguageEnum language) {
+      LanguageEnum language
+    ) {
     this.id = id;
     this.name = name;
     this.language = language;
@@ -69,28 +72,28 @@ public class UserDto {
    * ID of this user
    */
   public long getId() {
-    return this.id;
+    return id;
   }
 
   /**
    * Name of this user
    */
   public String getName() {
-    return this.name;
+    return name;
   }
 
   /**
    * Preferred language of this user
    */
-  public Optional<LanguageEnum> getLanguageOptional() {
-    return Optional.ofNullable(this.language);
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
   }
 
   /**
    * Preferred language of this user
    */
-  public LanguageEnum getLanguageNullable() {
-    return language;
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
   }
 
   /**
@@ -115,23 +118,22 @@ public class UserDto {
   }
 
   @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-    final UserDto v = (UserDto) other;
-    return Objects.equals(id, v.id)
-        && Objects.equals(name, v.name)
-        && Objects.equals(language, v.language);
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(id, other.id)
+        && Objects.equals(name, other.name)
+        && Objects.equals(language, other.language);
   }
-
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, language);
+    return Objects.hash(
+      id,
+      name,
+      language
+    );
   }
 
   @Override

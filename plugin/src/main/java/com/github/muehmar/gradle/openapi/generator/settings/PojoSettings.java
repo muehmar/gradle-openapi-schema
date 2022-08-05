@@ -1,54 +1,27 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import io.github.muehmar.pojoextension.annotations.FieldBuilder;
 import io.github.muehmar.pojoextension.annotations.Getter;
 import io.github.muehmar.pojoextension.annotations.PojoExtension;
 import java.io.Serializable;
 import java.util.List;
+import lombok.Value;
 
+@Value
 @PojoExtension
-@SuppressWarnings("java:S2160")
-public class PojoSettings extends PojoSettingsBase implements Serializable {
-  private final JsonSupport jsonSupport;
-  private final String packageName;
-  private final String suffix;
-  private final boolean enableSafeBuilder;
-  private final boolean enableConstraints;
-  private final List<ClassTypeMapping> classTypeMappings;
-  private final List<FormatTypeMapping> formatTypeMappings;
-  private final EnumDescriptionSettings enumDescriptionSettings;
-
-  @SuppressWarnings("java:S107")
-  PojoSettings(
-      JsonSupport jsonSupport,
-      String packageName,
-      String suffix,
-      boolean enableSafeBuilder,
-      boolean enableConstraints,
-      List<ClassTypeMapping> classTypeMappings,
-      List<FormatTypeMapping> formatTypeMappings,
-      EnumDescriptionSettings enumDescriptionSettings) {
-    this.jsonSupport = jsonSupport;
-    this.packageName = packageName;
-    this.suffix = suffix;
-    this.enableSafeBuilder = enableSafeBuilder;
-    this.enableConstraints = enableConstraints;
-    this.classTypeMappings = classTypeMappings;
-    this.formatTypeMappings = formatTypeMappings;
-    this.enumDescriptionSettings = enumDescriptionSettings;
-  }
-
-  public String getPackageName() {
-    return packageName;
-  }
-
-  public String getSuffix() {
-    return suffix;
-  }
-
-  public JsonSupport getJsonSupport() {
-    return jsonSupport;
-  }
+public class PojoSettings implements PojoSettingsExtension, Serializable {
+  JsonSupport jsonSupport;
+  String packageName;
+  String suffix;
+  boolean enableSafeBuilder;
+  boolean enableConstraints;
+  List<ClassTypeMapping> classTypeMappings;
+  List<FormatTypeMapping> formatTypeMappings;
+  EnumDescriptionSettings enumDescriptionSettings;
+  GetterSuffixes getterSuffixes;
+  RawGetter rawGetter;
 
   public boolean isJacksonJson() {
     return jsonSupport.equals(JsonSupport.JACKSON);
@@ -84,7 +57,31 @@ public class PojoSettings extends PojoSettingsBase implements Serializable {
     return !isEnableSafeBuilder();
   }
 
-  public EnumDescriptionSettings getEnumDescriptionSettings() {
-    return enumDescriptionSettings;
+  public String suffixForField(PojoMember field) {
+    if (field.isRequiredAndNotNullable()) {
+      return getterSuffixes.getRequiredSuffix();
+    } else if (field.isRequiredAndNullable()) {
+      return getterSuffixes.getRequiredNullableSuffix();
+    } else if (field.isOptionalAndNotNullable()) {
+      return getterSuffixes.getOptionalSuffix();
+    } else {
+      return getterSuffixes.getOptionalNullableSuffix();
+    }
+  }
+
+  @FieldBuilder(fieldName = "classTypeMappings")
+  public static List<ClassTypeMapping> classTypeMappings(
+      PList<ClassTypeMapping> classTypeMappings) {
+    return classTypeMappings.toArrayList();
+  }
+
+  @FieldBuilder(fieldName = "formatTypeMappings")
+  public static List<FormatTypeMapping> formatTypeMappings(
+      PList<FormatTypeMapping> formatTypeMappings) {
+    return formatTypeMappings.toArrayList();
+  }
+
+  public RawGetter getRawGetter() {
+    return rawGetter;
   }
 }

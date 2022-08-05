@@ -74,6 +74,6 @@ public class Name {
 
   @Override
   public String toString() {
-    return "Name{" + "value='" + value + '\'' + '}';
+    return asString();
   }
 }

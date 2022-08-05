@@ -2,19 +2,25 @@ package com.github.muehmar.gradle.openapi.dsl;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.RawGetterBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import javax.inject.Inject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Project;
 
+@EqualsAndHashCode
+@ToString
 public class SingleSchemaExtension implements Serializable {
   private static final String DEFAULT_SOURCE_SET = "main";
 
@@ -24,6 +30,8 @@ public class SingleSchemaExtension implements Serializable {
   private String inputSpec;
   private String outputDir;
   private String suffix;
+  private GetterSuffixes getterSuffixes;
+  private RawGetter rawGetter;
   private String packageName;
   private String jsonSupport;
   private Boolean enableSafeBuilder;
@@ -37,6 +45,8 @@ public class SingleSchemaExtension implements Serializable {
     this.name = name;
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
+    this.getterSuffixes = GetterSuffixes.allUndefined();
+    this.rawGetter = RawGetter.allUndefined();
   }
 
   public String getName() {
@@ -78,6 +88,23 @@ public class SingleSchemaExtension implements Serializable {
 
   public void setSuffix(String suffix) {
     this.suffix = suffix;
+  }
+
+  public void getterSuffixes(Action<GetterSuffixes> action) {
+    action.execute(getterSuffixes);
+  }
+
+  public GetterSuffixes getGetterSuffixes() {
+    return getterSuffixes;
+  }
+
+  public void rawGetter(Action<RawGetter> action) {
+    action.execute(rawGetter);
+    System.out.println("Specific validation getter configured...");
+  }
+
+  public RawGetter getRawGetter() {
+    return rawGetter;
   }
 
   public String getPackageName(Project project) {
@@ -170,61 +197,51 @@ public class SingleSchemaExtension implements Serializable {
     return this;
   }
 
+  public SingleSchemaExtension withCommonGetterSuffixes(GetterSuffixes commonSuffixes) {
+    this.getterSuffixes = getterSuffixes.withCommonSuffixes(commonSuffixes);
+    return this;
+  }
+
+  public SingleSchemaExtension withCommonRawGetter(RawGetter commonRawGetter) {
+    this.rawGetter = this.rawGetter.withCommonRawGetter(commonRawGetter);
+    return this;
+  }
+
   public PojoSettings toPojoSettings(Project project) {
+    final com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes
+        settingsGetterSuffixes =
+            GetterSuffixesBuilder.create()
+                .requiredSuffix(getterSuffixes.getRequiredSuffixOrDefault())
+                .requiredNullableSuffix(getterSuffixes.getRequiredNullableSuffixOrDefault())
+                .optionalSuffix(getterSuffixes.getOptionalSuffixOrDefault())
+                .optionalNullableSuffix(getterSuffixes.getOptionalNullableSuffixOrDefault())
+                .andAllOptionals()
+                .build();
+
+    final com.github.muehmar.gradle.openapi.generator.settings.RawGetter settingsRawGetter =
+        RawGetterBuilder.create()
+            .modifier(rawGetter.getModifierOrDefault())
+            .suffix(rawGetter.getSuffixOrDefault())
+            .deprecatedAnnotation(rawGetter.getDeprecatedAnnotationOrDefault())
+            .andAllOptionals()
+            .build();
+
     return PojoSettingsBuilder.create()
         .jsonSupport(getJsonSupport())
         .packageName(getPackageName(project))
         .suffix(getSuffix())
         .enableSafeBuilder(getEnableSafeBuilder())
         .enableConstraints(getEnableValidation())
-        .classTypeMappings(
-            getClassMappings().map(ClassMapping::toSettingsClassMapping).toArrayList())
+        .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(
-            getFormatTypeMappings()
-                .map(FormatTypeMapping::toSettingsFormatTypeMapping)
-                .toArrayList())
+            getFormatTypeMappings().map(FormatTypeMapping::toSettingsFormatTypeMapping))
         .enumDescriptionSettings(
             getEnumDescriptionExtension()
                 .map(EnumDescriptionExtension::toEnumDescriptionSettings)
                 .orElse(EnumDescriptionSettings.disabled()))
+        .getterSuffixes(settingsGetterSuffixes)
+        .rawGetter(settingsRawGetter)
         .andAllOptionals()
         .build();
-  }
-
-  @Override
-  public String toString() {
-    return "SchemaGenExtension{"
-        + "name='"
-        + name
-        + '\''
-        + ", sourceSet='"
-        + sourceSet
-        + '\''
-        + ", inputSpec='"
-        + inputSpec
-        + '\''
-        + ", outputDir='"
-        + outputDir
-        + '\''
-        + ", suffix='"
-        + suffix
-        + '\''
-        + ", packageName='"
-        + packageName
-        + '\''
-        + ", jsonSupport='"
-        + jsonSupport
-        + '\''
-        + ", enableSafeBuilder="
-        + enableSafeBuilder
-        + ", enableValidation="
-        + enableValidation
-        + ", enumDescriptionExtension="
-        + enumDescriptionExtension
-        + ", classMappingsList="
-        + classMappings
-        + ", formatTypeMappings="
-        + formatTypeMappings
-        + '}';
   }
 }

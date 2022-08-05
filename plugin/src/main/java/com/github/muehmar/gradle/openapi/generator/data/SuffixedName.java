@@ -50,6 +50,6 @@ public class SuffixedName {
 
   @Override
   public String toString() {
-    return "SuffixedName{" + "name=" + name + ", suffix='" + suffix + '\'' + '}';
+    return asString();
   }
 }
