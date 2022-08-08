@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
-import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.util.Optional;

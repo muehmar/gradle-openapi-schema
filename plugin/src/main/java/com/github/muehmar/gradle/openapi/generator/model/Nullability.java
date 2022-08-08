@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.data;
+package com.github.muehmar.gradle.openapi.generator.model;
 
 /** Defines if an attribute may be nullable or not. */
 public enum Nullability {

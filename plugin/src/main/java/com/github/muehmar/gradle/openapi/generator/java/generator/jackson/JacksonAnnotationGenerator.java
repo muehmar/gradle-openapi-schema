@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters.isJacksonJson;
 
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 

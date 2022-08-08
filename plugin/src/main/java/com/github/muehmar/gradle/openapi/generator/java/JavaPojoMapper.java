@@ -1,16 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.data.MappedSchema;
-import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.data.Necessity;
-import com.github.muehmar.gradle.openapi.generator.data.Nullability;
-import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.data.Pojo;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.schema.JavaSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.java.schema.ReferenceMapper;
 import com.github.muehmar.gradle.openapi.generator.java.schema.SchemaMapperChainFactory;
@@ -18,6 +10,14 @@ import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.mapper.BasePojoMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.PojoMemberProcessResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PojoProcessResult;
+import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.MappedSchema;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Necessity;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;

@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.data;
+package com.github.muehmar.gradle.openapi.generator.model;
 
 import java.util.Objects;
 import java.util.function.UnaryOperator;

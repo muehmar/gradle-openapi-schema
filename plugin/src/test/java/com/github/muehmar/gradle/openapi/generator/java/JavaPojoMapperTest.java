@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
-import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
-import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -11,13 +11,13 @@ import com.github.muehmar.gradle.openapi.generator.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
-import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.data.Pojo;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.data.Type;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;

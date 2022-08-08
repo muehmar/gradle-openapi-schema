@@ -1,20 +1,20 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.data;
 
-import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
-import static com.github.muehmar.gradle.openapi.generator.data.Necessity.REQUIRED;
-import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
-import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.data.Pojo;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 
 public class Pojos {
   private Pojos() {}

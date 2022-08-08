@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import java.util.Objects;
 
 /** Data class holding the result of processing a schema as a member of a pojo. */

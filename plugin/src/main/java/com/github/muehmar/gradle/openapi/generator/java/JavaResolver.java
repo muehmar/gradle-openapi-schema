@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import ch.bluecare.commons.data.PList;
 import ch.bluecare.commons.data.Pair;
 import com.github.muehmar.gradle.openapi.generator.Resolver;
-import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.data.Type;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.Optional;
 
 // TODO: Remove this resolver. This should go to the Pojo/PojoMember

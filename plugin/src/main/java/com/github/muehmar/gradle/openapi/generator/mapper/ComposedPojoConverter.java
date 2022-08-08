@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.data.Pojo;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import java.util.Optional;
 import java.util.function.Function;
 

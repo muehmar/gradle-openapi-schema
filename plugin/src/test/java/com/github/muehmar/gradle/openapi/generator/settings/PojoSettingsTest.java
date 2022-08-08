@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.settings;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.data.Nullability;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import org.junit.jupiter.api.Test;
 
 class PojoSettingsTest {

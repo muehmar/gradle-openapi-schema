@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
-import com.github.muehmar.gradle.openapi.generator.data.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import java.io.Serializable;
 import java.util.Objects;
 

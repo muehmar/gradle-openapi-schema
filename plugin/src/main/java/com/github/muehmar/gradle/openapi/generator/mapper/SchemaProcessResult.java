@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.ComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.data.Pojo;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMemberReference;
+import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import java.util.Objects;
 
 class SchemaProcessResult {

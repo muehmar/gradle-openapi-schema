@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.data;
 
-import static com.github.muehmar.gradle.openapi.generator.data.Necessity.OPTIONAL;
-import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NOT_NULLABLE;
-import static com.github.muehmar.gradle.openapi.generator.data.Nullability.NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
@@ -11,12 +11,12 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
-import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.data.Necessity;
-import com.github.muehmar.gradle.openapi.generator.data.Nullability;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Necessity;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 
 public class PojoMembers {
   private PojoMembers() {}
