@@ -32,9 +32,9 @@ class TestSafeBuilder {
             .setData(Optional.empty())
             .build();
 
-    assertEquals(Optional.empty(), userDto.getBirthdayOptional());
-    assertEquals(Optional.of(GenderDto.FEMALE), userDto.getGenderOptional());
-    assertEquals(Optional.of(UserDto.RoleEnum.USER), userDto.getRoleOptional());
+    assertEquals(Optional.empty(), userDto.getBirthdayOpt());
+    assertEquals(Optional.of(GenderDto.FEMALE), userDto.getGenderOpt());
+    assertEquals(Optional.of(UserDto.RoleEnum.USER), userDto.getRoleOpt());
   }
 
   @Test
@@ -52,9 +52,9 @@ class TestSafeBuilder {
             .setRole(UserDto.RoleEnum.USER)
             .build();
 
-    assertEquals(Optional.empty(), userDto.getBirthdayOptional());
-    assertEquals(Optional.of(GenderDto.FEMALE), userDto.getGenderOptional());
-    assertEquals(Optional.of(UserDto.RoleEnum.USER), userDto.getRoleOptional());
-    assertEquals(Optional.empty(), userDto.getAgeOptional());
+    assertEquals(Optional.empty(), userDto.getBirthdayOpt());
+    assertEquals(Optional.of(GenderDto.FEMALE), userDto.getGenderOpt());
+    assertEquals(Optional.of(UserDto.RoleEnum.USER), userDto.getRoleOpt());
+    assertEquals(Optional.empty(), userDto.getAgeOpt());
   }
 }

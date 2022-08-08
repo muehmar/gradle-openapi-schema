@@ -24,6 +24,6 @@ class TestAllOfArray {
     final ReportsDto reportsDto =
         ReportsDto.newBuilder().andAllOptionals().setInvoice(invoiceReports).build();
 
-    assertEquals(Optional.of(1), reportsDto.getInvoiceOptional().map(ArrayList::size));
+    assertEquals(Optional.of(1), reportsDto.getInvoiceOpt().map(ArrayList::size));
   }
 }

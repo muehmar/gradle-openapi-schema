@@ -31,6 +31,6 @@ class TestInlineObject {
 
     assertEquals(customerInlineObjectDto, customerDto.getInlineObject());
     assertEquals(
-        Optional.of(anotherObjectDto), customerDto.getInlineObject().getAnotherObjectOptional());
+        Optional.of(anotherObjectDto), customerDto.getInlineObject().getAnotherObjectOpt());
   }
 }

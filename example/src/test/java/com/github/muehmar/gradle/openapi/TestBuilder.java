@@ -24,7 +24,7 @@ class TestBuilder {
 
     final UserDto userDto = builder.setAge(13).setAge(Optional.empty()).build();
 
-    assertEquals(Optional.empty(), userDto.getAgeOptional());
+    assertEquals(Optional.empty(), userDto.getAgeOpt());
   }
 
   @Test
