@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.15.1"
+    id "com.github.muehmar.openapischema" version "0.16.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -44,6 +44,11 @@ openApiGenerator {
         toClass = "ArrayList"
         imports = "java.util.ArrayList"
     }
+
+    rawGetter {
+        suffix = "Raw"
+    }
+
     schemas {
         apiV1 {
             sourceSet = 'main'
@@ -86,6 +91,10 @@ openApiGenerator {
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
+
+            getterSuffixes {
+                optionalSuffix = "Opt"
+            }
         }
         inlineObject {
             sourceSet = 'main'
@@ -96,7 +105,7 @@ openApiGenerator {
             suffix = "Dto"
             enableValidation = true
         }
-        inlineObject {
+        nullability {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-nullability.yml"
             outputDir = "$buildDir/generated/openapi"
