@@ -25,7 +25,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.15.1'
+    id 'com.github.muehmar.openapischema' version '0.16.0'
 }
 ```
 
@@ -441,6 +441,9 @@ member without adding the description.
 
 ## Change Log
 
+* 0.16.0
+    * Support for nullability (issue `#3`) 
+    * Improve exception for enum conversion (issue `#4`) 
 * 0.15.1 - Support inline object definitions
 * 0.15.0 - Support multiple specifications (breaking change in DSL)
 * 0.14.1 - Fix issue `#1`
