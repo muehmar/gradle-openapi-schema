@@ -1,46 +1,40 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import io.swagger.v3.oas.models.media.Schema;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /** Container holding a key and the corresponding {@link Schema}. */
+@EqualsAndHashCode
+@ToString
 public class OpenApiPojo {
-  private final Name name;
+  private final PojoName name;
   private final Schema<?> schema;
 
   public OpenApiPojo(Name name, Schema<?> schema) {
-    this.name = name.startUpperCase();
+    this.name = PojoName.ofName(name.startUpperCase());
+    this.schema = schema;
+  }
+
+  public OpenApiPojo(PojoName name, Schema<?> schema) {
+    this.name = name;
     this.schema = schema;
   }
 
   public Name getName() {
+    return name.getName();
+  }
+
+  public PojoName getPojoName() {
     return name;
+  }
+
+  public String getSuffix() {
+    return name.getSuffix();
   }
 
   @SuppressWarnings("java:S1452")
   public Schema<?> getSchema() {
     return schema;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    OpenApiPojo that = (OpenApiPojo) o;
-    return Objects.equals(name, that.name) && Objects.equals(schema, that.schema);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, schema);
-  }
-
-  @Override
-  public String toString() {
-    return "OpenApiPojo{" + "name='" + name + '\'' + ", schema=" + schema + '}';
   }
 }

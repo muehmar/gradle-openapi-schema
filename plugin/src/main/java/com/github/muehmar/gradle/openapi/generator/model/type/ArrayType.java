@@ -17,6 +17,14 @@ public class ArrayType implements NewType {
     this.itemType = itemType;
   }
 
+  public static ArrayType ofItemType(NewType itemType) {
+    return new ArrayType(Constraints.empty(), itemType);
+  }
+
+  public ArrayType withConstraints(Constraints constraints) {
+    return new ArrayType(constraints, itemType);
+  }
+
   public NewType getItemType() {
     return itemType;
   }
@@ -32,7 +40,10 @@ public class ArrayType implements NewType {
       Function<StringType, T> onStringType,
       Function<ArrayType, T> onArrayType,
       Function<BooleanType, T> onBooleanType,
-      Function<ObjectType, T> onObjectType) {
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
+      Function<MapType, T> onMapType,
+      Function<NoType, T> onNoType) {
     return onArrayType.apply(this);
   }
 }

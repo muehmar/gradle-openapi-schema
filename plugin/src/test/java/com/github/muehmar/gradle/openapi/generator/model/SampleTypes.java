@@ -1,9 +1,7 @@
-package com.github.muehmar.gradle.openapi.generator.data;
+package com.github.muehmar.gradle.openapi.generator.model;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Consumer;
 
 public class SampleTypes {

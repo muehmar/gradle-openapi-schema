@@ -6,11 +6,11 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.SampleTypes;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.SampleTypes;
 import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 

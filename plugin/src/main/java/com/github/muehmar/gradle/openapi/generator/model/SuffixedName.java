@@ -12,10 +12,22 @@ public class SuffixedName {
     this.suffix = suffix;
   }
 
-  public static SuffixedName of(Name name, String suffix) {
+  public static SuffixedName ofName(Name name) {
+    return new SuffixedName(name, "");
+  }
+
+  public static SuffixedName ofNameAndSuffix(Name name, String suffix) {
     Objects.requireNonNull(name);
     Objects.requireNonNull(suffix);
     return new SuffixedName(name, suffix);
+  }
+
+  public static SuffixedName deriveOpenApiPojoName(SuffixedName pojoName, Name pojoMemberName) {
+    return pojoName
+        .getName()
+        .startUpperCase()
+        .append(pojoMemberName.startUpperCase())
+        .suffix(pojoName.getSuffix());
   }
 
   public Name getName() {

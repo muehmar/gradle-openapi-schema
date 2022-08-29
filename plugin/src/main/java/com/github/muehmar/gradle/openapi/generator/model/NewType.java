@@ -3,6 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.model;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
+import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -16,5 +19,8 @@ public interface NewType {
       Function<StringType, T> onStringType,
       Function<ArrayType, T> onArrayType,
       Function<BooleanType, T> onBooleanType,
-      Function<ObjectType, T> onObjectType);
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
+      Function<MapType, T> onMapType,
+      Function<NoType, T> onNoType);
 }

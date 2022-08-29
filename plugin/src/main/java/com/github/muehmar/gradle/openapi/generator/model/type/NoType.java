@@ -8,12 +8,10 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class BooleanType implements NewType {
+public class NoType implements NewType {
 
-  private BooleanType() {}
-
-  public static BooleanType create() {
-    return new BooleanType();
+  public static NoType create() {
+    return new NoType();
   }
 
   @Override
@@ -31,6 +29,6 @@ public class BooleanType implements NewType {
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
       Function<NoType, T> onNoType) {
-    return onBooleanType.apply(this);
+    return onNoType.apply(this);
   }
 }

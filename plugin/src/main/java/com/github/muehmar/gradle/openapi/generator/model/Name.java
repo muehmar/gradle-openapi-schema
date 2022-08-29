@@ -1,9 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
-import java.util.Objects;
 import java.util.function.UnaryOperator;
+import lombok.EqualsAndHashCode;
 
 /** Name of a pojo or a pojo member. */
+@EqualsAndHashCode
 public class Name {
   private final String value;
 
@@ -17,10 +18,6 @@ public class Name {
     }
 
     return new Name(val);
-  }
-
-  public static Name concat(Name n1, Name n2) {
-    return n1.append(n2);
   }
 
   public String asString() {
@@ -44,7 +41,7 @@ public class Name {
   }
 
   public SuffixedName suffix(String suffix) {
-    return SuffixedName.of(this, suffix);
+    return SuffixedName.ofNameAndSuffix(this, suffix);
   }
 
   public boolean equalsIgnoreCase(Name other) {
@@ -53,23 +50,6 @@ public class Name {
 
   public Name startUpperCase() {
     return map(s -> s.substring(0, 1).toUpperCase() + s.substring(1));
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Name name = (Name) o;
-    return Objects.equals(value, name.value);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(value);
   }
 
   @Override

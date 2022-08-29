@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import java.util.function.Function;
@@ -8,12 +9,15 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class BooleanType implements NewType {
+public class EnumType implements NewType {
+  private final PList<String> members;
 
-  private BooleanType() {}
+  private EnumType(PList<String> members) {
+    this.members = members;
+  }
 
-  public static BooleanType create() {
-    return new BooleanType();
+  public static EnumType ofMembers(PList<String> members) {
+    return new EnumType(members);
   }
 
   @Override
@@ -31,6 +35,6 @@ public class BooleanType implements NewType {
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
       Function<NoType, T> onNoType) {
-    return onBooleanType.apply(this);
+    return onEnumType.apply(this);
   }
 }

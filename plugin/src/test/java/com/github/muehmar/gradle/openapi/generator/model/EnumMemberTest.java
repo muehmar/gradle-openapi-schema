@@ -1,11 +1,9 @@
-package com.github.muehmar.gradle.openapi.generator.data;
+package com.github.muehmar.gradle.openapi.generator.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.EnumMember;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import java.util.Optional;
 import java.util.stream.Stream;
