@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
 import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -10,26 +10,39 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class ArrayPojo implements NewPojo {
-  private final Name name;
+  private final PojoName name;
   private final String description;
-  private final String suffix;
   private final NewType itemType;
 
-  private ArrayPojo(Name name, String description, String suffix, NewType itemType) {
+  private ArrayPojo(PojoName name, String description, NewType itemType) {
     this.name = name;
     this.description = description;
-    this.suffix = suffix;
     this.itemType = itemType;
   }
 
+  public static ArrayPojo of(PojoName name, String description, NewType itemType) {
+    return new ArrayPojo(name, description, itemType);
+  }
+
   @Override
-  public Name getName() {
+  public PojoName getName() {
     return name;
   }
 
   @Override
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public NewPojo addObjectTypeDescription(PojoName objectTypeName, String description) {
+    return this;
+  }
+
+  @Override
+  public NewPojo inlineObjectReference(
+      PojoName referenceName, String referenceDescription, NewType referenceType) {
+    return this;
   }
 
   @Override

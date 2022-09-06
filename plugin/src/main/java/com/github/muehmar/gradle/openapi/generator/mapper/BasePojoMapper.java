@@ -24,7 +24,7 @@ public abstract class BasePojoMapper implements PojoMapper {
   private static final PList<String> SUPPORTED_MEMBER_SCHEMAS =
       PList.of("string", "integer", "number", "boolean");
 
-  protected final OpenApiProcessor openApiProcessor;
+  protected final CompleteOpenApiProcessor openApiProcessor;
 
   protected BasePojoMapper() {
     openApiProcessor =
@@ -32,7 +32,7 @@ public abstract class BasePojoMapper implements PojoMapper {
             .or(objectOpenApiProcessor())
             .or(composedOpenApiProcessor())
             .or(enumOpenApiProcessor())
-            .or(memberOpenApiProcessor());
+            .orLast(memberOpenApiProcessor());
   }
 
   /**
@@ -70,7 +70,7 @@ public abstract class BasePojoMapper implements PojoMapper {
   @Override
   public PList<Pojo> fromSchemas(PList<OpenApiPojo> openApiPojos, PojoSettings pojoSettings) {
     final PList<SchemaProcessResult> processResults =
-        openApiPojos.map(openApiPojo -> processSchema(openApiPojo, pojoSettings));
+        openApiPojos.map(openApiPojo -> openApiProcessor.process(openApiPojo, pojoSettings));
 
     final PList<Pojo> pojos = processResults.flatMap(SchemaProcessResult::getPojos);
     final PList<ComposedPojo> composedPojos =
@@ -114,19 +114,9 @@ public abstract class BasePojoMapper implements PojoMapper {
                     }));
   }
 
-  private SchemaProcessResult processSchema(OpenApiPojo openApiPojo, PojoSettings pojoSettings) {
-    return openApiProcessor
-        .process(openApiPojo, pojoSettings)
-        .orElseThrow(
-            () ->
-                new IllegalArgumentException(
-                    "The following schema is currently not supported as root schema in the components section (contact the maintainer to support this schema as well): "
-                        + openApiPojo.getSchema()));
-  }
-
   /** Process array schemas */
   private OpenApiProcessor arrayOpenApiProcessor() {
-    return (openApiPojo, pojoSettings) -> {
+    return (openApiPojo, pojoSettings, completeOpenApiProcessor) -> {
       if (openApiPojo.getSchema() instanceof ArraySchema) {
         final PojoProcessResult pojoProcessResult =
             fromArraysSchema(
@@ -140,7 +130,7 @@ public abstract class BasePojoMapper implements PojoMapper {
 
   /** Processes object schemas (definitions with properties) */
   private OpenApiProcessor objectOpenApiProcessor() {
-    return (openApiPojo, pojoSettings) -> {
+    return (openApiPojo, pojoSettings, completeOpenApiProcessor) -> {
       if (openApiPojo.getSchema().getProperties() != null) {
         final PojoProcessResult pojoProcessResult =
             processObjectSchema(openApiPojo.getName(), openApiPojo.getSchema(), pojoSettings);
@@ -153,7 +143,7 @@ public abstract class BasePojoMapper implements PojoMapper {
 
   /** Process schema compositions */
   private OpenApiProcessor composedOpenApiProcessor() {
-    return (openApiPojo, pojoSettings) -> {
+    return (openApiPojo, pojoSettings, completeOpenApiProcessor) -> {
       if (openApiPojo.getSchema() instanceof ComposedSchema) {
         final ComposedPojo composedPojo =
             processComposedSchema(
@@ -168,7 +158,7 @@ public abstract class BasePojoMapper implements PojoMapper {
 
   /** Processes schemas which are single member definitions */
   private OpenApiProcessor memberOpenApiProcessor() {
-    return ((openApiPojo, pojoSettings) -> {
+    return ((openApiPojo, pojoSettings, completeOpenApiProcessor) -> {
       final String type = openApiPojo.getSchema().getType();
       if (Objects.nonNull(type) && SUPPORTED_MEMBER_SCHEMAS.exists(type::equals)) {
         return Optional.of(
@@ -182,7 +172,7 @@ public abstract class BasePojoMapper implements PojoMapper {
 
   /** Processes enums as root schema definitions */
   private OpenApiProcessor enumOpenApiProcessor() {
-    return ((openApiPojo, pojoSettings) -> {
+    return ((openApiPojo, pojoSettings, completeOpenApiProcessor) -> {
       final Schema<?> schema = openApiPojo.getSchema();
       if (new StringSchema().getType().equals(schema.getType())
           && Objects.nonNull(schema.getEnum())) {
@@ -211,7 +201,7 @@ public abstract class BasePojoMapper implements PojoMapper {
       PojoProcessResult pojoProcessResult, PojoSettings pojoSettings) {
     return pojoProcessResult
         .getOpenApiPojos()
-        .map(oaPojo -> processSchema(oaPojo, pojoSettings))
+        .map(oaPojo -> openApiProcessor.process(oaPojo, pojoSettings))
         .foldRight(SchemaProcessResult.empty(), SchemaProcessResult::concat)
         .addPojo(pojoProcessResult.getPojo());
   }
@@ -220,7 +210,7 @@ public abstract class BasePojoMapper implements PojoMapper {
       ComposedPojo composedPojo, PojoSettings pojoSettings) {
     return composedPojo
         .getOpenApiPojos()
-        .map(oaPojo -> processSchema(oaPojo, pojoSettings))
+        .map(oaPojo -> openApiProcessor.process(oaPojo, pojoSettings))
         .foldRight(SchemaProcessResult.empty(), SchemaProcessResult::concat)
         .addComposedPojo(composedPojo);
   }

@@ -1,36 +1,56 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
 public class ObjectPojo implements NewPojo {
-  private final Name name;
+  private final PojoName name;
   private final String description;
-  private final String suffix;
-  private final PList<PojoMember> members;
+  private final PList<NewPojoMember> members;
 
-  private ObjectPojo(Name name, String description, String suffix, PList<PojoMember> members) {
+  private ObjectPojo(PojoName name, String description, PList<NewPojoMember> members) {
     this.name = name;
     this.description = description;
-    this.suffix = suffix;
     this.members = members;
   }
 
+  public static ObjectPojo of(PojoName name, String description, PList<NewPojoMember> members) {
+    return new ObjectPojo(name, description, members);
+  }
+
   @Override
-  public Name getName() {
+  public PojoName getName() {
     return name;
   }
 
   @Override
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public NewPojo addObjectTypeDescription(PojoName objectTypeName, String description) {
+    return mapMembers(member -> member.addObjectTypeDescription(objectTypeName, description));
+  }
+
+  @Override
+  public NewPojo inlineObjectReference(
+      PojoName referenceName, String referenceDescription, NewType referenceType) {
+    return mapMembers(
+        member -> member.inlineObjectReference(referenceName, referenceDescription, referenceType));
+  }
+
+  private NewPojo mapMembers(UnaryOperator<NewPojoMember> map) {
+    return new ObjectPojo(name, description, members.map(map));
   }
 
   @Override
@@ -41,7 +61,7 @@ public class ObjectPojo implements NewPojo {
     return onObjectPojo.apply(this);
   }
 
-  public PList<PojoMember> getMembers() {
+  public PList<NewPojoMember> getMembers() {
     return members;
   }
 }

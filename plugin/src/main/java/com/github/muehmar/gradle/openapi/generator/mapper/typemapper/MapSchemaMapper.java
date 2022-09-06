@@ -38,7 +38,7 @@ public class MapSchemaMapper extends BaseTypeMapper<MapSchema> {
         return TypeMapResult.ofTypeAndOpenApiPojo(mapType, openApiPojo);
       } else {
         return completeMapper
-            .mapThrowing(pojoName, pojoMemberName, additionalPropertiesSchema, completeMapper)
+            .mapThrowing(pojoName, pojoMemberName, additionalPropertiesSchema)
             .mapType(type -> MapType.ofKeyAndValueType(StringType.noFormat(), type));
       }
     } else {

@@ -32,7 +32,7 @@ public class ArraySchemaMapper extends BaseTypeMapper<ArraySchema> {
       return TypeMapResult.ofTypeAndOpenApiPojo(arrayType, openApiPojo);
     } else {
       return completeMapper
-          .mapThrowing(pojoName, pojoMemberName, items, completeMapper)
+          .mapThrowing(pojoName, pojoMemberName, items)
           .mapType(itemType -> ArrayType.ofItemType(itemType).withConstraints(constraints));
     }
   }

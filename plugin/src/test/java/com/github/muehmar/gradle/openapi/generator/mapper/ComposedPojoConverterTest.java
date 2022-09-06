@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.SampleTypes;
 import java.util.Comparator;
 import org.junit.jupiter.api.Test;
@@ -50,11 +51,12 @@ class ComposedPojoConverterTest {
 
     final ComposedPojo composedPojo =
         new ComposedPojo(
-            Name.of("Composed"),
+            PojoName.ofNameAndSuffix(Name.of("Composed"), "Dto"),
             "Description",
-            "Dto",
             ComposedPojo.CompositionType.ALL_OF,
-            PList.of(colorName, tiresName),
+            PList.of(
+                PojoName.ofNameAndSuffix(colorName, "Dto"),
+                PojoName.ofNameAndSuffix(tiresName, "Dto")),
             PList.empty());
 
     final PList<Pojo> resultingPojos =
@@ -68,7 +70,7 @@ class ComposedPojoConverterTest {
 
     assertEquals(
         Pojo.ofObject(
-            composedPojo.getName(),
+            composedPojo.getName().getName(),
             composedPojo.getDescription(),
             composedPojo.getSuffix(),
             colorPojo.getMembers().concat(tiresPojo.getMembers())),

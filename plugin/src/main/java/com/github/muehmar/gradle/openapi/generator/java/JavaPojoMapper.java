@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -86,9 +87,11 @@ public class JavaPojoMapper extends BasePojoMapper {
       PList<Schema<?>> schemas,
       PojoSettings pojoSettings) {
 
-    final PList<Name> pojoNames =
-        schemas.flatMapOptional(
-            schema -> Optional.ofNullable(schema.get$ref()).map(ReferenceMapper::getRefName));
+    final PList<PojoName> pojoNames =
+        schemas
+            .flatMapOptional(
+                schema -> Optional.ofNullable(schema.get$ref()).map(ReferenceMapper::getRefName))
+            .map(n -> PojoName.ofNameAndSuffix(n, pojoSettings.getSuffix()));
 
     final PList<Schema<?>> inlineDefinitions =
         schemas.filter(schema -> Objects.isNull(schema.get$ref()));
@@ -105,10 +108,12 @@ public class JavaPojoMapper extends BasePojoMapper {
                   final Name openApiPojoName =
                       name.append(JavaResolver.snakeCaseToPascalCase(type.name()))
                           .append(openApiPojoNameSuffix);
-                  return new OpenApiPojo(openApiPojoName, schema);
+                  return new OpenApiPojo(
+                      PojoName.ofNameAndSuffix(openApiPojoName, pojoSettings.getSuffix()), schema);
                 });
 
-    return new ComposedPojo(
-        name, description, pojoSettings.getSuffix(), type, pojoNames, openApiPojos);
+    final PojoName pojoName = PojoName.ofNameAndSuffix(name, pojoSettings.getSuffix());
+
+    return new ComposedPojo(pojoName, description, type, pojoNames, openApiPojos);
   }
 }

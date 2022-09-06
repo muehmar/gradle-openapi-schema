@@ -17,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -279,7 +280,8 @@ class JavaPojoMapperTest {
     final PList<Pojo> pojos =
         pojoMapper
             .fromSchemas(
-                new OpenApiPojo(Name.of("ComposedPojoName"), composedSchema),
+                new OpenApiPojo(
+                    PojoName.ofNameAndSuffix(Name.of("ComposedPojoName"), "Dto"), composedSchema),
                 TestPojoSettings.defaultSettings())
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 

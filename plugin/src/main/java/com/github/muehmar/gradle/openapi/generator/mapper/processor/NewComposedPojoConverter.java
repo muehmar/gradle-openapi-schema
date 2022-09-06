@@ -1,24 +1,26 @@
-package com.github.muehmar.gradle.openapi.generator.mapper;
+package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
+import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import java.util.Optional;
 import java.util.function.Function;
 
-class ComposedPojoConverter {
-  private ComposedPojoConverter() {}
+class NewComposedPojoConverter {
+  private NewComposedPojoConverter() {}
 
   /**
    * Converts {@link ComposedPojo}'s to actual {@link Pojo}'s. The resulting list contains all
    * supplied pojo's as well as the converted ones.
    */
-  public static PList<Pojo> convert(PList<ComposedPojo> composedPojos, PList<Pojo> pojos) {
+  public static PList<NewPojo> convert(PList<ComposedPojo> composedPojos, PList<NewPojo> pojos) {
 
-    final PList<SchemaProcessResult> conversionResult =
+    final PList<NewSchemaProcessResult> conversionResult =
         composedPojos
             .filter(
                 composedPojo -> composedPojo.getType().equals(ComposedPojo.CompositionType.ALL_OF))
@@ -28,34 +30,38 @@ class ComposedPojoConverter {
                   final PList<PojoName> openApiPojoNames =
                       composedPojo.getOpenApiPojos().map(OpenApiPojo::getPojoName);
 
-                  final PList<Optional<Pojo>> foundPojos =
+                  final PList<Optional<NewPojo>> foundPojos =
                       pojoNames
                           .concat(openApiPojoNames)
                           .map(
                               name ->
                                   pojos.find(
                                       pojo ->
-                                          pojo.getPojoName()
+                                          pojo.getName()
                                               .asString()
                                               .equalsIgnoreCase(name.asString())));
                   if (foundPojos.exists(p -> !p.isPresent())) {
-                    return SchemaProcessResult.ofComposedPojo(composedPojo);
+                    return NewSchemaProcessResult.ofComposedPojo(composedPojo);
                   } else {
-                    final PList<PojoMember> members =
-                        foundPojos.flatMapOptional(Function.identity()).flatMap(Pojo::getMembers);
-                    final Pojo pojo =
-                        Pojo.ofObject(
-                            composedPojo.getName().getName(),
-                            composedPojo.getDescription(),
-                            composedPojo.getSuffix(),
-                            members);
-                    return SchemaProcessResult.ofPojo(pojo);
+                    final PList<NewPojoMember> members =
+                        foundPojos
+                            .flatMapOptional(Function.identity())
+                            .flatMap(
+                                pojo ->
+                                    pojo.fold(
+                                        ObjectPojo::getMembers,
+                                        arrayPojo -> PList.empty(),
+                                        enumPojo -> PList.empty()));
+                    final ObjectPojo objectPojo =
+                        ObjectPojo.of(
+                            composedPojo.getName(), composedPojo.getDescription(), members);
+                    return NewSchemaProcessResult.ofPojo(objectPojo);
                   }
                 });
 
-    final PList<Pojo> newPojos = conversionResult.flatMap(SchemaProcessResult::getPojos);
+    final PList<NewPojo> newPojos = conversionResult.flatMap(NewSchemaProcessResult::getPojos);
     final PList<ComposedPojo> unconvertedComposedPojos =
-        conversionResult.flatMap(SchemaProcessResult::getComposedPojos);
+        conversionResult.flatMap(NewSchemaProcessResult::getComposedPojos);
     if (newPojos.isEmpty() && unconvertedComposedPojos.nonEmpty()) {
       throw new IllegalStateException(
           "Unable to resolve schemas of composed schema: " + unconvertedComposedPojos);

@@ -48,6 +48,10 @@ public class Pojo {
     return name;
   }
 
+  public PojoName getPojoName() {
+    return PojoName.ofNameAndSuffix(name, suffix);
+  }
+
   public SuffixedName className(Resolver resolver) {
     return resolver.className(name).suffix(suffix);
   }
