@@ -24,6 +24,18 @@ public class NumericType implements NewType {
     return new NumericType(format, Constraints.empty());
   }
 
+  public static NumericType formatInteger() {
+    return NumericType.ofFormat(Format.INTEGER);
+  }
+
+  public static NumericType formatLong() {
+    return NumericType.ofFormat(Format.LONG);
+  }
+
+  public static NumericType formatFloat() {
+    return NumericType.ofFormat(Format.FLOAT);
+  }
+
   public NumericType withConstraints(Constraints constraints) {
     return new NumericType(format, constraints);
   }

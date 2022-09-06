@@ -24,4 +24,8 @@ public interface NewPojo {
   default Optional<EnumPojo> asEnumPojo() {
     return fold(objectPojo -> Optional.empty(), arrayPojo -> Optional.empty(), Optional::of);
   }
+
+  default Optional<ObjectPojo> asObjectPojo() {
+    return fold(Optional::of, arrayPojo -> Optional.empty(), enumPojo -> Optional.empty());
+  }
 }

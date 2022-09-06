@@ -22,9 +22,17 @@ public class PojoName {
     return new PojoName(name, suffix);
   }
 
+  public static PojoName ofNameAndSuffix(String name, String suffix) {
+    return new PojoName(Name.of(name), suffix);
+  }
+
   public static PojoName deriveOpenApiPojoName(PojoName pojoName, Name pojoMemberName) {
     final Name name = pojoName.getName().startUpperCase().append(pojoMemberName.startUpperCase());
     return new PojoName(name, pojoName.getSuffix());
+  }
+
+  public PojoName startUppercase() {
+    return new PojoName(name.startUpperCase(), suffix);
   }
 
   public Name getName() {

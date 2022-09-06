@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
@@ -14,17 +15,17 @@ import lombok.ToString;
 @ToString
 public class ObjectPojo implements NewPojo {
   private final PojoName name;
-  private final String description;
+  private final Optional<String> description;
   private final PList<NewPojoMember> members;
 
-  private ObjectPojo(PojoName name, String description, PList<NewPojoMember> members) {
+  private ObjectPojo(PojoName name, Optional<String> description, PList<NewPojoMember> members) {
     this.name = name;
     this.description = description;
     this.members = members;
   }
 
   public static ObjectPojo of(PojoName name, String description, PList<NewPojoMember> members) {
-    return new ObjectPojo(name, description, members);
+    return new ObjectPojo(name, Optional.ofNullable(description), members);
   }
 
   @Override
@@ -34,7 +35,7 @@ public class ObjectPojo implements NewPojo {
 
   @Override
   public String getDescription() {
-    return description;
+    return description.orElse("");
   }
 
   @Override

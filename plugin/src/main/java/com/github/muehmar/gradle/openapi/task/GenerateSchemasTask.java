@@ -7,9 +7,9 @@ import com.github.muehmar.gradle.openapi.generator.OpenApiGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.TristateGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonNullContainerGenerator;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
@@ -71,7 +71,11 @@ public class GenerateSchemasTask extends DefaultTask {
     final PList<OpenApiPojo> openApiPojos =
         PList.fromIter(openAPI.getComponents().getSchemas().entrySet())
             .filter(Objects::nonNull)
-            .map(entry -> new OpenApiPojo(Name.of(entry.getKey()), (Schema<?>) entry.getValue()));
+            .map(
+                entry ->
+                    new OpenApiPojo(
+                        PojoName.ofNameAndSuffix(entry.getKey(), pojoSettings.get().getSuffix()),
+                        (Schema<?>) entry.getValue()));
 
     final PList<Pojo> pojos =
         openApiGenerator.getMapper().fromSchemas(openApiPojos, pojoSettings.get());

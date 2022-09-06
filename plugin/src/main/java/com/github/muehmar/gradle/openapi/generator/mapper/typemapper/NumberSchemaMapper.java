@@ -23,7 +23,7 @@ public class NumberSchemaMapper extends BaseTypeMapper<NumberSchema> {
     final NumericType.Format format =
         Optional.ofNullable(schema.getFormat())
             .flatMap(NumericType.Format::parseString)
-            .orElse(NumericType.Format.INTEGER);
+            .orElse(NumericType.Format.FLOAT);
 
     final NumericType numericType = NumericType.ofFormat(format).withConstraints(constraints);
 

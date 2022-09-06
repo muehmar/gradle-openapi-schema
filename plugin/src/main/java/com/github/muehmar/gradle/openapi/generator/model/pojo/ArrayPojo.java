@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
 import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -11,17 +12,17 @@ import lombok.ToString;
 @ToString
 public class ArrayPojo implements NewPojo {
   private final PojoName name;
-  private final String description;
+  private final Optional<String> description;
   private final NewType itemType;
 
-  private ArrayPojo(PojoName name, String description, NewType itemType) {
+  private ArrayPojo(PojoName name, Optional<String> description, NewType itemType) {
     this.name = name;
     this.description = description;
     this.itemType = itemType;
   }
 
   public static ArrayPojo of(PojoName name, String description, NewType itemType) {
-    return new ArrayPojo(name, description, itemType);
+    return new ArrayPojo(name, Optional.ofNullable(description), itemType);
   }
 
   @Override
@@ -31,7 +32,7 @@ public class ArrayPojo implements NewPojo {
 
   @Override
   public String getDescription() {
-    return description;
+    return description.orElse("");
   }
 
   @Override

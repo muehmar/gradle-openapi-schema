@@ -24,6 +24,10 @@ public class StringType implements NewType {
     return ofFormat(Format.NONE);
   }
 
+  public static StringType uuid() {
+    return ofFormat(Format.UUID);
+  }
+
   public static StringType ofFormat(Format format) {
     return new StringType(format, format.value, Constraints.empty());
   }

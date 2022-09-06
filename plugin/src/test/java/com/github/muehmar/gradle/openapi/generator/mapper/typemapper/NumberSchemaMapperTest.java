@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import java.math.BigDecimal;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -58,6 +59,17 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
 
     final NewType expectedType =
         fromFormat(format).withConstraints(Constraints.ofMinAndMax(new Min(18), new Max(50)));
+
+    assertEquals(expectedType, mappedSchema.getType());
+    assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
+  }
+
+  @Test
+  void mapThrowing_when_noFormat_then_correctDefaultFormat() {
+    final Schema<?> schema = new NumberSchema();
+    final TypeMapResult mappedSchema = run(schema);
+
+    final NewType expectedType = NumericType.formatFloat();
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());

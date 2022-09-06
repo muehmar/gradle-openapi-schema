@@ -32,7 +32,7 @@ public class ArrayOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
   private NewPojoProcessResult fromArraysSchema(PojoName pojoName, ArraySchema schema) {
 
     final TypeMapResult typeMapResult =
-        COMPLETE_TYPE_MAPPER.map(pojoName, Name.of("value"), schema);
+        COMPLETE_TYPE_MAPPER.map(pojoName, Name.of("value"), schema.getItems());
 
     final ArrayPojo pojo = ArrayPojo.of(pojoName, schema.getDescription(), typeMapResult.getType());
     return new NewPojoProcessResult(pojo, typeMapResult.getOpenApiPojos());

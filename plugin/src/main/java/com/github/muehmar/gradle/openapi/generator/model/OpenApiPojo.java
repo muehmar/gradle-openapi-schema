@@ -11,14 +11,13 @@ public class OpenApiPojo {
   private final PojoName name;
   private final Schema<?> schema;
 
-  public OpenApiPojo(Name name, Schema<?> schema) {
-    this.name = PojoName.ofName(name.startUpperCase());
+  public OpenApiPojo(PojoName name, Schema<?> schema) {
+    this.name = name.startUppercase();
     this.schema = schema;
   }
 
-  public OpenApiPojo(PojoName name, Schema<?> schema) {
-    this.name = name;
-    this.schema = schema;
+  public OpenApiPojo(Name name, Schema<?> schema) {
+    this(PojoName.ofName(name), schema);
   }
 
   public Name getName() {
