@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 
 class NewCompleteOpenApiProcessorImpl implements NewCompleteOpenApiProcessor {
   private final SingleSchemaOpenApiProcessor delegate;
@@ -16,9 +15,9 @@ class NewCompleteOpenApiProcessorImpl implements NewCompleteOpenApiProcessor {
   }
 
   @Override
-  public NewSchemaProcessResult process(OpenApiPojo openApiPojo, PojoSettings pojoSettings) {
+  public NewSchemaProcessResult process(OpenApiPojo openApiPojo) {
     return delegate
-        .process(openApiPojo, pojoSettings, this)
+        .process(openApiPojo, this)
         .orElseThrow(
             () ->
                 new IllegalArgumentException(

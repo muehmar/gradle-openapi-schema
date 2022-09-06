@@ -7,7 +7,6 @@ import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Objects;
@@ -16,29 +15,25 @@ import java.util.Optional;
 public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
   @Override
   public Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo,
-      PojoSettings pojoSettings,
-      NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
     if (openApiPojo.getSchema() instanceof ComposedSchema) {
       final ComposedPojo composedPojo =
           processComposedSchema(
-              openApiPojo.getPojoName(), (ComposedSchema) openApiPojo.getSchema(), pojoSettings);
+              openApiPojo.getPojoName(), (ComposedSchema) openApiPojo.getSchema());
 
-      return Optional.of(processComposedPojo(composedPojo, pojoSettings, completeOpenApiProcessor));
+      return Optional.of(processComposedPojo(composedPojo, completeOpenApiProcessor));
     } else {
       return Optional.empty();
     }
   }
 
-  private ComposedPojo processComposedSchema(
-      PojoName name, ComposedSchema schema, PojoSettings pojoSettings) {
+  private ComposedPojo processComposedSchema(PojoName name, ComposedSchema schema) {
     if (schema.getOneOf() != null) {
       return fromComposedSchema(
           name,
           schema.getDescription(),
           ComposedPojo.CompositionType.ONE_OF,
-          PList.fromIter(schema.getOneOf()).map(s -> (Schema<?>) s),
-          pojoSettings);
+          PList.fromIter(schema.getOneOf()).map(s -> (Schema<?>) s));
     }
 
     if (schema.getAnyOf() != null) {
@@ -46,8 +41,7 @@ public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
           name,
           schema.getDescription(),
           ComposedPojo.CompositionType.ANY_OF,
-          PList.fromIter(schema.getAnyOf()).map(s -> (Schema<?>) s),
-          pojoSettings);
+          PList.fromIter(schema.getAnyOf()).map(s -> (Schema<?>) s));
     }
 
     if (schema.getAllOf() != null) {
@@ -55,8 +49,7 @@ public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
           name,
           schema.getDescription(),
           ComposedPojo.CompositionType.ALL_OF,
-          PList.fromIter(schema.getAllOf()).map(s -> (Schema<?>) s),
-          pojoSettings);
+          PList.fromIter(schema.getAllOf()).map(s -> (Schema<?>) s));
     }
 
     throw new IllegalArgumentException("Composed schema without any schema definitions");
@@ -66,14 +59,13 @@ public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
       PojoName pojoName,
       String description,
       ComposedPojo.CompositionType type,
-      PList<Schema<?>> schemas,
-      PojoSettings pojoSettings) {
+      PList<Schema<?>> schemas) {
 
     final PList<PojoName> pojoNames =
         schemas
             .flatMapOptional(
                 schema -> Optional.ofNullable(schema.get$ref()).map(ReferenceMapper::getRefName))
-            .map(n -> PojoName.ofNameAndSuffix(n, pojoSettings.getSuffix()));
+            .map(n -> PojoName.ofNameAndSuffix(n, pojoName.getSuffix()));
 
     final PList<Schema<?>> inlineDefinitions =
         schemas.filter(schema -> Objects.isNull(schema.get$ref()));
@@ -93,19 +85,17 @@ public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
                           .append(JavaResolver.snakeCaseToPascalCase(type.name()))
                           .append(openApiPojoNameSuffix);
                   return new OpenApiPojo(
-                      PojoName.ofNameAndSuffix(openApiPojoName, pojoSettings.getSuffix()), schema);
+                      PojoName.ofNameAndSuffix(openApiPojoName, pojoName.getSuffix()), schema);
                 });
 
     return new ComposedPojo(pojoName, description, type, pojoNames, openApiPojos);
   }
 
   private NewSchemaProcessResult processComposedPojo(
-      ComposedPojo composedPojo,
-      PojoSettings pojoSettings,
-      NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+      ComposedPojo composedPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
     return composedPojo
         .getOpenApiPojos()
-        .map(oaPojo -> completeOpenApiProcessor.process(oaPojo, pojoSettings))
+        .map(completeOpenApiProcessor::process)
         .foldRight(NewSchemaProcessResult.empty(), NewSchemaProcessResult::concat)
         .addComposedPojo(composedPojo);
   }

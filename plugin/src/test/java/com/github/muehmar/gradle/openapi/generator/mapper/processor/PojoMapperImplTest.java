@@ -32,9 +32,6 @@ import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
@@ -49,7 +46,6 @@ import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,8 +62,7 @@ class PojoMapperImplTest {
     // method call
     final OpenApiPojo openApiPojo =
         new OpenApiPojo(PojoName.ofNameAndSuffix(Name.of("PojoName"), "Dto"), schema);
-    final PList<NewPojo> pojos =
-        pojoMapper.fromSchemas(openApiPojo, TestPojoSettings.defaultSettings());
+    final PList<NewPojo> pojos = pojoMapper.fromSchemas(openApiPojo);
 
     assertEquals(1, pojos.size());
     final NewPojo pojo = pojos.head();
@@ -82,11 +77,6 @@ class PojoMapperImplTest {
   @Test
   void fromSchema_when_classMappedType_then_correctMappedTypePojo() {
     final NewPojoMapper pojoMapper = PojoMapperImpl.create();
-    final ClassTypeMapping classTypeMapping =
-        new ClassTypeMapping("String", "CustomString", "ch.custom.string.package");
-    final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
-            .withClassTypeMappings(Collections.singletonList(classTypeMapping));
 
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("name", new StringSchema());
@@ -95,8 +85,7 @@ class PojoMapperImplTest {
     // method call
     final PList<NewPojo> pojos =
         pojoMapper.fromSchemas(
-            new OpenApiPojo(PojoName.ofNameAndSuffix(Name.of("PojoName"), "Dto"), schema),
-            pojoSettings);
+            new OpenApiPojo(PojoName.ofNameAndSuffix(Name.of("PojoName"), "Dto"), schema));
 
     assertEquals(1, pojos.size());
     final NewPojo pojo = pojos.head();
@@ -125,8 +114,7 @@ class PojoMapperImplTest {
                     // method call
                     pojoMapper.fromSchemas(
                         new OpenApiPojo(
-                            PojoName.ofNameAndSuffix(entry.getKey(), "Dto"), entry.getValue()),
-                        TestPojoSettings.defaultSettings()))
+                            PojoName.ofNameAndSuffix(entry.getKey(), "Dto"), entry.getValue())))
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(6, pojos.size());
@@ -304,8 +292,7 @@ class PojoMapperImplTest {
         pojoMapper
             .fromSchemas(
                 new OpenApiPojo(
-                    PojoName.ofNameAndSuffix(Name.of("ComposedPojoName"), "Dto"), composedSchema),
-                TestPojoSettings.defaultSettings())
+                    PojoName.ofNameAndSuffix(Name.of("ComposedPojoName"), "Dto"), composedSchema))
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
@@ -366,8 +353,7 @@ class PojoMapperImplTest {
                     new OpenApiPojo(
                         PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"), composedSchema),
                     new OpenApiPojo(
-                        PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"), referenceSchema)),
-                TestPojoSettings.defaultSettings())
+                        PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"), referenceSchema)))
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(4, pojos.size());
@@ -447,8 +433,7 @@ class PojoMapperImplTest {
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserKey", "Dto"), keySchema),
-                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)),
-            TestPojoSettings.defaultSettings());
+                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -475,8 +460,7 @@ class PojoMapperImplTest {
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserAge", "Dto"), ageSchema),
-                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)),
-            TestPojoSettings.defaultSettings());
+                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -507,8 +491,7 @@ class PojoMapperImplTest {
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserHeight", "Dto"), heightSchema),
-                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)),
-            TestPojoSettings.defaultSettings());
+                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -539,8 +522,7 @@ class PojoMapperImplTest {
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserAdmin", "Dto"), adminSchema),
-                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)),
-            TestPojoSettings.defaultSettings());
+                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -573,8 +555,7 @@ class PojoMapperImplTest {
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("Gender", "Dto"), genderSchema),
-                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)),
-            TestPojoSettings.defaultSettings());
+                new OpenApiPojo(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
 
     assertEquals(2, pojos.size());
     assertEquals(
@@ -613,8 +594,7 @@ class PojoMapperImplTest {
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("gender", "Dto"), genderSchema),
-                new OpenApiPojo(PojoName.ofNameAndSuffix("user", "Dto"), userSchema)),
-            TestPojoSettings.defaultSettings());
+                new OpenApiPojo(PojoName.ofNameAndSuffix("user", "Dto"), userSchema)));
 
     assertEquals(2, pojos.size());
     assertEquals(PojoName.ofNameAndSuffix("Gender", "Dto"), pojos.apply(0).getName());

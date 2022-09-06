@@ -1,8 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.CompleteTypeMapper;
-import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.CompleteTypeMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -13,24 +11,19 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Map;
 import java.util.Optional;
 
 public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
-  private static final CompleteTypeMapper COMPLETE_MAPPER = CompleteTypeMapperFactory.create();
 
   @Override
   public Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo,
-      PojoSettings pojoSettings,
-      NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
     if (openApiPojo.getSchema().getProperties() != null) {
       final NewPojoProcessResult pojoProcessResult =
           processObjectSchema(openApiPojo.getPojoName(), openApiPojo.getSchema());
-      return Optional.of(
-          processPojoProcessResult(pojoProcessResult, pojoSettings, completeOpenApiProcessor));
+      return Optional.of(processPojoProcessResult(pojoProcessResult, completeOpenApiProcessor));
     } else {
       return Optional.empty();
     }
@@ -80,7 +73,7 @@ public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
       Schema<?> schema,
       Necessity necessity,
       Nullability nullability) {
-    final TypeMapResult result = COMPLETE_MAPPER.map(pojoName, pojoMemberName, schema);
+    final TypeMapResult result = COMPLETE_TYPE_MAPPER.map(pojoName, pojoMemberName, schema);
 
     final NewType type = result.getType();
 

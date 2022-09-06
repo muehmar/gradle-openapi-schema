@@ -7,30 +7,27 @@ import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import java.util.Optional;
 
 public class PojoMapperImpl implements NewPojoMapper {
 
-  protected final NewCompleteOpenApiProcessor openApiProcessor;
+  private static final NewCompleteOpenApiProcessor COMPLETE_OPEN_API_PROCESSOR =
+      new ArrayOpenApiProcessor()
+          .or(new ObjectOpenApiProcessor())
+          .or(new ComposedOpenApiProcessor())
+          .or(new EnumOpenApiProcessor())
+          .orLast(new MemberOpenApiProcessor());
 
-  private PojoMapperImpl() {
-    openApiProcessor =
-        new ArrayOpenApiProcessor()
-            .or(new ObjectOpenApiProcessor())
-            .or(new ComposedOpenApiProcessor())
-            .or(new EnumOpenApiProcessor())
-            .orLast(new MemberOpenApiProcessor());
-  }
+  private PojoMapperImpl() {}
 
   public static NewPojoMapper create() {
     return new PojoMapperImpl();
   }
 
   @Override
-  public PList<NewPojo> fromSchemas(PList<OpenApiPojo> openApiPojos, PojoSettings pojoSettings) {
+  public PList<NewPojo> fromSchemas(PList<OpenApiPojo> openApiPojos) {
     final PList<NewSchemaProcessResult> processResults =
-        openApiPojos.map(openApiPojo -> openApiProcessor.process(openApiPojo, pojoSettings));
+        openApiPojos.map(COMPLETE_OPEN_API_PROCESSOR::process);
 
     final PList<NewPojo> pojos = processResults.flatMap(NewSchemaProcessResult::getPojos);
     final PList<ComposedPojo> composedPojos =
@@ -39,9 +36,8 @@ public class PojoMapperImpl implements NewPojoMapper {
         processResults.flatMap(NewSchemaProcessResult::getPojoMemberReferences);
 
     return Optional.of(pojos)
-        .map(p -> NewComposedPojoConverter.convert(composedPojos, pojos))
+        .map(p -> ComposedPojoResolver.resolve(composedPojos, pojos))
         .map(p -> inlineMemberReferences(p, pojoMemberReferences))
-        // .map(p -> replaceEnumReferences(p, pojoSettings))
         .map(this::addEnumDescription)
         .orElse(PList.empty());
   }

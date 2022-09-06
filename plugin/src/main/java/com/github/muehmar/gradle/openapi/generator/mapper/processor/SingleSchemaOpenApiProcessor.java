@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.util.Optional;
 
@@ -11,16 +10,14 @@ public interface SingleSchemaOpenApiProcessor {
    * corresponding schema an empty {@link Optional} will get returned.
    */
   Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo,
-      PojoSettings pojoSettings,
-      NewCompleteOpenApiProcessor completeOpenApiProcessor);
+      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor);
 
   default SingleSchemaOpenApiProcessor or(SingleSchemaOpenApiProcessor next) {
     final SingleSchemaOpenApiProcessor self = this;
-    return (openApiPojo, pojoSettings, completeOpenApiProcessor) ->
+    return (openApiPojo, completeOpenApiProcessor) ->
         Optionals.or(
-            self.process(openApiPojo, pojoSettings, completeOpenApiProcessor),
-            next.process(openApiPojo, pojoSettings, completeOpenApiProcessor));
+            self.process(openApiPojo, completeOpenApiProcessor),
+            next.process(openApiPojo, completeOpenApiProcessor));
   }
 
   default NewCompleteOpenApiProcessor orLast(SingleSchemaOpenApiProcessor next) {
