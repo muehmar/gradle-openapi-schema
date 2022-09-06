@@ -8,21 +8,7 @@ import java.util.Optional;
 
 public interface TypeMapper {
   Optional<TypeMapResult> map(
-      PojoName pojoName, Name pojoMemberName, Schema<?> schema, TypeMapper completeMapper);
-
-  default TypeMapResult mapThrowing(PojoName pojoName, Name pojoMemberName, Schema<?> schema) {
-    return map(pojoName, pojoMemberName, schema, this)
-        .<IllegalArgumentException>orElseThrow(
-            () -> {
-              throw new IllegalArgumentException(
-                  "Not supported schema for pojo "
-                      + pojoName.asString()
-                      + " and pojo member "
-                      + pojoMemberName.asString()
-                      + ": "
-                      + schema.toString());
-            });
-  }
+      PojoName pojoName, Name pojoMemberName, Schema<?> schema, CompleteTypeMapper completeMapper);
 
   default TypeMapper or(TypeMapper next) {
     final TypeMapper self = this;

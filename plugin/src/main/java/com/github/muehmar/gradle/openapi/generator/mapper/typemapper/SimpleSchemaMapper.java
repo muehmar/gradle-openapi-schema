@@ -15,7 +15,7 @@ abstract class SimpleSchemaMapper<T extends Schema<?>> extends BaseTypeMapper<T>
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, T schema, TypeMapper completeMapper) {
+      PojoName pojoName, Name pojoMemberName, T schema, CompleteTypeMapper completeMapper) {
     return TypeMapResult.ofType(type);
   }
 }

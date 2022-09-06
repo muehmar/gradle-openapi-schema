@@ -14,7 +14,10 @@ public class PasswordSchemaMapper extends BaseTypeMapper<PasswordSchema> {
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, PasswordSchema schema, TypeMapper completeMapper) {
+      PojoName pojoName,
+      Name pojoMemberName,
+      PasswordSchema schema,
+      CompleteTypeMapper completeMapper) {
     final Constraints patternConstraints = ConstraintsMapper.getPattern(schema);
     final Constraints minAndMaxLengthConstraints = ConstraintsMapper.getMinAndMaxLength(schema);
 

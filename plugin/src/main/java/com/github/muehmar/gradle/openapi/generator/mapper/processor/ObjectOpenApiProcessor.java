@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.CompleteTypeMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.CompleteTypeMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapResult;
-import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapper;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
-  private static final TypeMapper COMPLETE_MAPPER = CompleteTypeMapper.create();
+  private static final CompleteTypeMapper COMPLETE_MAPPER = CompleteTypeMapperFactory.create();
 
   @Override
   public Optional<NewSchemaProcessResult> process(
@@ -80,7 +80,7 @@ public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
       Schema<?> schema,
       Necessity necessity,
       Nullability nullability) {
-    final TypeMapResult result = COMPLETE_MAPPER.mapThrowing(pojoName, pojoMemberName, schema);
+    final TypeMapResult result = COMPLETE_MAPPER.map(pojoName, pojoMemberName, schema);
 
     final NewType type = result.getType();
 

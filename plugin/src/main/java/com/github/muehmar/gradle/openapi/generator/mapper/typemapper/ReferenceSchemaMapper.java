@@ -9,7 +9,7 @@ import java.util.Optional;
 public class ReferenceSchemaMapper implements TypeMapper {
   @Override
   public Optional<TypeMapResult> map(
-      PojoName pojoName, Name pojoMemberName, Schema<?> schema, TypeMapper completeMapper) {
+      PojoName pojoName, Name pojoMemberName, Schema<?> schema, CompleteTypeMapper completeMapper) {
     if (schema.getType() == null && schema.getFormat() == null && schema.get$ref() != null) {
       final PojoName name = ReferenceMapper.getPojoName(schema.get$ref(), pojoName.getSuffix());
       final ObjectType objectType = ObjectType.ofName(name);

@@ -13,7 +13,10 @@ public class ObjectSchemaMapper extends BaseTypeMapper<ObjectSchema> {
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, ObjectSchema schema, TypeMapper completeMapper) {
+      PojoName pojoName,
+      Name pojoMemberName,
+      ObjectSchema schema,
+      CompleteTypeMapper completeMapper) {
     final PojoName openApiPojoName = PojoName.deriveOpenApiPojoName(pojoName, pojoMemberName);
     final ObjectType objectType = ObjectType.ofName(openApiPojoName);
     final OpenApiPojo openApiPojo = new OpenApiPojo(openApiPojoName, schema);

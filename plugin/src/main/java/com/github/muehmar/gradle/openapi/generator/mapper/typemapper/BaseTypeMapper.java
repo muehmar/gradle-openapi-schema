@@ -14,7 +14,7 @@ abstract class BaseTypeMapper<T extends Schema<?>> implements TypeMapper {
 
   @Override
   public Optional<TypeMapResult> map(
-      PojoName pojoName, Name pojoMemberName, Schema<?> schema, TypeMapper completeMapper) {
+      PojoName pojoName, Name pojoMemberName, Schema<?> schema, CompleteTypeMapper completeMapper) {
     if (schema.getClass().equals(schemaClass)) {
       return Optional.of(
           mapSpecificSchema(pojoName, pojoMemberName, schemaClass.cast(schema), completeMapper));
@@ -23,5 +23,5 @@ abstract class BaseTypeMapper<T extends Schema<?>> implements TypeMapper {
   }
 
   abstract TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, T schema, TypeMapper completeMapper);
+      PojoName pojoName, Name pojoMemberName, T schema, CompleteTypeMapper completeMapper);
 }

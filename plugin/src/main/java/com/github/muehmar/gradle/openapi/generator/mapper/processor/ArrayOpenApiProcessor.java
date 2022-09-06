@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.CompleteTypeMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.CompleteTypeMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapResult;
-import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapper;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -12,7 +12,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import java.util.Optional;
 
 public class ArrayOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
-  private static final TypeMapper COMPLETE_TYPE_MAPPER = CompleteTypeMapper.create();
+  private static final CompleteTypeMapper COMPLETE_TYPE_MAPPER = CompleteTypeMapperFactory.create();
 
   @Override
   public Optional<NewSchemaProcessResult> process(
@@ -32,7 +32,7 @@ public class ArrayOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
   private NewPojoProcessResult fromArraysSchema(PojoName pojoName, ArraySchema schema) {
 
     final TypeMapResult typeMapResult =
-        COMPLETE_TYPE_MAPPER.mapThrowing(pojoName, Name.of("value"), schema);
+        COMPLETE_TYPE_MAPPER.map(pojoName, Name.of("value"), schema);
 
     final ArrayPojo pojo = ArrayPojo.of(pojoName, schema.getDescription(), typeMapResult.getType());
     return new NewPojoProcessResult(pojo, typeMapResult.getOpenApiPojos());

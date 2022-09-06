@@ -19,7 +19,10 @@ public class StringSchemaMapper extends BaseTypeMapper<StringSchema> {
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, StringSchema schema, TypeMapper completeMapper) {
+      PojoName pojoName,
+      Name pojoMemberName,
+      StringSchema schema,
+      CompleteTypeMapper completeMapper) {
     final Constraints patternConstraints = ConstraintsMapper.getPattern(schema);
     final Constraints minAndMaxLengthConstraints = ConstraintsMapper.getMinAndMaxLength(schema);
 

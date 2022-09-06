@@ -17,7 +17,7 @@ public class MapSchemaMapper extends BaseTypeMapper<MapSchema> {
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, MapSchema schema, TypeMapper completeMapper) {
+      PojoName pojoName, Name pojoMemberName, MapSchema schema, CompleteTypeMapper completeMapper) {
     final Object additionalProperties = schema.getAdditionalProperties();
     if (additionalProperties instanceof Schema) {
       final Schema<?> additionalPropertiesSchema = (Schema<?>) additionalProperties;
@@ -38,7 +38,7 @@ public class MapSchemaMapper extends BaseTypeMapper<MapSchema> {
         return TypeMapResult.ofTypeAndOpenApiPojo(mapType, openApiPojo);
       } else {
         return completeMapper
-            .mapThrowing(pojoName, pojoMemberName, additionalPropertiesSchema)
+            .map(pojoName, pojoMemberName, additionalPropertiesSchema)
             .mapType(type -> MapType.ofKeyAndValueType(StringType.noFormat(), type));
       }
     } else {

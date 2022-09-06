@@ -15,7 +15,10 @@ public class IntegerSchemaMapper extends BaseTypeMapper<IntegerSchema> {
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, IntegerSchema schema, TypeMapper completeMapper) {
+      PojoName pojoName,
+      Name pojoMemberName,
+      IntegerSchema schema,
+      CompleteTypeMapper completeMapper) {
     final Constraints constraints = ConstraintsMapper.getMinimumAndMaximum(schema);
     final NumericType.Format format =
         Optional.ofNullable(schema.getFormat())

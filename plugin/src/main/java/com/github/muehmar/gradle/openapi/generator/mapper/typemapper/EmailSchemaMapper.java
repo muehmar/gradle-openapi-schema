@@ -14,7 +14,10 @@ public class EmailSchemaMapper extends BaseTypeMapper<EmailSchema> {
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, EmailSchema schema, TypeMapper completeMapper) {
+      PojoName pojoName,
+      Name pojoMemberName,
+      EmailSchema schema,
+      CompleteTypeMapper completeMapper) {
     final Constraints patternConstraints = ConstraintsMapper.getPattern(schema);
     final Constraints minAndMaxLengthConstraints = ConstraintsMapper.getMinAndMaxLength(schema);
     final Constraints constraints =

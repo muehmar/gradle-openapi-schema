@@ -19,7 +19,10 @@ public class ArraySchemaMapper extends BaseTypeMapper<ArraySchema> {
 
   @Override
   TypeMapResult mapSpecificSchema(
-      PojoName pojoName, Name pojoMemberName, ArraySchema schema, TypeMapper completeMapper) {
+      PojoName pojoName,
+      Name pojoMemberName,
+      ArraySchema schema,
+      CompleteTypeMapper completeMapper) {
     final Schema<?> items = schema.getItems();
 
     final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
@@ -32,7 +35,7 @@ public class ArraySchemaMapper extends BaseTypeMapper<ArraySchema> {
       return TypeMapResult.ofTypeAndOpenApiPojo(arrayType, openApiPojo);
     } else {
       return completeMapper
-          .mapThrowing(pojoName, pojoMemberName, items)
+          .map(pojoName, pojoMemberName, items)
           .mapType(itemType -> ArrayType.ofItemType(itemType).withConstraints(constraints));
     }
   }
