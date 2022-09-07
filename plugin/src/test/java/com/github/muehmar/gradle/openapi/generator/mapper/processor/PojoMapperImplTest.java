@@ -173,7 +173,8 @@ class PojoMapperImplTest {
                 new NewPojoMember(
                     Name.of("role"),
                     "",
-                    EnumType.ofMembers(PList.of("Admin", "User", "Visitor")),
+                    EnumType.ofNameAndMembers(
+                        Name.of("RoleEnum"), PList.of("Admin", "User", "Visitor")),
                     OPTIONAL,
                     NOT_NULLABLE),
                 new NewPojoMember(

@@ -9,6 +9,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.Schema;
@@ -92,7 +93,9 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new StringSchema()._enum(Arrays.asList("User", "Visitor"));
 
     final TypeMapResult mappedSchema = run(schema);
-    assertEquals(EnumType.ofMembers(PList.of("User", "Visitor")), mappedSchema.getType());
+    assertEquals(
+        EnumType.ofNameAndMembers(Name.of("PojoMemberNameEnum"), PList.of("User", "Visitor")),
+        mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
 }

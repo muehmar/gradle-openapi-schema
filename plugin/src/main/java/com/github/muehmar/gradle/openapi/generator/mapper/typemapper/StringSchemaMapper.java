@@ -35,7 +35,12 @@ public class StringSchemaMapper extends BaseTypeMapper<StringSchema> {
                 });
 
     final Optional<NewType> enumType =
-        Optional.ofNullable(schema.getEnum()).map(PList::fromIter).map(EnumType::ofMembers);
+        Optional.ofNullable(schema.getEnum())
+            .map(PList::fromIter)
+            .map(
+                members ->
+                    EnumType.ofNameAndMembers(
+                        pojoMemberName.startUpperCase().append("Enum"), members));
 
     final StringType rawStringType =
         StringType.ofFormat(StringType.Format.NONE)
