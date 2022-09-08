@@ -64,7 +64,7 @@ public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
             .orElse(Nullability.NOT_NULLABLE);
 
     return toPojoMemberFromSchema(
-        pojoName, Name.of(entry.getKey()), entry.getValue(), necessity, nullability);
+        pojoName, Name.ofString(entry.getKey()), entry.getValue(), necessity, nullability);
   }
 
   private NewPojoMemberProcessResult toPojoMemberFromSchema(

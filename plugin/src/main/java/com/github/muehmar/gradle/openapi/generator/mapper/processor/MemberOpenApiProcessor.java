@@ -29,7 +29,7 @@ public class MemberOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
 
   private NewPojoMemberReference processMemberSchema(PojoName name, Schema<?> schema) {
     final TypeMapResult result =
-        COMPLETE_TYPE_MAPPER.map(PojoName.ofName(Name.of("Unused")), name.getName(), schema);
+        COMPLETE_TYPE_MAPPER.map(PojoName.ofName(Name.ofString("Unused")), name.getName(), schema);
 
     return new NewPojoMemberReference(name, schema.getDescription(), result.getType());
   }

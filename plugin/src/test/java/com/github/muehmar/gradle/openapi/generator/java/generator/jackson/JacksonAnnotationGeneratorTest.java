@@ -50,7 +50,7 @@ class JacksonAnnotationGeneratorTest {
     final Generator<PojoMember, PojoSettings> generator = JacksonAnnotationGenerator.jsonProperty();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -69,7 +69,7 @@ class JacksonAnnotationGeneratorTest {
     final Generator<PojoMember, PojoSettings> generator = JacksonAnnotationGenerator.jsonProperty();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,

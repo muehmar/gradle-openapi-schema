@@ -94,7 +94,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
 
     final TypeMapResult mappedSchema = run(schema);
     assertEquals(
-        EnumType.ofNameAndMembers(Name.of("PojoMemberNameEnum"), PList.of("User", "Visitor")),
+        EnumType.ofNameAndMembers(Name.ofString("PojoMemberNameEnum"), PList.of("User", "Visitor")),
         mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }

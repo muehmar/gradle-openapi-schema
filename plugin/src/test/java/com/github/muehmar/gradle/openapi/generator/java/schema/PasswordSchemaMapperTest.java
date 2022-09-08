@@ -24,7 +24,7 @@ class PasswordSchemaMapperTest {
     passwordSchema.pattern("pattern").minLength(5).maxLength(50);
     final MappedSchema<JavaType> mappedSchema =
         PASSWORD_SCHEMA_MAPPER.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), passwordSchema, null, null);
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), passwordSchema, null, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(
             Constraints.ofSize(Size.of(5, 50))

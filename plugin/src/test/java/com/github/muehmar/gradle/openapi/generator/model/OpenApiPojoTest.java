@@ -9,7 +9,7 @@ class OpenApiPojoTest {
 
   @Test
   void getName_when_instanceConstructedWithStartingLowercaseName_then_nameStartsUppercase() {
-    final OpenApiPojo openApiPojo = new OpenApiPojo(Name.of("gender"), new Schema<>());
+    final OpenApiPojo openApiPojo = new OpenApiPojo(Name.ofString("gender"), new Schema<>());
     assertEquals("Gender", openApiPojo.getName().asString());
   }
 

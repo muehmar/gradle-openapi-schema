@@ -178,7 +178,7 @@ public abstract class BasePojoMapper implements PojoMapper {
           && Objects.nonNull(schema.getEnum())) {
         final PojoMemberProcessResult pojoMemberProcessResult =
             toPojoMemberFromSchema(
-                Name.of("Unused"),
+                Name.ofString("Unused"),
                 openApiPojo.getName(),
                 schema,
                 pojoSettings,
@@ -252,7 +252,12 @@ public abstract class BasePojoMapper implements PojoMapper {
             .orElse(Nullability.NOT_NULLABLE);
 
     return toPojoMemberFromSchema(
-        pojoName, Name.of(entry.getKey()), entry.getValue(), pojoSettings, necessity, nullability);
+        pojoName,
+        Name.ofString(entry.getKey()),
+        entry.getValue(),
+        pojoSettings,
+        necessity,
+        nullability);
   }
 
   private ComposedPojo processComposedSchema(
@@ -291,7 +296,7 @@ public abstract class BasePojoMapper implements PojoMapper {
       Name name, Schema<?> schema, PojoSettings pojoSettings) {
     final PojoMemberProcessResult pojoMemberProcessResult =
         toPojoMemberFromSchema(
-            Name.of("Unused"),
+            Name.ofString("Unused"),
             name,
             schema,
             pojoSettings,

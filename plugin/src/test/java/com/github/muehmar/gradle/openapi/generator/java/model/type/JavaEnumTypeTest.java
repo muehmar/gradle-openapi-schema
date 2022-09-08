@@ -13,7 +13,7 @@ class JavaEnumTypeTest {
   @Test
   void wrap_when_enumTypeWrapped_then_correctWrapped() {
     final EnumType enumType =
-        EnumType.ofNameAndMembers(Name.of("Gender"), PList.of("male", "female", "divers"));
+        EnumType.ofNameAndMembers(Name.ofString("Gender"), PList.of("male", "female", "divers"));
     final JavaEnumType javaType = JavaEnumType.wrap(enumType);
 
     assertEquals("Gender", javaType.getFullClassName().asString());

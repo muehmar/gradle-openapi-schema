@@ -20,7 +20,7 @@ class GetterGeneratorTest {
     final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -45,7 +45,7 @@ class GetterGeneratorTest {
     final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -88,7 +88,7 @@ class GetterGeneratorTest {
     final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.OPTIONAL,
@@ -127,7 +127,7 @@ class GetterGeneratorTest {
     final Generator<PojoMember, PojoSettings> generator = GetterGenerator.generator();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.OPTIONAL,

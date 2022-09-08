@@ -39,7 +39,7 @@ public class JavaType implements Type {
   }
 
   public static JavaType ofNameAndImport(String name, String singleImport) {
-    return JavaType.ofNameAndImport(Name.of(name), singleImport);
+    return JavaType.ofNameAndImport(Name.ofString(name), singleImport);
   }
 
   public static JavaType ofName(Name name) {
@@ -48,7 +48,7 @@ public class JavaType implements Type {
   }
 
   public static JavaType ofName(String name) {
-    return JavaType.ofName(Name.of(name));
+    return JavaType.ofName(Name.ofString(name));
   }
 
   public static JavaType ofUserDefined(Name name) {
@@ -57,7 +57,7 @@ public class JavaType implements Type {
   }
 
   public static JavaType ofUserDefined(String name) {
-    return JavaType.ofUserDefined(Name.of(name));
+    return JavaType.ofUserDefined(Name.ofString(name));
   }
 
   public static JavaType ofUserDefinedAndImport(Name name, String singleImport) {
@@ -66,7 +66,7 @@ public class JavaType implements Type {
   }
 
   public static JavaType ofUserDefinedAndImport(String name, String singleImport) {
-    return JavaType.ofUserDefinedAndImport(Name.of(name), singleImport);
+    return JavaType.ofUserDefinedAndImport(Name.ofString(name), singleImport);
   }
 
   public static JavaType ofReference(Name name, String suffix) {
@@ -91,7 +91,7 @@ public class JavaType implements Type {
 
   public static JavaType javaMap(JavaType key, JavaType value) {
     return new JavaType(
-        Name.of("Map"),
+        Name.ofString("Map"),
         PList.single("java.util.Map"),
         PList.of(key, value),
         PList.empty(),
@@ -101,7 +101,7 @@ public class JavaType implements Type {
 
   public static JavaType javaList(JavaType itemType) {
     return new JavaType(
-        Name.of("List"),
+        Name.ofString("List"),
         PList.single("java.util.List"),
         PList.single(itemType),
         PList.empty(),
@@ -111,7 +111,7 @@ public class JavaType implements Type {
 
   public static JavaType javaEnum(PList<String> members) {
     return new JavaType(
-        Name.of("enum"), PList.empty(), PList.empty(), members, Constraints.empty(), false);
+        Name.ofString("enum"), PList.empty(), PList.empty(), members, Constraints.empty(), false);
   }
 
   public JavaType replaceClass(String fromClass, String toClass, Optional<String> newImports) {
@@ -119,7 +119,7 @@ public class JavaType implements Type {
         genericTypes.map(t -> t.replaceClass(fromClass, toClass, newImports));
     if (name.asString().equals(fromClass)) {
       return new JavaType(
-          Name.of(toClass),
+          Name.ofString(toClass),
           PList.fromOptional(newImports),
           generics,
           enumMembers,

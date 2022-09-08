@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class JavaBooleanType extends NonGenericJavaType {
   private static final ClassName JAVA_CLASS_NAME =
-      ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.of("Boolean"));
+      ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Boolean"));
 
   private JavaBooleanType(ClassName className) {
     super(className);

@@ -27,8 +27,8 @@ class StringSchemaMapperTest {
     final Schema<?> schema = new StringSchema().format("url");
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -41,8 +41,8 @@ class StringSchemaMapperTest {
     final Schema<?> schema = new StringSchema().format("uri");
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -55,8 +55,8 @@ class StringSchemaMapperTest {
     final Schema<?> schema = new StringSchema().format("partial-time");
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -70,8 +70,8 @@ class StringSchemaMapperTest {
 
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -87,8 +87,8 @@ class StringSchemaMapperTest {
 
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -104,8 +104,8 @@ class StringSchemaMapperTest {
 
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -121,8 +121,8 @@ class StringSchemaMapperTest {
 
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -138,8 +138,8 @@ class StringSchemaMapperTest {
 
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings(),
             null);
@@ -156,8 +156,8 @@ class StringSchemaMapperTest {
 
     final MappedSchema<JavaType> mappedSchema =
         stringSchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             schema,
             TestPojoSettings.defaultSettings()
                 .withFormatTypeMappings(Collections.singletonList(formatTypeMapping)),

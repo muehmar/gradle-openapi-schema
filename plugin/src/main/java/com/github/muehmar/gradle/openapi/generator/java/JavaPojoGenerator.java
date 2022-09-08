@@ -248,7 +248,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     final String enumNameString = enumName.asString();
     writer.tab(indention).println("public enum %s {", enumNameString);
     EnumMember.extractDescriptions(
-            enumMembers.map(Name::of), settings.getEnumDescriptionSettings(), description)
+            enumMembers.map(Name::ofString), settings.getEnumDescriptionSettings(), description)
         .zipWithIndex()
         .forEach(
             p -> {

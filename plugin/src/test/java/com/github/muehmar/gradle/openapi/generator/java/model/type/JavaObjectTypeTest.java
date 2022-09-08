@@ -14,7 +14,7 @@ class JavaObjectTypeTest {
   @Test
   void wrap_when_objectTypeWrapped_then_correctWrapped() {
     final ObjectType objectType =
-        ObjectType.ofName(PojoName.ofNameAndSuffix(Name.of("User"), "Dto"));
+        ObjectType.ofName(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"));
     final JavaObjectType javaType = JavaObjectType.wrap(objectType);
 
     assertEquals("UserDto", javaType.getFullClassName().asString());

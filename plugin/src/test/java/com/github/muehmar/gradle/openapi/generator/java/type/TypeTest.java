@@ -47,7 +47,7 @@ class TypeTest {
 
   @Test
   void ofOpenApiSchema_when_normalData_then_correctName() {
-    final JavaType javaType = JavaType.ofOpenApiSchema(Name.of("PojoKeyKey"), "Dto");
+    final JavaType javaType = JavaType.ofOpenApiSchema(Name.ofString("PojoKeyKey"), "Dto");
     assertEquals("PojoKeyKeyDto", javaType.getFullName().asString());
     assertTrue(javaType.containsPojo());
   }

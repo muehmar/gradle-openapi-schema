@@ -10,7 +10,7 @@ class PackageNameTest {
   @Test
   void qualifiedClassName_when_called_then_correctFormatted() {
     final PackageName packageName = PackageNames.JAVA_LANG;
-    final Name qualifiedClassName = packageName.qualifiedClassName(Name.of("Integer"));
+    final Name qualifiedClassName = packageName.qualifiedClassName(Name.ofString("Integer"));
     assertEquals("java.lang.Integer", qualifiedClassName.asString());
   }
 }

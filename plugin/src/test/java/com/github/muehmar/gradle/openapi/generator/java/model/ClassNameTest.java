@@ -96,7 +96,7 @@ class ClassNameTest {
   @Test
   void getClassNameWithGenerics_when_called_then_correctFormatted() {
     final Name classNameWithGenerics =
-        ClassNames.MAP.getClassNameWithGenerics(Name.of("String"), Name.of("UserDto"));
+        ClassNames.MAP.getClassNameWithGenerics(Name.ofString("String"), Name.ofString("UserDto"));
     assertEquals("Map<String, UserDto>", classNameWithGenerics.asString());
   }
 }

@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 class ObjectSchemaMapperTest extends BaseTypeMapperTest {
   @Test
   void mapSchema_when_uuidSchema_then_correctType() {
-    final PojoName pojoName = PojoName.ofName(Name.of("Person"));
-    final Name memberName = Name.of("Address");
+    final PojoName pojoName = PojoName.ofName(Name.ofString("Person"));
+    final Name memberName = Name.ofString("Address");
     final Schema<?> schema = new ObjectSchema();
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("street", new StringSchema());

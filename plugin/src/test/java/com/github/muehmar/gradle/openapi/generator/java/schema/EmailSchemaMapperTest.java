@@ -21,7 +21,7 @@ class EmailSchemaMapperTest {
     final EmailSchema emailSchema = new EmailSchema();
     final MappedSchema<JavaType> mappedSchema =
         EMAIL_SCHEMA_MAPPER.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), emailSchema, null, null);
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), emailSchema, null, null);
     assertEquals(JavaTypes.STRING.withConstraints(Constraints.ofEmail()), mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -33,7 +33,7 @@ class EmailSchemaMapperTest {
     emailSchema.pattern("pattern").minLength(5).maxLength(50);
     final MappedSchema<JavaType> mappedSchema =
         EMAIL_SCHEMA_MAPPER.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), emailSchema, null, null);
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), emailSchema, null, null);
     assertEquals(
         JavaTypes.STRING.withConstraints(
             Constraints.ofEmail()

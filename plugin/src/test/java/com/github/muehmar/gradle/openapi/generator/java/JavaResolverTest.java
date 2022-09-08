@@ -16,48 +16,49 @@ class JavaResolverTest {
   @Test
   void getterName_when_booleanType_then_correctGetter() {
     final JavaResolver javaResolver = new JavaResolver();
-    final Name getterName = javaResolver.getterName(Name.of("activeUser"), JavaTypes.BOOLEAN);
+    final Name getterName = javaResolver.getterName(Name.ofString("activeUser"), JavaTypes.BOOLEAN);
     assertEquals("getActiveUser", getterName.asString());
   }
 
   @Test
   void setterName_when_anyCamelCaseAttribute_then_correctSetter() {
     final JavaResolver javaResolver = new JavaResolver();
-    final Name setterName = javaResolver.setterName(Name.of("lastName"));
+    final Name setterName = javaResolver.setterName(Name.ofString("lastName"));
     assertEquals("setLastName", setterName.asString());
   }
 
   @Test
   void witherName_when_anyCamelCaseName_then_correctWither() {
     final JavaResolver javaResolver = new JavaResolver();
-    final Name witherName = javaResolver.witherName(Name.of("lastName"));
+    final Name witherName = javaResolver.witherName(Name.ofString("lastName"));
     assertEquals("withLastName", witherName.asString());
   }
 
   @Test
   void className_when_anyCamelCaseName_then_classNameIsPascalCase() {
     final JavaResolver javaResolver = new JavaResolver();
-    final Name className = javaResolver.className(Name.of("lastName"));
+    final Name className = javaResolver.className(Name.ofString("lastName"));
     assertEquals("LastName", className.asString());
   }
 
   @Test
   void memberName_when_anyPascalCaseName_then_memberNameIsCamelCase() {
     final JavaResolver javaResolver = new JavaResolver();
-    final Name memberName = javaResolver.memberName(Name.of("LastName"));
+    final Name memberName = javaResolver.memberName(Name.ofString("LastName"));
     assertEquals("lastName", memberName.asString());
   }
 
   @Test
   void enumName_when_anyCamelCaseName_then_correctEnumName() {
     final JavaResolver javaResolver = new JavaResolver();
-    final Name memberName = javaResolver.enumName(Name.of("lastName"));
+    final Name memberName = javaResolver.enumName(Name.ofString("lastName"));
     assertEquals("LastNameEnum", memberName.asString());
   }
 
   @Test
   void toPascalCase_when_multipleKeys_then_everyKeyIsPascalCaseAndConcatenated() {
-    final Name pascalCase = JavaResolver.toPascalCase(Name.of("userGroup"), Name.of("language"));
+    final Name pascalCase =
+        JavaResolver.toPascalCase(Name.ofString("userGroup"), Name.ofString("language"));
     assertEquals("UserGroupLanguage", pascalCase.asString());
   }
 
@@ -78,7 +79,7 @@ class JavaResolverTest {
   @MethodSource("asciiJavaNameArguments")
   void toAsciiJavaName_when_variousInput_then_callConvertedToAsciiJavaNames(
       String in, String expected) {
-    final Name asciiJavaName = JavaResolver.toAsciiJavaName(Name.of(in));
+    final Name asciiJavaName = JavaResolver.toAsciiJavaName(Name.ofString(in));
     assertEquals(expected, asciiJavaName.asString());
   }
 

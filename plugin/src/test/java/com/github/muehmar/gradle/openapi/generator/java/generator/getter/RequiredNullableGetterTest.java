@@ -29,7 +29,7 @@ class RequiredNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -78,7 +78,7 @@ class RequiredNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE.withConstraints(
                 Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern"))),
@@ -128,7 +128,7 @@ class RequiredNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -167,7 +167,7 @@ class RequiredNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -215,7 +215,7 @@ class RequiredNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,

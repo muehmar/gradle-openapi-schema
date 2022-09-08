@@ -21,22 +21,30 @@ public class Pojos {
 
   public static Pojo sample() {
     return Pojo.ofObject(
-        Name.of("User"),
+        Name.ofString("User"),
         "User of the Application.",
         "Dto",
         PList.of(
             new PojoMember(
-                Name.of("id"), "ID of this user", JavaType.ofName("long"), REQUIRED, NOT_NULLABLE),
+                Name.ofString("id"),
+                "ID of this user",
+                JavaType.ofName("long"),
+                REQUIRED,
+                NOT_NULLABLE),
             new PojoMember(
-                Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
+                Name.ofString("name"),
+                "Name of this user",
+                JavaTypes.STRING,
+                REQUIRED,
+                NOT_NULLABLE),
             new PojoMember(
-                Name.of("birthdate"),
+                Name.ofString("birthdate"),
                 "Name of this user",
                 JavaTypes.LOCAL_DATE,
                 REQUIRED,
                 NOT_NULLABLE),
             new PojoMember(
-                Name.of("language"),
+                Name.ofString("language"),
                 "Preferred language of this user",
                 JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                 OPTIONAL,
@@ -45,11 +53,11 @@ public class Pojos {
 
   public static Pojo array() {
     return Pojo.ofArray(
-        Name.of("Array"),
+        Name.ofString("Array"),
         "Sample Array",
         "Dto",
         new PojoMember(
-            Name.of("value"),
+            Name.ofString("value"),
             "List of names",
             JavaType.javaList(JavaTypes.STRING),
             REQUIRED,
@@ -58,7 +66,7 @@ public class Pojos {
 
   public static Pojo allNecessityAndNullabilityVariants() {
     return Pojo.ofObject(
-        Name.of("NecessityAndNullability"),
+        Name.ofString("NecessityAndNullability"),
         "NecessityAndNullability",
         "Dto",
         PList.of(

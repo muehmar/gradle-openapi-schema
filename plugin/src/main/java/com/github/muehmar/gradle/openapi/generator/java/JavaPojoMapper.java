@@ -36,7 +36,12 @@ public class JavaPojoMapper extends BasePojoMapper {
       Name pojoName, ArraySchema schema, PojoSettings pojoSettings) {
     final PojoMemberProcessResult pojoMemberProcessResult =
         toPojoMemberFromSchema(
-            pojoName, Name.of("value"), schema, pojoSettings, Necessity.REQUIRED, NOT_NULLABLE);
+            pojoName,
+            Name.ofString("value"),
+            schema,
+            pojoSettings,
+            Necessity.REQUIRED,
+            NOT_NULLABLE);
     final Pojo pojo =
         Pojo.ofArray(
             pojoName,

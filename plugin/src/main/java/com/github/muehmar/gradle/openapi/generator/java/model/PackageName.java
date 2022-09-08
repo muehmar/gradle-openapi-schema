@@ -10,7 +10,7 @@ public class PackageName {
   }
 
   public static PackageName ofString(String pkg) {
-    return new PackageName(Name.of(pkg));
+    return new PackageName(Name.ofString(pkg));
   }
 
   public Name qualifiedClassName(Name className) {

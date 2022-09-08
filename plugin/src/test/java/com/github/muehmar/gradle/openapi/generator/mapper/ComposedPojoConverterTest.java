@@ -20,8 +20,8 @@ class ComposedPojoConverterTest {
   @Test
   void convert_when_twoPojosAndOneAllOfComposedPojos_then_composedPojoCreated() {
 
-    final Name tiresName = Name.of("Tires");
-    final Name colorName = Name.of("Color");
+    final Name tiresName = Name.ofString("Tires");
+    final Name colorName = Name.ofString("Color");
 
     final Pojo tiresPojo =
         Pojo.ofObject(
@@ -30,9 +30,17 @@ class ComposedPojoConverterTest {
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("tireKey"), "Key", SampleTypes.SampleType1, REQUIRED, NOT_NULLABLE),
+                    Name.ofString("tireKey"),
+                    "Key",
+                    SampleTypes.SampleType1,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("tireName"), "Name", SampleTypes.SampleType2, REQUIRED, NOT_NULLABLE)));
+                    Name.ofString("tireName"),
+                    "Name",
+                    SampleTypes.SampleType2,
+                    REQUIRED,
+                    NOT_NULLABLE)));
 
     final Pojo colorPojo =
         Pojo.ofObject(
@@ -41,9 +49,13 @@ class ComposedPojoConverterTest {
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("colorKey"), "Key", SampleTypes.SampleType2, OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("colorKey"),
+                    "Key",
+                    SampleTypes.SampleType2,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("colorName"),
+                    Name.ofString("colorName"),
                     "Name",
                     SampleTypes.SampleType1,
                     OPTIONAL,
@@ -51,7 +63,7 @@ class ComposedPojoConverterTest {
 
     final ComposedPojo composedPojo =
         new ComposedPojo(
-            PojoName.ofNameAndSuffix(Name.of("Composed"), "Dto"),
+            PojoName.ofNameAndSuffix(Name.ofString("Composed"), "Dto"),
             "Description",
             ComposedPojo.CompositionType.ALL_OF,
             PList.of(

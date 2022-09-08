@@ -13,6 +13,6 @@ public class ReferenceMapper {
 
   public static Name getRefName(String ref) {
     final int i = ref.lastIndexOf('/');
-    return Name.of(ref.substring(Math.max(i + 1, 0))).startUpperCase();
+    return Name.ofString(ref.substring(Math.max(i + 1, 0))).startUpperCase();
   }
 }

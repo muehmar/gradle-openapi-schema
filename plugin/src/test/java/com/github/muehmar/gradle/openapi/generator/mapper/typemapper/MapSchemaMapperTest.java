@@ -29,7 +29,7 @@ class MapSchemaMapperTest extends BaseTypeMapperTest {
 
     final MapType expectedType =
         MapType.ofKeyAndValueType(
-            StringType.noFormat(), ObjectType.ofName(PojoName.ofName(Name.of("Gender"))));
+            StringType.noFormat(), ObjectType.ofName(PojoName.ofName(Name.ofString("Gender"))));
 
     assertEquals(expectedType, result.getType());
     assertEquals(PList.empty(), result.getOpenApiPojos());
@@ -45,9 +45,9 @@ class MapSchemaMapperTest extends BaseTypeMapperTest {
     mapSchema.setAdditionalProperties(objectSchema);
 
     final TypeMapResult result =
-        run(PojoName.ofName(Name.of("invoice")), Name.of("page"), mapSchema);
+        run(PojoName.ofName(Name.ofString("invoice")), Name.ofString("page"), mapSchema);
 
-    final PojoName invoicePagePojoName = PojoName.ofName(Name.of("InvoicePage"));
+    final PojoName invoicePagePojoName = PojoName.ofName(Name.ofString("InvoicePage"));
     final MapType expectedType =
         MapType.ofKeyAndValueType(StringType.noFormat(), ObjectType.ofName(invoicePagePojoName));
 

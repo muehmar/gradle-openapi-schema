@@ -9,7 +9,7 @@ abstract class BaseTypeMapperTest {
   private static final CompleteTypeMapper TYPE_MAPPER = CompleteTypeMapperFactory.create();
 
   protected TypeMapResult run(Schema<?> schema) {
-    return TYPE_MAPPER.map(PojoNames.POJO_NAME, Name.of("pojoMemberName"), schema);
+    return TYPE_MAPPER.map(PojoNames.POJO_NAME, Name.ofString("pojoMemberName"), schema);
   }
 
   protected TypeMapResult run(PojoName pojoName, Name pojoMemberName, Schema<?> schema) {

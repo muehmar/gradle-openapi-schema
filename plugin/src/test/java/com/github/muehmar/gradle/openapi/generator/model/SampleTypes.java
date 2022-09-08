@@ -11,7 +11,7 @@ public class SampleTypes {
       new Type() {
         @Override
         public Name getFullName() {
-          return Name.of("SampleType1");
+          return Name.ofString("SampleType1");
         }
 
         @Override
@@ -47,7 +47,7 @@ public class SampleTypes {
       new Type() {
         @Override
         public Name getFullName() {
-          return Name.of("SampleType2");
+          return Name.ofString("SampleType2");
         }
 
         @Override

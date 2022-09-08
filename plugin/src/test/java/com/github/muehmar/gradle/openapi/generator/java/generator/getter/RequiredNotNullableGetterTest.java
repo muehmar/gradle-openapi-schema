@@ -24,7 +24,7 @@ class RequiredNotNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -51,7 +51,7 @@ class RequiredNotNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,
@@ -79,7 +79,7 @@ class RequiredNotNullableGetterTest {
     final Generator<PojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
     final PojoMember pojoMember =
         new PojoMember(
-            Name.of("birthdate"),
+            Name.ofString("birthdate"),
             "Birthdate",
             JavaTypes.LOCAL_DATE,
             Necessity.REQUIRED,

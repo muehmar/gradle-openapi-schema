@@ -25,7 +25,7 @@ class NumberSchemaMapperTest {
     final Schema<?> schema = new NumberSchema().format(format);
     final MappedSchema<JavaType> mappedSchema =
         NUMBER_SCHEMA_MAPPER.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), schema, null, null);
 
     assertEquals(fromFormat(format), mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
@@ -37,7 +37,7 @@ class NumberSchemaMapperTest {
     final Schema<?> schema = new NumberSchema().format(format).minimum(new BigDecimal(18));
     final MappedSchema<JavaType> mappedSchema =
         NUMBER_SCHEMA_MAPPER.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), schema, null, null);
 
     final JavaType expectedType =
         fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)));
@@ -52,7 +52,7 @@ class NumberSchemaMapperTest {
     final Schema<?> schema = new NumberSchema().format(format).maximum(new BigDecimal(50));
     final MappedSchema<JavaType> mappedSchema =
         NUMBER_SCHEMA_MAPPER.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), schema, null, null);
 
     final JavaType expectedType =
         fromFormat(format).withConstraints(Constraints.ofMax(new Max(50)));
@@ -68,7 +68,7 @@ class NumberSchemaMapperTest {
         new NumberSchema().format(format).minimum(new BigDecimal(18)).maximum(new BigDecimal(50));
     final MappedSchema<JavaType> mappedSchema =
         NUMBER_SCHEMA_MAPPER.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), schema, null, null);
 
     final JavaType expectedType =
         fromFormat(format).withConstraints(Constraints.ofMinAndMax(new Min(18), new Max(50)));

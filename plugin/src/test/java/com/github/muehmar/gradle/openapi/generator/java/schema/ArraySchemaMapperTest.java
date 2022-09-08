@@ -26,8 +26,8 @@ class ArraySchemaMapperTest {
     final ArraySchema arraySchema = new ArraySchema().items(new DateTimeSchema());
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             arraySchema,
             null,
             new DateTimeSchemaMapper(null));
@@ -45,15 +45,15 @@ class ArraySchemaMapperTest {
 
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            Name.of("Reports"),
-            Name.of("Invoice"),
+            Name.ofString("Reports"),
+            Name.ofString("Invoice"),
             arraySchema,
             TestPojoSettings.defaultSettings(),
             new DateTimeSchemaMapper(null));
-    final JavaType itemType = JavaType.ofOpenApiSchema(Name.of("ReportsInvoice"), "Dto");
+    final JavaType itemType = JavaType.ofOpenApiSchema(Name.ofString("ReportsInvoice"), "Dto");
     assertEquals(JavaType.javaList(itemType), mappedSchema.getType());
     assertEquals(
-        PList.of(new OpenApiPojo(Name.of("ReportsInvoice"), composedSchema)),
+        PList.of(new OpenApiPojo(Name.ofString("ReportsInvoice"), composedSchema)),
         mappedSchema.getOpenApiPojos());
   }
 
@@ -62,8 +62,8 @@ class ArraySchemaMapperTest {
     final Schema<?> arraySchema = new ArraySchema().items(new DateTimeSchema()).minItems(10);
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             arraySchema,
             null,
             new DateTimeSchemaMapper(null));
@@ -80,8 +80,8 @@ class ArraySchemaMapperTest {
     final Schema<?> arraySchema = new ArraySchema().items(new DateTimeSchema()).maxItems(50);
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             arraySchema,
             null,
             new DateTimeSchemaMapper(null));
@@ -99,8 +99,8 @@ class ArraySchemaMapperTest {
         new ArraySchema().items(new DateTimeSchema()).minItems(10).maxItems(50);
     final MappedSchema<JavaType> mappedSchema =
         arraySchemaMapper.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             arraySchema,
             null,
             new DateTimeSchemaMapper(null));

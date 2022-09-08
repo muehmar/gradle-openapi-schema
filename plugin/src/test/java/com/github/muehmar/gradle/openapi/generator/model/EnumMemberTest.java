@@ -22,7 +22,7 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final Name memberNames = Name.of(memberName);
+    final Name memberNames = Name.ofString(memberName);
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", false);
 
     final Optional<EnumMember> enumMember =
@@ -52,7 +52,7 @@ class EnumMemberTest {
             + "* `RED`:.* This is for red\n"
             + "* `BLUE`:.* This is for blue";
 
-    final Name memberNames = Name.of(memberName);
+    final Name memberNames = Name.ofString(memberName);
     final EnumDescriptionSettings settings =
         EnumDescriptionSettings.enabled("`__ENUM__`:.*", false);
 
@@ -73,7 +73,8 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final PList<Name> memberNames = PList.of(Name.of("RED"), Name.of("GREEN"), Name.of("YELLOW"));
+    final PList<Name> memberNames =
+        PList.of(Name.ofString("RED"), Name.ofString("GREEN"), Name.ofString("YELLOW"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", false);
     final PList<EnumMember> enumMembers =
         EnumMember.extractDescriptions(memberNames, settings, input);
@@ -96,7 +97,8 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final PList<Name> memberNames = PList.of(Name.of("RED"), Name.of("GREEN"), Name.of("YELLOW"));
+    final PList<Name> memberNames =
+        PList.of(Name.ofString("RED"), Name.ofString("GREEN"), Name.ofString("YELLOW"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", true);
     assertThrows(
         IllegalStateException.class,
@@ -112,7 +114,7 @@ class EnumMemberTest {
             + "* `BLUE`: This is for blue";
 
     final PList<Name> memberNames =
-        PList.of(Name.of("YELLOW"), Name.of("ORANGE"), Name.of("BROWN"));
+        PList.of(Name.ofString("YELLOW"), Name.ofString("ORANGE"), Name.ofString("BROWN"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", true);
     final PList<EnumMember> enumMembers =
         EnumMember.extractDescriptions(memberNames, settings, input);
@@ -135,7 +137,8 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final PList<Name> memberNames = PList.of(Name.of("BLUE"), Name.of("RED"), Name.of("GREEN"));
+    final PList<Name> memberNames =
+        PList.of(Name.ofString("BLUE"), Name.ofString("RED"), Name.ofString("GREEN"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", true);
     final PList<EnumMember> enumMembers =
         EnumMember.extractDescriptions(memberNames, settings, input);

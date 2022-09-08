@@ -17,7 +17,8 @@ class TypeLessSchemaMapperTest {
     final Schema<Object> schema = new Schema<>();
 
     final MappedSchema<JavaType> mappedSchema =
-        schemaMapper.mapSchema(Name.of("pojoName"), Name.of("pojoMemberName"), schema, null, null);
+        schemaMapper.mapSchema(
+            Name.ofString("pojoName"), Name.ofString("pojoMemberName"), schema, null, null);
     assertEquals(JavaTypes.OBJECT, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }

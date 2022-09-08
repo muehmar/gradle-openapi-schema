@@ -36,7 +36,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_dateSchema_then_localDateReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new DateSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new DateSchema(),
+            SETTINGS,
+            CHAIN);
     Assertions.assertEquals(JavaTypes.LOCAL_DATE, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -45,7 +49,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_dateTimeSchema_then_localDateTimeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new DateTimeSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new DateTimeSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.LOCAL_DATE_TIME, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -54,7 +62,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_booleanSchema_then_booleanTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new BooleanSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new BooleanSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.BOOLEAN, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -63,7 +75,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_integerSchema_then_integerTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new IntegerSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new IntegerSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.INTEGER, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -72,7 +88,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_numberSchema_then_floatTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new NumberSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new NumberSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.FLOAT, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -81,8 +101,8 @@ class SchemaMapperChainTest {
   void mapSchema_when_arraySchema_then_correctListReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             new ArraySchema().items(new IntegerSchema()),
             SETTINGS,
             CHAIN);
@@ -94,7 +114,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_uuidSchema_then_uuidTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new UUIDSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new UUIDSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.UUID, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -103,8 +127,8 @@ class SchemaMapperChainTest {
   void mapSchema_when_stringSchema_then_correctStringTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"),
-            Name.of("pojoMemberName"),
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
             new StringSchema().format("url"),
             SETTINGS,
             CHAIN);
@@ -116,7 +140,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_passwordSchema_then_stringTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new PasswordSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new PasswordSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.STRING, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -125,7 +153,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_binarySchema_then_byteArrayTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new BinarySchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new BinarySchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.BYTE_ARRAY, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -134,7 +166,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_fileSchema_then_stringTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new FileSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new FileSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.STRING, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -143,7 +179,11 @@ class SchemaMapperChainTest {
   void mapSchema_when_emailSchema_then_stringTypeReturned() {
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), new EmailSchema(), SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            new EmailSchema(),
+            SETTINGS,
+            CHAIN);
     assertEquals(JavaTypes.STRING.withConstraints(Constraints.ofEmail()), mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());
   }
@@ -154,9 +194,13 @@ class SchemaMapperChainTest {
 
     final MappedSchema<JavaType> mappedSchema =
         CHAIN.mapSchema(
-            Name.of("pojoName"), Name.of("pojoMemberName"), objectSchema, SETTINGS, CHAIN);
+            Name.ofString("pojoName"),
+            Name.ofString("pojoMemberName"),
+            objectSchema,
+            SETTINGS,
+            CHAIN);
 
-    final Name expectedName = Name.of("PojoNamePojoMemberName");
+    final Name expectedName = Name.ofString("PojoNamePojoMemberName");
     assertEquals(JavaType.ofOpenApiSchema(expectedName, "Dto"), mappedSchema.getType());
     assertEquals(
         PList.single(new OpenApiPojo(expectedName, objectSchema)), mappedSchema.getOpenApiPojos());

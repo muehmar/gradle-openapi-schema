@@ -42,20 +42,24 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofObject(
-            Name.of("User"),
+            Name.ofString("User"),
             "User of the Application. This description is intentionally longer to see if its wrapped to a new line.",
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("id"),
+                    Name.ofString("id"),
                     "ID of this user",
                     JavaType.ofName("long"),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
+                    Name.ofString("name"),
+                    "Name of this user",
+                    JavaTypes.STRING,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("language"),
+                    Name.ofString("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                     OPTIONAL,
@@ -78,20 +82,24 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofObject(
-            Name.of("User"),
+            Name.ofString("User"),
             "User of the Application",
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("id"),
+                    Name.ofString("id"),
                     "ID of this user",
                     JavaType.ofName("long"),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
+                    Name.ofString("name"),
+                    "Name of this user",
+                    JavaTypes.STRING,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("language"),
+                    Name.ofString("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                     OPTIONAL,
@@ -116,20 +124,24 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofObject(
-            Name.of("User"),
+            Name.ofString("User"),
             "User of the Application",
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("id"),
+                    Name.ofString("id"),
                     "ID of this user",
                     JavaType.ofName("long"),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("name"), "Name of this user", JavaTypes.STRING, REQUIRED, NOT_NULLABLE),
+                    Name.ofString("name"),
+                    "Name of this user",
+                    JavaTypes.STRING,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("language"),
+                    Name.ofString("language"),
                     "Preferred language of this user",
                     JavaType.javaEnum(PList.of("GERMAN", "ENGLISH")),
                     OPTIONAL,
@@ -154,42 +166,42 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofObject(
-            Name.of("User"),
+            Name.ofString("User"),
             "User of the Application",
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("id"),
+                    Name.ofString("id"),
                     "ID of this user",
                     JavaType.ofName("long").withConstraints(Constraints.ofMax(new Max(50))),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("name"),
+                    Name.ofString("name"),
                     "Name of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.of(10, 15))),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("lastName"),
+                    Name.ofString("lastName"),
                     "Lastname of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMin(10))),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("nickName"),
+                    Name.ofString("nickName"),
                     "Nickname of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofSize(Size.ofMax(50))),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("email"),
+                    Name.ofString("email"),
                     "Email of this user",
                     JavaTypes.STRING.withConstraints(Constraints.ofEmail()),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("height"),
+                    Name.ofString("height"),
                     "Height of this user",
                     JavaTypes.DOUBLE.withConstraints(
                         Constraints.ofDecimalMin(new DecimalMin("120.0", true))
@@ -197,20 +209,20 @@ class JavaPojoGeneratorTest {
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("level"),
+                    Name.ofString("level"),
                     "Level of this user",
                     JavaType.ofName("Long").withConstraints(Constraints.ofMin(new Min(5))),
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("uppercase"),
+                    Name.ofString("uppercase"),
                     "Something uppercase",
                     JavaTypes.STRING.withConstraints(
                         Constraints.ofPattern(Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.of("anotherPojo"),
+                    Name.ofString("anotherPojo"),
                     "Another Pojo",
                     JavaType.ofUserDefined("AnotherPojo"),
                     OPTIONAL,
@@ -235,7 +247,7 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofEnum(
-            Name.of("Gender"),
+            Name.ofString("Gender"),
             "Gender of a user",
             "Dto",
             JavaType.javaEnum(PList.of("MALE", "FEMALE")));
@@ -255,7 +267,7 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofEnum(
-            Name.of("Gender"),
+            Name.ofString("Gender"),
             "Gender of a user",
             "Dto",
             JavaType.javaEnum(PList.of("MALE", "FEMALE")));
@@ -280,12 +292,12 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofObject(
-            Name.of("User"),
+            Name.ofString("User"),
             "User of the Application",
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("language"),
+                    Name.ofString("language"),
                     "Preferred language of this user\n"
                         + "* `GERMAN`: German language\n"
                         + "* `ENGLISH`: English language",
@@ -311,12 +323,12 @@ class JavaPojoGeneratorTest {
 
     final Pojo pojo =
         Pojo.ofObject(
-            Name.of("User"),
+            Name.ofString("User"),
             "User of the Application",
             "Dto",
             PList.of(
                 new PojoMember(
-                    Name.of("language"),
+                    Name.ofString("language"),
                     "Preferred language of this user\n"
                         + "* `GERMAN`: German language\n"
                         + "* `ENGLISH`: English language",

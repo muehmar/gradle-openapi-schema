@@ -23,7 +23,7 @@ public class PojoName {
   }
 
   public static PojoName ofNameAndSuffix(String name, String suffix) {
-    return new PojoName(Name.of(name), suffix);
+    return new PojoName(Name.ofString(name), suffix);
   }
 
   public static PojoName deriveOpenApiPojoName(PojoName pojoName, Name pojoMemberName) {

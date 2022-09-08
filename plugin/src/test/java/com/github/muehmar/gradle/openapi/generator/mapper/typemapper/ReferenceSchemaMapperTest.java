@@ -17,7 +17,7 @@ class ReferenceSchemaMapperTest extends BaseTypeMapperTest {
 
     final TypeMapResult result = run(schema);
 
-    final ObjectType expectedType = ObjectType.ofName(PojoName.ofName(Name.of("Person")));
+    final ObjectType expectedType = ObjectType.ofName(PojoName.ofName(Name.ofString("Person")));
     assertEquals(expectedType, result.getType());
     assertEquals(PList.empty(), result.getOpenApiPojos());
   }

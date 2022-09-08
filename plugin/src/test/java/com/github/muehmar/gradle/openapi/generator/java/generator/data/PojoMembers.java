@@ -23,7 +23,7 @@ public class PojoMembers {
 
   public static PojoMember requiredBirthdate() {
     return new PojoMember(
-        Name.of("birthdate"),
+        Name.ofString("birthdate"),
         "Birthdate",
         JavaTypes.LOCAL_DATE,
         Necessity.REQUIRED,
@@ -32,16 +32,16 @@ public class PojoMembers {
 
   public static PojoMember requiredReference() {
     return new PojoMember(
-        Name.of("ref"),
+        Name.ofString("ref"),
         "ref",
-        JavaType.ofReference(Name.of("SomeObject"), "Dto"),
+        JavaType.ofReference(Name.ofString("SomeObject"), "Dto"),
         Necessity.REQUIRED,
         Nullability.NOT_NULLABLE);
   }
 
   public static PojoMember requiredEmail() {
     return new PojoMember(
-        Name.of("email"),
+        Name.ofString("email"),
         "email",
         JavaTypes.STRING.withConstraints(Constraints.ofEmail()),
         Necessity.REQUIRED,
@@ -50,7 +50,7 @@ public class PojoMembers {
 
   public static PojoMember requiredInteger() {
     return new PojoMember(
-        Name.of("intVal"),
+        Name.ofString("intVal"),
         "intVal",
         JavaTypes.INTEGER.withConstraints(Constraints.ofMin(new Min(10)).withMax(new Max(50))),
         Necessity.REQUIRED,
@@ -59,7 +59,7 @@ public class PojoMembers {
 
   public static PojoMember requiredDouble() {
     return new PojoMember(
-        Name.of("doubleVal"),
+        Name.ofString("doubleVal"),
         "doubleVal",
         JavaTypes.DOUBLE.withConstraints(
             Constraints.ofDecimalMin(new DecimalMin("12.5", true))
@@ -70,7 +70,7 @@ public class PojoMembers {
 
   public static PojoMember requiredStringList() {
     return new PojoMember(
-        Name.of("doubleVal"),
+        Name.ofString("doubleVal"),
         "doubleVal",
         JavaType.javaList(JavaTypes.STRING).withConstraints(Constraints.ofSize(Size.of(1, 50))),
         Necessity.REQUIRED,
@@ -79,7 +79,7 @@ public class PojoMembers {
 
   public static PojoMember requiredString() {
     return new PojoMember(
-        Name.of("requiredStringVal"),
+        Name.ofString("requiredStringVal"),
         "RequiredStringVal",
         JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         Necessity.REQUIRED,
@@ -88,7 +88,7 @@ public class PojoMembers {
 
   public static PojoMember requiredNullableString() {
     return new PojoMember(
-        Name.of("requiredNullableStringVal"),
+        Name.ofString("requiredNullableStringVal"),
         "RequiredNullableStringVal",
         JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         Necessity.REQUIRED,
@@ -97,7 +97,7 @@ public class PojoMembers {
 
   public static PojoMember optionalString() {
     return new PojoMember(
-        Name.of("optionalStringVal"),
+        Name.ofString("optionalStringVal"),
         "OptionalStringVal",
         JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         OPTIONAL,
@@ -106,7 +106,7 @@ public class PojoMembers {
 
   public static PojoMember optionalNullableString() {
     return new PojoMember(
-        Name.of("optionalNullableStringVal"),
+        Name.ofString("optionalNullableStringVal"),
         "OptionalNullableStringVal",
         JavaTypes.STRING.withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         OPTIONAL,

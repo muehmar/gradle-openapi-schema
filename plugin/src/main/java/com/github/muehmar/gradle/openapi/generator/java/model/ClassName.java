@@ -30,14 +30,14 @@ public class ClassName {
     if (i > 0 && i < qualifiedClassName.length() - 1) {
       return new ClassName(
           PackageName.ofString(qualifiedClassName.substring(0, i)),
-          Name.of(qualifiedClassName.substring(i + 1)));
+          Name.ofString(qualifiedClassName.substring(i + 1)));
     } else {
-      return new ClassName(Name.of(qualifiedClassName));
+      return new ClassName(Name.ofString(qualifiedClassName));
     }
   }
 
   public static ClassName ofName(String name) {
-    return new ClassName(Name.of(name));
+    return new ClassName(Name.ofString(name));
   }
 
   public static ClassName ofName(Name name) {
