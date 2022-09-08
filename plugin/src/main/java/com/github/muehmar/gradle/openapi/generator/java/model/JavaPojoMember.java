@@ -19,6 +19,12 @@ public class JavaPojoMember {
 
   public static JavaPojoMember wrap(NewPojoMember pojoMember, TypeMappings typeMappings) {
     final JavaType javaType = JavaType.wrap(pojoMember.getType(), typeMappings);
-    return new JavaPojoMember(javaType, pojoMember);
+    final JavaType primitiveMappedType =
+        pojoMember.isRequiredAndNotNullable() ? javaType.asPrimitive() : javaType;
+    return new JavaPojoMember(primitiveMappedType, pojoMember);
+  }
+
+  public JavaType getJavaType() {
+    return javaType;
   }
 }
