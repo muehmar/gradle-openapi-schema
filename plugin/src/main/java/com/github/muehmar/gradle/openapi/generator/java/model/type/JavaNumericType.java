@@ -50,4 +50,9 @@ public class JavaNumericType extends NonGenericJavaType {
     map.put(NumericType.Format.INTEGER, ClassNames.INTEGER);
     return map;
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return new JavaNumericType(className.asPrimitive(), numericType);
+  }
 }

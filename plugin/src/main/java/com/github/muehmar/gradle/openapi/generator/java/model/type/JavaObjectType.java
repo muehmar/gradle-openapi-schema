@@ -19,4 +19,9 @@ public class JavaObjectType extends NonGenericJavaType {
     final ClassName className = ClassName.ofName(objectType.getName().asString());
     return new JavaObjectType(className, objectType);
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return this;
+  }
 }

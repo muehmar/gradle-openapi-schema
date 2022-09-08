@@ -46,4 +46,9 @@ public class JavaArrayType implements JavaType {
   public Name getFullClassName() {
     return className.getClassNameWithGenerics(itemType.getFullClassName());
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return this;
+  }
 }

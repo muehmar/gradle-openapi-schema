@@ -25,4 +25,10 @@ class JavaEnumTypeTest {
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
+
+  @Test
+  void asPrimitive_when_called_then_unchanged() {
+    final JavaType javaType = JavaTypes.ENUM.asPrimitive();
+    assertEquals(JavaTypes.ENUM, javaType);
+  }
 }

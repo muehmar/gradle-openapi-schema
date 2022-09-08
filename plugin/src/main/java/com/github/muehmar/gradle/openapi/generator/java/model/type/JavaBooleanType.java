@@ -22,4 +22,9 @@ public class JavaBooleanType extends NonGenericJavaType {
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     return new JavaBooleanType(className);
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return new JavaBooleanType(className.asPrimitive());
+  }
 }

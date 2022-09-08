@@ -50,4 +50,9 @@ public class JavaMapType implements JavaType {
   public Name getFullClassName() {
     return className.getClassNameWithGenerics(key.getFullClassName(), value.getFullClassName());
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return this;
+  }
 }

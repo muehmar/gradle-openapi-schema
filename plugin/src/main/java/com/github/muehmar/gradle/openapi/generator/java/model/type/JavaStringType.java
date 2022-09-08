@@ -54,4 +54,9 @@ public class JavaStringType extends NonGenericJavaType {
             .orElse(ClassNames.STRING);
     return userFormatMappedClassName.orElse(formatMappedClassName);
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return new JavaStringType(className.asPrimitive(), stringType);
+  }
 }

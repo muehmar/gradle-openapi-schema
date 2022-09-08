@@ -19,4 +19,9 @@ public class JavaEnumType extends NonGenericJavaType {
     final ClassName className = ClassName.ofName(enumType.getName());
     return new JavaEnumType(className, enumType);
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return this;
+  }
 }

@@ -11,6 +11,10 @@ public class ClassNames {
       ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Boolean"));
   public static final ClassName BYTE =
       ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Byte"));
+  public static final ClassName SHORT =
+      ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Short"));
+  public static final ClassName CHARACTER =
+      ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Character"));
   public static final ClassName STRING =
       ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("String"));
   public static final ClassName INTEGER =
@@ -39,4 +43,13 @@ public class ClassNames {
       ClassName.ofPackageAndName(PackageNames.JAVA_UTIL, Name.ofString("List"));
   public static final ClassName MAP =
       ClassName.ofPackageAndName(PackageNames.JAVA_UTIL, Name.ofString("Map"));
+
+  public static final ClassName DOUBLE_PRIMITIVE = ClassName.ofName("double");
+  public static final ClassName FLOAT_PRIMITIVE = ClassName.ofName("float");
+  public static final ClassName LONG_PRIMITIVE = ClassName.ofName("long");
+  public static final ClassName INTEGER_PRIMITIVE = ClassName.ofName("int");
+  public static final ClassName BYTE_PRIMITIVE = ClassName.ofName("byte");
+  public static final ClassName SHORT_PRIMITIVE = ClassName.ofName("short");
+  public static final ClassName BOOLEAN_PRIMITIVE = ClassName.ofName("boolean");
+  public static final ClassName CHAR_PRIMITIVE = ClassName.ofName("char");
 }

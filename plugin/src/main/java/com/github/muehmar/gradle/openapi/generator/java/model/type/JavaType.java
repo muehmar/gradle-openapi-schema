@@ -12,6 +12,8 @@ public interface JavaType {
 
   Name getFullClassName();
 
+  JavaType asPrimitive();
+
   static JavaType wrap(NewType type, TypeMappings typeMappings) {
     return type.fold(
         numericType -> JavaNumericType.wrap(numericType, typeMappings),

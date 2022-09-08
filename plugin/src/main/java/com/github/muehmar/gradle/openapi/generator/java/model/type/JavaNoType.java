@@ -17,4 +17,9 @@ public class JavaNoType extends NonGenericJavaType {
   public static JavaNoType create() {
     return new JavaNoType();
   }
+
+  @Override
+  public JavaType asPrimitive() {
+    return this;
+  }
 }

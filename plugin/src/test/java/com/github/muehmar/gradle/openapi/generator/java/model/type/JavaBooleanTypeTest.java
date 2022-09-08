@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -40,5 +41,13 @@ class JavaBooleanTypeTest {
             .getAllQualifiedClassNames()
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
+  }
+
+  @Test
+  void asPrimitive_when_called_then_classNameMappedToPrimitive() {
+    final JavaType javaType = JavaTypes.BOOLEAN.asPrimitive();
+
+    assertNotEquals(JavaTypes.BOOLEAN, javaType);
+    assertEquals("boolean", javaType.getClassName().asString());
   }
 }
