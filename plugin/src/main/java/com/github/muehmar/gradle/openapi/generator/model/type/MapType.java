@@ -21,6 +21,14 @@ public class MapType implements NewType {
     return new MapType(key, value);
   }
 
+  public NewType getKey() {
+    return key;
+  }
+
+  public NewType getValue() {
+    return value;
+  }
+
   @Override
   public Constraints getConstraints() {
     return null;

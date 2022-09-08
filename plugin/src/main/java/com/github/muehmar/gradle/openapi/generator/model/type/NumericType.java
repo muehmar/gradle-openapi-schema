@@ -74,6 +74,10 @@ public class NumericType implements NewType {
       this.value = value;
     }
 
+    public String asString() {
+      return value;
+    }
+
     public static Optional<Format> parseString(String value) {
       return PList.fromArray(values()).find(f -> f.value.equals(value));
     }

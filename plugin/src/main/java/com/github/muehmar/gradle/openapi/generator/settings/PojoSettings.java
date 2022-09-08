@@ -84,4 +84,8 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
   public RawGetter getRawGetter() {
     return rawGetter;
   }
+
+  public TypeMappings getTypeMappings() {
+    return new TypeMappings(PList.fromIter(classTypeMappings), PList.fromIter(formatTypeMappings));
+  }
 }

@@ -23,6 +23,14 @@ public class EnumType implements NewType {
     return new EnumType(name, members);
   }
 
+  public Name getName() {
+    return name;
+  }
+
+  public PList<String> getMembers() {
+    return members;
+  }
+
   @Override
   public Constraints getConstraints() {
     return Constraints.empty();
