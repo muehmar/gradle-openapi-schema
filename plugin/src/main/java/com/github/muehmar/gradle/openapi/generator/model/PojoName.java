@@ -1,10 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 @EqualsAndHashCode
-@ToString
 public class PojoName {
   private final Name name;
   private final String suffix;
@@ -49,5 +47,10 @@ public class PojoName {
 
   public String asString() {
     return name.append(suffix).asString();
+  }
+
+  @Override
+  public String toString() {
+    return asString();
   }
 }

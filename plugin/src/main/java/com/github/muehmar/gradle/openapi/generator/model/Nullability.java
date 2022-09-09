@@ -8,4 +8,12 @@ public enum Nullability {
   public static Nullability fromNullableBoolean(boolean nullable) {
     return nullable ? NULLABLE : NOT_NULLABLE;
   }
+
+  public boolean isNullable() {
+    return this == NULLABLE;
+  }
+
+  public boolean isNotNullable() {
+    return this == NOT_NULLABLE;
+  }
 }

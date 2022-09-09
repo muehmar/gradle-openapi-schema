@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -18,7 +19,7 @@ public class JavaStringType extends NonGenericJavaType {
   private static final Map<StringType.Format, ClassName> FORMAT_CLASS_NAME_MAP =
       createFormatClassNameMap();
 
-  private final StringType stringType;
+  private final Constraints constraints;
 
   private static Map<StringType.Format, ClassName> createFormatClassNameMap() {
     final Map<StringType.Format, ClassName> map = new EnumMap<>(StringType.Format.class);
@@ -32,9 +33,9 @@ public class JavaStringType extends NonGenericJavaType {
     return map;
   }
 
-  protected JavaStringType(ClassName className, StringType stringType) {
+  protected JavaStringType(ClassName className, Constraints constraints) {
     super(className);
-    this.stringType = stringType;
+    this.constraints = constraints;
   }
 
   public static JavaStringType wrap(StringType stringType, TypeMappings typeMappings) {
@@ -42,7 +43,7 @@ public class JavaStringType extends NonGenericJavaType {
         classNameFromFormat(stringType, typeMappings.getFormatTypeMappings());
     final ClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaStringType(finalClassName, stringType);
+    return new JavaStringType(finalClassName, stringType.getConstraints());
   }
 
   private static ClassName classNameFromFormat(
@@ -57,6 +58,6 @@ public class JavaStringType extends NonGenericJavaType {
 
   @Override
   public JavaType asPrimitive() {
-    return new JavaStringType(className.asPrimitive(), stringType);
+    return new JavaStringType(className.asPrimitive(), constraints);
   }
 }

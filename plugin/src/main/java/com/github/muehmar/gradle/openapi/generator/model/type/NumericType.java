@@ -36,6 +36,10 @@ public class NumericType implements NewType {
     return NumericType.ofFormat(Format.FLOAT);
   }
 
+  public static NumericType formatDouble() {
+    return NumericType.ofFormat(Format.DOUBLE);
+  }
+
   public NumericType withConstraints(Constraints constraints) {
     return new NumericType(format, constraints);
   }

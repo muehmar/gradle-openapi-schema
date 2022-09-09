@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -13,22 +14,24 @@ import lombok.ToString;
 @ToString
 public class JavaArrayType implements JavaType {
   private final ClassName className;
-  private final ArrayType arrayType;
   private final JavaType itemType;
+  private final Constraints constraints;
 
   private static final ClassName JAVA_CLASS_NAME = ClassNames.LIST;
 
-  private JavaArrayType(ClassName className, ArrayType arrayType, JavaType itemType) {
+  private JavaArrayType(ClassName className, JavaType itemType, Constraints constraints) {
     this.className = className;
-    this.arrayType = arrayType;
     this.itemType = itemType;
+    this.constraints = constraints;
   }
 
   public static JavaArrayType wrap(ArrayType arrayType, TypeMappings typeMappings) {
     final ClassName className =
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     return new JavaArrayType(
-        className, arrayType, JavaType.wrap(arrayType.getItemType(), typeMappings));
+        className,
+        JavaType.wrap(arrayType.getItemType(), typeMappings),
+        arrayType.getConstraints());
   }
 
   @Override

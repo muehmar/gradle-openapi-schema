@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -17,11 +18,11 @@ import lombok.ToString;
 public class JavaNumericType extends NonGenericJavaType {
   private static final Map<NumericType.Format, ClassName> FORMAT_CLASS_NAME_MAP =
       createFormatClassNameMap();
-  private final NumericType numericType;
+  private final Constraints constraints;
 
-  protected JavaNumericType(ClassName className, NumericType numericType) {
+  protected JavaNumericType(ClassName className, Constraints constraints) {
     super(className);
-    this.numericType = numericType;
+    this.constraints = constraints;
   }
 
   public static JavaNumericType wrap(NumericType numericType, TypeMappings typeMappings) {
@@ -29,7 +30,7 @@ public class JavaNumericType extends NonGenericJavaType {
         classNameFromFormat(numericType, typeMappings.getFormatTypeMappings());
     final ClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaNumericType(finalClassName, numericType);
+    return new JavaNumericType(finalClassName, numericType.getConstraints());
   }
 
   private static ClassName classNameFromFormat(
@@ -53,6 +54,6 @@ public class JavaNumericType extends NonGenericJavaType {
 
   @Override
   public JavaType asPrimitive() {
-    return new JavaNumericType(className.asPrimitive(), numericType);
+    return new JavaNumericType(className.asPrimitive(), constraints);
   }
 }

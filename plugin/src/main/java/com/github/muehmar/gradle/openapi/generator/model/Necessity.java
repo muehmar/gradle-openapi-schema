@@ -8,4 +8,12 @@ public enum Necessity {
   public static Necessity fromBoolean(boolean necessity) {
     return necessity ? REQUIRED : OPTIONAL;
   }
+
+  public boolean isOptional() {
+    return this == OPTIONAL;
+  }
+
+  public boolean isRequired() {
+    return this == REQUIRED;
+  }
 }
