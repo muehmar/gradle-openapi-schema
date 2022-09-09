@@ -23,4 +23,8 @@ public interface JavaPojo {
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
         JavaEnumPojo::wrap);
   }
+
+  default boolean isArray() {
+    return fold(arrayPojo -> true, enumPojo -> false, objectPojo -> false);
+  }
 }

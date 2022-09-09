@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
 
@@ -50,6 +52,14 @@ public class Name {
 
   public Name startUpperCase() {
     return map(s -> s.substring(0, 1).toUpperCase() + s.substring(1));
+  }
+
+  public boolean contains(CharSequence s) {
+    return value.contains(s);
+  }
+
+  public boolean startsNotWith(String prefix) {
+    return not(value.startsWith(prefix));
   }
 
   @Override

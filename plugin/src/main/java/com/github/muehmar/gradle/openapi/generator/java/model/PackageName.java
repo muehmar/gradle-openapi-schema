@@ -2,10 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 @EqualsAndHashCode
-@ToString
 public class PackageName {
   private final Name pkg;
 
@@ -19,5 +17,14 @@ public class PackageName {
 
   public Name qualifiedClassName(Name className) {
     return pkg.append(".").append(className);
+  }
+
+  public String asString() {
+    return pkg.asString();
+  }
+
+  @Override
+  public String toString() {
+    return asString();
   }
 }
