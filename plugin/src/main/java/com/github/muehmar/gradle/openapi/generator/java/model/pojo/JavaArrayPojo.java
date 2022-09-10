@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -26,7 +27,7 @@ public class JavaArrayPojo implements JavaPojo {
   private JavaArrayPojo(
       PojoName name, String description, JavaType itemType, JavaPojoMember arrayPojoMember) {
     this.name = name;
-    this.description = description;
+    this.description = Optional.ofNullable(description).orElse("");
     this.itemType = itemType;
     this.arrayPojoMember = arrayPojoMember;
   }
@@ -52,6 +53,7 @@ public class JavaArrayPojo implements JavaPojo {
     return name;
   }
 
+  @Override
   public String getDescription() {
     return description;
   }

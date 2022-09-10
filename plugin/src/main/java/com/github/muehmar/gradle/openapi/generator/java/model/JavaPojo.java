@@ -23,6 +23,8 @@ public interface JavaPojo {
 
   PojoName getName();
 
+  String getDescription();
+
   <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,

@@ -126,4 +126,12 @@ public class JavaPojoMember {
       return getterSuffixes.getOptionalNullableSuffix();
     }
   }
+
+  public Name getWitherName() {
+    return name.startUpperCase().prefix("with");
+  }
+
+  public Name getSetterName() {
+    return name.startUpperCase().prefix("set");
+  }
 }

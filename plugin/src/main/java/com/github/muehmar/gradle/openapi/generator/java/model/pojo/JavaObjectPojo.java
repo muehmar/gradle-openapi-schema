@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -19,7 +20,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   private JavaObjectPojo(PojoName name, String description, PList<JavaPojoMember> members) {
     this.name = name;
-    this.description = description;
+    this.description = Optional.ofNullable(description).orElse("");
     this.members = members;
   }
 
@@ -34,6 +35,7 @@ public class JavaObjectPojo implements JavaPojo {
     return name;
   }
 
+  @Override
   public String getDescription() {
     return description;
   }
