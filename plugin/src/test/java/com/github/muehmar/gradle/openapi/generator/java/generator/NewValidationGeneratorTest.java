@@ -1,0 +1,133 @@
+package com.github.muehmar.gradle.openapi.generator.java.generator;
+
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultSettings;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.writer.Writer;
+import org.junit.jupiter.api.Test;
+
+class NewValidationGeneratorTest {
+  @Test
+  void validationAnnotations_when_validationDisabled_then_noOutput() {
+    final JavaPojoMember member = JavaPojoMembers.requiredBirthdate();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer =
+        generator.generate(
+            member, defaultSettings().withEnableConstraints(false), Writer.createDefault());
+
+    assertEquals(PList.empty(), writer.getRefs());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForRequiredField_then_notNullWithRef() {
+    final JavaPojoMember member = JavaPojoMembers.requiredBirthdate();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.single(JavaValidationRefs.NOT_NULL), writer.getRefs());
+    assertEquals("@NotNull", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForRequiredButNullableField_then_noAnnotation() {
+    final JavaPojoMember member = JavaPojoMembers.requiredNullableBirthdate();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.empty(), writer.getRefs());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForOptionalReferenceField_then_validWithRef() {
+    final JavaPojoMember member = JavaPojoMembers.reference(OPTIONAL, NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.single(JavaValidationRefs.VALID), writer.getRefs());
+    assertEquals("@Valid", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForOptionalEmailField_then_emailWithRef() {
+    final JavaPojoMember member = JavaPojoMembers.email(OPTIONAL, NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.single(JavaValidationRefs.EMAIL), writer.getRefs());
+    assertEquals("@Email", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForOptionalIntegerField_then_minAndMaxWithRefs() {
+    final JavaPojoMember member = JavaPojoMembers.integer(OPTIONAL, NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertTrue(writer.getRefs().exists(JavaValidationRefs.MIN::equals));
+    assertTrue(writer.getRefs().exists(JavaValidationRefs.MAX::equals));
+    assertEquals("@Min(value = 10)\n" + "@Max(value = 50)", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForOptionalDoubleField_then_minAndMaxWithRefs() {
+    final JavaPojoMember member = JavaPojoMembers.doubleMember(OPTIONAL, NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertTrue(writer.getRefs().exists(JavaValidationRefs.DECIMAL_MIN::equals));
+    assertTrue(writer.getRefs().exists(JavaValidationRefs.DECIMAL_MAX::equals));
+    assertEquals(
+        "@DecimalMin(value = \"12.5\", inclusive = true)\n"
+            + "@DecimalMax(value = \"50.1\", inclusive = false)",
+        writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForOptionalStringListField_then_minAndMaxWithRefs() {
+    final JavaPojoMember member = JavaPojoMembers.stringList(OPTIONAL, NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.single(JavaValidationRefs.SIZE), writer.getRefs());
+    assertEquals("@Size(min = 1, max = 50)", writer.asString());
+  }
+
+  @Test
+  void validationAnnotations_when_calledForOptionalStringField_then_minAndMaxWithRefs() {
+    final JavaPojoMember member = JavaPojoMembers.string(OPTIONAL, NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        NewValidationGenerator.validationAnnotations();
+
+    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.single(JavaValidationRefs.PATTERN), writer.getRefs());
+    assertEquals("@Pattern(regexp=\"Hello\")", writer.asString());
+  }
+}

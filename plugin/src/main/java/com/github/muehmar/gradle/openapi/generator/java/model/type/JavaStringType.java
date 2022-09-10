@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -59,5 +60,23 @@ public class JavaStringType extends NonGenericJavaType {
   @Override
   public JavaType asPrimitive() {
     return new JavaStringType(className.asPrimitive(), constraints);
+  }
+
+  @Override
+  public Constraints getConstraints() {
+    return constraints;
+  }
+
+  @Override
+  public <T> T fold(
+      Function<JavaArrayType, T> onArrayType,
+      Function<JavaBooleanType, T> onBooleanType,
+      Function<JavaEnumType, T> onEnumType,
+      Function<JavaMapType, T> onMapType,
+      Function<JavaNoType, T> onNoType,
+      Function<JavaNumericType, T> onNumericType,
+      Function<JavaObjectType, T> onObjectType,
+      Function<JavaStringType, T> onStringType) {
+    return onStringType.apply(this);
   }
 }
