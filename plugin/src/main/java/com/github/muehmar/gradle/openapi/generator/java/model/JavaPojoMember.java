@@ -5,6 +5,8 @@ import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -102,5 +104,26 @@ public class JavaPojoMember {
 
   public boolean isOptionalAndNotNullable() {
     return isOptional() && isNotNullable();
+  }
+
+  public Name getGetterName() {
+    return name.startUpperCase().prefix("get");
+  }
+
+  public Name getGetterNameWithSuffix(PojoSettings settings) {
+    return getGetterName().append(determineSuffix(settings));
+  }
+
+  private String determineSuffix(PojoSettings settings) {
+    final GetterSuffixes getterSuffixes = settings.getGetterSuffixes();
+    if (isRequiredAndNotNullable()) {
+      return getterSuffixes.getRequiredSuffix();
+    } else if (isRequiredAndNullable()) {
+      return getterSuffixes.getRequiredNullableSuffix();
+    } else if (isOptionalAndNotNullable()) {
+      return getterSuffixes.getOptionalSuffix();
+    } else {
+      return getterSuffixes.getOptionalNullableSuffix();
+    }
   }
 }
