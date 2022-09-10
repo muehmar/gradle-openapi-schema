@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator;
 import static com.github.muehmar.gradle.openapi.util.Functions.allExceptFirst;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
@@ -81,6 +82,10 @@ public class ConstructorGenerator<A, B> implements Generator<A, B> {
 
     static <A, B> BiFunction<A, B, String> className(BiFunction<A, B, String> createClassName) {
       return createClassName;
+    }
+
+    static <A, B> BiFunction<A, B, String> pojoName(Function<A, PojoName> createClassName) {
+      return (d, s) -> createClassName.apply(d).asString();
     }
 
     static <A, B> BiFunction<A, B, String> className(Function<A, String> createClassName) {

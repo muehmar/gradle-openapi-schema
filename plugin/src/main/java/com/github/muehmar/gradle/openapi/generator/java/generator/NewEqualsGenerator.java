@@ -5,8 +5,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -53,27 +51,23 @@ public class NewEqualsGenerator {
 
   private static Generator<JavaPojo, PojoSettings> equalsCompareFields() {
     return (pojo, s, w) -> {
-      final PList<JavaPojoMember> members =
-          pojo.fold(
-              javaArrayPojo -> PList.single(javaArrayPojo.getArrayPojoMember()),
-              javaEnumPojo -> PList.empty(),
-              JavaObjectPojo::getMembers);
       final PList<String> fieldNames =
-          members.flatMap(
-              member -> {
-                final Name memberName = member.getName();
-                if (member.isRequiredAndNullable()) {
-                  final String requiredNullableFlagName =
-                      String.format("is%sPresent", memberName.startUpperCase());
-                  return PList.of(memberName.asString(), requiredNullableFlagName);
-                } else if (member.isOptionalAndNullable()) {
-                  final String optionalNullableFlagName =
-                      String.format("is%sNull", memberName.startUpperCase());
-                  return PList.of(memberName.asString(), optionalNullableFlagName);
-                } else {
-                  return PList.single(memberName.asString());
-                }
-              });
+          pojo.getMembersOrEmpty()
+              .flatMap(
+                  member -> {
+                    final Name memberName = member.getName();
+                    if (member.isRequiredAndNullable()) {
+                      final String requiredNullableFlagName =
+                          String.format("is%sPresent", memberName.startUpperCase());
+                      return PList.of(memberName.asString(), requiredNullableFlagName);
+                    } else if (member.isOptionalAndNullable()) {
+                      final String optionalNullableFlagName =
+                          String.format("is%sNull", memberName.startUpperCase());
+                      return PList.of(memberName.asString(), optionalNullableFlagName);
+                    } else {
+                      return PList.single(memberName.asString());
+                    }
+                  });
       final Writer writerAfterFirstField =
           fieldNames
               .headOption()

@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -7,15 +10,9 @@ import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public interface JavaPojo {
-
-  PojoName getName();
-
-  <T> T fold(
-      Function<JavaArrayPojo, T> onArrayPojo,
-      Function<JavaEnumPojo, T> onEnumPojo,
-      Function<JavaObjectPojo, T> onObjectPojo);
 
   static JavaPojo wrap(NewPojo pojo, TypeMappings typeMappings) {
     return pojo.fold(
@@ -24,7 +21,36 @@ public interface JavaPojo {
         JavaEnumPojo::wrap);
   }
 
+  PojoName getName();
+
+  <T> T fold(
+      Function<JavaArrayPojo, T> onArrayPojo,
+      Function<JavaEnumPojo, T> onEnumPojo,
+      Function<JavaObjectPojo, T> onObjectPojo);
+
+  default PList<JavaPojoMember> getMembersOrEmpty() {
+    return fold(
+        javaArrayPojo -> PList.single(javaArrayPojo.getArrayPojoMember()),
+        javaEnumPojo -> PList.empty(),
+        JavaObjectPojo::getMembers);
+  }
+
+  default boolean isEnum() {
+    final Predicate<JavaPojo> isEnumPojo = JavaEnumPojo.class::isInstance;
+    return fold(isEnumPojo::test, isEnumPojo::test, isEnumPojo::test);
+  }
+
+  default boolean isNotEnum() {
+    return not(isEnum());
+  }
+
   default boolean isArray() {
-    return fold(arrayPojo -> true, enumPojo -> false, objectPojo -> false);
+    final Predicate<JavaPojo> isArrayPojo = JavaArrayPojo.class::isInstance;
+    return fold(isArrayPojo::test, isArrayPojo::test, isArrayPojo::test);
+  }
+
+  default boolean isObject() {
+    final Predicate<JavaPojo> isObjectPojo = JavaObjectPojo.class::isInstance;
+    return fold(isObjectPojo::test, isObjectPojo::test, isObjectPojo::test);
   }
 }
