@@ -11,6 +11,15 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 public class NewPojoMembers {
   private NewPojoMembers() {}
 
+  public static NewPojoMember requiredBirthdate() {
+    return new NewPojoMember(
+        Name.ofString("birthdate"),
+        "Birthdate",
+        StringType.ofFormat(StringType.Format.DATE),
+        Necessity.REQUIRED,
+        Nullability.NOT_NULLABLE);
+  }
+
   public static NewPojoMember requiredString() {
     return new NewPojoMember(
         Name.ofString("requiredStringVal"),
