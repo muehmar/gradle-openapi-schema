@@ -26,22 +26,28 @@ import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 public class JavaPojoMembers {
   public JavaPojoMembers() {}
 
-  public static JavaPojoMember requiredBirthdate() {
+  public static JavaPojoMember birthdate(
+      Constraints constraints, Necessity necessity, Nullability nullability) {
     return JavaPojoMember.of(
         Name.ofString("birthdate"),
         "Birthdate",
-        JavaType.wrap(StringType.ofFormat(StringType.Format.DATE), TypeMappings.empty()),
-        REQUIRED,
-        Nullability.NOT_NULLABLE);
+        JavaType.wrap(
+            StringType.ofFormat(StringType.Format.DATE).withConstraints(constraints),
+            TypeMappings.empty()),
+        necessity,
+        nullability);
+  }
+
+  public static JavaPojoMember birthdate(Necessity necessity, Nullability nullability) {
+    return birthdate(Constraints.empty(), necessity, nullability);
+  }
+
+  public static JavaPojoMember requiredBirthdate() {
+    return birthdate(REQUIRED, Nullability.NOT_NULLABLE);
   }
 
   public static JavaPojoMember requiredNullableBirthdate() {
-    return JavaPojoMember.of(
-        Name.ofString("birthdate"),
-        "Birthdate",
-        JavaType.wrap(StringType.ofFormat(StringType.Format.DATE), TypeMappings.empty()),
-        REQUIRED,
-        NULLABLE);
+    return birthdate(REQUIRED, NULLABLE);
   }
 
   public static JavaPojoMember requiredReference() {
