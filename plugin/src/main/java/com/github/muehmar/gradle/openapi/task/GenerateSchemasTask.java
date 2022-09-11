@@ -3,13 +3,15 @@ package com.github.muehmar.gradle.openapi.task;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
-import com.github.muehmar.gradle.openapi.generator.OpenApiGenerator;
-import com.github.muehmar.gradle.openapi.generator.data.Name;
-import com.github.muehmar.gradle.openapi.generator.data.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.data.Pojo;
+import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.PojoMapper;
+import com.github.muehmar.gradle.openapi.generator.PojoMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.TristateGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonNullContainerGenerator;
+import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
@@ -65,18 +67,20 @@ public class GenerateSchemasTask extends DefaultTask {
   private void runTask() throws IOException {
     final OpenAPI openAPI = parseSpec(inputSpec.get());
 
-    final OpenApiGenerator openApiGenerator =
-        GeneratorFactory.create(Language.JAVA, outputDir.get());
-
     final PList<OpenApiPojo> openApiPojos =
         PList.fromIter(openAPI.getComponents().getSchemas().entrySet())
             .filter(Objects::nonNull)
-            .map(entry -> new OpenApiPojo(Name.of(entry.getKey()), (Schema<?>) entry.getValue()));
+            .map(
+                entry ->
+                    new OpenApiPojo(
+                        PojoName.ofNameAndSuffix(entry.getKey(), pojoSettings.get().getSuffix()),
+                        (Schema<?>) entry.getValue()));
 
-    final PList<Pojo> pojos =
-        openApiGenerator.getMapper().fromSchemas(openApiPojos, pojoSettings.get());
-
-    pojos.forEach(pojo -> openApiGenerator.getGenerator().generatePojo(pojo, pojoSettings.get()));
+    final PojoMapper pojoMapper = PojoMapperFactory.create();
+    final PList<Pojo> pojos = pojoMapper.fromSchemas(openApiPojos);
+    final PojoGenerator generator =
+        GeneratorFactory.createGenerator(Language.JAVA, outputDir.get());
+    pojos.forEach(pojo -> generator.generatePojo(pojo, pojoSettings.get()));
 
     writeOpenApiUtils();
   }

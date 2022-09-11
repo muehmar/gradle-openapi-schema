@@ -1,19 +1,19 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 
 public class GetterGenerator {
   private GetterGenerator() {}
 
-  public static Generator<PojoMember, PojoSettings> generator() {
-    return Generator.<PojoMember, PojoSettings>emptyGen()
-        .appendConditionally(PojoMember::isRequiredAndNullable, RequiredNullableGetter.getter())
+  public static Generator<JavaPojoMember, PojoSettings> generator() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .appendConditionally(JavaPojoMember::isRequiredAndNullable, RequiredNullableGetter.getter())
         .appendConditionally(
-            PojoMember::isRequiredAndNotNullable, RequiredNotNullableGetter.getter())
-        .appendConditionally(PojoMember::isOptionalAndNullable, OptionalNullableGetter.getter())
+            JavaPojoMember::isRequiredAndNotNullable, RequiredNotNullableGetter.getter())
+        .appendConditionally(JavaPojoMember::isOptionalAndNullable, OptionalNullableGetter.getter())
         .appendConditionally(
-            PojoMember::isOptionalAndNotNullable, OptionalNotNullableGetter.getter());
+            JavaPojoMember::isOptionalAndNotNullable, OptionalNotNullableGetter.getter());
   }
 }

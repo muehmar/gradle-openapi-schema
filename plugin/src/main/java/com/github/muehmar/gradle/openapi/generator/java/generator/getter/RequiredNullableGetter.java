@@ -3,59 +3,55 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.AnnotationGenerator.deprecatedRawGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerator.javaDoc;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.assertTrue;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.ValidationGenerator.validationAnnotations;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.NewValidationGenerator.assertTrue;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.NewValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.rawGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.getter.CommonGetter.wrapNullableInOptionalGetterOrMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonAnnotationGenerator.jsonProperty;
 
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
 import com.github.muehmar.gradle.openapi.generator.java.generator.Filters;
-import com.github.muehmar.gradle.openapi.generator.java.generator.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.NewRefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import java.util.function.BiPredicate;
 
 public class RequiredNullableGetter {
-
-  private static final JavaResolver RESOLVER = new JavaResolver();
-
   private RequiredNullableGetter() {}
 
-  public static Generator<PojoMember, PojoSettings> getter() {
-    final BiPredicate<PojoMember, PojoSettings> isJacksonJsonOrValidation =
-        Filters.<PojoMember>isJacksonJson().or(Filters.isValidationEnabled());
+  public static Generator<JavaPojoMember, PojoSettings> getter() {
+    final BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation =
+        Filters.<JavaPojoMember>isJacksonJson().or(Filters.isValidationEnabled());
 
-    return Generator.<PojoMember, PojoSettings>emptyGen()
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
         .append(alternateGetter())
         .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))
         .append(requiredValidationMethodWithAnnotation())
-        .append(RefsGenerator.fieldRefs());
+        .append(NewRefsGenerator.fieldRefs());
   }
 
-  private static Generator<PojoMember, PojoSettings> standardGetter() {
-    return Generator.<PojoMember, PojoSettings>emptyGen()
-        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
+  private static Generator<JavaPojoMember, PojoSettings> standardGetter() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(jsonIgnore())
         .append(wrapNullableInOptionalGetterMethod());
   }
 
-  private static Generator<PojoMember, PojoSettings> alternateGetter() {
-    return Generator.<PojoMember, PojoSettings>emptyGen()
+  private static Generator<JavaPojoMember, PojoSettings> alternateGetter() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
-        .append(noSettingsGen(javaDoc()), PojoMember::getDescription)
+        .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(jsonIgnore())
         .append(wrapNullableInOptionalGetterOrMethod());
   }
 
-  private static Generator<PojoMember, PojoSettings> nullableGetterMethodWithAnnotations(
-      BiPredicate<PojoMember, PojoSettings> isJacksonJsonOrValidation) {
-    return Generator.<PojoMember, PojoSettings>emptyGen()
+  private static Generator<JavaPojoMember, PojoSettings> nullableGetterMethodWithAnnotations(
+      BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation) {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(validationAnnotations())
         .append(jsonProperty())
@@ -64,28 +60,23 @@ public class RequiredNullableGetter {
         .filter(isJacksonJsonOrValidation);
   }
 
-  private static Generator<PojoMember, PojoSettings> requiredValidationMethodWithAnnotation() {
-    return Generator.<PojoMember, PojoSettings>emptyGen()
+  private static Generator<JavaPojoMember, PojoSettings> requiredValidationMethodWithAnnotation() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
-        .append(
-            assertTrue(
-                f -> String.format("%s is required but it is not present", f.memberName(RESOLVER))))
+        .append(assertTrue(f -> String.format("%s is required but it is not present", f.getName())))
         .append(deprecatedRawGetter())
         .append(requiredValidationMethod())
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Generator<PojoMember, PojoSettings> requiredValidationMethod() {
-    return JavaGenerators.<PojoMember, PojoSettings>methodGen()
+  private static Generator<JavaPojoMember, PojoSettings> requiredValidationMethod() {
+    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers((f, s) -> s.getRawGetter().getModifier().asJavaModifiers())
         .noGenericTypes()
         .returnType("boolean")
-        .methodName(
-            field -> String.format("is%sPresent", field.memberName(RESOLVER).startUpperCase()))
+        .methodName(field -> String.format("is%sPresent", field.getName().startUpperCase()))
         .noArguments()
-        .content(
-            field ->
-                String.format("return is%sPresent;", field.memberName(RESOLVER).startUpperCase()))
+        .content(field -> String.format("return is%sPresent;", field.getName().startUpperCase()))
         .build();
   }
 }

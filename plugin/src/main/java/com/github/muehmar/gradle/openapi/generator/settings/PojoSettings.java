@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.data.PojoMember;
 import io.github.muehmar.pojoextension.annotations.FieldBuilder;
 import io.github.muehmar.pojoextension.annotations.Getter;
 import io.github.muehmar.pojoextension.annotations.PojoExtension;
@@ -57,18 +56,6 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
     return !isEnableSafeBuilder();
   }
 
-  public String suffixForField(PojoMember field) {
-    if (field.isRequiredAndNotNullable()) {
-      return getterSuffixes.getRequiredSuffix();
-    } else if (field.isRequiredAndNullable()) {
-      return getterSuffixes.getRequiredNullableSuffix();
-    } else if (field.isOptionalAndNotNullable()) {
-      return getterSuffixes.getOptionalSuffix();
-    } else {
-      return getterSuffixes.getOptionalNullableSuffix();
-    }
-  }
-
   @FieldBuilder(fieldName = "classTypeMappings")
   public static List<ClassTypeMapping> classTypeMappings(
       PList<ClassTypeMapping> classTypeMappings) {
@@ -83,5 +70,9 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
 
   public RawGetter getRawGetter() {
     return rawGetter;
+  }
+
+  public TypeMappings getTypeMappings() {
+    return new TypeMappings(PList.fromIter(classTypeMappings), PList.fromIter(formatTypeMappings));
   }
 }
