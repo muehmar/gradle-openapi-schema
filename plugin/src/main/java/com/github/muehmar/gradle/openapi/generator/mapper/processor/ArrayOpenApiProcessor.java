@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.java.schema.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
@@ -23,11 +25,13 @@ public class ArrayOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
   }
 
   private NewPojoProcessResult fromArraysSchema(PojoName pojoName, ArraySchema schema) {
+    final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
 
     final TypeMapResult typeMapResult =
         COMPLETE_TYPE_MAPPER.map(pojoName, Name.ofString("value"), schema.getItems());
 
-    final ArrayPojo pojo = ArrayPojo.of(pojoName, schema.getDescription(), typeMapResult.getType());
+    final ArrayPojo pojo =
+        ArrayPojo.of(pojoName, schema.getDescription(), typeMapResult.getType(), constraints);
     return new NewPojoProcessResult(pojo, typeMapResult.getOpenApiPojos());
   }
 }

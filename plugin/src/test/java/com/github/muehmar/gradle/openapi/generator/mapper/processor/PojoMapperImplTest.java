@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.NewPojoMapper;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
 import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
@@ -58,6 +59,7 @@ class PojoMapperImplTest {
   void fromSchema_when_arraySchema_then_returnArrayPojo() {
     final NewPojoMapper pojoMapper = PojoMapperImpl.create();
     final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
+    schema.setMaxItems(50);
 
     // method call
     final OpenApiPojo openApiPojo =
@@ -70,7 +72,8 @@ class PojoMapperImplTest {
         ArrayPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"),
             "",
-            NumericType.ofFormat(INTEGER)),
+            NumericType.ofFormat(INTEGER),
+            Constraints.ofSize(Size.ofMax(50))),
         pojo);
   }
 

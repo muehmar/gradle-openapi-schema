@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -22,13 +23,19 @@ public class JavaArrayPojo implements JavaPojo {
   private final PojoName name;
   private final String description;
   private final JavaType itemType;
+  private final Constraints constraints;
   private final JavaPojoMember arrayPojoMember;
 
   private JavaArrayPojo(
-      PojoName name, String description, JavaType itemType, JavaPojoMember arrayPojoMember) {
+      PojoName name,
+      String description,
+      JavaType itemType,
+      Constraints constraints,
+      JavaPojoMember arrayPojoMember) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.itemType = itemType;
+    this.constraints = constraints;
     this.arrayPojoMember = arrayPojoMember;
   }
 
@@ -36,16 +43,25 @@ public class JavaArrayPojo implements JavaPojo {
     final JavaType itemType = JavaType.wrap(arrayPojo.getItemType(), typeMappings);
     final JavaPojoMember arrayPojoMember = createItemTypeMember(arrayPojo, typeMappings);
     return new JavaArrayPojo(
-        arrayPojo.getName(), arrayPojo.getDescription(), itemType, arrayPojoMember);
+        arrayPojo.getName(),
+        arrayPojo.getDescription(),
+        itemType,
+        arrayPojo.getConstraints(),
+        arrayPojoMember);
   }
 
   private static JavaPojoMember createItemTypeMember(
       ArrayPojo arrayPojo, TypeMappings typeMappings) {
-    final JavaArrayType arrayType =
-        JavaArrayType.wrap(ArrayType.ofItemType(arrayPojo.getItemType()), typeMappings);
+    final ArrayType arrayType =
+        ArrayType.ofItemType(arrayPojo.getItemType()).withConstraints(arrayPojo.getConstraints());
+    final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, typeMappings);
     final Name name = Name.ofString("value");
     return JavaPojoMember.of(
-        name, arrayPojo.getDescription(), arrayType, Necessity.REQUIRED, Nullability.NOT_NULLABLE);
+        name,
+        arrayPojo.getDescription(),
+        javaArrayType,
+        Necessity.REQUIRED,
+        Nullability.NOT_NULLABLE);
   }
 
   @Override

@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.NewPojoMembers.r
 import static com.github.muehmar.gradle.openapi.generator.model.NewPojoMembers.requiredString;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -37,7 +38,8 @@ public class JavaPojos {
         ArrayPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("Psology"), "Dto"),
             "Doses to be taken",
-            NumericType.formatDouble());
+            NumericType.formatDouble(),
+            Constraints.empty());
     return JavaArrayPojo.wrap(arrayPojo, TypeMappings.empty());
   }
 
