@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.NewHashCodeGen
 import com.github.muehmar.gradle.openapi.generator.java.generator.NewPojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.NewToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.getter.NewGetterGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
@@ -263,7 +264,7 @@ public class NewJavaPojoGenerator implements NewPojoGenerator {
       Writer writer,
       PojoName enumName,
       String description,
-      PList<String> enumMembers,
+      PList<EnumConstantName> enumMembers,
       PojoSettings settings,
       int indention) {
     writer.println();
@@ -271,20 +272,20 @@ public class NewJavaPojoGenerator implements NewPojoGenerator {
 
     final String enumNameString = enumName.asString();
     writer.tab(indention).println("public enum %s {", enumNameString);
-    // FIXME: Enable proper description extraction again with the JavaEnumMemberName type
-    EnumMember.extractDescriptions(
-            enumMembers.map(Name::ofString), settings.getEnumDescriptionSettings(), description)
+    EnumMember.extractDescriptions(enumMembers, settings.getEnumDescriptionSettings(), description)
         .zipWithIndex()
         .forEach(
             p -> {
               final EnumMember anEnumMember = p.first();
-              final Name memberName = anEnumMember.getName();
+              final EnumConstantName memberName = anEnumMember.getName();
               final Integer idx = p.second();
               writer
                   .tab(indention + 1)
                   .print(
                       "%s(\"%s\", \"%s\")",
-                      memberName.asString(), memberName.asString(), anEnumMember.getDescription());
+                      memberName.asJavaConstant(),
+                      memberName.getOriginalConstant(),
+                      anEnumMember.getDescription());
               if (idx + 1 < enumMembers.size()) {
                 writer.println(",");
               } else {

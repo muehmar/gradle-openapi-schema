@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.JavaDocGenerat
 import com.github.muehmar.gradle.openapi.generator.java.generator.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.model.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -248,19 +249,21 @@ public class JavaPojoGenerator implements PojoGenerator {
     final String enumNameString = enumName.asString();
     writer.tab(indention).println("public enum %s {", enumNameString);
     EnumMember.extractDescriptions(
-            enumMembers.map(Name::ofString), settings.getEnumDescriptionSettings(), description)
+            enumMembers.map(EnumConstantName::ofString),
+            settings.getEnumDescriptionSettings(),
+            description)
         .zipWithIndex()
         .forEach(
             p -> {
               final EnumMember anEnumMember = p.first();
-              final Name memberName = anEnumMember.getName();
+              final EnumConstantName memberName = anEnumMember.getName();
               final Integer idx = p.second();
               writer
                   .tab(indention + 1)
                   .print(
                       "%s(\"%s\", \"%s\")",
-                      resolver.enumMemberName(memberName).asString(),
-                      memberName.asString(),
+                      memberName.asJavaConstant(),
+                      memberName.getOriginalConstant(),
                       anEnumMember.getDescription());
               if (idx + 1 < enumMembers.size()) {
                 writer.println(",");

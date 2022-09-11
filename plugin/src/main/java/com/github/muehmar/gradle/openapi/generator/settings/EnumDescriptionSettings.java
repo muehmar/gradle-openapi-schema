@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -48,8 +47,8 @@ public class EnumDescriptionSettings implements Serializable {
     return prefixMatcher;
   }
 
-  public String getPrefixMatcherForMember(Name member) {
-    return getPrefixMatcher().replace(ENUM_PLACEHOLDER, member.asString());
+  public String getPrefixMatcherForMember(String member) {
+    return getPrefixMatcher().replace(ENUM_PLACEHOLDER, member);
   }
 
   public boolean isFailOnIncompleteDescriptions() {

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -22,7 +23,7 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final Name memberNames = Name.ofString(memberName);
+    final EnumConstantName memberNames = EnumConstantName.ofString(memberName);
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", false);
 
     final Optional<EnumMember> enumMember =
@@ -52,7 +53,7 @@ class EnumMemberTest {
             + "* `RED`:.* This is for red\n"
             + "* `BLUE`:.* This is for blue";
 
-    final Name memberNames = Name.ofString(memberName);
+    final EnumConstantName memberNames = EnumConstantName.ofString(memberName);
     final EnumDescriptionSettings settings =
         EnumDescriptionSettings.enabled("`__ENUM__`:.*", false);
 
@@ -73,8 +74,11 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final PList<Name> memberNames =
-        PList.of(Name.ofString("RED"), Name.ofString("GREEN"), Name.ofString("YELLOW"));
+    final PList<EnumConstantName> memberNames =
+        PList.of(
+            EnumConstantName.ofString("RED"),
+            EnumConstantName.ofString("GREEN"),
+            EnumConstantName.ofString("YELLOW"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", false);
     final PList<EnumMember> enumMembers =
         EnumMember.extractDescriptions(memberNames, settings, input);
@@ -97,8 +101,11 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final PList<Name> memberNames =
-        PList.of(Name.ofString("RED"), Name.ofString("GREEN"), Name.ofString("YELLOW"));
+    final PList<EnumConstantName> memberNames =
+        PList.of(
+            EnumConstantName.ofString("RED"),
+            EnumConstantName.ofString("GREEN"),
+            EnumConstantName.ofString("YELLOW"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", true);
     assertThrows(
         IllegalStateException.class,
@@ -113,8 +120,11 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final PList<Name> memberNames =
-        PList.of(Name.ofString("YELLOW"), Name.ofString("ORANGE"), Name.ofString("BROWN"));
+    final PList<EnumConstantName> memberNames =
+        PList.of(
+            EnumConstantName.ofString("YELLOW"),
+            EnumConstantName.ofString("ORANGE"),
+            EnumConstantName.ofString("BROWN"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", true);
     final PList<EnumMember> enumMembers =
         EnumMember.extractDescriptions(memberNames, settings, input);
@@ -137,8 +147,11 @@ class EnumMemberTest {
             + "* `RED`: This is for red\n"
             + "* `BLUE`: This is for blue";
 
-    final PList<Name> memberNames =
-        PList.of(Name.ofString("BLUE"), Name.ofString("RED"), Name.ofString("GREEN"));
+    final PList<EnumConstantName> memberNames =
+        PList.of(
+            EnumConstantName.ofString("BLUE"),
+            EnumConstantName.ofString("RED"),
+            EnumConstantName.ofString("GREEN"));
     final EnumDescriptionSettings settings = EnumDescriptionSettings.enabled("`__ENUM__`:", true);
     final PList<EnumMember> enumMembers =
         EnumMember.extractDescriptions(memberNames, settings, input);
