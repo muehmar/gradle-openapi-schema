@@ -1,17 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import java.io.Serializable;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode
+@ToString
 public class ClassTypeMapping implements Serializable {
   private final String fromClass;
   private final String toClass;
-  private final String imports;
 
-  public ClassTypeMapping(String fromClass, String toClass, String imports) {
+  public ClassTypeMapping(String fromClass, String toClass) {
     this.fromClass = fromClass;
     this.toClass = toClass;
-    this.imports = imports;
   }
 
   public String getFromClass() {
@@ -20,39 +21,5 @@ public class ClassTypeMapping implements Serializable {
 
   public String getToClass() {
     return toClass;
-  }
-
-  public String getImports() {
-    return imports;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ClassTypeMapping that = (ClassTypeMapping) o;
-    return Objects.equals(fromClass, that.fromClass)
-        && Objects.equals(toClass, that.toClass)
-        && Objects.equals(imports, that.imports);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(fromClass, toClass, imports);
-  }
-
-  @Override
-  public String toString() {
-    return "ClassTypeMapping{"
-        + "fromClass='"
-        + fromClass
-        + '\''
-        + ", toClass='"
-        + toClass
-        + '\''
-        + ", imports='"
-        + imports
-        + '\''
-        + '}';
   }
 }

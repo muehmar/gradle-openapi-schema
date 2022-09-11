@@ -30,7 +30,7 @@ class JavaBooleanTypeTest {
     final JavaBooleanType javaType =
         JavaBooleanType.wrap(
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Boolean", "CustomBoolean", "com.custom.CustomBoolean")));
+                new ClassTypeMapping("Boolean", "com.custom.CustomBoolean")));
 
     assertEquals("CustomBoolean", javaType.getFullClassName().asString());
     assertEquals("CustomBoolean", javaType.getClassName().asString());
