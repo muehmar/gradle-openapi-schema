@@ -15,6 +15,7 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
   String packageName;
   String suffix;
   boolean enableSafeBuilder;
+  String builderMethodPrefix;
   boolean enableConstraints;
   List<ClassTypeMapping> classTypeMappings;
   List<FormatTypeMapping> formatTypeMappings;

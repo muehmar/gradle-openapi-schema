@@ -74,7 +74,7 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     printBuilder(writer, pojo, pojoSettings);
     if (pojoSettings.isEnableSafeBuilder()) {
-      printSafeBuilder(writer, pojo);
+      printSafeBuilder(writer, pojo, pojoSettings);
     }
     printClassEnd(writer);
     return null;
@@ -446,7 +446,10 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(2)
                   .println(
                       "%s Builder %s(%s %s) {",
-                      setterModifier, member.getSetterName(), type, fieldName);
+                      setterModifier,
+                      member.prefixedMethodName(settings.getBuilderMethodPrefix()),
+                      type,
+                      fieldName);
               writer.tab(3).println("this.%s = %s;", fieldName, fieldName);
               if (member.isRequiredAndNullable()) {
                 writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
@@ -466,7 +469,10 @@ public class JavaPojoGenerator implements PojoGenerator {
                     .tab(2)
                     .println(
                         "%s Builder %s(Optional<%s> %s) {",
-                        setterModifier, member.getSetterName(), type, fieldName);
+                        setterModifier,
+                        member.prefixedMethodName(settings.getBuilderMethodPrefix()),
+                        type,
+                        fieldName);
                 writer.tab(3).println("this.%s = %s.orElse(null);", fieldName, fieldName);
                 if (member.isOptionalAndNullable()) {
                   writer.tab(3).println("if (!%s.isPresent()) {", fieldName);
@@ -487,7 +493,10 @@ public class JavaPojoGenerator implements PojoGenerator {
                     .tab(2)
                     .println(
                         "%s Builder %s(Tristate<%s> %s) {",
-                        setterModifier, member.getSetterName(), type, fieldName);
+                        setterModifier,
+                        member.prefixedMethodName(settings.getBuilderMethodPrefix()),
+                        type,
+                        fieldName);
                 writer
                     .tab(3)
                     .println(
@@ -511,7 +520,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.tab(1).println("}");
   }
 
-  protected void printSafeBuilder(Writer writer, JavaPojo pojo) {
+  protected void printSafeBuilder(Writer writer, JavaPojo pojo, PojoSettings settings) {
     writer.println();
     writer.tab(1).println("public static Builder0 newBuilder() {");
     writer.tab(2).println("return new Builder0(new Builder());");
@@ -522,6 +531,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     final PList<JavaPojoMember> requiredMembers =
         pojo.getMembersOrEmpty().filter(JavaPojoMember::isRequired);
 
+    final String builderMethodPrefix = settings.getBuilderMethodPrefix();
     IntStream.range(0, requiredMembers.size())
         .forEach(
             idx -> {
@@ -543,12 +553,15 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(2)
                   .println(
                       "public Builder%d %s(%s %s){",
-                      idx + 1, member.getSetterName(), memberType, memberName);
+                      idx + 1,
+                      member.prefixedMethodName(builderMethodPrefix),
+                      memberType,
+                      memberName);
               writer
                   .tab(3)
                   .println(
                       "return new Builder%d(builder.%s(%s));",
-                      idx + 1, member.getSetterName(), memberName);
+                      idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
               writer.tab(2).println("}");
 
               // Required nullable method
@@ -559,12 +572,15 @@ public class JavaPojoGenerator implements PojoGenerator {
                     .tab(2)
                     .println(
                         "public Builder%d %s(Optional<%s> %s){",
-                        idx + 1, member.getSetterName(), memberType, memberName);
+                        idx + 1,
+                        member.prefixedMethodName(builderMethodPrefix),
+                        memberType,
+                        memberName);
                 writer
                     .tab(3)
                     .println(
                         "return new Builder%d(builder.%s(%s));",
-                        idx + 1, member.getSetterName(), memberName);
+                        idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
                 writer.tab(2).println("}");
               }
 
@@ -610,12 +626,15 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(2)
                   .println(
                       "public OptBuilder%d %s(%s %s){",
-                      idx + 1, member.getSetterName(), memberType, memberName);
+                      idx + 1,
+                      member.prefixedMethodName(builderMethodPrefix),
+                      memberType,
+                      memberName);
               writer
                   .tab(3)
                   .println(
                       "return new OptBuilder%d(builder.%s(%s));",
-                      idx + 1, member.getSetterName(), memberName);
+                      idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
               writer.tab(2).println("}");
 
               if (member.isNotNullable()) {
@@ -625,12 +644,15 @@ public class JavaPojoGenerator implements PojoGenerator {
                     .tab(2)
                     .println(
                         "public OptBuilder%d %s(Optional<%s> %s){",
-                        idx + 1, member.getSetterName(), memberType, memberName);
+                        idx + 1,
+                        member.prefixedMethodName(builderMethodPrefix),
+                        memberType,
+                        memberName);
                 writer
                     .tab(3)
                     .println(
                         "return new OptBuilder%d(%s.map(builder::%s).orElse(builder));",
-                        idx + 1, memberName, member.getSetterName());
+                        idx + 1, memberName, member.prefixedMethodName(builderMethodPrefix));
                 writer.tab(2).println("}");
               } else {
                 writer.println();
@@ -639,12 +661,15 @@ public class JavaPojoGenerator implements PojoGenerator {
                     .tab(2)
                     .println(
                         "public OptBuilder%d %s(Tristate<%s> %s){",
-                        idx + 1, member.getSetterName(), memberType, memberName);
+                        idx + 1,
+                        member.prefixedMethodName(builderMethodPrefix),
+                        memberType,
+                        memberName);
                 writer
                     .tab(3)
                     .println(
                         "return new OptBuilder%d(builder.%s(%s));",
-                        idx + 1, member.getSetterName(), memberName);
+                        idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
                 writer.tab(2).println("}");
               }
 

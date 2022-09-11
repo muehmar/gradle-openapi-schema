@@ -105,7 +105,7 @@ public class JavaPojoMember {
   }
 
   public Name getGetterName() {
-    return name.startUpperCase().prefix("get");
+    return prefixedMethodName("get");
   }
 
   public Name getGetterNameWithSuffix(PojoSettings settings) {
@@ -126,10 +126,14 @@ public class JavaPojoMember {
   }
 
   public Name getWitherName() {
-    return name.startUpperCase().prefix("with");
+    return prefixedMethodName("with");
   }
 
-  public Name getSetterName() {
-    return name.startUpperCase().prefix("set");
+  public Name prefixedMethodName(String prefix) {
+    if (prefix.isEmpty()) {
+      return name;
+    } else {
+      return name.startUpperCase().prefix(prefix);
+    }
   }
 }

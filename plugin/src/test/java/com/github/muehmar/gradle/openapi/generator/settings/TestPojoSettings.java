@@ -11,6 +11,7 @@ public class TestPojoSettings {
         .packageName("com.github.muehmar")
         .suffix("Dto")
         .enableSafeBuilder(true)
+        .builderMethodPrefix("set")
         .enableConstraints(true)
         .classTypeMappings(Collections.emptyList())
         .formatTypeMappings(Collections.emptyList())
