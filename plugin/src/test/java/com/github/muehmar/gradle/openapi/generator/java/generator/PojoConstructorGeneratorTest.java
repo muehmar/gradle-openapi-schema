@@ -78,7 +78,7 @@ class PojoConstructorGeneratorTest {
             JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertEquals(
-        "public PsologyDto(\n"
+        "public PosologyDto(\n"
             + "    List<Double> value\n"
             + "  ) {\n"
             + "  this.value = value;\n"

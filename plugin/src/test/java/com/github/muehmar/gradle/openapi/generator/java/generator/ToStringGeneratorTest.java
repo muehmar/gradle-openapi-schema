@@ -52,7 +52,7 @@ class ToStringGeneratorTest {
     assertEquals(
         "@Override\n"
             + "public String toString() {\n"
-            + "  return \"PsologyDto{\" +\n"
+            + "  return \"PosologyDto{\" +\n"
             + "    \"value=\" + value +\n"
             + "    \"}\";\n"
             + "}",

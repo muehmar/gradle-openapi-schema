@@ -57,7 +57,7 @@ class EqualsGeneratorTest {
             + "public boolean equals(Object obj) {\n"
             + "  if (this == obj) return true;\n"
             + "  if (obj == null || this.getClass() != obj.getClass()) return false;\n"
-            + "  final PsologyDto other = (PsologyDto) obj;\n"
+            + "  final PosologyDto other = (PosologyDto) obj;\n"
             + "  return Objects.equals(value, other.value);\n"
             + "}",
         writer.asString());
