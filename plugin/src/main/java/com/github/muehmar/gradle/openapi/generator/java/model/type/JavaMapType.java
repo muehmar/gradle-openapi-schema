@@ -61,6 +61,14 @@ public class JavaMapType implements JavaType {
     return Constraints.empty();
   }
 
+  public JavaType getKey() {
+    return key;
+  }
+
+  public JavaType getValue() {
+    return value;
+  }
+
   @Override
   public <T> T fold(
       Function<JavaArrayType, T> onArrayType,

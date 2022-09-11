@@ -61,6 +61,10 @@ public class JavaArrayType implements JavaType {
     return constraints;
   }
 
+  public JavaType getItemType() {
+    return itemType;
+  }
+
   @Override
   public <T> T fold(
       Function<JavaArrayType, T> onArrayType,

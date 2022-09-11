@@ -5,6 +5,8 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -13,7 +15,6 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class NewValidationGenerator {
   private NewValidationGenerator() {}
@@ -44,10 +45,21 @@ public class NewValidationGenerator {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> validAnnotation() {
-    final Predicate<JavaType> shouldValidateDeep = JavaObjectType.class::isInstance;
     return Generator.<JavaPojoMember, PojoSettings>ofWriterFunction(w -> w.println("@Valid"))
         .append(w -> w.ref(JavaValidationRefs.VALID))
-        .filter((field, settings) -> shouldValidateDeep.test(field.getJavaType()));
+        .filter((field, settings) -> shouldValidateDeep(field.getJavaType()));
+  }
+
+  private static boolean shouldValidateDeep(JavaType javaType) {
+    if (javaType instanceof JavaObjectType) {
+      return true;
+    } else if (javaType instanceof JavaArrayType) {
+      return shouldValidateDeep(((JavaArrayType) javaType).getItemType());
+    } else if (javaType instanceof JavaMapType) {
+      return shouldValidateDeep(((JavaMapType) javaType).getKey())
+          || shouldValidateDeep(((JavaMapType) javaType).getValue());
+    }
+    return false;
   }
 
   private static Generator<JavaPojoMember, PojoSettings> notNullAnnotation() {
