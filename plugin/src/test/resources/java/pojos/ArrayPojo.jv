@@ -29,39 +29,39 @@ import java.util.List;
 
 
 /**
- * Sample Array
+ * Doses to be taken
  */
-public class ArrayDto {
+public class PosologyDto {
   @JsonValue
-  private final List<String> value;
+  private final List<Double> value;
 
   @JsonCreator
-  public ArrayDto(
-      List<String> value
+  public PosologyDto(
+      List<Double> value
     ) {
     this.value = value;
   }
 
   /**
-   * List of names
+   * Doses to be taken
    */
   @NotNull
-  public List<String> getValue() {
+  public List<Double> getValue() {
     return value;
   }
 
   /**
-   * List of names
+   * Doses to be taken
    */
-  public ArrayDto withValue(List<String> value) {
-    return new ArrayDto(value);
+  public PosologyDto withValue(List<Double> value) {
+    return new PosologyDto(value);
   }
 
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
-    final ArrayDto other = (ArrayDto) obj;
+    final PosologyDto other = (PosologyDto) obj;
     return Objects.equals(value, other.value);
   }
 
@@ -74,7 +74,7 @@ public class ArrayDto {
 
   @Override
   public String toString() {
-    return "ArrayDto{" +
+    return "PosologyDto{" +
       "value=" + value +
       "}";
   }

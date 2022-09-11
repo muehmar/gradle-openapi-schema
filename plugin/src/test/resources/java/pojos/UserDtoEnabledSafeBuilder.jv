@@ -10,15 +10,16 @@ import java.util.stream.Stream;
 
 
 /**
- * User of the Application
+ * User of the Application. This description is intentionally longer to see if its
+ * wrapped to a new line.
  */
 public class UserDto {
-  private final long id;
+  private final Long id;
   private final String name;
   private final LanguageEnum language;
 
   public UserDto(
-      long id,
+      Long id,
       String name,
       LanguageEnum language
     ) {
@@ -71,7 +72,7 @@ public class UserDto {
   /**
    * ID of this user
    */
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -99,7 +100,7 @@ public class UserDto {
   /**
    * ID of this user
    */
-  public UserDto withId(long id) {
+  public UserDto withId(Long id) {
     return new UserDto(id, name, language);
   }
 
@@ -150,14 +151,14 @@ public class UserDto {
     private Builder() {
     }
 
-    private long id;
+    private Long id;
     private String name;
     private LanguageEnum language;
 
     /**
      * ID of this user
      */
-    private Builder setId(long id) {
+    private Builder setId(Long id) {
       this.id = id;
       return this;
     }
@@ -204,7 +205,7 @@ public class UserDto {
     /**
      * ID of this user
      */
-    public Builder1 setId(long id){
+    public Builder1 setId(Long id){
       return new Builder1(builder.setId(id));
     }
   }

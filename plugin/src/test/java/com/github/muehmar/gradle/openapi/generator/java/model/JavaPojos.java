@@ -36,7 +36,7 @@ public class JavaPojos {
   public static JavaPojo arrayPojo() {
     final ArrayPojo arrayPojo =
         ArrayPojo.of(
-            PojoName.ofNameAndSuffix(Name.ofString("Psology"), "Dto"),
+            PojoName.ofNameAndSuffix(Name.ofString("Posology"), "Dto"),
             "Doses to be taken",
             NumericType.formatDouble(),
             Constraints.empty());

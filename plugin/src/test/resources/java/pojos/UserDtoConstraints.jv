@@ -22,7 +22,7 @@ import javax.validation.constraints.AssertTrue;
  * User of the Application
  */
 public class UserDto {
-  private final long id;
+  private final Long id;
   private final String name;
   private final String lastName;
   private final String nickName;
@@ -33,7 +33,7 @@ public class UserDto {
   private final AnotherPojo anotherPojo;
 
   public UserDto(
-      long id,
+      Long id,
       String name,
       String lastName,
       String nickName,
@@ -59,7 +59,7 @@ public class UserDto {
    */
   @NotNull
   @Max(value = 50)
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -169,7 +169,7 @@ public class UserDto {
   /**
    * ID of this user
    */
-  public UserDto withId(long id) {
+  public UserDto withId(Long id) {
     return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
   }
 
@@ -281,7 +281,7 @@ public class UserDto {
 
   public static final class Builder {
 
-    private long id;
+    private Long id;
     private String name;
     private String lastName;
     private String nickName;
@@ -294,7 +294,7 @@ public class UserDto {
     /**
      * ID of this user
      */
-    public Builder setId(long id) {
+    public Builder setId(Long id) {
       this.id = id;
       return this;
     }

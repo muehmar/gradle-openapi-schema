@@ -19,16 +19,17 @@ import java.util.stream.Stream;
 
 
 /**
- * User of the Application
+ * User of the Application. This description is intentionally longer to see if its
+ * wrapped to a new line.
  */
 @JsonDeserialize(builder = UserDto.Builder.class)
 public class UserDto {
-  private final long id;
+  private final Long id;
   private final String name;
   private final LanguageEnum language;
 
   public UserDto(
-      long id,
+      Long id,
       String name,
       LanguageEnum language
     ) {
@@ -83,7 +84,7 @@ public class UserDto {
   /**
    * ID of this user
    */
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -119,7 +120,7 @@ public class UserDto {
   /**
    * ID of this user
    */
-  public UserDto withId(long id) {
+  public UserDto withId(Long id) {
     return new UserDto(id, name, language);
   }
 
@@ -172,7 +173,7 @@ public class UserDto {
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
-    private long id;
+    private Long id;
     private String name;
     private LanguageEnum language;
 
@@ -180,7 +181,7 @@ public class UserDto {
      * ID of this user
      */
     @JsonProperty("id")
-    public Builder setId(long id) {
+    public Builder setId(Long id) {
       this.id = id;
       return this;
     }
