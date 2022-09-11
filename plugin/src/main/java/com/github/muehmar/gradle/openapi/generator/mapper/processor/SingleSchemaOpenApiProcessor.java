@@ -9,8 +9,8 @@ public interface SingleSchemaOpenApiProcessor {
    * Processes an {@link OpenApiPojo}. If this processor is not capable of processing the
    * corresponding schema an empty {@link Optional} will get returned.
    */
-  Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor);
+  Optional<SchemaProcessResult> process(
+      OpenApiPojo openApiPojo, CompleteOpenApiProcessor completeOpenApiProcessor);
 
   default SingleSchemaOpenApiProcessor or(SingleSchemaOpenApiProcessor next) {
     final SingleSchemaOpenApiProcessor self = this;
@@ -20,9 +20,9 @@ public interface SingleSchemaOpenApiProcessor {
             next.process(openApiPojo, completeOpenApiProcessor));
   }
 
-  default NewCompleteOpenApiProcessor orLast(SingleSchemaOpenApiProcessor next) {
+  default CompleteOpenApiProcessor orLast(SingleSchemaOpenApiProcessor next) {
     final SingleSchemaOpenApiProcessor openApiProcessor = or(next);
 
-    return NewCompleteOpenApiProcessorImpl.ofChainedSingleProcessors(openApiProcessor);
+    return CompleteOpenApiProcessorImpl.ofChainedSingleProcessors(openApiProcessor);
   }
 }

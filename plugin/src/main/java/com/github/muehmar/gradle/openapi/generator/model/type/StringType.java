@@ -2,14 +2,14 @@ package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class StringType implements NewType {
+public class StringType implements Type {
   private final Format format;
   private final String formatString;
   private final Constraints constraints;

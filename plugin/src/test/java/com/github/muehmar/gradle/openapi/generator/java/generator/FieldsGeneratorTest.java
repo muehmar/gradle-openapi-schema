@@ -1,12 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.data.Pojos;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -17,11 +16,11 @@ class FieldsGeneratorTest {
 
   @Test
   void fields_when_samplePojo_then_correctOutputAndRef() {
-    final Generator<Pojo, PojoSettings> gen = FieldsGenerator.fields();
+    final Generator<JavaPojo, PojoSettings> gen = NewFieldsGenerator.fields();
 
     final Writer writer =
         gen.generate(
-            Pojos.allNecessityAndNullabilityVariants(),
+            JavaPojos.allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -40,14 +39,29 @@ class FieldsGeneratorTest {
 
   @Test
   void fields_when_arrayPojo_then_correctOutputAndRef() {
-    final Generator<Pojo, PojoSettings> gen = FieldsGenerator.fields();
+    final Generator<JavaPojo, PojoSettings> gen = NewFieldsGenerator.fields();
 
     final Writer writer =
-        gen.generate(Pojos.array(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+        gen.generate(
+            JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_VALUE::equals));
 
     final String output = writer.asString();
-    assertEquals("@JsonValue\n" + "private final List<String> value;", output);
+    assertEquals("@JsonValue\n" + "private final List<Double> value;", output);
+  }
+
+  @Test
+  void fields_when_enumPojo_then_noOutput() {
+    final Generator<JavaPojo, PojoSettings> gen = NewFieldsGenerator.fields();
+
+    final Writer writer =
+        gen.generate(
+            JavaPojos.enumPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertEquals(PList.empty(), writer.getRefs());
+
+    final String output = writer.asString();
+    assertEquals("", output);
   }
 }

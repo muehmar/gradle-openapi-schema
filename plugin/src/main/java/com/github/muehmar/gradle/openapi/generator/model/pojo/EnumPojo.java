@@ -1,16 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class EnumPojo implements NewPojo {
+public class EnumPojo implements Pojo {
   private final PojoName name;
   private final String description;
   private final PList<String> members;
@@ -36,13 +36,13 @@ public class EnumPojo implements NewPojo {
   }
 
   @Override
-  public NewPojo addObjectTypeDescription(PojoName objectTypeName, String description) {
+  public Pojo addObjectTypeDescription(PojoName objectTypeName, String description) {
     return this;
   }
 
   @Override
-  public NewPojo inlineObjectReference(
-      PojoName referenceName, String referenceDescription, NewType referenceType) {
+  public Pojo inlineObjectReference(
+      PojoName referenceName, String referenceDescription, Type referenceType) {
     return this;
   }
 

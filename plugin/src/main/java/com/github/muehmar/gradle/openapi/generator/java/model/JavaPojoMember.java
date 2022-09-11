@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -42,7 +42,7 @@ public class JavaPojoMember {
     return new JavaPojoMember(name, description, javaType, necessity, nullability);
   }
 
-  public static JavaPojoMember wrap(NewPojoMember pojoMember, TypeMappings typeMappings) {
+  public static JavaPojoMember wrap(PojoMember pojoMember, TypeMappings typeMappings) {
     final JavaType javaType = JavaType.wrap(pojoMember.getType(), typeMappings);
     return new JavaPojoMember(
         pojoMember.getName(),

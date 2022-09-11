@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
-import static com.github.muehmar.gradle.openapi.generator.model.NewPojoMembers.optionalNullableString;
-import static com.github.muehmar.gradle.openapi.generator.model.NewPojoMembers.optionalString;
-import static com.github.muehmar.gradle.openapi.generator.model.NewPojoMembers.requiredNullableString;
-import static com.github.muehmar.gradle.openapi.generator.model.NewPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;

@@ -7,13 +7,12 @@ abstract class BaseSingleSchemaOpenApiProcessor implements SingleSchemaOpenApiPr
   protected static final CompleteTypeMapper COMPLETE_TYPE_MAPPER =
       CompleteTypeMapperFactory.create();
 
-  protected NewSchemaProcessResult processPojoProcessResult(
-      NewPojoProcessResult pojoProcessResult,
-      NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+  protected SchemaProcessResult processPojoProcessResult(
+      PojoProcessResult pojoProcessResult, CompleteOpenApiProcessor completeOpenApiProcessor) {
     return pojoProcessResult
         .getOpenApiPojos()
         .map(completeOpenApiProcessor::process)
-        .foldRight(NewSchemaProcessResult.empty(), NewSchemaProcessResult::concat)
+        .foldRight(SchemaProcessResult.empty(), SchemaProcessResult::concat)
         .addPojo(pojoProcessResult.getPojo());
   }
 }

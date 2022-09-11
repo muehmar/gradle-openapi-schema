@@ -3,17 +3,16 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.jackson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.Filters.isJacksonJson;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 
 public class JacksonAnnotationGenerator {
   private JacksonAnnotationGenerator() {}
 
-  public static Generator<PojoMember, PojoSettings> jsonProperty() {
-    return Generator.<PojoMember, PojoSettings>emptyGen()
-        .append((f, s, w) -> w.println("@JsonProperty(\"%s\")", f.memberName(new JavaResolver())))
+  public static Generator<JavaPojoMember, PojoSettings> jsonProperty() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append((f, s, w) -> w.println("@JsonProperty(\"%s\")", f.getName()))
         .append(w -> w.ref(JacksonRefs.JSON_PROPERTY))
         .filter(isJacksonJson());
   }

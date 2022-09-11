@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.java.schema.ConstraintsMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
@@ -13,10 +13,10 @@ import java.util.Optional;
 public class ArrayOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
 
   @Override
-  public Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+  public Optional<SchemaProcessResult> process(
+      OpenApiPojo openApiPojo, CompleteOpenApiProcessor completeOpenApiProcessor) {
     if (openApiPojo.getSchema() instanceof ArraySchema) {
-      final NewPojoProcessResult pojoProcessResult =
+      final PojoProcessResult pojoProcessResult =
           fromArraysSchema(openApiPojo.getPojoName(), (ArraySchema) openApiPojo.getSchema());
       return Optional.of(processPojoProcessResult(pojoProcessResult, completeOpenApiProcessor));
     } else {
@@ -24,7 +24,7 @@ public class ArrayOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
     }
   }
 
-  private NewPojoProcessResult fromArraysSchema(PojoName pojoName, ArraySchema schema) {
+  private PojoProcessResult fromArraysSchema(PojoName pojoName, ArraySchema schema) {
     final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
 
     final TypeMapResult typeMapResult =
@@ -32,6 +32,6 @@ public class ArrayOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
 
     final ArrayPojo pojo =
         ArrayPojo.of(pojoName, schema.getDescription(), typeMapResult.getType(), constraints);
-    return new NewPojoProcessResult(pojo, typeMapResult.getOpenApiPojos());
+    return new PojoProcessResult(pojo, typeMapResult.getOpenApiPojos());
   }
 }

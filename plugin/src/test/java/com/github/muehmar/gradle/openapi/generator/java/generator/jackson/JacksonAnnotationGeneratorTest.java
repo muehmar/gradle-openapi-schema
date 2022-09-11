@@ -5,11 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -47,14 +46,10 @@ class JacksonAnnotationGeneratorTest {
 
   @Test
   void jsonProperty_when_enabledJackson_then_correctOutputAndRefs() {
-    final Generator<PojoMember, PojoSettings> generator = JacksonAnnotationGenerator.jsonProperty();
-    final PojoMember pojoMember =
-        new PojoMember(
-            Name.ofString("birthdate"),
-            "Birthdate",
-            JavaTypes.LOCAL_DATE,
-            Necessity.REQUIRED,
-            Nullability.NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jsonProperty();
+    final JavaPojoMember pojoMember =
+        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
@@ -66,14 +61,10 @@ class JacksonAnnotationGeneratorTest {
 
   @Test
   void jsonProperty_when_disabledJackson_then_noOutput() {
-    final Generator<PojoMember, PojoSettings> generator = JacksonAnnotationGenerator.jsonProperty();
-    final PojoMember pojoMember =
-        new PojoMember(
-            Name.ofString("birthdate"),
-            "Birthdate",
-            JavaTypes.LOCAL_DATE,
-            Necessity.REQUIRED,
-            Nullability.NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jsonProperty();
+    final JavaPojoMember pojoMember =
+        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
     final Writer writer =
         generator.generate(

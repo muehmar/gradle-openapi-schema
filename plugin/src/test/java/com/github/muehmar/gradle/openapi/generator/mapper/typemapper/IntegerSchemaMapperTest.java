@@ -6,7 +6,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -33,7 +33,7 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new IntegerSchema().format(format).minimum(new BigDecimal(18));
     final TypeMapResult result = run(schema);
 
-    final NewType expectedType = fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)));
+    final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)));
 
     assertEquals(expectedType, result.getType());
     assertEquals(PList.empty(), result.getOpenApiPojos());
@@ -45,7 +45,7 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new IntegerSchema().format(format).maximum(new BigDecimal(18));
     final TypeMapResult result = run(schema);
 
-    final NewType expectedType = fromFormat(format).withConstraints(Constraints.ofMax(new Max(18)));
+    final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMax(new Max(18)));
 
     assertEquals(expectedType, result.getType());
     assertEquals(PList.empty(), result.getOpenApiPojos());
@@ -58,7 +58,7 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
         new IntegerSchema().format(format).minimum(new BigDecimal(18)).maximum(new BigDecimal(50));
     final TypeMapResult result = run(schema);
 
-    final NewType expectedType =
+    final Type expectedType =
         fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50)));
 
     assertEquals(expectedType, result.getType());
@@ -70,7 +70,7 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new IntegerSchema();
     final TypeMapResult mappedSchema = run(schema);
 
-    final NewType expectedType = NumericType.formatInteger();
+    final Type expectedType = NumericType.formatInteger();
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(PList.empty(), mappedSchema.getOpenApiPojos());

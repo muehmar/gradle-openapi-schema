@@ -6,7 +6,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 
 public interface JavaPojo {
 
-  static JavaPojo wrap(NewPojo pojo, TypeMappings typeMappings) {
+  static JavaPojo wrap(Pojo pojo, TypeMappings typeMappings) {
     return pojo.fold(
         objectPojo -> JavaObjectPojo.wrap(objectPojo, typeMappings),
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),

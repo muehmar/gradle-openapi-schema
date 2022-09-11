@@ -1,10 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
-import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.Resolver;
 import io.github.muehmar.pojoextension.annotations.PojoExtension;
 import java.util.Optional;
-import java.util.function.Consumer;
 import lombok.Value;
 
 @Value
@@ -25,8 +22,19 @@ public class PojoMember implements PojoMemberExtension {
     this.nullability = nullability;
   }
 
-  public Name getTypeName(Resolver resolver) {
-    return type.isEnum() ? resolver.enumName(name) : type.getFullName();
+  public PojoMember addObjectTypeDescription(PojoName objectTypeName, String description) {
+    return type.asObjectType()
+        .filter(objType -> objType.getName().equals(objectTypeName))
+        .map(ignore -> withDescription(description))
+        .orElse(this);
+  }
+
+  public PojoMember inlineObjectReference(
+      PojoName referenceName, String referenceDescription, Type referenceType) {
+    return type.asObjectType()
+        .filter(objType -> objType.getName().equals(referenceName))
+        .map(ignore -> withDescription(referenceDescription).withType(referenceType))
+        .orElse(this);
   }
 
   public boolean isOptional() {
@@ -59,48 +67,5 @@ public class PojoMember implements PojoMemberExtension {
 
   public boolean isOptionalAndNotNullable() {
     return isOptional() && !isNullable();
-  }
-
-  public Name getterName(Resolver resolver) {
-    return resolver.getterName(name, type);
-  }
-  /**
-   * The provided {@code code} is executed in case this type is an enum with the list of members in
-   * the enum as arguments.
-   */
-  public void onEnum(Consumer<PList<String>> code) {
-    type.onEnum(code);
-  }
-
-  public Name setterName(Resolver resolver) {
-    return resolver.setterName(name);
-  }
-
-  public Name witherName(Resolver resolver) {
-    return resolver.witherName(name);
-  }
-
-  public Name memberName(Resolver resolver) {
-    return resolver.memberName(name);
-  }
-
-  public PList<String> getImports() {
-    return type.getImports();
-  }
-
-  /**
-   * Replaces a type of a member with another description and type.
-   *
-   * @param memberType If memberType is equally to the full name of the current type, the given
-   *     description and type will be replaced in this member.
-   * @param newDescription Description of the member which should be used.
-   * @param newType Type of the member which should be used
-   */
-  public PojoMember replaceMemberType(Name memberType, String newDescription, Type newType) {
-    if (type.getFullName().equals(memberType)) {
-      return new PojoMember(name, newDescription, newType, necessity, nullability);
-    } else {
-      return this;
-    }
   }
 }

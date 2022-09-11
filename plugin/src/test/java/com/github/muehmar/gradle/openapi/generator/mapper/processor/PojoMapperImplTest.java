@@ -11,17 +11,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.Resources;
-import com.github.muehmar.gradle.openapi.generator.NewPojoMapper;
+import com.github.muehmar.gradle.openapi.generator.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -57,17 +57,17 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_arraySchema_then_returnArrayPojo() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
     final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
     schema.setMaxItems(50);
 
     // method call
     final OpenApiPojo openApiPojo =
         new OpenApiPojo(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"), schema);
-    final PList<NewPojo> pojos = pojoMapper.fromSchemas(openApiPojo);
+    final PList<Pojo> pojos = pojoMapper.fromSchemas(openApiPojo);
 
     assertEquals(1, pojos.size());
-    final NewPojo pojo = pojos.head();
+    final Pojo pojo = pojos.head();
     assertEquals(
         ArrayPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"),
@@ -79,25 +79,25 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_classMappedType_then_correctMappedTypePojo() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("name", new StringSchema());
     final Schema<?> schema = new ObjectSchema().properties(properties);
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper.fromSchemas(
             new OpenApiPojo(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"), schema));
 
     assertEquals(1, pojos.size());
-    final NewPojo pojo = pojos.head();
+    final Pojo pojo = pojos.head();
     assertEquals(
         ObjectPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"),
             "",
             PList.single(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("name"),
                     "",
                     StringType.ofFormat(StringType.Format.NONE),
@@ -108,9 +108,9 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         parseOpenApiResourceEntries("/integration/completespec/openapi.yml")
             .flatMap(
                 entry ->
@@ -127,9 +127,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("Language", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("key"), "", NumericType.formatInteger(), REQUIRED, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("name"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE))),
         pojos.apply(0));
 
@@ -138,64 +138,63 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("User", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
-                    Name.ofString("id"), "", StringType.uuid(), REQUIRED, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(Name.ofString("id"), "", StringType.uuid(), REQUIRED, NOT_NULLABLE),
+                new PojoMember(
                     Name.ofString("externalId"),
                     "",
                     NumericType.formatLong(),
                     REQUIRED,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("birthday"),
                     "",
                     StringType.ofFormat(DATE),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("email"),
                     "",
                     StringType.ofFormat(EMAIL).withConstraints(Constraints.ofEmail()),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("city"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("age"),
                     "",
                     NumericType.formatInteger()
                         .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("height"),
                     "",
                     NumericType.formatFloat()
                         .withConstraints(Constraints.ofMinAndMax(new Min(120), new Max(199))),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("lastLogin"),
                     "",
                     StringType.ofFormat(DATE_TIME),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("role"),
                     "",
                     EnumType.ofNameAndMembers(
                         Name.ofString("RoleEnum"), PList.of("Admin", "User", "Visitor")),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("currencies"),
                     "",
                     MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("interests"),
                     "",
                     MapType.ofKeyAndValueType(
@@ -204,7 +203,7 @@ class PojoMapperImplTest {
                             ObjectType.ofName(PojoName.ofNameAndSuffix("UserInterests", "Dto")))),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("languages"),
                     "",
                     MapType.ofKeyAndValueType(
@@ -212,7 +211,7 @@ class PojoMapperImplTest {
                         ObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("hobbies"),
                     "",
                     MapType.ofKeyAndValueType(
@@ -220,7 +219,7 @@ class PojoMapperImplTest {
                         ObjectType.ofName(PojoName.ofNameAndSuffix("UserHobbies", "Dto"))),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("data"),
                     "Some user related data",
                     NoType.create(),
@@ -233,20 +232,20 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("UserGroup", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("owner"),
                     "",
                     ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("members"),
                     "",
                     ArrayType.ofItemType(
                         ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto"))),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("languages"),
                     "",
                     ArrayType.ofItemType(
@@ -260,9 +259,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("id"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("name"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE))),
         pojos.apply(3));
 
@@ -271,9 +270,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("UserHobbies", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("name"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("description"),
                     "",
                     StringType.noFormat(),
@@ -286,9 +285,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("UserInterests", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("name"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("prio"),
                     "",
                     NumericType.formatInteger(),
@@ -299,7 +298,7 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_singleInlineDefinition_then_composedPojoAndInlineDefinitionPojoCreated() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> objectSchema =
         new ObjectSchema()
@@ -310,7 +309,7 @@ class PojoMapperImplTest {
     composedSchema.addAllOfItem(objectSchema);
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper
             .fromSchemas(
                 new OpenApiPojo(
@@ -325,9 +324,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("ComposedPojoNameAllOf", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("key"),
                     "",
                     NumericType.formatInteger(),
@@ -340,9 +339,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("key"),
                     "",
                     NumericType.formatInteger(),
@@ -353,7 +352,7 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_twoInlineDefinitionAndReference_then_allPojosCreated() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> objectSchema1 =
         new ObjectSchema()
@@ -377,7 +376,7 @@ class PojoMapperImplTest {
         .addAllOfItem(new Schema<>().$ref("#/components/schemas/ReferenceSchema"));
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper
             .fromSchemas(
                 PList.of(
@@ -394,9 +393,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("ComposedPojoNameAllOf0", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("key"),
                     "",
                     NumericType.formatInteger(),
@@ -409,13 +408,13 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("ComposedPojoNameAllOf1", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("registerDate"),
                     "",
                     StringType.ofFormat(DATE),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("languages"),
                     "",
                     ArrayType.ofItemType(StringType.noFormat()),
@@ -428,25 +427,25 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("color"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("group"),
                     "",
                     NumericType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("key"), "", NumericType.formatInteger(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("registerDate"),
                     "",
                     StringType.ofFormat(DATE),
                     OPTIONAL,
                     NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("languages"),
                     "",
                     ArrayType.ofItemType(StringType.noFormat()),
@@ -459,9 +458,9 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"),
             "",
             PList.of(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("color"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("group"),
                     "",
                     NumericType.formatInteger(),
@@ -472,7 +471,7 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootUuidSchemaUsedAsReference_then_inlinedInPojo() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -480,7 +479,7 @@ class PojoMapperImplTest {
     final Schema<?> keySchema = new UUIDSchema().description("User key");
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserKey", "Dto"), keySchema),
@@ -492,14 +491,14 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("User", "Dto"),
             "",
             PList.single(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("key"), "User key", StringType.uuid(), OPTIONAL, NOT_NULLABLE))),
         pojos.apply(0));
   }
 
   @Test
   void fromSchemas_when_rootIntegerSchemaUsedAsReference_then_inlinedInPojo() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -507,7 +506,7 @@ class PojoMapperImplTest {
     final Schema<?> ageSchema = new IntegerSchema().description("User age");
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserAge", "Dto"), ageSchema),
@@ -519,7 +518,7 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("User", "Dto"),
             "",
             PList.single(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("age"),
                     "User age",
                     NumericType.formatInteger(),
@@ -530,7 +529,7 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootNumberSchemaUsedAsReference_then_inlinedInPojo() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -538,7 +537,7 @@ class PojoMapperImplTest {
     final Schema<?> heightSchema = new NumberSchema().description("User height");
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserHeight", "Dto"), heightSchema),
@@ -550,7 +549,7 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("User", "Dto"),
             "",
             PList.single(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("height"),
                     "User height",
                     NumericType.formatFloat(),
@@ -561,7 +560,7 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootBooleanSchemaUsedAsReference_then_inlinedInPojo() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -569,7 +568,7 @@ class PojoMapperImplTest {
     final Schema<?> adminSchema = new BooleanSchema().description("User is admin");
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("UserAdmin", "Dto"), adminSchema),
@@ -581,7 +580,7 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("User", "Dto"),
             "",
             PList.single(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("admin"),
                     "User is admin",
                     BooleanType.create(),
@@ -592,7 +591,7 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootEnumSchemaUsedAsReference_then_discreteEnumPojoCreated() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -602,7 +601,7 @@ class PojoMapperImplTest {
     genderSchema.description("Gender of a user");
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("Gender", "Dto"), genderSchema),
@@ -620,7 +619,7 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix("User", "Dto"),
             "",
             PList.single(
-                new NewPojoMember(
+                new PojoMember(
                     Name.ofString("gender"),
                     "Gender of a user",
                     ObjectType.ofName(PojoName.ofNameAndSuffix("Gender", "Dto")),
@@ -631,7 +630,7 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_lowercaseNamesAndReferences_then_allNamesStartUppercase() {
-    final NewPojoMapper pojoMapper = PojoMapperImpl.create();
+    final PojoMapper pojoMapper = PojoMapperImpl.create();
 
     final Schema<?> userSchema =
         new ObjectSchema()
@@ -641,7 +640,7 @@ class PojoMapperImplTest {
     genderSchema.description("Gender of a user");
 
     // method call
-    final PList<NewPojo> pojos =
+    final PList<Pojo> pojos =
         pojoMapper.fromSchemas(
             PList.of(
                 new OpenApiPojo(PojoName.ofNameAndSuffix("gender", "Dto"), genderSchema),
@@ -657,8 +656,8 @@ class PojoMapperImplTest {
             .asObjectPojo()
             .map(ObjectPojo::getMembers)
             .flatMap(PList::headOption)
-            .map(NewPojoMember::getType)
-            .flatMap(NewType::asObjectType)
+            .map(PojoMember::getType)
+            .flatMap(Type::asObjectType)
             .map(ObjectType::getName));
   }
 

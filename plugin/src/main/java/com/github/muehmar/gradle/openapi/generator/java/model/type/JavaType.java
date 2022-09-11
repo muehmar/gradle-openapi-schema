@@ -4,7 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
 
@@ -39,7 +39,7 @@ public interface JavaType {
     return getImports().map(Name::asString);
   }
 
-  static JavaType wrap(NewType type, TypeMappings typeMappings) {
+  static JavaType wrap(Type type, TypeMappings typeMappings) {
     return type.fold(
         numericType -> JavaNumericType.wrap(numericType, typeMappings),
         stringType -> JavaStringType.wrap(stringType, typeMappings),

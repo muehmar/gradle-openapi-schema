@@ -5,7 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.processor.PojoMapperIm
 public class PojoMapperFactory {
   private PojoMapperFactory() {}
 
-  public static NewPojoMapper create() {
+  public static PojoMapper create() {
     return PojoMapperImpl.create();
   }
 }

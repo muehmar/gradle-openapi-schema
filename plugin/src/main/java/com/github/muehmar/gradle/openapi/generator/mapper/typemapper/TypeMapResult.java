@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.typemapper;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -10,27 +10,27 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class TypeMapResult {
-  private final NewType type;
+  private final Type type;
   private final PList<OpenApiPojo> openApiPojos;
 
-  private TypeMapResult(NewType type, PList<OpenApiPojo> openApiPojos) {
+  private TypeMapResult(Type type, PList<OpenApiPojo> openApiPojos) {
     this.type = type;
     this.openApiPojos = openApiPojos;
   }
 
-  public static TypeMapResult ofType(NewType type) {
+  public static TypeMapResult ofType(Type type) {
     return new TypeMapResult(type, PList.empty());
   }
 
-  public static TypeMapResult ofTypeAndOpenApiPojo(NewType type, OpenApiPojo openApiPojo) {
+  public static TypeMapResult ofTypeAndOpenApiPojo(Type type, OpenApiPojo openApiPojo) {
     return new TypeMapResult(type, PList.single(openApiPojo));
   }
 
-  public TypeMapResult mapType(UnaryOperator<NewType> mapType) {
+  public TypeMapResult mapType(UnaryOperator<Type> mapType) {
     return new TypeMapResult(mapType.apply(type), openApiPojos);
   }
 
-  public NewType getType() {
+  public Type getType() {
     return type;
   }
 

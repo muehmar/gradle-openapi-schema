@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.data.PojoMembers;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -15,10 +15,10 @@ class CommonGetterTest {
 
   @Test
   void rawGetterMethod_when_defaultSettings_then_correctOutput() {
-    final Generator<PojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
+    final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
     final Writer writer =
         generator.generate(
-            PojoMembers.optionalString(),
+            JavaPojoMembers.optionalString(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -29,7 +29,7 @@ class CommonGetterTest {
 
   @Test
   void rawGetterMethod_when_customModifierAndSuffix_then_correctOutput() {
-    final Generator<PojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
+    final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
 
     final PojoSettings settings =
         TestPojoSettings.defaultSettings()
@@ -38,7 +38,7 @@ class CommonGetterTest {
                     .withModifier(JavaModifier.PUBLIC)
                     .withSuffix("CustomSuffix"));
     final Writer writer =
-        generator.generate(PojoMembers.optionalString(), settings, Writer.createDefault());
+        generator.generate(JavaPojoMembers.optionalString(), settings, Writer.createDefault());
 
     assertEquals(
         "public String getOptionalStringValCustomSuffix() {\n"

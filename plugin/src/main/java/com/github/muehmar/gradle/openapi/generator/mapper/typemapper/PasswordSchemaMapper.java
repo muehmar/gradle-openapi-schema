@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.typemapper;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.java.schema.ConstraintsMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;

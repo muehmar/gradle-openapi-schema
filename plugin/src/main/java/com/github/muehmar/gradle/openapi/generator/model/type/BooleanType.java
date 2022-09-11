@@ -1,14 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class BooleanType implements NewType {
+public class BooleanType implements Type {
 
   private BooleanType() {}
 

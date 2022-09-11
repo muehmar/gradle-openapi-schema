@@ -1,23 +1,23 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class ArrayType implements NewType {
+public class ArrayType implements Type {
   private final Constraints constraints;
-  private final NewType itemType;
+  private final Type itemType;
 
-  private ArrayType(Constraints constraints, NewType itemType) {
+  private ArrayType(Constraints constraints, Type itemType) {
     this.constraints = constraints;
     this.itemType = itemType;
   }
 
-  public static ArrayType ofItemType(NewType itemType) {
+  public static ArrayType ofItemType(Type itemType) {
     return new ArrayType(Constraints.empty(), itemType);
   }
 
@@ -25,7 +25,7 @@ public class ArrayType implements NewType {
     return new ArrayType(constraints, itemType);
   }
 
-  public NewType getItemType() {
+  public Type getItemType() {
     return itemType;
   }
 

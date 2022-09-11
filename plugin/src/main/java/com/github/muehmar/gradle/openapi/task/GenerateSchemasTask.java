@@ -3,14 +3,14 @@ package com.github.muehmar.gradle.openapi.task;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
-import com.github.muehmar.gradle.openapi.generator.NewPojoGenerator;
-import com.github.muehmar.gradle.openapi.generator.NewPojoMapper;
+import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.PojoMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.TristateGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonNullContainerGenerator;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -76,9 +76,9 @@ public class GenerateSchemasTask extends DefaultTask {
                         PojoName.ofNameAndSuffix(entry.getKey(), pojoSettings.get().getSuffix()),
                         (Schema<?>) entry.getValue()));
 
-    final NewPojoMapper pojoMapper = PojoMapperFactory.create();
-    final PList<NewPojo> pojos = pojoMapper.fromSchemas(openApiPojos);
-    final NewPojoGenerator generator =
+    final PojoMapper pojoMapper = PojoMapperFactory.create();
+    final PList<Pojo> pojos = pojoMapper.fromSchemas(openApiPojos);
+    final PojoGenerator generator =
         GeneratorFactory.createGenerator(Language.JAVA, outputDir.get());
     pojos.forEach(pojo -> generator.generatePojo(pojo, pojoSettings.get()));
 

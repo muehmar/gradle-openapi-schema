@@ -5,11 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
-import com.github.muehmar.gradle.openapi.generator.java.type.JavaTypes;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -19,16 +18,12 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 class RequiredNotNullableGetterTest {
+
   @Test
   void generator_when_requiredAndNotNullableField_then_correctOutputAndRefs() {
-    final Generator<PojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
-    final PojoMember pojoMember =
-        new PojoMember(
-            Name.ofString("birthdate"),
-            "Birthdate",
-            JavaTypes.LOCAL_DATE,
-            Necessity.REQUIRED,
-            Nullability.NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+    final JavaPojoMember pojoMember =
+        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
@@ -48,14 +43,9 @@ class RequiredNotNullableGetterTest {
 
   @Test
   void generator_when_validationDisabled_then_correctOutputAndRefs() {
-    final Generator<PojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
-    final PojoMember pojoMember =
-        new PojoMember(
-            Name.ofString("birthdate"),
-            "Birthdate",
-            JavaTypes.LOCAL_DATE,
-            Necessity.REQUIRED,
-            Nullability.NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+    final JavaPojoMember pojoMember =
+        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
     final Writer writer =
         generator.generate(
@@ -76,14 +66,9 @@ class RequiredNotNullableGetterTest {
 
   @Test
   void generator_when_requiredSuffix_then_correctOutputAndRefs() {
-    final Generator<PojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
-    final PojoMember pojoMember =
-        new PojoMember(
-            Name.ofString("birthdate"),
-            "Birthdate",
-            JavaTypes.LOCAL_DATE,
-            Necessity.REQUIRED,
-            Nullability.NOT_NULLABLE);
+    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+    final JavaPojoMember pojoMember =
+        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
     final GetterSuffixes getterSuffixes =
         GetterSuffixesBuilder.create()

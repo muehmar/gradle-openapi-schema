@@ -14,9 +14,9 @@ import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -116,7 +116,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember list(
-      NewType itemType, Constraints constraints, Necessity necessity, Nullability nullability) {
+      Type itemType, Constraints constraints, Necessity necessity, Nullability nullability) {
     return JavaPojoMember.of(
         Name.ofString("listVal"),
         "List",
@@ -127,7 +127,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember map(
-      NewType keyType, NewType valueType, Necessity necessity, Nullability nullability) {
+      Type keyType, Type valueType, Necessity necessity, Nullability nullability) {
     return JavaPojoMember.of(
         Name.ofString("mapVal"),
         "Map",

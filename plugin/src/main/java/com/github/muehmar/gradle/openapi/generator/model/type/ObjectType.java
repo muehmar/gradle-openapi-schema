@@ -1,15 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class ObjectType implements NewType {
+public class ObjectType implements Type {
   private final PojoName name;
   private final Constraints constraints;
 

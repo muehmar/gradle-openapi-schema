@@ -18,9 +18,19 @@ public class ComposedPojo {
   private final PList<OpenApiPojo> openApiPojos;
 
   public enum CompositionType {
-    ALL_OF,
-    ANY_OF,
-    ONE_OF;
+    ALL_OF("AllOf"),
+    ANY_OF("AnyOf"),
+    ONE_OF("OneOf");
+
+    private final String value;
+
+    CompositionType(String value) {
+      this.value = value;
+    }
+
+    public String asPascalCaseName() {
+      return value;
+    }
   }
 
   public ComposedPojo(

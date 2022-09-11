@@ -4,12 +4,12 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.typemapper.TypeMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Map;
@@ -18,10 +18,10 @@ import java.util.Optional;
 public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
 
   @Override
-  public Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+  public Optional<SchemaProcessResult> process(
+      OpenApiPojo openApiPojo, CompleteOpenApiProcessor completeOpenApiProcessor) {
     if (openApiPojo.getSchema().getProperties() != null) {
-      final NewPojoProcessResult pojoProcessResult =
+      final PojoProcessResult pojoProcessResult =
           processObjectSchema(openApiPojo.getPojoName(), openApiPojo.getSchema());
       return Optional.of(processPojoProcessResult(pojoProcessResult, completeOpenApiProcessor));
     } else {
@@ -29,28 +29,28 @@ public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
     }
   }
 
-  private NewPojoProcessResult processObjectSchema(PojoName pojoName, Schema<?> schema) {
+  private PojoProcessResult processObjectSchema(PojoName pojoName, Schema<?> schema) {
 
-    final PList<NewPojoMemberProcessResult> pojoMemberAndOpenApiPojos =
+    final PList<PojoMemberProcessResult> pojoMemberAndOpenApiPojos =
         Optional.ofNullable(schema.getProperties())
             .map(properties -> PList.fromIter(properties.entrySet()))
             .orElseThrow(
                 () -> new IllegalArgumentException("Object schema without properties: " + schema))
             .map(entry -> processObjectSchemaEntry(entry, pojoName, schema));
 
-    final NewPojo pojo =
+    final Pojo pojo =
         ObjectPojo.of(
             pojoName,
             schema.getDescription(),
-            pojoMemberAndOpenApiPojos.map(NewPojoMemberProcessResult::getPojoMember));
+            pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember));
 
     final PList<OpenApiPojo> openApiPojos =
-        pojoMemberAndOpenApiPojos.flatMap(NewPojoMemberProcessResult::getOpenApiPojos);
+        pojoMemberAndOpenApiPojos.flatMap(PojoMemberProcessResult::getOpenApiPojos);
 
-    return new NewPojoProcessResult(pojo, openApiPojos);
+    return new PojoProcessResult(pojo, openApiPojos);
   }
 
-  private NewPojoMemberProcessResult processObjectSchemaEntry(
+  private PojoMemberProcessResult processObjectSchemaEntry(
       Map.Entry<String, Schema> entry, PojoName pojoName, Schema<?> schema) {
     final Necessity necessity =
         Optional.ofNullable(schema.getRequired())
@@ -67,7 +67,7 @@ public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
         pojoName, Name.ofString(entry.getKey()), entry.getValue(), necessity, nullability);
   }
 
-  private NewPojoMemberProcessResult toPojoMemberFromSchema(
+  private PojoMemberProcessResult toPojoMemberFromSchema(
       PojoName pojoName,
       Name pojoMemberName,
       Schema<?> schema,
@@ -75,10 +75,10 @@ public class ObjectOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
       Nullability nullability) {
     final TypeMapResult result = COMPLETE_TYPE_MAPPER.map(pojoName, pojoMemberName, schema);
 
-    final NewType type = result.getType();
+    final Type type = result.getType();
 
-    final NewPojoMember pojoMember =
-        new NewPojoMember(pojoMemberName, schema.getDescription(), type, necessity, nullability);
-    return new NewPojoMemberProcessResult(pojoMember, result.getOpenApiPojos());
+    final PojoMember pojoMember =
+        new PojoMember(pojoMemberName, schema.getDescription(), type, necessity, nullability);
+    return new PojoMemberProcessResult(pojoMember, result.getOpenApiPojos());
   }
 }

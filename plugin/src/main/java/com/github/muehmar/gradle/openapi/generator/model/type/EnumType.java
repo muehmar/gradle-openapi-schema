@@ -3,14 +3,14 @@ package com.github.muehmar.gradle.openapi.generator.model.type;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class EnumType implements NewType {
+public class EnumType implements Type {
   private final Name name;
   private final PList<String> members;
 

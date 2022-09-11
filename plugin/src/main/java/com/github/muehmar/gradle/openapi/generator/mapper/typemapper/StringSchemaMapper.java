@@ -2,10 +2,10 @@ package com.github.muehmar.gradle.openapi.generator.mapper.typemapper;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.java.schema.ConstraintsMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -26,7 +26,7 @@ public class StringSchemaMapper extends BaseTypeMapper<StringSchema> {
     final Constraints patternConstraints = ConstraintsMapper.getPattern(schema);
     final Constraints minAndMaxLengthConstraints = ConstraintsMapper.getMinAndMaxLength(schema);
 
-    final Optional<NewType> stringTypeWithFormat =
+    final Optional<Type> stringTypeWithFormat =
         Optional.ofNullable(schema.getFormat())
             .map(
                 formatValue -> {
@@ -34,7 +34,7 @@ public class StringSchemaMapper extends BaseTypeMapper<StringSchema> {
                   return StringType.ofFormatAndValue(format, formatValue);
                 });
 
-    final Optional<NewType> enumType =
+    final Optional<Type> enumType =
         Optional.ofNullable(schema.getEnum())
             .map(PList::fromIter)
             .map(
@@ -46,7 +46,7 @@ public class StringSchemaMapper extends BaseTypeMapper<StringSchema> {
         StringType.ofFormat(StringType.Format.NONE)
             .withConstraints(patternConstraints.and(minAndMaxLengthConstraints));
 
-    final NewType type = Optionals.or(stringTypeWithFormat, enumType).orElse(rawStringType);
+    final Type type = Optionals.or(stringTypeWithFormat, enumType).orElse(rawStringType);
 
     return TypeMapResult.ofType(type);
   }

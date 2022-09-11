@@ -1,31 +1,31 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.NewType;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class MapType implements NewType {
-  private final NewType key;
-  private final NewType value;
+public class MapType implements Type {
+  private final Type key;
+  private final Type value;
 
-  private MapType(NewType key, NewType value) {
+  private MapType(Type key, Type value) {
     this.key = key;
     this.value = value;
   }
 
-  public static MapType ofKeyAndValueType(NewType key, NewType value) {
+  public static MapType ofKeyAndValueType(Type key, Type value) {
     return new MapType(key, value);
   }
 
-  public NewType getKey() {
+  public Type getKey() {
     return key;
   }
 
-  public NewType getValue() {
+  public Type getValue() {
     return value;
   }
 

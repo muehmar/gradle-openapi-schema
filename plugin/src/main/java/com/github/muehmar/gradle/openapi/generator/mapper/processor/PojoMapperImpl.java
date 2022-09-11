@@ -1,17 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.NewPojoMapper;
+import com.github.muehmar.gradle.openapi.generator.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojo;
-import com.github.muehmar.gradle.openapi.generator.model.NewPojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import java.util.Optional;
 
-public class PojoMapperImpl implements NewPojoMapper {
+public class PojoMapperImpl implements PojoMapper {
 
-  private static final NewCompleteOpenApiProcessor COMPLETE_OPEN_API_PROCESSOR =
+  private static final CompleteOpenApiProcessor COMPLETE_OPEN_API_PROCESSOR =
       new ArrayOpenApiProcessor()
           .or(new ObjectOpenApiProcessor())
           .or(new ComposedOpenApiProcessor())
@@ -20,20 +20,20 @@ public class PojoMapperImpl implements NewPojoMapper {
 
   private PojoMapperImpl() {}
 
-  public static NewPojoMapper create() {
+  public static PojoMapper create() {
     return new PojoMapperImpl();
   }
 
   @Override
-  public PList<NewPojo> fromSchemas(PList<OpenApiPojo> openApiPojos) {
-    final PList<NewSchemaProcessResult> processResults =
+  public PList<Pojo> fromSchemas(PList<OpenApiPojo> openApiPojos) {
+    final PList<SchemaProcessResult> processResults =
         openApiPojos.map(COMPLETE_OPEN_API_PROCESSOR::process);
 
-    final PList<NewPojo> pojos = processResults.flatMap(NewSchemaProcessResult::getPojos);
+    final PList<Pojo> pojos = processResults.flatMap(SchemaProcessResult::getPojos);
     final PList<ComposedPojo> composedPojos =
-        processResults.flatMap(NewSchemaProcessResult::getComposedPojos);
-    final PList<NewPojoMemberReference> pojoMemberReferences =
-        processResults.flatMap(NewSchemaProcessResult::getPojoMemberReferences);
+        processResults.flatMap(SchemaProcessResult::getComposedPojos);
+    final PList<PojoMemberReference> pojoMemberReferences =
+        processResults.flatMap(SchemaProcessResult::getPojoMemberReferences);
 
     return Optional.of(pojos)
         .map(p -> ComposedPojoResolver.resolve(composedPojos, pojos))
@@ -42,8 +42,8 @@ public class PojoMapperImpl implements NewPojoMapper {
         .orElse(PList.empty());
   }
 
-  private PList<NewPojo> inlineMemberReferences(
-      PList<NewPojo> inputPojos, PList<NewPojoMemberReference> pojoMemberReferences) {
+  private PList<Pojo> inlineMemberReferences(
+      PList<Pojo> inputPojos, PList<PojoMemberReference> pojoMemberReferences) {
     return pojoMemberReferences.foldLeft(
         inputPojos,
         (pojos, memberReference) ->
@@ -55,9 +55,9 @@ public class PojoMapperImpl implements NewPojoMapper {
                         memberReference.getType())));
   }
 
-  private PList<NewPojo> addEnumDescription(PList<NewPojo> inputPojos) {
+  private PList<Pojo> addEnumDescription(PList<Pojo> inputPojos) {
     return inputPojos
-        .flatMapOptional(NewPojo::asEnumPojo)
+        .flatMapOptional(Pojo::asEnumPojo)
         .foldLeft(
             inputPojos,
             (p, enumPojo) ->

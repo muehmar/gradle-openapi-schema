@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public class EnumOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
   @Override
-  public Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+  public Optional<SchemaProcessResult> process(
+      OpenApiPojo openApiPojo, CompleteOpenApiProcessor completeOpenApiProcessor) {
     final Schema<?> schema = openApiPojo.getSchema();
     if (schema instanceof StringSchema && Objects.nonNull(schema.getEnum())) {
       final StringSchema stringSchema = (StringSchema) schema;
@@ -20,7 +20,7 @@ public class EnumOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
               openApiPojo.getPojoName(),
               schema.getDescription(),
               PList.fromIter(stringSchema.getEnum()));
-      return Optional.ofNullable(NewSchemaProcessResult.ofPojo(enumPojo));
+      return Optional.ofNullable(SchemaProcessResult.ofPojo(enumPojo));
     } else {
       return Optional.empty();
     }

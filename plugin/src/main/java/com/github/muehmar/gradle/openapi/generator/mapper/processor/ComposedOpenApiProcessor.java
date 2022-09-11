@@ -1,8 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.processor;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaResolver;
-import com.github.muehmar.gradle.openapi.generator.java.schema.ReferenceMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.ReferenceMapper;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
@@ -14,8 +13,8 @@ import java.util.Optional;
 
 public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
   @Override
-  public Optional<NewSchemaProcessResult> process(
-      OpenApiPojo openApiPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+  public Optional<SchemaProcessResult> process(
+      OpenApiPojo openApiPojo, CompleteOpenApiProcessor completeOpenApiProcessor) {
     if (openApiPojo.getSchema() instanceof ComposedSchema) {
       final ComposedPojo composedPojo =
           processComposedSchema(
@@ -82,7 +81,7 @@ public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
                   final Name openApiPojoName =
                       pojoName
                           .getName()
-                          .append(JavaResolver.snakeCaseToPascalCase(type.name()))
+                          .append(type.asPascalCaseName())
                           .append(openApiPojoNameSuffix);
                   return new OpenApiPojo(
                       PojoName.ofNameAndSuffix(openApiPojoName, pojoName.getSuffix()), schema);
@@ -91,12 +90,12 @@ public class ComposedOpenApiProcessor extends BaseSingleSchemaOpenApiProcessor {
     return new ComposedPojo(pojoName, description, type, pojoNames, openApiPojos);
   }
 
-  private NewSchemaProcessResult processComposedPojo(
-      ComposedPojo composedPojo, NewCompleteOpenApiProcessor completeOpenApiProcessor) {
+  private SchemaProcessResult processComposedPojo(
+      ComposedPojo composedPojo, CompleteOpenApiProcessor completeOpenApiProcessor) {
     return composedPojo
         .getOpenApiPojos()
         .map(completeOpenApiProcessor::process)
-        .foldRight(NewSchemaProcessResult.empty(), NewSchemaProcessResult::concat)
+        .foldRight(SchemaProcessResult.empty(), SchemaProcessResult::concat)
         .addComposedPojo(composedPojo);
   }
 }
