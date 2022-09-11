@@ -15,15 +15,13 @@ class SingleSchemaExtensionTest {
     final Action<ClassMapping> classMappingAction =
         mapping -> {
           mapping.setFromClass("List");
-          mapping.setImports("java.util.ArrayList");
-          mapping.setToClass("ArrayList");
+          mapping.setToClass("java.util.ArrayList");
         };
     extension.classMapping(classMappingAction);
 
     final ClassMapping commonClassMapping = new ClassMapping();
     commonClassMapping.setFromClass("String");
-    commonClassMapping.setImports("package.SuperString");
-    commonClassMapping.setToClass("SuperString");
+    commonClassMapping.setToClass("package.SuperString");
 
     // method call
     extension.withCommonClassMappings(PList.single(commonClassMapping));
@@ -42,15 +40,13 @@ class SingleSchemaExtensionTest {
     final Action<FormatTypeMapping> formatTypeMappingAction =
         mapping -> {
           mapping.setFormatType("Username");
-          mapping.setImports("package.CustomUsername");
-          mapping.setClassType("CustomUsername");
+          mapping.setClassType("package.CustomUsername");
         };
     extension.formatTypeMapping(formatTypeMappingAction);
 
     final FormatTypeMapping commonFormatTypeMapping = new FormatTypeMapping();
     commonFormatTypeMapping.setFormatType("Password");
-    commonFormatTypeMapping.setImports("package.CustomPassword");
-    commonFormatTypeMapping.setClassType("CustomPassword");
+    commonFormatTypeMapping.setClassType("package.CustomPassword");
 
     // method call
     extension.withCommonFormatTypeMappings(PList.single(commonFormatTypeMapping));

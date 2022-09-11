@@ -35,7 +35,7 @@ class JavaMapTypeTest {
         JavaMapType.wrap(
             mapType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Map", "CustomMap", "com.custom.CustomMap")));
+                new ClassTypeMapping("Map", "com.custom.CustomMap")));
 
     assertEquals("CustomMap<String, UUID>", javaType.getFullClassName().asString());
     assertEquals("CustomMap", javaType.getClassName().asString());

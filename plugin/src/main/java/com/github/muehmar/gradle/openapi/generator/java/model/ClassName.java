@@ -1,7 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
-import static com.github.muehmar.gradle.openapi.util.Booleans.not;
-
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
@@ -54,19 +52,11 @@ public class ClassName {
   }
 
   public static ClassName fromFormatTypeMapping(FormatTypeMapping formatTypeMapping) {
-    return Optional.of(formatTypeMapping.getImports())
-        .map(String::trim)
-        .filter(s -> not(s.isEmpty()))
-        .map(ClassName::ofQualifiedClassName)
-        .orElse(ClassName.ofName(formatTypeMapping.getClassType()));
+    return ClassName.ofQualifiedClassName(formatTypeMapping.getClassType());
   }
 
   public static ClassName fromClassTypeMapping(ClassTypeMapping classTypeMapping) {
-    return Optional.of(classTypeMapping.getImports())
-        .map(String::trim)
-        .filter(s -> not(s.isEmpty()))
-        .map(ClassName::ofQualifiedClassName)
-        .orElse(ClassName.ofName(classTypeMapping.getToClass()));
+    return ClassName.ofQualifiedClassName(classTypeMapping.getToClass());
   }
 
   public static Optional<ClassName> fromFormatTypeMapping(

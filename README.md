@@ -69,22 +69,19 @@ openApiGenerator {
             // Additional format type mapping
             formatTypeMapping {
                 formatType = "username"
-                classType = "UserName"
-                imports = "com.package.UserName"
+                classType = "com.package.UserName"
             }
 
             // Additional format type mapping
             formatTypeMapping {
                 formatType = "password"
-                classType = "Password"
-                imports = "com.package.Password"
+                classType = "com.package.Password"
             }
 
             // Additional class mapping
             classMapping {
                 fromClass = "List"
-                toClass = "ArrayList"
-                imports = "java.util.ArrayList"
+                toClass = "java.util.ArrayList"
             }
             
             getterSuffixes {
@@ -127,22 +124,19 @@ openApiGenerator {
     // Global format type mapping which gets applied to each schema
     formatTypeMapping {
         formatType = "username"
-        classType = "UserName"
-        imports = "com.package.UserName"
+        classType = "com.package.UserName"
     }
 
     // Global format type mapping which gets applied to each schema
     formatTypeMapping {
         formatType = "password"
-        classType = "Password"
-        imports = "com.package.Password"
+        classType = "com.package.Password"
     }
 
     // Global class mapping which gets applied to each schema
     classMapping {
         fromClass = "List"
-        toClass = "ArrayList"
-        imports = "java.util.ArrayList"
+        toClass = "java.util.ArrayList"
     }
     
     getterSuffixes {
@@ -176,13 +170,13 @@ tasks are automatically registered as dependency of the corresponding java-compi
 ### Class Mappings
 
 The plugin allows one to map specific classes to custom types. The following example would use the custom List
-implementation `com.package.CustomList` for lists instead of `java.util.List`.
+implementation `com.package.CustomList` for lists instead of `java.util.List`. The config-property `toClass` should be
+the fully qualified classname to properly generate import-statements.
 
 ```
 classMapping {
     fromClass = "List"
-    toClass = "CustomList"
-    imports = "com.package.CustomList"
+    toClass = "com.package.CustomList"
 }
 
 ```
@@ -207,12 +201,12 @@ and a formatTypeMapping block in the configuration
 ```
 formatTypeMapping {
     formatType = "username"
-    classType = "UserName"
-    imports = "com.package.UserName"
+    classType = "com.package.UserName"
 }
 ```
 
-will use the class `com.package.UserName` for the property `accountName`.
+will use the class `com.package.UserName` for the property `accountName`. The config-property `classType` should be
+the fully qualified classname to properly generate import-statements.
 
 Repeat this block for each format type mapping.
 
@@ -442,8 +436,8 @@ member without adding the description.
 ## Change Log
 
 * 0.16.0
-    * Support for nullability (issue `#3`) 
-    * Improve exception for enum conversion (issue `#4`) 
+    * Support for nullability (issue `#3`)
+    * Improve exception for enum conversion (issue `#4`)
 * 0.15.1 - Support inline object definitions
 * 0.15.0 - Support multiple specifications (breaking change in DSL)
 * 0.14.1 - Fix issue `#1`

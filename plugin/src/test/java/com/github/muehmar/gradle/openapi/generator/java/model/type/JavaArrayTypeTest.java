@@ -35,7 +35,7 @@ class JavaArrayTypeTest {
         JavaArrayType.wrap(
             arrayType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("List", "CustomList", "com.custom.CustomList")));
+                new ClassTypeMapping("List", "com.custom.CustomList")));
 
     assertEquals("CustomList<UUID>", javaArrayType.getFullClassName().asString());
     assertEquals("CustomList", javaArrayType.getClassName().asString());
