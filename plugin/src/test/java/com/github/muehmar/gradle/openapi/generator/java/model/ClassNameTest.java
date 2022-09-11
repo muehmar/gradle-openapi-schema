@@ -99,24 +99,4 @@ class ClassNameTest {
         ClassNames.MAP.getClassNameWithGenerics(Name.ofString("String"), Name.ofString("UserDto"));
     assertEquals("Map<String, UserDto>", classNameWithGenerics.asString());
   }
-
-  @Test
-  void asPrimitive_when_calledForBoxedClassName_then_primitiveClassNameReturned() {
-    assertEquals(ClassNames.DOUBLE_PRIMITIVE, ClassNames.DOUBLE.asPrimitive());
-    assertEquals(ClassNames.FLOAT_PRIMITIVE, ClassNames.FLOAT.asPrimitive());
-    assertEquals(ClassNames.LONG_PRIMITIVE, ClassNames.LONG.asPrimitive());
-    assertEquals(ClassNames.INTEGER_PRIMITIVE, ClassNames.INTEGER.asPrimitive());
-    assertEquals(ClassNames.BYTE_PRIMITIVE, ClassNames.BYTE.asPrimitive());
-    assertEquals(ClassNames.BOOLEAN_PRIMITIVE, ClassNames.BOOLEAN.asPrimitive());
-    assertEquals(ClassNames.CHAR_PRIMITIVE, ClassNames.CHARACTER.asPrimitive());
-    assertEquals(ClassNames.SHORT_PRIMITIVE, ClassNames.SHORT.asPrimitive());
-  }
-
-  @Test
-  void asPrimitive_when_calledForNonBoxedType_then_sameClassNameReturned() {
-    assertEquals(ClassNames.STRING, ClassNames.STRING.asPrimitive());
-    assertEquals(ClassNames.OBJECT, ClassNames.OBJECT.asPrimitive());
-    assertEquals(ClassNames.MAP, ClassNames.MAP.asPrimitive());
-    assertEquals(ClassNames.LIST, ClassNames.LIST.asPrimitive());
-  }
 }

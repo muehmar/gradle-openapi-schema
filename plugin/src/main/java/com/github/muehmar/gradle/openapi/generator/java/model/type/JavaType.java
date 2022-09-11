@@ -15,8 +15,6 @@ public interface JavaType {
 
   Name getFullClassName();
 
-  JavaType asPrimitive();
-
   Constraints getConstraints();
 
   <T> T fold(

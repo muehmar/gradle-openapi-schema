@@ -23,11 +23,6 @@ public class JavaObjectType extends NonGenericJavaType {
   }
 
   @Override
-  public JavaType asPrimitive() {
-    return this;
-  }
-
-  @Override
   public Constraints getConstraints() {
     return constraints;
   }

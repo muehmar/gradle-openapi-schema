@@ -22,10 +22,4 @@ class JavaNoTypeTest {
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
-
-  @Test
-  void asPrimitive_when_called_then_unchanged() {
-    final JavaType javaType = JavaTypes.NO_TYPE.asPrimitive();
-    assertEquals(JavaTypes.NO_TYPE, javaType);
-  }
 }

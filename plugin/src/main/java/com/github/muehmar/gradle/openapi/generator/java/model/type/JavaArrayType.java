@@ -52,11 +52,6 @@ public class JavaArrayType implements JavaType {
   }
 
   @Override
-  public JavaType asPrimitive() {
-    return this;
-  }
-
-  @Override
   public Constraints getConstraints() {
     return constraints;
   }

@@ -46,10 +46,4 @@ class JavaMapTypeTest {
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
-
-  @Test
-  void asPrimitive_when_called_then_unchanged() {
-    final JavaType javaType = JavaTypes.MAP.asPrimitive();
-    assertEquals(JavaTypes.MAP, javaType);
-  }
 }

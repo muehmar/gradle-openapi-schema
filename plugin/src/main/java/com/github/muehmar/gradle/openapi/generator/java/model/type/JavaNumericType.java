@@ -54,11 +54,6 @@ public class JavaNumericType extends NonGenericJavaType {
   }
 
   @Override
-  public JavaType asPrimitive() {
-    return new JavaNumericType(className.asPrimitive(), constraints);
-  }
-
-  @Override
   public Constraints getConstraints() {
     return constraints;
   }

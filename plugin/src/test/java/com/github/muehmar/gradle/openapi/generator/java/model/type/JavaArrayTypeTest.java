@@ -46,10 +46,4 @@ class JavaArrayTypeTest {
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
-
-  @Test
-  void asPrimitive_when_called_then_unchanged() {
-    final JavaType javaType = JavaTypes.STRING_LIST.asPrimitive();
-    assertEquals(JavaTypes.STRING_LIST, javaType);
-  }
 }

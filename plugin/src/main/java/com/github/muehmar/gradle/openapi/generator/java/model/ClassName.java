@@ -6,22 +6,13 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
-import com.github.muehmar.gradle.openapi.util.Suppliers;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
 public class ClassName {
-
-  /** This map cannot be initialized statically, as the map is populated instances of this class. */
-  private static final Supplier<Map<ClassName, ClassName>> PRIMITIVE_MAP =
-      Suppliers.cached(ClassName::createPrimitiveMap);
-
   private final Optional<PackageName> pkg;
 
   private final Name name;
@@ -108,23 +99,5 @@ public class ClassName {
         .headOption()
         .map(ClassName::fromClassTypeMapping)
         .orElse(this);
-  }
-
-  public ClassName asPrimitive() {
-    final ClassName value = PRIMITIVE_MAP.get().get(this);
-    return Optional.ofNullable(value).orElse(this);
-  }
-
-  private static Map<ClassName, ClassName> createPrimitiveMap() {
-    final Map<ClassName, ClassName> map = new HashMap<>();
-    map.put(ClassNames.DOUBLE, ClassNames.DOUBLE_PRIMITIVE);
-    map.put(ClassNames.FLOAT, ClassNames.FLOAT_PRIMITIVE);
-    map.put(ClassNames.LONG, ClassNames.LONG_PRIMITIVE);
-    map.put(ClassNames.INTEGER, ClassNames.INTEGER_PRIMITIVE);
-    map.put(ClassNames.BOOLEAN, ClassNames.BOOLEAN_PRIMITIVE);
-    map.put(ClassNames.BYTE, ClassNames.BYTE_PRIMITIVE);
-    map.put(ClassNames.CHARACTER, ClassNames.CHAR_PRIMITIVE);
-    map.put(ClassNames.SHORT, ClassNames.SHORT_PRIMITIVE);
-    return map;
   }
 }

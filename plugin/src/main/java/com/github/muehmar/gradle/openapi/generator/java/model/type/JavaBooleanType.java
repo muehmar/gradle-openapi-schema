@@ -26,11 +26,6 @@ public class JavaBooleanType extends NonGenericJavaType {
   }
 
   @Override
-  public JavaType asPrimitive() {
-    return new JavaBooleanType(className.asPrimitive());
-  }
-
-  @Override
   public Constraints getConstraints() {
     return Constraints.empty();
   }

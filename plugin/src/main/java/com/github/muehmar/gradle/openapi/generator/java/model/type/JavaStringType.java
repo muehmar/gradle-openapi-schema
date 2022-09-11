@@ -58,11 +58,6 @@ public class JavaStringType extends NonGenericJavaType {
   }
 
   @Override
-  public JavaType asPrimitive() {
-    return new JavaStringType(className.asPrimitive(), constraints);
-  }
-
-  @Override
   public Constraints getConstraints() {
     return constraints;
   }

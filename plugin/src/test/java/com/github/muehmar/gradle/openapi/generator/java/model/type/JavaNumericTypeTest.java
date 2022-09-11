@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -79,13 +78,5 @@ class JavaNumericTypeTest {
             .getAllQualifiedClassNames()
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
-  }
-
-  @Test
-  void asPrimitive_when_called_then_mappedToPrimitiveClassName() {
-    final JavaType javaType = JavaTypes.INTEGER.asPrimitive();
-
-    assertNotEquals(JavaTypes.INTEGER, javaType);
-    assertEquals("int", javaType.getClassName().asString());
   }
 }
