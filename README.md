@@ -25,7 +25,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.16.0'
+    id 'com.github.muehmar.openapischema' version '0.17.0'
 }
 ```
 
@@ -439,6 +439,9 @@ member without adding the description.
 
 ## Change Log
 
+* 0.17.0
+    * Support customizable builder method prefix (issue `#8`)
+    * Improve type mapping configuration (issue `#12`)
 * 0.16.0
     * Support for nullability (issue `#3`)
     * Improve exception for enum conversion (issue `#4`)
