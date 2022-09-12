@@ -14,6 +14,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.NewRefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator.OptionalNotNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -21,12 +22,14 @@ import io.github.muehmar.codegenerator.Generator;
 public class OptionalNotNullableGetter {
   private OptionalNotNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> getter() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(standardGetter())
-        .append(alternateGetter())
-        .append(rawGetter())
-        .append(NewRefsGenerator.fieldRefs());
+  public static OptionalNotNullableGetterGen getter() {
+    final Generator<JavaPojoMember, PojoSettings> gen =
+        Generator.<JavaPojoMember, PojoSettings>emptyGen()
+            .append(standardGetter())
+            .append(alternateGetter())
+            .append(rawGetter())
+            .append(NewRefsGenerator.fieldRefs());
+    return OptionalNotNullableGetterGen.wrap(gen);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> standardGetter() {

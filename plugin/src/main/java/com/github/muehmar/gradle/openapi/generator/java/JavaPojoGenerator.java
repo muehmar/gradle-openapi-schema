@@ -10,7 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.NewFieldsGener
 import com.github.muehmar.gradle.openapi.generator.java.generator.NewHashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.NewPojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.NewToStringGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -362,7 +362,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   protected void printGetters(Writer writer, JavaPojo pojo, PojoSettings settings) {
     final Generator<JavaPojoMember, PojoSettings> generator =
         Generator.<JavaPojoMember, PojoSettings>emptyGen()
-            .append(GetterGenerator.generator(), 1)
+            .append(GetterGeneratorFactory.create(), 1)
             .prependNewLine();
     pojo.getMembersOrEmpty()
         .map(member -> applyGen(generator, member, settings))

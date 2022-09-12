@@ -28,6 +28,9 @@ dependencies {
 
     implementation "io.github.muehmar:code-generator:0.3.0"
 
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.8.0'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.8.0'
+
     def junitVersion = "5.8.2"
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junitVersion
     testRuntimeOnly files(createClasspathManifest)
