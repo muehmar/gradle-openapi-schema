@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi;
+package com.github.muehmar.gradle.openapi.v1;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;

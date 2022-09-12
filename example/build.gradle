@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.16.0"
+    id "com.github.muehmar.openapischema" version "0.17.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -29,20 +29,17 @@ openApiGenerator {
 
     formatTypeMapping {
         formatType = "username"
-        classType = "UserName"
-        imports = "com.package.UserName"
+        classType = "com.package.UserName"
     }
 
     formatTypeMapping {
         formatType = "password"
-        classType = "Password"
-        imports = "com.package.Password"
+        classType = "com.package.Password"
     }
 
     classMapping {
         fromClass = "List"
-        toClass = "ArrayList"
-        imports = "java.util.ArrayList"
+        toClass = "java.util.ArrayList"
     }
 
     rawGetter {
@@ -58,6 +55,7 @@ openApiGenerator {
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
+            builderMethodPrefix = "set"
 
             enumDescriptionExtraction {
                 enabled = true
@@ -67,20 +65,17 @@ openApiGenerator {
 
             formatTypeMapping {
                 formatType = "username"
-                classType = "UserName"
-                imports = "com.package.UserName"
+                classType = "com.package.UserName"
             }
 
             formatTypeMapping {
                 formatType = "password"
-                classType = "Password"
-                imports = "com.package.Password"
+                classType = "com.package.Password"
             }
 
             classMapping {
                 fromClass = "List"
-                toClass = "ArrayList"
-                imports = "java.util.ArrayList"
+                toClass = "java.util.ArrayList"
             }
         }
         apiV2 {
@@ -104,6 +99,7 @@ openApiGenerator {
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
+            builderMethodPrefix = "set"
         }
         nullability {
             sourceSet = 'main'
@@ -113,6 +109,7 @@ openApiGenerator {
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
+            builderMethodPrefix = "set"
         }
         arrayProperty {
             sourceSet = 'main'
@@ -122,6 +119,7 @@ openApiGenerator {
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
+            builderMethodPrefix = "set"
         }
     }
 }
