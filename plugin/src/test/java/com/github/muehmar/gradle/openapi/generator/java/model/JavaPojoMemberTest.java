@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class JavaPojoMemberTest {
@@ -26,6 +27,12 @@ class JavaPojoMemberTest {
   void getGetterName_when_called_then_correctGetter() {
     final JavaPojoMember javaPojoMember = JavaPojoMembers.requiredString();
     assertEquals("getStringVal", javaPojoMember.getGetterName().asString());
+  }
+
+  @Test
+  void getWitherName_when_called_then_correctGetter() {
+    final JavaPojoMember javaPojoMember = JavaPojoMembers.requiredString();
+    assertEquals("withStringVal", javaPojoMember.getWitherName().asString());
   }
 
   @ParameterizedTest
@@ -48,5 +55,12 @@ class JavaPojoMemberTest {
         Arguments.of(Necessity.REQUIRED, Nullability.NULLABLE, "getStringValNullable"),
         Arguments.of(Necessity.OPTIONAL, Nullability.NOT_NULLABLE, "getStringValOptional"),
         Arguments.of(Necessity.OPTIONAL, Nullability.NULLABLE, "getStringValTristate"));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"is, isStringVal", "get, getStringVal", "set, setStringVal", "'', stringVal"})
+  void test(String prefix, String expectedMethodName) {
+    final JavaPojoMember member = JavaPojoMembers.requiredString();
+    assertEquals(expectedMethodName, member.prefixedMethodName(prefix).asString());
   }
 }

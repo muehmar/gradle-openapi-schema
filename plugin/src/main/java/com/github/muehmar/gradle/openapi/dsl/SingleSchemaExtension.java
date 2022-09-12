@@ -35,6 +35,7 @@ public class SingleSchemaExtension implements Serializable {
   private String packageName;
   private String jsonSupport;
   private Boolean enableSafeBuilder;
+  private String builderMethodPrefix;
   private Boolean enableValidation;
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
@@ -146,6 +147,14 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(enableValidation).orElse(false);
   }
 
+  public String getBuilderMethodPrefix() {
+    return Optional.ofNullable(builderMethodPrefix).orElse("");
+  }
+
+  public void setBuilderMethodPrefix(String builderMethodPrefix) {
+    this.builderMethodPrefix = builderMethodPrefix;
+  }
+
   public void setEnableValidation(Boolean enableValidation) {
     this.enableValidation = enableValidation;
   }
@@ -231,6 +240,7 @@ public class SingleSchemaExtension implements Serializable {
         .packageName(getPackageName(project))
         .suffix(getSuffix())
         .enableSafeBuilder(getEnableSafeBuilder())
+        .builderMethodPrefix(getBuilderMethodPrefix())
         .enableConstraints(getEnableValidation())
         .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(
