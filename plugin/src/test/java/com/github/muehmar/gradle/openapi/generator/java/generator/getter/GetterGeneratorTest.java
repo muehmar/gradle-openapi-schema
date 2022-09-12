@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.getter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
@@ -10,129 +12,100 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class GetterGeneratorTest {
 
+  @Mock private GetterGenerator.RequiredNullableGetterGen requiredNullableGetterGen;
+  @Mock private GetterGenerator.RequiredNotNullableGetterGen requiredNotNullableGetterGen;
+  @Mock private GetterGenerator.OptionalNullableGetterGen optionalNullableGetterGen;
+  @Mock private GetterGenerator.OptionalNotNullableGetterGen optionalNotNullableGetterGen;
+
+  @BeforeEach
+  void setupMocks() {
+    when(requiredNullableGetterGen.generate(any(), any(), any()))
+        .thenReturn(Writer.createDefault().println("requiredNullable"));
+    when(requiredNotNullableGetterGen.generate(any(), any(), any()))
+        .thenReturn(Writer.createDefault().println("requiredNotNullable"));
+    when(optionalNullableGetterGen.generate(any(), any(), any()))
+        .thenReturn(Writer.createDefault().println("optionalNullable"));
+    when(optionalNotNullableGetterGen.generate(any(), any(), any()))
+        .thenReturn(Writer.createDefault().println("optionalNotNullable"));
+  }
+
   @Test
-  void generator_when_requiredAndNotNullableField_then_correctOutput() {
-    final Generator<JavaPojoMember, PojoSettings> generator = GetterGenerator.generator();
+  void generator_when_requiredAndNotNullableField_then_requiredNotNullableGetterGenCalled() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        GetterGenerator.generator(
+            requiredNullableGetterGen,
+            requiredNotNullableGetterGen,
+            optionalNullableGetterGen,
+            optionalNotNullableGetterGen);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@NotNull\n"
-            + "public LocalDate getBirthdate() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+    assertEquals("requiredNotNullable", writer.asString());
   }
 
   @Test
-  void generator_when_requiredAndNullableField_then_correctOutput() {
-    final Generator<JavaPojoMember, PojoSettings> generator = GetterGenerator.generator();
+  void generator_when_requiredAndNullableField_then_requiredNullableGetterGenCalled() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        GetterGenerator.generator(
+            requiredNullableGetterGen,
+            requiredNotNullableGetterGen,
+            optionalNullableGetterGen,
+            optionalNotNullableGetterGen);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@AssertTrue(message = \"birthdate is required but it is not present\")\n"
-            + "private boolean isBirthdatePresent() {\n"
-            + "  return isBirthdatePresent;\n"
-            + "}",
-        writer.asString());
+    assertEquals("requiredNullable", writer.asString());
   }
 
   @Test
-  void generator_when_optionalAndNotNullableField_then_correctOutput() {
-    final Generator<JavaPojoMember, PojoSettings> generator = GetterGenerator.generator();
+  void generator_when_optionalAndNotNullableField_then_optionalNotNullableGetterGenCalled() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        GetterGenerator.generator(
+            requiredNullableGetterGen,
+            requiredNotNullableGetterGen,
+            optionalNullableGetterGen,
+            optionalNotNullableGetterGen);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NOT_NULLABLE);
 
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+    assertEquals("optionalNotNullable", writer.asString());
   }
 
   @Test
-  void generator_when_optionalAndNullableField_then_correctOutputAnd() {
-    final Generator<JavaPojoMember, PojoSettings> generator = GetterGenerator.generator();
+  void generator_when_optionalAndNullableField_then_optionalNullableGetterGenCalled() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        GetterGenerator.generator(
+            requiredNullableGetterGen,
+            requiredNotNullableGetterGen,
+            optionalNullableGetterGen,
+            optionalNotNullableGetterGen);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NULLABLE);
 
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Tristate<LocalDate> getBirthdate() {\n"
-            + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private Object getBirthdateJackson() {\n"
-            + "  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+    assertEquals("optionalNullable", writer.asString());
   }
 }

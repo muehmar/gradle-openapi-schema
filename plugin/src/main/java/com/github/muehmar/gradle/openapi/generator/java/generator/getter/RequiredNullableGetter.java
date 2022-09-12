@@ -13,6 +13,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.jackson
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.NewRefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.getter.GetterGenerator.RequiredNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -22,16 +23,18 @@ import java.util.function.BiPredicate;
 public class RequiredNullableGetter {
   private RequiredNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> getter() {
+  public static RequiredNullableGetterGen getter() {
     final BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation =
         Filters.<JavaPojoMember>isJacksonJson().or(Filters.isValidationEnabled());
 
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(standardGetter())
-        .append(alternateGetter())
-        .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))
-        .append(requiredValidationMethodWithAnnotation())
-        .append(NewRefsGenerator.fieldRefs());
+    final Generator<JavaPojoMember, PojoSettings> gen =
+        Generator.<JavaPojoMember, PojoSettings>emptyGen()
+            .append(standardGetter())
+            .append(alternateGetter())
+            .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))
+            .append(requiredValidationMethodWithAnnotation())
+            .append(NewRefsGenerator.fieldRefs());
+    return RequiredNullableGetterGen.wrap(gen);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> standardGetter() {
