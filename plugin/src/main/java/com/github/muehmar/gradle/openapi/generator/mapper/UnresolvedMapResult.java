@@ -1,10 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -14,14 +14,14 @@ import lombok.ToString;
 public class UnresolvedMapResult {
 
   private final PList<Pojo> pojos;
-  private final PList<ComposedPojo> composedPojos;
+  private final PList<UnresolvedComposedPojo> composedPojos;
   private final PList<PojoMemberReference> pojoMemberReferences;
   private final PList<Parameter> parameters;
   private final PList<OpenApiSpec> usedSpecs;
 
   private UnresolvedMapResult(
       PList<Pojo> pojos,
-      PList<ComposedPojo> composedPojos,
+      PList<UnresolvedComposedPojo> composedPojos,
       PList<PojoMemberReference> pojoMemberReferences,
       PList<Parameter> parameters,
       PList<OpenApiSpec> usedSpecs) {
@@ -42,7 +42,7 @@ public class UnresolvedMapResult {
         PList.single(pojo), PList.empty(), PList.empty(), PList.empty(), PList.empty());
   }
 
-  public static UnresolvedMapResult ofComposedPojo(ComposedPojo composedPojo) {
+  public static UnresolvedMapResult ofComposedPojo(UnresolvedComposedPojo composedPojo) {
     return new UnresolvedMapResult(
         PList.empty(), PList.single(composedPojo), PList.empty(), PList.empty(), PList.empty());
   }
@@ -79,7 +79,7 @@ public class UnresolvedMapResult {
     return pojos;
   }
 
-  public PList<ComposedPojo> getComposedPojos() {
+  public PList<UnresolvedComposedPojo> getComposedPojos() {
     return composedPojos;
   }
 

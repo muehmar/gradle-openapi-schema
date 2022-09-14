@@ -43,6 +43,10 @@ public class UnmappedItems {
     return new UnmappedItems(PList.empty(), PList.single(pojoSchema), PList.empty());
   }
 
+  public static UnmappedItems ofPojoSchemas(PList<PojoSchema> pojoSchemas) {
+    return new UnmappedItems(PList.empty(), pojoSchemas, PList.empty());
+  }
+
   public static UnmappedItems ofParameterSchema(ParameterSchema parameterSchema) {
     return new UnmappedItems(PList.empty(), PList.empty(), PList.single(parameterSchema));
   }

@@ -18,7 +18,10 @@ public interface JavaPojo {
     return pojo.fold(
         objectPojo -> JavaObjectPojo.wrap(objectPojo, typeMappings),
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
-        JavaEnumPojo::wrap);
+        JavaEnumPojo::wrap,
+        composedPojo -> {
+          throw new IllegalArgumentException("Not implemented");
+        });
   }
 
   PojoName getName();

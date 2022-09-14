@@ -4,16 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class ComposedOpenApiProcessorTest extends ResourceSchemaOpenApiTest {
   @Test
-  void fromSchema_when_allof_then_allPojosCorrectMapped() {
+  void fromSchema_when_allOf_then_allPojosCorrectMapped() {
     final PList<Pojo> pojos = processSchema("/schemas/compositions", "allof.yml");
 
     assertEquals(3, pojos.size());
@@ -50,5 +55,127 @@ class ComposedOpenApiProcessorTest extends ResourceSchemaOpenApiTest {
     assertEquals(
         PList.of("colorKey", "colorName", "description", "transparency"),
         extendedColorDtoMembers.map(PojoMember::getName).map(Name::asString));
+  }
+
+  @Test
+  void fromSchema_when_oneOf_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos = processSchema("/schemas/compositions", "oneof.yml");
+
+    assertEquals(3, pojos.size());
+    assertEquals(
+        PList.of("AdminDto", "PersonDto", "UserDto"),
+        pojos.map(Pojo::getName).map(PojoName::asString));
+
+    // AdminDto
+    assertTrue(pojos.apply(0) instanceof ObjectPojo);
+    final ObjectPojo adminDto = ((ObjectPojo) pojos.apply(0));
+
+    // UserDto
+    assertTrue(pojos.apply(2) instanceof ObjectPojo);
+    final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
+
+    // PersonDto
+    assertTrue(pojos.apply(1) instanceof ComposedPojo);
+    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+
+    final PList<Pojo> personPojos = personDto.getPojos();
+    assertEquals(2, personPojos.size());
+    assertEquals(PList.of(adminDto, userDto), personPojos);
+    assertEquals(ComposedPojo.CompositionType.ONE_OF, personDto.getCompositionType());
+    assertEquals(Optional.empty(), personDto.getDiscriminator());
+  }
+
+  @Test
+  void fromSchema_when_oneOfWithDiscriminator_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos = processSchema("/schemas/compositions", "oneof_discriminator.yml");
+
+    assertEquals(3, pojos.size());
+    assertEquals(
+        PList.of("AdminDto", "PersonDto", "UserDto"),
+        pojos.map(Pojo::getName).map(PojoName::asString));
+
+    // AdminDto
+    assertTrue(pojos.apply(0) instanceof ObjectPojo);
+    final ObjectPojo adminDto = ((ObjectPojo) pojos.apply(0));
+
+    // UserDto
+    assertTrue(pojos.apply(2) instanceof ObjectPojo);
+    final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
+
+    // PersonDto
+    assertTrue(pojos.apply(1) instanceof ComposedPojo);
+    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+
+    final PList<Pojo> personPojos = personDto.getPojos();
+    assertEquals(2, personPojos.size());
+    assertEquals(ComposedPojo.CompositionType.ONE_OF, personDto.getCompositionType());
+    assertEquals(PList.of(adminDto, userDto), personPojos);
+
+    final Discriminator expectedDiscriminator =
+        Discriminator.fromPropertyName(Name.ofString("personType"));
+    assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
+  }
+
+  @Test
+  void fromSchema_when_oneOfWithDiscriminatorAndMapping_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos =
+        processSchema("/schemas/compositions", "oneof_discriminatorWithMapping.yml");
+
+    assertEquals(3, pojos.size());
+    assertEquals(
+        PList.of("AdminDto", "PersonDto", "UserDto"),
+        pojos.map(Pojo::getName).map(PojoName::asString));
+
+    // AdminDto
+    assertTrue(pojos.apply(0) instanceof ObjectPojo);
+    final ObjectPojo adminDto = ((ObjectPojo) pojos.apply(0));
+
+    // UserDto
+    assertTrue(pojos.apply(2) instanceof ObjectPojo);
+    final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
+
+    // PersonDto
+    assertTrue(pojos.apply(1) instanceof ComposedPojo);
+    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+
+    final PList<Pojo> personPojos = personDto.getPojos();
+    assertEquals(2, personPojos.size());
+    assertEquals(ComposedPojo.CompositionType.ONE_OF, personDto.getCompositionType());
+    assertEquals(PList.of(adminDto, userDto), personPojos);
+
+    final Map<String, PojoName> mapping = new HashMap<>();
+    mapping.put("usr", PojoName.ofNameAndSuffix("User", "Dto"));
+    mapping.put("adm", PojoName.ofNameAndSuffix("Admin", "Dto"));
+    final Discriminator expectedDiscriminator =
+        Discriminator.fromPropertyNameAndMapping(Name.ofString("personType"), mapping);
+    assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
+  }
+
+  @Test
+  void fromSchema_when_anyOf_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos = processSchema("/schemas", "compositions/anyof.yml");
+
+    assertEquals(3, pojos.size());
+    assertEquals(
+        PList.of("AdminDto", "PersonDto", "UserDto"),
+        pojos.map(Pojo::getName).map(PojoName::asString));
+
+    // AdminDto
+    assertTrue(pojos.apply(0) instanceof ObjectPojo);
+    final ObjectPojo adminDto = ((ObjectPojo) pojos.apply(0));
+
+    // UserDto
+    assertTrue(pojos.apply(2) instanceof ObjectPojo);
+    final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
+
+    // PersonDto
+    assertTrue(pojos.apply(1) instanceof ComposedPojo);
+    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+
+    final PList<Pojo> personPojos = personDto.getPojos();
+    assertEquals(2, personPojos.size());
+    assertEquals(PList.of(adminDto, userDto), personPojos);
+    assertEquals(ComposedPojo.CompositionType.ANY_OF, personDto.getCompositionType());
+    assertEquals(Optional.empty(), personDto.getDiscriminator());
   }
 }

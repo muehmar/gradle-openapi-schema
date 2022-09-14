@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
+package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
@@ -6,16 +6,17 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.mapper.resolver.ComposedPojoResolver;
-import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import java.util.Comparator;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class ComposedPojoResolverTest {
@@ -58,16 +59,20 @@ class ComposedPojoResolverTest {
                     OPTIONAL,
                     NOT_NULLABLE)));
 
-    final ComposedPojo composedPojo =
-        new ComposedPojo(
-            PojoName.ofNameAndSuffix(Name.ofString("Composed"), "Dto"),
-            "Description",
-            ComposedPojo.CompositionType.ALL_OF,
-            PList.of(colorName, tiresName));
+    final UnresolvedComposedPojo unresolvedComposedPojo =
+        UnresolvedComposedPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix(Name.ofString("Composed"), "Dto"))
+            .description("Description")
+            .type(UnresolvedComposedPojo.CompositionType.ALL_OF)
+            .pojoNames(PList.of(colorName, tiresName))
+            .andAllOptionals()
+            .discriminator(Optional.empty())
+            .build();
 
     // method call
     final PList<Pojo> resultingPojos =
-        ComposedPojoResolver.resolve(PList.single(composedPojo), PList.of(colorPojo, tiresPojo))
+        UnresolvedComposedPojoResolver.resolve(
+                PList.single(unresolvedComposedPojo), PList.of(colorPojo, tiresPojo))
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(3, resultingPojos.size());
@@ -77,8 +82,8 @@ class ComposedPojoResolverTest {
 
     assertEquals(
         ObjectPojo.of(
-            composedPojo.getName(),
-            composedPojo.getDescription(),
+            unresolvedComposedPojo.getName(),
+            unresolvedComposedPojo.getDescription(),
             colorPojo.getMembers().concat(tiresPojo.getMembers())),
         resultingPojos.apply(1));
   }
