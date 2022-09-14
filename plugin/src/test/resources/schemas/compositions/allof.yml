@@ -1,0 +1,28 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Color:
+      required:
+        - colorKey
+        - colorName
+      properties:
+        colorKey:
+          type: integer
+        colorName:
+          type: string
+
+    ExtendedColor:
+      allOf:
+        - $ref: '#/components/schemas/Color'
+        - type: object
+          required:
+            - description
+          properties:
+            description:
+              type: string
+            transparency:
+              type: integer
