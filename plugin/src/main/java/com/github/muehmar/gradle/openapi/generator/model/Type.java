@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;

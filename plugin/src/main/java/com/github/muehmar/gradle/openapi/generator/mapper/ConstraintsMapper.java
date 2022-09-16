@@ -1,12 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
-import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
-import com.github.muehmar.gradle.openapi.generator.constraints.Max;
-import com.github.muehmar.gradle.openapi.generator.constraints.Min;
-import com.github.muehmar.gradle.openapi.generator.constraints.Pattern;
-import com.github.muehmar.gradle.openapi.generator.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.util.Booleans;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.swagger.v3.oas.models.media.Schema;

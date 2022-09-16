@@ -2,12 +2,12 @@ package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMax;
-import com.github.muehmar.gradle.openapi.generator.constraints.DecimalMin;
-import com.github.muehmar.gradle.openapi.generator.constraints.Max;
-import com.github.muehmar.gradle.openapi.generator.constraints.Min;
-import com.github.muehmar.gradle.openapi.generator.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import io.swagger.v3.oas.models.media.Schema;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
