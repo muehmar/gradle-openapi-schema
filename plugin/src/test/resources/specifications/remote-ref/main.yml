@@ -1,0 +1,13 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      properties:
+        name:
+          type: string
+        city:
+          $ref: 'sub.yml#/components/schemas/City'

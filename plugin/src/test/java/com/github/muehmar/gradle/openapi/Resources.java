@@ -12,6 +12,9 @@ public class Resources {
 
   public static String readString(String resource) {
     final InputStream stream = Resources.class.getResourceAsStream(resource);
+    if (stream == null) {
+      throw new IllegalArgumentException("Resource not found '" + resource + "'");
+    }
     return new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))
         .lines()
         .collect(Collectors.joining("\n"));

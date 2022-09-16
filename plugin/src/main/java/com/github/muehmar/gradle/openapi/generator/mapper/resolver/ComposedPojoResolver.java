@@ -1,8 +1,9 @@
-package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
+package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
 import static com.github.muehmar.gradle.openapi.generator.model.ComposedPojo.CompositionType.ALL_OF;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.PojoSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;

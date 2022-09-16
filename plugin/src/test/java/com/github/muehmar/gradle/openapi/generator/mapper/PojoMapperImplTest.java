@@ -11,6 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.Resources;
+import com.github.muehmar.gradle.openapi.generator.mapper.reader.ResourceSpecificationReader;
+import com.github.muehmar.gradle.openapi.generator.mapper.reader.SwaggerSpecificationParser;
+import com.github.muehmar.gradle.openapi.generator.mapper.resolver.PojoSchemaMapResultResolverImpl;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -24,6 +27,8 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
+import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
@@ -56,14 +61,18 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_arraySchema_then_returnArrayPojo() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
     final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
     schema.setMaxItems(50);
 
     // method call
     final PojoSchema pojoSchema =
         new PojoSchema(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"), schema);
-    final PList<Pojo> pojos = pojoMapper.fromSchemas(pojoSchema);
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
+    final PList<Pojo> pojos =
+        pojoMapper.fromSpecification(
+            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -78,16 +87,20 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_classMappedType_then_correctMappedTypePojo() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("name", new StringSchema());
     final Schema<?> schema = new ObjectSchema().properties(properties);
 
     // method call
+    final PojoSchema pojoSchema =
+        new PojoSchema(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"), schema);
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
     final PList<Pojo> pojos =
-        pojoMapper.fromSchemas(
-            new PojoSchema(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"), schema));
+        pojoMapper.fromSpecification(
+            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -106,17 +119,35 @@ class PojoMapperImplTest {
   }
 
   @Test
-  void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
+  void fromSchema_when_realSpecWithRemoteReference_then_allPojosCorrectMapped() {
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(),
+            new SwaggerSpecificationParser(new ResourceSpecificationReader(), "Dto"));
 
     final PList<Pojo> pojos =
-        parseOpenApiResourceEntries("/integration/completespec/openapi.yml")
-            .flatMap(
-                entry ->
-                    // method call
-                    pojoMapper.fromSchemas(
-                        new PojoSchema(
-                            PojoName.ofNameAndSuffix(entry.getKey(), "Dto"), entry.getValue())))
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString("/specifications/remote-ref"),
+                OpenApiSpec.fromString("main.yml"))
+            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+
+    assertEquals(2, pojos.size());
+    assertEquals(PList.of("CityDto", "UserDto"), pojos.map(Pojo::getName).map(PojoName::asString));
+  }
+
+  @Test
+  void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(),
+            new SwaggerSpecificationParser(new ResourceSpecificationReader(), "Dto"));
+
+    final PList<Pojo> pojos =
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString("/integration/completespec"),
+                OpenApiSpec.fromString("openapi.yml"))
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(6, pojos.size());
@@ -297,8 +328,6 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_singleInlineDefinition_then_composedPojoAndInlineDefinitionPojoCreated() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> objectSchema =
         new ObjectSchema()
             .addProperties("user", new StringSchema())
@@ -308,12 +337,16 @@ class PojoMapperImplTest {
     composedSchema.addAllOfItem(objectSchema);
 
     // method call
+    final PojoSchema pojoSchema =
+        new PojoSchema(
+            PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto"), composedSchema);
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
     final PList<Pojo> pojos =
         pojoMapper
-            .fromSchemas(
-                new PojoSchema(
-                    PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto"),
-                    composedSchema))
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
@@ -351,8 +384,6 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchema_when_twoInlineDefinitionAndReference_then_allPojosCreated() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> objectSchema1 =
         new ObjectSchema()
             .addProperties("user", new StringSchema())
@@ -375,14 +406,18 @@ class PojoMapperImplTest {
         .addAllOfItem(new Schema<>().$ref("#/components/schemas/ReferenceSchema"));
 
     // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"), composedSchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"), referenceSchema));
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper
-            .fromSchemas(
-                PList.of(
-                    new PojoSchema(
-                        PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"), composedSchema),
-                    new PojoSchema(
-                        PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"), referenceSchema)))
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(4, pojos.size());
@@ -470,19 +505,22 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootUuidSchemaUsedAsReference_then_inlinedInPojo() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("key", new Schema<>().$ref("#/components/schemas/UserKey"));
     final Schema<?> keySchema = new UUIDSchema().description("User key");
 
     // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("UserKey", "Dto"), keySchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSchemas(
-            PList.of(
-                new PojoSchema(PojoName.ofNameAndSuffix("UserKey", "Dto"), keySchema),
-                new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
+        pojoMapper.fromSpecification(
+            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -497,19 +535,23 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootIntegerSchemaUsedAsReference_then_inlinedInPojo() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("age", new Schema<>().$ref("#/components/schemas/UserAge"));
     final Schema<?> ageSchema = new IntegerSchema().description("User age");
 
     // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("UserAge", "Dto"), ageSchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSchemas(
-            PList.of(
-                new PojoSchema(PojoName.ofNameAndSuffix("UserAge", "Dto"), ageSchema),
-                new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
+        pojoMapper.fromSpecification(
+            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -528,19 +570,23 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootNumberSchemaUsedAsReference_then_inlinedInPojo() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("height", new Schema<>().$ref("#/components/schemas/UserHeight"));
     final Schema<?> heightSchema = new NumberSchema().description("User height");
 
     // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("UserHeight", "Dto"), heightSchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSchemas(
-            PList.of(
-                new PojoSchema(PojoName.ofNameAndSuffix("UserHeight", "Dto"), heightSchema),
-                new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
+        pojoMapper.fromSpecification(
+            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -559,19 +605,23 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootBooleanSchemaUsedAsReference_then_inlinedInPojo() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("admin", new Schema<>().$ref("#/components/schemas/UserAdmin"));
     final Schema<?> adminSchema = new BooleanSchema().description("User is admin");
 
     // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("UserAdmin", "Dto"), adminSchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSchemas(
-            PList.of(
-                new PojoSchema(PojoName.ofNameAndSuffix("UserAdmin", "Dto"), adminSchema),
-                new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
+        pojoMapper.fromSpecification(
+            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -590,8 +640,6 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_rootEnumSchemaUsedAsReference_then_discreteEnumPojoCreated() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("gender", new Schema<>().$ref("#/components/schemas/Gender"));
@@ -600,11 +648,19 @@ class PojoMapperImplTest {
     genderSchema.description("Gender of a user");
 
     // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("Gender", "Dto"), genderSchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSchemas(
-            PList.of(
-                new PojoSchema(PojoName.ofNameAndSuffix("Gender", "Dto"), genderSchema),
-                new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema)));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
     assertEquals(
@@ -629,8 +685,6 @@ class PojoMapperImplTest {
 
   @Test
   void fromSchemas_when_lowercaseNamesAndReferences_then_allNamesStartUppercase() {
-    final PojoMapper pojoMapper = PojoMapperImpl.create();
-
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("gender", new Schema<>().$ref("#/components/schemas/gender"));
@@ -639,11 +693,19 @@ class PojoMapperImplTest {
     genderSchema.description("Gender of a user");
 
     // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("gender", "Dto"), genderSchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("user", "Dto"), userSchema));
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(
+            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSchemas(
-            PList.of(
-                new PojoSchema(PojoName.ofNameAndSuffix("gender", "Dto"), genderSchema),
-                new PojoSchema(PojoName.ofNameAndSuffix("user", "Dto"), userSchema)));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
     assertEquals(PojoName.ofNameAndSuffix("Gender", "Dto"), pojos.apply(0).getName());

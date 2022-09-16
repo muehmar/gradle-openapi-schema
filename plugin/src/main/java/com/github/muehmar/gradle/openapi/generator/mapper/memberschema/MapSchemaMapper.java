@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -27,10 +28,13 @@ public class MapSchemaMapper extends BaseMemberSchemaMapper<MapSchema> {
       final String $ref = additionalPropertiesSchema.get$ref();
 
       if ($ref != null) {
-        final PojoName mapValuePojoName = ReferenceMapper.getPojoName($ref, pojoName.getSuffix());
+        final SchemaReference schemaReference = SchemaReference.fromRefString($ref);
+        final PojoName mapValuePojoName =
+            PojoName.ofNameAndSuffix(schemaReference.getSchemaName(), pojoName.getSuffix());
         final ObjectType mapValueType = ObjectType.ofName(mapValuePojoName);
         final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), mapValueType);
-        return MemberSchemaMapResult.ofType(mapType);
+        return MemberSchemaMapResult.ofType(mapType)
+            .addOpenApiSpec(schemaReference.getRemoteSpec());
       } else if (additionalPropertiesSchema instanceof ObjectSchema) {
         final PojoName openApiPojoName = PojoName.deriveOpenApiPojoName(pojoName, pojoMemberName);
         final ObjectType objectType = ObjectType.ofName(openApiPojoName);

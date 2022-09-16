@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Map;
 import java.util.Optional;
@@ -53,9 +54,19 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
             pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember));
 
     final PList<PojoSchema> openApiPojos =
-        pojoMemberAndOpenApiPojos.flatMap(PojoMemberProcessResult::getOpenApiPojos);
+        pojoMemberAndOpenApiPojos
+            .map(PojoMemberProcessResult::getMemberSchemaMapResult)
+            .flatMap(MemberSchemaMapResult::getPojoSchemas);
 
-    return completePojoSchemaMapper.process(openApiPojos).addPojo(objectPojo);
+    final PList<OpenApiSpec> remoteSpecs =
+        pojoMemberAndOpenApiPojos
+            .map(PojoMemberProcessResult::getMemberSchemaMapResult)
+            .flatMap(MemberSchemaMapResult::getRemoteSpecs);
+
+    return completePojoSchemaMapper
+        .process(openApiPojos)
+        .addPojo(objectPojo)
+        .addSpecifications(remoteSpecs);
   }
 
   private PojoMemberProcessResult processObjectSchemaEntry(
@@ -87,26 +98,27 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
 
     final PojoMember pojoMember =
         new PojoMember(pojoMemberName, schema.getDescription(), type, necessity, nullability);
-    return new PojoMemberProcessResult(pojoMember, result.getPojoSchemas());
+    return new PojoMemberProcessResult(pojoMember, result);
   }
 
   @EqualsAndHashCode
   @ToString
   private static class PojoMemberProcessResult {
     private final PojoMember pojoMember;
-    private final PList<PojoSchema> openApiPojos;
+    private final MemberSchemaMapResult memberSchemaMapResult;
 
-    public PojoMemberProcessResult(PojoMember pojoMember, PList<PojoSchema> openApiPojos) {
+    public PojoMemberProcessResult(
+        PojoMember pojoMember, MemberSchemaMapResult memberSchemaMapResult) {
       this.pojoMember = pojoMember;
-      this.openApiPojos = openApiPojos;
+      this.memberSchemaMapResult = memberSchemaMapResult;
     }
 
     public PojoMember getPojoMember() {
       return pojoMember;
     }
 
-    public PList<PojoSchema> getOpenApiPojos() {
-      return openApiPojos;
+    public MemberSchemaMapResult getMemberSchemaMapResult() {
+      return memberSchemaMapResult;
     }
   }
 }

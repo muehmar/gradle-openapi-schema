@@ -42,6 +42,9 @@ public class ArrayPojoSchemaMapper implements SinglePojoSchemaMapper {
         ArrayPojo.of(
             pojoName, schema.getDescription(), memberSchemaMapResult.getType(), constraints);
 
-    return completePojoSchemaMapper.process(memberSchemaMapResult.getPojoSchemas()).addPojo(pojo);
+    return completePojoSchemaMapper
+        .process(memberSchemaMapResult.getPojoSchemas())
+        .addPojo(pojo)
+        .addSpecifications(memberSchemaMapResult.getRemoteSpecs());
   }
 }

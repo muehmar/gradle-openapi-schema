@@ -23,10 +23,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-    implementation "io.github.muehmar:pojo-extension-annotations:0.12.0"
-    annotationProcessor "io.github.muehmar:pojo-extension:0.12.0"
+    implementation "io.github.muehmar:pojo-extension-annotations:0.14.0"
+    annotationProcessor "io.github.muehmar:pojo-extension:0.14.0"
 
-    implementation "io.github.muehmar:code-generator:0.3.0"
+    implementation "io.github.muehmar:code-generator:0.4.0"
 
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.8.0'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.8.0'
