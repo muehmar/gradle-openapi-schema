@@ -8,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 
 public class ComposedPojoResolver {
@@ -40,16 +39,12 @@ public class ComposedPojoResolver {
 
   private static PojoSchemaMapResult resolveAllOf(ComposedPojo composedPojo, PList<Pojo> pojos) {
     final PList<PojoName> pojoNames = composedPojo.getPojoNames();
-    final PList<PojoName> openApiPojoNames =
-        composedPojo.getPojoSchemas().map(PojoSchema::getPojoName);
-
-    final PList<PojoName> allOfPojoNames = pojoNames.concat(openApiPojoNames);
 
     final PList<Pojo> allOfPojos =
-        allOfPojoNames.flatMapOptional(
+        pojoNames.flatMapOptional(
             allOfPojoName -> pojos.find(pojo -> pojo.getName().equalsIgnoreCase(allOfPojoName)));
 
-    if (allOfPojos.size() != allOfPojoNames.size()) {
+    if (allOfPojos.size() != pojoNames.size()) {
       return PojoSchemaMapResult.ofComposedPojo(composedPojo);
     }
 

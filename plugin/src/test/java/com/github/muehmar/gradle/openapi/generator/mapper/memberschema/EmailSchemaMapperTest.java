@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
@@ -19,7 +19,7 @@ class EmailSchemaMapperTest extends BaseTypeMapperTest {
     final StringType expectedType =
         StringType.ofFormat(StringType.Format.EMAIL).withConstraints(Constraints.ofEmail());
     assertEquals(expectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -35,6 +35,6 @@ class EmailSchemaMapperTest extends BaseTypeMapperTest {
                     .and(Constraints.ofSize(Size.of(5, 50)))
                     .and(Constraints.ofPattern(Pattern.ofUnescapedString("pattern"))));
     assertEquals(expectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 }

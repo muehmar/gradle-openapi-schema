@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
@@ -25,6 +25,6 @@ class PasswordSchemaMapperTest extends BaseTypeMapperTest {
                 Constraints.ofSize(Size.of(5, 50))
                     .and(Constraints.ofPattern(Pattern.ofUnescapedString("pattern"))));
     assertEquals(exptectedType, result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 }

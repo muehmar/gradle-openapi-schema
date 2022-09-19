@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import io.swagger.v3.oas.models.media.BooleanSchema;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,6 @@ class BooleanSchemaMapperTest extends BaseTypeMapperTest {
     final MemberSchemaMapResult result = run(schema);
 
     assertEquals(BooleanType.create(), result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 }

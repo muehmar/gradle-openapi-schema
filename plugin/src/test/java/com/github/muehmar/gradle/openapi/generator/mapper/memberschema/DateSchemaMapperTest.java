@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.DateSchema;
 import org.junit.jupiter.api.Test;
@@ -17,6 +17,6 @@ class DateSchemaMapperTest extends BaseTypeMapperTest {
     final MemberSchemaMapResult result = run(schema);
 
     assertEquals(StringType.ofFormat(DATE), result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 }

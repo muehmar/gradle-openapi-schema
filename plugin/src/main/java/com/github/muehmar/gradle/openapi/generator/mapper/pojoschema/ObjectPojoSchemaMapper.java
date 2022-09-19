@@ -1,6 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.MemberSchemaMapResult;
@@ -13,7 +16,6 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Map;
 import java.util.Optional;
@@ -25,20 +27,17 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
       CompleteMemberSchemaMapperFactory.create();
 
   @Override
-  public Optional<PojoSchemaMapResult> map(
-      PojoSchema pojoSchema, CompletePojoSchemaMapper completePojoSchemaMapper) {
+  public Optional<MapContext> map(PojoSchema pojoSchema) {
     if (pojoSchema.getSchema().getProperties() != null) {
-      final PojoSchemaMapResult pojoSchemaMapResult =
-          processObjectSchema(
-              pojoSchema.getPojoName(), pojoSchema.getSchema(), completePojoSchemaMapper);
-      return Optional.of(pojoSchemaMapResult);
+      final MapContext mapContext =
+          processObjectSchema(pojoSchema.getPojoName(), pojoSchema.getSchema());
+      return Optional.of(mapContext);
     } else {
       return Optional.empty();
     }
   }
 
-  private PojoSchemaMapResult processObjectSchema(
-      PojoName pojoName, Schema<?> schema, CompletePojoSchemaMapper completePojoSchemaMapper) {
+  private MapContext processObjectSchema(PojoName pojoName, Schema<?> schema) {
 
     final PList<PojoMemberProcessResult> pojoMemberAndOpenApiPojos =
         Optional.ofNullable(schema.getProperties())
@@ -53,20 +52,13 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
             schema.getDescription(),
             pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember));
 
-    final PList<PojoSchema> openApiPojos =
+    final UnmappedItems unmappedItems =
         pojoMemberAndOpenApiPojos
-            .map(PojoMemberProcessResult::getMemberSchemaMapResult)
-            .flatMap(MemberSchemaMapResult::getPojoSchemas);
+            .map(PojoMemberProcessResult::getUnmappedItems)
+            .reduce(UnmappedItems::merge)
+            .orElse(UnmappedItems.empty());
 
-    final PList<OpenApiSpec> remoteSpecs =
-        pojoMemberAndOpenApiPojos
-            .map(PojoMemberProcessResult::getMemberSchemaMapResult)
-            .flatMap(MemberSchemaMapResult::getRemoteSpecs);
-
-    return completePojoSchemaMapper
-        .process(openApiPojos)
-        .addPojo(objectPojo)
-        .addSpecifications(remoteSpecs);
+    return MapContext.fromUnmappedItemsAndResult(unmappedItems, MapResult.ofPojo(objectPojo));
   }
 
   private PojoMemberProcessResult processObjectSchemaEntry(
@@ -98,27 +90,26 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
 
     final PojoMember pojoMember =
         new PojoMember(pojoMemberName, schema.getDescription(), type, necessity, nullability);
-    return new PojoMemberProcessResult(pojoMember, result);
+    return new PojoMemberProcessResult(pojoMember, result.getUnmappedItems());
   }
 
   @EqualsAndHashCode
   @ToString
   private static class PojoMemberProcessResult {
     private final PojoMember pojoMember;
-    private final MemberSchemaMapResult memberSchemaMapResult;
+    private final UnmappedItems unmappedItems;
 
-    public PojoMemberProcessResult(
-        PojoMember pojoMember, MemberSchemaMapResult memberSchemaMapResult) {
+    public PojoMemberProcessResult(PojoMember pojoMember, UnmappedItems unmappedItems) {
       this.pojoMember = pojoMember;
-      this.memberSchemaMapResult = memberSchemaMapResult;
+      this.unmappedItems = unmappedItems;
     }
 
     public PojoMember getPojoMember() {
       return pojoMember;
     }
 
-    public MemberSchemaMapResult getMemberSchemaMapResult() {
-      return memberSchemaMapResult;
+    public UnmappedItems getUnmappedItems() {
+      return unmappedItems;
     }
   }
 }

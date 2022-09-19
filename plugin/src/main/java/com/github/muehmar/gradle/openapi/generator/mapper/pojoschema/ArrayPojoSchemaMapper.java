@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.MemberSchemaMapResult;
@@ -17,22 +19,17 @@ public class ArrayPojoSchemaMapper implements SinglePojoSchemaMapper {
       CompleteMemberSchemaMapperFactory.create();
 
   @Override
-  public Optional<PojoSchemaMapResult> map(
-      PojoSchema pojoSchema, CompletePojoSchemaMapper completePojoSchemaMapper) {
+  public Optional<MapContext> map(PojoSchema pojoSchema) {
     if (pojoSchema.getSchema() instanceof ArraySchema) {
-      final PojoSchemaMapResult pojoSchemaMapResult =
-          fromArraysSchema(
-              pojoSchema.getPojoName(),
-              (ArraySchema) pojoSchema.getSchema(),
-              completePojoSchemaMapper);
-      return Optional.of(pojoSchemaMapResult);
+      final MapContext mapContext =
+          fromArraysSchema(pojoSchema.getPojoName(), (ArraySchema) pojoSchema.getSchema());
+      return Optional.of(mapContext);
     } else {
       return Optional.empty();
     }
   }
 
-  private PojoSchemaMapResult fromArraysSchema(
-      PojoName pojoName, ArraySchema schema, CompletePojoSchemaMapper completePojoSchemaMapper) {
+  private MapContext fromArraysSchema(PojoName pojoName, ArraySchema schema) {
     final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
 
     final MemberSchemaMapResult memberSchemaMapResult =
@@ -42,9 +39,7 @@ public class ArrayPojoSchemaMapper implements SinglePojoSchemaMapper {
         ArrayPojo.of(
             pojoName, schema.getDescription(), memberSchemaMapResult.getType(), constraints);
 
-    return completePojoSchemaMapper
-        .process(memberSchemaMapResult.getPojoSchemas())
-        .addPojo(pojo)
-        .addSpecifications(memberSchemaMapResult.getRemoteSpecs());
+    return MapContext.fromUnmappedItemsAndResult(
+        memberSchemaMapResult.getUnmappedItems(), MapResult.ofPojo(pojo));
   }
 }

@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
@@ -25,7 +25,7 @@ class ArraySchemaMapperTest extends BaseTypeMapperTest {
     final MemberSchemaMapResult mappedSchema = run(arraySchema);
     final StringType itemType = StringType.ofFormat(StringType.Format.DATE_TIME);
     assertEquals(ArrayType.ofItemType(itemType), mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -43,8 +43,8 @@ class ArraySchemaMapperTest extends BaseTypeMapperTest {
         ObjectType.ofName(PojoName.deriveOpenApiPojoName(pojoName, pojoMemberName));
     assertEquals(ArrayType.ofItemType(itemType), mappedSchema.getType());
     assertEquals(
-        PList.of(new PojoSchema(Name.ofString("ReportsInvoice"), composedSchema)),
-        mappedSchema.getPojoSchemas());
+        UnmappedItems.ofPojoSchema(new PojoSchema(Name.ofString("ReportsInvoice"), composedSchema)),
+        mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -56,7 +56,7 @@ class ArraySchemaMapperTest extends BaseTypeMapperTest {
     assertEquals(
         ArrayType.ofItemType(itemType).withConstraints(Constraints.ofSize(Size.ofMin(10))),
         mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -68,7 +68,7 @@ class ArraySchemaMapperTest extends BaseTypeMapperTest {
     assertEquals(
         ArrayType.ofItemType(itemType).withConstraints(Constraints.ofSize(Size.ofMax(50))),
         mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -81,6 +81,6 @@ class ArraySchemaMapperTest extends BaseTypeMapperTest {
     assertEquals(
         ArrayType.ofItemType(itemType).withConstraints(Constraints.ofSize(Size.of(10, 50))),
         mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 }

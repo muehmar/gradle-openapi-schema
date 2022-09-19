@@ -20,6 +20,6 @@ public class ObjectSchemaMapper extends BaseMemberSchemaMapper<ObjectSchema> {
     final PojoName openApiPojoName = PojoName.deriveOpenApiPojoName(pojoName, pojoMemberName);
     final ObjectType objectType = ObjectType.ofName(openApiPojoName);
     final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, schema);
-    return MemberSchemaMapResult.ofTypeAndOpenApiPojo(objectType, pojoSchema);
+    return MemberSchemaMapResult.ofTypeAndPojoSchema(objectType, pojoSchema);
   }
 }

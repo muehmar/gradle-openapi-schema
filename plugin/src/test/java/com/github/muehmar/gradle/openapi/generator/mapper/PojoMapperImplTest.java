@@ -13,7 +13,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.Resources;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.ResourceSpecificationReader;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SwaggerSpecificationParser;
-import com.github.muehmar.gradle.openapi.generator.mapper.resolver.PojoSchemaMapResultResolverImpl;
+import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolverImpl;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -69,7 +69,7 @@ class PojoMapperImplTest {
         new PojoSchema(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"), schema);
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
+            new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
     final PList<Pojo> pojos =
         pojoMapper.fromSpecification(
             MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
@@ -97,7 +97,7 @@ class PojoMapperImplTest {
 
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
+            new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
     final PList<Pojo> pojos =
         pojoMapper.fromSpecification(
             MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
@@ -122,7 +122,7 @@ class PojoMapperImplTest {
   void fromSchema_when_realSpecWithRemoteReference_then_allPojosCorrectMapped() {
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(),
+            new MapResultResolverImpl(),
             new SwaggerSpecificationParser(new ResourceSpecificationReader(), "Dto"));
 
     final PList<Pojo> pojos =
@@ -140,7 +140,7 @@ class PojoMapperImplTest {
   void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(),
+            new MapResultResolverImpl(),
             new SwaggerSpecificationParser(new ResourceSpecificationReader(), "Dto"));
 
     final PList<Pojo> pojos =
@@ -342,7 +342,7 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto"), composedSchema);
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
+            new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -412,8 +412,7 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"), referenceSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -516,8 +515,7 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("UserKey", "Dto"), keySchema),
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper.fromSpecification(
             MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
@@ -547,8 +545,7 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper.fromSpecification(
             MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
@@ -582,8 +579,7 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper.fromSpecification(
             MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
@@ -617,8 +613,7 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper.fromSpecification(
             MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
@@ -654,8 +649,7 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -699,8 +693,7 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("user", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(
-            new PojoSchemaMapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(

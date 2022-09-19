@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
@@ -24,7 +25,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new StringSchema().format("url");
     final MemberSchemaMapResult mappedSchema = run(schema);
     assertEquals(StringType.ofFormat(URL), mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -32,7 +33,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new StringSchema().format("uri");
     final MemberSchemaMapResult mappedSchema = run(schema);
     assertEquals(StringType.ofFormat(URI), mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -40,7 +41,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new StringSchema().format("partial-time");
     final MemberSchemaMapResult mappedSchema = run(schema);
     assertEquals(StringType.ofFormat(TIME), mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -52,7 +53,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("[A-Z]")));
     assertEquals(exptectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -63,7 +64,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     assertEquals(
         StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(10))),
         mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -74,7 +75,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     assertEquals(
         StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMax(33))),
         mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -85,7 +86,7 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     assertEquals(
         StringType.noFormat().withConstraints(Constraints.ofSize(Size.of(10, 33))),
         mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -96,6 +97,6 @@ class StringSchemaMapperTest extends BaseTypeMapperTest {
     assertEquals(
         EnumType.ofNameAndMembers(Name.ofString("PojoMemberNameEnum"), PList.of("User", "Visitor")),
         mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 }

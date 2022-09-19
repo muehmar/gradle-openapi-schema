@@ -1,6 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItemsBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -14,19 +18,18 @@ import java.util.Optional;
 
 public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
   @Override
-  public Optional<PojoSchemaMapResult> map(
-      PojoSchema pojoSchema, CompletePojoSchemaMapper completePojoSchemaMapper) {
+  public Optional<MapContext> map(PojoSchema pojoSchema) {
     if (pojoSchema.getSchema() instanceof ComposedSchema) {
-      final ComposedPojoAndRemoteSpecs composedPojoAndRemoteSpecs =
+      final MapContext mapContext =
           processComposedSchema(pojoSchema.getPojoName(), (ComposedSchema) pojoSchema.getSchema());
 
-      return Optional.of(processComposedPojo(composedPojoAndRemoteSpecs, completePojoSchemaMapper));
+      return Optional.of(mapContext);
     } else {
       return Optional.empty();
     }
   }
 
-  private ComposedPojoAndRemoteSpecs processComposedSchema(PojoName name, ComposedSchema schema) {
+  private MapContext processComposedSchema(PojoName name, ComposedSchema schema) {
     if (schema.getOneOf() != null) {
       return fromComposedSchema(
           name,
@@ -54,7 +57,7 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
     throw new IllegalArgumentException("Composed schema without any schema definitions");
   }
 
-  protected ComposedPojoAndRemoteSpecs fromComposedSchema(
+  private MapContext fromComposedSchema(
       PojoName pojoName,
       String description,
       ComposedPojo.CompositionType type,
@@ -65,7 +68,7 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
             .flatMapOptional(schema -> Optional.ofNullable(schema.get$ref()))
             .map(SchemaReference::fromRefString);
 
-    final PList<PojoName> pojoNames =
+    final PList<PojoName> referencePojoNames =
         references.map(
             schemaReference ->
                 PojoName.ofNameAndSuffix(schemaReference.getSchemaName(), pojoName.getSuffix()));
@@ -76,7 +79,7 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
     final PList<Schema<?>> inlineDefinitions =
         schemas.filter(schema -> Objects.isNull(schema.get$ref()));
 
-    final PList<PojoSchema> openApiPojos =
+    final PList<PojoSchema> pojoSchemas =
         inlineDefinitions
             .zipWithIndex()
             .map(
@@ -94,30 +97,13 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
                       PojoName.ofNameAndSuffix(openApiPojoName, pojoName.getSuffix()), schema);
                 });
 
-    final ComposedPojo composedPojo =
-        new ComposedPojo(pojoName, description, type, pojoNames, openApiPojos);
-    return new ComposedPojoAndRemoteSpecs(composedPojo, remoteSpecs);
-  }
+    final PList<PojoName> pojoSchemaPojoNames = pojoSchemas.map(PojoSchema::getPojoName);
+    final PList<PojoName> allPojoNames = referencePojoNames.concat(pojoSchemaPojoNames);
 
-  private PojoSchemaMapResult processComposedPojo(
-      ComposedPojoAndRemoteSpecs composedPojoAndRemoteSpecs,
-      CompletePojoSchemaMapper completePojoSchemaMapper) {
-    return composedPojoAndRemoteSpecs
-        .composedPojo
-        .getPojoSchemas()
-        .map(completePojoSchemaMapper::process)
-        .foldRight(PojoSchemaMapResult.empty(), PojoSchemaMapResult::concat)
-        .concat(PojoSchemaMapResult.ofSpecifications(composedPojoAndRemoteSpecs.remoteSpecs))
-        .addComposedPojo(composedPojoAndRemoteSpecs.composedPojo);
-  }
-
-  private static class ComposedPojoAndRemoteSpecs {
-    private final ComposedPojo composedPojo;
-    private final PList<OpenApiSpec> remoteSpecs;
-
-    public ComposedPojoAndRemoteSpecs(ComposedPojo composedPojo, PList<OpenApiSpec> remoteSpecs) {
-      this.composedPojo = composedPojo;
-      this.remoteSpecs = remoteSpecs;
-    }
+    final ComposedPojo composedPojo = new ComposedPojo(pojoName, description, type, allPojoNames);
+    final MapResult mapResult = MapResult.ofComposedPojo(composedPojo);
+    final UnmappedItems unmappedItems =
+        UnmappedItemsBuilder.create().specifications(remoteSpecs).pojoSchemas(pojoSchemas).build();
+    return MapContext.fromUnmappedItemsAndResult(unmappedItems, mapResult);
   }
 }

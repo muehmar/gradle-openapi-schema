@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
@@ -23,7 +23,7 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
     final MemberSchemaMapResult mappedSchema = run(schema);
 
     assertEquals(fromFormat(format), mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @ParameterizedTest
@@ -35,7 +35,7 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
     final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)));
 
     assertEquals(expectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @ParameterizedTest
@@ -47,7 +47,7 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
     final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMax(new Max(50)));
 
     assertEquals(expectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @ParameterizedTest
@@ -61,7 +61,7 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
         fromFormat(format).withConstraints(Constraints.ofMinAndMax(new Min(18), new Max(50)));
 
     assertEquals(expectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   @Test
@@ -72,7 +72,7 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
     final Type expectedType = NumericType.formatFloat();
 
     assertEquals(expectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
   private static NumericType fromFormat(String format) {

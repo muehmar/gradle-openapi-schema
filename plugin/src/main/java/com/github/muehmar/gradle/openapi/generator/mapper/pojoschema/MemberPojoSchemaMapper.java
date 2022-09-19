@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.MemberSchemaMapResult;
@@ -19,22 +21,22 @@ public class MemberPojoSchemaMapper implements SinglePojoSchemaMapper {
       PList.of("string", "integer", "number", "boolean");
 
   @Override
-  public Optional<PojoSchemaMapResult> map(
-      PojoSchema pojoSchema, CompletePojoSchemaMapper completePojoSchemaMapper) {
+  public Optional<MapContext> map(PojoSchema pojoSchema) {
     final String type = pojoSchema.getSchema().getType();
     if (Objects.nonNull(type) && SUPPORTED_MEMBER_SCHEMAS.exists(type::equals)) {
-      return Optional.of(
-          PojoSchemaMapResult.ofPojoMemberReference(
-              processMemberSchema(pojoSchema.getPojoName(), pojoSchema.getSchema())));
+      return Optional.of(processMemberSchema(pojoSchema.getPojoName(), pojoSchema.getSchema()));
     } else {
       return Optional.empty();
     }
   }
 
-  private PojoMemberReference processMemberSchema(PojoName name, Schema<?> schema) {
+  private MapContext processMemberSchema(PojoName name, Schema<?> schema) {
     final MemberSchemaMapResult result =
         COMPLETE_TYPE_MAPPER.map(PojoName.ofName(Name.ofString("Unused")), name.getName(), schema);
 
-    return new PojoMemberReference(name, schema.getDescription(), result.getType());
+    final PojoMemberReference pojoMemberReference =
+        new PojoMemberReference(name, schema.getDescription(), result.getType());
+    return MapContext.fromUnmappedItemsAndResult(
+        result.getUnmappedItems(), MapResult.ofPojoMemberReference(pojoMemberReference));
   }
 }

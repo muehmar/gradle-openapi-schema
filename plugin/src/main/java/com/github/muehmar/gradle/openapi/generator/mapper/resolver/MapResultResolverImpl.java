@@ -1,20 +1,19 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.PojoSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import java.util.Optional;
 
-public class PojoSchemaMapResultResolverImpl implements PojoSchemaMapResultResolver {
+public class MapResultResolverImpl implements MapResultResolver {
   @Override
-  public PList<Pojo> resolve(PojoSchemaMapResult pojoSchemaMapResult) {
-    final PList<Pojo> pojos = pojoSchemaMapResult.getPojos();
-    final PList<ComposedPojo> composedPojos = pojoSchemaMapResult.getComposedPojos();
-    final PList<PojoMemberReference> pojoMemberReferences =
-        pojoSchemaMapResult.getPojoMemberReferences();
+  public PList<Pojo> resolve(MapResult mapResult) {
+    final PList<Pojo> pojos = mapResult.getPojos();
+    final PList<ComposedPojo> composedPojos = mapResult.getComposedPojos();
+    final PList<PojoMemberReference> pojoMemberReferences = mapResult.getPojoMemberReferences();
 
     return Optional.of(pojos)
         .map(p -> ComposedPojoResolver.resolve(composedPojos, pojos))

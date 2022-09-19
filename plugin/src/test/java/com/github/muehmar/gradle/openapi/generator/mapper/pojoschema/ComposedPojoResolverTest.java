@@ -63,8 +63,7 @@ class ComposedPojoResolverTest {
             PojoName.ofNameAndSuffix(Name.ofString("Composed"), "Dto"),
             "Description",
             ComposedPojo.CompositionType.ALL_OF,
-            PList.of(colorName, tiresName),
-            PList.empty());
+            PList.of(colorName, tiresName));
 
     // method call
     final PList<Pojo> resultingPojos =

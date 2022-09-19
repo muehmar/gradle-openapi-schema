@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
@@ -24,7 +24,7 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
     final MemberSchemaMapResult result = run(schema);
 
     assertEquals(fromFormat(format), result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
   @ParameterizedTest
@@ -36,7 +36,7 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
     final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)));
 
     assertEquals(expectedType, result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
   @ParameterizedTest
@@ -48,7 +48,7 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
     final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMax(new Max(18)));
 
     assertEquals(expectedType, result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
   @ParameterizedTest
@@ -62,18 +62,18 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
         fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50)));
 
     assertEquals(expectedType, result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
   @Test
   void mapThrowing_when_noFormat_then_correctDefaultFormat() {
     final Schema<?> schema = new IntegerSchema();
-    final MemberSchemaMapResult mappedSchema = run(schema);
+    final MemberSchemaMapResult result = run(schema);
 
     final Type expectedType = NumericType.formatInteger();
 
-    assertEquals(expectedType, mappedSchema.getType());
-    assertEquals(PList.empty(), mappedSchema.getPojoSchemas());
+    assertEquals(expectedType, result.getType());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
   private static NumericType fromFormat(String format) {

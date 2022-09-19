@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
@@ -27,6 +27,8 @@ class ObjectSchemaMapperTest extends BaseTypeMapperTest {
 
     final PojoName expectedPojoName = PojoName.deriveOpenApiPojoName(pojoName, memberName);
     assertEquals(ObjectType.ofName(expectedPojoName), result.getType());
-    assertEquals(PList.single(new PojoSchema(expectedPojoName, schema)), result.getPojoSchemas());
+    assertEquals(
+        UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, schema)),
+        result.getUnmappedItems());
   }
 }

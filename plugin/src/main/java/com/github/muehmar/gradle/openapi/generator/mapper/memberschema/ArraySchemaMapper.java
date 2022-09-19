@@ -32,7 +32,7 @@ public class ArraySchemaMapper extends BaseMemberSchemaMapper<ArraySchema> {
       final ObjectType itemType = ObjectType.ofName(openApiPojoName);
       final ArrayType arrayType = ArrayType.ofItemType(itemType).withConstraints(constraints);
       final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, items);
-      return MemberSchemaMapResult.ofTypeAndOpenApiPojo(arrayType, pojoSchema);
+      return MemberSchemaMapResult.ofTypeAndPojoSchema(arrayType, pojoSchema);
     } else {
       return completeMapper
           .map(pojoName, pojoMemberName, items)

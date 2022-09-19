@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 
 class CompletePojoSchemaMapperImpl implements CompletePojoSchemaMapper {
@@ -15,9 +16,9 @@ class CompletePojoSchemaMapperImpl implements CompletePojoSchemaMapper {
   }
 
   @Override
-  public PojoSchemaMapResult process(PojoSchema pojoSchema) {
+  public MapContext map(PojoSchema pojoSchema) {
     return delegate
-        .map(pojoSchema, this)
+        .map(pojoSchema)
         .orElseThrow(
             () ->
                 new IllegalArgumentException(

@@ -41,7 +41,7 @@ public class MapSchemaMapper extends BaseMemberSchemaMapper<MapSchema> {
         final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), objectType);
         final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, additionalPropertiesSchema);
 
-        return MemberSchemaMapResult.ofTypeAndOpenApiPojo(mapType, pojoSchema);
+        return MemberSchemaMapResult.ofTypeAndPojoSchema(mapType, pojoSchema);
       } else {
         return completeMapper
             .map(pojoName, pojoMemberName, additionalPropertiesSchema)

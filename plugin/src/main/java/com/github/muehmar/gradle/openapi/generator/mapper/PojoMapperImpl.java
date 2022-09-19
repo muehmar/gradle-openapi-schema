@@ -7,9 +7,8 @@ import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ComposedPoj
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.EnumPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.MemberPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ObjectPojoSchemaMapper;
-import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.PojoSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SpecificationParser;
-import com.github.muehmar.gradle.openapi.generator.mapper.resolver.PojoSchemaMapResultResolver;
+import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolver;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
@@ -17,7 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSp
 
 class PojoMapperImpl implements PojoMapper {
 
-  private final PojoSchemaMapResultResolver resolver;
+  private final MapResultResolver resolver;
   private final SpecificationParser specificationParser;
 
   private static final CompletePojoSchemaMapper COMPLETE_POJO_SCHEMA_MAPPER =
@@ -27,35 +26,34 @@ class PojoMapperImpl implements PojoMapper {
           .or(new EnumPojoSchemaMapper())
           .orLast(new MemberPojoSchemaMapper());
 
-  private PojoMapperImpl(
-      PojoSchemaMapResultResolver resolver, SpecificationParser specificationParser) {
+  private PojoMapperImpl(MapResultResolver resolver, SpecificationParser specificationParser) {
     this.resolver = resolver;
     this.specificationParser = specificationParser;
   }
 
   public static PojoMapper create(
-      PojoSchemaMapResultResolver resolver, SpecificationParser specificationParser) {
+      MapResultResolver resolver, SpecificationParser specificationParser) {
     return new PojoMapperImpl(resolver, specificationParser);
   }
 
   @Override
   public PList<Pojo> fromSpecification(MainDirectory mainDirectory, OpenApiSpec mainSpecification) {
-    final PojoSchemaMapResult mapResult =
-        mapNextSpecification(mainDirectory, PojoSchemaMapResult.ofSpecification(mainSpecification));
+    final MapContext mapContext = MapContext.fromInitialSpecification(mainSpecification);
+    final MapResult mapResult = processMapContext(mainDirectory, mapContext);
     return resolver.resolve(mapResult);
   }
 
-  private PojoSchemaMapResult mapNextSpecification(
-      MainDirectory mainDirectory, PojoSchemaMapResult mapResult) {
-    return mapResult.popSpecification(
-        (currentMapResult, nextSpecification) -> {
+  private MapResult processMapContext(MainDirectory mainDirectory, MapContext mapContext) {
+    return mapContext.onUnmappedItems(
+        (ctx, specs) -> {
           final PList<PojoSchema> pojoSchemas =
-              specificationParser.readSchemas(mainDirectory, nextSpecification);
-          final PojoSchemaMapResult innerMapResult =
-              pojoSchemas
-                  .map(COMPLETE_POJO_SCHEMA_MAPPER::process)
-                  .foldRight(currentMapResult, PojoSchemaMapResult::concat);
-          return mapNextSpecification(mainDirectory, innerMapResult);
+              specs.toPList().flatMap(spec -> specificationParser.readSchemas(mainDirectory, spec));
+          return processMapContext(mainDirectory, ctx.addPojoSchemas(pojoSchemas));
+        },
+        (ctx, schemas) -> {
+          final MapContext resultingContext =
+              schemas.map(COMPLETE_POJO_SCHEMA_MAPPER::map).reduce(MapContext::merge);
+          return processMapContext(mainDirectory, ctx.merge(resultingContext));
         });
   }
 }

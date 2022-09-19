@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.memberschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
@@ -32,7 +32,7 @@ class MapSchemaMapperTest extends BaseTypeMapperTest {
             StringType.noFormat(), ObjectType.ofName(PojoName.ofName(Name.ofString("Gender"))));
 
     assertEquals(expectedType, result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
   @Test
@@ -53,7 +53,8 @@ class MapSchemaMapperTest extends BaseTypeMapperTest {
 
     assertEquals(expectedType, result.getType());
     assertEquals(
-        PList.single(new PojoSchema(invoicePagePojoName, objectSchema)), result.getPojoSchemas());
+        UnmappedItems.ofPojoSchema(new PojoSchema(invoicePagePojoName, objectSchema)),
+        result.getUnmappedItems());
   }
 
   @Test
@@ -70,6 +71,6 @@ class MapSchemaMapperTest extends BaseTypeMapperTest {
             StringType.noFormat(), StringType.ofFormat(StringType.Format.URL));
 
     assertEquals(expectedType, result.getType());
-    assertEquals(PList.empty(), result.getPojoSchemas());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 }
