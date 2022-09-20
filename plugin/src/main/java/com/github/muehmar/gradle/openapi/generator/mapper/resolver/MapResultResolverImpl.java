@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
@@ -10,16 +11,19 @@ import java.util.Optional;
 
 public class MapResultResolverImpl implements MapResultResolver {
   @Override
-  public PList<Pojo> resolve(MapResult mapResult) {
-    final PList<Pojo> pojos = mapResult.getPojos();
-    final PList<ComposedPojo> composedPojos = mapResult.getComposedPojos();
-    final PList<PojoMemberReference> pojoMemberReferences = mapResult.getPojoMemberReferences();
+  public MapResult resolve(UnresolvedMapResult unresolvedMapResult) {
+    final PList<Pojo> pojos = unresolvedMapResult.getPojos();
+    final PList<ComposedPojo> composedPojos = unresolvedMapResult.getComposedPojos();
+    final PList<PojoMemberReference> pojoMemberReferences =
+        unresolvedMapResult.getPojoMemberReferences();
 
-    return Optional.of(pojos)
-        .map(p -> ComposedPojoResolver.resolve(composedPojos, pojos))
-        .map(p -> inlineMemberReferences(p, pojoMemberReferences))
-        .map(this::addEnumDescription)
-        .orElse(PList.empty());
+    final PList<Pojo> resolvedPojos =
+        Optional.of(pojos)
+            .map(p -> ComposedPojoResolver.resolve(composedPojos, pojos))
+            .map(p -> inlineMemberReferences(p, pojoMemberReferences))
+            .map(this::addEnumDescription)
+            .orElse(PList.empty());
+    return MapResult.of(resolvedPojos, unresolvedMapResult.getUsedSpecs());
   }
 
   private PList<Pojo> inlineMemberReferences(

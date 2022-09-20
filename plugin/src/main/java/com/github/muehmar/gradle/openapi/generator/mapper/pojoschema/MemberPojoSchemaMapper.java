@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
-import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.MemberSchemaMapResult;
@@ -37,6 +37,6 @@ public class MemberPojoSchemaMapper implements SinglePojoSchemaMapper {
     final PojoMemberReference pojoMemberReference =
         new PojoMemberReference(name, schema.getDescription(), result.getType());
     return MapContext.fromUnmappedItemsAndResult(
-        result.getUnmappedItems(), MapResult.ofPojoMemberReference(pojoMemberReference));
+        result.getUnmappedItems(), UnresolvedMapResult.ofPojoMemberReference(pojoMemberReference));
   }
 }

@@ -6,6 +6,9 @@ paths: { }
 components:
   schemas:
     User:
+      required:
+        - name
+        - city
       properties:
         name:
           type: string

@@ -10,7 +10,6 @@ import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.Resources;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.ResourceSpecificationReader;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SwaggerSpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolverImpl;
@@ -37,7 +36,6 @@ import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -48,12 +46,9 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
-import io.swagger.v3.parser.OpenAPIV3Parser;
-import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -71,8 +66,10 @@ class PojoMapperImplTest {
         PojoMapperImpl.create(
             new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
     final PList<Pojo> pojos =
-        pojoMapper.fromSpecification(
-            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos();
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -99,8 +96,10 @@ class PojoMapperImplTest {
         PojoMapperImpl.create(
             new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
     final PList<Pojo> pojos =
-        pojoMapper.fromSpecification(
-            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos();
 
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
@@ -130,6 +129,7 @@ class PojoMapperImplTest {
             .fromSpecification(
                 MainDirectory.fromString("/specifications/remote-ref"),
                 OpenApiSpec.fromString("main.yml"))
+            .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
@@ -148,6 +148,7 @@ class PojoMapperImplTest {
             .fromSpecification(
                 MainDirectory.fromString("/integration/completespec"),
                 OpenApiSpec.fromString("openapi.yml"))
+            .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(6, pojos.size());
@@ -347,6 +348,7 @@ class PojoMapperImplTest {
         pojoMapper
             .fromSpecification(
                 MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
@@ -417,6 +419,7 @@ class PojoMapperImplTest {
         pojoMapper
             .fromSpecification(
                 MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(4, pojos.size());
@@ -517,8 +520,10 @@ class PojoMapperImplTest {
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSpecification(
-            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos();
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -547,8 +552,10 @@ class PojoMapperImplTest {
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSpecification(
-            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos();
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -581,8 +588,10 @@ class PojoMapperImplTest {
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSpecification(
-            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos();
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -615,8 +624,10 @@ class PojoMapperImplTest {
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
     final PList<Pojo> pojos =
-        pojoMapper.fromSpecification(
-            MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"));
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos();
 
     assertEquals(1, pojos.size());
     assertEquals(
@@ -654,6 +665,7 @@ class PojoMapperImplTest {
         pojoMapper
             .fromSpecification(
                 MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
@@ -698,6 +710,7 @@ class PojoMapperImplTest {
         pojoMapper
             .fromSpecification(
                 MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
@@ -713,12 +726,5 @@ class PojoMapperImplTest {
             .map(PojoMember::getType)
             .flatMap(Type::asObjectType)
             .map(ObjectType::getName));
-  }
-
-  private static PList<Map.Entry<String, Schema>> parseOpenApiResourceEntries(String resource) {
-    final SwaggerParseResult swaggerParseResult =
-        new OpenAPIV3Parser().readContents(Resources.readString(resource));
-    final OpenAPI openAPI = swaggerParseResult.getOpenAPI();
-    return PList.fromIter(openAPI.getComponents().getSchemas().entrySet());
   }
 }

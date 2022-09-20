@@ -14,59 +14,62 @@ import lombok.ToString;
 public class MapContext {
   private final UnmappedItems unmappedItems;
 
-  private final MapResult mapResult;
+  private final UnresolvedMapResult unresolvedMapResult;
 
-  private MapContext(UnmappedItems unmappedItems, MapResult mapResult) {
+  private MapContext(UnmappedItems unmappedItems, UnresolvedMapResult unresolvedMapResult) {
     this.unmappedItems = unmappedItems;
-    this.mapResult = mapResult;
+    this.unresolvedMapResult = unresolvedMapResult;
   }
 
   public static MapContext empty() {
-    return new MapContext(UnmappedItems.empty(), MapResult.empty());
+    return new MapContext(UnmappedItems.empty(), UnresolvedMapResult.empty());
   }
 
   public static MapContext fromInitialSpecification(OpenApiSpec initialSpec) {
-    return new MapContext(UnmappedItems.ofSpec(initialSpec), MapResult.empty());
+    return new MapContext(UnmappedItems.ofSpec(initialSpec), UnresolvedMapResult.empty());
   }
 
   public static MapContext fromUnmappedItemsAndResult(
-      UnmappedItems unmappedItems, MapResult mapResult) {
-    return new MapContext(unmappedItems, mapResult);
+      UnmappedItems unmappedItems, UnresolvedMapResult unresolvedMapResult) {
+    return new MapContext(unmappedItems, unresolvedMapResult);
   }
 
   public static MapContext ofPojo(Pojo pojo) {
-    return new MapContext(UnmappedItems.empty(), MapResult.ofPojo(pojo));
+    return new MapContext(UnmappedItems.empty(), UnresolvedMapResult.ofPojo(pojo));
   }
 
-  public MapResult onUnmappedItems(
-      BiFunction<MapContext, NonEmptyList<OpenApiSpec>, MapResult> onSpecifications,
-      BiFunction<MapContext, NonEmptyList<PojoSchema>, MapResult> onPojoSchemas) {
+  public UnresolvedMapResult onUnmappedItems(
+      BiFunction<MapContext, NonEmptyList<OpenApiSpec>, UnresolvedMapResult> onSpecifications,
+      BiFunction<MapContext, NonEmptyList<PojoSchema>, UnresolvedMapResult> onPojoSchemas) {
     return unmappedItems.onUnmappedItems(
         (newUnmappedItems, specs) -> {
-          final MapContext mapContext = new MapContext(newUnmappedItems, mapResult);
-          return onSpecifications.apply(mapContext, specs);
+          final MapContext mapContext = new MapContext(newUnmappedItems, unresolvedMapResult);
+          final UnresolvedMapResult usedSpecsResult =
+              UnresolvedMapResult.ofUsedSpecs(specs.toPList());
+          return onSpecifications.apply(mapContext, specs).merge(usedSpecsResult);
         },
         (newUnmappedItems, pojoSchemas) -> {
-          final MapContext mapContext = new MapContext(newUnmappedItems, mapResult);
+          final MapContext mapContext = new MapContext(newUnmappedItems, unresolvedMapResult);
           return onPojoSchemas.apply(mapContext, pojoSchemas);
         },
-        () -> mapResult);
+        () -> unresolvedMapResult);
   }
 
   public MapContext merge(MapContext other) {
     return new MapContext(
-        unmappedItems.merge(other.unmappedItems), mapResult.merge(other.mapResult));
+        unmappedItems.merge(other.unmappedItems),
+        unresolvedMapResult.merge(other.unresolvedMapResult));
   }
 
   public MapContext addPojoSchemas(PList<PojoSchema> pojoSchemas) {
-    return new MapContext(unmappedItems.addPojoSchemas(pojoSchemas), mapResult);
+    return new MapContext(unmappedItems.addPojoSchemas(pojoSchemas), unresolvedMapResult);
   }
 
   public UnmappedItems getUnmappedItems() {
     return unmappedItems;
   }
 
-  public MapResult getMapResult() {
-    return mapResult;
+  public UnresolvedMapResult getUnresolvedMapResult() {
+    return unresolvedMapResult;
   }
 }

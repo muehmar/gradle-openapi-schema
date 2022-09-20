@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
-import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -42,10 +42,10 @@ class ComposedPojoSchemaMapperTest {
     assertTrue(result.isPresent());
     final MapContext mapContext = result.get();
 
-    final MapResult mapResult = mapContext.getMapResult();
-    assertEquals(0, mapResult.getPojos().size());
-    assertEquals(1, mapResult.getComposedPojos().size());
-    assertEquals(0, mapResult.getPojoMemberReferences().size());
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final ComposedPojo expectedComposedPojo =
         new ComposedPojo(
@@ -55,7 +55,7 @@ class ComposedPojoSchemaMapperTest {
             PList.of(
                 PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto"),
                 PojoName.ofNameAndSuffix("ReferenceSchema2", "Dto")));
-    assertEquals(expectedComposedPojo, mapResult.getComposedPojos().apply(0));
+    assertEquals(expectedComposedPojo, unresolvedMapResult.getComposedPojos().apply(0));
     assertEquals(
         UnmappedItems.ofSpec(OpenApiSpec.fromString("../../dir/components.yml")),
         mapContext.getUnmappedItems());
@@ -81,10 +81,10 @@ class ComposedPojoSchemaMapperTest {
     assertTrue(result.isPresent());
     final MapContext mapContext = result.get();
 
-    final MapResult mapResult = mapContext.getMapResult();
-    assertEquals(0, mapResult.getPojos().size());
-    assertEquals(1, mapResult.getComposedPojos().size());
-    assertEquals(0, mapResult.getPojoMemberReferences().size());
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final PojoName objectSchemaPojoName = PojoName.ofNameAndSuffix("ComposedPojoNameOneOf", "Dto");
     final ComposedPojo expectedComposedPojo =
@@ -93,7 +93,7 @@ class ComposedPojoSchemaMapperTest {
             "Test description",
             ComposedPojo.CompositionType.ONE_OF,
             PList.of(objectSchemaPojoName));
-    assertEquals(expectedComposedPojo, mapResult.getComposedPojos().apply(0));
+    assertEquals(expectedComposedPojo, unresolvedMapResult.getComposedPojos().apply(0));
     assertEquals(
         UnmappedItems.ofPojoSchema(new PojoSchema(objectSchemaPojoName, objectSchema)),
         mapContext.getUnmappedItems());
@@ -126,10 +126,10 @@ class ComposedPojoSchemaMapperTest {
     assertTrue(result.isPresent());
     final MapContext mapContext = result.get();
 
-    final MapResult mapResult = mapContext.getMapResult();
-    assertEquals(0, mapResult.getPojos().size());
-    assertEquals(1, mapResult.getComposedPojos().size());
-    assertEquals(0, mapResult.getPojoMemberReferences().size());
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final PojoName objectSchema1PojoName =
         PojoName.ofNameAndSuffix("ComposedPojoNameOneOf0", "Dto");
@@ -141,7 +141,7 @@ class ComposedPojoSchemaMapperTest {
             "Test description",
             ComposedPojo.CompositionType.ONE_OF,
             PList.of(objectSchema1PojoName, objectSchema2PojoName));
-    assertEquals(expectedComposedPojo, mapResult.getComposedPojos().apply(0));
+    assertEquals(expectedComposedPojo, unresolvedMapResult.getComposedPojos().apply(0));
     assertEquals(
         UnmappedItems.empty()
             .addPojoSchemas(

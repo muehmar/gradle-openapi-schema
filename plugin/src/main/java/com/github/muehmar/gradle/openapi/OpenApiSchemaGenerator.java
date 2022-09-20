@@ -68,18 +68,9 @@ public class OpenApiSchemaGenerator implements Plugin<Project> {
     final String generateModelTaskName =
         String.format("generate%sModel", capitalize(extension.getName()));
 
-    final TaskProvider<GenerateSchemasTask> generateModelTask =
-        project
-            .getTasks()
-            .register(generateModelTaskName, GenerateSchemasTask.class, project, extension);
-
-    generateModelTask.configure(
-        task -> {
-          task.getInputs().file(extension.getInputSpec());
-          task.getOutputs().dir(extension.getOutputDir(project));
-          task.setGroup("openapi schema generator");
-        });
-    return generateModelTask;
+    return project
+        .getTasks()
+        .register(generateModelTaskName, GenerateSchemasTask.class, project, extension);
   }
 
   private static String capitalize(String input) {

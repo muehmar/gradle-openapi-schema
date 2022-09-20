@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
-import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.MemberSchemaMapResult;
@@ -58,7 +58,8 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
             .reduce(UnmappedItems::merge)
             .orElse(UnmappedItems.empty());
 
-    return MapContext.fromUnmappedItemsAndResult(unmappedItems, MapResult.ofPojo(objectPojo));
+    return MapContext.fromUnmappedItemsAndResult(
+        unmappedItems, UnresolvedMapResult.ofPojo(objectPojo));
   }
 
   private PojoMemberProcessResult processObjectSchemaEntry(

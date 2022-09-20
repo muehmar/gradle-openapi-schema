@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
-import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItemsBuilder;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -101,9 +101,10 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
     final PList<PojoName> allPojoNames = referencePojoNames.concat(pojoSchemaPojoNames);
 
     final ComposedPojo composedPojo = new ComposedPojo(pojoName, description, type, allPojoNames);
-    final MapResult mapResult = MapResult.ofComposedPojo(composedPojo);
+    final UnresolvedMapResult unresolvedMapResult =
+        UnresolvedMapResult.ofComposedPojo(composedPojo);
     final UnmappedItems unmappedItems =
         UnmappedItemsBuilder.create().specifications(remoteSpecs).pojoSchemas(pojoSchemas).build();
-    return MapContext.fromUnmappedItemsAndResult(unmappedItems, mapResult);
+    return MapContext.fromUnmappedItemsAndResult(unmappedItems, unresolvedMapResult);
   }
 }

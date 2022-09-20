@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
-import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.MemberSchemaMapResult;
@@ -40,6 +40,6 @@ public class ArrayPojoSchemaMapper implements SinglePojoSchemaMapper {
             pojoName, schema.getDescription(), memberSchemaMapResult.getType(), constraints);
 
     return MapContext.fromUnmappedItemsAndResult(
-        memberSchemaMapResult.getUnmappedItems(), MapResult.ofPojo(pojo));
+        memberSchemaMapResult.getUnmappedItems(), UnresolvedMapResult.ofPojo(pojo));
   }
 }

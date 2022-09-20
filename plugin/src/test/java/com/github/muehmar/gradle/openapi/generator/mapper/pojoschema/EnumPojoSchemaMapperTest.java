@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
-import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
@@ -33,15 +33,15 @@ class EnumPojoSchemaMapperTest {
     assertTrue(result.isPresent());
     final MapContext mapContext = result.get();
 
-    final MapResult mapResult = mapContext.getMapResult();
-    assertEquals(1, mapResult.getPojos().size());
-    assertEquals(0, mapResult.getComposedPojos().size());
-    assertEquals(0, mapResult.getPojoMemberReferences().size());
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(1, unresolvedMapResult.getPojos().size());
+    assertEquals(0, unresolvedMapResult.getComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final EnumPojo expectedPojo =
         EnumPojo.of(
             pojoSchema.getPojoName(), "Test description", PList.fromIter(enumSchema.getEnum()));
-    assertEquals(expectedPojo, mapResult.getPojos().apply(0));
+    assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }
 }

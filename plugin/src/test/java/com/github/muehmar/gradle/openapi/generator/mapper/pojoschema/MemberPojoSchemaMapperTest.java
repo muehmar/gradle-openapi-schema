@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
-import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
+import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
@@ -32,15 +32,16 @@ class MemberPojoSchemaMapperTest {
     assertTrue(result.isPresent());
     final MapContext mapContext = result.get();
 
-    final MapResult mapResult = mapContext.getMapResult();
-    assertEquals(0, mapResult.getPojos().size());
-    assertEquals(0, mapResult.getComposedPojos().size());
-    assertEquals(1, mapResult.getPojoMemberReferences().size());
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(0, unresolvedMapResult.getComposedPojos().size());
+    assertEquals(1, unresolvedMapResult.getPojoMemberReferences().size());
 
     final PojoMemberReference expectedPojoMemberReference =
         new PojoMemberReference(
             pojoSchema.getPojoName(), stringSchema.getDescription(), StringType.noFormat());
-    assertEquals(expectedPojoMemberReference, mapResult.getPojoMemberReferences().apply(0));
+    assertEquals(
+        expectedPojoMemberReference, unresolvedMapResult.getPojoMemberReferences().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }
 }

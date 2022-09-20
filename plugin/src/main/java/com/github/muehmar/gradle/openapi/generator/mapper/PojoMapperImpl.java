@@ -9,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.MemberPojoS
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ObjectPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolver;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
@@ -37,13 +36,14 @@ class PojoMapperImpl implements PojoMapper {
   }
 
   @Override
-  public PList<Pojo> fromSpecification(MainDirectory mainDirectory, OpenApiSpec mainSpecification) {
+  public MapResult fromSpecification(MainDirectory mainDirectory, OpenApiSpec mainSpecification) {
     final MapContext mapContext = MapContext.fromInitialSpecification(mainSpecification);
-    final MapResult mapResult = processMapContext(mainDirectory, mapContext);
-    return resolver.resolve(mapResult);
+    final UnresolvedMapResult unresolvedMapResult = processMapContext(mainDirectory, mapContext);
+    return resolver.resolve(unresolvedMapResult);
   }
 
-  private MapResult processMapContext(MainDirectory mainDirectory, MapContext mapContext) {
+  private UnresolvedMapResult processMapContext(
+      MainDirectory mainDirectory, MapContext mapContext) {
     return mapContext.onUnmappedItems(
         (ctx, specs) -> {
           final PList<PojoSchema> pojoSchemas =
