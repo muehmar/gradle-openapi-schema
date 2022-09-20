@@ -54,7 +54,7 @@ public class GenerateSchemasTask extends DefaultTask {
     cachedMapping = Suppliers.cached(this::executeMapping);
 
     sourceSet = project.getProviders().provider(extension::getSourceSet);
-    usedSpecifications = calculateUsedSpecifications(project);
+    usedSpecifications = usedSpecificationsProvider(project, extension);
     outputDir = project.getProviders().provider(() -> extension.getOutputDir(project));
     pojoSettings = project.getProviders().provider(() -> extension.toPojoSettings(project));
 
@@ -84,18 +84,23 @@ public class GenerateSchemasTask extends DefaultTask {
     return pojoMapper.fromSpecification(mainDirectory, openApiSpec);
   }
 
-  private Provider<FileCollection> calculateUsedSpecifications(Project project) {
+  private Provider<FileCollection> usedSpecificationsProvider(
+      Project project, SingleSchemaExtension extension) {
     return project
         .getProviders()
         .provider(
             () -> {
-              final Object[] specs =
-                  cachedMapping
-                      .get()
-                      .getUsedSpecs()
-                      .map(spec -> spec.asPathWithMainDirectory(mainDirectory).toString())
-                      .toArray(String.class);
-              return project.files(specs);
+              if (extension.getResolveInputSpecs()) {
+                final Object[] specs =
+                    cachedMapping
+                        .get()
+                        .getUsedSpecs()
+                        .map(spec -> spec.asPathWithMainDirectory(mainDirectory).toString())
+                        .toArray(String.class);
+                return project.files(specs);
+              } else {
+                return project.files(inputSpec);
+              }
             });
   }
 
