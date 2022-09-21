@@ -1,52 +1,60 @@
 package com.github.muehmar.gradle.openapi.task;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
-import com.github.muehmar.gradle.openapi.generator.PojoMapper;
-import com.github.muehmar.gradle.openapi.generator.PojoMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.TristateGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonNullContainerGenerator;
-import com.github.muehmar.gradle.openapi.generator.model.OpenApiPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
+import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapperFactory;
+import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
+import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.util.Suppliers;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.OpenAPIV3Parser;
-import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
 import javax.inject.Inject;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
-import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.file.FileCollection;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.OutputDirectory;
 
 public class GenerateSchemasTask extends DefaultTask {
 
-  private final Provider<String> inputSpec;
+  private final String inputSpec;
+  private final MainDirectory mainDirectory;
+  private final Provider<FileCollection> usedSpecifications;
   private final Provider<String> outputDir;
   private final Provider<PojoSettings> pojoSettings;
   private final Provider<String> sourceSet;
+  private final Supplier<MapResult> cachedMapping;
 
   @Inject
   @SuppressWarnings("java:S1604")
   public GenerateSchemasTask(Project project, SingleSchemaExtension extension) {
+    setGroup("openapi schema generator");
+
+    inputSpec = extension.getInputSpec();
+    mainDirectory = deviateMainDirectory(inputSpec);
+
+    cachedMapping = Suppliers.cached(this::executeMapping);
+
     sourceSet = project.getProviders().provider(extension::getSourceSet);
-    inputSpec = project.getProviders().provider(extension::getInputSpec);
+    usedSpecifications = usedSpecificationsProvider(project, extension);
     outputDir = project.getProviders().provider(() -> extension.getOutputDir(project));
     pojoSettings = project.getProviders().provider(() -> extension.toPojoSettings(project));
 
@@ -55,41 +63,57 @@ public class GenerateSchemasTask extends DefaultTask {
         new Action<Task>() {
           @Override
           public void execute(Task task) {
-            try {
-              runTask();
-            } catch (IOException e) {
-              throw new GradleException("Error while generating the schema classes", e);
-            }
+            runTask();
           }
         });
   }
 
-  private void runTask() throws IOException {
-    final OpenAPI openAPI = parseSpec(inputSpec.get());
-
-    final PList<OpenApiPojo> openApiPojos =
-        PList.fromIter(openAPI.getComponents().getSchemas().entrySet())
-            .filter(Objects::nonNull)
-            .map(
-                entry ->
-                    new OpenApiPojo(
-                        PojoName.ofNameAndSuffix(entry.getKey(), pojoSettings.get().getSuffix()),
-                        (Schema<?>) entry.getValue()));
-
-    final PojoMapper pojoMapper = PojoMapperFactory.create();
-    final PList<Pojo> pojos = pojoMapper.fromSchemas(openApiPojos);
+  private void runTask() {
+    final MapResult mapResult = cachedMapping.get();
     final PojoGenerator generator =
         GeneratorFactory.createGenerator(Language.JAVA, outputDir.get());
-    pojos.forEach(pojo -> generator.generatePojo(pojo, pojoSettings.get()));
+    mapResult.getPojos().forEach(pojo -> generator.generatePojo(pojo, pojoSettings.get()));
 
     writeOpenApiUtils();
+  }
+
+  private MapResult executeMapping() {
+    final PojoMapper pojoMapper = PojoMapperFactory.create(pojoSettings.get().getSuffix());
+    final Path specPath = Paths.get(inputSpec);
+    final OpenApiSpec openApiSpec = OpenApiSpec.fromPath(specPath.getFileName());
+    return pojoMapper.fromSpecification(mainDirectory, openApiSpec);
+  }
+
+  private Provider<FileCollection> usedSpecificationsProvider(
+      Project project, SingleSchemaExtension extension) {
+    return project
+        .getProviders()
+        .provider(
+            () -> {
+              if (extension.getResolveInputSpecs()) {
+                final Object[] specs =
+                    cachedMapping
+                        .get()
+                        .getUsedSpecs()
+                        .map(spec -> spec.asPathWithMainDirectory(mainDirectory).toString())
+                        .toArray(String.class);
+                return project.files(specs);
+              } else {
+                return project.files(inputSpec);
+              }
+            });
+  }
+
+  private static MainDirectory deviateMainDirectory(String inputSpec) {
+    final Path specPath = Paths.get(inputSpec);
+    return MainDirectory.fromPath(Optional.ofNullable(specPath.getParent()).orElse(Paths.get("")));
   }
 
   private void writeOpenApiUtils() {
     final Generator<Void, Void> tristateGen = TristateGenerator.tristateClass();
     final FileWriter tristateWriter = new FileWriter(outputDir.get());
     tristateWriter.println(tristateGen.generate(null, null, Writer.createDefault()).asString());
-    tristateWriter.close(OpenApiUtilRefs.TRISTATE.replace(".", "/") + ".java");
+    tristateWriter.close(OpenApiUtilRefs.TRISTATE.replace(".", File.separator) + ".java");
 
     final Generator<Void, Void> jacksonContainerGen =
         JacksonNullContainerGenerator.containerClass();
@@ -97,36 +121,15 @@ public class GenerateSchemasTask extends DefaultTask {
     jacksonContainerWriter.println(
         jacksonContainerGen.generate(null, null, Writer.createDefault()).asString());
     jacksonContainerWriter.close(
-        OpenApiUtilRefs.JACKSON_NULL_CONTAINER.replace(".", "/") + ".java");
+        OpenApiUtilRefs.JACKSON_NULL_CONTAINER.replace(".", File.separator) + ".java");
   }
 
-  private OpenAPI parseSpec(String inputSpec) throws IOException {
-    final String openapiString =
-        new String(Files.readAllBytes(Paths.get(inputSpec)), StandardCharsets.UTF_8);
-
-    final SwaggerParseResult swaggerParseResult = new OpenAPIV3Parser().readContents(openapiString);
-
-    final OpenAPI openAPI = swaggerParseResult.getOpenAPI();
-    if (openAPI == null) {
-      if (swaggerParseResult.getMessages() != null) {
-        final String messages =
-            PList.fromIter(swaggerParseResult.getMessages())
-                .map(message -> String.format("%s", message))
-                .mkString("\n\n");
-        throw new GradleException(
-            "Failed to parse the OpenAPI specification with the following messages: " + messages);
-      }
-      throw new GradleException("Unable to parse OpenAPI specification.");
-    }
-    return openAPI;
+  @InputFiles
+  public Provider<FileCollection> getUsedSpecifications() {
+    return usedSpecifications;
   }
 
-  @Input
-  public Provider<String> getInputSpec() {
-    return inputSpec;
-  }
-
-  @Input
+  @OutputDirectory
   public Provider<String> getOutputDir() {
     return outputDir;
   }

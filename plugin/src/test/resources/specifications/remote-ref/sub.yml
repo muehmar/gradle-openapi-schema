@@ -1,0 +1,16 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    City:
+      required:
+        - name
+        - zip
+      properties:
+        name:
+          type: string
+        zip:
+          type: integer

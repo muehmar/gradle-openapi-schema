@@ -15,7 +15,6 @@ public class ComposedPojo {
   private final String description;
   private final CompositionType type;
   private final PList<PojoName> pojoNames;
-  private final PList<OpenApiPojo> openApiPojos;
 
   public enum CompositionType {
     ALL_OF("AllOf"),
@@ -34,16 +33,11 @@ public class ComposedPojo {
   }
 
   public ComposedPojo(
-      PojoName name,
-      String description,
-      CompositionType type,
-      PList<PojoName> pojoNames,
-      PList<OpenApiPojo> openApiPojos) {
+      PojoName name, String description, CompositionType type, PList<PojoName> pojoNames) {
     this.name = name;
     this.description = description;
     this.type = type;
     this.pojoNames = pojoNames;
-    this.openApiPojos = openApiPojos;
   }
 
   public PojoName getName() {
@@ -64,9 +58,5 @@ public class ComposedPojo {
 
   public PList<PojoName> getPojoNames() {
     return pojoNames;
-  }
-
-  public PList<OpenApiPojo> getOpenApiPojos() {
-    return openApiPojos;
   }
 }

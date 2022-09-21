@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

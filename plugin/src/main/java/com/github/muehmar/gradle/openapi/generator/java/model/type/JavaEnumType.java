@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;

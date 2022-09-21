@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
-import com.github.muehmar.gradle.openapi.generator.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;

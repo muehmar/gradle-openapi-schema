@@ -23,12 +23,14 @@ import org.gradle.api.Project;
 @ToString
 public class SingleSchemaExtension implements Serializable {
   private static final String DEFAULT_SOURCE_SET = "main";
+  private static final boolean DEFAULT_RESOLVE_INPUT_SPECS = true;
 
   private final String name;
 
   private String sourceSet;
   private String inputSpec;
   private String outputDir;
+  private Boolean resolveInputSpecs;
   private String suffix;
   private GetterSuffixes getterSuffixes;
   private RawGetter rawGetter;
@@ -81,6 +83,14 @@ public class SingleSchemaExtension implements Serializable {
 
   public void setOutputDir(String outputDir) {
     this.outputDir = outputDir;
+  }
+
+  public boolean getResolveInputSpecs() {
+    return Optional.ofNullable(resolveInputSpecs).orElse(DEFAULT_RESOLVE_INPUT_SPECS);
+  }
+
+  public void setResolveInputSpecs(Boolean resolveInputSpecs) {
+    this.resolveInputSpecs = resolveInputSpecs;
   }
 
   public String getSuffix() {
