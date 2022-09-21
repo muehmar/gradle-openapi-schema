@@ -1,0 +1,16 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - name
+        - city
+      properties:
+        name:
+          type: string
+        city:
+          $ref: 'openapi-remote-ref-sub.yml#/components/schemas/City'

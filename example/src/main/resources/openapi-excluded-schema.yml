@@ -1,0 +1,25 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - name
+        - city
+      properties:
+        name:
+          type: string
+        city:
+          $ref: 'https://not-supported-url-reference.ch/openapi-remote-ref-sub.yml#/components/schemas/City'
+    Language:
+      required:
+        - key
+        - name
+      properties:
+        key:
+          type: integer
+        name:
+          type: string
