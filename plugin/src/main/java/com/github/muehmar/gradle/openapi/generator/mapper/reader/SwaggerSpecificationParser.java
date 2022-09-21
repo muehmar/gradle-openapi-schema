@@ -23,7 +23,7 @@ public class SwaggerSpecificationParser implements SpecificationParser {
   }
 
   @Override
-  public PList<PojoSchema> readSchemas(MainDirectory mainDirectory, OpenApiSpec inputSpec) {
+  public PList<PojoSchema> parse(MainDirectory mainDirectory, OpenApiSpec inputSpec) {
     try {
       final String specString = specReader.read(mainDirectory, inputSpec);
       final OpenAPI openAPI = parseSpec(specString);

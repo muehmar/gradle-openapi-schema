@@ -6,5 +6,5 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirec
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 
 public interface SpecificationParser {
-  PList<PojoSchema> readSchemas(MainDirectory mainDirectory, OpenApiSpec spec);
+  PList<PojoSchema> parse(MainDirectory mainDirectory, OpenApiSpec spec);
 }

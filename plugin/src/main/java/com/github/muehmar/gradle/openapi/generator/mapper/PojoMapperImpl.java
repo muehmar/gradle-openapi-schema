@@ -47,7 +47,7 @@ class PojoMapperImpl implements PojoMapper {
     return mapContext.onUnmappedItems(
         (ctx, specs) -> {
           final PList<PojoSchema> pojoSchemas =
-              specs.toPList().flatMap(spec -> specificationParser.readSchemas(mainDirectory, spec));
+              specs.toPList().flatMap(spec -> specificationParser.parse(mainDirectory, spec));
           return processMapContext(mainDirectory, ctx.addPojoSchemas(pojoSchemas));
         },
         (ctx, schemas) -> {
