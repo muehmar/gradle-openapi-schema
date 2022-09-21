@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ArrayPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.CompletePojoSchemaMapper;
@@ -9,9 +11,11 @@ import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.MemberPojoS
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ObjectPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolver;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
+import java.util.function.Predicate;
 
 class PojoMapperImpl implements PojoMapper {
 
@@ -36,24 +40,39 @@ class PojoMapperImpl implements PojoMapper {
   }
 
   @Override
-  public MapResult fromSpecification(MainDirectory mainDirectory, OpenApiSpec mainSpecification) {
+  public MapResult fromSpecification(
+      MainDirectory mainDirectory,
+      OpenApiSpec mainSpecification,
+      PList<PojoName> excludedPojoNames) {
     final MapContext mapContext = MapContext.fromInitialSpecification(mainSpecification);
-    final UnresolvedMapResult unresolvedMapResult = processMapContext(mainDirectory, mapContext);
+    final UnresolvedMapResult unresolvedMapResult =
+        processMapContext(mainDirectory, mapContext, excludedPojoNames);
     return resolver.resolve(unresolvedMapResult);
   }
 
   private UnresolvedMapResult processMapContext(
-      MainDirectory mainDirectory, MapContext mapContext) {
+      MainDirectory mainDirectory, MapContext mapContext, PList<PojoName> excludedPojoNames) {
     return mapContext.onUnmappedItems(
         (ctx, specs) -> {
           final PList<PojoSchema> pojoSchemas =
-              specs.toPList().flatMap(spec -> specificationParser.parse(mainDirectory, spec));
-          return processMapContext(mainDirectory, ctx.addPojoSchemas(pojoSchemas));
+              specs
+                  .toPList()
+                  .flatMap(spec -> specificationParser.parse(mainDirectory, spec))
+                  .filter(schemaNotExcluded(excludedPojoNames));
+          return processMapContext(
+              mainDirectory, ctx.addPojoSchemas(pojoSchemas), excludedPojoNames);
         },
         (ctx, schemas) -> {
           final MapContext resultingContext =
               schemas.map(COMPLETE_POJO_SCHEMA_MAPPER::map).reduce(MapContext::merge);
-          return processMapContext(mainDirectory, ctx.merge(resultingContext));
+          return processMapContext(mainDirectory, ctx.merge(resultingContext), excludedPojoNames);
         });
+  }
+
+  private static Predicate<PojoSchema> schemaNotExcluded(PList<PojoName> excludedPojoNames) {
+    return pojoSchema ->
+        not(
+            excludedPojoNames.exists(
+                excludedPojoName -> pojoSchema.getPojoName().equalsIgnoreCase(excludedPojoName)));
   }
 }

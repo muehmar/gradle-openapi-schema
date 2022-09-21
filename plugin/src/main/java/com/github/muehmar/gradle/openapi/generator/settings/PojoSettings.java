@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import io.github.muehmar.pojoextension.annotations.FieldBuilder;
 import io.github.muehmar.pojoextension.annotations.Getter;
 import io.github.muehmar.pojoextension.annotations.PojoExtension;
@@ -22,6 +23,7 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
   EnumDescriptionSettings enumDescriptionSettings;
   GetterSuffixes getterSuffixes;
   RawGetter rawGetter;
+  List<String> excludeSchemas;
 
   public boolean isJacksonJson() {
     return jsonSupport.equals(JsonSupport.JACKSON);
@@ -41,12 +43,22 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
     return formatTypeMappings;
   }
 
+  @Getter("excludeSchemas")
+  public List<String> getExcludeSchemasList() {
+    return excludeSchemas;
+  }
+
   public PList<ClassTypeMapping> getClassTypeMappings() {
     return PList.fromIter(classTypeMappings);
   }
 
   public PList<FormatTypeMapping> getFormatTypeMappings() {
     return PList.fromIter(formatTypeMappings);
+  }
+
+  public PList<PojoName> getExcludePojoNames() {
+    return PList.fromIter(excludeSchemas)
+        .map(schemaName -> PojoName.ofNameAndSuffix(schemaName, suffix));
   }
 
   public boolean isEnableSafeBuilder() {

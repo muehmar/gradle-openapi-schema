@@ -42,6 +42,7 @@ public class SingleSchemaExtension implements Serializable {
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
+  private List<String> excludeSchemas;
 
   @Inject
   public SingleSchemaExtension(String name) {
@@ -50,6 +51,7 @@ public class SingleSchemaExtension implements Serializable {
     this.formatTypeMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.rawGetter = RawGetter.allUndefined();
+    this.excludeSchemas = new ArrayList<>();
   }
 
   public String getName() {
@@ -169,6 +171,14 @@ public class SingleSchemaExtension implements Serializable {
     this.enableValidation = enableValidation;
   }
 
+  public void setExcludeSchemas(List<String> excludeSchemas) {
+    this.excludeSchemas = excludeSchemas;
+  }
+
+  public List<String> getExcludeSchemas() {
+    return excludeSchemas;
+  }
+
   public void classMapping(Action<ClassMapping> action) {
     final ClassMapping classMapping = new ClassMapping();
     action.execute(classMapping);
@@ -261,6 +271,7 @@ public class SingleSchemaExtension implements Serializable {
                 .orElse(EnumDescriptionSettings.disabled()))
         .getterSuffixes(settingsGetterSuffixes)
         .rawGetter(settingsRawGetter)
+        .excludeSchemas(getExcludeSchemas())
         .andAllOptionals()
         .build();
   }

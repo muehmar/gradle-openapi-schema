@@ -18,6 +18,7 @@ public class TestPojoSettings {
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
         .getterSuffixes(defaultGetterSuffixes())
         .rawGetter(defaultRawGetter())
+        .excludeSchemas(Collections.emptyList())
         .andAllOptionals()
         .build();
   }
