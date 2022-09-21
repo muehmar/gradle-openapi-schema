@@ -153,17 +153,18 @@ openApiGenerator {
 Add in the `schemas` block for each specification a new block with custom name (`apiV1` and `apiV2` in the example
 above) and configure the generation with the following attributes for each schema:
 
-| Key                 | Data Type | Default                                    | Description                                                                                                                                  |
-|---------------------|-----------|--------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| sourceSet           | String    | main                                       | Source set to which the generated classes should be added.                                                                                   |
-| inputSpec           | String    |                                            | The OpenApi 3.x specification location.                                                                                                      |
-| outputDir           | String    | $buildDir/generated/openapi                | The location in which the generated sources should be stored.                                                                                |
-| packageName         | String    | ${project.group}.${project.name}.api.model | Name of the package for the generated classes.                                                                                               |
-| suffix              | String    |                                            | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                      |
-| jsonSupport         | String    | jackson                                    | Used json support library. Possible values are `jackson` or `none`.                                                                          |
-| enableSafeBuilder   | Boolean   | true                                       | Enables creating the safe builder.                                                                                                           |
-| enableValidation    | Boolean   | false                                      | Enables the generation of annotations for java bean validation (JSR 380)                                                                     |
-| builderMethodPrefix | String    |                                            | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname. |
+| Key                 | Data Type | Default                                    | Description                                                                                                                                                                                                                                                                          |
+|---------------------|-----------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sourceSet           | String    | main                                       | Source set to which the generated classes should be added.                                                                                                                                                                                                                           |
+| inputSpec           | String    |                                            | The OpenApi 3.x specification location.                                                                                                                                                                                                                                              |
+| outputDir           | String    | $buildDir/generated/openapi                | The location in which the generated sources should be stored.                                                                                                                                                                                                                        |
+| resolveInputSpecs   | boolean   | true                                       | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
+| packageName         | String    | ${project.group}.${project.name}.api.model | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
+| suffix              | String    |                                            | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
+| jsonSupport         | String    | jackson                                    | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
+| enableSafeBuilder   | Boolean   | true                                       | Enables creating the safe builder.                                                                                                                                                                                                                                                   |
+| enableValidation    | Boolean   | false                                      | Enables the generation of annotations for java bean validation (JSR 380)                                                                                                                                                                                                             |
+| builderMethodPrefix | String    |                                            | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
 
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
 the schema, in the example above a task `generateApiV1Model` and a task `generateApiV2Model` would get created. The
@@ -428,6 +429,30 @@ corresponding member. The description in the code is available via the `getDescr
 The configuration setting `failOnIncompleteDescriptions` can be used to prevent missing descriptions for a member cause
 of a typo in the enum name (for example if `` * `Vistor`: Visitor role `` is written in the spec) or if one adds a
 member without adding the description.
+
+## Incremental build and remote specifications
+
+This plugin supports remote references, i.e. it will also parse any referenced remote specifications and create the
+java classes for the schemas in the remote specifications. As the gradle task will depend on this remote specification
+files, it must be registered as task-input to properly support incremental build.
+
+The plugin parses by default the given main specification and resolves any referenced remote specifications and register
+them as task inputs. This is done before the actual task is executed. This can be disabled (see
+the [Configuration](#configuration) section) if needed to avoid parsing the specifications to determine the task inputs.
+In case incremental build should still work properly, one has to options:
+
+* In case of no remote reference in the main specification: The main specification is still registered as input,
+  therefore incremental build will still work properly.
+* In case of remote specifications, one could register the specifications manually as task inputs, like in the following
+  example:
+
+ ```
+afterEvaluate {
+    tasks.named("generateRemoteRefModel") {
+        inputs.file("$projectDir/src/main/resources/openapi-remote-ref-sub.yml")
+    }
+}
+ ```
 
 ## Credits
 
