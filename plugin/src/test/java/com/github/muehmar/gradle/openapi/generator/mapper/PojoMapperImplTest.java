@@ -727,4 +727,34 @@ class PojoMapperImplTest {
             .flatMap(Type::asObjectType)
             .map(ObjectType::getName));
   }
+
+  @Test
+  void fromSchemas_when_excludeSchemas_then_excludedSchemaNotMapped() {
+    final Schema<?> userSchema =
+        new ObjectSchema()
+            .addProperties("gender", new Schema<>().$ref("#/components/schemas/gender"));
+    final Schema<String> genderSchema = new StringSchema();
+    genderSchema.setEnum(Arrays.asList("FEMALE", "MALE", "UNKNOWN"));
+    genderSchema.description("Gender of a user");
+
+    // method call
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(PojoName.ofNameAndSuffix("gender", "Dto"), genderSchema),
+            new PojoSchema(PojoName.ofNameAndSuffix("user", "Dto"), userSchema));
+
+    final PojoMapper pojoMapper =
+        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+    final PList<Pojo> pojos =
+        pojoMapper
+            .fromSpecification(
+                MainDirectory.fromString(""),
+                OpenApiSpec.fromString("doesNotMatter"),
+                PList.of(PojoName.ofNameAndSuffix("User", "Dto")))
+            .getPojos()
+            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+
+    assertEquals(1, pojos.size());
+    assertEquals(PojoName.ofNameAndSuffix("Gender", "Dto"), pojos.apply(0).getName());
+  }
 }

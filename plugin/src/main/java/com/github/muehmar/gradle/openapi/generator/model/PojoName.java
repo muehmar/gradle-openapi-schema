@@ -30,7 +30,7 @@ public class PojoName {
   }
 
   public boolean equalsIgnoreCase(PojoName other) {
-    return name.equalsIgnoreCase(other.name);
+    return name.equalsIgnoreCase(other.name) && suffix.equals(other.suffix);
   }
 
   public PojoName startUppercase() {
