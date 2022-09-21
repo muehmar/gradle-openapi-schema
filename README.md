@@ -25,7 +25,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.17.0'
+    id 'com.github.muehmar.openapischema' version '0.18.0'
 }
 ```
 
@@ -166,7 +166,6 @@ above) and configure the generation with the following attributes for each schem
 | enableValidation    | Boolean      | false                                      | Enables the generation of annotations for java bean validation (JSR 380)                                                                                                                                                                                                             |
 | builderMethodPrefix | String       |                                            | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
 | excludedSchemas     | List[String] | []                                         | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
-
 
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
 the schema, in the example above a task `generateApiV1Model` and a task `generateApiV2Model` would get created. The
@@ -466,6 +465,9 @@ afterEvaluate {
 
 ## Change Log
 
+* 0.18.0
+    * Support remote references (issue `#18`)
+    * Add possibility to exclude specific schemas from generation (issue `#19`)
 * 0.17.0
     * Support customizable builder method prefix (issue `#8`)
     * Improve type mapping configuration (issue `#12`)
