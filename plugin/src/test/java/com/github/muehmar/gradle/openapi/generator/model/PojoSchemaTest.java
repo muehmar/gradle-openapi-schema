@@ -8,12 +8,6 @@ import org.junit.jupiter.api.Test;
 class PojoSchemaTest {
 
   @Test
-  void getName_when_instanceConstructedWithStartingLowercaseName_then_nameStartsUppercase() {
-    final PojoSchema pojoSchema = new PojoSchema(Name.ofString("gender"), new Schema<>());
-    assertEquals("Gender", pojoSchema.getName().asString());
-  }
-
-  @Test
   void getPojoName_when_instanceConstructedWithStartingLowercaseName_then_nameStartsUppercase() {
     final PojoSchema pojoSchema =
         new PojoSchema(PojoName.ofNameAndSuffix("gender", "Dto"), new Schema<>());

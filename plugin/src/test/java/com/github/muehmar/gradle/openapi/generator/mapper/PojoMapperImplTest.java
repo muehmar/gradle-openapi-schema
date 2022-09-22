@@ -36,6 +36,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
+import com.github.muehmar.gradle.openapi.generator.settings.ExcludedSchemas;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -750,7 +751,8 @@ class PojoMapperImplTest {
             .fromSpecification(
                 MainDirectory.fromString(""),
                 OpenApiSpec.fromString("doesNotMatter"),
-                PList.of(PojoName.ofNameAndSuffix("User", "Dto")))
+                ExcludedSchemas.fromExcludedPojoNames(
+                    PList.single(PojoName.ofNameAndSuffix("User", "Dto"))))
             .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 

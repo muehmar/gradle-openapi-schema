@@ -56,9 +56,9 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
     return PList.fromIter(formatTypeMappings);
   }
 
-  public PList<PojoName> getExcludePojoNames() {
-    return PList.fromIter(excludeSchemas)
-        .map(schemaName -> PojoName.ofNameAndSuffix(schemaName, suffix));
+  public ExcludedSchemas getExcludedSchemas() {
+    return ExcludedSchemas.fromExcludedPojoNames(
+        PList.fromIter(excludeSchemas).map(name -> PojoName.ofNameAndSuffix(name, suffix)));
   }
 
   public boolean isEnableSafeBuilder() {

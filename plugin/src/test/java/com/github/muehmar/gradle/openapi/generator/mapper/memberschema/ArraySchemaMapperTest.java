@@ -36,14 +36,15 @@ class ArraySchemaMapperTest extends BaseTypeMapperTest {
 
     final ArraySchema arraySchema = new ArraySchema().items(composedSchema);
 
-    final PojoName pojoName = PojoName.ofName(Name.ofString("Reports"));
+    final PojoName pojoName = PojoName.ofNameAndSuffix("Reports", "Dto");
     final Name pojoMemberName = Name.ofString("Invoice");
     final MemberSchemaMapResult mappedSchema = run(pojoName, pojoMemberName, arraySchema);
     final ObjectType itemType =
         ObjectType.ofName(PojoName.deriveOpenApiPojoName(pojoName, pojoMemberName));
     assertEquals(ArrayType.ofItemType(itemType), mappedSchema.getType());
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(Name.ofString("ReportsInvoice"), composedSchema)),
+        UnmappedItems.ofPojoSchema(
+            new PojoSchema(PojoName.ofNameAndSuffix("ReportsInvoice", "Dto"), composedSchema)),
         mappedSchema.getUnmappedItems());
   }
 

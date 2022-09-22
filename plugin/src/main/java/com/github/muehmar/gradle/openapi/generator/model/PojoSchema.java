@@ -16,20 +16,8 @@ public class PojoSchema {
     this.schema = schema;
   }
 
-  public PojoSchema(Name name, Schema<?> schema) {
-    this(PojoName.ofName(name), schema);
-  }
-
-  public Name getName() {
-    return name.getName();
-  }
-
   public PojoName getPojoName() {
     return name;
-  }
-
-  public String getSuffix() {
-    return name.getSuffix();
   }
 
   @SuppressWarnings("java:S1452")

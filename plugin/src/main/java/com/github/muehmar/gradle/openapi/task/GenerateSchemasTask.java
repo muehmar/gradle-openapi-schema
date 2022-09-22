@@ -82,7 +82,7 @@ public class GenerateSchemasTask extends DefaultTask {
     final Path specPath = Paths.get(inputSpec);
     final OpenApiSpec openApiSpec = OpenApiSpec.fromPath(specPath.getFileName());
     return pojoMapper.fromSpecification(
-        mainDirectory, openApiSpec, pojoSettings.get().getExcludePojoNames());
+        mainDirectory, openApiSpec, pojoSettings.get().getExcludedSchemas());
   }
 
   private Provider<FileCollection> usedSpecificationsProvider(
