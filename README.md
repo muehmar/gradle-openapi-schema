@@ -25,7 +25,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.18.0'
+    id 'com.github.muehmar.openapischema' version '0.18.1'
 }
 ```
 
@@ -465,6 +465,7 @@ afterEvaluate {
 
 ## Change Log
 
+* 0.18.1 - Fix failing excluded external references (issue `#22`)
 * 0.18.0
     * Support remote references (issue `#18`)
     * Add possibility to exclude specific schemas from generation (issue `#19`)
