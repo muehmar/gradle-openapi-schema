@@ -8,8 +8,8 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSp
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import java.io.IOException;
 import java.util.Objects;
 import org.gradle.api.GradleException;
 
@@ -24,13 +24,9 @@ public class SwaggerSpecificationParser implements SpecificationParser {
 
   @Override
   public PList<PojoSchema> parse(MainDirectory mainDirectory, OpenApiSpec inputSpec) {
-    try {
-      final String specString = specReader.read(mainDirectory, inputSpec);
-      final OpenAPI openAPI = parseSpec(specString);
-      return convertToPojoSchemas(openAPI);
-    } catch (IOException e) {
-      throw new GradleException("Error while generating the schema classes", e);
-    }
+    final String specString = specReader.read(mainDirectory, inputSpec);
+    final OpenAPI openAPI = parseSpec(specString);
+    return convertToPojoSchemas(openAPI);
   }
 
   private PList<PojoSchema> convertToPojoSchemas(OpenAPI openAPI) {
@@ -43,8 +39,13 @@ public class SwaggerSpecificationParser implements SpecificationParser {
                     (Schema<?>) entry.getValue()));
   }
 
-  private OpenAPI parseSpec(String inputSpec) throws IOException {
-    final SwaggerParseResult swaggerParseResult = new OpenAPIV3Parser().readContents(inputSpec);
+  private OpenAPI parseSpec(String inputSpec) {
+    final OpenAPIV3Parser openAPIV3Parser = new OpenAPIV3Parser();
+    final ParseOptions parseOptions = new ParseOptions();
+    parseOptions.setResolve(false);
+    parseOptions.setResolveFully(false);
+    final SwaggerParseResult swaggerParseResult =
+        openAPIV3Parser.readContents(inputSpec, null, parseOptions);
 
     final OpenAPI openAPI = swaggerParseResult.getOpenAPI();
     if (openAPI == null) {
