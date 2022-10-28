@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.MemberPojoS
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ObjectPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolver;
+import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
@@ -52,7 +53,8 @@ class PojoMapperImpl implements PojoMapper {
           final PList<PojoSchema> pojoSchemas =
               specs
                   .toPList()
-                  .flatMap(spec -> specificationParser.parse(mainDirectory, spec))
+                  .map(spec -> specificationParser.parse(mainDirectory, spec))
+                  .flatMap(ParsedSpecification::getPojoSchemas)
                   .filter(excludedSchemas.getSchemaFilter());
           return processMapContext(mainDirectory, ctx.addPojoSchemas(pojoSchemas), excludedSchemas);
         },

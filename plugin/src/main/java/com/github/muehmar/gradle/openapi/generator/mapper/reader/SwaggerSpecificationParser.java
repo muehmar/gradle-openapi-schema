@@ -1,6 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.reader;
 
+import static java.util.Objects.nonNull;
+
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Parameter;
+import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
@@ -10,7 +14,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.gradle.api.GradleException;
 
 public class SwaggerSpecificationParser implements SpecificationParser {
@@ -23,20 +29,35 @@ public class SwaggerSpecificationParser implements SpecificationParser {
   }
 
   @Override
-  public PList<PojoSchema> parse(MainDirectory mainDirectory, OpenApiSpec inputSpec) {
+  public ParsedSpecification parse(MainDirectory mainDirectory, OpenApiSpec inputSpec) {
     final String specString = specReader.read(mainDirectory, inputSpec);
     final OpenAPI openAPI = parseSpec(specString);
-    return convertToPojoSchemas(openAPI);
+    return parse(openAPI);
   }
 
-  private PList<PojoSchema> convertToPojoSchemas(OpenAPI openAPI) {
-    return PList.fromIter(openAPI.getComponents().getSchemas().entrySet())
+  private ParsedSpecification parse(OpenAPI openAPI) {
+    final PList<PojoSchema> pojoSchemas = parsePojoSchemas(openAPI);
+    final PList<Parameter> parameters = parseParameters(openAPI);
+    return new ParsedSpecification(pojoSchemas, parameters);
+  }
+
+  private PList<PojoSchema> parsePojoSchemas(OpenAPI openAPI) {
+    return PList.fromOptional(Optional.ofNullable(openAPI.getComponents().getSchemas()))
+        .flatMap(Map::entrySet)
         .filter(Objects::nonNull)
         .map(
             entry ->
                 new PojoSchema(
                     PojoName.ofNameAndSuffix(entry.getKey(), pojoSuffix),
                     (Schema<?>) entry.getValue()));
+  }
+
+  private PList<Parameter> parseParameters(OpenAPI openAPI) {
+    return PList.fromOptional(Optional.ofNullable(openAPI.getComponents().getParameters()))
+        .flatMap(Map::entrySet)
+        .filter(Objects::nonNull)
+        .filter(entry -> nonNull(entry.getValue().getSchema()))
+        .map(entry -> new Parameter(entry.getKey(), entry.getValue().getSchema()));
   }
 
   private OpenAPI parseSpec(String inputSpec) {

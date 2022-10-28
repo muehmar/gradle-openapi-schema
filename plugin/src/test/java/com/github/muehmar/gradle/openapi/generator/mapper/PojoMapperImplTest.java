@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.reader.ResourceSpecifi
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SwaggerSpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolverImpl;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecifications;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -65,7 +66,8 @@ class PojoMapperImplTest {
         new PojoSchema(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"), schema);
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchema));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -95,7 +97,8 @@ class PojoMapperImplTest {
 
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchema));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -344,7 +347,8 @@ class PojoMapperImplTest {
             PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto"), composedSchema);
     final PojoMapper pojoMapper =
         PojoMapperImpl.create(
-            new MapResultResolverImpl(), (mainDir, spec) -> PList.single(pojoSchema));
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchema));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -415,7 +419,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"), referenceSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -519,7 +525,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("UserKey", "Dto"), keySchema),
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -551,7 +559,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -587,7 +597,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -623,7 +635,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -661,7 +675,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("User", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -706,7 +722,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("user", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
@@ -745,7 +763,9 @@ class PojoMapperImplTest {
             new PojoSchema(PojoName.ofNameAndSuffix("user", "Dto"), userSchema));
 
     final PojoMapper pojoMapper =
-        PojoMapperImpl.create(new MapResultResolverImpl(), (mainDir, spec) -> pojoSchemas);
+        PojoMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         pojoMapper
             .fromSpecification(
