@@ -15,7 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirec
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.ExcludedSchemas;
 
-class PojoMapperImpl implements PojoMapper {
+class SpecificationMapperImpl implements SpecificationMapper {
 
   private final MapResultResolver resolver;
   private final SpecificationParser specificationParser;
@@ -27,18 +27,19 @@ class PojoMapperImpl implements PojoMapper {
           .or(new EnumPojoSchemaMapper())
           .orLast(new MemberPojoSchemaMapper());
 
-  private PojoMapperImpl(MapResultResolver resolver, SpecificationParser specificationParser) {
+  private SpecificationMapperImpl(
+      MapResultResolver resolver, SpecificationParser specificationParser) {
     this.resolver = resolver;
     this.specificationParser = specificationParser;
   }
 
-  public static PojoMapper create(
+  public static SpecificationMapper create(
       MapResultResolver resolver, SpecificationParser specificationParser) {
-    return new PojoMapperImpl(resolver, specificationParser);
+    return new SpecificationMapperImpl(resolver, specificationParser);
   }
 
   @Override
-  public MapResult fromSpecification(
+  public MapResult map(
       MainDirectory mainDirectory, OpenApiSpec mainSpecification, ExcludedSchemas excludedSchemas) {
     final MapContext mapContext = MapContext.fromInitialSpecification(mainSpecification);
     final UnresolvedMapResult unresolvedMapResult =

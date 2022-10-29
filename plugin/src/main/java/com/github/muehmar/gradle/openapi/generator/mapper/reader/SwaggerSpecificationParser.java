@@ -3,7 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.mapper.reader;
 import static java.util.Objects.nonNull;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Parameter;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
@@ -37,7 +38,7 @@ public class SwaggerSpecificationParser implements SpecificationParser {
 
   private ParsedSpecification parse(OpenAPI openAPI) {
     final PList<PojoSchema> pojoSchemas = parsePojoSchemas(openAPI);
-    final PList<Parameter> parameters = parseParameters(openAPI);
+    final PList<ParameterSchema> parameters = parseParameters(openAPI);
     return new ParsedSpecification(pojoSchemas, parameters);
   }
 
@@ -52,12 +53,14 @@ public class SwaggerSpecificationParser implements SpecificationParser {
                     (Schema<?>) entry.getValue()));
   }
 
-  private PList<Parameter> parseParameters(OpenAPI openAPI) {
+  private PList<ParameterSchema> parseParameters(OpenAPI openAPI) {
     return PList.fromOptional(Optional.ofNullable(openAPI.getComponents().getParameters()))
         .flatMap(Map::entrySet)
         .filter(Objects::nonNull)
         .filter(entry -> nonNull(entry.getValue().getSchema()))
-        .map(entry -> new Parameter(entry.getKey(), entry.getValue().getSchema()));
+        .map(
+            entry ->
+                new ParameterSchema(Name.ofString(entry.getKey()), entry.getValue().getSchema()));
   }
 
   private OpenAPI parseSpec(String inputSpec) {

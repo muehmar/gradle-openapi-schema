@@ -7,9 +7,11 @@ import com.github.muehmar.gradle.openapi.writer.FileWriter;
 public class GeneratorFactory {
   private GeneratorFactory() {}
 
-  public static PojoGenerator createGenerator(Language language, String outputDir) {
+  public static Generators create(Language language, String outputDir) {
     if (language.equals(Language.JAVA)) {
-      return new JavaPojoGenerator(() -> new FileWriter(outputDir));
+      final JavaPojoGenerator pojoGenerator =
+          new JavaPojoGenerator(() -> new FileWriter(outputDir));
+      return new Generators(pojoGenerator, (parameters, settings) -> {});
     }
 
     throw new IllegalArgumentException("Not supported language " + language);

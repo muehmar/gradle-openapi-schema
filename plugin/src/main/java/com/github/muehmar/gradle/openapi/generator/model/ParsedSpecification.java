@@ -6,5 +6,5 @@ import lombok.Value;
 @Value
 public class ParsedSpecification {
   PList<PojoSchema> pojoSchemas;
-  PList<Parameter> parameters;
+  PList<ParameterSchema> parameters;
 }

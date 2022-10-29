@@ -2,13 +2,13 @@ package com.github.muehmar.gradle.openapi.task;
 
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
-import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.Generators;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.TristateGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.jackson.JacksonNullContainerGenerator;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
-import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapperFactory;
+import com.github.muehmar.gradle.openapi.generator.mapper.SpecificationMapper;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
@@ -70,18 +70,23 @@ public class GenerateSchemasTask extends DefaultTask {
 
   private void runTask() {
     final MapResult mapResult = cachedMapping.get();
-    final PojoGenerator generator =
-        GeneratorFactory.createGenerator(Language.JAVA, outputDir.get());
-    mapResult.getPojos().forEach(pojo -> generator.generatePojo(pojo, pojoSettings.get()));
+    final Generators generators = GeneratorFactory.create(Language.JAVA, outputDir.get());
+
+    mapResult
+        .getPojos()
+        .forEach(pojo -> generators.getPojoGenerator().generatePojo(pojo, pojoSettings.get()));
+
+    generators.getParametersGenerator().generate(mapResult.getParameters(), pojoSettings.get());
 
     writeOpenApiUtils();
   }
 
   private MapResult executeMapping() {
-    final PojoMapper pojoMapper = PojoMapperFactory.create(pojoSettings.get().getSuffix());
+    final SpecificationMapper specificationMapper =
+        PojoMapperFactory.create(pojoSettings.get().getSuffix());
     final Path specPath = Paths.get(inputSpec);
     final OpenApiSpec openApiSpec = OpenApiSpec.fromPath(specPath.getFileName());
-    return pojoMapper.fromSpecification(
+    return specificationMapper.map(
         mainDirectory, openApiSpec, pojoSettings.get().getExcludedSchemas());
   }
 

@@ -4,9 +4,11 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import java.util.Optional;
 
 public class MapResultResolverImpl implements MapResultResolver {
@@ -23,7 +25,9 @@ public class MapResultResolverImpl implements MapResultResolver {
             .map(p -> inlineMemberReferences(p, pojoMemberReferences))
             .map(this::addEnumDescription)
             .orElse(PList.empty());
-    return MapResult.of(resolvedPojos, unresolvedMapResult.getUsedSpecs());
+    final PList<Parameter> parameters = unresolvedMapResult.getParameters();
+    final PList<OpenApiSpec> usedSpecs = unresolvedMapResult.getUsedSpecs();
+    return MapResult.of(resolvedPojos, parameters, usedSpecs);
   }
 
   private PList<Pojo> inlineMemberReferences(

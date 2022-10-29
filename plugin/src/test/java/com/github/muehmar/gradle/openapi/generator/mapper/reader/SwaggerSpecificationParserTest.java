@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Parameter;
+import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
@@ -23,16 +23,18 @@ class SwaggerSpecificationParserTest {
 
     final ParsedSpecification parsedSpecification = parser.parse(mainDirectory, inputSpec);
 
-    final PList<Parameter> parameters =
-        parsedSpecification.getParameters().sort(Comparator.comparing(Parameter::getName));
+    final PList<ParameterSchema> parameters =
+        parsedSpecification
+            .getParameters()
+            .sort(Comparator.comparing(parameterSchema -> parameterSchema.getName().asString()));
 
     assertEquals(2, parameters.size());
-    final Parameter limitParam = parameters.apply(0);
-    final Parameter offsetParam = parameters.apply(1);
+    final ParameterSchema limitParam = parameters.apply(0);
+    final ParameterSchema offsetParam = parameters.apply(1);
 
-    assertEquals("limitParam", limitParam.getName());
+    assertEquals("limitParam", limitParam.getName().asString());
     assertTrue(limitParam.getSchema() instanceof IntegerSchema);
-    assertEquals("offsetParam", offsetParam.getName());
+    assertEquals("offsetParam", offsetParam.getName().asString());
     assertTrue(offsetParam.getSchema() instanceof IntegerSchema);
   }
 }

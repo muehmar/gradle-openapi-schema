@@ -5,13 +5,13 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirec
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.ExcludedSchemas;
 
-public interface PojoMapper {
+public interface SpecificationMapper {
 
-  MapResult fromSpecification(
+  MapResult map(
       MainDirectory mainDirectory, OpenApiSpec mainSpecification, ExcludedSchemas excludedSchemas);
 
-  default MapResult fromSpecification(MainDirectory mainDirectory, OpenApiSpec mainSpecification) {
-    return fromSpecification(
+  default MapResult map(MainDirectory mainDirectory, OpenApiSpec mainSpecification) {
+    return map(
         mainDirectory, mainSpecification, ExcludedSchemas.fromExcludedPojoNames(PList.empty()));
   }
 }
