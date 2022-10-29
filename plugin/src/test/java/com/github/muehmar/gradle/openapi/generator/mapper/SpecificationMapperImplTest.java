@@ -13,6 +13,8 @@ import com.github.muehmar.gradle.openapi.generator.mapper.reader.ResourceSpecifi
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SwaggerSpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolverImpl;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Parameter;
+import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecifications;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -48,6 +50,7 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -57,7 +60,7 @@ import org.junit.jupiter.api.Test;
 class SpecificationMapperImplTest {
 
   @Test
-  void fromSchema_when_arraySchema_then_returnArrayPojo() {
+  void map_when_arraySchema_then_returnArrayPojo() {
     final ArraySchema schema = new ArraySchema().items(new IntegerSchema());
     schema.setMaxItems(50);
 
@@ -85,7 +88,39 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchema_when_classMappedType_then_correctMappedTypePojo() {
+  void map_when_parameterSchema_then_returnMappedParameter() {
+    final IntegerSchema schema = new IntegerSchema();
+    schema.setMinimum(new BigDecimal(0L));
+    schema.setMaximum(new BigDecimal(1000L));
+    schema.setDefault(50L);
+    final ParameterSchema parameterSchema =
+        new ParameterSchema(Name.ofString("limitParam"), schema);
+
+    // method call
+    final SpecificationMapper specificationMapper =
+        SpecificationMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromParameterSchemas(parameterSchema));
+
+    final PList<Parameter> parameters =
+        specificationMapper
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getParameters();
+
+    assertEquals(1, parameters.size());
+    final Parameter parameter = parameters.head();
+
+    final Parameter expectedParameter =
+        new Parameter(
+            parameterSchema.getName(),
+            IntegerType.formatInteger()
+                .withConstraints(Constraints.ofMin(new Min(0L)).withMax(new Max(1000L))),
+            Optional.of(50));
+    assertEquals(expectedParameter, parameter);
+  }
+
+  @Test
+  void map_when_classMappedType_then_correctMappedTypePojo() {
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("name", new StringSchema());
     final Schema<?> schema = new ObjectSchema().properties(properties);
@@ -120,7 +155,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchema_when_realSpecWithRemoteReference_then_allPojosCorrectMapped() {
+  void map_when_realSpecWithRemoteReference_then_allPojosCorrectMapped() {
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),
@@ -139,7 +174,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchema_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
+  void map_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),
@@ -330,7 +365,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchema_when_singleInlineDefinition_then_composedPojoAndInlineDefinitionPojoCreated() {
+  void map_when_singleInlineDefinition_then_composedPojoAndInlineDefinitionPojoCreated() {
     final Schema<?> objectSchema =
         new ObjectSchema()
             .addProperties("user", new StringSchema())
@@ -387,7 +422,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchema_when_twoInlineDefinitionAndReference_then_allPojosCreated() {
+  void map_when_twoInlineDefinitionAndReference_then_allPojosCreated() {
     final Schema<?> objectSchema1 =
         new ObjectSchema()
             .addProperties("user", new StringSchema())
@@ -509,7 +544,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchemas_when_rootUuidSchemaUsedAsReference_then_inlinedInPojo() {
+  void map_when_rootUuidSchemaUsedAsReference_then_inlinedInPojo() {
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("key", new Schema<>().$ref("#/components/schemas/UserKey"));
@@ -541,7 +576,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchemas_when_rootIntegerSchemaUsedAsReference_then_inlinedInPojo() {
+  void map_when_rootIntegerSchemaUsedAsReference_then_inlinedInPojo() {
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("age", new Schema<>().$ref("#/components/schemas/UserAge"));
@@ -578,7 +613,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchemas_when_rootNumberSchemaUsedAsReference_then_inlinedInPojo() {
+  void map_when_rootNumberSchemaUsedAsReference_then_inlinedInPojo() {
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("height", new Schema<>().$ref("#/components/schemas/UserHeight"));
@@ -615,7 +650,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchemas_when_rootBooleanSchemaUsedAsReference_then_inlinedInPojo() {
+  void map_when_rootBooleanSchemaUsedAsReference_then_inlinedInPojo() {
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("admin", new Schema<>().$ref("#/components/schemas/UserAdmin"));
@@ -652,7 +687,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchemas_when_rootEnumSchemaUsedAsReference_then_discreteEnumPojoCreated() {
+  void map_when_rootEnumSchemaUsedAsReference_then_discreteEnumPojoCreated() {
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("gender", new Schema<>().$ref("#/components/schemas/Gender"));
@@ -698,7 +733,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchemas_when_lowercaseNamesAndReferences_then_allNamesStartUppercase() {
+  void map_when_lowercaseNamesAndReferences_then_allNamesStartUppercase() {
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("gender", new Schema<>().$ref("#/components/schemas/gender"));
@@ -738,7 +773,7 @@ class SpecificationMapperImplTest {
   }
 
   @Test
-  void fromSchemas_when_excludeSchemas_then_excludedSchemaNotMapped() {
+  void map_when_excludeSchemas_then_excludedSchemaNotMapped() {
     final Schema<?> userSchema =
         new ObjectSchema()
             .addProperties("gender", new Schema<>().$ref("#/components/schemas/gender"));

@@ -2,6 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Parameter;
+import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
@@ -40,7 +42,8 @@ public class MapContext {
 
   public UnresolvedMapResult onUnmappedItems(
       BiFunction<MapContext, NonEmptyList<OpenApiSpec>, UnresolvedMapResult> onSpecifications,
-      BiFunction<MapContext, NonEmptyList<PojoSchema>, UnresolvedMapResult> onPojoSchemas) {
+      BiFunction<MapContext, NonEmptyList<PojoSchema>, UnresolvedMapResult> onPojoSchemas,
+      BiFunction<MapContext, NonEmptyList<ParameterSchema>, UnresolvedMapResult> onParameter) {
     return unmappedItems.onUnmappedItems(
         (newUnmappedItems, specs) -> {
           final MapContext mapContext = new MapContext(newUnmappedItems, unresolvedMapResult);
@@ -51,6 +54,10 @@ public class MapContext {
         (newUnmappedItems, pojoSchemas) -> {
           final MapContext mapContext = new MapContext(newUnmappedItems, unresolvedMapResult);
           return onPojoSchemas.apply(mapContext, pojoSchemas);
+        },
+        (newUnmappedItems, parameters) -> {
+          final MapContext mapContext = new MapContext(newUnmappedItems, unresolvedMapResult);
+          return onParameter.apply(mapContext, parameters);
         },
         () -> unresolvedMapResult);
   }
@@ -63,6 +70,14 @@ public class MapContext {
 
   public MapContext addPojoSchemas(PList<PojoSchema> pojoSchemas) {
     return new MapContext(unmappedItems.addPojoSchemas(pojoSchemas), unresolvedMapResult);
+  }
+
+  public MapContext addParameters(PList<Parameter> parameters) {
+    return new MapContext(unmappedItems, unresolvedMapResult.addParameters(parameters));
+  }
+
+  public MapContext addParametersSchemas(PList<ParameterSchema> parameterSchemas) {
+    return new MapContext(unmappedItems.addParameterSchemas(parameterSchemas), unresolvedMapResult);
   }
 
   public UnmappedItems getUnmappedItems() {

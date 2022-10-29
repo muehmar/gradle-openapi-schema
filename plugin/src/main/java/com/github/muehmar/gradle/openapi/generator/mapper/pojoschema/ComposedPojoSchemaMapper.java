@@ -104,7 +104,11 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
     final UnresolvedMapResult unresolvedMapResult =
         UnresolvedMapResult.ofComposedPojo(composedPojo);
     final UnmappedItems unmappedItems =
-        UnmappedItemsBuilder.create().specifications(remoteSpecs).pojoSchemas(pojoSchemas).build();
+        UnmappedItemsBuilder.create()
+            .specifications(remoteSpecs)
+            .pojoSchemas(pojoSchemas)
+            .parameterSchemas(PList.empty())
+            .build();
     return MapContext.fromUnmappedItemsAndResult(unmappedItems, unresolvedMapResult);
   }
 }

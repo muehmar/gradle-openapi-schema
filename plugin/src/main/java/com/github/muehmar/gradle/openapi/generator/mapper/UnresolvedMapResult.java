@@ -70,6 +70,11 @@ public class UnresolvedMapResult {
         usedSpecs.concat(other.usedSpecs));
   }
 
+  public UnresolvedMapResult addParameters(PList<Parameter> parameters) {
+    return new UnresolvedMapResult(
+        pojos, composedPojos, pojoMemberReferences, this.parameters.concat(parameters), usedSpecs);
+  }
+
   public PList<Pojo> getPojos() {
     return pojos;
   }
