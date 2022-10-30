@@ -70,6 +70,7 @@ public class JavaStringType extends NonGenericJavaType {
       Function<JavaMapType, T> onMapType,
       Function<JavaNoType, T> onNoType,
       Function<JavaNumericType, T> onNumericType,
+      Function<JavaIntegerType, T> onIntegerType,
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType) {
     return onStringType.apply(this);

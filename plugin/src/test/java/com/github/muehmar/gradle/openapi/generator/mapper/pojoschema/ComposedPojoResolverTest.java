@@ -13,7 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import java.util.Comparator;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ class ComposedPojoResolverTest {
                 new PojoMember(
                     Name.ofString("colorKey"),
                     "Key",
-                    NumericType.formatLong(),
+                    IntegerType.formatLong(),
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(

@@ -24,6 +24,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -53,7 +54,7 @@ class JavaPojoGeneratorTest {
                   new PojoMember(
                       Name.ofString("id"),
                       "ID of this user",
-                      NumericType.formatLong(),
+                      IntegerType.formatLong(),
                       REQUIRED,
                       NOT_NULLABLE),
                   new PojoMember(
@@ -140,7 +141,7 @@ class JavaPojoGeneratorTest {
                     new PojoMember(
                         Name.ofString("id"),
                         "ID of this user",
-                        NumericType.formatLong().withConstraints(Constraints.ofMax(new Max(50))),
+                        IntegerType.formatLong().withConstraints(Constraints.ofMax(new Max(50))),
                         REQUIRED,
                         NOT_NULLABLE),
                     new PojoMember(
@@ -179,7 +180,7 @@ class JavaPojoGeneratorTest {
                     new PojoMember(
                         Name.ofString("level"),
                         "Level of this user",
-                        NumericType.formatLong().withConstraints(Constraints.ofMin(new Min(5))),
+                        IntegerType.formatLong().withConstraints(Constraints.ofMin(new Min(5))),
                         OPTIONAL,
                         NOT_NULLABLE),
                     new PojoMember(

@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -120,14 +121,12 @@ class ObjectPojoSchemaMapperTest {
     assertEquals(0, unresolvedMapResult.getComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
-    final PojoName memberObjectPojoName = PojoName.ofNameAndSuffix("ObjectObjectVal", "Dto");
-
     final PList<PojoMember> expectedMembers =
         PList.of(
             new PojoMember(
                 Name.ofString("intVal"),
                 null,
-                NumericType.formatInteger(),
+                IntegerType.formatInteger(),
                 Necessity.OPTIONAL,
                 Nullability.NULLABLE),
             new PojoMember(

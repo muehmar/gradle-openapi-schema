@@ -7,7 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import java.math.BigDecimal;
@@ -70,15 +70,15 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new IntegerSchema();
     final MemberSchemaMapResult result = run(schema);
 
-    final Type expectedType = NumericType.formatInteger();
+    final Type expectedType = IntegerType.formatInteger();
 
     assertEquals(expectedType, result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
-  private static NumericType fromFormat(String format) {
-    return NumericType.ofFormat(
-        NumericType.Format.parseString(format)
+  private static IntegerType fromFormat(String format) {
+    return IntegerType.ofFormat(
+        IntegerType.Format.parseString(format)
             .orElseThrow(() -> new IllegalStateException("Invalid format")));
   }
 }

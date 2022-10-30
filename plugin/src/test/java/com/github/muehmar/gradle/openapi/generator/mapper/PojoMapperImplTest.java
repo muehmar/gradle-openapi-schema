@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.mapper;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
-import static com.github.muehmar.gradle.openapi.generator.model.type.NumericType.Format.INTEGER;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE_TIME;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.EMAIL;
@@ -31,6 +30,7 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSp
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -78,7 +78,7 @@ class PojoMapperImplTest {
         ArrayPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"),
             "",
-            NumericType.ofFormat(INTEGER),
+            IntegerType.formatInteger(),
             Constraints.ofSize(Size.ofMax(50))),
         pojo);
   }
@@ -160,7 +160,7 @@ class PojoMapperImplTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("key"), "", NumericType.formatInteger(), REQUIRED, NOT_NULLABLE),
+                    Name.ofString("key"), "", IntegerType.formatInteger(), REQUIRED, NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("name"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE))),
         pojos.apply(0));
@@ -174,7 +174,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("externalId"),
                     "",
-                    NumericType.formatLong(),
+                    IntegerType.formatLong(),
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -196,7 +196,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("age"),
                     "",
-                    NumericType.formatInteger()
+                    IntegerType.formatInteger()
                         .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
                     OPTIONAL,
                     NOT_NULLABLE),
@@ -322,7 +322,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("prio"),
                     "",
-                    NumericType.formatInteger(),
+                    IntegerType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE))),
         pojos.apply(5));
@@ -364,7 +364,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("key"),
                     "",
-                    NumericType.formatInteger(),
+                    IntegerType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE))),
         pojos.apply(0));
@@ -379,7 +379,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("key"),
                     "",
-                    NumericType.formatInteger(),
+                    IntegerType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE))),
         pojos.apply(1));
@@ -435,7 +435,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("key"),
                     "",
-                    NumericType.formatInteger(),
+                    IntegerType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE))),
         pojos.apply(0));
@@ -469,13 +469,13 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("group"),
                     "",
-                    NumericType.formatInteger(),
+                    IntegerType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"), "", NumericType.formatInteger(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("registerDate"),
                     "",
@@ -500,7 +500,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("group"),
                     "",
-                    NumericType.formatInteger(),
+                    IntegerType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE))),
         pojos.apply(3));
@@ -567,7 +567,7 @@ class PojoMapperImplTest {
                 new PojoMember(
                     Name.ofString("age"),
                     "User age",
-                    NumericType.formatInteger(),
+                    IntegerType.formatInteger(),
                     OPTIONAL,
                     NOT_NULLABLE))),
         pojos.apply(0));

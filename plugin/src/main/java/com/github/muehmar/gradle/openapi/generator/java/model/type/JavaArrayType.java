@@ -68,6 +68,7 @@ public class JavaArrayType implements JavaType {
       Function<JavaMapType, T> onMapType,
       Function<JavaNoType, T> onNoType,
       Function<JavaNumericType, T> onNumericType,
+      Function<JavaIntegerType, T> onIntegerType,
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType) {
     return onArrayType.apply(this);

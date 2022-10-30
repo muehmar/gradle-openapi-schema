@@ -4,7 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import java.util.Optional;
 
@@ -20,12 +20,12 @@ public class IntegerSchemaMapper extends BaseMemberSchemaMapper<IntegerSchema> {
       IntegerSchema schema,
       CompleteMemberSchemaMapper completeMapper) {
     final Constraints constraints = ConstraintsMapper.getMinimumAndMaximum(schema);
-    final NumericType.Format format =
+    final IntegerType.Format format =
         Optional.ofNullable(schema.getFormat())
-            .flatMap(NumericType.Format::parseString)
-            .orElse(NumericType.Format.INTEGER);
+            .flatMap(IntegerType.Format::parseString)
+            .orElse(IntegerType.Format.INTEGER);
 
-    final NumericType numericType = NumericType.ofFormat(format).withConstraints(constraints);
+    final IntegerType numericType = IntegerType.ofFormat(format).withConstraints(constraints);
 
     return MemberSchemaMapResult.ofType(numericType);
   }

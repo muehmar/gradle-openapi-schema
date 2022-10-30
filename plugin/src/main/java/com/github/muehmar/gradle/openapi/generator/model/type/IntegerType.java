@@ -10,39 +10,38 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class NumericType implements Type {
-
+public class IntegerType implements Type {
   private final Format format;
   private final Constraints constraints;
 
-  private NumericType(Format format, Constraints constraints) {
+  private IntegerType(Format format, Constraints constraints) {
     this.format = format;
     this.constraints = constraints;
   }
 
-  public static NumericType ofFormat(Format format) {
-    return new NumericType(format, Constraints.empty());
+  public static IntegerType ofFormat(Format format) {
+    return new IntegerType(format, Constraints.empty());
   }
 
-  public static NumericType formatFloat() {
-    return NumericType.ofFormat(Format.FLOAT);
+  public static IntegerType formatInteger() {
+    return IntegerType.ofFormat(Format.INTEGER);
   }
 
-  public static NumericType formatDouble() {
-    return NumericType.ofFormat(Format.DOUBLE);
+  public static IntegerType formatLong() {
+    return IntegerType.ofFormat(Format.LONG);
   }
 
-  public NumericType withConstraints(Constraints constraints) {
-    return new NumericType(format, constraints);
-  }
-
-  public Format getFormat() {
-    return format;
+  public IntegerType withConstraints(Constraints constraints) {
+    return new IntegerType(format, constraints);
   }
 
   @Override
   public Constraints getConstraints() {
     return constraints;
+  }
+
+  public Format getFormat() {
+    return format;
   }
 
   @Override
@@ -56,12 +55,12 @@ public class NumericType implements Type {
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
       Function<NoType, T> onNoType) {
-    return onNumericType.apply(this);
+    return onIntegerType.apply(this);
   }
 
   public enum Format {
-    FLOAT("float"),
-    DOUBLE("double");
+    INTEGER("int32"),
+    LONG("int64");
 
     private final String value;
 
