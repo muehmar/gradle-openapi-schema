@@ -35,7 +35,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
 
   private Generator<JavaParameter, PojoSettings> content() {
     return Generator.<JavaParameter, PojoSettings>emptyGen()
-        .append(this::printPrivateConstructor)
+        .append(this::printConstructor)
         .appendNewLine()
         .appendConditionally(JavaParameter::printMin, this::printMin)
         .appendConditionally(JavaParameter::printMax, this::printMax)
@@ -45,7 +45,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .appendConditionally(JavaParameter::printDefaultAsString, this::printDefaultAsString);
   }
 
-  private <T> Writer printPrivateConstructor(JavaParameter parameter, T settings, Writer writer) {
+  private <T> Writer printConstructor(JavaParameter parameter, T settings, Writer writer) {
     return writer.println("private %s() {}", parameter.getParamClassName());
   }
 
