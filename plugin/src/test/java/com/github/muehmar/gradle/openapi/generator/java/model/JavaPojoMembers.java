@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
@@ -90,7 +91,7 @@ public class JavaPojoMembers {
         Name.ofString("intVal"),
         "intVal",
         JavaType.wrap(
-            NumericType.formatInteger()
+            IntegerType.formatInteger()
                 .withConstraints(Constraints.ofMin(new Min(10)).withMax(new Max(50))),
             TypeMappings.empty()),
         necessity,

@@ -4,7 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.EnumMap;
@@ -16,38 +16,38 @@ import lombok.ToString;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class JavaNumericType extends NonGenericJavaType {
-  private static final Map<NumericType.Format, ClassName> FORMAT_CLASS_NAME_MAP =
+public class JavaIntegerType extends NonGenericJavaType {
+  private static final Map<IntegerType.Format, ClassName> FORMAT_CLASS_NAME_MAP =
       createFormatClassNameMap();
   private final Constraints constraints;
 
-  protected JavaNumericType(ClassName className, Constraints constraints) {
+  protected JavaIntegerType(ClassName className, Constraints constraints) {
     super(className);
     this.constraints = constraints;
   }
 
-  public static JavaNumericType wrap(NumericType numericType, TypeMappings typeMappings) {
+  public static JavaIntegerType wrap(IntegerType integerType, TypeMappings typeMappings) {
     final ClassName className =
-        classNameFromFormat(numericType, typeMappings.getFormatTypeMappings());
+        classNameFromFormat(integerType, typeMappings.getFormatTypeMappings());
     final ClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaNumericType(finalClassName, numericType.getConstraints());
+    return new JavaIntegerType(finalClassName, integerType.getConstraints());
   }
 
   private static ClassName classNameFromFormat(
-      NumericType numericType, PList<FormatTypeMapping> formatTypeMappings) {
+      IntegerType integerType, PList<FormatTypeMapping> formatTypeMappings) {
     final Optional<ClassName> userFormatMappedClassName =
-        ClassName.fromFormatTypeMapping(numericType.getFormat().asString(), formatTypeMappings);
+        ClassName.fromFormatTypeMapping(integerType.getFormat().asString(), formatTypeMappings);
     final ClassName formatMappedClassName =
-        Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(numericType.getFormat()))
+        Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(integerType.getFormat()))
             .orElse(ClassNames.DOUBLE);
     return userFormatMappedClassName.orElse(formatMappedClassName);
   }
 
-  private static Map<NumericType.Format, ClassName> createFormatClassNameMap() {
-    final Map<NumericType.Format, ClassName> map = new EnumMap<>(NumericType.Format.class);
-    map.put(NumericType.Format.DOUBLE, ClassNames.DOUBLE);
-    map.put(NumericType.Format.FLOAT, ClassNames.FLOAT);
+  private static Map<IntegerType.Format, ClassName> createFormatClassNameMap() {
+    final Map<IntegerType.Format, ClassName> map = new EnumMap<>(IntegerType.Format.class);
+    map.put(IntegerType.Format.LONG, ClassNames.LONG);
+    map.put(IntegerType.Format.INTEGER, ClassNames.INTEGER);
     return map;
   }
 
@@ -67,6 +67,6 @@ public class JavaNumericType extends NonGenericJavaType {
       Function<JavaIntegerType, T> onIntegerType,
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType) {
-    return onNumericType.apply(this);
+    return onIntegerType.apply(this);
   }
 }

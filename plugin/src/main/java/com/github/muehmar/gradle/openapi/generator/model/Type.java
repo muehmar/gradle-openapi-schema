@@ -4,6 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -18,6 +19,7 @@ public interface Type {
 
   <T> T fold(
       Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
       Function<StringType, T> onStringType,
       Function<ArrayType, T> onArrayType,
       Function<BooleanType, T> onBooleanType,
@@ -32,6 +34,7 @@ public interface Type {
         Type.class::cast,
         Type.class::cast,
         Type.class::cast,
+        Type.class::cast,
         mapObjectType::apply,
         Type.class::cast,
         Type.class::cast,
@@ -40,6 +43,7 @@ public interface Type {
 
   default Optional<ObjectType> asObjectType() {
     return fold(
+        ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),

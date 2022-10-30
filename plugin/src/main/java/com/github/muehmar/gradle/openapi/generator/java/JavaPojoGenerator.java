@@ -257,6 +257,7 @@ public class JavaPojoGenerator implements PojoGenerator {
                         ignore -> null,
                         ignore -> null,
                         ignore -> null,
+                        ignore -> null,
                         ignore -> null));
   }
 

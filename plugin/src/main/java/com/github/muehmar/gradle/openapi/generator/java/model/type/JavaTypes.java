@@ -5,8 +5,8 @@ import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -26,8 +26,8 @@ public class JavaTypes {
           MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
           TypeMappings.empty());
   public static final JavaNoType NO_TYPE = JavaNoType.create();
-  public static final JavaNumericType INTEGER =
-      JavaNumericType.wrap(NumericType.formatInteger(), TypeMappings.empty());
+  public static final JavaIntegerType INTEGER =
+      JavaIntegerType.wrap(IntegerType.formatInteger(), TypeMappings.empty());
   public static final JavaObjectType OBJECT =
       JavaObjectType.wrap(ObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))));
   public static final JavaStringType STRING =

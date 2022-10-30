@@ -16,8 +16,8 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -151,9 +151,9 @@ class ValidationGeneratorTest {
   public static Stream<Arguments> mapNonObjectTypes() {
     final ArrayType stringList = ArrayType.ofItemType(StringType.noFormat());
     final MapType stringLongMap =
-        MapType.ofKeyAndValueType(StringType.noFormat(), NumericType.formatLong());
+        MapType.ofKeyAndValueType(StringType.noFormat(), IntegerType.formatLong());
     return Stream.of(
-        Arguments.arguments(NumericType.formatInteger(), StringType.noFormat()),
+        Arguments.arguments(IntegerType.formatInteger(), StringType.noFormat()),
         Arguments.arguments(StringType.noFormat(), stringList),
         Arguments.arguments(StringType.noFormat(), stringLongMap));
   }

@@ -37,6 +37,7 @@ public class MapType implements Type {
   @Override
   public <T> T fold(
       Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
       Function<StringType, T> onStringType,
       Function<ArrayType, T> onArrayType,
       Function<BooleanType, T> onBooleanType,

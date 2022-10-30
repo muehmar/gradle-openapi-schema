@@ -24,6 +24,7 @@ public interface JavaType {
       Function<JavaMapType, T> onMapType,
       Function<JavaNoType, T> onNoType,
       Function<JavaNumericType, T> onNumericType,
+      Function<JavaIntegerType, T> onIntegerType,
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType);
 
@@ -42,6 +43,7 @@ public interface JavaType {
   static JavaType wrap(Type type, TypeMappings typeMappings) {
     return type.fold(
         numericType -> JavaNumericType.wrap(numericType, typeMappings),
+        numericType -> JavaIntegerType.wrap(numericType, typeMappings),
         stringType -> JavaStringType.wrap(stringType, typeMappings),
         arrayType -> JavaArrayType.wrap(arrayType, typeMappings),
         booleanType -> JavaBooleanType.wrap(typeMappings),

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -16,13 +16,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class JavaNumericTypeTest {
+class JavaIntegerTypeTest {
   @ParameterizedTest
-  @MethodSource("numericFormats")
-  void wrap_when_doubleFormatWrapped_then_correctWrapped(
-      NumericType.Format format, String className) {
-    final NumericType numericType = NumericType.ofFormat(format);
-    final JavaNumericType javaType = JavaNumericType.wrap(numericType, TypeMappings.empty());
+  @MethodSource("integerFormats")
+  void wrap_when_integerFormatWrapped_then_correctWrapped(
+      IntegerType.Format format, String className) {
+    final IntegerType integerType = IntegerType.ofFormat(format);
+    final JavaIntegerType javaType = JavaIntegerType.wrap(integerType, TypeMappings.empty());
 
     assertEquals(className, javaType.getFullClassName().asString());
     assertEquals(className, javaType.getClassName().asString());
@@ -34,25 +34,25 @@ class JavaNumericTypeTest {
             .sort(Comparator.comparing(Function.identity())));
   }
 
-  public static Stream<Arguments> numericFormats() {
+  public static Stream<Arguments> integerFormats() {
     return Stream.of(
-        Arguments.of(NumericType.Format.DOUBLE, "Double"),
-        Arguments.of(NumericType.Format.FLOAT, "Float"));
+        Arguments.of(IntegerType.Format.INTEGER, "Integer"),
+        Arguments.of(IntegerType.Format.LONG, "Long"));
   }
 
   @Test
   void wrap_when_numericTypeWrappedWithClassMapping_then_correctTypeMapped() {
-    final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE);
-    final JavaNumericType javaType =
-        JavaNumericType.wrap(
-            numericType,
+    final IntegerType integerType = IntegerType.ofFormat(IntegerType.Format.LONG);
+    final JavaIntegerType javaType =
+        JavaIntegerType.wrap(
+            integerType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Double", "com.custom.CustomDouble")));
+                new ClassTypeMapping("Long", "com.custom.CustomLong")));
 
-    assertEquals("CustomDouble", javaType.getFullClassName().asString());
-    assertEquals("CustomDouble", javaType.getClassName().asString());
+    assertEquals("CustomLong", javaType.getFullClassName().asString());
+    assertEquals("CustomLong", javaType.getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomDouble"),
+        PList.of("com.custom.CustomLong"),
         javaType
             .getAllQualifiedClassNames()
             .map(Name::asString)
@@ -61,17 +61,17 @@ class JavaNumericTypeTest {
 
   @Test
   void wrap_when_numericTypeWrappedWithFormatMapping_then_correctTypeMapped() {
-    final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE);
-    final JavaNumericType javaType =
-        JavaNumericType.wrap(
-            numericType,
+    final IntegerType integerType = IntegerType.ofFormat(IntegerType.Format.LONG);
+    final JavaIntegerType javaType =
+        JavaIntegerType.wrap(
+            integerType,
             TypeMappings.ofSingleFormatTypeMapping(
-                new FormatTypeMapping("double", "com.custom.CustomDouble")));
+                new FormatTypeMapping("int64", "com.custom.CustomLong")));
 
-    assertEquals("CustomDouble", javaType.getFullClassName().asString());
-    assertEquals("CustomDouble", javaType.getClassName().asString());
+    assertEquals("CustomLong", javaType.getFullClassName().asString());
+    assertEquals("CustomLong", javaType.getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomDouble"),
+        PList.of("com.custom.CustomLong"),
         javaType
             .getAllQualifiedClassNames()
             .map(Name::asString)
