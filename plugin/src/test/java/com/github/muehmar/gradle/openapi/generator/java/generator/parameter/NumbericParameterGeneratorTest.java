@@ -7,7 +7,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
-import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -18,9 +17,10 @@ class NumbericParameterGeneratorTest {
 
   @Test
   void generate_when_defaultValue_then_correctRendered() {
-    final NumbericParameterGenerator gen = new NumbericParameterGenerator();
-    final Parameter limitParam =
+    final ParameterGenerator gen = new ParameterGenerator();
+    final Parameter param =
         new Parameter(Name.ofString("limitParam"), NumericType.formatDouble(), Optional.of(15.12));
+    final JavaParameter limitParam = JavaParameter.wrap(param);
 
     final Writer writer =
         gen.generate(limitParam, TestPojoSettings.defaultSettings(), Writer.createDefault());
@@ -40,8 +40,8 @@ class NumbericParameterGeneratorTest {
 
   @Test
   void generate_when_decimalMinAndDecimalMaxAndDefaultValue_then_correctRendered() {
-    final NumbericParameterGenerator gen = new NumbericParameterGenerator();
-    final Parameter limitParam =
+    final ParameterGenerator gen = new ParameterGenerator();
+    final Parameter param =
         new Parameter(
             Name.ofString("limitParam"),
             NumericType.formatDouble()
@@ -49,6 +49,8 @@ class NumbericParameterGeneratorTest {
                     Constraints.ofDecimalMinAndMax(
                         new DecimalMin("1.01", false), new DecimalMax("50.5", true))),
             Optional.of(15.12));
+    final JavaParameter limitParam = JavaParameter.wrap(param);
+
     final Writer writer =
         gen.generate(limitParam, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
@@ -69,8 +71,8 @@ class NumbericParameterGeneratorTest {
 
   @Test
   void generate_when_noDefaultValue_then_correctRendered() {
-    final NumbericParameterGenerator gen = new NumbericParameterGenerator();
-    final Parameter limitParam =
+    final ParameterGenerator gen = new ParameterGenerator();
+    final Parameter param =
         new Parameter(
             Name.ofString("limitParam"),
             NumericType.formatDouble()
@@ -78,6 +80,9 @@ class NumbericParameterGeneratorTest {
                     Constraints.ofDecimalMinAndMax(
                         new DecimalMin("1.01", false), new DecimalMax("50.5", true))),
             Optional.empty());
+
+    final JavaParameter limitParam = JavaParameter.wrap(param);
+
     final Writer writer =
         gen.generate(limitParam, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
@@ -96,8 +101,8 @@ class NumbericParameterGeneratorTest {
 
   @Test
   void generate_when_floatType_then_correctJavaSuffix() {
-    final NumbericParameterGenerator gen = new NumbericParameterGenerator();
-    final Parameter limitParam =
+    final ParameterGenerator gen = new ParameterGenerator();
+    final Parameter param =
         new Parameter(
             Name.ofString("limitParam"),
             NumericType.formatFloat()
@@ -105,6 +110,8 @@ class NumbericParameterGeneratorTest {
                     Constraints.ofDecimalMinAndMax(
                         new DecimalMin("1.01", false), new DecimalMax("50.5", true))),
             Optional.of(15.12));
+    final JavaParameter limitParam = JavaParameter.wrap(param);
+
     final Writer writer =
         gen.generate(limitParam, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
@@ -121,17 +128,5 @@ class NumbericParameterGeneratorTest {
             + "  public static final String DEFAULT_STR = \"15.12\";\n"
             + "}",
         writer.asString());
-  }
-
-  @Test
-  void generate_when_noNumericParam_then_noOutput() {
-    final NumbericParameterGenerator gen = new NumbericParameterGenerator();
-    final Parameter limitParam =
-        new Parameter(Name.ofString("limitParam"), IntegerType.formatInteger(), Optional.empty());
-
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), Writer.createDefault());
-
-    assertEquals("", writer.asString());
   }
 }

@@ -21,8 +21,8 @@ public class JavaIntegerType extends NonGenericJavaType {
       createFormatClassNameMap();
   private final Constraints constraints;
 
-  protected JavaIntegerType(ClassName className, Constraints constraints) {
-    super(className);
+  protected JavaIntegerType(ClassName className, Constraints constraints, IntegerType integerType) {
+    super(className, integerType);
     this.constraints = constraints;
   }
 
@@ -31,7 +31,7 @@ public class JavaIntegerType extends NonGenericJavaType {
         classNameFromFormat(integerType, typeMappings.getFormatTypeMappings());
     final ClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaIntegerType(finalClassName, integerType.getConstraints());
+    return new JavaIntegerType(finalClassName, integerType.getConstraints(), integerType);
   }
 
   private static ClassName classNameFromFormat(

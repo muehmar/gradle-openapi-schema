@@ -34,8 +34,8 @@ public class JavaStringType extends NonGenericJavaType {
     return map;
   }
 
-  protected JavaStringType(ClassName className, Constraints constraints) {
-    super(className);
+  protected JavaStringType(ClassName className, Constraints constraints, StringType stringType) {
+    super(className, stringType);
     this.constraints = constraints;
   }
 
@@ -44,7 +44,7 @@ public class JavaStringType extends NonGenericJavaType {
         classNameFromFormat(stringType, typeMappings.getFormatTypeMappings());
     final ClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaStringType(finalClassName, stringType.getConstraints());
+    return new JavaStringType(finalClassName, stringType.getConstraints(), stringType);
   }
 
   private static ClassName classNameFromFormat(

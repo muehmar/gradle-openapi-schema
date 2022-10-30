@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -17,11 +18,13 @@ public class JavaMapType implements JavaType {
   private static final ClassName JAVA_CLASS_NAME = ClassNames.MAP;
 
   private final ClassName className;
+  private final MapType mapType;
   private final JavaType key;
   private final JavaType value;
 
-  private JavaMapType(ClassName className, JavaType key, JavaType value) {
+  private JavaMapType(ClassName className, MapType mapType, JavaType key, JavaType value) {
     this.className = className;
+    this.mapType = mapType;
     this.key = key;
     this.value = value;
   }
@@ -31,12 +34,17 @@ public class JavaMapType implements JavaType {
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     final JavaType key = JavaType.wrap(mapType.getKey(), typeMappings);
     final JavaType value = JavaType.wrap(mapType.getValue(), typeMappings);
-    return new JavaMapType(className, key, value);
+    return new JavaMapType(className, mapType, key, value);
   }
 
   @Override
   public Name getClassName() {
     return className.getClassName();
+  }
+
+  @Override
+  public Type getType() {
+    return mapType;
   }
 
   @Override

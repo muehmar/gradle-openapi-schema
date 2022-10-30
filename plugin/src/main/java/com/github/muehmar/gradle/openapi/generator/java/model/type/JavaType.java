@@ -11,6 +11,8 @@ import java.util.function.Function;
 public interface JavaType {
   Name getClassName();
 
+  Type getType();
+
   PList<Name> getAllQualifiedClassNames();
 
   Name getFullClassName();
