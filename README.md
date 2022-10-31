@@ -4,8 +4,9 @@
 # Gradle OpenApi Schema Codegen
 
 This is a gradle plugin to generate Java code given an openapi 3.0.x specification. Unlike other codegen tools, this
-focuses only on the `#/component/schema` section. It generates immutable classes and special builder classes to support
-a safe way creating instances. The data classes support JSON conversions via jackson.
+focuses mainly on the `#/component/schema` section. It generates immutable classes and special builder classes to
+support a safe way creating instances. The data classes support JSON conversions via jackson. Additionally, the plugin
+generates simple classes for parameters (`#/component/parameters` section) to support checking the constraints.
 
 * Immutable Java classes.
 * Special builder pattern for safe creation of instances.
@@ -14,6 +15,7 @@ a safe way creating instances. The data classes support JSON conversions via jac
 * Support for Java Bean Validation (JSR 380)
 * Extraction of description for enums
 * Supports processing multiple specifications
+* Simple classes for parameters
 
 The implementation is based on the
 [swagger-parser](https://github.com/swagger-api/swagger-parser)
@@ -25,7 +27,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.18.1'
+    id 'com.github.muehmar.openapischema' version '0.19.0'
 }
 ```
 
@@ -431,6 +433,55 @@ The configuration setting `failOnIncompleteDescriptions` can be used to prevent 
 of a typo in the enum name (for example if `` * `Vistor`: Visitor role `` is written in the spec) or if one adds a
 member without adding the description.
 
+## Parameters
+
+The OpenAPI supports parameters in the `#/components/parameters` section. The plugin will generate for each
+parameter a class which contains the constraints of the parameter. For example the specification
+
+```
+components:
+  parameters:
+    limitParam:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 20
+      description: The numbers of items to return.
+```
+
+will create the following class
+
+```
+public final class LimitParam {
+  private LimitParam() {}
+
+  public static final Integer MIN = 1;
+  public static final Integer MAX = 50;
+  public static final Integer DEFAULT = 20;
+  public static final String DEFAULT_STR = "20";
+
+  public static boolean exceedLimits(Integer val) {
+    return val < MIN || MAX < val;
+  }
+}
+```
+
+The method `exceedLimits` will contain the conditions depending on the presence of the `minimum` and `maximum`
+constraint. In the case both are missing, the method will simply return `false`.
+
+### Supported schemas
+
+Currently, the following schemas are supported:
+
+* `integer`
+    * minimum
+    * maximum
+    * default
+
 ## Incremental build and remote specifications
 
 This plugin supports remote references, i.e. it will also parse any referenced remote specifications and create the
@@ -465,6 +516,9 @@ afterEvaluate {
 
 ## Change Log
 
+* 0.19.0
+    * Ignore wrong format for integer or numeric schemas (issue `#25`)
+    * Generate simple classes for parameters and their constraints (issue `#24`)
 * 0.18.1 - Fix failing excluded external references (issue `#22`)
 * 0.18.0
     * Support remote references (issue `#18`)
