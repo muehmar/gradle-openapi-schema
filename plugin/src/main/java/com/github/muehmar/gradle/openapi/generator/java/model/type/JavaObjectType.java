@@ -12,14 +12,14 @@ import lombok.ToString;
 public class JavaObjectType extends NonGenericJavaType {
   private final Constraints constraints;
 
-  protected JavaObjectType(ClassName className, Constraints constraints) {
-    super(className);
+  private JavaObjectType(ClassName className, Constraints constraints, ObjectType objectType) {
+    super(className, objectType);
     this.constraints = constraints;
   }
 
   public static JavaObjectType wrap(ObjectType objectType) {
     final ClassName className = ClassName.ofName(objectType.getName().asString());
-    return new JavaObjectType(className, objectType.getConstraints());
+    return new JavaObjectType(className, objectType.getConstraints(), objectType);
   }
 
   @Override

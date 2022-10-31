@@ -53,4 +53,30 @@ public interface Type {
         ignore -> Optional.empty(),
         ignore -> Optional.empty());
   }
+
+  default Optional<NumericType> asNumericType() {
+    return fold(
+        Optional::of,
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty());
+  }
+
+  default Optional<IntegerType> asIntegerType() {
+    return fold(
+        ignore -> Optional.empty(),
+        Optional::of,
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty());
+  }
 }

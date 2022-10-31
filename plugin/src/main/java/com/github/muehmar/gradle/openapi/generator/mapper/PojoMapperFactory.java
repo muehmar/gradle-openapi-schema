@@ -7,8 +7,8 @@ import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultReso
 public class PojoMapperFactory {
   private PojoMapperFactory() {}
 
-  public static PojoMapper create(String pojoSuffix) {
-    return PojoMapperImpl.create(
+  public static SpecificationMapper create(String pojoSuffix) {
+    return SpecificationMapperImpl.create(
         new MapResultResolverImpl(),
         new SwaggerSpecificationParser(new FileSpecificationReader(), pojoSuffix));
   }

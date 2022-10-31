@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -13,7 +14,7 @@ public class JavaNoType extends NonGenericJavaType {
   private static final ClassName CLASS_NAME = ClassNames.OBJECT;
 
   private JavaNoType() {
-    super(CLASS_NAME);
+    super(CLASS_NAME, NoType.create());
   }
 
   public static JavaNoType create() {

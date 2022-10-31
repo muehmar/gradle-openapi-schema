@@ -14,14 +14,15 @@ import lombok.ToString;
 public class JavaEnumType extends NonGenericJavaType {
   private final PList<EnumConstantName> members;
 
-  private JavaEnumType(ClassName className, PList<EnumConstantName> members) {
-    super(className);
+  private JavaEnumType(ClassName className, PList<EnumConstantName> members, EnumType enumType) {
+    super(className, enumType);
     this.members = members;
   }
 
   public static JavaEnumType wrap(EnumType enumType) {
     final ClassName className = ClassName.ofName(enumType.getName());
-    return new JavaEnumType(className, enumType.getMembers().map(EnumConstantName::ofString));
+    return new JavaEnumType(
+        className, enumType.getMembers().map(EnumConstantName::ofString), enumType);
   }
 
   @Override

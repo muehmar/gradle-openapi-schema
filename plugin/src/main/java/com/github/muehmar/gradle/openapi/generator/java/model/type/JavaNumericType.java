@@ -21,8 +21,8 @@ public class JavaNumericType extends NonGenericJavaType {
       createFormatClassNameMap();
   private final Constraints constraints;
 
-  protected JavaNumericType(ClassName className, Constraints constraints) {
-    super(className);
+  protected JavaNumericType(ClassName className, Constraints constraints, NumericType numericType) {
+    super(className, numericType);
     this.constraints = constraints;
   }
 
@@ -31,7 +31,7 @@ public class JavaNumericType extends NonGenericJavaType {
         classNameFromFormat(numericType, typeMappings.getFormatTypeMappings());
     final ClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaNumericType(finalClassName, numericType.getConstraints());
+    return new JavaNumericType(finalClassName, numericType.getConstraints(), numericType);
   }
 
   private static ClassName classNameFromFormat(
