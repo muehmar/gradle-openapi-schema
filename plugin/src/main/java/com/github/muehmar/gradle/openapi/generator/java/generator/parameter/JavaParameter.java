@@ -32,7 +32,7 @@ public class JavaParameter {
     return name.startUpperCase();
   }
 
-  public boolean printMin() {
+  public boolean printMinOrMax() {
     return getJavaType()
         .getType()
         .fold(
@@ -47,41 +47,11 @@ public class JavaParameter {
             noType -> false);
   }
 
-  public boolean printMax() {
+  public boolean printDecimalMinOrMax() {
     return getJavaType()
         .getType()
         .fold(
             numericType -> false,
-            integerType -> true,
-            stringType -> false,
-            arrayType -> false,
-            booleanType -> false,
-            objectType -> false,
-            enumType -> false,
-            mapType -> false,
-            noType -> false);
-  }
-
-  public boolean printDecimalMin() {
-    return getJavaType()
-        .getType()
-        .fold(
-            numericType -> true,
-            integerType -> false,
-            stringType -> false,
-            arrayType -> false,
-            booleanType -> false,
-            objectType -> false,
-            enumType -> false,
-            mapType -> false,
-            noType -> false);
-  }
-
-  public boolean printDecimalMax() {
-    return getJavaType()
-        .getType()
-        .fold(
-            numericType -> true,
             integerType -> false,
             stringType -> false,
             arrayType -> false,
@@ -96,7 +66,7 @@ public class JavaParameter {
     return getJavaType()
         .getType()
         .fold(
-            numericType -> true,
+            numericType -> false,
             integerType -> true,
             stringType -> false,
             arrayType -> false,
@@ -111,7 +81,7 @@ public class JavaParameter {
     return getJavaType()
         .getType()
         .fold(
-            numericType -> true,
+            numericType -> false,
             integerType -> true,
             stringType -> false,
             arrayType -> false,

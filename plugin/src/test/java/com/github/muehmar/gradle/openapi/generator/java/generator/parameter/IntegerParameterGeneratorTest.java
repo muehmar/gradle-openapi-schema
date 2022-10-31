@@ -34,6 +34,10 @@ class IntegerParameterGeneratorTest {
             + "\n"
             + "  public static final Integer DEFAULT = 15;\n"
             + "  public static final String DEFAULT_STR = \"15\";\n"
+            + "\n"
+            + "  public static boolean exceedLimits(Integer val) {\n"
+            + "    return false;\n"
+            + "  }\n"
             + "}",
         writer.asString());
   }
@@ -62,6 +66,10 @@ class IntegerParameterGeneratorTest {
             + "  public static final Integer MAX = 1000;\n"
             + "  public static final Integer DEFAULT = 15;\n"
             + "  public static final String DEFAULT_STR = \"15\";\n"
+            + "\n"
+            + "  public static boolean exceedLimits(Integer val) {\n"
+            + "    return val < MIN || MAX < val;\n"
+            + "  }\n"
             + "}",
         writer.asString());
   }
@@ -88,6 +96,10 @@ class IntegerParameterGeneratorTest {
             + "\n"
             + "  public static final Integer MIN = 1;\n"
             + "  public static final Integer MAX = 1000;\n"
+            + "\n"
+            + "  public static boolean exceedLimits(Integer val) {\n"
+            + "    return val < MIN || MAX < val;\n"
+            + "  }\n"
             + "}",
         writer.asString());
   }
@@ -116,6 +128,10 @@ class IntegerParameterGeneratorTest {
             + "  public static final Long MAX = 1000L;\n"
             + "  public static final Long DEFAULT = 15L;\n"
             + "  public static final String DEFAULT_STR = \"15\";\n"
+            + "\n"
+            + "  public static boolean exceedLimits(Long val) {\n"
+            + "    return val < MIN || MAX < val;\n"
+            + "  }\n"
             + "}",
         writer.asString());
   }

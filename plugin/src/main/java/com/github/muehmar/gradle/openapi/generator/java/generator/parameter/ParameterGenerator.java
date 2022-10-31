@@ -2,11 +2,17 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
+import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
+import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
+import java.util.function.Function;
 
 public class ParameterGenerator implements Generator<JavaParameter, PojoSettings> {
   private final Generator<JavaParameter, PojoSettings> delegate;
@@ -37,12 +43,14 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
     return Generator.<JavaParameter, PojoSettings>emptyGen()
         .append(this::printConstructor)
         .appendNewLine()
-        .appendConditionally(JavaParameter::printMin, this::printMin)
-        .appendConditionally(JavaParameter::printMax, this::printMax)
-        .appendConditionally(JavaParameter::printDecimalMin, this::printDecMin)
-        .appendConditionally(JavaParameter::printDecimalMax, this::printDecMax)
+        .appendConditionally(JavaParameter::printMinOrMax, this::printMin)
+        .appendConditionally(JavaParameter::printMinOrMax, this::printMax)
+        .appendConditionally(JavaParameter::printDecimalMinOrMax, this::printDecMin)
+        .appendConditionally(JavaParameter::printDecimalMinOrMax, this::printDecMax)
         .appendConditionally(JavaParameter::printDefaultValue, this::printDefault)
-        .appendConditionally(JavaParameter::printDefaultAsString, this::printDefaultAsString);
+        .appendConditionally(JavaParameter::printDefaultAsString, this::printDefaultAsString)
+        .appendNewLine()
+        .appendConditionally(JavaParameter::printMinOrMax, printExceedMinMaxLimits());
   }
 
   private <T> Writer printConstructor(JavaParameter parameter, T settings, Writer writer) {
@@ -120,5 +128,27 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
             defaultValue ->
                 writer.println("public static final String DEFAULT_STR = \"%s\";", defaultValue))
         .orElse(writer);
+  }
+
+  private Generator<JavaParameter, PojoSettings> printExceedMinMaxLimits() {
+    return MethodGenBuilder.<JavaParameter, PojoSettings>create()
+        .modifiers(PUBLIC, STATIC)
+        .noGenericTypes()
+        .returnType("boolean")
+        .methodName("exceedLimits")
+        .arguments(parameter -> PList.single(String.format("%s val", parameter.getTypeClassName())))
+        .content(
+            parameter -> {
+              final Constraints constraints = parameter.getJavaType().getConstraints();
+              final Optional<String> minCondition = constraints.onMinFn(min -> "val < MIN");
+              final Optional<String> maxCondition = constraints.onMaxFn(max -> "MAX < val");
+              final String condition =
+                  PList.of(minCondition, maxCondition)
+                      .flatMapOptional(Function.identity())
+                      .reduce((a, b) -> a + " || " + b)
+                      .orElse("false");
+              return String.format("return %s;", condition);
+            })
+        .build();
   }
 }
