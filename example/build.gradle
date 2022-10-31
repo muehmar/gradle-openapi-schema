@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.18.1"
+    id "com.github.muehmar.openapischema" version "0.19.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -140,6 +140,16 @@ openApiGenerator {
             jsonSupport = "jackson"
             suffix = "Dto"
             excludeSchemas = ["User"] // This schema contains an unsupported URL-reference
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
+        parameters {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-parameters.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.parameters.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
             enableValidation = true
             builderMethodPrefix = "set"
         }
