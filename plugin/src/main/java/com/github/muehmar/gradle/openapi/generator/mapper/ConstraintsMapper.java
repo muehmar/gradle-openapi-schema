@@ -45,9 +45,15 @@ public class ConstraintsMapper {
 
   public static Constraints getMinimumAndMaximum(Schema<?> schema) {
     final Optional<Min> min =
-        Optional.ofNullable(schema.getMinimum()).map(BigDecimal::longValue).map(Min::new);
+        Optional.ofNullable(schema.getMinimum())
+            .map(BigDecimal::longValue)
+            .map(val -> isInclusiveMin(schema) ? val : val + 1)
+            .map(Min::new);
     final Optional<Max> max =
-        Optional.ofNullable(schema.getMaximum()).map(BigDecimal::longValue).map(Max::new);
+        Optional.ofNullable(schema.getMaximum())
+            .map(BigDecimal::longValue)
+            .map(val -> isInclusiveMax(schema) ? val : val - 1)
+            .map(Max::new);
 
     return Optionals.combine(
             min, max, Constraints::ofMin, Constraints::ofMax, Constraints::ofMinAndMax)
@@ -55,23 +61,18 @@ public class ConstraintsMapper {
   }
 
   public static Constraints getDecimalMinimumAndMaximum(Schema<?> schema) {
-    final Boolean inclusiveMin =
-        Optional.ofNullable(schema.getExclusiveMinimum()).map(Booleans::not).orElse(true);
 
     final Optional<DecimalMin> min =
         Optional.ofNullable(schema.getMinimum())
             .map(BigDecimal::toString)
             .map(DecimalMin::inclusive)
-            .map(decimalMin -> decimalMin.withInclusiveMin(inclusiveMin));
-
-    final Boolean inclusiveMax =
-        Optional.ofNullable(schema.getExclusiveMaximum()).map(Booleans::not).orElse(true);
+            .map(decimalMin -> decimalMin.withInclusiveMin(isInclusiveMin(schema)));
 
     final Optional<DecimalMax> max =
         Optional.ofNullable(schema.getMaximum())
             .map(BigDecimal::toString)
             .map(DecimalMax::inclusive)
-            .map(decimalMax -> decimalMax.withInclusiveMax(inclusiveMax));
+            .map(decimalMax -> decimalMax.withInclusiveMax(isInclusiveMax(schema)));
 
     return Optionals.combine(
             min,
@@ -80,5 +81,13 @@ public class ConstraintsMapper {
             Constraints::ofDecimalMax,
             Constraints::ofDecimalMinAndMax)
         .orElseGet(Constraints::empty);
+  }
+
+  private static boolean isInclusiveMax(Schema<?> schema) {
+    return Optional.ofNullable(schema.getExclusiveMaximum()).map(Booleans::not).orElse(true);
+  }
+
+  private static boolean isInclusiveMin(Schema<?> schema) {
+    return Optional.ofNullable(schema.getExclusiveMinimum()).map(Booleans::not).orElse(true);
   }
 }
