@@ -91,11 +91,29 @@ class ConstraintsMapperTest {
   }
 
   @Test
+  void getMinimumAndMaximum_when_minimumDefinedAndExclusiveMin_then_minConstraintIncrement() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>().minimum(new BigDecimal(10)).exclusiveMinimum(true));
+
+    assertEquals(Constraints.ofMin(new Min(11)), constraints);
+  }
+
+  @Test
   void getMinimumAndMaximum_when_maximumDefined_then_maxConstraint() {
     final Constraints constraints =
         ConstraintsMapper.getMinimumAndMaximum(new Schema<>().maximum(new BigDecimal(50)));
 
     assertEquals(Constraints.ofMax(new Max(50)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_maximumDefinedAndExclusiveMax_then_maxConstraintDecremented() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>().maximum(new BigDecimal(50)).exclusiveMaximum(true));
+
+    assertEquals(Constraints.ofMax(new Max(49)), constraints);
   }
 
   @Test
