@@ -7,6 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.util.Booleans;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
@@ -50,7 +51,8 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .appendConditionally(JavaParameter::printDefaultValue, this::printDefault)
         .appendConditionally(JavaParameter::printDefaultAsString, this::printDefaultAsString)
         .appendNewLine()
-        .appendConditionally(JavaParameter::printMinOrMax, printExceedMinMaxLimits());
+        .appendConditionally(JavaParameter::printMinOrMax, printExceedMinMaxLimits())
+        .appendConditionally(JavaParameter::printDecimalMinOrMax, printExceedDecMinMaxLimits());
   }
 
   private <T> Writer printConstructor(JavaParameter parameter, T settings, Writer writer) {
@@ -87,11 +89,15 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .getConstraints()
         .onDecimalMinFn(
             decMin ->
-                writer.println(
-                    "public static final %s MIN = %s%s;",
-                    parameter.getTypeClassName(),
-                    decMin.getValue(),
-                    parameter.javaConstantSuffix()))
+                writer
+                    .println(
+                        "public static final %s MIN = %s%s;",
+                        parameter.getTypeClassName(),
+                        decMin.getValue(),
+                        parameter.javaConstantSuffix())
+                    .println(
+                        "public static final boolean EXCLUSIVE_MIN = %s;",
+                        Booleans.not(decMin.isInclusiveMin())))
         .orElse(writer);
   }
 
@@ -101,11 +107,15 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .getConstraints()
         .onDecimalMaxFn(
             decMax ->
-                writer.println(
-                    "public static final %s MAX = %s%s;",
-                    parameter.getTypeClassName(),
-                    decMax.getValue(),
-                    parameter.javaConstantSuffix()))
+                writer
+                    .println(
+                        "public static final %s MAX = %s%s;",
+                        parameter.getTypeClassName(),
+                        decMax.getValue(),
+                        parameter.javaConstantSuffix())
+                    .println(
+                        "public static final boolean EXCLUSIVE_MAX = %s;",
+                        Booleans.not(decMax.isInclusiveMax())))
         .orElse(writer);
   }
 
@@ -142,6 +152,32 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
               final Constraints constraints = parameter.getJavaType().getConstraints();
               final Optional<String> minCondition = constraints.onMinFn(min -> "val < MIN");
               final Optional<String> maxCondition = constraints.onMaxFn(max -> "MAX < val");
+              final String condition =
+                  PList.of(minCondition, maxCondition)
+                      .flatMapOptional(Function.identity())
+                      .reduce((a, b) -> a + " || " + b)
+                      .orElse("false");
+              return String.format("return %s;", condition);
+            })
+        .build();
+  }
+
+  private Generator<JavaParameter, PojoSettings> printExceedDecMinMaxLimits() {
+    return MethodGenBuilder.<JavaParameter, PojoSettings>create()
+        .modifiers(PUBLIC, STATIC)
+        .noGenericTypes()
+        .returnType("boolean")
+        .methodName("exceedLimits")
+        .arguments(parameter -> PList.single(String.format("%s val", parameter.getTypeClassName())))
+        .content(
+            parameter -> {
+              final Constraints constraints = parameter.getJavaType().getConstraints();
+              final Optional<String> minCondition =
+                  constraints.onDecimalMinFn(
+                      min -> min.isInclusiveMin() ? "val < MIN" : "val <= MIN");
+              final Optional<String> maxCondition =
+                  constraints.onDecimalMaxFn(
+                      max -> max.isInclusiveMax() ? "MAX < val" : "MAX <= val");
               final String condition =
                   PList.of(minCondition, maxCondition)
                       .flatMapOptional(Function.identity())
