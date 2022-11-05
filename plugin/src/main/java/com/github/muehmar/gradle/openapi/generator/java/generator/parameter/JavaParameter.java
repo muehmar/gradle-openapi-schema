@@ -51,7 +51,7 @@ public class JavaParameter {
     return getJavaType()
         .getType()
         .fold(
-            numericType -> false,
+            numericType -> true,
             integerType -> false,
             stringType -> false,
             arrayType -> false,
@@ -66,7 +66,7 @@ public class JavaParameter {
     return getJavaType()
         .getType()
         .fold(
-            numericType -> false,
+            numericType -> true,
             integerType -> true,
             stringType -> false,
             arrayType -> false,
@@ -81,7 +81,7 @@ public class JavaParameter {
     return getJavaType()
         .getType()
         .fold(
-            numericType -> false,
+            numericType -> true,
             integerType -> true,
             stringType -> false,
             arrayType -> false,

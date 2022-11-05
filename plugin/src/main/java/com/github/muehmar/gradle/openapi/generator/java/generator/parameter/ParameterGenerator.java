@@ -1,11 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
@@ -50,7 +53,8 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .appendConditionally(JavaParameter::printDefaultValue, this::printDefault)
         .appendConditionally(JavaParameter::printDefaultAsString, this::printDefaultAsString)
         .appendNewLine()
-        .appendConditionally(JavaParameter::printMinOrMax, printExceedMinMaxLimits());
+        .appendConditionally(JavaParameter::printMinOrMax, printExceedMinMaxLimits())
+        .appendConditionally(JavaParameter::printDecimalMinOrMax, printExceedDecMinMaxLimits());
   }
 
   private <T> Writer printConstructor(JavaParameter parameter, T settings, Writer writer) {
@@ -61,11 +65,8 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
     return parameter
         .getJavaType()
         .getConstraints()
-        .onMinFn(
-            min ->
-                writer.println(
-                    "public static final %s MIN = %s%s;",
-                    parameter.getTypeClassName(), min.getValue(), parameter.javaConstantSuffix()))
+        .onMinFn(Min::getValue)
+        .map(value -> printPublicConstant(parameter, "MIN", value, writer))
         .orElse(writer);
   }
 
@@ -73,11 +74,8 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
     return parameter
         .getJavaType()
         .getConstraints()
-        .onMaxFn(
-            max ->
-                writer.println(
-                    "public static final %s MAX = %s%s;",
-                    parameter.getTypeClassName(), max.getValue(), parameter.javaConstantSuffix()))
+        .onMaxFn(Max::getValue)
+        .map(value -> printPublicConstant(parameter, "MAX", value, writer))
         .orElse(writer);
   }
 
@@ -86,12 +84,12 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .getJavaType()
         .getConstraints()
         .onDecimalMinFn(
-            decMin ->
-                writer.println(
-                    "public static final %s MIN = %s%s;",
-                    parameter.getTypeClassName(),
-                    decMin.getValue(),
-                    parameter.javaConstantSuffix()))
+            decMin -> {
+              final Writer tempWriter =
+                  printPublicConstant(parameter, "MIN", decMin.getValue(), writer);
+              return printPublicConstant(
+                  "boolean", "EXCLUSIVE_MIN", not(decMin.isInclusiveMin()), tempWriter);
+            })
         .orElse(writer);
   }
 
@@ -100,23 +98,19 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .getJavaType()
         .getConstraints()
         .onDecimalMaxFn(
-            decMax ->
-                writer.println(
-                    "public static final %s MAX = %s%s;",
-                    parameter.getTypeClassName(),
-                    decMax.getValue(),
-                    parameter.javaConstantSuffix()))
+            decMax -> {
+              final Writer tempWriter =
+                  printPublicConstant(parameter, "MAX", decMax.getValue(), writer);
+              return printPublicConstant(
+                  "boolean", "EXCLUSIVE_MAX", not(decMax.isInclusiveMax()), tempWriter);
+            })
         .orElse(writer);
   }
 
   private Writer printDefault(JavaParameter parameter, PojoSettings settings, Writer writer) {
     return parameter
         .getDefaultValue()
-        .map(
-            defaultValue ->
-                writer.println(
-                    "public static final %s DEFAULT = %s%s;",
-                    parameter.getTypeClassName(), defaultValue, parameter.javaConstantSuffix()))
+        .map(defaultValue -> printPublicConstant(parameter, "DEFAULT", defaultValue, writer))
         .orElse(writer);
   }
 
@@ -126,11 +120,43 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .getDefaultValue()
         .map(
             defaultValue ->
-                writer.println("public static final String DEFAULT_STR = \"%s\";", defaultValue))
+                printPublicConstant("String", "DEFAULT_STR", "\"" + defaultValue + "\"", writer))
         .orElse(writer);
   }
 
+  private Writer printPublicConstant(
+      JavaParameter parameter, String constantName, Object value, Writer writer) {
+    return printPublicConstant(
+        parameter.getTypeClassName().asString(),
+        constantName,
+        value + parameter.javaConstantSuffix(),
+        writer);
+  }
+
+  private Writer printPublicConstant(
+      String className, String constantName, Object value, Writer writer) {
+    return writer.println("public static final %s %s = %s;", className, constantName, value);
+  }
+
   private Generator<JavaParameter, PojoSettings> printExceedMinMaxLimits() {
+    return printExceedLimits(
+        constraints -> constraints.onMinFn(min -> "val < MIN"),
+        constraints -> constraints.onMaxFn(max -> "MAX < val"));
+  }
+
+  private Generator<JavaParameter, PojoSettings> printExceedDecMinMaxLimits() {
+    final Function<Constraints, Optional<String>> genMinCondition =
+        constraints ->
+            constraints.onDecimalMinFn(min -> min.isInclusiveMin() ? "val < MIN" : "val <= MIN");
+    final Function<Constraints, Optional<String>> genMaxCondition =
+        constraints ->
+            constraints.onDecimalMaxFn(max -> max.isInclusiveMax() ? "MAX < val" : "MAX <= val");
+    return printExceedLimits(genMinCondition, genMaxCondition);
+  }
+
+  private Generator<JavaParameter, PojoSettings> printExceedLimits(
+      Function<Constraints, Optional<String>> genMinCondition,
+      Function<Constraints, Optional<String>> genMaxCondition) {
     return MethodGenBuilder.<JavaParameter, PojoSettings>create()
         .modifiers(PUBLIC, STATIC)
         .noGenericTypes()
@@ -140,8 +166,8 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .content(
             parameter -> {
               final Constraints constraints = parameter.getJavaType().getConstraints();
-              final Optional<String> minCondition = constraints.onMinFn(min -> "val < MIN");
-              final Optional<String> maxCondition = constraints.onMaxFn(max -> "MAX < val");
+              final Optional<String> minCondition = genMinCondition.apply(constraints);
+              final Optional<String> maxCondition = genMaxCondition.apply(constraints);
               final String condition =
                   PList.of(minCondition, maxCondition)
                       .flatMapOptional(Function.identity())
