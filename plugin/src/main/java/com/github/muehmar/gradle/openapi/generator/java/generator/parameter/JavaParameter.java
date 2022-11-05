@@ -62,13 +62,43 @@ public class JavaParameter {
             noType -> false);
   }
 
+  public boolean printSize() {
+    return getJavaType()
+        .getType()
+        .fold(
+            numericType -> false,
+            integerType -> false,
+            stringType -> true,
+            arrayType -> false,
+            booleanType -> false,
+            objectType -> false,
+            enumType -> false,
+            mapType -> false,
+            noType -> false);
+  }
+
+  public boolean printPattern() {
+    return getJavaType()
+        .getType()
+        .fold(
+            numericType -> false,
+            integerType -> false,
+            stringType -> true,
+            arrayType -> false,
+            booleanType -> false,
+            objectType -> false,
+            enumType -> false,
+            mapType -> false,
+            noType -> false);
+  }
+
   public boolean printDefaultValue() {
     return getJavaType()
         .getType()
         .fold(
             numericType -> true,
             integerType -> true,
-            stringType -> false,
+            stringType -> true,
             arrayType -> false,
             booleanType -> false,
             objectType -> false,

@@ -1,14 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.JavaRefs.JAVA_UTIL_REGEX_PATTERN;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
@@ -50,18 +53,44 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .appendConditionally(JavaParameter::printMinOrMax, this::printMax)
         .appendConditionally(JavaParameter::printDecimalMinOrMax, this::printDecMin)
         .appendConditionally(JavaParameter::printDecimalMinOrMax, this::printDecMax)
+        .appendConditionally(JavaParameter::printSize, this::printMinLength)
+        .appendConditionally(JavaParameter::printSize, this::printMaxLength)
+        .appendConditionally(JavaParameter::printPattern, this::printPattern)
+        .appendConditionally(JavaParameter::printPattern, this::printPatternString)
         .appendConditionally(JavaParameter::printDefaultValue, this::printDefault)
         .appendConditionally(JavaParameter::printDefaultAsString, this::printDefaultAsString)
         .appendNewLine()
-        .appendConditionally(JavaParameter::printMinOrMax, printExceedMinMaxLimits())
-        .appendConditionally(JavaParameter::printDecimalMinOrMax, printExceedDecMinMaxLimits());
+        .appendConditionally(JavaParameter::printMinOrMax, printMatchesMinMaxLimits())
+        .appendConditionally(JavaParameter::printDecimalMinOrMax, printMatchesDecMinMaxLimits())
+        .appendConditionally(JavaParameter::printSize, printMatchesSizeLimits())
+        .appendConditionally(JavaParameter::printPattern, printMatchesPattern());
   }
 
   private <T> Writer printConstructor(JavaParameter parameter, T settings, Writer writer) {
     return writer.println("private %s() {}", parameter.getParamClassName());
   }
 
-  private Writer printMin(JavaParameter parameter, PojoSettings settings, Writer writer) {
+  private <T> Writer printMinLength(JavaParameter parameter, T settings, Writer writer) {
+    return parameter
+        .getJavaType()
+        .getConstraints()
+        .onSizeFn(Size::getMin)
+        .flatMap(Function.identity())
+        .map(value -> printPublicConstant("int", "MIN_LENGTH", value, writer))
+        .orElse(writer);
+  }
+
+  private <T> Writer printMaxLength(JavaParameter parameter, T settings, Writer writer) {
+    return parameter
+        .getJavaType()
+        .getConstraints()
+        .onSizeFn(Size::getMax)
+        .flatMap(Function.identity())
+        .map(value -> printPublicConstant("int", "MAX_LENGTH", value, writer))
+        .orElse(writer);
+  }
+
+  private <T> Writer printMin(JavaParameter parameter, T settings, Writer writer) {
     return parameter
         .getJavaType()
         .getConstraints()
@@ -70,7 +99,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .orElse(writer);
   }
 
-  private Writer printMax(JavaParameter parameter, PojoSettings settings, Writer writer) {
+  private <T> Writer printMax(JavaParameter parameter, T settings, Writer writer) {
     return parameter
         .getJavaType()
         .getConstraints()
@@ -79,7 +108,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .orElse(writer);
   }
 
-  private Writer printDecMin(JavaParameter parameter, PojoSettings settings, Writer writer) {
+  private <T> Writer printDecMin(JavaParameter parameter, T settings, Writer writer) {
     return parameter
         .getJavaType()
         .getConstraints()
@@ -93,7 +122,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .orElse(writer);
   }
 
-  private Writer printDecMax(JavaParameter parameter, PojoSettings settings, Writer writer) {
+  private <T> Writer printDecMax(JavaParameter parameter, T settings, Writer writer) {
     return parameter
         .getJavaType()
         .getConstraints()
@@ -107,15 +136,37 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .orElse(writer);
   }
 
-  private Writer printDefault(JavaParameter parameter, PojoSettings settings, Writer writer) {
+  private <T> Writer printPattern(JavaParameter parameter, T settings, Writer writer) {
+    return parameter
+        .getJavaType()
+        .getConstraints()
+        .onPatternFn(pattern -> pattern.getPatternEscaped(JavaEscaper::escape))
+        .map(
+            pattern ->
+                writer
+                    .println(
+                        "public static final Pattern PATTERN = Pattern.compile(\"%s\");", pattern)
+                    .ref(JAVA_UTIL_REGEX_PATTERN))
+        .orElse(writer);
+  }
+
+  private <T> Writer printPatternString(JavaParameter parameter, T settings, Writer writer) {
+    return parameter
+        .getJavaType()
+        .getConstraints()
+        .onPatternFn(pattern -> pattern.getPatternEscaped(JavaEscaper::escape))
+        .map(pattern -> printPublicConstant("String", "PATTERN_STR", "\"" + pattern + "\"", writer))
+        .orElse(writer);
+  }
+
+  private <T> Writer printDefault(JavaParameter parameter, T settings, Writer writer) {
     return parameter
         .getDefaultValue()
         .map(defaultValue -> printPublicConstant(parameter, "DEFAULT", defaultValue, writer))
         .orElse(writer);
   }
 
-  private Writer printDefaultAsString(
-      JavaParameter parameter, PojoSettings settings, Writer writer) {
+  private <T> Writer printDefaultAsString(JavaParameter parameter, T settings, Writer writer) {
     return parameter
         .getDefaultValue()
         .map(
@@ -138,30 +189,69 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
     return writer.println("public static final %s %s = %s;", className, constantName, value);
   }
 
-  private Generator<JavaParameter, PojoSettings> printExceedMinMaxLimits() {
-    return printExceedLimits(
+  private <T> Generator<JavaParameter, T> printMatchesPattern() {
+    return MethodGenBuilder.<JavaParameter, T>create()
+        .modifiers(PUBLIC, STATIC)
+        .noGenericTypes()
+        .returnType("boolean")
+        .methodName("matchesPattern")
+        .arguments(parameter -> PList.single(String.format("%s val", parameter.getTypeClassName())))
+        .content(
+            parameter -> {
+              final String condition =
+                  parameter
+                      .getJavaType()
+                      .getConstraints()
+                      .onPatternFn(pattern -> pattern.getPatternEscaped(JavaEscaper::escape))
+                      .map(pattern -> "PATTERN.matcher(val).matches()")
+                      .orElse("true");
+
+              return String.format("return %s;", condition);
+            })
+        .build()
+        .appendNewLine();
+  }
+
+  private <T> Generator<JavaParameter, T> printMatchesMinMaxLimits() {
+    return printMatchesLimits(
         constraints -> constraints.onMinFn(min -> "val < MIN"),
         constraints -> constraints.onMaxFn(max -> "MAX < val"));
   }
 
-  private Generator<JavaParameter, PojoSettings> printExceedDecMinMaxLimits() {
+  private <T> Generator<JavaParameter, T> printMatchesDecMinMaxLimits() {
     final Function<Constraints, Optional<String>> genMinCondition =
         constraints ->
             constraints.onDecimalMinFn(min -> min.isInclusiveMin() ? "val < MIN" : "val <= MIN");
     final Function<Constraints, Optional<String>> genMaxCondition =
         constraints ->
             constraints.onDecimalMaxFn(max -> max.isInclusiveMax() ? "MAX < val" : "MAX <= val");
-    return printExceedLimits(genMinCondition, genMaxCondition);
+    return printMatchesLimits(genMinCondition, genMaxCondition);
   }
 
-  private Generator<JavaParameter, PojoSettings> printExceedLimits(
+  private <T> Generator<JavaParameter, T> printMatchesSizeLimits() {
+    final Function<Constraints, Optional<String>> genMinCondition =
+        constraints ->
+            constraints
+                .onSizeFn(Size::getMin)
+                .flatMap(Function.identity())
+                .map(min -> "val < MIN_LENGTH");
+    final Function<Constraints, Optional<String>> genMaxCondition =
+        constraints ->
+            constraints
+                .onSizeFn(Size::getMax)
+                .flatMap(Function.identity())
+                .map(max -> "MAX_LENGTH < val");
+    return printMatchesLimits(genMinCondition, genMaxCondition);
+  }
+
+  private <T> Generator<JavaParameter, T> printMatchesLimits(
       Function<Constraints, Optional<String>> genMinCondition,
       Function<Constraints, Optional<String>> genMaxCondition) {
-    return MethodGenBuilder.<JavaParameter, PojoSettings>create()
+    return MethodGenBuilder.<JavaParameter, T>create()
         .modifiers(PUBLIC, STATIC)
         .noGenericTypes()
         .returnType("boolean")
-        .methodName("exceedLimits")
+        .methodName("matchesLimits")
         .arguments(parameter -> PList.single(String.format("%s val", parameter.getTypeClassName())))
         .content(
             parameter -> {
@@ -172,9 +262,10 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
                   PList.of(minCondition, maxCondition)
                       .flatMapOptional(Function.identity())
                       .reduce((a, b) -> a + " || " + b)
-                      .orElse("false");
+                      .orElse("true");
               return String.format("return %s;", condition);
             })
-        .build();
+        .build()
+        .appendNewLine();
   }
 }

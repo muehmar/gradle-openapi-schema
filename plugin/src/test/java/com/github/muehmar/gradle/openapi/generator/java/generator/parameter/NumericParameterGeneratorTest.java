@@ -24,7 +24,6 @@ class NumericParameterGeneratorTest {
 
     final Writer writer =
         gen.generate(limitParam, TestPojoSettings.defaultSettings(), Writer.createDefault());
-
     assertEquals(
         "package com.github.muehmar.parameter;\n"
             + "\n"
@@ -35,9 +34,10 @@ class NumericParameterGeneratorTest {
             + "  public static final Double DEFAULT = 15.12;\n"
             + "  public static final String DEFAULT_STR = \"15.12\";\n"
             + "\n"
-            + "  public static boolean exceedLimits(Double val) {\n"
-            + "    return false;\n"
+            + "  public static boolean matchesLimits(Double val) {\n"
+            + "    return true;\n"
             + "  }\n"
+            + "\n"
             + "}",
         writer.asString());
   }
@@ -72,9 +72,10 @@ class NumericParameterGeneratorTest {
             + "  public static final Double DEFAULT = 15.12;\n"
             + "  public static final String DEFAULT_STR = \"15.12\";\n"
             + "\n"
-            + "  public static boolean exceedLimits(Double val) {\n"
+            + "  public static boolean matchesLimits(Double val) {\n"
             + "    return val <= MIN || MAX < val;\n"
             + "  }\n"
+            + "\n"
             + "}",
         writer.asString());
   }
@@ -108,9 +109,10 @@ class NumericParameterGeneratorTest {
             + "  public static final Double MAX = 50.5;\n"
             + "  public static final boolean EXCLUSIVE_MAX = false;\n"
             + "\n"
-            + "  public static boolean exceedLimits(Double val) {\n"
+            + "  public static boolean matchesLimits(Double val) {\n"
             + "    return val <= MIN || MAX < val;\n"
             + "  }\n"
+            + "\n"
             + "}",
         writer.asString());
   }
@@ -145,9 +147,10 @@ class NumericParameterGeneratorTest {
             + "  public static final Float DEFAULT = 15.12f;\n"
             + "  public static final String DEFAULT_STR = \"15.12\";\n"
             + "\n"
-            + "  public static boolean exceedLimits(Float val) {\n"
+            + "  public static boolean matchesLimits(Float val) {\n"
             + "    return val <= MIN || MAX < val;\n"
             + "  }\n"
+            + "\n"
             + "}",
         writer.asString());
   }
