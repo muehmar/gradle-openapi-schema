@@ -11,6 +11,8 @@ public class JavaRefs {
   public static final String JAVA_UTIL_MAP = "java.util.Map";
   public static final String JAVA_UTIL_LIST = "java.util.List";
 
+  public static final String JAVA_UTIL_REGEX_PATTERN = "java.util.regex.Pattern";
+
   public static final String JAVA_LANG_INTEGER = "java.lang.Integer";
   public static final String JAVA_LANG_STRING = "java.lang.String";
 
