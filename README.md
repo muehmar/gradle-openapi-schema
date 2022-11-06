@@ -27,7 +27,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.19.0'
+    id 'com.github.muehmar.openapischema' version '0.20.0'
 }
 ```
 
@@ -473,6 +473,9 @@ public final class LimitParam {
 The method `exceedLimits` will contain the conditions depending on the presence of the `minimum` and `maximum`
 constraint. In the case both are missing, the method will simply return `false`.
 
+A default number is also rendered as string which may be used as default value in Spring annotations for
+parameters.
+
 ### Supported schemas
 
 Currently, the following schemas are supported:
@@ -516,6 +519,10 @@ afterEvaluate {
 
 ## Change Log
 
+* 0.20.0
+    * Support numeric parameters (issue `#28`)
+    * Support string parameters (issue `#29`)
+    * Fix exclusiveMaximum and exclusiveMinimum for integer types (issue `#30`)
 * 0.19.0
     * Ignore wrong format for integer or numeric schemas (issue `#25`)
     * Generate simple classes for parameters and their constraints (issue `#24`)
