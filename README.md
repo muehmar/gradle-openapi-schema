@@ -27,7 +27,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.20.0'
+    id 'com.github.muehmar.openapischema' version '0.21.0'
 }
 ```
 
@@ -519,10 +519,12 @@ afterEvaluate {
 
 ## Change Log
 
-* 0.20.0
+* 0.21.0
     * Support numeric parameters (issue `#28`)
     * Support string parameters (issue `#29`)
     * Fix exclusiveMaximum and exclusiveMinimum for integer types (issue `#30`)
+* 0.20.0
+    * Proper release failed, don't use it
 * 0.19.0
     * Ignore wrong format for integer or numeric schemas (issue `#25`)
     * Generate simple classes for parameters and their constraints (issue `#24`)
