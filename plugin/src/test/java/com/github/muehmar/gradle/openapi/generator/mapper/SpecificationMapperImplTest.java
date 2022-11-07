@@ -22,6 +22,8 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
@@ -240,7 +242,9 @@ class SpecificationMapperImplTest {
                     Name.ofString("height"),
                     "",
                     NumericType.formatFloat()
-                        .withConstraints(Constraints.ofMinAndMax(new Min(120), new Max(199))),
+                        .withConstraints(
+                            Constraints.ofDecimalMinAndMax(
+                                new DecimalMin("120", false), new DecimalMax("199", true))),
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
