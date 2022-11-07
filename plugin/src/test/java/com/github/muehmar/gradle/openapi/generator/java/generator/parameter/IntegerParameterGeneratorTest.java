@@ -69,7 +69,7 @@ class IntegerParameterGeneratorTest {
             + "  public static final String DEFAULT_STR = \"15\";\n"
             + "\n"
             + "  public static boolean matchesLimits(Integer val) {\n"
-            + "    return val < MIN || MAX < val;\n"
+            + "    return MIN <= val && val <= MAX;\n"
             + "  }\n"
             + "\n"
             + "}",
@@ -100,7 +100,7 @@ class IntegerParameterGeneratorTest {
             + "  public static final Integer MAX = 1000;\n"
             + "\n"
             + "  public static boolean matchesLimits(Integer val) {\n"
-            + "    return val < MIN || MAX < val;\n"
+            + "    return MIN <= val && val <= MAX;\n"
             + "  }\n"
             + "\n"
             + "}",
@@ -133,7 +133,7 @@ class IntegerParameterGeneratorTest {
             + "  public static final String DEFAULT_STR = \"15\";\n"
             + "\n"
             + "  public static boolean matchesLimits(Long val) {\n"
-            + "    return val < MIN || MAX < val;\n"
+            + "    return MIN <= val && val <= MAX;\n"
             + "  }\n"
             + "\n"
             + "}",

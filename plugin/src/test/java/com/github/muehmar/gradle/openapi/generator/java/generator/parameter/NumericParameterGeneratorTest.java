@@ -73,7 +73,7 @@ class NumericParameterGeneratorTest {
             + "  public static final String DEFAULT_STR = \"15.12\";\n"
             + "\n"
             + "  public static boolean matchesLimits(Double val) {\n"
-            + "    return val <= MIN || MAX < val;\n"
+            + "    return MIN < val && val <= MAX;\n"
             + "  }\n"
             + "\n"
             + "}",
@@ -110,7 +110,7 @@ class NumericParameterGeneratorTest {
             + "  public static final boolean EXCLUSIVE_MAX = false;\n"
             + "\n"
             + "  public static boolean matchesLimits(Double val) {\n"
-            + "    return val <= MIN || MAX < val;\n"
+            + "    return MIN < val && val <= MAX;\n"
             + "  }\n"
             + "\n"
             + "}",
@@ -148,7 +148,7 @@ class NumericParameterGeneratorTest {
             + "  public static final String DEFAULT_STR = \"15.12\";\n"
             + "\n"
             + "  public static boolean matchesLimits(Float val) {\n"
-            + "    return val <= MIN || MAX < val;\n"
+            + "    return MIN < val && val <= MAX;\n"
             + "  }\n"
             + "\n"
             + "}",

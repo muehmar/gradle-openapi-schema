@@ -180,7 +180,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
     return printPublicConstant(
         parameter.getTypeClassName().asString(),
         constantName,
-        value + parameter.javaConstantSuffix(),
+        parameter.formatConstant(value),
         writer);
   }
 
@@ -214,17 +214,17 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
 
   private <T> Generator<JavaParameter, T> printMatchesMinMaxLimits() {
     return printMatchesLimits(
-        constraints -> constraints.onMinFn(min -> "val < MIN"),
-        constraints -> constraints.onMaxFn(max -> "MAX < val"));
+        constraints -> constraints.onMinFn(min -> "MIN <= val"),
+        constraints -> constraints.onMaxFn(max -> "val <= MAX"));
   }
 
   private <T> Generator<JavaParameter, T> printMatchesDecMinMaxLimits() {
     final Function<Constraints, Optional<String>> genMinCondition =
         constraints ->
-            constraints.onDecimalMinFn(min -> min.isInclusiveMin() ? "val < MIN" : "val <= MIN");
+            constraints.onDecimalMinFn(min -> min.isInclusiveMin() ? "MIN <= val" : "MIN < val");
     final Function<Constraints, Optional<String>> genMaxCondition =
         constraints ->
-            constraints.onDecimalMaxFn(max -> max.isInclusiveMax() ? "MAX < val" : "MAX <= val");
+            constraints.onDecimalMaxFn(max -> max.isInclusiveMax() ? "val <= MAX" : "val < MAX");
     return printMatchesLimits(genMinCondition, genMaxCondition);
   }
 
@@ -234,13 +234,13 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
             constraints
                 .onSizeFn(Size::getMin)
                 .flatMap(Function.identity())
-                .map(min -> "val < MIN_LENGTH");
+                .map(min -> "MIN_LENGTH <= val.length()");
     final Function<Constraints, Optional<String>> genMaxCondition =
         constraints ->
             constraints
                 .onSizeFn(Size::getMax)
                 .flatMap(Function.identity())
-                .map(max -> "MAX_LENGTH < val");
+                .map(max -> "val.length() <= MAX_LENGTH");
     return printMatchesLimits(genMinCondition, genMaxCondition);
   }
 
@@ -261,7 +261,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
               final String condition =
                   PList.of(minCondition, maxCondition)
                       .flatMapOptional(Function.identity())
-                      .reduce((a, b) -> a + " || " + b)
+                      .reduce((a, b) -> a + " && " + b)
                       .orElse("true");
               return String.format("return %s;", condition);
             })

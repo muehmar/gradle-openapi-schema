@@ -122,13 +122,13 @@ public class JavaParameter {
             noType -> false);
   }
 
-  public String javaConstantSuffix() {
+  public String formatConstant(Object value) {
     return getJavaType()
         .getType()
         .fold(
-            this::numericTypeJavaConstantSuffix,
-            this::integerTypeJavaConstantsSuffix,
-            stringType -> "",
+            numericType -> formatNumericConstant(numericType, value),
+            integerType -> formatIntegerConstant(integerType, value),
+            stringType -> String.format("\"%s\"", value),
             arrayType -> "",
             booleanType -> "",
             objectType -> "",
@@ -137,17 +137,17 @@ public class JavaParameter {
             noType -> "");
   }
 
-  private String numericTypeJavaConstantSuffix(NumericType numericType) {
+  private String formatNumericConstant(NumericType numericType, Object value) {
     if (numericType.getFormat() == NumericType.Format.FLOAT) {
-      return "f";
+      return value + "f";
     }
-    return "";
+    return value + "";
   }
 
-  private String integerTypeJavaConstantsSuffix(IntegerType integerType) {
+  private String formatIntegerConstant(IntegerType integerType, Object value) {
     if (integerType.getFormat() == IntegerType.Format.LONG) {
-      return "L";
+      return value + "L";
     }
-    return "";
+    return value + "";
   }
 }
