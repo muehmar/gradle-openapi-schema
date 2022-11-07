@@ -33,4 +33,15 @@ components:
         maxLength: 10
         default: theme0
         pattern: "[a-z]+\\d"
-      description: The choosen theme.
+      description: The chosen theme.
+    voltageParam:
+      in: query
+      name: voltage
+      required: false
+      schema:
+        type: number
+        minimum: 3.8
+        exclusiveMinimum: true
+        maximum: 5.5
+        default: 5.15
+      description: Measured voltage.
