@@ -14,8 +14,8 @@ class OffsetParamTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"-1000,true", "-1,true", "0,false", "100,false", "10000,false"})
-  void testExceedLimits(int value, boolean exceedLimits) {
-    assertEquals(exceedLimits, OffsetParam.exceedLimits(value));
+  @CsvSource({"-1000,false", "-1,false", "0,true", "100,true", "10000,true"})
+  void testMatchesLimits(int value, boolean exceedLimits) {
+    assertEquals(exceedLimits, OffsetParam.matchesLimits(value));
   }
 }

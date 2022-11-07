@@ -17,8 +17,8 @@ class LimitParamTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"-1000,true", "-1,true", "0,true", "1,false", "50,false", "51,true"})
-  void testExceedLimits(int value, boolean exceedLimits) {
-    assertEquals(exceedLimits, LimitParam.exceedLimits(value));
+  @CsvSource({"-1000,false", "-1,false", "0,false", "1,true", "50,true", "51,false"})
+  void testMatchesLimits(int value, boolean exceedLimits) {
+    assertEquals(exceedLimits, LimitParam.matchesLimits(value));
   }
 }

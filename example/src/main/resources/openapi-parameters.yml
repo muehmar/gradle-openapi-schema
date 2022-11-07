@@ -23,3 +23,14 @@ components:
         maximum: 50
         default: 20
       description: The numbers of items to return.
+    themeParam:
+      in: query
+      name: theme
+      required: false
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 10
+        default: theme0
+        pattern: "[a-z]+\\d"
+      description: The choosen theme.
