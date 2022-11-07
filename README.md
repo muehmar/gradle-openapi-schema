@@ -27,7 +27,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.21.0'
+    id 'com.github.muehmar.openapischema' version '0.21.1'
 }
 ```
 
@@ -519,6 +519,7 @@ afterEvaluate {
 
 ## Change Log
 
+* 0.21.1 - Fix constraints generation for number schemas (issue `#34`)
 * 0.21.0
     * Support numeric parameters (issue `#28`)
     * Support string parameters (issue `#29`)

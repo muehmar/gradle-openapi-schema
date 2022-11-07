@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -32,7 +32,8 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new NumberSchema().format(format).minimum(new BigDecimal(18));
     final MemberSchemaMapResult mappedSchema = run(schema);
 
-    final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)));
+    final Type expectedType =
+        fromFormat(format).withConstraints(Constraints.ofDecimalMin(new DecimalMin("18", true)));
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
@@ -44,7 +45,8 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
     final Schema<?> schema = new NumberSchema().format(format).maximum(new BigDecimal(50));
     final MemberSchemaMapResult mappedSchema = run(schema);
 
-    final Type expectedType = fromFormat(format).withConstraints(Constraints.ofMax(new Max(50)));
+    final Type expectedType =
+        fromFormat(format).withConstraints(Constraints.ofDecimalMax(new DecimalMax("50", true)));
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
@@ -58,7 +60,10 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
     final MemberSchemaMapResult mappedSchema = run(schema);
 
     final Type expectedType =
-        fromFormat(format).withConstraints(Constraints.ofMinAndMax(new Min(18), new Max(50)));
+        fromFormat(format)
+            .withConstraints(
+                Constraints.ofDecimalMinAndMax(
+                    new DecimalMin("18", true), new DecimalMax("50", true)));
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
