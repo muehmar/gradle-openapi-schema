@@ -20,4 +20,7 @@ public class JavaRefs {
   public static final String JAVA_UTIL_FUNCTION = "java.util.function.Function";
   public static final String JAVA_UTIL_BIFUNCTION = "java.util.function.BiFunction";
   public static final String JAVA_UTIL_SUPPLIER = "java.util.function.Supplier";
+
+  public static final String JAVA_UTIL_STREAM_COLLECTOR = "java.util.stream.Collectors";
+  public static final String JAVA_UTIL_STREAM_STREAM = "java.util.stream.Stream";
 }

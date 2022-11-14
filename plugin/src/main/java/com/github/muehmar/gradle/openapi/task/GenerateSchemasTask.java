@@ -5,7 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.Generators;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.TristateGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson.JacksonNullContainerGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonNullContainerGenerator;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.SpecificationMapper;

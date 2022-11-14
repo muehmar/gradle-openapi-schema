@@ -23,6 +23,11 @@ public class JavaEnumPojo implements JavaPojo {
     this.members = members;
   }
 
+  public static JavaEnumPojo of(
+      PojoName name, String description, PList<EnumConstantName> members) {
+    return new JavaEnumPojo(name, description, members);
+  }
+
   public static JavaEnumPojo wrap(EnumPojo enumPojo) {
     return new JavaEnumPojo(
         enumPojo.getName(),

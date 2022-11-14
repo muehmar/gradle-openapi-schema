@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters.isJacksonJson;
 
@@ -35,6 +35,13 @@ public class JacksonAnnotationGenerator {
     return Generator.<A, PojoSettings>emptyGen()
         .append(w -> w.println("@JsonValue"))
         .append(w -> w.ref(JacksonRefs.JSON_VALUE))
+        .filter(isJacksonJson());
+  }
+
+  public static <A> Generator<A, PojoSettings> jsonCreator() {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.println("@JsonCreator"))
+        .append(w -> w.ref(JacksonRefs.JSON_CREATOR))
         .filter(isJacksonJson());
   }
 }

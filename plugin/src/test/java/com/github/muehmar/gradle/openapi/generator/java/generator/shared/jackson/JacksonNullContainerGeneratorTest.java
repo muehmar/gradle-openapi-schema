@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;

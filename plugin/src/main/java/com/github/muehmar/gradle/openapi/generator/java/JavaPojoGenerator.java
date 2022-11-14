@@ -4,21 +4,20 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewEqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewFieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewHashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewPojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
-import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -48,8 +47,6 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     final Writer writer = createWriter.get();
 
-    printPackage(writer, pojoSettings.getPackageName());
-
     pojo.fold(
         arrayPojo -> generateArrayPojo(arrayPojo, writer, pojoSettings),
         enumPojo -> generateEnumPojo(enumPojo, writer, pojoSettings),
@@ -59,6 +56,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private Void generateObjectPojo(JavaObjectPojo pojo, Writer writer, PojoSettings pojoSettings) {
+    printPackage(writer, pojoSettings.getPackageName());
     printImports(writer, pojo, pojoSettings);
     printClassStart(writer, pojo, pojoSettings);
     printFields(writer, pojo, pojoSettings);
@@ -81,13 +79,14 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private Void generateEnumPojo(JavaEnumPojo pojo, Writer writer, PojoSettings pojoSettings) {
-    printJsonSupportImports(writer, pojoSettings);
-    printStreamImports(writer);
-    printEnum(writer, pojo.getName(), pojo.getDescription(), pojo.getMembers(), pojoSettings, 0);
+    final EnumGenerator generator = EnumGenerator.topLevel();
+    final String output = applyGen(generator, pojo, pojoSettings);
+    writer.println(output);
     return null;
   }
 
   private Void generateArrayPojo(JavaArrayPojo pojo, Writer writer, PojoSettings pojoSettings) {
+    printPackage(writer, pojoSettings.getPackageName());
     printImports(writer, pojo, pojoSettings);
     printClassStart(writer, pojo, pojoSettings);
     printFields(writer, pojo, pojoSettings);
@@ -235,6 +234,10 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   protected void printEnums(Writer writer, JavaPojo pojo, PojoSettings settings) {
+    final Generator<JavaEnumPojo, PojoSettings> generator =
+        Generator.<JavaEnumPojo, PojoSettings>emptyGen()
+            .appendNewLine()
+            .append(EnumGenerator.nested(), 1);
     pojo.getMembersOrEmpty()
         .forEach(
             member ->
@@ -244,13 +247,13 @@ public class JavaPojoGenerator implements PojoGenerator {
                         ignore -> null,
                         ignore -> null,
                         javaEnumType -> {
-                          printEnum(
-                              writer,
-                              PojoName.ofName(member.getJavaType().getClassName()),
-                              member.getDescription(),
-                              javaEnumType.getMembers(),
-                              settings,
-                              1);
+                          final JavaEnumPojo javaEnumPojo =
+                              JavaEnumPojo.of(
+                                  PojoName.ofName(member.getJavaType().getClassName()),
+                                  member.getDescription(),
+                                  javaEnumType.getMembers());
+                          final String output = applyGen(generator, javaEnumPojo, settings);
+                          writer.println(output);
                           return null;
                         },
                         ignore -> null,
@@ -259,105 +262,6 @@ public class JavaPojoGenerator implements PojoGenerator {
                         ignore -> null,
                         ignore -> null,
                         ignore -> null));
-  }
-
-  protected void printEnum(
-      Writer writer,
-      PojoName enumName,
-      String description,
-      PList<EnumConstantName> enumMembers,
-      PojoSettings settings,
-      int indention) {
-    writer.println();
-    printJavaDoc(writer, indention, description);
-
-    final String enumNameString = enumName.asString();
-    writer.tab(indention).println("public enum %s {", enumNameString);
-    EnumMember.extractDescriptions(enumMembers, settings.getEnumDescriptionSettings(), description)
-        .zipWithIndex()
-        .forEach(
-            p -> {
-              final EnumMember anEnumMember = p.first();
-              final EnumConstantName memberName = anEnumMember.getName();
-              final Integer idx = p.second();
-              writer
-                  .tab(indention + 1)
-                  .print(
-                      "%s(\"%s\", \"%s\")",
-                      memberName.asJavaConstant(),
-                      memberName.getOriginalConstant(),
-                      anEnumMember.getDescription());
-              if (idx + 1 < enumMembers.size()) {
-                writer.println(",");
-              } else {
-                writer.println(";");
-              }
-            });
-    writer.println();
-    writer.tab(indention + 1).println("private final String value;");
-    writer.tab(indention + 1).println("private final String description;");
-    writer.println();
-    writer.tab(indention + 1).println("%s(String value, String description) {", enumNameString);
-    writer.tab(indention + 2).println("this.value = value;");
-    writer.tab(indention + 2).println("this.description = description;");
-    writer.tab(indention + 1).println("}");
-
-    writer.println();
-    if (settings.isJacksonJson()) {
-      writer.tab(indention + 1).println("@JsonValue");
-    }
-    writer.tab(indention + 1).println("public String getValue() {");
-    writer.tab(indention + 2).println("return value;");
-    writer.tab(indention + 1).println("}");
-
-    if (settings.getEnumDescriptionSettings().isEnabled()) {
-      writer.println();
-      if (settings.isJacksonJson()) {
-        writer.tab(indention + 1).println("@JsonIgnore");
-      }
-      writer.tab(indention + 1).println("public String getDescription() {");
-      writer.tab(indention + 2).println("return description;");
-      writer.tab(indention + 1).println("}");
-    }
-
-    writer.println();
-    writer.tab(indention + 1).println("@Override");
-    writer.tab(indention + 1).println("public String toString() {");
-    writer.tab(indention + 2).println("return String.valueOf(value);");
-    writer.tab(indention + 1).println("}");
-
-    writer.println();
-    if (settings.isJacksonJson()) {
-      writer.tab(indention + 1).println("@JsonCreator");
-    }
-    writer.tab(indention + 1).println("public static %s fromValue(String value) {", enumNameString);
-    writer.tab(indention + 2).println("for (%s e : %s.values()) {", enumNameString, enumNameString);
-    writer.tab(indention + 3).println("if (e.value.equals(value)) {");
-    writer.tab(indention + 4).println("return e;");
-    writer.tab(indention + 3).println("}");
-    writer.tab(indention + 2).println("}");
-    writer
-        .tab(indention + 2)
-        .println("final String possibleValues =")
-        .tab(indention + 3)
-        .println(
-            "Stream.of(values()).map(%s::getValue).collect(Collectors.joining(\", \"));",
-            enumNameString)
-        .tab(indention + 2)
-        .println("throw new IllegalArgumentException(")
-        .tab(indention + 3)
-        .println("\"Unexpected value '\"")
-        .tab(indention + 4)
-        .println("+ value")
-        .tab(indention + 4)
-        .println("+ \"' for %s, possible values are [\"", enumNameString)
-        .tab(indention + 4)
-        .println("+ possibleValues")
-        .tab(indention + 4)
-        .println("+ \"]\");");
-    writer.tab(indention + 1).println("}");
-
-    writer.tab(indention).println("}");
   }
 
   protected void printGetters(Writer writer, JavaPojo pojo, PojoSettings settings) {
