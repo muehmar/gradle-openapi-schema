@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import ch.bluecare.commons.data.PList;
 import io.github.muehmar.codegenerator.Generator;
@@ -13,13 +13,13 @@ public class JavaDocGenerator {
     return (a, b, writer) -> javaDoc().generate(javaDoc, (Void) null, writer);
   }
 
-  public static Generator<String, Void> javaDoc() {
-    return Generator.<String, Void>ofWriterFunction(w -> w.println("/**"))
+  public static <B> Generator<String, B> javaDoc() {
+    return Generator.<String, B>ofWriterFunction(w -> w.println("/**"))
         .append(content())
         .append(w -> w.println(" */"));
   }
 
-  private static Generator<String, Void> content() {
+  private static <B> Generator<String, B> content() {
     return (input, ign, writer) ->
         PList.fromArray(input.split("\n"))
             .flatMap(JavaDocGenerator::autoNewline)

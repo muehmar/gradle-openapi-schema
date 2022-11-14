@@ -69,12 +69,12 @@ public class UserDto {
 
     @Override
     public String toString() {
-      return String.valueOf(value);
+      return value;
     }
 
     @JsonCreator
     public static LanguageEnum fromValue(String value) {
-      for (LanguageEnum e : LanguageEnum.values()) {
+      for (LanguageEnum e: LanguageEnum.values()) {
         if (e.value.equals(value)) {
           return e;
         }

@@ -4,11 +4,11 @@ import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noS
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedRawGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters.isValidationEnabled;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewValidationGenerator.validationAnnotations;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson.JacksonAnnotationGenerator.jsonIgnore;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson.JacksonAnnotationGenerator.jsonProperty;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 

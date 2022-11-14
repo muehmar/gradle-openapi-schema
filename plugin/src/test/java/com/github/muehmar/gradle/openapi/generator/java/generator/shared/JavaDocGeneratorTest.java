@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;

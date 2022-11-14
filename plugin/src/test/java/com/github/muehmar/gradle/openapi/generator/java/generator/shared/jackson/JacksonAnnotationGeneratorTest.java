@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -117,6 +117,32 @@ class JacksonAnnotationGeneratorTest {
   @Test
   void jsonValue_when_disabledJackson_then_correctOutputAndRefs() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonValue();
+
+    final Writer writer =
+        generator.generate(
+            noData(),
+            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            Writer.createDefault());
+
+    assertTrue(writer.getRefs().isEmpty());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
+  void jsonCreator_when_enabledJackson_then_correctOutputAndRefs() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonCreator();
+
+    final Writer writer =
+        generator.generate(noData(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertEquals(1, writer.getRefs().size());
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_CREATOR::equals));
+    assertEquals("@JsonCreator", writer.asString());
+  }
+
+  @Test
+  void jsonCreator_when_disabledJackson_then_correctOutputAndRefs() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonCreator();
 
     final Writer writer =
         generator.generate(

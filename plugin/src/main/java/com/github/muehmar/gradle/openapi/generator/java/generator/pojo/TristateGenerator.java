@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.override;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerator.javaDoc;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerator.ofJavaDocString;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.ofJavaDocString;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -30,6 +30,7 @@ public class TristateGenerator {
         .topLevel()
         .packageGen(
             (a, b, writer) -> writer.println("package %s;", OpenApiUtilRefs.OPENAPI_UTIL_PACKAGE))
+        .noJavaDoc()
         .modifiers(PUBLIC, FINAL)
         .className("Tristate<T>")
         .noSuperClass()

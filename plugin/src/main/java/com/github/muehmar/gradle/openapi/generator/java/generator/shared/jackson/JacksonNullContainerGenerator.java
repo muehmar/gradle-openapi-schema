@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.jackson;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;

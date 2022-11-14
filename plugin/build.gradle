@@ -26,7 +26,7 @@ dependencies {
     implementation "io.github.muehmar:pojo-extension-annotations:0.14.0"
     annotationProcessor "io.github.muehmar:pojo-extension:0.14.0"
 
-    implementation "io.github.muehmar:code-generator:0.4.0"
+    implementation "io.github.muehmar:code-generator:0.6.0"
 
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.8.0'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.8.0'

@@ -24,11 +24,11 @@ public enum GenderDto {
 
   @Override
   public String toString() {
-    return String.valueOf(value);
+    return value;
   }
 
   public static GenderDto fromValue(String value) {
-    for (GenderDto e : GenderDto.values()) {
+    for (GenderDto e: GenderDto.values()) {
       if (e.value.equals(value)) {
         return e;
       }

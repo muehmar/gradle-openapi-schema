@@ -31,6 +31,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
             .packageGen(
                 (a, settings, writer) ->
                     writer.println("package %s.parameter;", settings.getPackageName()))
+            .noJavaDoc()
             .modifiers(PUBLIC, FINAL)
             .className(parameter -> parameter.getName().startUpperCase().asString())
             .noSuperClass()
