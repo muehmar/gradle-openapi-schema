@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import java.util.Optional;
 
 public class JacksonAnnotationGenerator {
   private JacksonAnnotationGenerator() {}
@@ -43,5 +44,18 @@ public class JacksonAnnotationGenerator {
         .append(w -> w.println("@JsonCreator"))
         .append(w -> w.ref(JacksonRefs.JSON_CREATOR))
         .filter(isJacksonJson());
+  }
+
+  private static <A> Generator<A, PojoSettings> jsonPojoBuilder(Optional<String> prefix) {
+    final String prefixString =
+        prefix.map(p -> String.format("(withPrefix = \"%s\")", p)).orElse("");
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.println("@JsonPOJOBuilder%s", prefixString))
+        .append(w -> w.ref(JacksonRefs.JSON_POJO_BUILDER))
+        .filter(isJacksonJson());
+  }
+
+  public static <A> Generator<A, PojoSettings> jsonPojoBuilderWithPrefix(String prefix) {
+    return jsonPojoBuilder(Optional.of(prefix));
   }
 }
