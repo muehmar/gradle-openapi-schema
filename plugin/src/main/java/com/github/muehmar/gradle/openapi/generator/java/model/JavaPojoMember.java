@@ -104,8 +104,20 @@ public class JavaPojoMember {
     return isOptional() && isNotNullable();
   }
 
+  public Name getSetterName() {
+    return prefixedMethodName("set");
+  }
+
   public Name getGetterName() {
     return prefixedMethodName("get");
+  }
+
+  public Name getIsPresentFlagName() {
+    return name.startUpperCase().prefix("is").append("Present");
+  }
+
+  public Name getIsNullFlagName() {
+    return name.startUpperCase().prefix("is").append("Null");
   }
 
   public Name getGetterNameWithSuffix(PojoSettings settings) {
