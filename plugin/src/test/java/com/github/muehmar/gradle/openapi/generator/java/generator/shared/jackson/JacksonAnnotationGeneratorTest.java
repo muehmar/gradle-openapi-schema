@@ -153,4 +153,32 @@ class JacksonAnnotationGeneratorTest {
     assertTrue(writer.getRefs().isEmpty());
     assertEquals("", writer.asString());
   }
+
+  @Test
+  void jsonPojoBuilderWithPrefix_when_enabledJackson_then_correctOutputAndRefs() {
+    final Generator<Object, PojoSettings> generator =
+        JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set");
+
+    final Writer writer =
+        generator.generate(noData(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertEquals(1, writer.getRefs().size());
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_POJO_BUILDER::equals));
+    assertEquals("@JsonPOJOBuilder(withPrefix = \"set\")", writer.asString());
+  }
+
+  @Test
+  void jsonPojoBuilderWithPrefix_when_disabledJackson_then_noOutput() {
+    final Generator<Object, PojoSettings> generator =
+        JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set");
+
+    final Writer writer =
+        generator.generate(
+            noData(),
+            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            Writer.createDefault());
+
+    assertEquals(0, writer.getRefs().size());
+    assertEquals("", writer.asString());
+  }
 }

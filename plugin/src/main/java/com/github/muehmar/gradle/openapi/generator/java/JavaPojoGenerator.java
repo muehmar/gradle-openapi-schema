@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewFields
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewHashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewPojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
@@ -295,134 +296,13 @@ public class JavaPojoGenerator implements PojoGenerator {
             });
   }
 
-  protected void printBuilder(Writer writer, JavaPojo pojo, PojoSettings settings) {
-    if (settings.isDisableSafeBuilder()) {
-      writer.println();
-      writer.tab(1).println("public static Builder newBuilder() {");
-      writer.tab(2).println("return new Builder();");
-      writer.tab(1).println("}");
-    }
-
-    writer.println();
-    if (settings.isJacksonJson()) {
-      writer.tab(1).println("@JsonPOJOBuilder(withPrefix = \"set\")");
-    }
-    writer.tab(1).println("public static final class Builder {");
-
-    if (settings.isEnableSafeBuilder()) {
-      writer.println();
-      writer.tab(2).println("private Builder() {");
-      writer.tab(2).println("}");
-    }
-
-    writer.println();
-    pojo.getMembersOrEmpty()
-        .forEach(
-            member -> {
-              final String type = member.getJavaType().getFullClassName().asString();
-              final Name fieldName = member.getName();
-              writer.tab(2).println("private %s %s;", type, fieldName);
-              if (member.isRequiredAndNullable()) {
-                writer
-                    .tab(2)
-                    .println("private boolean is%sPresent = false;", fieldName.startUpperCase());
-              } else if (member.isOptionalAndNullable()) {
-                writer
-                    .tab(2)
-                    .println("private boolean is%sNull = false;", fieldName.startUpperCase());
-              }
-            });
-
-    pojo.getMembersOrEmpty()
-        .forEach(
-            member -> {
-              final String type = member.getJavaType().getFullClassName().asString();
-              final Name fieldName = member.getName();
-              final String setterModifier =
-                  settings.isEnableSafeBuilder() && member.isRequired() ? "private" : "public";
-
-              // Normal setter
-              writer.println();
-              printJavaDoc(writer, 2, member.getDescription());
-              if (settings.isJacksonJson()) {
-                writer.tab(2).println("@JsonProperty(\"%s\")", member.getName());
-              }
-              writer
-                  .tab(2)
-                  .println(
-                      "%s Builder %s(%s %s) {",
-                      setterModifier,
-                      member.prefixedMethodName(settings.getBuilderMethodPrefix()),
-                      type,
-                      fieldName);
-              writer.tab(3).println("this.%s = %s;", fieldName, fieldName);
-              if (member.isRequiredAndNullable()) {
-                writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
-              } else if (member.isOptionalAndNullable()) {
-                writer.tab(3).println("if (%s == null) {", fieldName);
-                writer.tab(4).println("this.is%sNull = true;", fieldName.startUpperCase());
-                writer.tab(3).println("}");
-              }
-              writer.tab(3).println("return this;");
-              writer.tab(2).println("}");
-
-              // Optional setter
-              if ((member.isOptional() && !member.isNullable()) || member.isRequiredAndNullable()) {
-                writer.println();
-                printJavaDoc(writer, 2, member.getDescription());
-                writer
-                    .tab(2)
-                    .println(
-                        "%s Builder %s(Optional<%s> %s) {",
-                        setterModifier,
-                        member.prefixedMethodName(settings.getBuilderMethodPrefix()),
-                        type,
-                        fieldName);
-                writer.tab(3).println("this.%s = %s.orElse(null);", fieldName, fieldName);
-                if (member.isOptionalAndNullable()) {
-                  writer.tab(3).println("if (!%s.isPresent()) {", fieldName);
-                  writer.tab(4).println("this.is%sNull = true;", fieldName.startUpperCase());
-                  writer.tab(3).println("}");
-                } else if (member.isRequiredAndNullable()) {
-                  writer.tab(3).println("this.is%sPresent = true;", fieldName.startUpperCase());
-                }
-                writer.tab(3).println("return this;");
-                writer.tab(2).println("}");
-              }
-
-              // Optional nullable setter
-              if (member.isOptionalAndNullable()) {
-                writer.println();
-                printJavaDoc(writer, 2, member.getDescription());
-                writer
-                    .tab(2)
-                    .println(
-                        "%s Builder %s(Tristate<%s> %s) {",
-                        setterModifier,
-                        member.prefixedMethodName(settings.getBuilderMethodPrefix()),
-                        type,
-                        fieldName);
-                writer
-                    .tab(3)
-                    .println(
-                        "this.%s = %s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);",
-                        fieldName, fieldName);
-                writer
-                    .tab(3)
-                    .println(
-                        "this.is%sNull = %s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);",
-                        fieldName.startUpperCase(), fieldName);
-                writer.tab(3).println("return this;");
-                writer.tab(2).println("}");
-              }
-            });
-
-    writer.println();
-    writer.tab(2).println("public %s build() {", pojo.getName());
-    writer.tab(3).println("return new %s(%s);", pojo.getName(), createNamesCommaSeparated(pojo));
-    writer.tab(2).println("}");
-
-    writer.tab(1).println("}");
+  protected void printBuilder(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+            .append(new NormalBuilderGenerator(), 1)
+            .prependNewLine();
+    final String output = applyGen(generator, pojo, settings);
+    writer.println(output);
   }
 
   protected void printSafeBuilder(Writer writer, JavaPojo pojo, PojoSettings settings) {

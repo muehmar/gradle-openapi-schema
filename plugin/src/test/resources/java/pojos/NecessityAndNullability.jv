@@ -262,9 +262,7 @@ public class NecessityAndNullabilityDto {
     @JsonProperty("optionalNullableStringVal")
     public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal;
-      if (optionalNullableStringVal == null) {
-        this.isOptionalNullableStringValNull = true;
-      }
+      this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
       return this;
     }
 
