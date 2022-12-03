@@ -186,4 +186,29 @@ class StringParameterGeneratorTest {
             + "}",
         writer.asString());
   }
+
+  @Test
+  void generate_when_dateFormat_then_correctRendered() {
+    final ParameterGenerator gen = new ParameterGenerator();
+    final Parameter param =
+        new Parameter(
+            Name.ofString("dateParam"),
+            StringType.ofFormat(StringType.Format.DATE),
+            Optional.empty());
+    final JavaParameter limitParam = JavaParameter.wrap(param);
+
+    final Writer writer =
+        gen.generate(limitParam, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertEquals(
+        "package com.github.muehmar.parameter;\n"
+            + "\n"
+            + "\n"
+            + "public final class DateParam {\n"
+            + "  private DateParam() {}\n"
+            + "\n"
+            + "\n"
+            + "}",
+        writer.asString());
+  }
 }
