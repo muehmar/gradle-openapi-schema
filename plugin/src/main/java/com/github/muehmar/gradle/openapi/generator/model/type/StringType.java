@@ -90,6 +90,10 @@ public class StringType implements Type {
       this.value = value;
     }
 
+    public String getValue() {
+      return value;
+    }
+
     public static Format parseString(String value) {
       return PList.fromArray(values()).find(f -> f.value.equals(value)).orElse(OTHER);
     }
