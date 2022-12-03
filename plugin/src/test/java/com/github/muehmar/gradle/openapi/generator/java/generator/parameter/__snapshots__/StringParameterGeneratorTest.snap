@@ -1,0 +1,242 @@
+allStringTypeFormats[binary]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+}
+]
+
+
+allStringTypeFormats[byte]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[date-time]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+}
+]
+
+
+allStringTypeFormats[date]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+}
+]
+
+
+allStringTypeFormats[email]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[hostname]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[ipv4]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[ipv6]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[none]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[other]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[partial-time]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+}
+]
+
+
+allStringTypeFormats[password]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+  public static boolean matchesLimits(String val) {
+    return true;
+  }
+
+  public static boolean matchesPattern(String val) {
+    return true;
+  }
+
+}
+]
+
+
+allStringTypeFormats[uri]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+}
+]
+
+
+allStringTypeFormats[url]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+}
+]
+
+
+allStringTypeFormats[uuid]=[
+package com.github.muehmar.parameter;
+.
+.
+public final class StringParam {
+  private StringParam() {}
+.
+.
+}
+]
