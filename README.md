@@ -27,7 +27,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.21.1'
+    id 'com.github.muehmar.openapischema' version '0.21.2'
 }
 ```
 
@@ -91,7 +91,7 @@ openApiGenerator {
                 requiredSuffix = "Req"
                 requiredNullabeSuffix = "Opt"
                 optionalSuffix = "Opt"
-                optionalNullableSuffix = "Tristae"                
+                optionalNullableSuffix = "Tristate"                
             }
             
             rawGetter {
