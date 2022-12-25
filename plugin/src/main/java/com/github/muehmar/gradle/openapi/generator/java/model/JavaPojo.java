@@ -18,7 +18,11 @@ public interface JavaPojo {
     return pojo.fold(
         objectPojo -> JavaObjectPojo.wrap(objectPojo, typeMappings),
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
-        JavaEnumPojo::wrap);
+        JavaEnumPojo::wrap,
+        composedPojo -> {
+          throw new IllegalArgumentException(
+              "Composed pojos (AnyOf, OneOf) are not yet supported.");
+        });
   }
 
   PojoName getName();

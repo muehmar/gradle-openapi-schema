@@ -25,7 +25,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.ExcludedSchemas;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 
-class SpecificationMapperImpl implements SpecificationMapper {
+public class SpecificationMapperImpl implements SpecificationMapper {
 
   private final MapResultResolver resolver;
   private final SpecificationParser specificationParser;

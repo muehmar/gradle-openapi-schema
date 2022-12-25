@@ -9,8 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.mapper.reader.ResourceSpecificationReader;
-import com.github.muehmar.gradle.openapi.generator.mapper.reader.SwaggerSpecificationParser;
+import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ResourceSchemaMapperTest;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolverImpl;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
@@ -59,7 +58,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class SpecificationMapperImplTest {
+class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
 
   @Test
   void map_when_arraySchema_then_returnArrayPojo() {
@@ -158,18 +157,7 @@ class SpecificationMapperImplTest {
 
   @Test
   void map_when_realSpecWithRemoteReference_then_allPojosCorrectMapped() {
-    final SpecificationMapper specificationMapper =
-        SpecificationMapperImpl.create(
-            new MapResultResolverImpl(),
-            new SwaggerSpecificationParser(new ResourceSpecificationReader(), "Dto"));
-
-    final PList<Pojo> pojos =
-        specificationMapper
-            .map(
-                MainDirectory.fromString("/specifications/remote-ref"),
-                OpenApiSpec.fromString("main.yml"))
-            .getPojos()
-            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+    final PList<Pojo> pojos = mapSchema("/specifications/remote-ref", "main.yml");
 
     assertEquals(2, pojos.size());
     assertEquals(PList.of("CityDto", "UserDto"), pojos.map(Pojo::getName).map(PojoName::asString));
@@ -177,18 +165,7 @@ class SpecificationMapperImplTest {
 
   @Test
   void map_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
-    final SpecificationMapper specificationMapper =
-        SpecificationMapperImpl.create(
-            new MapResultResolverImpl(),
-            new SwaggerSpecificationParser(new ResourceSpecificationReader(), "Dto"));
-
-    final PList<Pojo> pojos =
-        specificationMapper
-            .map(
-                MainDirectory.fromString("/integration/completespec"),
-                OpenApiSpec.fromString("openapi.yml"))
-            .getPojos()
-            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+    final PList<Pojo> pojos = mapSchema("/integration/completespec", "openapi.yml");
 
     assertEquals(6, pojos.size());
 

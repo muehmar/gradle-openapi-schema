@@ -1,0 +1,54 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - id
+        - externalId
+        - personType
+      properties:
+        id:
+          type: string
+          format: uuid
+        externalId:
+          type: integer
+          format: int64
+          nullable: true
+        email:
+          type: string
+          format: email
+        age:
+          minimum: 18
+          maximum: 50
+          type: integer
+          nullable: true
+        personType:
+          type: string
+    Admin:
+      required:
+        - id
+        - name
+        - personType
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: integer
+          format: int64
+          nullable: true
+        personType:
+          type: string
+    Person:
+      discriminator:
+        propertyName: personType
+        mapping:
+          adm: '#/components/schemas/Admin'
+          usr: '#/components/schemas/User'
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'

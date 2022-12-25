@@ -1,32 +1,36 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * Result of the mapping from OpenAPI models to internal models. But certain models may not be
+ * resolved yet.
+ */
 @EqualsAndHashCode
 @ToString
 public class UnresolvedMapResult {
 
   private final PList<Pojo> pojos;
-  private final PList<ComposedPojo> composedPojos;
+  private final PList<UnresolvedComposedPojo> unresolvedComposedPojos;
   private final PList<PojoMemberReference> pojoMemberReferences;
   private final PList<Parameter> parameters;
   private final PList<OpenApiSpec> usedSpecs;
 
   private UnresolvedMapResult(
       PList<Pojo> pojos,
-      PList<ComposedPojo> composedPojos,
+      PList<UnresolvedComposedPojo> unresolvedComposedPojos,
       PList<PojoMemberReference> pojoMemberReferences,
       PList<Parameter> parameters,
       PList<OpenApiSpec> usedSpecs) {
     this.pojos = pojos;
-    this.composedPojos = composedPojos;
+    this.unresolvedComposedPojos = unresolvedComposedPojos;
     this.pojoMemberReferences = pojoMemberReferences;
     this.parameters = parameters;
     this.usedSpecs = usedSpecs;
@@ -42,7 +46,7 @@ public class UnresolvedMapResult {
         PList.single(pojo), PList.empty(), PList.empty(), PList.empty(), PList.empty());
   }
 
-  public static UnresolvedMapResult ofComposedPojo(ComposedPojo composedPojo) {
+  public static UnresolvedMapResult ofUnresolvedComposedPojo(UnresolvedComposedPojo composedPojo) {
     return new UnresolvedMapResult(
         PList.empty(), PList.single(composedPojo), PList.empty(), PList.empty(), PList.empty());
   }
@@ -64,7 +68,7 @@ public class UnresolvedMapResult {
   public UnresolvedMapResult merge(UnresolvedMapResult other) {
     return new UnresolvedMapResult(
         pojos.concat(other.pojos),
-        composedPojos.concat(other.composedPojos),
+        unresolvedComposedPojos.concat(other.unresolvedComposedPojos),
         pojoMemberReferences.concat(other.pojoMemberReferences),
         parameters.concat(other.parameters),
         usedSpecs.concat(other.usedSpecs));
@@ -72,15 +76,19 @@ public class UnresolvedMapResult {
 
   public UnresolvedMapResult addParameters(PList<Parameter> parameters) {
     return new UnresolvedMapResult(
-        pojos, composedPojos, pojoMemberReferences, this.parameters.concat(parameters), usedSpecs);
+        pojos,
+        unresolvedComposedPojos,
+        pojoMemberReferences,
+        this.parameters.concat(parameters),
+        usedSpecs);
   }
 
   public PList<Pojo> getPojos() {
     return pojos;
   }
 
-  public PList<ComposedPojo> getComposedPojos() {
-    return composedPojos;
+  public PList<UnresolvedComposedPojo> getUnresolvedComposedPojos() {
+    return unresolvedComposedPojos;
   }
 
   public PList<PojoMemberReference> getPojoMemberReferences() {

@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/** Collection of items which are not yet mapped into an internal model. */
 @SafeBuilder
 @EqualsAndHashCode
 @ToString
@@ -41,6 +42,10 @@ public class UnmappedItems {
 
   public static UnmappedItems ofPojoSchema(PojoSchema pojoSchema) {
     return new UnmappedItems(PList.empty(), PList.single(pojoSchema), PList.empty());
+  }
+
+  public static UnmappedItems ofPojoSchemas(PList<PojoSchema> pojoSchemas) {
+    return new UnmappedItems(PList.empty(), pojoSchemas, PList.empty());
   }
 
   public static UnmappedItems ofParameterSchema(ParameterSchema parameterSchema) {

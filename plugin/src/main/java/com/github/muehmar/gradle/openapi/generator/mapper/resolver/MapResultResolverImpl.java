@@ -3,31 +3,34 @@ package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.ComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import java.util.Optional;
 
 public class MapResultResolverImpl implements MapResultResolver {
+
+  public static MapResultResolver create() {
+    return new MapResultResolverImpl();
+  }
+
   @Override
   public MapResult resolve(UnresolvedMapResult unresolvedMapResult) {
     final PList<Pojo> pojos = unresolvedMapResult.getPojos();
-    final PList<ComposedPojo> composedPojos = unresolvedMapResult.getComposedPojos();
+    final PList<UnresolvedComposedPojo> composedPojos =
+        unresolvedMapResult.getUnresolvedComposedPojos();
     final PList<PojoMemberReference> pojoMemberReferences =
         unresolvedMapResult.getPojoMemberReferences();
 
     final PList<Pojo> resolvedPojos =
         Optional.of(pojos)
-            .map(p -> ComposedPojoResolver.resolve(composedPojos, pojos))
+            .map(p -> UnresolvedComposedPojoResolver.resolve(composedPojos, p))
             .map(p -> inlineMemberReferences(p, pojoMemberReferences))
             .map(this::addEnumDescription)
             .orElse(PList.empty());
-    final PList<Parameter> parameters = unresolvedMapResult.getParameters();
-    final PList<OpenApiSpec> usedSpecs = unresolvedMapResult.getUsedSpecs();
-    return MapResult.of(resolvedPojos, parameters, usedSpecs);
+    return MapResult.of(
+        resolvedPojos, unresolvedMapResult.getParameters(), unresolvedMapResult.getUsedSpecs());
   }
 
   private PList<Pojo> inlineMemberReferences(
