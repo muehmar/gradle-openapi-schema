@@ -66,7 +66,7 @@ public class UnresolvedComposedPojoResolver {
                     ObjectPojo::getMembers,
                     arrayPojo -> PList.empty(),
                     enumPojo -> PList.empty(),
-                    ignore -> PList.empty()));
+                    composedPojo -> PList.empty()));
 
     final ObjectPojo objectPojo =
         ObjectPojo.of(
@@ -89,11 +89,7 @@ public class UnresolvedComposedPojoResolver {
       UnresolvedComposedPojo unresolvedComposedPojo,
       PList<Pojo> resolvedPojos) {
     final ComposedPojo composedPojo =
-        ComposedPojo.anyOf(
-            unresolvedComposedPojo.getName(),
-            unresolvedComposedPojo.getDescription(),
-            resolvedPojos,
-            unresolvedComposedPojo.getDiscriminator());
+        ComposedPojo.resolvedAnyOf(resolvedPojos, unresolvedComposedPojo);
     return context.successfullyResolved(composedPojo);
   }
 
@@ -110,11 +106,7 @@ public class UnresolvedComposedPojoResolver {
       UnresolvedComposedPojo unresolvedComposedPojo,
       PList<Pojo> resolvedPojos) {
     final ComposedPojo composedPojo =
-        ComposedPojo.oneOf(
-            unresolvedComposedPojo.getName(),
-            unresolvedComposedPojo.getDescription(),
-            resolvedPojos,
-            unresolvedComposedPojo.getDiscriminator());
+        ComposedPojo.resolvedOneOf(resolvedPojos, unresolvedComposedPojo);
     return context.successfullyResolved(composedPojo);
   }
 

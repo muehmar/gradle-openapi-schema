@@ -115,7 +115,7 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
             pojoNames.concat(pojoSchemas.map(PojoSchema::getPojoName)),
             discriminator);
     final UnresolvedMapResult unresolvedMapResult =
-        UnresolvedMapResult.ofComposedPojo(unresolvedComposedPojo);
+        UnresolvedMapResult.ofUnresolvedComposedPojo(unresolvedComposedPojo);
     return MapContext.fromUnmappedItemsAndResult(unmappedItems, unresolvedMapResult);
   }
 

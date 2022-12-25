@@ -20,7 +20,8 @@ public interface JavaPojo {
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
         JavaEnumPojo::wrap,
         composedPojo -> {
-          throw new IllegalArgumentException("Not implemented");
+          throw new IllegalArgumentException(
+              "Composed pojos (AnyOf, OneOf) are not yet supported.");
         });
   }
 

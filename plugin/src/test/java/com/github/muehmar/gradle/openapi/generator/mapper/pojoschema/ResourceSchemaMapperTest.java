@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.mapper.processor;
+package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.SpecificationMapper;
@@ -11,9 +11,9 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirec
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import java.util.Comparator;
 
-public abstract class ResourceSchemaOpenApiTest {
+public abstract class ResourceSchemaMapperTest {
 
-  protected static PList<Pojo> processSchema(String mainDirectory, String schema) {
+  protected static PList<Pojo> mapSchema(String mainDirectory, String schema) {
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),

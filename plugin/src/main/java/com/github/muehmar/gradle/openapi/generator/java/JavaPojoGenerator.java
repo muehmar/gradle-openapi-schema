@@ -38,6 +38,10 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   @Override
   public void generatePojo(Pojo pojo, PojoSettings pojoSettings) {
+    if (pojo.isComposedPojo()) {
+      // Skip currently unsupported composed-pojos
+      return;
+    }
     final JavaPojo javaPojo = JavaPojo.wrap(pojo, pojoSettings.getTypeMappings());
     generatePojo(javaPojo, pojoSettings);
   }

@@ -61,7 +61,7 @@ class ObjectPojoSchemaMapperTest {
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final PojoName memberObjectPojoName = PojoName.ofNameAndSuffix("ObjectObjectVal", "Dto");
@@ -118,7 +118,7 @@ class ObjectPojoSchemaMapperTest {
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final PList<PojoMember> expectedMembers =

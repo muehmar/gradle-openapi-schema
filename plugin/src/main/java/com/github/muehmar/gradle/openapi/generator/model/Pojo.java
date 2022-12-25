@@ -23,6 +23,10 @@ public interface Pojo {
       Function<EnumPojo, T> onEnumPojo,
       Function<ComposedPojo, T> onComposedPojo);
 
+  default boolean isComposedPojo() {
+    return fold(objectPojo -> false, arrayPojo -> false, enumPojo -> false, composedPojo -> true);
+  }
+
   default Optional<EnumPojo> asEnumPojo() {
     return fold(
         objectPojo -> Optional.empty(),

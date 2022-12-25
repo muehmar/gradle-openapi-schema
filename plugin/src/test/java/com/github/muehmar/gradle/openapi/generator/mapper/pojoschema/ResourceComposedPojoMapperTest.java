@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.mapper.processor;
+package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,10 +16,10 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class ComposedOpenApiProcessorTest extends ResourceSchemaOpenApiTest {
+class ResourceComposedPojoMapperTest extends ResourceSchemaMapperTest {
   @Test
-  void fromSchema_when_allOf_then_allPojosCorrectMapped() {
-    final PList<Pojo> pojos = processSchema("/schemas/compositions", "allof.yml");
+  void map_when_allOf_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos = mapSchema("/schemas/compositions", "allof.yml");
 
     assertEquals(3, pojos.size());
     assertEquals(
@@ -58,8 +58,8 @@ class ComposedOpenApiProcessorTest extends ResourceSchemaOpenApiTest {
   }
 
   @Test
-  void fromSchema_when_oneOf_then_allPojosCorrectMapped() {
-    final PList<Pojo> pojos = processSchema("/schemas/compositions", "oneof.yml");
+  void map_when_oneOf_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos = mapSchema("/schemas/compositions", "oneof.yml");
 
     assertEquals(3, pojos.size());
     assertEquals(
@@ -86,8 +86,8 @@ class ComposedOpenApiProcessorTest extends ResourceSchemaOpenApiTest {
   }
 
   @Test
-  void fromSchema_when_oneOfWithDiscriminator_then_allPojosCorrectMapped() {
-    final PList<Pojo> pojos = processSchema("/schemas/compositions", "oneof_discriminator.yml");
+  void map_when_oneOfWithDiscriminator_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos = mapSchema("/schemas/compositions", "oneof_discriminator.yml");
 
     assertEquals(3, pojos.size());
     assertEquals(
@@ -117,9 +117,9 @@ class ComposedOpenApiProcessorTest extends ResourceSchemaOpenApiTest {
   }
 
   @Test
-  void fromSchema_when_oneOfWithDiscriminatorAndMapping_then_allPojosCorrectMapped() {
+  void map_when_oneOfWithDiscriminatorAndMapping_then_allPojosCorrectMapped() {
     final PList<Pojo> pojos =
-        processSchema("/schemas/compositions", "oneof_discriminatorWithMapping.yml");
+        mapSchema("/schemas/compositions", "oneof_discriminatorWithMapping.yml");
 
     assertEquals(3, pojos.size());
     assertEquals(
@@ -152,8 +152,8 @@ class ComposedOpenApiProcessorTest extends ResourceSchemaOpenApiTest {
   }
 
   @Test
-  void fromSchema_when_anyOf_then_allPojosCorrectMapped() {
-    final PList<Pojo> pojos = processSchema("/schemas", "compositions/anyof.yml");
+  void map_when_anyOf_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos = mapSchema("/schemas", "compositions/anyof.yml");
 
     assertEquals(3, pojos.size());
     assertEquals(

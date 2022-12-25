@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -28,14 +29,26 @@ public class ComposedPojo implements Pojo {
     this.discriminator = discriminator;
   }
 
-  public static ComposedPojo anyOf(
-      PojoName name, String description, PList<Pojo> pojos, Optional<Discriminator> discriminator) {
-    return new ComposedPojo(name, description, pojos, CompositionType.ANY_OF, discriminator);
+  public static ComposedPojo resolvedAnyOf(
+      PList<Pojo> pojos, UnresolvedComposedPojo unresolvedComposedPojo) {
+    return resolved(pojos, CompositionType.ANY_OF, unresolvedComposedPojo);
   }
 
-  public static ComposedPojo oneOf(
-      PojoName name, String description, PList<Pojo> pojos, Optional<Discriminator> discriminator) {
-    return new ComposedPojo(name, description, pojos, CompositionType.ONE_OF, discriminator);
+  public static ComposedPojo resolvedOneOf(
+      PList<Pojo> pojos, UnresolvedComposedPojo unresolvedComposedPojo) {
+    return resolved(pojos, CompositionType.ONE_OF, unresolvedComposedPojo);
+  }
+
+  private static ComposedPojo resolved(
+      PList<Pojo> resolvedPojos,
+      CompositionType compositionType,
+      UnresolvedComposedPojo unresolvedComposedPojo) {
+    return new ComposedPojo(
+        unresolvedComposedPojo.getName(),
+        unresolvedComposedPojo.getDescription(),
+        resolvedPojos,
+        compositionType,
+        unresolvedComposedPojo.getDiscriminator());
   }
 
   public enum CompositionType {

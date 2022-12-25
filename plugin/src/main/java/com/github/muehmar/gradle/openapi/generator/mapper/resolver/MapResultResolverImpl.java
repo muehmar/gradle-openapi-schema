@@ -18,13 +18,14 @@ public class MapResultResolverImpl implements MapResultResolver {
   @Override
   public MapResult resolve(UnresolvedMapResult unresolvedMapResult) {
     final PList<Pojo> pojos = unresolvedMapResult.getPojos();
-    final PList<UnresolvedComposedPojo> composedPojos = unresolvedMapResult.getComposedPojos();
+    final PList<UnresolvedComposedPojo> composedPojos =
+        unresolvedMapResult.getUnresolvedComposedPojos();
     final PList<PojoMemberReference> pojoMemberReferences =
         unresolvedMapResult.getPojoMemberReferences();
 
     final PList<Pojo> resolvedPojos =
         Optional.of(pojos)
-            .map(p -> UnresolvedComposedPojoResolver.resolve(composedPojos, pojos))
+            .map(p -> UnresolvedComposedPojoResolver.resolve(composedPojos, p))
             .map(p -> inlineMemberReferences(p, pojoMemberReferences))
             .map(this::addEnumDescription)
             .orElse(PList.empty());
