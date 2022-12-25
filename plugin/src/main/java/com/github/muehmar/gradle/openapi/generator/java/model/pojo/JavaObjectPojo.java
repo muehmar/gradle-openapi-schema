@@ -48,7 +48,8 @@ public class JavaObjectPojo implements JavaPojo {
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
-      Function<JavaObjectPojo, T> onObjectPojo) {
+      Function<JavaObjectPojo, T> onObjectPojo,
+      Function<JavaComposedPojo, T> onComposedPojo) {
     return onObjectPojo.apply(this);
   }
 }

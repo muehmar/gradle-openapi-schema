@@ -27,7 +27,13 @@ public class NewHashCodeGenerator {
             .build();
     return AnnotationGenerator.<JavaPojo, PojoSettings>override()
         .append(method)
-        .filter(pojo -> pojo.fold(arrayPojo -> true, enumPojo -> false, objectPojo -> true));
+        .filter(
+            pojo ->
+                pojo.fold(
+                    arrayPojo -> true,
+                    enumPojo -> false,
+                    objectPojo -> true,
+                    composedPojo -> true));
   }
 
   private static Generator<JavaPojo, PojoSettings> hashCodeMethodContent() {

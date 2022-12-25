@@ -16,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDoc
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
@@ -55,9 +56,15 @@ public class JavaPojoGenerator implements PojoGenerator {
     pojo.fold(
         arrayPojo -> generateArrayPojo(arrayPojo, writer, pojoSettings),
         enumPojo -> generateEnumPojo(enumPojo, writer, pojoSettings),
-        objectPojo -> generateObjectPojo(objectPojo, writer, pojoSettings));
+        objectPojo -> generateObjectPojo(objectPojo, writer, pojoSettings),
+        composedPojo -> generateComposedPojo(composedPojo, writer, pojoSettings));
 
     writer.close(packagePath + "/" + pojo.getName() + ".java");
+  }
+
+  private Void generateComposedPojo(
+      JavaComposedPojo composedPojo, Writer writer, PojoSettings pojoSettings) {
+    return null;
   }
 
   private Void generateObjectPojo(JavaObjectPojo pojo, Writer writer, PojoSettings pojoSettings) {

@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -19,10 +20,7 @@ public interface JavaPojo {
         objectPojo -> JavaObjectPojo.wrap(objectPojo, typeMappings),
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
         JavaEnumPojo::wrap,
-        composedPojo -> {
-          throw new IllegalArgumentException(
-              "Composed pojos (AnyOf, OneOf) are not yet supported.");
-        });
+        composedPojo -> JavaComposedPojo.wrap(composedPojo, typeMappings));
   }
 
   PojoName getName();
@@ -32,18 +30,20 @@ public interface JavaPojo {
   <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
-      Function<JavaObjectPojo, T> onObjectPojo);
+      Function<JavaObjectPojo, T> onObjectPojo,
+      Function<JavaComposedPojo, T> onComposedPojo);
 
   default PList<JavaPojoMember> getMembersOrEmpty() {
     return fold(
         javaArrayPojo -> PList.single(javaArrayPojo.getArrayPojoMember()),
         javaEnumPojo -> PList.empty(),
-        JavaObjectPojo::getMembers);
+        JavaObjectPojo::getMembers,
+        JavaComposedPojo::getMembers);
   }
 
   default boolean isEnum() {
     final Predicate<JavaPojo> isEnumPojo = JavaEnumPojo.class::isInstance;
-    return fold(isEnumPojo::test, isEnumPojo::test, isEnumPojo::test);
+    return fold(isEnumPojo::test, isEnumPojo::test, isEnumPojo::test, isEnumPojo::test);
   }
 
   default boolean isNotEnum() {
@@ -52,11 +52,11 @@ public interface JavaPojo {
 
   default boolean isArray() {
     final Predicate<JavaPojo> isArrayPojo = JavaArrayPojo.class::isInstance;
-    return fold(isArrayPojo::test, isArrayPojo::test, isArrayPojo::test);
+    return fold(isArrayPojo::test, isArrayPojo::test, isArrayPojo::test, isArrayPojo::test);
   }
 
   default boolean isObject() {
     final Predicate<JavaPojo> isObjectPojo = JavaObjectPojo.class::isInstance;
-    return fold(isObjectPojo::test, isObjectPojo::test, isObjectPojo::test);
+    return fold(isObjectPojo::test, isObjectPojo::test, isObjectPojo::test, isObjectPojo::test);
   }
 }
