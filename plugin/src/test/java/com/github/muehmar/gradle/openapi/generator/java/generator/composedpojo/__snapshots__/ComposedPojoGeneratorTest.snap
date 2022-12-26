@@ -1,0 +1,10 @@
+composedPojoAndDefaultSettings=[
+package com.github.muehmar;
+.
+.
+/**
+ * Composition Description
+ */
+public enum ComposedOneofDto {
+}
+]
