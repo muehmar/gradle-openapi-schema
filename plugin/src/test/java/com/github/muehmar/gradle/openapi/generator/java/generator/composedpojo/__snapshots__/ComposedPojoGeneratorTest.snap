@@ -1,10 +1,19 @@
 composedPojoAndDefaultSettings=[
 package com.github.muehmar;
-.
-.
+
+import java.time.LocalDate;
+
 /**
  * Composition Description
  */
 public enum ComposedOneofDto {
+  private final String username;
+  private final LocalDate birthdate;
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
 }
 ]

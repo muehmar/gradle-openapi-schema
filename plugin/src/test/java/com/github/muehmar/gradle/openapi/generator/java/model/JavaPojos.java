@@ -2,8 +2,10 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
@@ -29,16 +31,14 @@ public class JavaPojos {
   }
 
   private static ObjectPojo allNecessityAndNullabilityVariantsPojo() {
-    final ObjectPojo allNecessityAndNullabilityVariantsPojo =
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"),
-            "NecessityAndNullability",
-            PList.of(
-                requiredString(),
-                requiredNullableString(),
-                optionalString(),
-                optionalNullableString()));
-    return allNecessityAndNullabilityVariantsPojo;
+    return ObjectPojo.of(
+        PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"),
+        "NecessityAndNullability",
+        PList.of(
+            requiredString(),
+            requiredNullableString(),
+            optionalString(),
+            optionalNullableString()));
   }
 
   public static JavaPojo arrayPojo() {
@@ -61,6 +61,11 @@ public class JavaPojos {
   }
 
   public static JavaPojo composedPojo(ComposedPojo.CompositionType type) {
+    final ObjectPojo userObjectPojo =
+        ObjectPojo.of(
+            PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
+            "User",
+            PList.of(requiredUsername(), requiredBirthdate()));
     final Name typeName =
         Name.ofString(type.name().toLowerCase().replace("_", "")).startUpperCase();
     final UnresolvedComposedPojo unresolvedComposedPojo =
@@ -70,7 +75,7 @@ public class JavaPojos {
             UnresolvedComposedPojo.CompositionType.ONE_OF,
             PList.empty(),
             Optional.empty());
-    final PList<Pojo> pojos = PList.of(allNecessityAndNullabilityVariantsPojo());
+    final PList<Pojo> pojos = PList.of(userObjectPojo, allNecessityAndNullabilityVariantsPojo());
     final ComposedPojo composedPojo =
         type.equals(ComposedPojo.CompositionType.ANY_OF)
             ? ComposedPojo.resolvedAnyOf(pojos, unresolvedComposedPojo)

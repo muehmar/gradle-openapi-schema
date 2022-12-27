@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewFieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
@@ -32,12 +33,13 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
             .build();
   }
 
-  private Generator<JavaComposedPojo, PojoSettings> content() {
-    return Generator.emptyGen();
-  }
-
   @Override
   public Writer generate(JavaComposedPojo data, PojoSettings settings, Writer writer) {
     return delegate.generate(data, settings, writer);
+  }
+
+  private Generator<JavaComposedPojo, PojoSettings> content() {
+    return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
+        .appendList(NewFieldsGenerator.fields(), JavaComposedPojo::getJavaPojos);
   }
 }
