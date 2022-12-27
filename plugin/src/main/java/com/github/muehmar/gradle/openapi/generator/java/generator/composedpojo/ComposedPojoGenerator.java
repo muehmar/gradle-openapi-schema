@@ -25,6 +25,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
             .javaDoc(
                 JavaDocGenerator.<PojoSettings>javaDoc()
                     .contraMap(JavaComposedPojo::getDescription))
+            .noAnnotations()
             .modifiers(PUBLIC)
             .className(enumPojo -> enumPojo.getName().asString())
             .noSuperClass()

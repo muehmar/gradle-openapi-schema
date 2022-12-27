@@ -31,6 +31,7 @@ public class TristateGenerator {
         .packageGen(
             (a, b, writer) -> writer.println("package %s;", OpenApiUtilRefs.OPENAPI_UTIL_PACKAGE))
         .noJavaDoc()
+        .noAnnotations()
         .modifiers(PUBLIC, FINAL)
         .className("Tristate<T>")
         .noSuperClass()

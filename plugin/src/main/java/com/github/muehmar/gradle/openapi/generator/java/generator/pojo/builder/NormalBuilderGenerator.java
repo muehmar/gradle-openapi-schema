@@ -38,6 +38,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             .nested()
             .packageGen(new PackageGenerator<>())
             .noJavaDoc()
+            .noAnnotations()
             .modifiers(PUBLIC, STATIC, FINAL)
             .className("Builder")
             .noSuperClass()
