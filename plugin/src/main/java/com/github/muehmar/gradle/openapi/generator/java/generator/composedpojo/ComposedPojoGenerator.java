@@ -6,6 +6,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewFieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -25,7 +26,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
             .javaDoc(
                 JavaDocGenerator.<PojoSettings>javaDoc()
                     .contraMap(JavaComposedPojo::getDescription))
-            .noAnnotations()
+            .singleAnnotation(JacksonAnnotationGenerator.jsonDeserialize())
             .modifiers(PUBLIC)
             .className(enumPojo -> enumPojo.getName().asString())
             .noSuperClass()

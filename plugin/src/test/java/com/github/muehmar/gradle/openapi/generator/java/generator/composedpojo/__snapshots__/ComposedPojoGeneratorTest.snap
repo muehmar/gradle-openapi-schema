@@ -1,11 +1,13 @@
 composedPojoAndDefaultSettings=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.LocalDate;
 
 /**
  * Composition Description
  */
+@JsonDeserialize(builder = ComposedOneofDto.Builder.class)
 public enum ComposedOneofDto {
   private final String username;
   private final LocalDate birthdate;
