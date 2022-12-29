@@ -1,8 +1,12 @@
 composedPojoAndDefaultSettings=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * Composition Description
@@ -36,6 +40,108 @@ public enum ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String username;
+    private LocalDate birthdate;
+    private String requiredStringVal;
+    private String requiredNullableStringVal;
+    private boolean isRequiredNullableStringValPresent = false;
+    private String optionalStringVal;
+    private String optionalNullableStringVal;
+    private boolean isOptionalNullableStringValNull = false;
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    @JsonProperty("requiredNullableStringVal")
+    private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal;
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    @JsonProperty("optionalStringVal")
+    public Builder setOptionalStringVal(String optionalStringVal) {
+      this.optionalStringVal = optionalStringVal;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+      this.optionalStringVal = optionalStringVal.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    @JsonProperty("optionalNullableStringVal")
+    public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal;
+      this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    public ComposedOneofDto build() {
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    }
   }
 }
 ]
