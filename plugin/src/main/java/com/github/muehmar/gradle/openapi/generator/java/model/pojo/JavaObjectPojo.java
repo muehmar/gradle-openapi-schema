@@ -24,6 +24,11 @@ public class JavaObjectPojo implements JavaPojo {
     this.members = members;
   }
 
+  public static JavaObjectPojo from(
+      PojoName name, String description, PList<JavaPojoMember> members) {
+    return new JavaObjectPojo(name, description, members);
+  }
+
   public static JavaObjectPojo wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
     final PList<JavaPojoMember> members =
         objectPojo.getMembers().map(member -> JavaPojoMember.wrap(member, typeMappings));

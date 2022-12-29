@@ -53,6 +53,10 @@ public class JavaComposedPojo implements JavaPojo {
     return javaPojos;
   }
 
+  public JavaObjectPojo wrapIntoJavaObjectPojo() {
+    return JavaObjectPojo.from(name, description, getMembers());
+  }
+
   public PList<JavaPojoMember> getMembers() {
     return javaPojos.flatMap(JavaPojo::getMembersOrEmpty);
   }
