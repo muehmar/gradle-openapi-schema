@@ -1,9 +1,11 @@
 composedPojoAndDefaultSettings=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -142,6 +144,42 @@ public enum ComposedOneofDto {
     public ComposedOneofDto build() {
       return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 }
 ]
