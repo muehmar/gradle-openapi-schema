@@ -57,7 +57,7 @@ gradlePlugin {
     }
 }
 
-test {
-    systemProperties.put("updateSnapshot", project.properties["updateSnapshot"])
-}
+//test {
+//    systemProperties.put("updateSnapshot", project.properties["updateSnapshot"])
+//}
 
