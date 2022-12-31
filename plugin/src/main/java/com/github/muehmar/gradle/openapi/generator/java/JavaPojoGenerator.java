@@ -8,11 +8,11 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumG
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.HashCodeGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ToStringGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
