@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class ToStringGeneratorTest {
   @Test
   void generate_when_allNecessityAndNullabilityVariants_then_correctToStringMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = NewToStringGenerator.toStringMethod();
+    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
     final Writer writer =
         generator.generate(
@@ -41,7 +41,7 @@ class ToStringGeneratorTest {
 
   @Test
   void generate_when_arrayPojo_then_correctToStringMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = NewToStringGenerator.toStringMethod();
+    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
     final Writer writer =
         generator.generate(
@@ -61,7 +61,7 @@ class ToStringGeneratorTest {
 
   @Test
   void generate_when_enumPojo_then_noOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = NewToStringGenerator.toStringMethod();
+    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
     final Writer writer =
         generator.generate(

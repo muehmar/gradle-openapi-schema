@@ -12,8 +12,8 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.function.UnaryOperator;
 
-public class NewEqualsGenerator {
-  private NewEqualsGenerator() {}
+public class EqualsGenerator {
+  private EqualsGenerator() {}
 
   public static Generator<JavaPojo, PojoSettings> equalsMethod() {
     final Generator<JavaPojo, PojoSettings> method =

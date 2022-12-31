@@ -2,14 +2,14 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedRawGetter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewValidationGenerator.assertTrue;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewValidationGenerator.validationAnnotations;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator.assertTrue;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewRefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.RequiredNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -30,7 +30,7 @@ public class RequiredNullableGetter {
             .append(alternateGetter())
             .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))
             .append(requiredValidationMethodWithAnnotation())
-            .append(NewRefsGenerator.fieldRefs());
+            .append(RefsGenerator.fieldRefs());
     return RequiredNullableGetterGen.wrap(gen);
   }
 

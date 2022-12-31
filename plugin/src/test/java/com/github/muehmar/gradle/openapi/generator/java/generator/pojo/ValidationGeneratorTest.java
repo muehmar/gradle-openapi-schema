@@ -34,7 +34,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_validationDisabled_then_noOutput() {
     final JavaPojoMember member = JavaPojoMembers.requiredBirthdate();
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer =
         generator.generate(
@@ -48,7 +48,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForRequiredField_then_notNullWithRef() {
     final JavaPojoMember member = JavaPojoMembers.requiredBirthdate();
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -60,7 +60,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForRequiredButNullableField_then_noAnnotation() {
     final JavaPojoMember member = JavaPojoMembers.requiredNullableBirthdate();
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -72,7 +72,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForOptionalReferenceField_then_validWithRef() {
     final JavaPojoMember member = JavaPojoMembers.reference(OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -85,7 +85,7 @@ class ValidationGeneratorTest {
     final JavaPojoMember member =
         JavaPojoMembers.list(StringType.noFormat(), Constraints.empty(), OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -102,7 +102,7 @@ class ValidationGeneratorTest {
             OPTIONAL,
             NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -116,7 +116,7 @@ class ValidationGeneratorTest {
       Type keyType, Type valueType) {
     final JavaPojoMember member = JavaPojoMembers.map(keyType, valueType, OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -140,7 +140,7 @@ class ValidationGeneratorTest {
       Type keyType, Type valueType) {
     final JavaPojoMember member = JavaPojoMembers.map(keyType, valueType, OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -162,7 +162,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForOptionalEmailField_then_emailWithRef() {
     final JavaPojoMember member = JavaPojoMembers.email(OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -174,7 +174,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForOptionalIntegerField_then_minAndMaxWithRefs() {
     final JavaPojoMember member = JavaPojoMembers.integer(OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -187,7 +187,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForOptionalDoubleField_then_minAndMaxWithRefs() {
     final JavaPojoMember member = JavaPojoMembers.doubleMember(OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -205,7 +205,7 @@ class ValidationGeneratorTest {
         JavaPojoMembers.list(
             StringType.noFormat(), Constraints.ofSize(Size.of(1, 50)), OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
@@ -217,7 +217,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForOptionalStringField_then_minAndMaxWithRefs() {
     final JavaPojoMember member = JavaPojoMembers.string(OPTIONAL, NOT_NULLABLE);
     final Generator<JavaPojoMember, PojoSettings> generator =
-        NewValidationGenerator.validationAnnotations();
+        ValidationGenerator.validationAnnotations();
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 

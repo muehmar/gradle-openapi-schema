@@ -8,8 +8,8 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.function.BiPredicate;
 
-public class NewFieldsGenerator {
-  private NewFieldsGenerator() {}
+public class FieldsGenerator {
+  private FieldsGenerator() {}
 
   public static Generator<JavaPojo, PojoSettings> fields() {
     return Generator.<JavaPojo, PojoSettings>emptyGen()

@@ -17,7 +17,7 @@ class FieldsGeneratorTest {
 
   @Test
   void fields_when_samplePojo_then_correctOutputAndRef() {
-    final Generator<JavaPojo, PojoSettings> gen = NewFieldsGenerator.fields();
+    final Generator<JavaPojo, PojoSettings> gen = FieldsGenerator.fields();
 
     final Writer writer =
         gen.generate(
@@ -40,7 +40,7 @@ class FieldsGeneratorTest {
 
   @Test
   void fields_when_arrayPojo_then_correctOutputAndRef() {
-    final Generator<JavaPojo, PojoSettings> gen = NewFieldsGenerator.fields();
+    final Generator<JavaPojo, PojoSettings> gen = FieldsGenerator.fields();
 
     final Writer writer =
         gen.generate(
@@ -54,7 +54,7 @@ class FieldsGeneratorTest {
 
   @Test
   void fields_when_enumPojo_then_noOutput() {
-    final Generator<JavaPojo, PojoSettings> gen = NewFieldsGenerator.fields();
+    final Generator<JavaPojo, PojoSettings> gen = FieldsGenerator.fields();
 
     final Writer writer =
         gen.generate(

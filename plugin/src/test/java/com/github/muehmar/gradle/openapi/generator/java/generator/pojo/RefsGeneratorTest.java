@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class RefsGeneratorTest {
   @Test
   void fieldRefs_when_calledForBirthdate_then_correctRefs() {
-    final Generator<JavaPojoMember, PojoSettings> gen = NewRefsGenerator.fieldRefs();
+    final Generator<JavaPojoMember, PojoSettings> gen = RefsGenerator.fieldRefs();
     final JavaPojoMember javaPojoMember =
         JavaPojoMember.wrap(PojoMembers.requiredBirthdate(), TypeMappings.empty());
 

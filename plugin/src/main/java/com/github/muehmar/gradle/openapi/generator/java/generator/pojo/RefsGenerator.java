@@ -7,8 +7,8 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 
-public class NewRefsGenerator {
-  private NewRefsGenerator() {}
+public class RefsGenerator {
+  private RefsGenerator() {}
 
   public static Generator<JavaPojoMember, PojoSettings> fieldRefs() {
     return (f, s, w) -> addRefs(w, f.getJavaType().getImportsAsString());

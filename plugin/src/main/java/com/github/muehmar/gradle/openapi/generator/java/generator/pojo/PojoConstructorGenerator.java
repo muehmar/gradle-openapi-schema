@@ -11,8 +11,8 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.function.BiFunction;
 
-public class NewPojoConstructorGenerator {
-  private NewPojoConstructorGenerator() {}
+public class PojoConstructorGenerator {
+  private PojoConstructorGenerator() {}
 
   public static Generator<JavaPojo, PojoSettings> generator() {
     return ConstructorGeneratorBuilder.<JavaPojo, PojoSettings>create()
@@ -26,7 +26,7 @@ public class NewPojoConstructorGenerator {
 
   private static BiFunction<JavaPojo, PojoSettings, PList<String>> constructorArguments() {
     return (pojo, pojoSettings) ->
-        pojo.getMembersOrEmpty().flatMap(NewPojoConstructorGenerator::createArguments);
+        pojo.getMembersOrEmpty().flatMap(PojoConstructorGenerator::createArguments);
   }
 
   private static PList<String> createArguments(JavaPojoMember member) {
@@ -48,7 +48,7 @@ public class NewPojoConstructorGenerator {
   private static Generator<JavaPojo, PojoSettings> constructorContent() {
     return (pojo, settings, writer) -> {
       final PList<String> assignments =
-          pojo.getMembersOrEmpty().flatMap(NewPojoConstructorGenerator::createMemberAssignment);
+          pojo.getMembersOrEmpty().flatMap(PojoConstructorGenerator::createMemberAssignment);
       return assignments.foldLeft(writer, Writer::println);
     };
   }

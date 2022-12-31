@@ -5,11 +5,11 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewEqualsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewFieldsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewHashCodeGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewPojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
@@ -202,7 +202,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printFields(Writer writer, JavaPojo pojo, PojoSettings settings) {
-    final Generator<JavaPojo, PojoSettings> fieldsGen = NewFieldsGenerator.fields();
+    final Generator<JavaPojo, PojoSettings> fieldsGen = FieldsGenerator.fields();
     final Generator<JavaPojo, PojoSettings> indentedFieldsGen =
         Generator.<JavaPojo, PojoSettings>emptyGen().append(fieldsGen, 1);
     final String output = applyGen(indentedFieldsGen, pojo, settings);
@@ -210,7 +210,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printConstructor(Writer writer, JavaPojo pojo, PojoSettings settings) {
-    final Generator<JavaPojo, PojoSettings> generator = NewPojoConstructorGenerator.generator();
+    final Generator<JavaPojo, PojoSettings> generator = PojoConstructorGenerator.generator();
 
     writer.println();
 
@@ -486,8 +486,8 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   protected void printEqualsAndHash(Writer writer, JavaPojo pojo, PojoSettings settings) {
-    final Generator<JavaPojo, PojoSettings> equalsMethod = NewEqualsGenerator.equalsMethod();
-    final Generator<JavaPojo, PojoSettings> hashCodeMethod = NewHashCodeGenerator.hashCodeMethod();
+    final Generator<JavaPojo, PojoSettings> equalsMethod = EqualsGenerator.equalsMethod();
+    final Generator<JavaPojo, PojoSettings> hashCodeMethod = HashCodeGenerator.hashCodeMethod();
     final Generator<JavaPojo, PojoSettings> equalsAndHashCodeMethods =
         equalsMethod.appendNewLine().append(hashCodeMethod);
     final Generator<JavaPojo, PojoSettings> generator =
@@ -500,7 +500,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   protected void printToString(Writer writer, JavaPojo pojo, PojoSettings settings) {
-    final Generator<JavaPojo, PojoSettings> generator = NewToStringGenerator.toStringMethod();
+    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
     writer.println();
     final String output =

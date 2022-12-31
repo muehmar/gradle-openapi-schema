@@ -16,8 +16,8 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class NewValidationGenerator {
-  private NewValidationGenerator() {}
+public class ValidationGenerator {
+  private ValidationGenerator() {}
 
   public static Generator<JavaPojoMember, PojoSettings> assertTrue(
       Function<JavaPojoMember, String> message) {
