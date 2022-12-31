@@ -10,7 +10,10 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDoc
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -54,7 +57,13 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .append(PojoConstructorGenerator.generator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
         .appendNewLine()
         .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendList(memberGetter().prependNewLine(), JavaComposedPojo::getMembers);
+        .appendList(memberGetter().prependNewLine(), JavaComposedPojo::getMembers)
+        .appendNewLine()
+        .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .appendNewLine()
+        .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .appendNewLine()
+        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo);
   }
 
   private Generator<JavaPojoMember, PojoSettings> memberGetter() {

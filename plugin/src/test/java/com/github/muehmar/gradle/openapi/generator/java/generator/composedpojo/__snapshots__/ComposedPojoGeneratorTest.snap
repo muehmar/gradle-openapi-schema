@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -180,6 +181,49 @@ public enum ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedOneofDto other = (ComposedOneofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedOneofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "}";
   }
 }
 ]
