@@ -63,7 +63,9 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendNewLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
         .appendNewLine()
-        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo);
+        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .appendNewLine()
+        .append(FactoryMethodGenerator.generator());
   }
 
   private Generator<JavaPojoMember, PojoSettings> memberGetter() {
