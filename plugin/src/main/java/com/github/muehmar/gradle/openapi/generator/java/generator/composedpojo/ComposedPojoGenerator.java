@@ -59,13 +59,13 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
         .appendList(memberGetter().prependNewLine(), JavaComposedPojo::getMembers)
         .appendNewLine()
+        .append(FactoryMethodGenerator.generator())
+        .appendNewLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
         .appendNewLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
         .appendNewLine()
-        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
-        .append(FactoryMethodGenerator.generator());
+        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo);
   }
 
   private Generator<JavaPojoMember, PojoSettings> memberGetter() {

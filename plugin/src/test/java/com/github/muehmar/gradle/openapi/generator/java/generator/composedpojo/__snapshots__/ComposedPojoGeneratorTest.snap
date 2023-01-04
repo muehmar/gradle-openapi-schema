@@ -183,6 +183,33 @@ public enum ComposedOneofDto {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
+  public static ComposedOneofDto fromUser(UserDto dto) {
+    return new ComposedOneofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false
+    );
+  }
+
+  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedOneofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
+.
+.
   @Override
   public int hashCode() {
     return Objects.hash(
@@ -225,32 +252,5 @@ public enum ComposedOneofDto {
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
-
-  public static ComposedOneofDto fromUser(UserDto dto) {
-    return new ComposedOneofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false
-    );
-  }
-
-  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedOneofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
-    );
-  }
-
 }
 ]
