@@ -210,6 +210,14 @@ public enum ComposedOneofDto {
   }
 .
 .
+  private boolean isValidAgainstUser() {
+    return true;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return true;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
