@@ -57,7 +57,10 @@ gradlePlugin {
     }
 }
 
-//test {
-//    systemProperties.put("updateSnapshot", project.properties["updateSnapshot"])
-//}
+test {
+    def updateSnapshot = project.properties["updateSnapshot"]
+    if (updateSnapshot != null) {
+        systemProperties.put("updateSnapshot", updateSnapshot)
+    }
+}
 
