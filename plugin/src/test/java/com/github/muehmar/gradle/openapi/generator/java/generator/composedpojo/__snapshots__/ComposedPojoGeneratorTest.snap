@@ -211,11 +211,15 @@ public enum ComposedOneofDto {
 .
 .
   private boolean isValidAgainstUser() {
-    return true;
+    return
+      username != null &&
+      birthdate != null;
   }
 
   private boolean isValidAgainstNecessityAndNullability() {
-    return true;
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
   }
 
   @Override
