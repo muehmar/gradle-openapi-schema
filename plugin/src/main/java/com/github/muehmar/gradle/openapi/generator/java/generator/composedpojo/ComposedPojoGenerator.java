@@ -62,7 +62,6 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendList(memberGetter().prependNewLine(), JavaComposedPojo::getMembers)
         .appendNewLine()
         .append(FactoryMethodGenerator.generator())
-        .appendNewLine()
         .append(ValidCountMethodGenerator.validCountMethod())
         .appendList(isValidAgainstMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
         .appendList(asDtoMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
