@@ -518,6 +518,8 @@ afterEvaluate {
 * Only `allOf` is supported to combine schemas. Currently, `oneOf`, `anyOf`, and `not` are not yet supported.
 * The keyword `additionalProperties` with value `false` is not supported for object types, i.e. if the serialisation
   framework supports unknown properties, no validation error will occur in case of additional properties.
+* The combination of `properties` and `additionalProperties` for object types is not supported. If both keywords are
+  present, only `properties` will be used, the value of `additionalProperties` gets ignored.
 
 ## Change Log
 
