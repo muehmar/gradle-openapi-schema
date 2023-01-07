@@ -210,6 +210,12 @@ public enum ComposedOneofDto {
   }
 .
 .
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
   private boolean isValidAgainstUser() {
     return
       username != null &&
