@@ -4,7 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noS
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedRawGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters.isValidationEnabled;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewValidationGenerator.validationAnnotations;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
@@ -13,7 +13,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewRefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.OptionalNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -31,7 +31,7 @@ public class OptionalNullableGetter {
             .append(tristateGetterMethod())
             .append(jacksonSerializerMethodWithAnnotations())
             .append(validationMethod())
-            .append(NewRefsGenerator.fieldRefs());
+            .append(RefsGenerator.fieldRefs());
     return OptionalNullableGetterGen.wrap(gen);
   }
 
@@ -73,7 +73,7 @@ public class OptionalNullableGetter {
                     "return is%sNull ? new JacksonNullContainer<>(%s) : %s;",
                     f.getName().startUpperCase(), f.getName(), f.getName()))
         .build()
-        .append(NewRefsGenerator.fieldRefs())
+        .append(RefsGenerator.fieldRefs())
         .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
         .filter(isJacksonJson());
   }

@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewValidationGenerator.validationAnnotations;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NewRefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.RequiredNotNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -33,6 +33,6 @@ public class RequiredNotNullableGetter {
         .noArguments()
         .content(f -> String.format("return %s;", f.getName()))
         .build()
-        .append(NewRefsGenerator.fieldRefs());
+        .append(RefsGenerator.fieldRefs());
   }
 }

@@ -1,9 +1,10 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -12,8 +13,8 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.function.UnaryOperator;
 
-public class NewEqualsGenerator {
-  private NewEqualsGenerator() {}
+public class EqualsGenerator {
+  private EqualsGenerator() {}
 
   public static Generator<JavaPojo, PojoSettings> equalsMethod() {
     final Generator<JavaPojo, PojoSettings> method =
@@ -27,7 +28,13 @@ public class NewEqualsGenerator {
             .build();
     return AnnotationGenerator.<JavaPojo, PojoSettings>override()
         .append(method)
-        .filter(pojo -> pojo.fold(arrayPojo -> true, enumPojo -> false, objectPojo -> true));
+        .filter(
+            pojo ->
+                pojo.fold(
+                    arrayPojo -> true,
+                    enumPojo -> false,
+                    objectPojo -> true,
+                    composedPojo -> true));
   }
 
   private static Generator<JavaPojo, PojoSettings> equalsMethodContent() {

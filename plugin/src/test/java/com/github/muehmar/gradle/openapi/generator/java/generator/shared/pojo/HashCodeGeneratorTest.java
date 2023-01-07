@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class HashCodeGeneratorTest {
   @Test
   void generate_when_allNecessityAndNullabilityVariants_then_correctHashCodeMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = NewHashCodeGenerator.hashCodeMethod();
+    final Generator<JavaPojo, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants(),
@@ -42,7 +42,7 @@ class HashCodeGeneratorTest {
 
   @Test
   void generate_when_arrayPojo_then_correctHashCodeMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = NewHashCodeGenerator.hashCodeMethod();
+    final Generator<JavaPojo, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
     final Writer writer =
         generator.generate(
             JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
@@ -61,7 +61,7 @@ class HashCodeGeneratorTest {
 
   @Test
   void generate_when_enumPojo_then_noOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = NewHashCodeGenerator.hashCodeMethod();
+    final Generator<JavaPojo, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
     final Writer writer =
         generator.generate(
             JavaPojos.enumPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());

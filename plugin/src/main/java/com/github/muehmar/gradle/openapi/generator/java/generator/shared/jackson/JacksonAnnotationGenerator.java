@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackso
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters.isJacksonJson;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -57,5 +58,15 @@ public class JacksonAnnotationGenerator {
 
   public static <A> Generator<A, PojoSettings> jsonPojoBuilderWithPrefix(String prefix) {
     return jsonPojoBuilder(Optional.of(prefix));
+  }
+
+  public static <T extends JavaPojo> Generator<T, PojoSettings> jsonDeserialize() {
+    return Generator.<T, PojoSettings>emptyGen()
+        .append(
+            (pojo, settings, writer) ->
+                writer.println(
+                    "@JsonDeserialize(builder = %s.Builder.class)", pojo.getName().asString()))
+        .append(w -> w.ref(JacksonRefs.JSON_DESERIALIZE))
+        .filter(isJacksonJson());
   }
 }

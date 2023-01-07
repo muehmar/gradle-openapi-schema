@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class EqualsGeneratorTest {
   @Test
   void generate_when_allNecessityAndNullabilityVariants_then_correctEqualsMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = NewEqualsGenerator.equalsMethod();
+    final Generator<JavaPojo, PojoSettings> generator = EqualsGenerator.equalsMethod();
 
     final Writer writer =
         generator.generate(
@@ -44,7 +44,7 @@ class EqualsGeneratorTest {
 
   @Test
   void generate_when_arrayPojo_then_correctEqualsMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = NewEqualsGenerator.equalsMethod();
+    final Generator<JavaPojo, PojoSettings> generator = EqualsGenerator.equalsMethod();
 
     final Writer writer =
         generator.generate(
@@ -65,7 +65,7 @@ class EqualsGeneratorTest {
 
   @Test
   void generate_when_enumPojo_then_nothingGenerated() {
-    final Generator<JavaPojo, PojoSettings> generator = NewEqualsGenerator.equalsMethod();
+    final Generator<JavaPojo, PojoSettings> generator = EqualsGenerator.equalsMethod();
 
     final Writer writer =
         generator.generate(

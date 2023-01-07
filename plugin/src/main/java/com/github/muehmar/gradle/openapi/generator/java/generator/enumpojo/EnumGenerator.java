@@ -33,6 +33,7 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
             .packageGen(new PackageGenerator<>())
             .javaDoc(
                 JavaDocGenerator.<PojoSettings>javaDoc().contraMap(JavaEnumPojo::getDescription))
+            .noAnnotations()
             .modifiers(PUBLIC)
             .className(enumPojo -> enumPojo.getName().asString())
             .noSuperClass()

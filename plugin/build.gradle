@@ -23,10 +23,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-    implementation "io.github.muehmar:pojo-extension-annotations:0.14.0"
-    annotationProcessor "io.github.muehmar:pojo-extension:0.14.0"
+    implementation "io.github.muehmar:pojo-extension-annotations:0.15.0"
+    annotationProcessor "io.github.muehmar:pojo-extension:0.15.0"
 
-    implementation "io.github.muehmar:code-generator:0.6.0"
+    implementation "io.github.muehmar:code-generator:0.8.0"
 
     implementation 'io.github.origin-energy:java-snapshot-testing-junit5:4.0.1'
 
@@ -54,6 +54,13 @@ gradlePlugin {
             description = 'Generate schema sources for Java from an OpenAPI 3.0 specification.'
             implementationClass = 'com.github.muehmar.gradle.openapi.OpenApiSchemaGenerator'
         }
+    }
+}
+
+test {
+    def updateSnapshot = project.properties["updateSnapshot"]
+    if (updateSnapshot != null) {
+        systemProperties.put("updateSnapshot", updateSnapshot)
     }
 }
 

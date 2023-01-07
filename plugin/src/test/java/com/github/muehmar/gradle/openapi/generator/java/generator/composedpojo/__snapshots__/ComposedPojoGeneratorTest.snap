@@ -1,0 +1,291 @@
+composedPojoAndDefaultSettings=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Composition Description
+ */
+@JsonDeserialize(builder = ComposedOneofDto.Builder.class)
+public enum ComposedOneofDto {
+  private final String username;
+  private final LocalDate birthdate;
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public ComposedOneofDto(
+      String username,
+      LocalDate birthdate,
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.username = username;
+    this.birthdate = birthdate;
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String username;
+    private LocalDate birthdate;
+    private String requiredStringVal;
+    private String requiredNullableStringVal;
+    private boolean isRequiredNullableStringValPresent = false;
+    private String optionalStringVal;
+    private String optionalNullableStringVal;
+    private boolean isOptionalNullableStringValNull = false;
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    @JsonProperty("requiredNullableStringVal")
+    private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal;
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    @JsonProperty("optionalStringVal")
+    public Builder setOptionalStringVal(String optionalStringVal) {
+      this.optionalStringVal = optionalStringVal;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+      this.optionalStringVal = optionalStringVal.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    @JsonProperty("optionalNullableStringVal")
+    public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal;
+      this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    public ComposedOneofDto build() {
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    }
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  public static ComposedOneofDto fromUser(UserDto dto) {
+    return new ComposedOneofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false
+    );
+  }
+
+  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedOneofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedOneofDto other = (ComposedOneofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedOneofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "}";
+  }
+}
+]

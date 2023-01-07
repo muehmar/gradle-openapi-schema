@@ -1,10 +1,11 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 
 import static com.github.muehmar.gradle.openapi.util.Functions.allExceptFirst;
-import static com.github.muehmar.gradle.openapi.util.Functions.first;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -12,25 +13,31 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
 
-public class NewToStringGenerator {
-  private NewToStringGenerator() {}
+public class HashCodeGenerator {
+  private HashCodeGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> toStringMethod() {
+  public static Generator<JavaPojo, PojoSettings> hashCodeMethod() {
     final Generator<JavaPojo, PojoSettings> method =
         JavaGenerators.<JavaPojo, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
-            .returnType("String")
-            .methodName("toString")
+            .returnType("int")
+            .methodName("hashCode")
             .noArguments()
-            .content(toStringMethodContent())
+            .content(hashCodeMethodContent())
             .build();
     return AnnotationGenerator.<JavaPojo, PojoSettings>override()
         .append(method)
-        .filter(JavaPojo::isNotEnum);
+        .filter(
+            pojo ->
+                pojo.fold(
+                    arrayPojo -> true,
+                    enumPojo -> false,
+                    objectPojo -> true,
+                    composedPojo -> true));
   }
 
-  private static Generator<JavaPojo, PojoSettings> toStringMethodContent() {
+  private static Generator<JavaPojo, PojoSettings> hashCodeMethodContent() {
     return (pojo, s, w) -> {
       final PList<String> fieldNames =
           pojo.getMembersOrEmpty()
@@ -50,19 +57,15 @@ public class NewToStringGenerator {
                     }
                   });
 
-      final Writer writerStartPrinted = w.println("return \"%s{\" +", pojo.getName());
+      final Writer writerStartPrinted = w.println("return Objects.hash(");
 
       final PList<String> mappedFieldNames =
-          fieldNames
-              .zipWithIndex()
-              .map(allExceptFirst(name -> "\", " + name + "=\" + " + name + " +"))
-              .zipWithIndex()
-              .map(first(name -> "\"" + name + "=\" + " + name + " +"));
+          fieldNames.reverse().zipWithIndex().map(allExceptFirst(name -> name + ",")).reverse();
 
       return mappedFieldNames
           .foldLeft(writerStartPrinted, (writer, name) -> writer.tab(1).println(name))
-          .tab(1)
-          .println("\"}\";");
+          .println(");")
+          .ref(JavaRefs.JAVA_UTIL_OBJECTS);
     };
   }
 }
