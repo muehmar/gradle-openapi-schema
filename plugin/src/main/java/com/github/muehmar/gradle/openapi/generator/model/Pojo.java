@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import java.util.Optional;
 import java.util.function.Function;
@@ -21,10 +22,16 @@ public interface Pojo {
       Function<ObjectPojo, T> onObjectPojo,
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo,
-      Function<ComposedPojo, T> onComposedPojo);
+      Function<ComposedPojo, T> onComposedPojo,
+      Function<FreeFormPojo, T> onFreeFormPojo);
 
   default boolean isComposedPojo() {
-    return fold(objectPojo -> false, arrayPojo -> false, enumPojo -> false, composedPojo -> true);
+    return fold(
+        objectPojo -> false,
+        arrayPojo -> false,
+        enumPojo -> false,
+        composedPojo -> true,
+        freeFormPojo -> false);
   }
 
   default Optional<EnumPojo> asEnumPojo() {
@@ -32,7 +39,8 @@ public interface Pojo {
         objectPojo -> Optional.empty(),
         arrayPojo -> Optional.empty(),
         Optional::of,
-        composedPojo -> Optional.empty());
+        composedPojo -> Optional.empty(),
+        freeFormPojo -> Optional.empty());
   }
 
   default Optional<ObjectPojo> asObjectPojo() {
@@ -40,6 +48,7 @@ public interface Pojo {
         Optional::of,
         arrayPojo -> Optional.empty(),
         enumPojo -> Optional.empty(),
-        composedPojo -> Optional.empty());
+        composedPojo -> Optional.empty(),
+        freeFormPojo -> Optional.empty());
   }
 }

@@ -6,6 +6,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -20,7 +21,8 @@ public interface JavaPojo {
         objectPojo -> JavaObjectPojo.wrap(objectPojo, typeMappings),
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
         JavaEnumPojo::wrap,
-        composedPojo -> JavaComposedPojo.wrap(composedPojo, typeMappings));
+        composedPojo -> JavaComposedPojo.wrap(composedPojo, typeMappings),
+        freeFormPojo -> JavaFreeFormPojo.wrap(freeFormPojo));
   }
 
   PojoName getName();
@@ -31,19 +33,22 @@ public interface JavaPojo {
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
       Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo);
+      Function<JavaComposedPojo, T> onComposedPojo,
+      Function<JavaFreeFormPojo, T> onFreeFormPojo);
 
   default PList<JavaPojoMember> getMembersOrEmpty() {
     return fold(
         javaArrayPojo -> PList.single(javaArrayPojo.getArrayPojoMember()),
         javaEnumPojo -> PList.empty(),
         JavaObjectPojo::getMembers,
-        JavaComposedPojo::getMembers);
+        JavaComposedPojo::getMembers,
+        freeFormPojo -> PList.empty());
   }
 
   default boolean isEnum() {
     final Predicate<JavaPojo> isEnumPojo = JavaEnumPojo.class::isInstance;
-    return fold(isEnumPojo::test, isEnumPojo::test, isEnumPojo::test, isEnumPojo::test);
+    return fold(
+        isEnumPojo::test, isEnumPojo::test, isEnumPojo::test, isEnumPojo::test, isEnumPojo::test);
   }
 
   default boolean isNotEnum() {
@@ -52,11 +57,21 @@ public interface JavaPojo {
 
   default boolean isArray() {
     final Predicate<JavaPojo> isArrayPojo = JavaArrayPojo.class::isInstance;
-    return fold(isArrayPojo::test, isArrayPojo::test, isArrayPojo::test, isArrayPojo::test);
+    return fold(
+        isArrayPojo::test,
+        isArrayPojo::test,
+        isArrayPojo::test,
+        isArrayPojo::test,
+        isArrayPojo::test);
   }
 
   default boolean isObject() {
     final Predicate<JavaPojo> isObjectPojo = JavaObjectPojo.class::isInstance;
-    return fold(isObjectPojo::test, isObjectPojo::test, isObjectPojo::test, isObjectPojo::test);
+    return fold(
+        isObjectPojo::test,
+        isObjectPojo::test,
+        isObjectPojo::test,
+        isObjectPojo::test,
+        isObjectPojo::test);
   }
 }

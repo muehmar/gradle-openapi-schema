@@ -15,7 +15,9 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Map;
 import java.util.Optional;
@@ -32,9 +34,19 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
       final MapContext mapContext =
           processObjectSchema(pojoSchema.getPojoName(), pojoSchema.getSchema());
       return Optional.of(mapContext);
+    } else if ((pojoSchema.getSchema().getAdditionalProperties() == null)
+        && pojoSchema.getSchema() instanceof ObjectSchema) {
+      return Optional.of(freeFormObject(pojoSchema));
     } else {
       return Optional.empty();
     }
+  }
+
+  private MapContext freeFormObject(PojoSchema pojoSchema) {
+    final String description =
+        Optional.ofNullable(pojoSchema.getSchema().getDescription()).orElse("");
+    final FreeFormPojo freeFormPojo = FreeFormPojo.of(pojoSchema.getPojoName(), description);
+    return MapContext.ofPojo(freeFormPojo);
   }
 
   private MapContext processObjectSchema(PojoName pojoName, Schema<?> schema) {

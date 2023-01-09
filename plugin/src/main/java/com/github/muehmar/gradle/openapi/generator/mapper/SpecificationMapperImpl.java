@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ArrayPojoSc
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.CompletePojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ComposedPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.EnumPojoSchemaMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.MapPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.MemberPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.pojoschema.ObjectPojoSchemaMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SpecificationParser;
@@ -35,6 +36,7 @@ public class SpecificationMapperImpl implements SpecificationMapper {
           .or(new ObjectPojoSchemaMapper())
           .or(new ComposedPojoSchemaMapper())
           .or(new EnumPojoSchemaMapper())
+          .or(new MapPojoSchemaMapper())
           .orLast(new MemberPojoSchemaMapper());
 
   private static final CompleteMemberSchemaMapper COMPLETE_MEMBER_SCHEMA_MAPPER =

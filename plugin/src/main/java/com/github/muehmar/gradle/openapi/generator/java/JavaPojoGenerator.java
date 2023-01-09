@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -54,20 +55,54 @@ public class JavaPojoGenerator implements PojoGenerator {
     final Writer writer = createWriter.get();
 
     pojo.fold(
-        arrayPojo -> generateArrayPojo(arrayPojo, writer, pojoSettings),
-        enumPojo -> generateEnumPojo(enumPojo, writer, pojoSettings),
-        objectPojo -> generateObjectPojo(objectPojo, writer, pojoSettings),
-        composedPojo -> generateComposedPojo(composedPojo, writer, pojoSettings));
-
-    writer.close(packagePath + "/" + pojo.getName() + ".java");
+            arrayPojo -> generateArrayPojo(arrayPojo, writer, pojoSettings),
+            enumPojo -> generateEnumPojo(enumPojo, writer, pojoSettings),
+            objectPojo -> generateObjectPojo(objectPojo, writer, pojoSettings),
+            composedPojo -> generateComposedPojo(composedPojo, writer, pojoSettings),
+            freeFormPojo -> generateFreeFormPojo(freeFormPojo, writer, pojoSettings))
+        .close(packagePath + "/" + pojo.getName() + ".java");
   }
 
-  private Void generateComposedPojo(
+  private static Writer dummyWriter() {
+    return new Writer() {
+      @Override
+      public Writer print(String string, Object... args) {
+        return this;
+      }
+
+      @Override
+      public Writer println() {
+        return this;
+      }
+
+      @Override
+      public Writer tab(int tabs) {
+        return this;
+      }
+
+      @Override
+      public Writer ref(String ref) {
+        return this;
+      }
+
+      @Override
+      public boolean close(String path) {
+        return false;
+      }
+    };
+  }
+
+  private Writer generateFreeFormPojo(
+      JavaFreeFormPojo freeFormPojo, Writer writer, PojoSettings pojoSettings) {
+    return dummyWriter();
+  }
+
+  private Writer generateComposedPojo(
       JavaComposedPojo composedPojo, Writer writer, PojoSettings pojoSettings) {
-    return null;
+    return dummyWriter();
   }
 
-  private Void generateObjectPojo(JavaObjectPojo pojo, Writer writer, PojoSettings pojoSettings) {
+  private Writer generateObjectPojo(JavaObjectPojo pojo, Writer writer, PojoSettings pojoSettings) {
     printPackage(writer, pojoSettings.getPackageName());
     printImports(writer, pojo, pojoSettings);
     printClassStart(writer, pojo, pojoSettings);
@@ -87,17 +122,17 @@ public class JavaPojoGenerator implements PojoGenerator {
       printSafeBuilder(writer, pojo, pojoSettings);
     }
     printClassEnd(writer);
-    return null;
+    return writer;
   }
 
-  private Void generateEnumPojo(JavaEnumPojo pojo, Writer writer, PojoSettings pojoSettings) {
+  private Writer generateEnumPojo(JavaEnumPojo pojo, Writer writer, PojoSettings pojoSettings) {
     final EnumGenerator generator = EnumGenerator.topLevel();
     final String output = applyGen(generator, pojo, pojoSettings);
     writer.println(output);
-    return null;
+    return writer;
   }
 
-  private Void generateArrayPojo(JavaArrayPojo pojo, Writer writer, PojoSettings pojoSettings) {
+  private Writer generateArrayPojo(JavaArrayPojo pojo, Writer writer, PojoSettings pojoSettings) {
     printPackage(writer, pojoSettings.getPackageName());
     printImports(writer, pojo, pojoSettings);
     printClassStart(writer, pojo, pojoSettings);
@@ -112,7 +147,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     printEqualsAndHash(writer, pojo, pojoSettings);
     printToString(writer, pojo, pojoSettings);
     printClassEnd(writer);
-    return null;
+    return writer;
   }
 
   private void printPackage(Writer writer, String packageName) {

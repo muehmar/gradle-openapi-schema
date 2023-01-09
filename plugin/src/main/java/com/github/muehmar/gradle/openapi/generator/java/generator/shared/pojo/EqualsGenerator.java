@@ -34,7 +34,8 @@ public class EqualsGenerator {
                     arrayPojo -> true,
                     enumPojo -> false,
                     objectPojo -> true,
-                    composedPojo -> true));
+                    composedPojo -> true,
+                    freeFormPojo -> true));
   }
 
   private static Generator<JavaPojo, PojoSettings> equalsMethodContent() {
