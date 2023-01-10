@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
@@ -94,7 +95,9 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   private Writer generateFreeFormPojo(
       JavaFreeFormPojo freeFormPojo, Writer writer, PojoSettings pojoSettings) {
-    return dummyWriter();
+    final FreeFormPojoGenerator freeFormPojoGenerator = new FreeFormPojoGenerator();
+    final String output = applyGen(freeFormPojoGenerator, freeFormPojo, pojoSettings);
+    return writer.print(output);
   }
 
   private Writer generateComposedPojo(

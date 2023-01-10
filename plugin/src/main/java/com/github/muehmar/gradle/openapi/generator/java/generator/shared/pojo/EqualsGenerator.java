@@ -16,9 +16,9 @@ import java.util.function.UnaryOperator;
 public class EqualsGenerator {
   private EqualsGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> equalsMethod() {
-    final Generator<JavaPojo, PojoSettings> method =
-        JavaGenerators.<JavaPojo, PojoSettings>methodGen()
+  public static <T extends JavaPojo> Generator<T, PojoSettings> equalsMethod() {
+    final Generator<T, PojoSettings> method =
+        JavaGenerators.<T, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("boolean")
@@ -26,7 +26,7 @@ public class EqualsGenerator {
             .singleArgument(pojo -> "Object obj")
             .content(equalsMethodContent())
             .build();
-    return AnnotationGenerator.<JavaPojo, PojoSettings>override()
+    return AnnotationGenerator.<T, PojoSettings>override()
         .append(method)
         .filter(
             pojo ->
@@ -38,14 +38,14 @@ public class EqualsGenerator {
                     freeFormPojo -> true));
   }
 
-  private static Generator<JavaPojo, PojoSettings> equalsMethodContent() {
-    return equalsCheckIdentity()
+  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsMethodContent() {
+    return EqualsGenerator.<T>equalsCheckIdentity()
         .append(equalsCheckNullAndSameClass())
         .append(equalsCastObjectToCompare())
         .append(equalsCompareFields());
   }
 
-  private static Generator<JavaPojo, PojoSettings> equalsCheckIdentity() {
+  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCheckIdentity() {
     return Generator.constant("if (this == obj) return true;");
   }
 
@@ -53,11 +53,11 @@ public class EqualsGenerator {
     return w -> w.println("if (obj == null || this.getClass() != obj.getClass()) return false;");
   }
 
-  private static Generator<JavaPojo, PojoSettings> equalsCastObjectToCompare() {
+  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCastObjectToCompare() {
     return (p, s, w) -> w.println("final %s other = (%s) obj;", p.getName(), p.getName());
   }
 
-  private static Generator<JavaPojo, PojoSettings> equalsCompareFields() {
+  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCompareFields() {
     return (pojo, s, w) -> {
       final PList<String> fieldNames =
           pojo.getMembersOrEmpty()

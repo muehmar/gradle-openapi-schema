@@ -22,7 +22,7 @@ public interface JavaPojo {
         arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
         JavaEnumPojo::wrap,
         composedPojo -> JavaComposedPojo.wrap(composedPojo, typeMappings),
-        freeFormPojo -> JavaFreeFormPojo.wrap(freeFormPojo));
+        JavaFreeFormPojo::wrap);
   }
 
   PojoName getName();
@@ -42,7 +42,7 @@ public interface JavaPojo {
         javaEnumPojo -> PList.empty(),
         JavaObjectPojo::getMembers,
         JavaComposedPojo::getMembers,
-        freeFormPojo -> PList.empty());
+        freeFormPojo -> PList.single(freeFormPojo.getMember()));
   }
 
   default boolean isEnum() {

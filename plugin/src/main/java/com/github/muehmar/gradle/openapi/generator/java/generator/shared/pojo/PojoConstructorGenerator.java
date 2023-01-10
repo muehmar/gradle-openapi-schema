@@ -15,8 +15,8 @@ import java.util.function.BiFunction;
 public class PojoConstructorGenerator {
   private PojoConstructorGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> generator() {
-    return ConstructorGeneratorBuilder.<JavaPojo, PojoSettings>create()
+  public static <T extends JavaPojo> Generator<T, PojoSettings> generator() {
+    return ConstructorGeneratorBuilder.<T, PojoSettings>create()
         .modifiers(PUBLIC)
         .pojoName(JavaPojo::getName)
         .arguments(constructorArguments())
@@ -25,7 +25,8 @@ public class PojoConstructorGenerator {
         .filter(JavaPojo::isNotEnum);
   }
 
-  private static BiFunction<JavaPojo, PojoSettings, PList<String>> constructorArguments() {
+  private static <T extends JavaPojo>
+      BiFunction<T, PojoSettings, PList<String>> constructorArguments() {
     return (pojo, pojoSettings) ->
         pojo.getMembersOrEmpty().flatMap(PojoConstructorGenerator::createArguments);
   }
@@ -46,7 +47,7 @@ public class PojoConstructorGenerator {
     }
   }
 
-  private static Generator<JavaPojo, PojoSettings> constructorContent() {
+  private static <T extends JavaPojo> Generator<T, PojoSettings> constructorContent() {
     return (pojo, settings, writer) -> {
       final PList<String> assignments =
           pojo.getMembersOrEmpty().flatMap(PojoConstructorGenerator::createMemberAssignment);

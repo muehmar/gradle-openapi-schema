@@ -44,7 +44,7 @@ public class ValidationGenerator {
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> validAnnotation() {
+  public static Generator<JavaPojoMember, PojoSettings> validAnnotation() {
     return Generator.<JavaPojoMember, PojoSettings>ofWriterFunction(w -> w.println("@Valid"))
         .append(w -> w.ref(JavaValidationRefs.VALID))
         .filter((field, settings) -> shouldValidateDeep(field.getJavaType()));
