@@ -66,7 +66,8 @@ public class UnresolvedComposedPojoResolver {
                     ObjectPojo::getMembers,
                     arrayPojo -> PList.empty(),
                     enumPojo -> PList.empty(),
-                    composedPojo -> PList.empty()));
+                    composedPojo -> PList.empty(),
+                    freeFormPojo -> PList.empty()));
 
     final ObjectPojo objectPojo =
         ObjectPojo.of(

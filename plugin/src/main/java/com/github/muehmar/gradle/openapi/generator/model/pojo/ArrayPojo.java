@@ -56,7 +56,8 @@ public class ArrayPojo implements Pojo {
       Function<ObjectPojo, T> onObjectPojo,
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo,
-      Function<ComposedPojo, T> onComposedPojo) {
+      Function<ComposedPojo, T> onComposedPojo,
+      Function<FreeFormPojo, T> onFreeFormPojo) {
     return onArrayType.apply(this);
   }
 

@@ -1,31 +1,25 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
-import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class ObjectPojo implements Pojo {
+public class FreeFormPojo implements Pojo {
   private final PojoName name;
-  private final Optional<String> description;
-  private final PList<PojoMember> members;
+  private final String description;
 
-  private ObjectPojo(PojoName name, Optional<String> description, PList<PojoMember> members) {
+  private FreeFormPojo(PojoName name, String description) {
     this.name = name;
     this.description = description;
-    this.members = members;
   }
 
-  public static ObjectPojo of(PojoName name, String description, PList<PojoMember> members) {
-    return new ObjectPojo(name, Optional.ofNullable(description), members);
+  public static FreeFormPojo of(PojoName name, String description) {
+    return new FreeFormPojo(name, description);
   }
 
   @Override
@@ -35,23 +29,18 @@ public class ObjectPojo implements Pojo {
 
   @Override
   public String getDescription() {
-    return description.orElse("");
+    return description;
   }
 
   @Override
   public Pojo addObjectTypeDescription(PojoName objectTypeName, String description) {
-    return mapMembers(member -> member.addObjectTypeDescription(objectTypeName, description));
+    return this;
   }
 
   @Override
   public Pojo inlineObjectReference(
       PojoName referenceName, String referenceDescription, Type referenceType) {
-    return mapMembers(
-        member -> member.inlineObjectReference(referenceName, referenceDescription, referenceType));
-  }
-
-  private Pojo mapMembers(UnaryOperator<PojoMember> map) {
-    return new ObjectPojo(name, description, members.map(map));
+    return this;
   }
 
   @Override
@@ -61,10 +50,6 @@ public class ObjectPojo implements Pojo {
       Function<EnumPojo, T> onEnumPojo,
       Function<ComposedPojo, T> onComposedPojo,
       Function<FreeFormPojo, T> onFreeFormPojo) {
-    return onObjectPojo.apply(this);
-  }
-
-  public PList<PojoMember> getMembers() {
-    return members;
+    return onFreeFormPojo.apply(this);
   }
 }

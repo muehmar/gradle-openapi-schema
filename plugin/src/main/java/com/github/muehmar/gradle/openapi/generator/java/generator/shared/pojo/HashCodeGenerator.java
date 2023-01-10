@@ -16,9 +16,9 @@ import io.github.muehmar.codegenerator.writer.Writer;
 public class HashCodeGenerator {
   private HashCodeGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> hashCodeMethod() {
-    final Generator<JavaPojo, PojoSettings> method =
-        JavaGenerators.<JavaPojo, PojoSettings>methodGen()
+  public static <T extends JavaPojo> Generator<T, PojoSettings> hashCodeMethod() {
+    final Generator<T, PojoSettings> method =
+        JavaGenerators.<T, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("int")
@@ -26,7 +26,7 @@ public class HashCodeGenerator {
             .noArguments()
             .content(hashCodeMethodContent())
             .build();
-    return AnnotationGenerator.<JavaPojo, PojoSettings>override()
+    return AnnotationGenerator.<T, PojoSettings>override()
         .append(method)
         .filter(
             pojo ->
@@ -34,10 +34,11 @@ public class HashCodeGenerator {
                     arrayPojo -> true,
                     enumPojo -> false,
                     objectPojo -> true,
-                    composedPojo -> true));
+                    composedPojo -> true,
+                    freeFormPojo -> true));
   }
 
-  private static Generator<JavaPojo, PojoSettings> hashCodeMethodContent() {
+  private static <T extends JavaPojo> Generator<T, PojoSettings> hashCodeMethodContent() {
     return (pojo, s, w) -> {
       final PList<String> fieldNames =
           pojo.getMembersOrEmpty()

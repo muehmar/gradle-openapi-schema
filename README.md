@@ -523,6 +523,8 @@ afterEvaluate {
 
 ## Change Log
 
+* Next
+    * Support Free-Form objects (issue `#41`) 
 * 0.21.2 - Fix non Java-String parameters (issue `#38`)
 * 0.21.1 - Fix constraints generation for number schemas (issue `#34`)
 * 0.21.0
