@@ -35,10 +35,8 @@ public class JavaPojos {
         PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"),
         "NecessityAndNullability",
         PList.of(
-            requiredString(),
-            requiredNullableString(),
-            optionalString(),
-            optionalNullableString()));
+            requiredString(), requiredNullableString(), optionalString(), optionalNullableString()),
+        Constraints.empty());
   }
 
   public static JavaPojo arrayPojo() {
@@ -65,7 +63,8 @@ public class JavaPojos {
         ObjectPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
             "User",
-            PList.of(requiredUsername(), requiredBirthdate()));
+            PList.of(requiredUsername(), requiredBirthdate()),
+            Constraints.empty());
     final Name typeName =
         Name.ofString(type.name().toLowerCase().replace("_", "")).startUpperCase();
     final UnresolvedComposedPojo unresolvedComposedPojo =
@@ -74,6 +73,7 @@ public class JavaPojos {
             "Composition Description",
             UnresolvedComposedPojo.CompositionType.ONE_OF,
             PList.empty(),
+            Constraints.empty(),
             Optional.empty());
     final PList<Pojo> pojos = PList.of(userObjectPojo, allNecessityAndNullabilityVariantsPojo());
     final ComposedPojo composedPojo =

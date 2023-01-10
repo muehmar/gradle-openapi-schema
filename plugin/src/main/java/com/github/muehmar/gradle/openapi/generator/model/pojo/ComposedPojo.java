@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -14,6 +15,7 @@ public class ComposedPojo implements Pojo {
   private final String description;
   private final PList<Pojo> pojos;
   private final CompositionType compositionType;
+  private final Constraints constraints;
   private final Optional<Discriminator> discriminator;
 
   private ComposedPojo(
@@ -21,11 +23,13 @@ public class ComposedPojo implements Pojo {
       String description,
       PList<Pojo> pojos,
       CompositionType compositionType,
+      Constraints constraints,
       Optional<Discriminator> discriminator) {
     this.name = name;
     this.description = description;
     this.pojos = pojos;
     this.compositionType = compositionType;
+    this.constraints = constraints;
     this.discriminator = discriminator;
   }
 
@@ -48,6 +52,7 @@ public class ComposedPojo implements Pojo {
         unresolvedComposedPojo.getDescription(),
         resolvedPojos,
         compositionType,
+        unresolvedComposedPojo.getConstraints(),
         unresolvedComposedPojo.getDiscriminator());
   }
 
@@ -74,6 +79,10 @@ public class ComposedPojo implements Pojo {
     return compositionType;
   }
 
+  public Constraints getConstraints() {
+    return constraints;
+  }
+
   public Optional<Discriminator> getDiscriminator() {
     return discriminator;
   }
@@ -85,6 +94,7 @@ public class ComposedPojo implements Pojo {
         description,
         pojos.map(pojo -> pojo.addObjectTypeDescription(objectTypeName, description)),
         compositionType,
+        constraints,
         discriminator);
   }
 
@@ -97,6 +107,7 @@ public class ComposedPojo implements Pojo {
         pojos.map(
             pojo -> pojo.inlineObjectReference(referenceName, referenceDescription, referenceType)),
         compositionType,
+        constraints,
         discriminator);
   }
 

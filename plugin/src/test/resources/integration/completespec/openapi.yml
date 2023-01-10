@@ -93,6 +93,8 @@ components:
                 type: string
               name:
                 type: string
+      minProperties: 1
+      maxProperties: 3
 
     Language:
       required:

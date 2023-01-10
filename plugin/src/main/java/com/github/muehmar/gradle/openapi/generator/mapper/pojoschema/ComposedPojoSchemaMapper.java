@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItemsBuilder;
@@ -107,12 +108,14 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
             .pojoSchemas(pojoSchemas)
             .parameterSchemas(PList.empty())
             .build();
+
     final UnresolvedComposedPojo unresolvedComposedPojo =
         new UnresolvedComposedPojo(
             pojoName,
             composedSchema.getDescription(),
             type,
             pojoNames.concat(pojoSchemas.map(PojoSchema::getPojoName)),
+            ConstraintsMapper.getPropertyCountConstraints(composedSchema),
             discriminator);
     final UnresolvedMapResult unresolvedMapResult =
         UnresolvedMapResult.ofUnresolvedComposedPojo(unresolvedComposedPojo);

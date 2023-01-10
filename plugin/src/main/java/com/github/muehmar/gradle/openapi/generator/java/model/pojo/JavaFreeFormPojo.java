@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
@@ -23,15 +24,18 @@ import lombok.ToString;
 public class JavaFreeFormPojo implements JavaPojo {
   private final PojoName name;
   private final String description;
+  private final Constraints constraints;
   private static final Type VALUE_TYPE = NoType.create();
 
-  private JavaFreeFormPojo(PojoName name, String description) {
+  private JavaFreeFormPojo(PojoName name, String description, Constraints constraints) {
     this.name = name;
     this.description = description;
+    this.constraints = constraints;
   }
 
   public static JavaFreeFormPojo wrap(FreeFormPojo freeFormPojo) {
-    return new JavaFreeFormPojo(freeFormPojo.getName(), freeFormPojo.getDescription());
+    return new JavaFreeFormPojo(
+        freeFormPojo.getName(), freeFormPojo.getDescription(), freeFormPojo.getConstraints());
   }
 
   @Override

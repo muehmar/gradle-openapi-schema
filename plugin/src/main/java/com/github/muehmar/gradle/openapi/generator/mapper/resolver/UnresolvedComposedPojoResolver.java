@@ -73,7 +73,8 @@ public class UnresolvedComposedPojoResolver {
         ObjectPojo.of(
             unresolvedComposedPojo.getName(),
             unresolvedComposedPojo.getDescription(),
-            allPojoMembers);
+            allPojoMembers,
+            unresolvedComposedPojo.getConstraints());
     return context.successfullyResolved(objectPojo);
   }
 

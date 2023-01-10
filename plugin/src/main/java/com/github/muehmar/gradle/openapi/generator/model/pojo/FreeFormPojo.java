@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,14 +13,16 @@ import lombok.ToString;
 public class FreeFormPojo implements Pojo {
   private final PojoName name;
   private final String description;
+  private final Constraints constraints;
 
-  private FreeFormPojo(PojoName name, String description) {
+  private FreeFormPojo(PojoName name, String description, Constraints constraints) {
     this.name = name;
     this.description = description;
+    this.constraints = constraints;
   }
 
-  public static FreeFormPojo of(PojoName name, String description) {
-    return new FreeFormPojo(name, description);
+  public static FreeFormPojo of(PojoName name, String description, Constraints constraints) {
+    return new FreeFormPojo(name, description, constraints);
   }
 
   @Override
@@ -30,6 +33,10 @@ public class FreeFormPojo implements Pojo {
   @Override
   public String getDescription() {
     return description;
+  }
+
+  public Constraints getConstraints() {
+    return constraints;
   }
 
   @Override

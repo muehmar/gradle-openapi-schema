@@ -5,6 +5,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -21,7 +22,8 @@ class FreeFormPojoGeneratorTest {
   @SnapshotName("freeFormWithDefaultSettings")
   void generate_when_defaultSettings_then_matchSnapshot() {
     final FreeFormPojo freeFormPojo =
-        FreeFormPojo.of(PojoName.ofNameAndSuffix("FreeForm", "Dto"), "Free form object");
+        FreeFormPojo.of(
+            PojoName.ofNameAndSuffix("FreeForm", "Dto"), "Free form object", Constraints.empty());
 
     final FreeFormPojoGenerator gen = new FreeFormPojoGenerator();
 
@@ -38,7 +40,8 @@ class FreeFormPojoGeneratorTest {
   @SnapshotName("freeFormWithNoJsonSupport")
   void generate_when_noJsonSupport_then_matchSnapshot() {
     final FreeFormPojo freeFormPojo =
-        FreeFormPojo.of(PojoName.ofNameAndSuffix("FreeForm", "Dto"), "Free form object");
+        FreeFormPojo.of(
+            PojoName.ofNameAndSuffix("FreeForm", "Dto"), "Free form object", Constraints.empty());
 
     final FreeFormPojoGenerator gen = new FreeFormPojoGenerator();
 
@@ -55,7 +58,8 @@ class FreeFormPojoGeneratorTest {
   @SnapshotName("freeFormWithValidationDisabled")
   void generate_when_validationDisabled_then_matchSnapshot() {
     final FreeFormPojo freeFormPojo =
-        FreeFormPojo.of(PojoName.ofNameAndSuffix("FreeForm", "Dto"), "Free form object");
+        FreeFormPojo.of(
+            PojoName.ofNameAndSuffix("FreeForm", "Dto"), "Free form object", Constraints.empty());
 
     final FreeFormPojoGenerator gen = new FreeFormPojoGenerator();
 

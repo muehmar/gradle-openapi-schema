@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
@@ -15,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import io.swagger.v3.oas.models.media.ObjectSchema;
@@ -45,7 +47,10 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
   private MapContext freeFormObject(PojoSchema pojoSchema) {
     final String description =
         Optional.ofNullable(pojoSchema.getSchema().getDescription()).orElse("");
-    final FreeFormPojo freeFormPojo = FreeFormPojo.of(pojoSchema.getPojoName(), description);
+    final Constraints constraints =
+        ConstraintsMapper.getPropertyCountConstraints(pojoSchema.getSchema());
+    final FreeFormPojo freeFormPojo =
+        FreeFormPojo.of(pojoSchema.getPojoName(), description, constraints);
     return MapContext.ofPojo(freeFormPojo);
   }
 
@@ -58,11 +63,14 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
                 () -> new IllegalArgumentException("Object schema without properties: " + schema))
             .map(entry -> processObjectSchemaEntry(entry, pojoName, schema));
 
+    final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(schema);
+
     final Pojo objectPojo =
         ObjectPojo.of(
             pojoName,
             schema.getDescription(),
-            pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember));
+            pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember),
+            constraints);
 
     final UnmappedItems unmappedItems =
         pojoMemberAndOpenApiPojos

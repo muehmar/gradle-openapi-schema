@@ -20,6 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -69,7 +70,8 @@ class JavaPojoGeneratorTest {
                       EnumType.ofNameAndMembers(
                           Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
                       OPTIONAL,
-                      NOT_NULLABLE))),
+                      NOT_NULLABLE)),
+              Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(2, 10))),
           TypeMappings.empty());
 
   @Test
@@ -196,7 +198,8 @@ class JavaPojoGeneratorTest {
                         "Another Pojo",
                         ObjectType.ofName(PojoName.ofName(Name.ofString("AnotherPojo"))),
                         OPTIONAL,
-                        NOT_NULLABLE))),
+                        NOT_NULLABLE)),
+                Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 15))),
             TypeMappings.empty());
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
@@ -261,7 +264,8 @@ class JavaPojoGeneratorTest {
                         EnumType.ofNameAndMembers(
                             Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
                         OPTIONAL,
-                        NOT_NULLABLE))),
+                        NOT_NULLABLE)),
+                Constraints.empty()),
             TypeMappings.empty());
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
@@ -294,7 +298,8 @@ class JavaPojoGeneratorTest {
                         EnumType.ofNameAndMembers(
                             Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
                         OPTIONAL,
-                        NOT_NULLABLE))),
+                        NOT_NULLABLE)),
+                Constraints.empty()),
             TypeMappings.empty());
 
     pojoGenerator.generatePojo(pojo, pojoSettings);

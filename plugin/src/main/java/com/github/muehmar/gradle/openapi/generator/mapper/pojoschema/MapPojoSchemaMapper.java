@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 
+import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -22,7 +24,10 @@ public class MapPojoSchemaMapper implements SinglePojoSchemaMapper {
   private MapContext freeFormObject(PojoSchema pojoSchema) {
     final String description =
         Optional.ofNullable(pojoSchema.getSchema().getDescription()).orElse("");
-    final FreeFormPojo freeFormPojo = FreeFormPojo.of(pojoSchema.getPojoName(), description);
+    final Constraints constraints =
+        ConstraintsMapper.getPropertyCountConstraints(pojoSchema.getSchema());
+    final FreeFormPojo freeFormPojo =
+        FreeFormPojo.of(pojoSchema.getPojoName(), description, constraints);
     return MapContext.ofPojo(freeFormPojo);
   }
 
