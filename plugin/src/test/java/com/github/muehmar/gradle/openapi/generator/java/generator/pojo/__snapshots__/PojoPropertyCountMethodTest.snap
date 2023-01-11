@@ -1,0 +1,28 @@
+pojoPropertyCountMethodDefaultSettings=[
+/**
+ * Returns the number of present properties of this object.
+ */
+@Min(1)
+@Max(2)
+public int getPropertyCount() {
+  return
+    1 +
+    (isRequiredNullableStringValPresent ? 1 : 0) +
+    (optionalStringVal != null ? 1 : 0) +
+    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+}
+]
+
+
+pojoPropertyCountMethodWithValidationDisabled=[
+/**
+ * Returns the number of present properties of this object.
+ */
+public int getPropertyCount() {
+  return
+    1 +
+    (isRequiredNullableStringValPresent ? 1 : 0) +
+    (optionalStringVal != null ? 1 : 0) +
+    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+}
+]

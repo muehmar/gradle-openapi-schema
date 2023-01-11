@@ -3,10 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.Resources;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
@@ -36,8 +36,12 @@ import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.writer.TestStringWriter;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(SnapshotExtension.class)
 class JavaPojoGeneratorTest {
+
+  private Expect expect;
 
   private static final JavaPojo GENDER_ENUM_POJO =
       JavaEnumPojo.wrap(
@@ -87,7 +91,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
-    assertEquals(Resources.readString("/java/pojos/UserDtoMinimal.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -102,8 +106,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
-    assertEquals(
-        Resources.readString("/java/pojos/UserDtoJsonSupportJackson.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -119,8 +122,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
-    assertEquals(
-        Resources.readString("/java/pojos/UserDtoEnabledSafeBuilder.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -204,8 +206,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
-    assertEquals(
-        Resources.readString("/java/pojos/UserDtoConstraints.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -221,7 +222,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
 
-    assertEquals(Resources.readString("/java/pojos/GenderEnumDto.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -234,9 +235,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
 
-    assertEquals(
-        Resources.readString("/java/pojos/GenderEnumDtoJsonSupportJackson.jv"),
-        writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -270,7 +269,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
-    assertEquals(Resources.readString("/java/pojos/EnumDescription.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -304,9 +303,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
-    assertEquals(
-        Resources.readString("/java/pojos/EnumDescriptionSupportJackson.jv"),
-        writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -318,8 +315,7 @@ class JavaPojoGeneratorTest {
         JavaPojos.allNecessityAndNullabilityVariants(),
         TestPojoSettings.defaultSettings().withEnableSafeBuilder(true));
 
-    assertEquals(
-        Resources.readString("/java/pojos/NecessityAndNullability.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -329,6 +325,6 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings());
 
-    assertEquals(Resources.readString("/java/pojos/ArrayPojo.jv"), writer.asString().trim());
+    expect.toMatchSnapshot(writer.asString());
   }
 }

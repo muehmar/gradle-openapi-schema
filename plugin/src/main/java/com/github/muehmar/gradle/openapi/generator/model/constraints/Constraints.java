@@ -92,6 +92,10 @@ public class Constraints {
     return ConstraintsBuilder.create().andOptionals().propertyCount(propertyCount).build();
   }
 
+  public Optional<PropertyCount> getPropertyCount() {
+    return propertyCount;
+  }
+
   public Constraints withMin(Min min) {
     return new Constraints(
         Optional.ofNullable(min), max, decimalMin, decimalMax, size, pattern, email, propertyCount);

@@ -54,6 +54,10 @@ public class JavaObjectPojo implements JavaPojo {
     return members;
   }
 
+  public Constraints getConstraints() {
+    return constraints;
+  }
+
   @Override
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
