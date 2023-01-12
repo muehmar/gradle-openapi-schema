@@ -2,6 +2,7 @@ freeFormWithDefaultSettings=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
 import java.util.Objects;
@@ -41,6 +42,7 @@ public final class FreeFormDto {
    */
   @Min(5)
   @Max(10)
+  @JsonIgnore
   public int getPropertyCount() {
     return values.size();
   }
@@ -128,6 +130,7 @@ freeFormWithValidationDisabled=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
 import java.util.Objects;
@@ -161,6 +164,7 @@ public final class FreeFormDto {
   /**
    * Returns the number of present properties of this object.
    */
+  @JsonIgnore
   public int getPropertyCount() {
     return values.size();
   }
