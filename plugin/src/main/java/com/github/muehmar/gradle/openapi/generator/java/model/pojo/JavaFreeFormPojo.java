@@ -48,6 +48,10 @@ public class JavaFreeFormPojo implements JavaPojo {
     return description;
   }
 
+  public Constraints getConstraints() {
+    return constraints;
+  }
+
   public JavaPojoMember getMember() {
     return JavaPojoMember.of(
         Name.ofString("values"), "", getMemberType(), Necessity.REQUIRED, Nullability.NOT_NULLABLE);

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.freeform;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPropertyCountMethodGenerator.propertyCountMethod;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -59,6 +60,8 @@ public class FreeFormPojoGenerator implements Generator<JavaFreeFormPojo, PojoSe
         .append(GetterGeneratorFactory.create(), JavaFreeFormPojo::getMember)
         .appendNewLine()
         .append(getPropertyMethod())
+        .appendNewLine()
+        .append(propertyCountMethod())
         .appendNewLine()
         .append(EqualsGenerator.equalsMethod())
         .appendNewLine()
