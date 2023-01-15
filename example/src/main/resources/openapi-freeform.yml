@@ -1,0 +1,21 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    FreeForm1:
+      type: object
+      minProperties: 1
+      maxProperties: 3
+    FreeForm2:
+      type: object
+      additionalProperties: true
+      minProperties: 2
+      maxProperties: 4
+    FreeForm3:
+      type: object
+      additionalProperties: { }
+      minProperties: 3
+      maxProperties: 5
