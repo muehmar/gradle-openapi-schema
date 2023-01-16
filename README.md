@@ -12,7 +12,7 @@ generates simple classes for parameters (`#/component/parameters` section) to su
 * Special builder pattern for safe creation of instances
 * JSON deserializing and serializing support with jackson
 * Customization of the code generation
-* Support for Java Bean Validation (JSR 380)
+* Support for Java Bean Validation 2.x and Jakarta Bean Validation 2.x / 3.x
 * Additional validation of object level constraints
 * Extraction of description for enums
 * Supports processing multiple specifications
@@ -61,6 +61,7 @@ openApiGenerator {
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
+            validationApi = "jakarta-3.0"
             builderMethodPrefix = "set"
 
             // This would overwrite any global configuration
@@ -156,19 +157,20 @@ openApiGenerator {
 Add in the `schemas` block for each specification a new block with custom name (`apiV1` and `apiV2` in the example
 above) and configure the generation with the following attributes for each schema:
 
-| Key                 | Data Type    | Default                                    | Description                                                                                                                                                                                                                                                                          |
-|---------------------|--------------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| sourceSet           | String       | main                                       | Source set to which the generated classes should be added.                                                                                                                                                                                                                           |
-| inputSpec           | String       |                                            | The OpenApi 3.x specification location.                                                                                                                                                                                                                                              |
-| outputDir           | String       | $buildDir/generated/openapi                | The location in which the generated sources should be stored.                                                                                                                                                                                                                        |
+| Key                 | Data Type    | Default                                    | Description                                                                                                                                                                                                                                                                         |
+|---------------------|--------------|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sourceSet           | String       | main                                       | Source set to which the generated classes should be added.                                                                                                                                                                                                                          |
+| inputSpec           | String       |                                            | The OpenApi 3.x specification location.                                                                                                                                                                                                                                             |
+| outputDir           | String       | $buildDir/generated/openapi                | The location in which the generated sources should be stored.                                                                                                                                                                                                                       |
 | resolveInputSpecs   | boolean      | true                                       | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
-| packageName         | String       | ${project.group}.${project.name}.api.model | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
-| suffix              | String       |                                            | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
-| jsonSupport         | String       | jackson                                    | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
-| enableSafeBuilder   | Boolean      | true                                       | Enables creating the safe builder.                                                                                                                                                                                                                                                   |
-| enableValidation    | Boolean      | false                                      | Enables the generation of annotations for java bean validation (JSR 380)                                                                                                                                                                                                             |
-| builderMethodPrefix | String       |                                            | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
-| excludedSchemas     | List[String] | []                                         | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
+| packageName         | String       | ${project.group}.${project.name}.api.model | Name of the package for the generated classes.                                                                                                                                                                                                                                      |
+| suffix              | String       |                                            | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                             |
+| jsonSupport         | String       | jackson                                    | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                 |
+| enableSafeBuilder   | Boolean      | true                                       | Enables creating the safe builder.                                                                                                                                                                                                                                                  |
+| enableValidation    | Boolean      | false                                      | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                           |
+| validationApi       | String       | jakarta-2                                  | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                             |
+| builderMethodPrefix | String       |                                            | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                        |
+| excludedSchemas     | List[String] | []                                         | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                |
 
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
 the schema, in the example above a task `generateApiV1Model` and a task `generateApiV2Model` would get created. The
@@ -396,14 +398,19 @@ Note that the prefix of the methods is customizable, see the `Configuration` sec
 
 ## Validation
 
-The generation of annotations for validation (`javax.validation.constraints` package) can be enabled by
-setting `enableValidation` to `true`. It requires version 2.0 or above of the java validation api as dependency. It
-supports object graph validation via the `@Valid` annotation.
+The generation of annotations for validation can be enabled by setting `enableValidation` to `true`. It requires at 
+least version 2.0 of the java/jakarta validation api as dependency. It supports object graph validation via the `@Valid` 
+annotation.
 
-### Java Bean Validation
+| Validation API          | Supported versions |
+|-------------------------|--------------------|
+| Java Bean Validation    | 2.0                |
+| Jakarta Bean Validation | 2.0 and 3.0        |
 
-This plugin supports the generation of java bean validation annotations (JSR 380) for properties.
-The following annotations from the package `javax.validation.constraints` are currently generated by the plugin:
+### Bean Validation
+
+This plugin supports the generation of java/jakarta bean validation annotations for properties.
+The following annotations are currently generated by the plugin:
 
 * `@NotNull` for required properties
 * `@Min` and `@Max` for numbers and integers
@@ -541,6 +548,7 @@ afterEvaluate {
 * Next
     * Support Free-Form objects (issue `#41`)
     * Support `minProperties` and `maxProperties` constraints (issue `#44`)
+    * Support Jakarta Bean Validation 3.0 (issue `#48`)
 * 0.21.2 - Fix non Java-String parameters (issue `#38`)
 * 0.21.1 - Fix constraints generation for number schemas (issue `#34`)
 * 0.21.0
