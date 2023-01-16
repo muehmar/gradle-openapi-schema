@@ -4,20 +4,24 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import io.github.muehmar.pojoextension.annotations.FieldBuilder;
 import io.github.muehmar.pojoextension.annotations.Getter;
-import io.github.muehmar.pojoextension.annotations.PojoExtension;
+import io.github.muehmar.pojoextension.annotations.SafeBuilder;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Value;
+import lombok.With;
 
 @Value
-@PojoExtension
-public class PojoSettings implements PojoSettingsExtension, Serializable {
+@With
+@SafeBuilder
+public class PojoSettings implements Serializable {
   JsonSupport jsonSupport;
   String packageName;
   String suffix;
   boolean enableSafeBuilder;
   String builderMethodPrefix;
-  boolean enableConstraints;
+  boolean enableValidation;
+
+  ValidationApi validationApi;
   List<ClassTypeMapping> classTypeMappings;
   List<FormatTypeMapping> formatTypeMappings;
   EnumDescriptionSettings enumDescriptionSettings;
@@ -29,8 +33,8 @@ public class PojoSettings implements PojoSettingsExtension, Serializable {
     return jsonSupport.equals(JsonSupport.JACKSON);
   }
 
-  public boolean isEnableConstraints() {
-    return enableConstraints;
+  public boolean isEnableValidation() {
+    return enableValidation;
   }
 
   @Getter("classTypeMappings")

@@ -38,7 +38,7 @@ class ValidationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultSettings().withEnableConstraints(false), Writer.createDefault());
+            member, defaultSettings().withEnableValidation(false), Writer.createDefault());
 
     assertEquals(PList.empty(), writer.getRefs());
     assertEquals("", writer.asString());

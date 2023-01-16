@@ -7,7 +7,7 @@ public class Filters {
   private Filters() {}
 
   public static <T> BiPredicate<T, PojoSettings> isValidationEnabled() {
-    return (ignore, settings) -> settings.isEnableConstraints();
+    return (ignore, settings) -> settings.isEnableValidation();
   }
 
   public static <T> BiPredicate<T, PojoSettings> isJacksonJson() {

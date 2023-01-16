@@ -213,7 +213,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printValidationImports(Writer writer, PojoSettings settings) {
-    if (settings.isEnableConstraints()) {
+    if (settings.isEnableValidation()) {
       writer.println();
       writer.println("import javax.validation.Valid;");
       writer.println("import javax.validation.constraints.Max;");

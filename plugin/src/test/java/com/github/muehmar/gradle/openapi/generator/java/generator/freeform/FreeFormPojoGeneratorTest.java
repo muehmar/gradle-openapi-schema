@@ -60,7 +60,7 @@ class FreeFormPojoGeneratorTest {
     final Writer generate =
         gen.generate(
             JavaFreeFormPojo.wrap(FREE_FORM_POJO),
-            TestPojoSettings.defaultSettings().withEnableConstraints(false),
+            TestPojoSettings.defaultSettings().withEnableValidation(false),
             Writer.createDefault());
 
     expect.toMatchSnapshot(generate.asString());

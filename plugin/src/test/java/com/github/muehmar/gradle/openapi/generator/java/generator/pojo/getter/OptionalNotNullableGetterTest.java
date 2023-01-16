@@ -115,7 +115,7 @@ class OptionalNotNullableGetterTest {
             pojoMember,
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.NONE)
-                .withEnableConstraints(false),
+                .withEnableValidation(false),
             Writer.createDefault());
 
     assertEquals(2, writer.getRefs().toHashSet().size());
@@ -156,7 +156,7 @@ class OptionalNotNullableGetterTest {
             pojoMember,
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.NONE)
-                .withEnableConstraints(false)
+                .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
             Writer.createDefault());
 

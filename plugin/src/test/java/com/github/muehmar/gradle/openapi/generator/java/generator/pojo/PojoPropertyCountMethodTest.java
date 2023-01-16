@@ -58,7 +58,7 @@ class PojoPropertyCountMethodTest {
     final Writer writer =
         gen.generate(
             (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(constraints),
-            TestPojoSettings.defaultSettings().withEnableConstraints(false),
+            TestPojoSettings.defaultSettings().withEnableValidation(false),
             Writer.createDefault());
 
     expect.toMatchSnapshot(writer.asString());

@@ -87,7 +87,7 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
-            .withEnableConstraints(false);
+            .withEnableValidation(false);
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
@@ -100,9 +100,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
-            .withEnableSafeBuilder(false)
-            .withEnableConstraints(false);
+        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(false);
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
@@ -118,7 +116,7 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(true)
-            .withEnableConstraints(false);
+            .withEnableValidation(false);
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
@@ -134,7 +132,7 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
-            .withEnableConstraints(true);
+            .withEnableValidation(true);
 
     final JavaPojo pojo =
         JavaObjectPojo.wrap(
@@ -218,7 +216,7 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
-            .withEnableConstraints(true);
+            .withEnableValidation(true);
 
     pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
 
@@ -231,7 +229,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableConstraints(true);
+        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(true);
 
     pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
 

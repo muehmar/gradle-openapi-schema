@@ -50,7 +50,7 @@ class RequiredNotNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings().withEnableConstraints(false),
+            TestPojoSettings.defaultSettings().withEnableValidation(false),
             Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
@@ -82,7 +82,7 @@ class RequiredNotNullableGetterTest {
         generator.generate(
             pojoMember,
             TestPojoSettings.defaultSettings()
-                .withEnableConstraints(false)
+                .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
             Writer.createDefault());
 
