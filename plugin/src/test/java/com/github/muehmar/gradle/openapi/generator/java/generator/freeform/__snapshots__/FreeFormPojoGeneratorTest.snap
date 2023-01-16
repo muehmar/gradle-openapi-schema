@@ -2,10 +2,13 @@ freeFormWithDefaultSettings=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -32,6 +35,16 @@ public final class FreeFormDto {
 
   public Optional<Object> getProperty(String propertyName) {
     return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
   }
 
   @Override
@@ -58,6 +71,8 @@ package com.github.muehmar;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -84,6 +99,15 @@ public final class FreeFormDto {
     return Optional.ofNullable(values.get(propertyName));
   }
 
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  public int getPropertyCount() {
+    return values.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -106,6 +130,7 @@ freeFormWithValidationDisabled=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
 import java.util.Objects;
@@ -134,6 +159,14 @@ public final class FreeFormDto {
 
   public Optional<Object> getProperty(String propertyName) {
     return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
   }
 
   @Override

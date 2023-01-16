@@ -1,27 +1,35 @@
 package com.github.muehmar.gradle.openapi.generator.model.constraints;
 
-import java.util.Objects;
+import com.github.muehmar.gradle.openapi.util.Optionals;
+import io.github.muehmar.pojoextension.annotations.SafeBuilder;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode
+@ToString
+@SafeBuilder
 public class Constraints {
-  private final Min min;
-  private final Max max;
-  private final DecimalMin decimalMin;
-  private final DecimalMax decimalMax;
-  private final Size size;
-  private final Pattern pattern;
-  private final Email email;
+  private final Optional<Min> min;
+  private final Optional<Max> max;
+  private final Optional<DecimalMin> decimalMin;
+  private final Optional<DecimalMax> decimalMax;
+  private final Optional<Size> size;
+  private final Optional<Pattern> pattern;
+  private final Optional<Email> email;
+  private final Optional<PropertyCount> propertyCount;
 
-  private Constraints(
-      Min min,
-      Max max,
-      DecimalMin decimalMin,
-      DecimalMax decimalMax,
-      Size size,
-      Pattern pattern,
-      Email email) {
+  Constraints(
+      Optional<Min> min,
+      Optional<Max> max,
+      Optional<DecimalMin> decimalMin,
+      Optional<DecimalMax> decimalMax,
+      Optional<Size> size,
+      Optional<Pattern> pattern,
+      Optional<Email> email,
+      Optional<PropertyCount> propertyCount) {
     this.min = min;
     this.max = max;
     this.decimalMin = decimalMin;
@@ -29,10 +37,19 @@ public class Constraints {
     this.size = size;
     this.pattern = pattern;
     this.email = email;
+    this.propertyCount = propertyCount;
   }
 
   public static Constraints empty() {
-    return new Constraints(null, null, null, null, null, null, null);
+    return new Constraints(
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty());
   }
 
   public static Constraints ofMin(Min min) {
@@ -71,141 +88,114 @@ public class Constraints {
     return Constraints.empty().withDecimalMin(decimalMin).withDecimalMax(decimalMax);
   }
 
+  public static Constraints ofPropertiesCount(PropertyCount propertyCount) {
+    return ConstraintsBuilder.create().andOptionals().propertyCount(propertyCount).build();
+  }
+
+  public Optional<PropertyCount> getPropertyCount() {
+    return propertyCount;
+  }
+
   public Constraints withMin(Min min) {
-    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+    return new Constraints(
+        Optional.ofNullable(min), max, decimalMin, decimalMax, size, pattern, email, propertyCount);
   }
 
   public Constraints withMax(Max max) {
-    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+    return new Constraints(
+        min, Optional.ofNullable(max), decimalMin, decimalMax, size, pattern, email, propertyCount);
   }
 
   public Constraints withSize(Size size) {
-    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+    return new Constraints(
+        min, max, decimalMin, decimalMax, Optional.ofNullable(size), pattern, email, propertyCount);
   }
 
   public Constraints withPattern(Pattern pattern) {
-    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+    return new Constraints(
+        min, max, decimalMin, decimalMax, size, Optional.ofNullable(pattern), email, propertyCount);
   }
 
   public Constraints withEmail(Email email) {
-    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+    return new Constraints(
+        min, max, decimalMin, decimalMax, size, pattern, Optional.ofNullable(email), propertyCount);
   }
 
   public Constraints withDecimalMin(DecimalMin decimalMin) {
-    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+    return new Constraints(
+        min, max, Optional.ofNullable(decimalMin), decimalMax, size, pattern, email, propertyCount);
   }
 
   public Constraints withDecimalMax(DecimalMax decimalMax) {
-    return new Constraints(min, max, decimalMin, decimalMax, size, pattern, email);
+    return new Constraints(
+        min, max, decimalMin, Optional.ofNullable(decimalMax), size, pattern, email, propertyCount);
   }
 
   public Constraints and(Constraints other) {
     return new Constraints(
-        Optional.ofNullable(min).orElse(other.min),
-        Optional.ofNullable(max).orElse(other.max),
-        Optional.ofNullable(decimalMin).orElse(other.decimalMin),
-        Optional.ofNullable(decimalMax).orElse(other.decimalMax),
-        Optional.ofNullable(size).orElse(other.size),
-        Optional.ofNullable(pattern).orElse(other.pattern),
-        Optional.ofNullable(email).orElse(other.email));
+        Optionals.or(min, min),
+        Optionals.or(max, other.max),
+        Optionals.or(decimalMin, other.decimalMin),
+        Optionals.or(decimalMax, other.decimalMax),
+        Optionals.or(size, other.size),
+        Optionals.or(pattern, other.pattern),
+        Optionals.or(email, other.email),
+        propertyCount);
   }
 
   public void onMin(Consumer<Min> onMin) {
-    Optional.ofNullable(min).ifPresent(onMin);
+    min.ifPresent(onMin);
   }
 
   public <R> Optional<R> onMinFn(Function<Min, R> onMin) {
-    return Optional.ofNullable(min).map(onMin);
+    return min.map(onMin);
   }
 
   public void onMax(Consumer<Max> onMax) {
-    Optional.ofNullable(max).ifPresent(onMax);
+    max.ifPresent(onMax);
   }
 
   public <R> Optional<R> onMaxFn(Function<Max, R> onMax) {
-    return Optional.ofNullable(max).map(onMax);
+    return max.map(onMax);
   }
 
   public void onDecimalMin(Consumer<DecimalMin> onDecimalMin) {
-    Optional.ofNullable(decimalMin).ifPresent(onDecimalMin);
+    decimalMin.ifPresent(onDecimalMin);
   }
 
   public <R> Optional<R> onDecimalMinFn(Function<DecimalMin, R> onDecimalMin) {
-    return Optional.ofNullable(decimalMin).map(onDecimalMin);
+    return decimalMin.map(onDecimalMin);
   }
 
   public void onDecimalMax(Consumer<DecimalMax> onDecimalMax) {
-    Optional.ofNullable(decimalMax).ifPresent(onDecimalMax);
+    decimalMax.ifPresent(onDecimalMax);
   }
 
   public <R> Optional<R> onDecimalMaxFn(Function<DecimalMax, R> onDecimalMax) {
-    return Optional.ofNullable(decimalMax).map(onDecimalMax);
+    return decimalMax.map(onDecimalMax);
   }
 
   public void onSize(Consumer<Size> onSize) {
-    Optional.ofNullable(size).ifPresent(onSize);
+    size.ifPresent(onSize);
   }
 
   public <R> Optional<R> onSizeFn(Function<Size, R> onSize) {
-    return Optional.ofNullable(size).map(onSize);
+    return size.map(onSize);
   }
 
   public void onPattern(Consumer<Pattern> onPattern) {
-    Optional.ofNullable(pattern).ifPresent(onPattern);
+    pattern.ifPresent(onPattern);
   }
 
   public <R> Optional<R> onPatternFn(Function<Pattern, R> onPattern) {
-    return Optional.ofNullable(pattern).map(onPattern);
+    return pattern.map(onPattern);
   }
 
   public void onEmail(Consumer<Email> onEmail) {
-    Optional.ofNullable(email).ifPresent(onEmail);
+    email.ifPresent(onEmail);
   }
 
   public <R> Optional<R> onEmailFn(Function<Email, R> onEmail) {
-    return Optional.ofNullable(email).map(onEmail);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Constraints that = (Constraints) o;
-    return Objects.equals(min, that.min)
-        && Objects.equals(max, that.max)
-        && Objects.equals(decimalMin, that.decimalMin)
-        && Objects.equals(decimalMax, that.decimalMax)
-        && Objects.equals(size, that.size)
-        && Objects.equals(pattern, that.pattern)
-        && Objects.equals(email, that.email);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(min, max, decimalMin, decimalMax, size, pattern, email);
-  }
-
-  @Override
-  public String toString() {
-    return "Constraints{"
-        + "min="
-        + min
-        + ", max="
-        + max
-        + ", decimalMin="
-        + decimalMin
-        + ", decimalMax="
-        + decimalMax
-        + ", size="
-        + size
-        + ", pattern="
-        + pattern
-        + ", email="
-        + email
-        + '}';
+    return email.map(onEmail);
   }
 }

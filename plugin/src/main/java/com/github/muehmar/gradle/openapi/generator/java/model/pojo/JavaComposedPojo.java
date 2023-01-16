@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public class JavaComposedPojo implements JavaPojo {
   private final String description;
   private final PList<JavaPojo> javaPojos;
   private final ComposedPojo.CompositionType compositionType;
+  private final Constraints constraints;
   private final Optional<Discriminator> discriminator;
 
   JavaComposedPojo(
@@ -22,11 +24,13 @@ public class JavaComposedPojo implements JavaPojo {
       String description,
       PList<JavaPojo> javaPojos,
       ComposedPojo.CompositionType compositionType,
+      Constraints constraints,
       Optional<Discriminator> discriminator) {
     this.name = name;
     this.description = description;
     this.javaPojos = javaPojos;
     this.compositionType = compositionType;
+    this.constraints = constraints;
     this.discriminator = discriminator;
   }
 
@@ -36,6 +40,7 @@ public class JavaComposedPojo implements JavaPojo {
         composedPojo.getDescription(),
         composedPojo.getPojos().map(pojo -> JavaPojo.wrap(pojo, typeMappings)),
         composedPojo.getCompositionType(),
+        composedPojo.getConstraints(),
         composedPojo.getDiscriminator());
   }
 
@@ -54,7 +59,7 @@ public class JavaComposedPojo implements JavaPojo {
   }
 
   public JavaObjectPojo wrapIntoJavaObjectPojo() {
-    return JavaObjectPojo.from(name, description, getMembers());
+    return JavaObjectPojo.from(name, description, getMembers(), constraints);
   }
 
   public PList<JavaPojoMember> getMembers() {

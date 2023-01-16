@@ -1,0 +1,2120 @@
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_arrayPojo_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
+import java.util.List;
+.
+.
+/**
+ * Doses to be taken
+ */
+public class PosologyDto {
+  @JsonValue
+  private final List<Double> value;
+
+  @JsonCreator
+  public PosologyDto(
+      List<Double> value
+    ) {
+    this.value = value;
+  }
+
+  /**
+   * Doses to be taken
+   */
+  @NotNull
+  public List<Double> getValue() {
+    return value;
+  }
+
+  /**
+   * Doses to be taken
+   */
+  public PosologyDto withValue(List<Double> value) {
+    return new PosologyDto(value);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final PosologyDto other = (PosologyDto) obj;
+    return Objects.equals(value, other.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      value
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "PosologyDto{" +
+      "value=" + value +
+      "}";
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_enableConstraints_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
+.
+.
+/**
+ * User of the Application
+ */
+public class UserDto {
+  private final Long id;
+  private final String name;
+  private final String lastName;
+  private final String nickName;
+  private final String email;
+  private final Double height;
+  private final Long level;
+  private final String uppercase;
+  private final AnotherPojo anotherPojo;
+
+  public UserDto(
+      Long id,
+      String name,
+      String lastName,
+      String nickName,
+      String email,
+      Double height,
+      Long level,
+      String uppercase,
+      AnotherPojo anotherPojo
+    ) {
+    this.id = id;
+    this.name = name;
+    this.lastName = lastName;
+    this.nickName = nickName;
+    this.email = email;
+    this.height = height;
+    this.level = level;
+    this.uppercase = uppercase;
+    this.anotherPojo = anotherPojo;
+  }
+
+  /**
+   * ID of this user
+   */
+  @NotNull
+  @Max(value = 50)
+  public Long getId() {
+    return id;
+  }
+
+  /**
+   * Name of this user
+   */
+  @NotNull
+  @Size(min = 10, max = 15)
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Lastname of this user
+   */
+  @NotNull
+  @Size(min = 10)
+  public String getLastName() {
+    return lastName;
+  }
+
+  /**
+   * Nickname of this user
+   */
+  @NotNull
+  @Size(max = 50)
+  public String getNickName() {
+    return nickName;
+  }
+
+  /**
+   * Email of this user
+   */
+  @NotNull
+  @Email
+  public String getEmail() {
+    return email;
+  }
+
+  /**
+   * Height of this user
+   */
+  @NotNull
+  @DecimalMin(value = "120.0", inclusive = true)
+  @DecimalMax(value = "199", inclusive = false)
+  public Double getHeight() {
+    return height;
+  }
+
+  /**
+   * Level of this user
+   */
+  public Optional<Long> getLevel() {
+    return Optional.ofNullable(level);
+  }
+
+  /**
+   * Level of this user
+   */
+  public Long getLevelOr(Long defaultValue) {
+    return level == null ? defaultValue : level;
+  }
+
+  @Min(value = 5)
+  private Long getLevelRaw() {
+    return level;
+  }
+
+  /**
+   * Something uppercase
+   */
+  public Optional<String> getUppercase() {
+    return Optional.ofNullable(uppercase);
+  }
+
+  /**
+   * Something uppercase
+   */
+  public String getUppercaseOr(String defaultValue) {
+    return uppercase == null ? defaultValue : uppercase;
+  }
+
+  @Pattern(regexp="^(\\d[A-Z]*)")
+  private String getUppercaseRaw() {
+    return uppercase;
+  }
+
+  /**
+   * Another Pojo
+   */
+  public Optional<AnotherPojo> getAnotherPojo() {
+    return Optional.ofNullable(anotherPojo);
+  }
+
+  /**
+   * Another Pojo
+   */
+  public AnotherPojo getAnotherPojoOr(AnotherPojo defaultValue) {
+    return anotherPojo == null ? defaultValue : anotherPojo;
+  }
+
+  @Valid
+  private AnotherPojo getAnotherPojoRaw() {
+    return anotherPojo;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(Long id) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Lastname of this user
+   */
+  public UserDto withLastName(String lastName) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Nickname of this user
+   */
+  public UserDto withNickName(String nickName) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Email of this user
+   */
+  public UserDto withEmail(String email) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Height of this user
+   */
+  public UserDto withHeight(Double height) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Level of this user
+   */
+  public UserDto withLevel(Long level) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Something uppercase
+   */
+  public UserDto withUppercase(String uppercase) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Another Pojo
+   */
+  public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(15)
+  public int getPropertyCount() {
+    return
+      1 +
+      1 +
+      1 +
+      1 +
+      1 +
+      1 +
+      (level != null ? 1 : 0) +
+      (uppercase != null ? 1 : 0) +
+      (anotherPojo != null ? 1 : 0);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(id, other.id)
+        && Objects.equals(name, other.name)
+        && Objects.equals(lastName, other.lastName)
+        && Objects.equals(nickName, other.nickName)
+        && Objects.equals(email, other.email)
+        && Objects.equals(height, other.height)
+        && Objects.equals(level, other.level)
+        && Objects.equals(uppercase, other.uppercase)
+        && Objects.equals(anotherPojo, other.anotherPojo);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      id,
+      name,
+      lastName,
+      nickName,
+      email,
+      height,
+      level,
+      uppercase,
+      anotherPojo
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", lastName=" + lastName +
+      ", nickName=" + nickName +
+      ", email=" + email +
+      ", height=" + height +
+      ", level=" + level +
+      ", uppercase=" + uppercase +
+      ", anotherPojo=" + anotherPojo +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+
+    private Long id;
+    private String name;
+    private String lastName;
+    private String nickName;
+    private String email;
+    private Double height;
+    private Long level;
+    private String uppercase;
+    private AnotherPojo anotherPojo;
+
+    /**
+     * ID of this user
+     */
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Lastname of this user
+     */
+    public Builder setLastName(String lastName) {
+      this.lastName = lastName;
+      return this;
+    }
+
+    /**
+     * Nickname of this user
+     */
+    public Builder setNickName(String nickName) {
+      this.nickName = nickName;
+      return this;
+    }
+
+    /**
+     * Email of this user
+     */
+    public Builder setEmail(String email) {
+      this.email = email;
+      return this;
+    }
+
+    /**
+     * Height of this user
+     */
+    public Builder setHeight(Double height) {
+      this.height = height;
+      return this;
+    }
+
+    /**
+     * Level of this user
+     */
+    public Builder setLevel(Long level) {
+      this.level = level;
+      return this;
+    }
+
+    /**
+     * Level of this user
+     */
+    public Builder setLevel(Optional<Long> level) {
+      this.level = level.orElse(null);
+      return this;
+    }
+
+    /**
+     * Something uppercase
+     */
+    public Builder setUppercase(String uppercase) {
+      this.uppercase = uppercase;
+      return this;
+    }
+
+    /**
+     * Something uppercase
+     */
+    public Builder setUppercase(Optional<String> uppercase) {
+      this.uppercase = uppercase.orElse(null);
+      return this;
+    }
+
+    /**
+     * Another Pojo
+     */
+    public Builder setAnotherPojo(AnotherPojo anotherPojo) {
+      this.anotherPojo = anotherPojo;
+      return this;
+    }
+
+    /**
+     * Another Pojo
+     */
+    public Builder setAnotherPojo(Optional<AnotherPojo> anotherPojo) {
+      this.anotherPojo = anotherPojo.orElse(null);
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    }
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_enabledSafeBuilder_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+.
+.
+/**
+ * User of the Application. This description is intentionally longer to see if its
+ * wrapped to a new line.
+ */
+public class UserDto {
+  private final Long id;
+  private final String name;
+  private final LanguageEnum language;
+
+  public UserDto(
+      Long id,
+      String name,
+      LanguageEnum language
+    ) {
+    this.id = id;
+    this.name = name;
+    this.language = language;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public enum LanguageEnum {
+    GERMAN("GERMAN", ""),
+    ENGLISH("ENGLISH", "");
+
+    private final String value;
+    private final String description;
+
+    LanguageEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e: LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * ID of this user
+   */
+  public Long getId() {
+    return id;
+  }
+
+  /**
+   * Name of this user
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(Long id) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      1 +
+      1 +
+      (language != null ? 1 : 0);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(id, other.id)
+        && Objects.equals(name, other.name)
+        && Objects.equals(language, other.language);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      id,
+      name,
+      language
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", language=" + language +
+      "}";
+  }
+
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Long id;
+    private String name;
+    private LanguageEnum language;
+
+    /**
+     * ID of this user
+     */
+    private Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    private Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, language);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * ID of this user
+     */
+    public Builder1 setId(Long id){
+      return new Builder1(builder.setId(id));
+    }
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Name of this user
+     */
+    public Builder2 setName(String name){
+      return new Builder2(builder.setName(name));
+    }
+  }
+
+  public static final class Builder2 {
+    private final Builder builder;
+    private Builder2(Builder builder) {
+      this.builder = builder;
+    }
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+    public Builder andOptionals(){
+      return builder;
+    }
+    public UserDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public OptBuilder1 setLanguage(LanguageEnum language){
+      return new OptBuilder1(builder.setLanguage(language));
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public OptBuilder1 setLanguage(Optional<LanguageEnum> language){
+      return new OptBuilder1(language.map(builder::setLanguage).orElse(builder));
+    }
+  }
+
+  public static final class OptBuilder1 {
+    private final Builder builder;
+    private OptBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+    public UserDto build(){
+      return builder.build();
+    }
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_enumPojoAndJacksonSupport_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Gender of a user
+ */
+public enum GenderDto {
+  MALE("MALE", ""),
+  FEMALE("FEMALE", "");
+
+  private final String value;
+  private final String description;
+
+  GenderDto(String value, String description) {
+    this.value = value;
+    this.description = description;
+  }
+
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+
+  @JsonCreator
+  public static GenderDto fromValue(String value) {
+    for (GenderDto e: GenderDto.values()) {
+      if (e.value.equals(value)) {
+        return e;
+      }
+    }
+    final String possibleValues =
+      Stream.of(values()).map(GenderDto::getValue).collect(Collectors.joining(", "));
+    throw new IllegalArgumentException(
+      "Unexpected value '"
+        + value
+        + "' for GenderDto, possible values are ["
+        + possibleValues
+        + "]");
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_enumPojo_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Gender of a user
+ */
+public enum GenderDto {
+  MALE("MALE", ""),
+  FEMALE("FEMALE", "");
+
+  private final String value;
+  private final String description;
+
+  GenderDto(String value, String description) {
+    this.value = value;
+    this.description = description;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+
+  public static GenderDto fromValue(String value) {
+    for (GenderDto e: GenderDto.values()) {
+      if (e.value.equals(value)) {
+        return e;
+      }
+    }
+    final String possibleValues =
+      Stream.of(values()).map(GenderDto::getValue).collect(Collectors.joining(", "));
+    throw new IllegalArgumentException(
+      "Unexpected value '"
+        + value
+        + "' for GenderDto, possible values are ["
+        + possibleValues
+        + "]");
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_jsonSupportJackson_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+.
+.
+/**
+ * User of the Application. This description is intentionally longer to see if its
+ * wrapped to a new line.
+ */
+@JsonDeserialize(builder = UserDto.Builder.class)
+public class UserDto {
+  private final Long id;
+  private final String name;
+  private final LanguageEnum language;
+
+  public UserDto(
+      Long id,
+      String name,
+      LanguageEnum language
+    ) {
+    this.id = id;
+    this.name = name;
+    this.language = language;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public enum LanguageEnum {
+    GERMAN("GERMAN", ""),
+    ENGLISH("ENGLISH", "");
+
+    private final String value;
+    private final String description;
+
+    LanguageEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @JsonCreator
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e: LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * ID of this user
+   */
+  public Long getId() {
+    return id;
+  }
+
+  /**
+   * Name of this user
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  @JsonIgnore
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  @JsonIgnore
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
+  @JsonProperty("language")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LanguageEnum getLanguageRaw() {
+    return language;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(Long id) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      1 +
+      1 +
+      (language != null ? 1 : 0);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(id, other.id)
+        && Objects.equals(name, other.name)
+        && Objects.equals(language, other.language);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      id,
+      name,
+      language
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", language=" + language +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Long id;
+    private String name;
+    private LanguageEnum language;
+
+    /**
+     * ID of this user
+     */
+    @JsonProperty("id")
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    @JsonProperty("name")
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    @JsonProperty("language")
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, language);
+    }
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_minimalPojoSetting_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+.
+.
+/**
+ * User of the Application. This description is intentionally longer to see if its
+ * wrapped to a new line.
+ */
+public class UserDto {
+  private final Long id;
+  private final String name;
+  private final LanguageEnum language;
+
+  public UserDto(
+      Long id,
+      String name,
+      LanguageEnum language
+    ) {
+    this.id = id;
+    this.name = name;
+    this.language = language;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public enum LanguageEnum {
+    GERMAN("GERMAN", ""),
+    ENGLISH("ENGLISH", "");
+
+    private final String value;
+    private final String description;
+
+    LanguageEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e: LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * ID of this user
+   */
+  public Long getId() {
+    return id;
+  }
+
+  /**
+   * Name of this user
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(Long id) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(id, name, language);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      1 +
+      1 +
+      (language != null ? 1 : 0);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(id, other.id)
+        && Objects.equals(name, other.name)
+        && Objects.equals(language, other.language);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      id,
+      name,
+      language
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id +
+      ", name=" + name +
+      ", language=" + language +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+
+    private Long id;
+    private String name;
+    private LanguageEnum language;
+
+    /**
+     * ID of this user
+     */
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(id, name, language);
+    }
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_necessityAndNullabilityVariants_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
+.
+.
+/**
+ * NecessityAndNullability
+ */
+@JsonDeserialize(builder = NecessityAndNullabilityDto.Builder.class)
+public class NecessityAndNullabilityDto {
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public NecessityAndNullabilityDto(
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @NotNull
+  @Pattern(regexp="Hello")
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
+  public Optional<String> getRequiredNullableStringVal() {
+    return Optional.ofNullable(requiredNullableStringVal);
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
+  public String getRequiredNullableStringValOr(String defaultValue) {
+    return requiredNullableStringVal == null ? defaultValue : requiredNullableStringVal;
+  }
+
+  @Pattern(regexp="Hello")
+  @JsonProperty("requiredNullableStringVal")
+  private String getRequiredNullableStringValRaw() {
+    return requiredNullableStringVal;
+  }
+
+  @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
+  private boolean isRequiredNullableStringValPresent() {
+    return isRequiredNullableStringValPresent;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
+  public Optional<String> getOptionalStringVal() {
+    return Optional.ofNullable(optionalStringVal);
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
+  public String getOptionalStringValOr(String defaultValue) {
+    return optionalStringVal == null ? defaultValue : optionalStringVal;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Pattern(regexp="Hello")
+  private String getOptionalStringValRaw() {
+    return optionalStringVal;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonIgnore
+  public Tristate<String> getOptionalNullableStringVal() {
+    return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableStringValJackson() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Pattern(regexp="Hello")
+  private String getOptionalNullableStringValRaw() {
+    return optionalNullableStringVal;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      1 +
+      (isRequiredNullableStringValPresent ? 1 : 0) +
+      (optionalStringVal != null ? 1 : 0) +
+      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final NecessityAndNullabilityDto other = (NecessityAndNullabilityDto) obj;
+    return Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "NecessityAndNullabilityDto{" +
+      "requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String requiredStringVal;
+    private String requiredNullableStringVal;
+    private boolean isRequiredNullableStringValPresent = false;
+    private String optionalStringVal;
+    private String optionalNullableStringVal;
+    private boolean isOptionalNullableStringValNull = false;
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    @JsonProperty("requiredNullableStringVal")
+    private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal;
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    @JsonProperty("optionalStringVal")
+    public Builder setOptionalStringVal(String optionalStringVal) {
+      this.optionalStringVal = optionalStringVal;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+      this.optionalStringVal = optionalStringVal.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    @JsonProperty("optionalNullableStringVal")
+    public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal;
+      this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    public NecessityAndNullabilityDto build() {
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    public Builder1 setRequiredStringVal(String requiredStringVal){
+      return new Builder1(builder.setRequiredStringVal(requiredStringVal));
+    }
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    public Builder2 setRequiredNullableStringVal(String requiredNullableStringVal){
+      return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal){
+      return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    }
+  }
+
+  public static final class Builder2 {
+    private final Builder builder;
+    private Builder2(Builder builder) {
+      this.builder = builder;
+    }
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+    public Builder andOptionals(){
+      return builder;
+    }
+    public NecessityAndNullabilityDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public OptBuilder1 setOptionalStringVal(String optionalStringVal){
+      return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public OptBuilder1 setOptionalStringVal(Optional<String> optionalStringVal){
+      return new OptBuilder1(optionalStringVal.map(builder::setOptionalStringVal).orElse(builder));
+    }
+  }
+
+  public static final class OptBuilder1 {
+    private final Builder builder;
+    private OptBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public OptBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal){
+      return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal){
+      return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+    }
+  }
+
+  public static final class OptBuilder2 {
+    private final Builder builder;
+    private OptBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+    public NecessityAndNullabilityDto build(){
+      return builder.build();
+    }
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescriptionAndJacksonSupport_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
+.
+.
+/**
+ * User of the Application
+ */
+@JsonDeserialize(builder = UserDto.Builder.class)
+public class UserDto {
+  private final LanguageEnum language;
+
+  public UserDto(
+      LanguageEnum language
+    ) {
+    this.language = language;
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public enum LanguageEnum {
+    GERMAN("GERMAN", "German language"),
+    ENGLISH("ENGLISH", "English language");
+
+    private final String value;
+    private final String description;
+
+    LanguageEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @JsonIgnore
+    public String getDescription() {
+      return description;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @JsonCreator
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e: LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  @JsonIgnore
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  @JsonIgnore
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
+  @JsonProperty("language")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LanguageEnum getLanguageRaw() {
+    return language;
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(language);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (language != null ? 1 : 0);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(language, other.language);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      language
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "language=" + language +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private LanguageEnum language;
+
+    /**
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
+     */
+    @JsonProperty("language")
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
+     */
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(language);
+    }
+  }
+}
+
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescription_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.github.muehmar.openapi.util.Tristate;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.AssertTrue;
+.
+.
+/**
+ * User of the Application
+ */
+public class UserDto {
+  private final LanguageEnum language;
+
+  public UserDto(
+      LanguageEnum language
+    ) {
+    this.language = language;
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public enum LanguageEnum {
+    GERMAN("GERMAN", "German language"),
+    ENGLISH("ENGLISH", "English language");
+
+    private final String value;
+    private final String description;
+
+    LanguageEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e: LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return language == null ? defaultValue : language;
+  }
+
+  private LanguageEnum getLanguageRaw() {
+    return language;
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(language);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (language != null ? 1 : 0);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.equals(language, other.language);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      language
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "language=" + language +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+
+    private LanguageEnum language;
+
+    /**
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
+     */
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
+     */
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(language);
+    }
+  }
+}
+
+]

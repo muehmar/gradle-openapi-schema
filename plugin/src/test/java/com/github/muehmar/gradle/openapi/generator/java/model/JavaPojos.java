@@ -26,19 +26,21 @@ import java.util.Optional;
 public class JavaPojos {
   private JavaPojos() {}
 
-  public static JavaPojo allNecessityAndNullabilityVariants() {
-    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(), TypeMappings.empty());
+  public static JavaPojo allNecessityAndNullabilityVariants(Constraints constraints) {
+    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty());
   }
 
-  private static ObjectPojo allNecessityAndNullabilityVariantsPojo() {
+  public static JavaPojo allNecessityAndNullabilityVariants() {
+    return allNecessityAndNullabilityVariants(Constraints.empty());
+  }
+
+  private static ObjectPojo allNecessityAndNullabilityVariantsPojo(Constraints constraints) {
     return ObjectPojo.of(
         PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"),
         "NecessityAndNullability",
         PList.of(
-            requiredString(),
-            requiredNullableString(),
-            optionalString(),
-            optionalNullableString()));
+            requiredString(), requiredNullableString(), optionalString(), optionalNullableString()),
+        constraints);
   }
 
   public static JavaPojo arrayPojo() {
@@ -65,7 +67,8 @@ public class JavaPojos {
         ObjectPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
             "User",
-            PList.of(requiredUsername(), requiredBirthdate()));
+            PList.of(requiredUsername(), requiredBirthdate()),
+            Constraints.empty());
     final Name typeName =
         Name.ofString(type.name().toLowerCase().replace("_", "")).startUpperCase();
     final UnresolvedComposedPojo unresolvedComposedPojo =
@@ -74,8 +77,10 @@ public class JavaPojos {
             "Composition Description",
             UnresolvedComposedPojo.CompositionType.ONE_OF,
             PList.empty(),
+            Constraints.empty(),
             Optional.empty());
-    final PList<Pojo> pojos = PList.of(userObjectPojo, allNecessityAndNullabilityVariantsPojo());
+    final PList<Pojo> pojos =
+        PList.of(userObjectPojo, allNecessityAndNullabilityVariantsPojo(Constraints.empty()));
     final ComposedPojo composedPojo =
         type.equals(ComposedPojo.CompositionType.ANY_OF)
             ? ComposedPojo.resolvedAnyOf(pojos, unresolvedComposedPojo)

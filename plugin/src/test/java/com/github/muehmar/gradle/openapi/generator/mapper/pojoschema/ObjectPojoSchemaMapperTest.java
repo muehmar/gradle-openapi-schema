@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -88,7 +89,8 @@ class ObjectPojoSchemaMapperTest {
                     null,
                     ObjectType.ofName(PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto")),
                     Necessity.OPTIONAL,
-                    Nullability.NOT_NULLABLE)));
+                    Nullability.NOT_NULLABLE)),
+            Constraints.empty());
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(
         UnmappedItems.ofPojoSchema(new PojoSchema(memberObjectPojoName, objectSchemaProp)),

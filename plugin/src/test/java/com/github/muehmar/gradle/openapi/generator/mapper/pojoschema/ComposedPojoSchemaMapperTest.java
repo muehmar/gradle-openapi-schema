@@ -11,6 +11,8 @@ import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -32,6 +34,7 @@ class ComposedPojoSchemaMapperTest {
     composedSchema.addAllOfItem(
         new Schema<>().$ref("../../dir/components.yml#/components/schemas/ReferenceSchema1"));
     composedSchema.addAllOfItem(new Schema<>().$ref("#/components/schemas/ReferenceSchema2"));
+    composedSchema.setMinProperties(2);
 
     final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto");
     final PojoSchema pojoSchema = new PojoSchema(pojoName, composedSchema);
@@ -55,6 +58,7 @@ class ComposedPojoSchemaMapperTest {
             PList.of(
                 PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto"),
                 PojoName.ofNameAndSuffix("ReferenceSchema2", "Dto")),
+            Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(2)),
             Optional.empty());
     assertEquals(expectedComposedPojo, unresolvedMapResult.getUnresolvedComposedPojos().apply(0));
     assertEquals(
@@ -72,6 +76,7 @@ class ComposedPojoSchemaMapperTest {
     properties.put("key", new StringSchema());
     objectSchema.setProperties(properties);
     composedSchema.addOneOfItem(objectSchema);
+    composedSchema.setMaxProperties(5);
 
     final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto");
     final PojoSchema pojoSchema = new PojoSchema(pojoName, composedSchema);
@@ -94,6 +99,7 @@ class ComposedPojoSchemaMapperTest {
             "Test description",
             UnresolvedComposedPojo.CompositionType.ONE_OF,
             PList.of(objectSchemaPojoName),
+            Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(5)),
             Optional.empty());
     assertEquals(expectedComposedPojo, unresolvedMapResult.getUnresolvedComposedPojos().apply(0));
     assertEquals(
@@ -143,6 +149,7 @@ class ComposedPojoSchemaMapperTest {
             "Test description",
             UnresolvedComposedPojo.CompositionType.ONE_OF,
             PList.of(objectSchema1PojoName, objectSchema2PojoName),
+            Constraints.empty(),
             Optional.empty());
     assertEquals(expectedComposedPojo, unresolvedMapResult.getUnresolvedComposedPojos().apply(0));
     assertEquals(

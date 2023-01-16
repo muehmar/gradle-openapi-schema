@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.util.Booleans;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -40,6 +41,20 @@ public class ConstraintsMapper {
 
     return Optionals.combine(minItems, maxItems, Size::ofMin, Size::ofMax, Size::of)
         .map(Constraints::ofSize)
+        .orElseGet(Constraints::empty);
+  }
+
+  public static Constraints getPropertyCountConstraints(Schema<?> schema) {
+    final Optional<Integer> minProperties = Optional.ofNullable(schema.getMinProperties());
+    final Optional<Integer> maxProperties = Optional.ofNullable(schema.getMaxProperties());
+
+    return Optionals.combine(
+            minProperties,
+            maxProperties,
+            PropertyCount::ofMinProperties,
+            PropertyCount::ofMaxProperties,
+            PropertyCount::ofMinAndMaxProperties)
+        .map(Constraints::ofPropertiesCount)
         .orElseGet(Constraints::empty);
   }
 

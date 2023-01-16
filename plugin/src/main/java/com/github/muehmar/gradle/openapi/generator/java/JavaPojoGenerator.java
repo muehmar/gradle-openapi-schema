@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.PojoPropertyCountMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
@@ -116,6 +117,8 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     printGetters(writer, pojo, pojoSettings);
     printWithers(writer, pojo);
+
+    printPropertyCount(writer, pojo, pojoSettings);
 
     printEqualsAndHash(writer, pojo, pojoSettings);
     printToString(writer, pojo, pojoSettings);
@@ -343,6 +346,13 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .println("return new %s(%s);", pojo.getName(), createNamesCommaSeparated(pojo));
               writer.tab(1).println("}");
             });
+  }
+
+  private void printPropertyCount(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        PojoPropertyCountMethod.propertyCountMethod().indent(1);
+    final String output = applyGen(generator.prependNewLine(), pojo, settings);
+    writer.println(output);
   }
 
   protected void printBuilder(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {

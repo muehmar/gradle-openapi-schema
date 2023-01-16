@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -39,7 +40,8 @@ class ComposedPojoResolverTest {
                     "Name",
                     StringType.noFormat(),
                     REQUIRED,
-                    NOT_NULLABLE)));
+                    NOT_NULLABLE)),
+            Constraints.empty());
 
     final ObjectPojo colorPojo =
         ObjectPojo.of(
@@ -57,7 +59,8 @@ class ComposedPojoResolverTest {
                     "Name",
                     StringType.noFormat(),
                     OPTIONAL,
-                    NOT_NULLABLE)));
+                    NOT_NULLABLE)),
+            Constraints.empty());
 
     final UnresolvedComposedPojo unresolvedComposedPojo =
         UnresolvedComposedPojoBuilder.create()
@@ -65,6 +68,7 @@ class ComposedPojoResolverTest {
             .description("Description")
             .type(UnresolvedComposedPojo.CompositionType.ALL_OF)
             .pojoNames(PList.of(colorName, tiresName))
+            .constraints(Constraints.empty())
             .andAllOptionals()
             .discriminator(Optional.empty())
             .build();
@@ -84,7 +88,8 @@ class ComposedPojoResolverTest {
         ObjectPojo.of(
             unresolvedComposedPojo.getName(),
             unresolvedComposedPojo.getDescription(),
-            colorPojo.getMembers().concat(tiresPojo.getMembers())),
+            colorPojo.getMembers().concat(tiresPojo.getMembers()),
+            Constraints.empty()),
         resultingPojos.apply(1));
   }
 }

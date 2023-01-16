@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Filters.isJacksonJson;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;

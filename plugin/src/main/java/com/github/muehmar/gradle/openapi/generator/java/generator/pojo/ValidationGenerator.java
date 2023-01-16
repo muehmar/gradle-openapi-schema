@@ -3,12 +3,14 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -146,6 +148,30 @@ public class ValidationGenerator {
                           return w.println("@Size(%s)", minMax).ref(JavaValidationRefs.SIZE);
                         })))
         .contraMap(field -> field.getJavaType().getConstraints());
+  }
+
+  public static Generator<Constraints, PojoSettings> minAnnotationForPropertyCount() {
+    return Generator.<Constraints, PojoSettings>emptyGen()
+        .append(
+            wrap(
+                (constraints, w) ->
+                    constraints
+                        .getPropertyCount()
+                        .flatMap(PropertyCount::getMinProperties)
+                        .map(min -> w.println("@Min(%s)", min).ref(JavaValidationRefs.MIN))))
+        .filter(Filters.isValidationEnabled());
+  }
+
+  public static Generator<Constraints, PojoSettings> maxAnnotationForPropertyCount() {
+    return Generator.<Constraints, PojoSettings>emptyGen()
+        .append(
+            wrap(
+                (constraints, w) ->
+                    constraints
+                        .getPropertyCount()
+                        .flatMap(PropertyCount::getMaxProperties)
+                        .map(min -> w.println("@Max(%s)", min).ref(JavaValidationRefs.MAX))))
+        .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<JavaPojoMember, PojoSettings> patternAnnotation() {

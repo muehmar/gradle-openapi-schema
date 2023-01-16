@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import io.github.muehmar.pojoextension.annotations.SafeBuilder;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -18,6 +19,7 @@ public class UnresolvedComposedPojo {
   private final String description;
   private final CompositionType type;
   private final PList<PojoName> pojoNames;
+  private final Constraints constraints;
   private final Optional<Discriminator> discriminator;
 
   public enum CompositionType {
@@ -41,11 +43,13 @@ public class UnresolvedComposedPojo {
       String description,
       CompositionType type,
       PList<PojoName> pojoNames,
+      Constraints constraints,
       Optional<Discriminator> discriminator) {
     this.name = name;
     this.description = description;
     this.type = type;
     this.pojoNames = pojoNames;
+    this.constraints = constraints;
     this.discriminator = discriminator;
   }
 
@@ -67,6 +71,10 @@ public class UnresolvedComposedPojo {
 
   public PList<PojoName> getPojoNames() {
     return pojoNames;
+  }
+
+  public Constraints getConstraints() {
+    return constraints;
   }
 
   public Optional<Discriminator> getDiscriminator() {

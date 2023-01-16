@@ -25,6 +25,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
@@ -151,7 +152,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     StringType.ofFormat(StringType.Format.NONE),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojo);
   }
 
@@ -177,7 +179,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                 new PojoMember(
                     Name.ofString("key"), "", IntegerType.formatInteger(), REQUIRED, NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("name"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE))),
+                    Name.ofString("name"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(0));
 
     assertEquals(
@@ -273,7 +276,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "Some user related data",
                     NoType.create(),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(1));
 
     assertEquals(
@@ -300,7 +304,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     ArrayType.ofItemType(
                         ObjectType.ofName(PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"))),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3))),
         pojos.apply(2));
 
     assertEquals(
@@ -311,7 +316,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                 new PojoMember(
                     Name.ofString("id"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("name"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE))),
+                    Name.ofString("name"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(3));
 
     assertEquals(
@@ -326,7 +332,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     StringType.noFormat(),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(4));
 
     assertEquals(
@@ -341,7 +348,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     IntegerType.formatInteger(),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(5));
   }
 
@@ -379,11 +387,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                 new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    OPTIONAL,
-                    NOT_NULLABLE))),
+                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(0));
 
     assertEquals(
@@ -394,11 +399,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                 new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    OPTIONAL,
-                    NOT_NULLABLE))),
+                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(1));
   }
 
@@ -451,11 +453,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                 new PojoMember(
                     Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    OPTIONAL,
-                    NOT_NULLABLE))),
+                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(0));
 
     assertEquals(
@@ -474,7 +473,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     ArrayType.ofItemType(StringType.noFormat()),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(1));
 
     assertEquals(
@@ -505,7 +505,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     ArrayType.ofItemType(StringType.noFormat()),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(2));
 
     assertEquals(
@@ -520,7 +521,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     IntegerType.formatInteger(),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(3));
   }
 
@@ -552,7 +554,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.single(
                 new PojoMember(
-                    Name.ofString("key"), "User key", StringType.uuid(), OPTIONAL, NOT_NULLABLE))),
+                    Name.ofString("key"), "User key", StringType.uuid(), OPTIONAL, NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(0));
   }
 
@@ -589,7 +592,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "User age",
                     IntegerType.formatInteger(),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(0));
   }
 
@@ -626,7 +630,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "User height",
                     NumericType.formatFloat(),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(0));
   }
 
@@ -663,7 +668,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "User is admin",
                     BooleanType.create(),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(0));
   }
 
@@ -709,7 +715,8 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "Gender of a user",
                     ObjectType.ofName(PojoName.ofNameAndSuffix("Gender", "Dto")),
                     OPTIONAL,
-                    NOT_NULLABLE))),
+                    NOT_NULLABLE)),
+            Constraints.empty()),
         pojos.apply(1));
   }
 
