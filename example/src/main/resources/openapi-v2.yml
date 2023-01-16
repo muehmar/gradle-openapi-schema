@@ -17,6 +17,25 @@ components:
             - A2
         message:
           type: string
+    Patient:
+      minProperties: 2
+      maxProperties: 3
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        surname:
+          type: string
+        age:
+          type: integer
+          nullable: true
+
+
 
 
 
