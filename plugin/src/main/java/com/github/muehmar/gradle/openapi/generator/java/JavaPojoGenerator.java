@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.ValidationApi.JAKARTA_2_0;
+import static com.github.muehmar.gradle.openapi.generator.settings.ValidationApi.JAKARTA_3_0;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
@@ -213,16 +215,26 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private void printValidationImports(Writer writer, PojoSettings settings) {
-    if (settings.isEnableValidation()) {
+    if (settings.isEnableValidation() && settings.getValidationApi().equals(JAKARTA_2_0)) {
       writer.println();
-      writer.println("import javax.validation.Valid;");
-      writer.println("import javax.validation.constraints.Max;");
-      writer.println("import javax.validation.constraints.Min;");
-      writer.println("import javax.validation.constraints.Pattern;");
-      writer.println("import javax.validation.constraints.Size;");
-      writer.println("import javax.validation.constraints.NotNull;");
-      writer.println("import javax.validation.constraints.Email;");
-      writer.println("import javax.validation.constraints.AssertTrue;");
+      writer.println("import %s;", Jakarta2ValidationRefs.VALID);
+      writer.println("import %s;", Jakarta2ValidationRefs.MAX);
+      writer.println("import %s;", Jakarta2ValidationRefs.MIN);
+      writer.println("import %s;", Jakarta2ValidationRefs.PATTERN);
+      writer.println("import %s;", Jakarta2ValidationRefs.SIZE);
+      writer.println("import %s;", Jakarta2ValidationRefs.NOT_NULL);
+      writer.println("import %s;", Jakarta2ValidationRefs.EMAIL);
+      writer.println("import %s;", Jakarta2ValidationRefs.ASSERT_TRUE);
+    } else if (settings.isEnableValidation() && settings.getValidationApi().equals(JAKARTA_3_0)) {
+      writer.println();
+      writer.println("import %s;", Jakarta3ValidationRefs.VALID);
+      writer.println("import %s;", Jakarta3ValidationRefs.MAX);
+      writer.println("import %s;", Jakarta3ValidationRefs.MIN);
+      writer.println("import %s;", Jakarta3ValidationRefs.PATTERN);
+      writer.println("import %s;", Jakarta3ValidationRefs.SIZE);
+      writer.println("import %s;", Jakarta3ValidationRefs.NOT_NULL);
+      writer.println("import %s;", Jakarta3ValidationRefs.EMAIL);
+      writer.println("import %s;", Jakarta3ValidationRefs.ASSERT_TRUE);
     }
   }
 

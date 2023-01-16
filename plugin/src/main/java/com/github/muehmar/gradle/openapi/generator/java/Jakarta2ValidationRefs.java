@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-public class JavaValidationRefs {
-  private JavaValidationRefs() {}
+public class Jakarta2ValidationRefs {
+  private Jakarta2ValidationRefs() {}
 
   public static final String VALID = "javax.validation.Valid";
   public static final String NOT_NULL = "javax.validation.constraints.NotNull";

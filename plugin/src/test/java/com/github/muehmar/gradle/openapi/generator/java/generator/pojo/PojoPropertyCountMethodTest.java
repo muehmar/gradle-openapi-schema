@@ -7,7 +7,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
+import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -41,8 +41,8 @@ class PojoPropertyCountMethodTest {
 
     expect.toMatchSnapshot(writer.asString());
 
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.MIN::equals));
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.MAX::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
   }
 
@@ -63,8 +63,8 @@ class PojoPropertyCountMethodTest {
 
     expect.toMatchSnapshot(writer.asString());
 
-    assertFalse(writer.getRefs().exists(JavaValidationRefs.MIN::equals));
-    assertFalse(writer.getRefs().exists(JavaValidationRefs.MAX::equals));
+    assertFalse(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
+    assertFalse(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
   }
 
@@ -85,8 +85,8 @@ class PojoPropertyCountMethodTest {
 
     expect.toMatchSnapshot(writer.asString());
 
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.MIN::equals));
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.MAX::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
     assertFalse(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
   }
 }

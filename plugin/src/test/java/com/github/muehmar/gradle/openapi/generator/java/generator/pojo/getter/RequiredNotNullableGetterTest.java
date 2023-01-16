@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -29,7 +29,7 @@ class RequiredNotNullableGetterTest {
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.NOT_NULL::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.NOT_NULL::equals));
     assertEquals(
         "/**\n"
             + " * Birthdate\n"

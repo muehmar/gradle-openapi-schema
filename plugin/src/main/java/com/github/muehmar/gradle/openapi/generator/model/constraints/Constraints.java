@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.model.constraints;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.github.muehmar.pojoextension.annotations.SafeBuilder;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -140,62 +139,58 @@ public class Constraints {
         Optionals.or(size, other.size),
         Optionals.or(pattern, other.pattern),
         Optionals.or(email, other.email),
-        propertyCount);
+        Optionals.or(propertyCount, other.propertyCount));
   }
 
-  public void onMin(Consumer<Min> onMin) {
-    min.ifPresent(onMin);
+  public Optional<Min> getMin() {
+    return min;
+  }
+
+  public Optional<Max> getMax() {
+    return max;
+  }
+
+  public Optional<DecimalMin> getDecimalMin() {
+    return decimalMin;
+  }
+
+  public Optional<DecimalMax> getDecimalMax() {
+    return decimalMax;
+  }
+
+  public Optional<Size> getSize() {
+    return size;
+  }
+
+  public Optional<Pattern> getPattern() {
+    return pattern;
+  }
+
+  public Optional<Email> getEmail() {
+    return email;
   }
 
   public <R> Optional<R> onMinFn(Function<Min, R> onMin) {
     return min.map(onMin);
   }
 
-  public void onMax(Consumer<Max> onMax) {
-    max.ifPresent(onMax);
-  }
-
   public <R> Optional<R> onMaxFn(Function<Max, R> onMax) {
     return max.map(onMax);
-  }
-
-  public void onDecimalMin(Consumer<DecimalMin> onDecimalMin) {
-    decimalMin.ifPresent(onDecimalMin);
   }
 
   public <R> Optional<R> onDecimalMinFn(Function<DecimalMin, R> onDecimalMin) {
     return decimalMin.map(onDecimalMin);
   }
 
-  public void onDecimalMax(Consumer<DecimalMax> onDecimalMax) {
-    decimalMax.ifPresent(onDecimalMax);
-  }
-
   public <R> Optional<R> onDecimalMaxFn(Function<DecimalMax, R> onDecimalMax) {
     return decimalMax.map(onDecimalMax);
-  }
-
-  public void onSize(Consumer<Size> onSize) {
-    size.ifPresent(onSize);
   }
 
   public <R> Optional<R> onSizeFn(Function<Size, R> onSize) {
     return size.map(onSize);
   }
 
-  public void onPattern(Consumer<Pattern> onPattern) {
-    pattern.ifPresent(onPattern);
-  }
-
   public <R> Optional<R> onPatternFn(Function<Pattern, R> onPattern) {
     return pattern.map(onPattern);
-  }
-
-  public void onEmail(Consumer<Email> onEmail) {
-    email.ifPresent(onEmail);
-  }
-
-  public <R> Optional<R> onEmailFn(Function<Email, R> onEmail) {
-    return email.map(onEmail);
   }
 }
