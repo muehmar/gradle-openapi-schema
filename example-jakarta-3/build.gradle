@@ -1,0 +1,38 @@
+plugins {
+    id "com.github.muehmar.openapischema" version "0.22.0"
+    id "com.diffplug.spotless"
+    id 'openapischema.java'
+}
+
+dependencies {
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.14.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.14.1'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.14.1'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.9.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.9.2'
+
+    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
+}
+
+openApiGenerator {
+    rawGetter {
+        suffix = "Raw"
+    }
+
+    schemas {
+        api {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            validationApi = "jakarta-3"
+            builderMethodPrefix = "set"
+        }
+    }
+}
+

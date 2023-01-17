@@ -1,0 +1,32 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Patient:
+      minProperties: 2
+      maxProperties: 3
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        surname:
+          type: string
+          pattern: "^[A-Za-z]*$"
+        age:
+          type: integer
+          nullable: true
+          minimum: 18
+          maximum: 99
+
+
+
+
+

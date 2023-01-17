@@ -8,3 +8,4 @@ rootProject.name = 'OpenApiSchema'
 
 include 'plugin'
 include 'example'
+include 'example-jakarta-3'
