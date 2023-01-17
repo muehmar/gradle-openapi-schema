@@ -1,4 +1,4 @@
-freeFormWithDefaultSettings=[
+freeFormWithDefaultSettings[jakarta-2]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -10,6 +10,73 @@ import java.util.Optional;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+/**
+ * Free form object
+ */
+public final class FreeFormDto {
+  @JsonValue
+  private final Map<String, Object> values;
+
+  @JsonCreator
+  public FreeFormDto(
+      Map<String, Object> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @NotNull
+  public Map<String, Object> getValues() {
+    return values;
+  }
+
+  public Optional<Object> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final FreeFormDto other = (FreeFormDto) obj;
+    return Objects.equals(values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+freeFormWithDefaultSettings[jakarta-3]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Free form object

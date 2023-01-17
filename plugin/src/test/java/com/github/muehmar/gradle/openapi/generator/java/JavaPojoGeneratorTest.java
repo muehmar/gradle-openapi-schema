@@ -29,14 +29,12 @@ import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.writer.TestStringWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 @ExtendWith(SnapshotExtension.class)
 class JavaPojoGeneratorTest {
@@ -87,7 +85,7 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
-            .withEnableConstraints(false);
+            .withEnableValidation(false);
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
@@ -100,9 +98,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
-            .withEnableSafeBuilder(false)
-            .withEnableConstraints(false);
+        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(false);
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
@@ -118,15 +114,16 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(true)
-            .withEnableConstraints(false);
+            .withEnableValidation(false);
 
     pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
 
     expect.toMatchSnapshot(writer.asString());
   }
 
-  @Test
-  void generatePojo_when_enableConstraints_then_correctPojoGenerated() {
+  @ParameterizedTest
+  @EnumSource(ValidationApi.class)
+  void generatePojo_when_enableValidation_then_correctPojoGenerated(ValidationApi validationApi) {
     final TestStringWriter writer = new TestStringWriter();
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
@@ -134,7 +131,8 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
-            .withEnableConstraints(true);
+            .withEnableValidation(true)
+            .withValidationApi(validationApi);
 
     final JavaPojo pojo =
         JavaObjectPojo.wrap(
@@ -206,7 +204,7 @@ class JavaPojoGeneratorTest {
 
     pojoGenerator.generatePojo(pojo, pojoSettings);
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.scenario(validationApi.getValue()).toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -218,7 +216,7 @@ class JavaPojoGeneratorTest {
         TestPojoSettings.defaultSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
-            .withEnableConstraints(true);
+            .withEnableValidation(true);
 
     pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
 
@@ -231,7 +229,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableConstraints(true);
+        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(true);
 
     pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
 

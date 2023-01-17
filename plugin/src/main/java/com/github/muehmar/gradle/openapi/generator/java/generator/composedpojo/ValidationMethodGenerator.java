@@ -22,7 +22,7 @@ public class ValidationMethodGenerator {
         .noArguments()
         .content(isValidAgainstMethodContent())
         .build()
-        .filter((pojos, settings) -> settings.isEnableConstraints());
+        .filter((pojos, settings) -> settings.isEnableValidation());
   }
 
   private static Generator<JavaPojo, PojoSettings> isValidAgainstMethodContent() {

@@ -10,9 +10,12 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCou
 import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 @ExtendWith(SnapshotExtension.class)
 class FreeFormPojoGeneratorTest {
@@ -24,18 +27,19 @@ class FreeFormPojoGeneratorTest {
           Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 10)));
   private Expect expect;
 
-  @Test
+  @ParameterizedTest
+  @EnumSource(ValidationApi.class)
   @SnapshotName("freeFormWithDefaultSettings")
-  void generate_when_defaultSettings_then_matchSnapshot() {
+  void generate_when_defaultSettings_then_matchSnapshot(ValidationApi validationApi) {
     final FreeFormPojoGenerator gen = new FreeFormPojoGenerator();
 
     final Writer generate =
         gen.generate(
             JavaFreeFormPojo.wrap(FREE_FORM_POJO),
-            TestPojoSettings.defaultSettings(),
+            TestPojoSettings.defaultSettings().withValidationApi(validationApi),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(generate.asString());
+    expect.scenario(validationApi.getValue()).toMatchSnapshot(generate.asString());
   }
 
   @Test
@@ -60,7 +64,7 @@ class FreeFormPojoGeneratorTest {
     final Writer generate =
         gen.generate(
             JavaFreeFormPojo.wrap(FREE_FORM_POJO),
-            TestPojoSettings.defaultSettings().withEnableConstraints(false),
+            TestPojoSettings.defaultSettings().withEnableValidation(false),
             Writer.createDefault());
 
     expect.toMatchSnapshot(generate.asString());

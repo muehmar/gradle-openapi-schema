@@ -1,21 +1,20 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
+import com.github.muehmar.gradle.openapi.generator.java.Jakarta3ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
-import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.*;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class ValidationGenerator {
@@ -28,7 +27,8 @@ public class ValidationGenerator {
             (field, settings, writer) ->
                 writer.println(
                     String.format("@AssertTrue(message = \"%s\")", message.apply(field))))
-        .append(w -> w.ref(JavaValidationRefs.ASSERT_TRUE))
+        .append(jakarta2Ref(Jakarta2ValidationRefs.ASSERT_TRUE))
+        .append(jakarta3Ref(Jakarta3ValidationRefs.ASSERT_TRUE))
         .filter(Filters.isValidationEnabled());
   }
 
@@ -48,7 +48,8 @@ public class ValidationGenerator {
 
   public static Generator<JavaPojoMember, PojoSettings> validAnnotation() {
     return Generator.<JavaPojoMember, PojoSettings>ofWriterFunction(w -> w.println("@Valid"))
-        .append(w -> w.ref(JavaValidationRefs.VALID))
+        .append(jakarta2Ref(Jakarta2ValidationRefs.VALID))
+        .append(jakarta3Ref(Jakarta3ValidationRefs.VALID))
         .filter((field, settings) -> shouldValidateDeep(field.getJavaType()));
   }
 
@@ -66,131 +67,144 @@ public class ValidationGenerator {
 
   private static Generator<JavaPojoMember, PojoSettings> notNullAnnotation() {
     return Generator.<JavaPojoMember, PojoSettings>ofWriterFunction(w -> w.println("@NotNull"))
-        .append(w -> w.ref(JavaValidationRefs.NOT_NULL))
+        .append(jakarta2Ref(Jakarta2ValidationRefs.NOT_NULL))
+        .append(jakarta3Ref(Jakarta3ValidationRefs.NOT_NULL))
         .filter((field, settings) -> field.isRequired() && field.isNotNullable());
   }
 
   private static Generator<JavaPojoMember, PojoSettings> emailAnnotation() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints.onEmailFn(
-                        ignore -> w.println("@Email").ref(JavaValidationRefs.EMAIL))))
-        .contraMap(field -> field.getJavaType().getConstraints());
+    final Generator<Email, PojoSettings> gen =
+        Generator.<Email, PojoSettings>emptyGen()
+            .append(w -> w.println("@Email"))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.EMAIL))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.EMAIL));
+    return fromOptional(gen, Constraints::getEmail)
+        .contraMap(JavaType::getConstraints)
+        .contraMap(JavaPojoMember::getJavaType);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> minAnnotation() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints.onMinFn(
-                        min ->
-                            w.println("@Min(value = %d)", min.getValue())
-                                .ref(JavaValidationRefs.MIN))))
-        .contraMap(field -> field.getJavaType().getConstraints());
+    final Generator<Min, PojoSettings> gen =
+        Generator.<Min, PojoSettings>emptyGen()
+            .append((min, s, w) -> w.println("@Min(value = %d)", min.getValue()))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.MIN))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.MIN));
+    return fromOptional(gen, Constraints::getMin)
+        .contraMap(JavaType::getConstraints)
+        .contraMap(JavaPojoMember::getJavaType);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> maxAnnotation() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints.onMaxFn(
-                        max ->
-                            w.println("@Max(value = %d)", max.getValue())
-                                .ref(JavaValidationRefs.MAX))))
-        .contraMap(field -> field.getJavaType().getConstraints());
+    final Generator<Max, PojoSettings> gen =
+        Generator.<Max, PojoSettings>emptyGen()
+            .append((max, s, w) -> w.println("@Max(value = %d)", max.getValue()))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.MAX))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.MAX));
+    return fromOptional(gen, Constraints::getMax)
+        .contraMap(JavaType::getConstraints)
+        .contraMap(JavaPojoMember::getJavaType);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> decimalMinAnnotation() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints.onDecimalMinFn(
-                        decMin ->
-                            w.println(
-                                    "@DecimalMin(value = \"%s\", inclusive = %b)",
-                                    decMin.getValue(), decMin.isInclusiveMin())
-                                .ref(JavaValidationRefs.DECIMAL_MIN))))
-        .contraMap(field -> field.getJavaType().getConstraints());
+    final Generator<DecimalMin, PojoSettings> gen =
+        Generator.<DecimalMin, PojoSettings>emptyGen()
+            .append(
+                (decMin, s, w) ->
+                    w.println(
+                        "@DecimalMin(value = \"%s\", inclusive = %b)",
+                        decMin.getValue(), decMin.isInclusiveMin()))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.DECIMAL_MIN))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.DECIMAL_MIN));
+    return fromOptional(gen, Constraints::getDecimalMin)
+        .contraMap(JavaType::getConstraints)
+        .contraMap(JavaPojoMember::getJavaType);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> decimalMaxAnnotation() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints.onDecimalMaxFn(
-                        decMax ->
-                            w.println(
-                                    "@DecimalMax(value = \"%s\", inclusive = %b)",
-                                    decMax.getValue(), decMax.isInclusiveMax())
-                                .ref(JavaValidationRefs.DECIMAL_MAX))))
-        .contraMap(field -> field.getJavaType().getConstraints());
+    final Generator<DecimalMax, PojoSettings> gen =
+        Generator.<DecimalMax, PojoSettings>emptyGen()
+            .append(
+                (decMax, s, w) ->
+                    w.println(
+                        "@DecimalMax(value = \"%s\", inclusive = %b)",
+                        decMax.getValue(), decMax.isInclusiveMax()))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.DECIMAL_MAX))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.DECIMAL_MAX));
+    return fromOptional(gen, Constraints::getDecimalMax)
+        .contraMap(JavaType::getConstraints)
+        .contraMap(JavaPojoMember::getJavaType);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> sizeAnnotation() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints.onSizeFn(
-                        size -> {
-                          final String minMax =
-                              PList.of(
-                                      size.getMin().map(min -> String.format("min = %d", min)),
-                                      size.getMax().map(max -> String.format("max = %d", max)))
-                                  .flatMapOptional(Function.identity())
-                                  .mkString(", ");
-                          return w.println("@Size(%s)", minMax).ref(JavaValidationRefs.SIZE);
-                        })))
-        .contraMap(field -> field.getJavaType().getConstraints());
+    final Generator<Size, PojoSettings> gen =
+        Generator.<Size, PojoSettings>emptyGen()
+            .append(
+                (size, s, w) -> {
+                  final String minMax =
+                      PList.of(
+                              size.getMin().map(min -> String.format("min = %d", min)),
+                              size.getMax().map(max -> String.format("max = %d", max)))
+                          .flatMapOptional(Function.identity())
+                          .mkString(", ");
+                  return w.println("@Size(%s)", minMax);
+                })
+            .append(jakarta2Ref(Jakarta2ValidationRefs.SIZE))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.SIZE));
+    return fromOptional(gen, Constraints::getSize)
+        .contraMap(JavaType::getConstraints)
+        .contraMap(JavaPojoMember::getJavaType);
   }
 
   public static Generator<Constraints, PojoSettings> minAnnotationForPropertyCount() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints
-                        .getPropertyCount()
-                        .flatMap(PropertyCount::getMinProperties)
-                        .map(min -> w.println("@Min(%s)", min).ref(JavaValidationRefs.MIN))))
+    final Generator<Integer, PojoSettings> gen =
+        Generator.<Integer, PojoSettings>emptyGen()
+            .append((min, s, w) -> w.println("@Min(%s)", min))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.MIN))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.MIN));
+    return fromOptional(
+            gen, (Constraints c) -> c.getPropertyCount().flatMap(PropertyCount::getMinProperties))
         .filter(Filters.isValidationEnabled());
   }
 
   public static Generator<Constraints, PojoSettings> maxAnnotationForPropertyCount() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints
-                        .getPropertyCount()
-                        .flatMap(PropertyCount::getMaxProperties)
-                        .map(min -> w.println("@Max(%s)", min).ref(JavaValidationRefs.MAX))))
+    final Generator<Integer, PojoSettings> gen =
+        Generator.<Integer, PojoSettings>emptyGen()
+            .append((max, s, w) -> w.println("@Max(%s)", max))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.MAX))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.MAX));
+    return fromOptional(
+            gen, (Constraints c) -> c.getPropertyCount().flatMap(PropertyCount::getMaxProperties))
         .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<JavaPojoMember, PojoSettings> patternAnnotation() {
-    return Generator.<Constraints, PojoSettings>emptyGen()
-        .append(
-            wrap(
-                (constraints, w) ->
-                    constraints.onPatternFn(
-                        pattern ->
-                            w.println(
-                                    "@Pattern(regexp=\"%s\")",
-                                    pattern.getPatternEscaped(JavaEscaper::escape))
-                                .ref(JavaValidationRefs.PATTERN))))
-        .contraMap(field -> field.getJavaType().getConstraints());
+    final Generator<Pattern, PojoSettings> gen =
+        Generator.<Pattern, PojoSettings>emptyGen()
+            .append(
+                (pattern, s, w) ->
+                    w.println(
+                        "@Pattern(regexp=\"%s\")", pattern.getPatternEscaped(JavaEscaper::escape)))
+            .append(jakarta2Ref(Jakarta2ValidationRefs.PATTERN))
+            .append(jakarta3Ref(Jakarta3ValidationRefs.PATTERN));
+    return fromOptional(gen, Constraints::getPattern)
+        .contraMap(JavaType::getConstraints)
+        .contraMap(JavaPojoMember::getJavaType);
   }
 
-  private static Generator<Constraints, PojoSettings> wrap(
-      BiFunction<Constraints, Writer, Optional<Writer>> writeConstraints) {
-    return (constraints, settings, writer) ->
-        writeConstraints.apply(constraints, writer).orElse(writer);
+  private static <A> Generator<A, PojoSettings> jakarta2Ref(String ref) {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.ref(ref))
+        .filter((ignore, s) -> s.getValidationApi().equals(ValidationApi.JAKARTA_2_0));
+  }
+
+  private static <A> Generator<A, PojoSettings> jakarta3Ref(String ref) {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.ref(ref))
+        .filter((ignore, s) -> s.getValidationApi().equals(ValidationApi.JAKARTA_3_0));
+  }
+
+  private static <A, B, C> Generator<A, C> fromOptional(
+      Generator<B, C> gen, Function<A, Optional<B>> getOptional) {
+    return (a, c, w) -> getOptional.apply(a).map(b -> gen.generate(b, c, w)).orElse(w);
   }
 }

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
+import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -38,7 +38,7 @@ class ValidationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultSettings().withEnableConstraints(false), Writer.createDefault());
+            member, defaultSettings().withEnableValidation(false), Writer.createDefault());
 
     assertEquals(PList.empty(), writer.getRefs());
     assertEquals("", writer.asString());
@@ -52,7 +52,7 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertEquals(PList.single(JavaValidationRefs.NOT_NULL), writer.getRefs());
+    assertEquals(PList.single(Jakarta2ValidationRefs.NOT_NULL), writer.getRefs());
     assertEquals("@NotNull", writer.asString());
   }
 
@@ -76,7 +76,7 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertEquals(PList.single(JavaValidationRefs.VALID), writer.getRefs());
+    assertEquals(PList.single(Jakarta2ValidationRefs.VALID), writer.getRefs());
     assertEquals("@Valid", writer.asString());
   }
 
@@ -106,7 +106,7 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertEquals(PList.single(JavaValidationRefs.VALID), writer.getRefs());
+    assertEquals(PList.single(Jakarta2ValidationRefs.VALID), writer.getRefs());
     assertEquals("@Valid", writer.asString());
   }
 
@@ -120,7 +120,7 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertEquals(PList.single(JavaValidationRefs.VALID), writer.getRefs());
+    assertEquals(PList.single(Jakarta2ValidationRefs.VALID), writer.getRefs());
     assertEquals("@Valid", writer.asString());
   }
 
@@ -166,7 +166,7 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertEquals(PList.single(JavaValidationRefs.EMAIL), writer.getRefs());
+    assertEquals(PList.single(Jakarta2ValidationRefs.EMAIL), writer.getRefs());
     assertEquals("@Email", writer.asString());
   }
 
@@ -178,8 +178,8 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.MIN::equals));
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.MAX::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
     assertEquals("@Min(value = 10)\n" + "@Max(value = 50)", writer.asString());
   }
 
@@ -191,8 +191,8 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.DECIMAL_MIN::equals));
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.DECIMAL_MAX::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.DECIMAL_MIN::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.DECIMAL_MAX::equals));
     assertEquals(
         "@DecimalMin(value = \"12.5\", inclusive = true)\n"
             + "@DecimalMax(value = \"50.1\", inclusive = false)",
@@ -209,7 +209,7 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertEquals(PList.single(JavaValidationRefs.SIZE), writer.getRefs());
+    assertEquals(PList.single(Jakarta2ValidationRefs.SIZE), writer.getRefs());
     assertEquals("@Size(min = 1, max = 50)", writer.asString());
   }
 
@@ -221,7 +221,7 @@ class ValidationGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
 
-    assertEquals(PList.single(JavaValidationRefs.PATTERN), writer.getRefs());
+    assertEquals(PList.single(Jakarta2ValidationRefs.PATTERN), writer.getRefs());
     assertEquals("@Pattern(regexp=\"Hello\")", writer.asString());
   }
 }

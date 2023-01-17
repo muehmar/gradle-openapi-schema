@@ -1,11 +1,8 @@
 package com.github.muehmar.gradle.openapi.dsl;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.RawGetterBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,6 +36,7 @@ public class SingleSchemaExtension implements Serializable {
   private Boolean enableSafeBuilder;
   private String builderMethodPrefix;
   private Boolean enableValidation;
+  private String validationApi;
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
@@ -113,7 +111,6 @@ public class SingleSchemaExtension implements Serializable {
 
   public void rawGetter(Action<RawGetter> action) {
     action.execute(rawGetter);
-    System.out.println("Specific validation getter configured...");
   }
 
   public RawGetter getRawGetter() {
@@ -157,6 +154,23 @@ public class SingleSchemaExtension implements Serializable {
 
   public boolean getEnableValidation() {
     return Optional.ofNullable(enableValidation).orElse(false);
+  }
+
+  public void setValidationApi(String validationApi) {
+    this.validationApi = validationApi;
+  }
+
+  public ValidationApi getValidationApi() {
+    final Supplier<IllegalArgumentException> unsupportedValueException =
+        () ->
+            new IllegalArgumentException(
+                "Unsupported value for validationApi: '"
+                    + validationApi
+                    + "'. Supported values are ["
+                    + PList.of(ValidationApi.values()).map(ValidationApi::getValue).mkString(", "));
+    return Optional.ofNullable(validationApi)
+        .map(support -> ValidationApi.fromString(support).orElseThrow(unsupportedValueException))
+        .orElse(ValidationApi.JAKARTA_2_0);
   }
 
   public String getBuilderMethodPrefix() {
@@ -261,7 +275,8 @@ public class SingleSchemaExtension implements Serializable {
         .suffix(getSuffix())
         .enableSafeBuilder(getEnableSafeBuilder())
         .builderMethodPrefix(getBuilderMethodPrefix())
-        .enableConstraints(getEnableValidation())
+        .enableValidation(getEnableValidation())
+        .validationApi(getValidationApi())
         .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(
             getFormatTypeMappings().map(FormatTypeMapping::toSettingsFormatTypeMapping))

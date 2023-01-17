@@ -35,7 +35,7 @@ class OptionalNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings().withEnableConstraints(false),
+            TestPojoSettings.defaultSettings().withEnableValidation(false),
             Writer.createDefault());
 
     assertEquals(
@@ -119,7 +119,7 @@ class OptionalNullableGetterTest {
             pojoMember,
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.NONE)
-                .withEnableConstraints(false)
+                .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
             Writer.createDefault());
 

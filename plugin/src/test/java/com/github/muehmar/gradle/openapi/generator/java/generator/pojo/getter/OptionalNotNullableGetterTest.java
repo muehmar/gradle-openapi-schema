@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
+import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -82,7 +82,7 @@ class OptionalNotNullableGetterTest {
     assertEquals(3, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertTrue(writer.getRefs().exists(JavaValidationRefs.PATTERN::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.PATTERN::equals));
     assertEquals(
         "/**\n"
             + " * Birthdate\n"
@@ -115,7 +115,7 @@ class OptionalNotNullableGetterTest {
             pojoMember,
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.NONE)
-                .withEnableConstraints(false),
+                .withEnableValidation(false),
             Writer.createDefault());
 
     assertEquals(2, writer.getRefs().toHashSet().size());
@@ -156,7 +156,7 @@ class OptionalNotNullableGetterTest {
             pojoMember,
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.NONE)
-                .withEnableConstraints(false)
+                .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
             Writer.createDefault());
 
