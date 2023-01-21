@@ -13,6 +13,9 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.9.2'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.9.2'
 
+    testImplementation group: 'org.hibernate', name: 'hibernate-validator', version: '8.0.0.Final'
+    testImplementation group: 'org.glassfish', name: 'jakarta.el', version: '4.0.2'
+
     implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
 }
 
