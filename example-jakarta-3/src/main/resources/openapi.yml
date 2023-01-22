@@ -5,18 +5,6 @@ paths: { }
 
 components:
   schemas:
-    ErrorMessage:
-      required:
-        - key
-        - message
-      properties:
-        key:
-          type: string
-          enum:
-            - A1
-            - A2
-        message:
-          type: string
     Patient:
       minProperties: 2
       maxProperties: 3
@@ -31,9 +19,12 @@ components:
           nullable: true
         surname:
           type: string
+          pattern: "^[A-Za-z]*$"
         age:
           type: integer
           nullable: true
+          minimum: 18
+          maximum: 99
 
 
 
