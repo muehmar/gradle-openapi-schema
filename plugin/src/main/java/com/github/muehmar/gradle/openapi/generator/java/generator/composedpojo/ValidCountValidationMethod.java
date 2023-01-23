@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;

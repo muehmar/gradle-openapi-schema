@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotations;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;

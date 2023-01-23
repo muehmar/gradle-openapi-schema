@@ -2,10 +2,10 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedRawGetter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isValidationEnabled;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotations;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
