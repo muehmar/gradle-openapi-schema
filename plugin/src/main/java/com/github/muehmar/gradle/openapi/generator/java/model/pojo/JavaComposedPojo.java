@@ -58,6 +58,14 @@ public class JavaComposedPojo implements JavaPojo {
     return javaPojos;
   }
 
+  public ComposedPojo.CompositionType getCompositionType() {
+    return compositionType;
+  }
+
+  public Optional<Discriminator> getDiscriminator() {
+    return discriminator;
+  }
+
   public JavaObjectPojo wrapIntoJavaObjectPojo() {
     return JavaObjectPojo.from(name, description, getMembers(), constraints);
   }

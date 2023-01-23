@@ -20,15 +20,19 @@ import java.util.function.Function;
 public class ValidationGenerator {
   private ValidationGenerator() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> assertTrue(
-      Function<JavaPojoMember, String> message) {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(
-            (field, settings, writer) ->
-                writer.println(
-                    String.format("@AssertTrue(message = \"%s\")", message.apply(field))))
+  public static <T> Generator<T, PojoSettings> assertTrue(Function<T, String> message) {
+    return Generator.<T, PojoSettings>emptyGen()
+        .append((t, s, w) -> w.println("@AssertTrue(message = \"%s\")", message.apply(t)))
         .append(jakarta2Ref(Jakarta2ValidationRefs.ASSERT_TRUE))
         .append(jakarta3Ref(Jakarta3ValidationRefs.ASSERT_TRUE))
+        .filter(Filters.isValidationEnabled());
+  }
+
+  public static <T> Generator<T, PojoSettings> assertFalse(Function<T, String> message) {
+    return Generator.<T, PojoSettings>emptyGen()
+        .append((t, s, w) -> w.println("@AssertFalse(message = \"%s\")", message.apply(t)))
+        .append(jakarta2Ref(Jakarta2ValidationRefs.ASSERT_FALSE))
+        .append(jakarta3Ref(Jakarta3ValidationRefs.ASSERT_FALSE))
         .filter(Filters.isValidationEnabled());
   }
 

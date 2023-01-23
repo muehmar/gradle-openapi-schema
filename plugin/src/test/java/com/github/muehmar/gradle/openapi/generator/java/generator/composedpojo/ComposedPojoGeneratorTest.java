@@ -4,7 +4,6 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -23,7 +22,7 @@ class ComposedPojoGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            (JavaComposedPojo) JavaPojos.composedPojo(ComposedPojo.CompositionType.ONE_OF),
+            JavaPojos.composedPojo(ComposedPojo.CompositionType.ONE_OF),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 

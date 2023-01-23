@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -62,7 +63,7 @@ public class JavaPojos {
     return JavaEnumPojo.wrap(enumPojo);
   }
 
-  public static JavaPojo composedPojo(ComposedPojo.CompositionType type) {
+  public static JavaComposedPojo composedPojo(ComposedPojo.CompositionType type) {
     final ObjectPojo userObjectPojo =
         ObjectPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
@@ -85,6 +86,6 @@ public class JavaPojos {
         type.equals(ComposedPojo.CompositionType.ANY_OF)
             ? ComposedPojo.resolvedAnyOf(pojos, unresolvedComposedPojo)
             : ComposedPojo.resolvedOneOf(pojos, unresolvedComposedPojo);
-    return JavaPojo.wrap(composedPojo, TypeMappings.empty());
+    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty());
   }
 }
