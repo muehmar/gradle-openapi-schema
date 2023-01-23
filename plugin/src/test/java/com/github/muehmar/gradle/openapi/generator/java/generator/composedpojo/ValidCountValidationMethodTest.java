@@ -9,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedP
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
@@ -25,14 +24,7 @@ class ValidCountValidationMethodTest {
   public static Stream<Arguments> compositionTypeAndSettings() {
     final PList<ComposedPojo.CompositionType> compositionTypes =
         PList.of(ComposedPojo.CompositionType.values());
-    final PojoSettings defaultSettings = TestPojoSettings.defaultSettings();
-    final PList<PojoSettings> settings =
-        PList.of(
-            defaultSettings.withEnableValidation(false),
-            defaultSettings.withEnableValidation(true).withValidationApi(ValidationApi.JAKARTA_2_0),
-            defaultSettings
-                .withEnableValidation(true)
-                .withValidationApi(ValidationApi.JAKARTA_3_0));
+    final PList<PojoSettings> settings = TestPojoSettings.validationVariants();
     return compositionTypes
         .flatMap(type -> settings.map(setting -> Arguments.arguments(type, setting)))
         .toStream();

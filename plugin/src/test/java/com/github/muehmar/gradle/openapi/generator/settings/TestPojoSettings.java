@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import ch.bluecare.commons.data.PList;
 import java.util.Collections;
 
 public class TestPojoSettings {
@@ -22,6 +23,13 @@ public class TestPojoSettings {
         .excludeSchemas(Collections.emptyList())
         .andAllOptionals()
         .build();
+  }
+
+  public static PList<PojoSettings> validationVariants() {
+    return PList.of(
+        defaultSettings().withEnableValidation(false),
+        defaultSettings().withEnableValidation(true).withValidationApi(ValidationApi.JAKARTA_2_0),
+        defaultSettings().withEnableValidation(true).withValidationApi(ValidationApi.JAKARTA_3_0));
   }
 
   public static GetterSuffixes defaultGetterSuffixes() {
