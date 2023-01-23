@@ -25,6 +25,7 @@ public enum ComposedAnyofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final String discriminator;
 
   public ComposedAnyofDto(
       String username,
@@ -347,6 +348,7 @@ public enum ComposedAnyofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final String discriminator;
 
   public ComposedAnyofDto(
       String username,
@@ -968,6 +970,7 @@ public enum ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final String discriminator;
 
   public ComposedOneofDto(
       String username,
@@ -1295,6 +1298,7 @@ public enum ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final String discriminator;
 
   public ComposedOneofDto(
       String username,
