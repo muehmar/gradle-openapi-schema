@@ -3,14 +3,22 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.Necessity;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.function.Function;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode
+@ToString
 public class JavaComposedPojo implements JavaPojo {
   private final PojoName name;
   private final String description;
@@ -66,12 +74,25 @@ public class JavaComposedPojo implements JavaPojo {
     return discriminator;
   }
 
+  private Optional<JavaPojoMember> wrapDiscriminatorIntoMember() {
+    return discriminator.map(
+        d ->
+            JavaPojoMember.of(
+                d.getPropertyName(),
+                "",
+                JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()),
+                Necessity.REQUIRED,
+                Nullability.NOT_NULLABLE));
+  }
+
   public JavaObjectPojo wrapIntoJavaObjectPojo() {
     return JavaObjectPojo.from(name, description, getMembers(), constraints);
   }
 
   public PList<JavaPojoMember> getMembers() {
-    return javaPojos.flatMap(JavaPojo::getMembersOrEmpty);
+    return javaPojos
+        .flatMap(JavaPojo::getMembersOrEmpty)
+        .concat(PList.fromOptional(wrapDiscriminatorIntoMember()));
   }
 
   @Override

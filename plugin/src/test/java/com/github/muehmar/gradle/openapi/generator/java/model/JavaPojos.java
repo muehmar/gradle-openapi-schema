@@ -11,6 +11,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -22,6 +23,7 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class JavaPojos {
@@ -64,6 +66,33 @@ public class JavaPojos {
   }
 
   public static JavaComposedPojo composedPojo(ComposedPojo.CompositionType type) {
+    return composedPojo(type, Optional.empty());
+  }
+
+  public static JavaComposedPojo composedPojoWithDiscriminator(ComposedPojo.CompositionType type) {
+    final Discriminator discriminator =
+        Discriminator.fromPropertyName(Name.ofString("discriminator"));
+    return composedPojo(type, discriminator);
+  }
+
+  public static JavaComposedPojo composedPojoWithDiscriminatorMapping(
+      ComposedPojo.CompositionType type) {
+    final HashMap<String, PojoName> mapping = new HashMap<>();
+    mapping.put("UserValue", PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"));
+    mapping.put(
+        "NNVariantsValue", allNecessityAndNullabilityVariantsPojo(Constraints.empty()).getName());
+    final Discriminator discriminator =
+        Discriminator.fromPropertyNameAndMapping(Name.ofString("discriminator"), mapping);
+    return composedPojo(type, discriminator);
+  }
+
+  public static JavaComposedPojo composedPojo(
+      ComposedPojo.CompositionType type, Discriminator discriminator) {
+    return composedPojo(type, Optional.of(discriminator));
+  }
+
+  private static JavaComposedPojo composedPojo(
+      ComposedPojo.CompositionType type, Optional<Discriminator> discriminator) {
     final ObjectPojo userObjectPojo =
         ObjectPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
@@ -79,7 +108,7 @@ public class JavaPojos {
             UnresolvedComposedPojo.CompositionType.ONE_OF,
             PList.empty(),
             Constraints.empty(),
-            Optional.empty());
+            discriminator);
     final PList<Pojo> pojos =
         PList.of(userObjectPojo, allNecessityAndNullabilityVariantsPojo(Constraints.empty()));
     final ComposedPojo composedPojo =
