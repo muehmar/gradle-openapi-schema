@@ -12,7 +12,6 @@ javax.validation.constraints.AssertFalse
 private boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
-
 ]
 
 
@@ -23,7 +22,6 @@ jakarta.validation.constraints.AssertFalse
 private boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
-
 ]
 
 

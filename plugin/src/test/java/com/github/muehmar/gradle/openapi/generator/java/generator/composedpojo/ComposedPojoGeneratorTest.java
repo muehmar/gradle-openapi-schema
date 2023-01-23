@@ -54,6 +54,5 @@ class ComposedPojoGeneratorTest {
             .replace("]", ")");
 
     expect.scenario(scenario).toMatchSnapshot(writer.asString());
-    //    expect.scenario(scenario).toMatchSnapshot("");
   }
 }

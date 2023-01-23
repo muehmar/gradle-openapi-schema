@@ -10,6 +10,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -245,6 +246,11 @@ public enum ComposedAnyofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
   }
 
   private UserDto asUserDto() {
@@ -326,6 +332,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -563,6 +570,11 @@ public enum ComposedAnyofDto {
       isRequiredNullableStringValPresent;
   }
 
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
   private UserDto asUserDto() {
     return new UserDto(
       username,
@@ -642,6 +654,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -859,6 +872,11 @@ public enum ComposedAnyofDto {
       isRequiredNullableStringValPresent;
   }
 
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
   private UserDto asUserDto() {
     return new UserDto(
       username,
@@ -935,6 +953,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -1170,6 +1189,16 @@ public enum ComposedOneofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
   }
 
   private UserDto asUserDto() {
@@ -1251,6 +1280,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -1488,6 +1518,16 @@ public enum ComposedOneofDto {
       isRequiredNullableStringValPresent;
   }
 
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
+  }
+
   private UserDto asUserDto() {
     return new UserDto(
       username,
@@ -1567,6 +1607,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -1782,6 +1823,16 @@ public enum ComposedOneofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
   }
 
   private UserDto asUserDto() {

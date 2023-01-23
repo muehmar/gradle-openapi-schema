@@ -18,7 +18,6 @@ public class ValidCountValidationMethod {
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .append(isValidAgainstNoSchemaMethod())
-        .appendNewLine()
         .append(isValidAgainstMoreThanOneSchema())
         .filter(Filters.isValidationEnabled());
   }
@@ -62,6 +61,7 @@ public class ValidCountValidationMethod {
             .build();
     return annotation
         .append(method)
+        .prependNewLine()
         .filter(pojo -> pojo.getCompositionType().equals(ComposedPojo.CompositionType.ONE_OF));
   }
 }

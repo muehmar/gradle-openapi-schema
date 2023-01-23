@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ConversionMethodGenerator.asDtoMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidationMethodGenerator.isValidAgainstMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isValidationEnabled;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -64,6 +65,8 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .append(FactoryMethodGenerator.generator())
         .append(ValidCountMethodGenerator.validCountMethod())
         .appendList(isValidAgainstMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
+        .appendConditionally(
+            isValidationEnabled(), ValidCountValidationMethod.generator().prependNewLine())
         .appendList(asDtoMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
         .appendNewLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
