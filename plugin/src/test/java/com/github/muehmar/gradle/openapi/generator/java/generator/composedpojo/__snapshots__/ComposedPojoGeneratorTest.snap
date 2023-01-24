@@ -213,7 +213,7 @@ public enum ComposedAnyofDto {
       null,
       null,
       false,
-      null
+      "UserValue"
     );
   }
 
@@ -227,7 +227,7 @@ public enum ComposedAnyofDto {
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      null
+      "NNVariantsValue"
     );
   }
 
@@ -536,7 +536,7 @@ public enum ComposedAnyofDto {
       null,
       null,
       false,
-      null
+      "User"
     );
   }
 
@@ -550,7 +550,7 @@ public enum ComposedAnyofDto {
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      null
+      "NecessityAndNullability"
     );
   }
 
@@ -1158,7 +1158,7 @@ public enum ComposedOneofDto {
       null,
       null,
       false,
-      null
+      "UserValue"
     );
   }
 
@@ -1172,7 +1172,7 @@ public enum ComposedOneofDto {
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      null
+      "NNVariantsValue"
     );
   }
 
@@ -1486,7 +1486,7 @@ public enum ComposedOneofDto {
       null,
       null,
       false,
-      null
+      "User"
     );
   }
 
@@ -1500,7 +1500,7 @@ public enum ComposedOneofDto {
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      null
+      "NecessityAndNullability"
     );
   }
 
