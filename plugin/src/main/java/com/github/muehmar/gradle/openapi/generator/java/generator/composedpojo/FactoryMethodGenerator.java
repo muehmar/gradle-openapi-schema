@@ -18,7 +18,7 @@ public class FactoryMethodGenerator {
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .appendList(
-            fromFactoryMethod().appendNewLine(),
+            fromFactoryMethod().prependNewLine(),
             composedPojo ->
                 composedPojo
                     .getJavaPojos()

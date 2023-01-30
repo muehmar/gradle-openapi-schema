@@ -58,11 +58,9 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendList(FieldsGenerator.singleField(), JavaComposedPojo::getMembers)
         .appendNewLine()
         .append(PojoConstructorGenerator.generator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
-        .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(FactoryMethodGenerator.generator())
         .appendList(memberGetter().prependNewLine(), JavaComposedPojo::getMembers)
         .appendNewLine()
-        .append(FactoryMethodGenerator.generator())
         .append(ValidCountMethodGenerator.validCountMethod())
         .appendList(isValidAgainstMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
         .appendConditionally(
@@ -73,7 +71,9 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendNewLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
         .appendNewLine()
-        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo);
+        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .appendNewLine()
+        .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo);
   }
 
   private Generator<JavaPojoMember, PojoSettings> memberGetter() {

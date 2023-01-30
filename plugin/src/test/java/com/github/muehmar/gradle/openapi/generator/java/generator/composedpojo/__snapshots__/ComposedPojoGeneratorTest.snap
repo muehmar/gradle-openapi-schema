@@ -49,6 +49,163 @@ public enum ComposedAnyofDto {
     this.discriminator = discriminator;
   }
 
+  public static ComposedAnyofDto fromUser(UserDto dto) {
+    return new ComposedAnyofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false,
+      "UserValue"
+    );
+  }
+
+  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedAnyofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      "NNVariantsValue"
+    );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @JsonProperty("discriminator")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getDiscriminator() {
+    return discriminator;
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull,
+      discriminator
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedAnyofDto other = (ComposedAnyofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.equals(discriminator, other.discriminator);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedAnyofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      ", discriminator=" + discriminator +
+      "}";
+  }
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -159,163 +316,6 @@ public enum ComposedAnyofDto {
     public ComposedAnyofDto build() {
       return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
     }
-  }
-
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
-    return username;
-  }
-
-  @JsonProperty("birthdate")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
-    return birthdate;
-  }
-
-  @JsonProperty("requiredStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
-    return requiredStringVal;
-  }
-
-  @JsonProperty("requiredNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
-    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
-  }
-
-  @JsonProperty("optionalStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
-    return optionalStringVal;
-  }
-
-  @JsonProperty("optionalNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
-    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
-  public static ComposedAnyofDto fromUser(UserDto dto) {
-    return new ComposedAnyofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false,
-      "UserValue"
-    );
-  }
-
-  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedAnyofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NNVariantsValue"
-    );
-  }
-
-  private int getValidCount() {
-    return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
-  }
-
-  private boolean isValidAgainstUser() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullability() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
-  }
-
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull
-    );
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-      username,
-      birthdate,
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
-    );
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || this.getClass() != obj.getClass()) return false;
-    final ComposedAnyofDto other = (ComposedAnyofDto) obj;
-    return Objects.equals(username, other.username)
-        && Objects.equals(birthdate, other.birthdate)
-        && Objects.equals(requiredStringVal, other.requiredStringVal)
-        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(optionalStringVal, other.optionalStringVal)
-        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
-  }
-
-  @Override
-  public String toString() {
-    return "ComposedAnyofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
-      "}";
   }
 }
 ]
@@ -372,6 +372,163 @@ public enum ComposedAnyofDto {
     this.discriminator = discriminator;
   }
 
+  public static ComposedAnyofDto fromUser(UserDto dto) {
+    return new ComposedAnyofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false,
+      "User"
+    );
+  }
+
+  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedAnyofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      "NecessityAndNullability"
+    );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @JsonProperty("discriminator")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getDiscriminator() {
+    return discriminator;
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull,
+      discriminator
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedAnyofDto other = (ComposedAnyofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.equals(discriminator, other.discriminator);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedAnyofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      ", discriminator=" + discriminator +
+      "}";
+  }
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -483,6 +640,83 @@ public enum ComposedAnyofDto {
       return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
     }
   }
+}
+]
+
+
+ComposedPojoGenerator[ANY_OF,null]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
+
+/**
+ * Composition Description
+ */
+@JsonDeserialize(builder = ComposedAnyofDto.Builder.class)
+public enum ComposedAnyofDto {
+  private final String username;
+  private final LocalDate birthdate;
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public ComposedAnyofDto(
+      String username,
+      LocalDate birthdate,
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.username = username;
+    this.birthdate = birthdate;
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  public static ComposedAnyofDto fromUser(UserDto dto) {
+    return new ComposedAnyofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false
+    );
+  }
+
+  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedAnyofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -518,40 +752,6 @@ public enum ComposedAnyofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
-  public static ComposedAnyofDto fromUser(UserDto dto) {
-    return new ComposedAnyofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false,
-      "User"
-    );
-  }
-
-  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedAnyofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NecessityAndNullability"
-    );
   }
 
   private int getValidCount() {
@@ -605,8 +805,7 @@ public enum ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
+      isOptionalNullableStringValNull
     );
   }
 
@@ -622,8 +821,7 @@ public enum ComposedAnyofDto {
         && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.equals(optionalStringVal, other.optionalStringVal)
         && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -637,59 +835,7 @@ public enum ComposedAnyofDto {
       ", optionalStringVal=" + optionalStringVal +
       ", optionalNullableStringVal=" + optionalNullableStringVal +
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
       "}";
-  }
-}
-]
-
-
-ComposedPojoGenerator[ANY_OF,null]=[
-package com.github.muehmar;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.github.muehmar.openapi.util.JacksonNullContainer;
-import com.github.muehmar.openapi.util.Tristate;
-import java.time.LocalDate;
-import java.util.Objects;
-import java.util.Optional;
-import javax.validation.constraints.AssertFalse;
-
-/**
- * Composition Description
- */
-@JsonDeserialize(builder = ComposedAnyofDto.Builder.class)
-public enum ComposedAnyofDto {
-  private final String username;
-  private final LocalDate birthdate;
-  private final String requiredStringVal;
-  private final String requiredNullableStringVal;
-  private final boolean isRequiredNullableStringValPresent;
-  private final String optionalStringVal;
-  private final String optionalNullableStringVal;
-  private final boolean isOptionalNullableStringValNull;
-
-  public ComposedAnyofDto(
-      String username,
-      LocalDate birthdate,
-      String requiredStringVal,
-      String requiredNullableStringVal,
-      boolean isRequiredNullableStringValPresent,
-      String optionalStringVal,
-      String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
-    ) {
-    this.username = username;
-    this.birthdate = birthdate;
-    this.requiredStringVal = requiredStringVal;
-    this.requiredNullableStringVal = requiredNullableStringVal;
-    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
-    this.optionalStringVal = optionalStringVal;
-    this.optionalNullableStringVal = optionalNullableStringVal;
-    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -793,152 +939,6 @@ public enum ComposedAnyofDto {
       return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
-
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
-    return username;
-  }
-
-  @JsonProperty("birthdate")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
-    return birthdate;
-  }
-
-  @JsonProperty("requiredStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
-    return requiredStringVal;
-  }
-
-  @JsonProperty("requiredNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
-    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
-  }
-
-  @JsonProperty("optionalStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
-    return optionalStringVal;
-  }
-
-  @JsonProperty("optionalNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
-    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  public static ComposedAnyofDto fromUser(UserDto dto) {
-    return new ComposedAnyofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false
-    );
-  }
-
-  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedAnyofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
-    );
-  }
-
-  private int getValidCount() {
-    return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
-  }
-
-  private boolean isValidAgainstUser() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullability() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
-  }
-
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull
-    );
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-      username,
-      birthdate,
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull
-    );
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || this.getClass() != obj.getClass()) return false;
-    final ComposedAnyofDto other = (ComposedAnyofDto) obj;
-    return Objects.equals(username, other.username)
-        && Objects.equals(birthdate, other.birthdate)
-        && Objects.equals(requiredStringVal, other.requiredStringVal)
-        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(optionalStringVal, other.optionalStringVal)
-        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
-  }
-
-  @Override
-  public String toString() {
-    return "ComposedAnyofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      "}";
-  }
 }
 ]
 
@@ -992,6 +992,168 @@ public enum ComposedOneofDto {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
     this.discriminator = discriminator;
+  }
+
+  public static ComposedOneofDto fromUser(UserDto dto) {
+    return new ComposedOneofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false,
+      "UserValue"
+    );
+  }
+
+  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedOneofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      "NNVariantsValue"
+    );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @JsonProperty("discriminator")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getDiscriminator() {
+    return discriminator;
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull,
+      discriminator
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedOneofDto other = (ComposedOneofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.equals(discriminator, other.discriminator);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedOneofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      ", discriminator=" + discriminator +
+      "}";
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -1104,168 +1266,6 @@ public enum ComposedOneofDto {
     public ComposedOneofDto build() {
       return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
     }
-  }
-
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
-    return username;
-  }
-
-  @JsonProperty("birthdate")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
-    return birthdate;
-  }
-
-  @JsonProperty("requiredStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
-    return requiredStringVal;
-  }
-
-  @JsonProperty("requiredNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
-    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
-  }
-
-  @JsonProperty("optionalStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
-    return optionalStringVal;
-  }
-
-  @JsonProperty("optionalNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
-    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
-  public static ComposedOneofDto fromUser(UserDto dto) {
-    return new ComposedOneofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false,
-      "UserValue"
-    );
-  }
-
-  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedOneofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NNVariantsValue"
-    );
-  }
-
-  private int getValidCount() {
-    return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
-  }
-
-  private boolean isValidAgainstUser() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullability() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
-  }
-
-  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
-  private boolean isValidAgainstMoreThanOneSchema() {
-    return getValidCount() > 1;
-  }
-
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull
-    );
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-      username,
-      birthdate,
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
-    );
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || this.getClass() != obj.getClass()) return false;
-    final ComposedOneofDto other = (ComposedOneofDto) obj;
-    return Objects.equals(username, other.username)
-        && Objects.equals(birthdate, other.birthdate)
-        && Objects.equals(requiredStringVal, other.requiredStringVal)
-        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(optionalStringVal, other.optionalStringVal)
-        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
-  }
-
-  @Override
-  public String toString() {
-    return "ComposedOneofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
-      "}";
   }
 }
 ]
@@ -1322,6 +1322,168 @@ public enum ComposedOneofDto {
     this.discriminator = discriminator;
   }
 
+  public static ComposedOneofDto fromUser(UserDto dto) {
+    return new ComposedOneofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false,
+      "User"
+    );
+  }
+
+  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedOneofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      "NecessityAndNullability"
+    );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @JsonProperty("discriminator")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getDiscriminator() {
+    return discriminator;
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull,
+      discriminator
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedOneofDto other = (ComposedOneofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.equals(discriminator, other.discriminator);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedOneofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      ", discriminator=" + discriminator +
+      "}";
+  }
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -1433,6 +1595,83 @@ public enum ComposedOneofDto {
       return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
     }
   }
+}
+]
+
+
+ComposedPojoGenerator[ONE_OF,null]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.AssertFalse;
+
+/**
+ * Composition Description
+ */
+@JsonDeserialize(builder = ComposedOneofDto.Builder.class)
+public enum ComposedOneofDto {
+  private final String username;
+  private final LocalDate birthdate;
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public ComposedOneofDto(
+      String username,
+      LocalDate birthdate,
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.username = username;
+    this.birthdate = birthdate;
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  public static ComposedOneofDto fromUser(UserDto dto) {
+    return new ComposedOneofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false
+    );
+  }
+
+  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedOneofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -1468,40 +1707,6 @@ public enum ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
-  public static ComposedOneofDto fromUser(UserDto dto) {
-    return new ComposedOneofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false,
-      "User"
-    );
-  }
-
-  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedOneofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NecessityAndNullability"
-    );
   }
 
   private int getValidCount() {
@@ -1560,8 +1765,7 @@ public enum ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
+      isOptionalNullableStringValNull
     );
   }
 
@@ -1577,8 +1781,7 @@ public enum ComposedOneofDto {
         && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.equals(optionalStringVal, other.optionalStringVal)
         && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -1592,59 +1795,7 @@ public enum ComposedOneofDto {
       ", optionalStringVal=" + optionalStringVal +
       ", optionalNullableStringVal=" + optionalNullableStringVal +
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
       "}";
-  }
-}
-]
-
-
-ComposedPojoGenerator[ONE_OF,null]=[
-package com.github.muehmar;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.github.muehmar.openapi.util.JacksonNullContainer;
-import com.github.muehmar.openapi.util.Tristate;
-import java.time.LocalDate;
-import java.util.Objects;
-import java.util.Optional;
-import javax.validation.constraints.AssertFalse;
-
-/**
- * Composition Description
- */
-@JsonDeserialize(builder = ComposedOneofDto.Builder.class)
-public enum ComposedOneofDto {
-  private final String username;
-  private final LocalDate birthdate;
-  private final String requiredStringVal;
-  private final String requiredNullableStringVal;
-  private final boolean isRequiredNullableStringValPresent;
-  private final String optionalStringVal;
-  private final String optionalNullableStringVal;
-  private final boolean isOptionalNullableStringValNull;
-
-  public ComposedOneofDto(
-      String username,
-      LocalDate birthdate,
-      String requiredStringVal,
-      String requiredNullableStringVal,
-      boolean isRequiredNullableStringValPresent,
-      String optionalStringVal,
-      String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
-    ) {
-    this.username = username;
-    this.birthdate = birthdate;
-    this.requiredStringVal = requiredStringVal;
-    this.requiredNullableStringVal = requiredNullableStringVal;
-    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
-    this.optionalStringVal = optionalStringVal;
-    this.optionalNullableStringVal = optionalNullableStringVal;
-    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -1747,157 +1898,6 @@ public enum ComposedOneofDto {
     public ComposedOneofDto build() {
       return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
-  }
-
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
-    return username;
-  }
-
-  @JsonProperty("birthdate")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
-    return birthdate;
-  }
-
-  @JsonProperty("requiredStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
-    return requiredStringVal;
-  }
-
-  @JsonProperty("requiredNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
-    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
-  }
-
-  @JsonProperty("optionalStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
-    return optionalStringVal;
-  }
-
-  @JsonProperty("optionalNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
-    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  public static ComposedOneofDto fromUser(UserDto dto) {
-    return new ComposedOneofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false
-    );
-  }
-
-  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedOneofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
-    );
-  }
-
-  private int getValidCount() {
-    return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
-  }
-
-  private boolean isValidAgainstUser() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullability() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
-  }
-
-  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
-  private boolean isValidAgainstMoreThanOneSchema() {
-    return getValidCount() > 1;
-  }
-
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull
-    );
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-      username,
-      birthdate,
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull
-    );
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || this.getClass() != obj.getClass()) return false;
-    final ComposedOneofDto other = (ComposedOneofDto) obj;
-    return Objects.equals(username, other.username)
-        && Objects.equals(birthdate, other.birthdate)
-        && Objects.equals(requiredStringVal, other.requiredStringVal)
-        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(optionalStringVal, other.optionalStringVal)
-        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
-  }
-
-  @Override
-  public String toString() {
-    return "ComposedOneofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      "}";
   }
 }
 ]
