@@ -134,13 +134,16 @@ public class OneOfColorOrUser {
   @AssertTrue(message = "Not valid against the schema described by propertyType")
   private boolean isValidAgainstTheCorrectSchema() {
     // Only needed for discriminator
-    if ("user".equals(propertyType) && isValidAgainstUser()) {
-      return true;
-    } else if ("color".equals(propertyType) && isValidAgainstColor()) {
-      return true;
-    } else {
+    if (propertyType == null) {
       return false;
     }
+    switch (propertyType) {
+      case "user":
+        return isValidAgainstUser();
+      case "color":
+        return isValidAgainstColor();
+    }
+    return false;
   }
 
   public <T> T fold(
