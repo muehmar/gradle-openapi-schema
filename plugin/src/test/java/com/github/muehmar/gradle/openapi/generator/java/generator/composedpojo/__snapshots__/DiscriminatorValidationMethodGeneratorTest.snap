@@ -1,0 +1,68 @@
+DiscriminatorWithMapping[ANY_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+private boolean isValidAgainstTheCorrectSchema() {
+  if (discriminator == null) {
+    return false;
+  }
+  switch(discriminator) {
+    case "UserValue": return isValidAgainstUser();
+    case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithMapping[ONE_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+private boolean isValidAgainstTheCorrectSchema() {
+  if (discriminator == null) {
+    return false;
+  }
+  switch(discriminator) {
+    case "UserValue": return isValidAgainstUser();
+    case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithoutMapping[ANY_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+private boolean isValidAgainstTheCorrectSchema() {
+  if (discriminator == null) {
+    return false;
+  }
+  switch(discriminator) {
+    case "User": return isValidAgainstUser();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithoutMapping[ONE_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+private boolean isValidAgainstTheCorrectSchema() {
+  if (discriminator == null) {
+    return false;
+  }
+  switch(discriminator) {
+    case "User": return isValidAgainstUser();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+NoDiscriminator[ANY_OF]=[
+
+]
+
+
+NoDiscriminator[ONE_OF]=[
+
+]
