@@ -1,9 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
@@ -17,12 +19,7 @@ public class FactoryMethodGenerator {
 
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
-        .appendList(
-            fromFactoryMethod().prependNewLine(),
-            composedPojo ->
-                composedPojo
-                    .getJavaPojos()
-                    .map(memberPojo -> new ComposedAndMemberPojo(composedPojo, memberPojo)));
+        .appendList(fromFactoryMethod(), ComposedAndMemberPojo::fromJavaComposedPojo, newLine());
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> fromFactoryMethod() {
@@ -155,6 +152,10 @@ public class FactoryMethodGenerator {
   private static class ComposedAndMemberPojo {
     JavaComposedPojo composedPojo;
     JavaPojo memberPojo;
+
+    static PList<ComposedAndMemberPojo> fromJavaComposedPojo(JavaComposedPojo pojo) {
+      return pojo.getJavaPojos().map(memberPojo -> new ComposedAndMemberPojo(pojo, memberPojo));
+    }
 
     ComposedAndMemberPojoAndMember withMember(JavaPojoMember member) {
       return new ComposedAndMemberPojoAndMember(composedPojo, memberPojo, member);

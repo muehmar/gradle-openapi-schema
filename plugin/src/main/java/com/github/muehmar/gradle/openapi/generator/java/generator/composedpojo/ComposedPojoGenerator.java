@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ConversionMethodGenerator.asDtoMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidationMethodGenerator.isValidAgainstMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isValidationEnabled;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -56,25 +57,29 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
   private Generator<JavaComposedPojo, PojoSettings> content() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .appendList(FieldsGenerator.singleField(), JavaComposedPojo::getMembers)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(PojoConstructorGenerator.generator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .appendSingleBlankLine()
         .append(FactoryMethodGenerator.generator())
-        .appendList(memberGetter().prependNewLine(), JavaComposedPojo::getMembers)
-        .appendNewLine()
+        .appendSingleBlankLine()
+        .appendList(memberGetter(), JavaComposedPojo::getMembers, newLine())
+        .appendSingleBlankLine()
         .append(ValidCountMethodGenerator.validCountMethod())
-        .appendList(isValidAgainstMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
+        .appendSingleBlankLine()
+        .appendList(isValidAgainstMethod(), JavaComposedPojo::getJavaPojos, newLine())
         .appendSingleBlankLine()
         .append(DiscriminatorValidationMethodGenerator.generator())
         .appendSingleBlankLine()
         .appendConditionally(isValidationEnabled(), ValidCountValidationMethod.generator())
-        .appendList(asDtoMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
-        .appendNewLine()
+        .appendSingleBlankLine()
+        .appendList(asDtoMethod(), JavaComposedPojo::getJavaPojos, newLine())
+        .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo);
   }
 
