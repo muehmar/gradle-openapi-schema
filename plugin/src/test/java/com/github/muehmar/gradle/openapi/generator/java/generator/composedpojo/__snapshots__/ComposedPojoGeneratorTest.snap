@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 
 /**
  * Composition Description
@@ -135,6 +136,18 @@ public enum ComposedAnyofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  private boolean isValidAgainstTheCorrectSchema() {
+    if (discriminator == null) {
+      return false;
+    }
+    switch(discriminator) {
+      case "UserValue": return isValidAgainstUser();
+      case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+    }
+    return false;
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
@@ -334,6 +347,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 
 /**
  * Composition Description
@@ -458,6 +472,18 @@ public enum ComposedAnyofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  private boolean isValidAgainstTheCorrectSchema() {
+    if (discriminator == null) {
+      return false;
+    }
+    switch(discriminator) {
+      case "User": return isValidAgainstUser();
+      case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+    }
+    return false;
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
@@ -956,6 +982,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 
 /**
  * Composition Description
@@ -1080,6 +1107,18 @@ public enum ComposedOneofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  private boolean isValidAgainstTheCorrectSchema() {
+    if (discriminator == null) {
+      return false;
+    }
+    switch(discriminator) {
+      case "UserValue": return isValidAgainstUser();
+      case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+    }
+    return false;
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
@@ -1284,6 +1323,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 
 /**
  * Composition Description
@@ -1408,6 +1448,18 @@ public enum ComposedOneofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  private boolean isValidAgainstTheCorrectSchema() {
+    if (discriminator == null) {
+      return false;
+    }
+    switch(discriminator) {
+      case "User": return isValidAgainstUser();
+      case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+    }
+    return false;
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")

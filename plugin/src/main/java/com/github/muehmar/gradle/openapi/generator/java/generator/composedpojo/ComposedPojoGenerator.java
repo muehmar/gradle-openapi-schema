@@ -63,8 +63,10 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendNewLine()
         .append(ValidCountMethodGenerator.validCountMethod())
         .appendList(isValidAgainstMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
-        .appendConditionally(
-            isValidationEnabled(), ValidCountValidationMethod.generator().prependNewLine())
+        .appendSingleBlankLine()
+        .append(DiscriminatorValidationMethodGenerator.generator())
+        .appendSingleBlankLine()
+        .appendConditionally(isValidationEnabled(), ValidCountValidationMethod.generator())
         .appendList(asDtoMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
         .appendNewLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
