@@ -2,9 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import io.github.muehmar.pojoextension.annotations.FieldBuilder;
-import io.github.muehmar.pojoextension.annotations.Getter;
-import io.github.muehmar.pojoextension.annotations.SafeBuilder;
+import io.github.muehmar.pojobuilder.annotations.FieldBuilder;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Value;
@@ -12,7 +11,7 @@ import lombok.With;
 
 @Value
 @With
-@SafeBuilder
+@PojoBuilder
 public class PojoSettings implements Serializable {
   JsonSupport jsonSupport;
   String packageName;
@@ -37,17 +36,14 @@ public class PojoSettings implements Serializable {
     return enableValidation;
   }
 
-  @Getter("classTypeMappings")
   public List<ClassTypeMapping> getClassTypeMappingsList() {
     return classTypeMappings;
   }
 
-  @Getter("formatTypeMappings")
   public List<FormatTypeMapping> getFormatTypeMappingsList() {
     return formatTypeMappings;
   }
 
-  @Getter("excludeSchemas")
   public List<String> getExcludeSchemasList() {
     return excludeSchemas;
   }

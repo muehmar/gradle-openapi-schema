@@ -1,14 +1,16 @@
 package com.github.muehmar.gradle.openapi.dsl;
 
-import io.github.muehmar.pojoextension.annotations.Nullable;
-import io.github.muehmar.pojoextension.annotations.PojoExtension;
+import io.github.muehmar.pojobuilder.annotations.Nullable;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
 import java.util.Optional;
 import lombok.Data;
+import lombok.With;
 
 @Data
-@PojoExtension
-public class GetterSuffixes implements Serializable, GetterSuffixesExtension {
+@With
+@PojoBuilder
+public class GetterSuffixes implements Serializable {
   private static final String DEFAULT_REQUIRED = "";
   private static final String DEFAULT_OPTIONAL = "Opt";
   private static final String DEFAULT_REQUIRED_NULLABLE = "Opt";

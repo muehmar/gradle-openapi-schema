@@ -1,12 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
-import io.github.muehmar.pojoextension.annotations.PojoExtension;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import lombok.Value;
+import lombok.With;
 
 @Value
-@PojoExtension
-public class PojoMember implements PojoMemberExtension {
+@With
+@PojoBuilder
+public class PojoMember {
   Name name;
   String description;
   Type type;

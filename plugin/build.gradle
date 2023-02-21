@@ -23,8 +23,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    implementation "io.github.muehmar:pojo-extension-annotations:0.15.1"
-    annotationProcessor "io.github.muehmar:pojo-extension:0.15.1"
+    implementation "io.github.muehmar:pojo-builder-annotations:1.0.0"
+    annotationProcessor "io.github.muehmar:pojo-builder:1.0.0"
 
     implementation "io.github.muehmar:code-generator:0.8.0"
 
