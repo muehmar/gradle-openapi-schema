@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import io.github.muehmar.pojoextension.annotations.SafeBuilder;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -13,7 +13,7 @@ import lombok.ToString;
  */
 @EqualsAndHashCode
 @ToString
-@SafeBuilder
+@PojoBuilder
 public class UnresolvedComposedPojo {
   private final PojoName name;
   private final String description;

@@ -4,16 +4,16 @@ import static com.github.muehmar.gradle.openapi.util.Optionals.or;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
-import io.github.muehmar.pojoextension.annotations.Nullable;
-import io.github.muehmar.pojoextension.annotations.PojoExtension;
+import io.github.muehmar.pojobuilder.annotations.Nullable;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
 import java.util.Optional;
 import lombok.Data;
 import org.gradle.api.InvalidUserDataException;
 
 @Data
-@PojoExtension
-public class RawGetter implements Serializable, RawGetterExtension {
+@PojoBuilder
+public class RawGetter implements Serializable {
   private static final String DEFAULT_MODIFIER = JavaModifier.PRIVATE.getValue();
   private static final String DEFAULT_SUFFIX = "Raw";
   private static final boolean DEFAULT_DEPRECATED_ANNOTATION = false;
@@ -70,7 +70,7 @@ public class RawGetter implements Serializable, RawGetterExtension {
   }
 
   public String getSuffixOrDefault() {
-    return getSuffixOr(DEFAULT_SUFFIX);
+    return getSuffix().orElse(DEFAULT_SUFFIX);
   }
 
   public Optional<Boolean> getDeprecatedAnnotation() {
@@ -78,6 +78,6 @@ public class RawGetter implements Serializable, RawGetterExtension {
   }
 
   public boolean getDeprecatedAnnotationOrDefault() {
-    return getDeprecatedAnnotationOr(DEFAULT_DEPRECATED_ANNOTATION);
+    return getDeprecatedAnnotation().orElse(DEFAULT_DEPRECATED_ANNOTATION);
   }
 }

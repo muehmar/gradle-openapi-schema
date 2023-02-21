@@ -7,7 +7,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
-import io.github.muehmar.pojoextension.annotations.SafeBuilder;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /** Collection of items which are not yet mapped into an internal model. */
-@SafeBuilder
+@PojoBuilder
 @EqualsAndHashCode
 @ToString
 public class UnmappedItems {

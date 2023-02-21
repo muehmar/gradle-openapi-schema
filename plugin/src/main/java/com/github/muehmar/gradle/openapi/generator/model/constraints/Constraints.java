@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.constraints;
 
 import com.github.muehmar.gradle.openapi.util.Optionals;
-import io.github.muehmar.pojoextension.annotations.SafeBuilder;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -9,7 +9,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-@SafeBuilder
+@PojoBuilder
 public class Constraints {
   private final Optional<Min> min;
   private final Optional<Max> max;

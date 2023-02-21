@@ -8,13 +8,13 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.writer.Writer;
-import io.github.muehmar.pojoextension.annotations.FieldBuilder;
-import io.github.muehmar.pojoextension.annotations.SafeBuilder;
+import io.github.muehmar.pojobuilder.annotations.FieldBuilder;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-@SafeBuilder
+@PojoBuilder
 public class ConstructorGenerator<A, B> implements Generator<A, B> {
   private final BiFunction<A, B, JavaModifiers> createModifiers;
   private final BiFunction<A, B, String> createClassName;
