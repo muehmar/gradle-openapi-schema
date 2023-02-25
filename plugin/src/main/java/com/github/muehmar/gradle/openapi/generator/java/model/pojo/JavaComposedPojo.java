@@ -35,7 +35,7 @@ public class JavaComposedPojo implements JavaPojo {
       Constraints constraints,
       Optional<Discriminator> discriminator) {
     this.name = name;
-    this.description = description;
+    this.description = Optional.ofNullable(description).orElse("");
     this.javaPojos = javaPojos;
     this.compositionType = compositionType;
     this.constraints = constraints;
