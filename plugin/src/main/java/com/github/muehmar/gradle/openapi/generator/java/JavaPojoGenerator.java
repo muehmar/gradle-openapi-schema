@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ComposedPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
@@ -44,10 +45,6 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   @Override
   public void generatePojo(Pojo pojo, PojoSettings pojoSettings) {
-    if (pojo.isComposedPojo()) {
-      // Skip currently unsupported composed-pojos
-      return;
-    }
     final JavaPojo javaPojo = JavaPojo.wrap(pojo, pojoSettings.getTypeMappings());
     generatePojo(javaPojo, pojoSettings);
   }
@@ -105,7 +102,10 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   private Writer generateComposedPojo(
       JavaComposedPojo composedPojo, Writer writer, PojoSettings pojoSettings) {
-    return dummyWriter();
+    final ComposedPojoGenerator generator = new ComposedPojoGenerator();
+    final String output = applyGen(generator, composedPojo, pojoSettings);
+    writer.println(output);
+    return writer;
   }
 
   private Writer generateObjectPojo(JavaObjectPojo pojo, Writer writer, PojoSettings pojoSettings) {
