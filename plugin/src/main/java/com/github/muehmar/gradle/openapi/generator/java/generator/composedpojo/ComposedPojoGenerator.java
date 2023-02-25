@@ -34,7 +34,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
   public ComposedPojoGenerator() {
     this.delegate =
         ClassGenBuilder.<JavaComposedPojo, PojoSettings>create()
-            .enum_()
+            .clazz()
             .declaration(TOP_LEVEL)
             .packageGen(new PackageGenerator<>())
             .javaDoc(

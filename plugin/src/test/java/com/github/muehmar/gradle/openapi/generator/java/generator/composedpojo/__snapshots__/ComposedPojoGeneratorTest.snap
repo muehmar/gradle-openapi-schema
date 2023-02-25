@@ -17,7 +17,7 @@ import javax.validation.constraints.AssertTrue;
  * Composition Description
  */
 @JsonDeserialize(builder = ComposedAnyofDto.Builder.class)
-public enum ComposedAnyofDto {
+public class ComposedAnyofDto {
   private final String username;
   private final LocalDate birthdate;
   private final String requiredStringVal;
@@ -353,7 +353,7 @@ import javax.validation.constraints.AssertTrue;
  * Composition Description
  */
 @JsonDeserialize(builder = ComposedAnyofDto.Builder.class)
-public enum ComposedAnyofDto {
+public class ComposedAnyofDto {
   private final String username;
   private final LocalDate birthdate;
   private final String requiredStringVal;
@@ -688,7 +688,7 @@ import javax.validation.constraints.AssertFalse;
  * Composition Description
  */
 @JsonDeserialize(builder = ComposedAnyofDto.Builder.class)
-public enum ComposedAnyofDto {
+public class ComposedAnyofDto {
   private final String username;
   private final LocalDate birthdate;
   private final String requiredStringVal;
@@ -988,7 +988,7 @@ import javax.validation.constraints.AssertTrue;
  * Composition Description
  */
 @JsonDeserialize(builder = ComposedOneofDto.Builder.class)
-public enum ComposedOneofDto {
+public class ComposedOneofDto {
   private final String username;
   private final LocalDate birthdate;
   private final String requiredStringVal;
@@ -1329,7 +1329,7 @@ import javax.validation.constraints.AssertTrue;
  * Composition Description
  */
 @JsonDeserialize(builder = ComposedOneofDto.Builder.class)
-public enum ComposedOneofDto {
+public class ComposedOneofDto {
   private final String username;
   private final LocalDate birthdate;
   private final String requiredStringVal;
@@ -1669,7 +1669,7 @@ import javax.validation.constraints.AssertFalse;
  * Composition Description
  */
 @JsonDeserialize(builder = ComposedOneofDto.Builder.class)
-public enum ComposedOneofDto {
+public class ComposedOneofDto {
   private final String username;
   private final LocalDate birthdate;
   private final String requiredStringVal;
