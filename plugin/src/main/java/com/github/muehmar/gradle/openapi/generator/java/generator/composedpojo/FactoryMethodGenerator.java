@@ -109,7 +109,9 @@ public class FactoryMethodGenerator {
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> optionalMember() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("dto.%sOr(null),", p.member.getGetterName()))
+        .append(
+            (p, s, w) ->
+                w.println("dto.%sOr(null)%s", p.member.getGetterName(), p.commaAfterParameter()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isMemberOfMemberPojo());
   }
@@ -117,7 +119,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       optionalMemberForOtherObject() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append(w -> w.println("null,"))
+        .append((p, s, w) -> w.println("null%s", p.commaAfterParameter()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(
             pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isNotMemberOfMemberPojo());
