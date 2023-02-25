@@ -60,8 +60,7 @@ public class OneOfFoldMethodGenerator {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .append(constant("return fold("))
         .appendList(
-            (p, s, w) -> w.tab(1).println("on%s,", p.getName().getName()),
-            JavaComposedPojo::getJavaPojos)
+            (p, s, w) -> w.tab(1).println("on%s,", p.getName()), JavaComposedPojo::getJavaPojos)
         .append(
             (p, s, w) ->
                 w.println(
@@ -90,7 +89,7 @@ public class OneOfFoldMethodGenerator {
                 w.tab(1)
                     .println(
                         "return on%s.apply(as%s());",
-                        p.memberPojo.getName(), p.memberPojo.getName().getName()))
+                        p.memberPojo.getName(), p.memberPojo.getName()))
         .append(constant("}"));
   }
 

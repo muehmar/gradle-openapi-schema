@@ -1,10 +1,10 @@
 DiscriminatorWithMapping=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if ("UserValue".equals(discriminator) && isValidAgainstUser()) {
-    return onUserDto.apply(asUser());
+    return onUserDto.apply(asUserDto());
   }
   else if ("NNVariantsValue".equals(discriminator) && isValidAgainstNecessityAndNullability()) {
-    return onNecessityAndNullabilityDto.apply(asNecessityAndNullability());
+    return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {
     return onInvalid.get();
@@ -13,8 +13,8 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   return fold(
-    onUser,
-    onNecessityAndNullability,
+    onUserDto,
+    onNecessityAndNullabilityDto,
     () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
   );
 }
@@ -24,10 +24,10 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 DiscriminatorWithoutMapping=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if ("User".equals(discriminator) && isValidAgainstUser()) {
-    return onUserDto.apply(asUser());
+    return onUserDto.apply(asUserDto());
   }
   else if ("NecessityAndNullability".equals(discriminator) && isValidAgainstNecessityAndNullability()) {
-    return onNecessityAndNullabilityDto.apply(asNecessityAndNullability());
+    return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {
     return onInvalid.get();
@@ -36,8 +36,8 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   return fold(
-    onUser,
-    onNecessityAndNullability,
+    onUserDto,
+    onNecessityAndNullabilityDto,
     () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
   );
 }
@@ -47,10 +47,10 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 NoDiscriminator=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if (isValidAgainstUser()) {
-    return onUserDto.apply(asUser());
+    return onUserDto.apply(asUserDto());
   }
   else if (isValidAgainstNecessityAndNullability()) {
-    return onNecessityAndNullabilityDto.apply(asNecessityAndNullability());
+    return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {
     return onInvalid.get();
@@ -59,8 +59,8 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   return fold(
-    onUser,
-    onNecessityAndNullability,
+    onUserDto,
+    onNecessityAndNullabilityDto,
     () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
   );
 }
