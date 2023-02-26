@@ -90,7 +90,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
             .modifiers(PRIVATE)
             .noGenericTypes()
-            .returnType(member -> member.getJavaType().getFullClassName().asString())
+            .returnType("Object")
             .methodName(member -> member.getGetterName().asString())
             .noArguments()
             .content(memberGetterContent())

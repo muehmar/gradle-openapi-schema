@@ -75,37 +75,37 @@ public class ComposedAnyofDto {
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  private Object getUsername() {
     return username;
   }
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  private Object getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("requiredStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
+  private Object getRequiredStringVal() {
     return requiredStringVal;
   }
 
   @JsonProperty("requiredNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
+  private Object getRequiredNullableStringVal() {
     return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
   }
 
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
+  private Object getOptionalStringVal() {
     return optionalStringVal;
   }
 
   @JsonProperty("optionalNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
+  private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
@@ -387,37 +387,37 @@ public class ComposedAnyofDto {
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  private Object getUsername() {
     return username;
   }
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  private Object getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("requiredStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
+  private Object getRequiredStringVal() {
     return requiredStringVal;
   }
 
   @JsonProperty("requiredNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
+  private Object getRequiredNullableStringVal() {
     return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
   }
 
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
+  private Object getOptionalStringVal() {
     return optionalStringVal;
   }
 
   @JsonProperty("optionalNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
+  private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
@@ -698,37 +698,37 @@ public class ComposedAnyofDto {
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  private Object getUsername() {
     return username;
   }
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  private Object getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("requiredStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
+  private Object getRequiredStringVal() {
     return requiredStringVal;
   }
 
   @JsonProperty("requiredNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
+  private Object getRequiredNullableStringVal() {
     return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
   }
 
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
+  private Object getOptionalStringVal() {
     return optionalStringVal;
   }
 
   @JsonProperty("optionalNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
+  private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
@@ -1000,37 +1000,37 @@ public class ComposedOneofDto {
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  private Object getUsername() {
     return username;
   }
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  private Object getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("requiredStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
+  private Object getRequiredStringVal() {
     return requiredStringVal;
   }
 
   @JsonProperty("requiredNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
+  private Object getRequiredNullableStringVal() {
     return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
   }
 
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
+  private Object getOptionalStringVal() {
     return optionalStringVal;
   }
 
   @JsonProperty("optionalNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
+  private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
@@ -1339,37 +1339,37 @@ public class ComposedOneofDto {
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  private Object getUsername() {
     return username;
   }
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  private Object getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("requiredStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
+  private Object getRequiredStringVal() {
     return requiredStringVal;
   }
 
   @JsonProperty("requiredNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
+  private Object getRequiredNullableStringVal() {
     return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
   }
 
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
+  private Object getOptionalStringVal() {
     return optionalStringVal;
   }
 
   @JsonProperty("optionalNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
+  private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
@@ -1677,37 +1677,37 @@ public class ComposedOneofDto {
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  private Object getUsername() {
     return username;
   }
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  private Object getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("requiredStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
+  private Object getRequiredStringVal() {
     return requiredStringVal;
   }
 
   @JsonProperty("requiredNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
+  private Object getRequiredNullableStringVal() {
     return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
   }
 
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
+  private Object getOptionalStringVal() {
     return optionalStringVal;
   }
 
   @JsonProperty("optionalNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
+  private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
