@@ -1,10 +1,10 @@
 DiscriminatorWithMapping[ANY_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 private boolean isValidAgainstTheCorrectSchema() {
-  if (discriminator == null) {
+  if (requiredStringVal == null) {
     return false;
   }
-  switch(discriminator) {
+  switch(requiredStringVal) {
     case "UserValue": return isValidAgainstUser();
     case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
   }
@@ -16,10 +16,10 @@ private boolean isValidAgainstTheCorrectSchema() {
 DiscriminatorWithMapping[ONE_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 private boolean isValidAgainstTheCorrectSchema() {
-  if (discriminator == null) {
+  if (requiredStringVal == null) {
     return false;
   }
-  switch(discriminator) {
+  switch(requiredStringVal) {
     case "UserValue": return isValidAgainstUser();
     case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
   }
@@ -31,10 +31,10 @@ private boolean isValidAgainstTheCorrectSchema() {
 DiscriminatorWithoutMapping[ANY_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 private boolean isValidAgainstTheCorrectSchema() {
-  if (discriminator == null) {
+  if (requiredStringVal == null) {
     return false;
   }
-  switch(discriminator) {
+  switch(requiredStringVal) {
     case "User": return isValidAgainstUser();
     case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
   }
@@ -46,10 +46,10 @@ private boolean isValidAgainstTheCorrectSchema() {
 DiscriminatorWithoutMapping[ONE_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 private boolean isValidAgainstTheCorrectSchema() {
-  if (discriminator == null) {
+  if (requiredStringVal == null) {
     return false;
   }
-  switch(discriminator) {
+  switch(requiredStringVal) {
     case "User": return isValidAgainstUser();
     case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
   }

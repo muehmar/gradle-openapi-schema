@@ -1,4 +1,4 @@
-ComposedPojoGenerator[ANY_OF,Discriminator(propertyName->discriminator, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
+ComposedPojoGenerator[ANY_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -26,7 +26,6 @@ public class ComposedAnyofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
-  private final String discriminator;
 
   public ComposedAnyofDto(
       String username,
@@ -36,8 +35,7 @@ public class ComposedAnyofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull,
-      String discriminator
+      boolean isOptionalNullableStringValNull
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -47,20 +45,18 @@ public class ComposedAnyofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
-    this.discriminator = discriminator;
   }
 
   public static ComposedAnyofDto fromUser(UserDto dto) {
     return new ComposedAnyofDto(
       dto.getUsername(),
       dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
+      "UserValue",
       null,
       false,
-      "UserValue"
+      null,
+      null,
+      false
     );
   }
 
@@ -68,13 +64,12 @@ public class ComposedAnyofDto {
     return new ComposedAnyofDto(
       null,
       null,
-      dto.getRequiredStringVal(),
+      "NNVariantsValue",
       dto.getRequiredNullableStringValOr(null),
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NNVariantsValue"
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
     );
   }
 
@@ -114,12 +109,6 @@ public class ComposedAnyofDto {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
   private int getValidCount() {
     return
       (isValidAgainstUser() ? 1 : 0) +
@@ -140,10 +129,10 @@ public class ComposedAnyofDto {
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
   private boolean isValidAgainstTheCorrectSchema() {
-    if (discriminator == null) {
+    if (requiredStringVal == null) {
       return false;
     }
-    switch(discriminator) {
+    switch(requiredStringVal) {
       case "UserValue": return isValidAgainstUser();
       case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
     }
@@ -183,8 +172,7 @@ public class ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
+      isOptionalNullableStringValNull
     );
   }
 
@@ -200,8 +188,7 @@ public class ComposedAnyofDto {
         && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.equals(optionalStringVal, other.optionalStringVal)
         && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -215,7 +202,6 @@ public class ComposedAnyofDto {
       ", optionalStringVal=" + optionalStringVal +
       ", optionalNullableStringVal=" + optionalNullableStringVal +
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
       "}";
   }
 
@@ -233,7 +219,6 @@ public class ComposedAnyofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
-    private String discriminator;
 
     /**
      * Username
@@ -317,24 +302,15 @@ public class ComposedAnyofDto {
       return this;
     }
 
-    /**
-     * 
-     */
-    @JsonProperty("discriminator")
-    private Builder setDiscriminator(String discriminator) {
-      this.discriminator = discriminator;
-      return this;
-    }
-
     public ComposedAnyofDto build() {
-      return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
+      return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
 }
 ]
 
 
-ComposedPojoGenerator[ANY_OF,Discriminator(propertyName->discriminator, mapping->Optional.empty)]=[
+ComposedPojoGenerator[ANY_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional.empty)]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -362,7 +338,6 @@ public class ComposedAnyofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
-  private final String discriminator;
 
   public ComposedAnyofDto(
       String username,
@@ -372,8 +347,7 @@ public class ComposedAnyofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull,
-      String discriminator
+      boolean isOptionalNullableStringValNull
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -383,20 +357,18 @@ public class ComposedAnyofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
-    this.discriminator = discriminator;
   }
 
   public static ComposedAnyofDto fromUser(UserDto dto) {
     return new ComposedAnyofDto(
       dto.getUsername(),
       dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
+      "User",
       null,
       false,
-      "User"
+      null,
+      null,
+      false
     );
   }
 
@@ -404,13 +376,12 @@ public class ComposedAnyofDto {
     return new ComposedAnyofDto(
       null,
       null,
-      dto.getRequiredStringVal(),
+      "NecessityAndNullability",
       dto.getRequiredNullableStringValOr(null),
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NecessityAndNullability"
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
     );
   }
 
@@ -450,12 +421,6 @@ public class ComposedAnyofDto {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
   private int getValidCount() {
     return
       (isValidAgainstUser() ? 1 : 0) +
@@ -476,10 +441,10 @@ public class ComposedAnyofDto {
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
   private boolean isValidAgainstTheCorrectSchema() {
-    if (discriminator == null) {
+    if (requiredStringVal == null) {
       return false;
     }
-    switch(discriminator) {
+    switch(requiredStringVal) {
       case "User": return isValidAgainstUser();
       case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
     }
@@ -519,8 +484,7 @@ public class ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
+      isOptionalNullableStringValNull
     );
   }
 
@@ -536,8 +500,7 @@ public class ComposedAnyofDto {
         && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.equals(optionalStringVal, other.optionalStringVal)
         && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -551,7 +514,6 @@ public class ComposedAnyofDto {
       ", optionalStringVal=" + optionalStringVal +
       ", optionalNullableStringVal=" + optionalNullableStringVal +
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
       "}";
   }
 
@@ -569,7 +531,6 @@ public class ComposedAnyofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
-    private String discriminator;
 
     /**
      * Username
@@ -653,17 +614,8 @@ public class ComposedAnyofDto {
       return this;
     }
 
-    /**
-     * 
-     */
-    @JsonProperty("discriminator")
-    private Builder setDiscriminator(String discriminator) {
-      this.discriminator = discriminator;
-      return this;
-    }
-
     public ComposedAnyofDto build() {
-      return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
+      return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
 }
@@ -969,7 +921,7 @@ public class ComposedAnyofDto {
 ]
 
 
-ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->discriminator, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -999,7 +951,6 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
-  private final String discriminator;
 
   public ComposedOneofDto(
       String username,
@@ -1009,8 +960,7 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull,
-      String discriminator
+      boolean isOptionalNullableStringValNull
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -1020,20 +970,18 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
-    this.discriminator = discriminator;
   }
 
   public static ComposedOneofDto fromUser(UserDto dto) {
     return new ComposedOneofDto(
       dto.getUsername(),
       dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
+      "UserValue",
       null,
       false,
-      "UserValue"
+      null,
+      null,
+      false
     );
   }
 
@@ -1041,13 +989,12 @@ public class ComposedOneofDto {
     return new ComposedOneofDto(
       null,
       null,
-      dto.getRequiredStringVal(),
+      "NNVariantsValue",
       dto.getRequiredNullableStringValOr(null),
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NNVariantsValue"
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
     );
   }
 
@@ -1087,12 +1034,6 @@ public class ComposedOneofDto {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
   private int getValidCount() {
     return
       (isValidAgainstUser() ? 1 : 0) +
@@ -1113,10 +1054,10 @@ public class ComposedOneofDto {
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
   private boolean isValidAgainstTheCorrectSchema() {
-    if (discriminator == null) {
+    if (requiredStringVal == null) {
       return false;
     }
-    switch(discriminator) {
+    switch(requiredStringVal) {
       case "UserValue": return isValidAgainstUser();
       case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
     }
@@ -1134,10 +1075,10 @@ public class ComposedOneofDto {
   }
 
   public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-    if ("UserValue".equals(discriminator) && isValidAgainstUser()) {
+    if ("UserValue".equals(requiredStringVal) && isValidAgainstUser()) {
       return onUserDto.apply(asUserDto());
     }
-    else if ("NNVariantsValue".equals(discriminator) && isValidAgainstNecessityAndNullability()) {
+    else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
       return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
     }
     else {
@@ -1181,8 +1122,7 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
+      isOptionalNullableStringValNull
     );
   }
 
@@ -1198,8 +1138,7 @@ public class ComposedOneofDto {
         && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.equals(optionalStringVal, other.optionalStringVal)
         && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -1213,7 +1152,6 @@ public class ComposedOneofDto {
       ", optionalStringVal=" + optionalStringVal +
       ", optionalNullableStringVal=" + optionalNullableStringVal +
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
       "}";
   }
 
@@ -1231,7 +1169,6 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
-    private String discriminator;
 
     /**
      * Username
@@ -1315,24 +1252,15 @@ public class ComposedOneofDto {
       return this;
     }
 
-    /**
-     * 
-     */
-    @JsonProperty("discriminator")
-    private Builder setDiscriminator(String discriminator) {
-      this.discriminator = discriminator;
-      return this;
-    }
-
     public ComposedOneofDto build() {
-      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
 }
 ]
 
 
-ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->discriminator, mapping->Optional.empty)]=[
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional.empty)]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -1362,7 +1290,6 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
-  private final String discriminator;
 
   public ComposedOneofDto(
       String username,
@@ -1372,8 +1299,7 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull,
-      String discriminator
+      boolean isOptionalNullableStringValNull
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -1383,20 +1309,18 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
-    this.discriminator = discriminator;
   }
 
   public static ComposedOneofDto fromUser(UserDto dto) {
     return new ComposedOneofDto(
       dto.getUsername(),
       dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
+      "User",
       null,
       false,
-      "User"
+      null,
+      null,
+      false
     );
   }
 
@@ -1404,13 +1328,12 @@ public class ComposedOneofDto {
     return new ComposedOneofDto(
       null,
       null,
-      dto.getRequiredStringVal(),
+      "NecessityAndNullability",
       dto.getRequiredNullableStringValOr(null),
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      "NecessityAndNullability"
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
     );
   }
 
@@ -1450,12 +1373,6 @@ public class ComposedOneofDto {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
-  @JsonProperty("discriminator")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getDiscriminator() {
-    return discriminator;
-  }
-
   private int getValidCount() {
     return
       (isValidAgainstUser() ? 1 : 0) +
@@ -1476,10 +1393,10 @@ public class ComposedOneofDto {
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
   private boolean isValidAgainstTheCorrectSchema() {
-    if (discriminator == null) {
+    if (requiredStringVal == null) {
       return false;
     }
-    switch(discriminator) {
+    switch(requiredStringVal) {
       case "User": return isValidAgainstUser();
       case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
     }
@@ -1497,10 +1414,10 @@ public class ComposedOneofDto {
   }
 
   public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-    if ("User".equals(discriminator) && isValidAgainstUser()) {
+    if ("User".equals(requiredStringVal) && isValidAgainstUser()) {
       return onUserDto.apply(asUserDto());
     }
-    else if ("NecessityAndNullability".equals(discriminator) && isValidAgainstNecessityAndNullability()) {
+    else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
       return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
     }
     else {
@@ -1544,8 +1461,7 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      discriminator
+      isOptionalNullableStringValNull
     );
   }
 
@@ -1561,8 +1477,7 @@ public class ComposedOneofDto {
         && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.equals(optionalStringVal, other.optionalStringVal)
         && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
-        && Objects.equals(discriminator, other.discriminator);
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -1576,7 +1491,6 @@ public class ComposedOneofDto {
       ", optionalStringVal=" + optionalStringVal +
       ", optionalNullableStringVal=" + optionalNullableStringVal +
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
-      ", discriminator=" + discriminator +
       "}";
   }
 
@@ -1594,7 +1508,6 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
-    private String discriminator;
 
     /**
      * Username
@@ -1678,17 +1591,8 @@ public class ComposedOneofDto {
       return this;
     }
 
-    /**
-     * 
-     */
-    @JsonProperty("discriminator")
-    private Builder setDiscriminator(String discriminator) {
-      this.discriminator = discriminator;
-      return this;
-    }
-
     public ComposedOneofDto build() {
-      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, discriminator);
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
 }

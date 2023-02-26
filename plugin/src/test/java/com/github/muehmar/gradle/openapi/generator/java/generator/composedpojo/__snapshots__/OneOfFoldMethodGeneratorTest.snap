@@ -1,9 +1,9 @@
 DiscriminatorWithMapping=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if ("UserValue".equals(discriminator) && isValidAgainstUser()) {
+  if ("UserValue".equals(requiredStringVal) && isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());
   }
-  else if ("NNVariantsValue".equals(discriminator) && isValidAgainstNecessityAndNullability()) {
+  else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
     return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {
@@ -23,10 +23,10 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 
 DiscriminatorWithoutMapping=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if ("User".equals(discriminator) && isValidAgainstUser()) {
+  if ("User".equals(requiredStringVal) && isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());
   }
-  else if ("NecessityAndNullability".equals(discriminator) && isValidAgainstNecessityAndNullability()) {
+  else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
     return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {

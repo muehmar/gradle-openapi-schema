@@ -75,7 +75,7 @@ public class JavaPojos {
 
   public static JavaComposedPojo composedPojoWithDiscriminator(ComposedPojo.CompositionType type) {
     final Discriminator discriminator =
-        Discriminator.fromPropertyName(Name.ofString("discriminator"));
+        Discriminator.fromPropertyName(Name.ofString(requiredString().getName().asString()));
     return composedPojo(type, discriminator);
   }
 
@@ -86,7 +86,8 @@ public class JavaPojos {
     mapping.put(
         "NNVariantsValue", allNecessityAndNullabilityVariantsPojo(Constraints.empty()).getName());
     final Discriminator discriminator =
-        Discriminator.fromPropertyNameAndMapping(Name.ofString("discriminator"), mapping);
+        Discriminator.fromPropertyNameAndMapping(
+            Name.ofString(requiredString().getName().asString()), mapping);
     return composedPojo(type, discriminator);
   }
 
