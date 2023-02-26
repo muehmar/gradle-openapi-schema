@@ -92,6 +92,7 @@ public class JavaComposedPojo implements JavaPojo {
   public PList<JavaPojoMember> getMembers() {
     return javaPojos
         .flatMap(JavaPojo::getMembersOrEmpty)
+        .distinct(Function.identity())
         .concat(PList.fromOptional(wrapDiscriminatorIntoMember()));
   }
 
