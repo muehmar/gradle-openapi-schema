@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
@@ -8,9 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;

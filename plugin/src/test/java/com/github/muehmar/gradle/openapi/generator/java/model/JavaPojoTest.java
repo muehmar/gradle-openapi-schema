@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 import static org.gradle.internal.impldep.org.junit.Assert.assertFalse;
 import static org.gradle.internal.impldep.org.junit.Assert.assertTrue;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import org.junit.jupiter.api.Test;
 
 class JavaPojoTest {

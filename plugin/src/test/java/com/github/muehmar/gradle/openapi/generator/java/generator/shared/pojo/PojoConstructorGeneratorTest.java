@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
