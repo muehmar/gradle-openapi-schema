@@ -935,6 +935,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 
@@ -1032,6 +1033,11 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Valid
+  private Object getOneOf() {
+    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
   }
 
   private int getValidCount() {
@@ -1274,6 +1280,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 
@@ -1371,6 +1378,11 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Valid
+  private Object getOneOf() {
+    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
   }
 
   private int getValidCount() {
@@ -1613,6 +1625,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 
 /**
@@ -1709,6 +1722,11 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Valid
+  private Object getOneOf() {
+    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
   }
 
   private int getValidCount() {
