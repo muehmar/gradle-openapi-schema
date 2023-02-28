@@ -28,7 +28,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.22.0'
+    id 'com.github.muehmar.openapischema' version '0.22.1'
 }
 ```
 
@@ -546,6 +546,7 @@ afterEvaluate {
 
 ## Change Log
 
+* 0.22.1 - Fix DecimalMin and DecimalMax imports (issue `#54`)
 * 0.22.0
     * Support Free-Form objects (issue `#41`)
     * Support `minProperties` and `maxProperties` constraints (issue `#44`)
