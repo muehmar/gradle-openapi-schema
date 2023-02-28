@@ -218,6 +218,8 @@ public class JavaPojoGenerator implements PojoGenerator {
     if (settings.isEnableValidation() && settings.getValidationApi().equals(JAKARTA_2_0)) {
       writer.println();
       writer.println("import %s;", Jakarta2ValidationRefs.VALID);
+      writer.println("import %s;", Jakarta2ValidationRefs.DECIMAL_MAX);
+      writer.println("import %s;", Jakarta2ValidationRefs.DECIMAL_MIN);
       writer.println("import %s;", Jakarta2ValidationRefs.MAX);
       writer.println("import %s;", Jakarta2ValidationRefs.MIN);
       writer.println("import %s;", Jakarta2ValidationRefs.PATTERN);
@@ -228,6 +230,8 @@ public class JavaPojoGenerator implements PojoGenerator {
     } else if (settings.isEnableValidation() && settings.getValidationApi().equals(JAKARTA_3_0)) {
       writer.println();
       writer.println("import %s;", Jakarta3ValidationRefs.VALID);
+      writer.println("import %s;", Jakarta3ValidationRefs.DECIMAL_MAX);
+      writer.println("import %s;", Jakarta3ValidationRefs.DECIMAL_MIN);
       writer.println("import %s;", Jakarta3ValidationRefs.MAX);
       writer.println("import %s;", Jakarta3ValidationRefs.MIN);
       writer.println("import %s;", Jakarta3ValidationRefs.PATTERN);
