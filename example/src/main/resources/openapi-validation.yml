@@ -1,0 +1,21 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    AllValueObject:
+      type: object
+      required:
+        - doubleValue
+      properties:
+        doubleValue:
+          $ref: "#/components/schemas/DoubleValue"
+
+    DoubleValue:
+      type: number
+      format: double
+      minimum: 5.1
+      maximum: 100.5
+      exclusiveMaximum: true

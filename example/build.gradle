@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.22.0"
+    id "com.github.muehmar.openapischema" version "0.22.1"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -158,6 +158,16 @@ openApiGenerator {
             inputSpec = "$projectDir/src/main/resources/openapi-freeform.yml"
             outputDir = "$buildDir/generated/openapi"
             packageName = "${project.group}.${project.name}.api.freeform.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
+        validation {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-validation.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.validation.model"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
