@@ -1,0 +1,43 @@
+package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
+
+import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
+
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen;
+import io.github.muehmar.codegenerator.java.MethodGenBuilder;
+
+public class FoldValidationGenerator {
+  private FoldValidationGenerator() {}
+
+  public static Generator<JavaComposedPojo, PojoSettings> generator() {
+    final MethodGen<JavaComposedPojo, PojoSettings> method =
+        MethodGenBuilder.<JavaComposedPojo, PojoSettings>create()
+            .modifiers(PRIVATE)
+            .noGenericTypes()
+            .returnType("Object")
+            .methodName("getOneOf")
+            .noArguments()
+            .content(methodContent())
+            .build();
+
+    return ValidationGenerator.<JavaComposedPojo>validAnnotation()
+        .append(method)
+        .filter(p -> p.getCompositionType().equals(ComposedPojo.CompositionType.ONE_OF));
+  }
+
+  private static Generator<JavaComposedPojo, PojoSettings> methodContent() {
+    return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
+        .append(
+            (p, s, w) ->
+                w.println(
+                    "return fold(%s, () -> null);",
+                    p.getJavaPojos()
+                        .map(jp -> jp.getName().asString().toLowerCase())
+                        .map(name -> String.format("%s -> %s", name, name))
+                        .mkString(", ")));
+  }
+}

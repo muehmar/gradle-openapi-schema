@@ -1,0 +1,6 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.FoldValidationGeneratorTest.test=[
+@Valid
+private Object getOneOf() {
+  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+}
+]

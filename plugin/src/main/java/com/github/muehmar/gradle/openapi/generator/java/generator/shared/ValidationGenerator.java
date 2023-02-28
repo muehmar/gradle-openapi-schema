@@ -37,7 +37,7 @@ public class ValidationGenerator {
 
   public static Generator<JavaPojoMember, PojoSettings> validationAnnotations() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(validAnnotation())
+        .append(memberValidAnnotation())
         .append(notNullAnnotation())
         .append(emailAnnotation())
         .append(minAnnotation())
@@ -49,10 +49,15 @@ public class ValidationGenerator {
         .filter(Filters.isValidationEnabled());
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> validAnnotation() {
-    return Generator.<JavaPojoMember, PojoSettings>ofWriterFunction(w -> w.println("@Valid"))
+  public static <T> Generator<T, PojoSettings> validAnnotation() {
+    return Generator.<T, PojoSettings>ofWriterFunction(w -> w.println("@Valid"))
         .append(jakarta2Ref(Jakarta2ValidationRefs.VALID))
         .append(jakarta3Ref(Jakarta3ValidationRefs.VALID))
+        .filter(Filters.isValidationEnabled());
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> memberValidAnnotation() {
+    return ValidationGenerator.<JavaPojoMember>validAnnotation()
         .filter((field, settings) -> shouldValidateDeep(field.getJavaType()));
   }
 

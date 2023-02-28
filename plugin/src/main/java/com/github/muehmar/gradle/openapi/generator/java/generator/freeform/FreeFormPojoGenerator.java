@@ -56,7 +56,7 @@ public class FreeFormPojoGenerator implements Generator<JavaFreeFormPojo, PojoSe
         .append(JacksonAnnotationGenerator.jsonCreator())
         .append(PojoConstructorGenerator.generator())
         .appendNewLine()
-        .append(ValidationGenerator.validAnnotation(), JavaFreeFormPojo::getMember)
+        .append(ValidationGenerator.memberValidAnnotation(), JavaFreeFormPojo::getMember)
         .append(GetterGeneratorFactory.create(), JavaFreeFormPojo::getMember)
         .appendNewLine()
         .append(getPropertyMethod())
