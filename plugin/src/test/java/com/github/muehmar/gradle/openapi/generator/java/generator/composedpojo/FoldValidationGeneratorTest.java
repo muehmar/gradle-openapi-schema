@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -19,7 +20,8 @@ class FoldValidationGeneratorTest {
   private Expect expect;
 
   @Test
-  void test() {
+  @SnapshotName("oneOf")
+  void generate_when_oneOfPojo_then_correctOutput() {
     final Generator<JavaComposedPojo, PojoSettings> generator = FoldValidationGenerator.generator();
 
     final Writer writer =
@@ -32,7 +34,8 @@ class FoldValidationGeneratorTest {
   }
 
   @Test
-  void test2() {
+  @SnapshotName("anyOf")
+  void generate_when_anyOfPojo_then_correctOutput() {
     final Generator<JavaComposedPojo, PojoSettings> generator = FoldValidationGenerator.generator();
 
     final Writer writer =

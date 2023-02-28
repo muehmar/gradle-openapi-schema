@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
+import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
@@ -31,6 +32,9 @@ public class FoldValidationGenerator {
 
   private static Generator<JavaComposedPojo, PojoSettings> methodContent() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
+        .append(constant("if (getValidCount() != 1) {"))
+        .append(constant("return null;"), 1)
+        .append(constant("}"))
         .append(
             (p, s, w) ->
                 w.println(

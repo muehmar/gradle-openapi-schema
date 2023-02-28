@@ -1037,6 +1037,9 @@ public class ComposedOneofDto {
 
   @Valid
   private Object getOneOf() {
+    if (getValidCount() != 1) {
+      return null;
+    }
     return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
   }
 
@@ -1382,6 +1385,9 @@ public class ComposedOneofDto {
 
   @Valid
   private Object getOneOf() {
+    if (getValidCount() != 1) {
+      return null;
+    }
     return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
   }
 
@@ -1726,6 +1732,9 @@ public class ComposedOneofDto {
 
   @Valid
   private Object getOneOf() {
+    if (getValidCount() != 1) {
+      return null;
+    }
     return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
   }
 
