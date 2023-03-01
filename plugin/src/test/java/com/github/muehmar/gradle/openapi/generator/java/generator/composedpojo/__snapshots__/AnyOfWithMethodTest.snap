@@ -1,0 +1,27 @@
+AnyOf=[
+public ComposedAnyofDto withUser(UserDto dto) {
+  return new ComposedAnyofDto(
+    dto.getUsername(),
+    dto.getBirthdate(),
+    requiredStringVal,
+    requiredNullableStringVal,
+    isRequiredNullableStringValPresent,
+    optionalStringVal,
+    optionalNullableStringVal,
+    isOptionalNullableStringValNull
+  );
+}
+
+public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ComposedAnyofDto(
+    username,
+    birthdate,
+    dto.getRequiredStringVal(),
+    dto.getRequiredNullableStringValOr(null),
+    true,
+    dto.getOptionalStringValOr(null),
+    dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+    dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+  );
+}
+]
