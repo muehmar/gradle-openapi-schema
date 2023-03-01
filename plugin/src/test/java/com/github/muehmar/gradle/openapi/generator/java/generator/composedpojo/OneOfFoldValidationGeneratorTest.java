@@ -16,13 +16,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SnapshotExtension.class)
-class FoldValidationGeneratorTest {
+class OneOfFoldValidationGeneratorTest {
   private Expect expect;
 
   @Test
   @SnapshotName("oneOf")
   void generate_when_oneOfPojo_then_correctOutput() {
-    final Generator<JavaComposedPojo, PojoSettings> generator = FoldValidationGenerator.generator();
+    final Generator<JavaComposedPojo, PojoSettings> generator =
+        OneOfFoldValidationGenerator.generator();
 
     final Writer writer =
         generator.generate(
@@ -36,7 +37,8 @@ class FoldValidationGeneratorTest {
   @Test
   @SnapshotName("anyOf")
   void generate_when_anyOfPojo_then_correctOutput() {
-    final Generator<JavaComposedPojo, PojoSettings> generator = FoldValidationGenerator.generator();
+    final Generator<JavaComposedPojo, PojoSettings> generator =
+        OneOfFoldValidationGenerator.generator();
 
     final Writer writer =
         generator.generate(

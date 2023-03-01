@@ -11,8 +11,8 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
-public class FoldValidationGenerator {
-  private FoldValidationGenerator() {}
+public class OneOfFoldValidationGenerator {
+  private OneOfFoldValidationGenerator() {}
 
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     final MethodGen<JavaComposedPojo, PojoSettings> method =
