@@ -1,0 +1,12 @@
+AnyOf=[
+public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+  final List<T> result = new ArrayList<>();
+  if (isValidAgainstUser()) {
+    result.add(onUserDto(asUserDto()));
+  }
+  if (isValidAgainstNecessityAndNullability()) {
+    result.add(onNecessityAndNullabilityDto(asNecessityAndNullabilityDto()));
+  }
+  return result;
+}
+]
