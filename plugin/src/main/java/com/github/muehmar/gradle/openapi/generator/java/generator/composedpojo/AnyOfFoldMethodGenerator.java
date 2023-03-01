@@ -13,8 +13,8 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
-public class AnyOfFoldMethodMethodGenerator {
-  private AnyOfFoldMethodMethodGenerator() {}
+public class AnyOfFoldMethodGenerator {
+  private AnyOfFoldMethodGenerator() {}
 
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     return MethodGenBuilder.<JavaComposedPojo, PojoSettings>create()
@@ -22,10 +22,12 @@ public class AnyOfFoldMethodMethodGenerator {
         .genericTypes("T")
         .returnType("List<T>")
         .methodName("fold")
-        .arguments(AnyOfFoldMethodMethodGenerator::foldMethodArguments)
+        .arguments(AnyOfFoldMethodGenerator::foldMethodArguments)
         .content(methodContent())
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_LIST))
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAY_LIST))
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_FUNCTION))
         .filter(p -> p.getCompositionType().equals(ANY_OF));
   }
 
@@ -50,7 +52,8 @@ public class AnyOfFoldMethodMethodGenerator {
         .append(
             (p, s, w) ->
                 w.println(
-                    "result.add(on%s(as%s()));", p.memberPojo.getName(), p.memberPojo.getName()),
+                    "result.add(on%s.apply(as%s()));",
+                    p.memberPojo.getName(), p.memberPojo.getName()),
             1)
         .append(constant("}"));
   }

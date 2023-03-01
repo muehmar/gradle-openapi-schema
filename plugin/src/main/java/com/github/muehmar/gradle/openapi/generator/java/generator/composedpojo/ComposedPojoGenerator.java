@@ -75,6 +75,8 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendSingleBlankLine()
         .append(OneOfFoldMethodGenerator.generator())
         .appendSingleBlankLine()
+        .append(AnyOfFoldMethodGenerator.generator())
+        .appendSingleBlankLine()
         .appendList(asDtoMethod(), JavaComposedPojo::getJavaPojos, newLine())
         .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)

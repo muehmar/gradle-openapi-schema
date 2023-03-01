@@ -10,6 +10,7 @@ public class JavaRefs {
   public static final String JAVA_UTIL_OPTIONAL = "java.util.Optional";
   public static final String JAVA_UTIL_MAP = "java.util.Map";
   public static final String JAVA_UTIL_LIST = "java.util.List";
+  public static final String JAVA_UTIL_ARRAY_LIST = "java.util.ArrayList";
 
   public static final String JAVA_UTIL_REGEX_PATTERN = "java.util.regex.Pattern";
 

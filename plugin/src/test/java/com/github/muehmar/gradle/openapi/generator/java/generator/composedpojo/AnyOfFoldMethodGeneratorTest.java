@@ -19,14 +19,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SnapshotExtension.class)
-class AnyOfFoldMethodMethodGeneratorTest {
+class AnyOfFoldMethodGeneratorTest {
   private Expect expect;
 
   @Test
   @SnapshotName("AnyOf")
   void generate_when_anyOf_then_correctOutput() {
     final Generator<JavaComposedPojo, PojoSettings> generator =
-        AnyOfFoldMethodMethodGenerator.generator();
+        AnyOfFoldMethodGenerator.generator();
 
     final Writer writer =
         generator.generate(
@@ -35,13 +35,16 @@ class AnyOfFoldMethodMethodGeneratorTest {
             Writer.createDefault());
 
     expect.toMatchSnapshot(writer.asString());
+    assertEquals(3, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAY_LIST::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_FUNCTION::equals));
   }
 
   @Test
   void generate_when_oneOf_then_noOutput() {
     final Generator<JavaComposedPojo, PojoSettings> generator =
-        AnyOfFoldMethodMethodGenerator.generator();
+        AnyOfFoldMethodGenerator.generator();
 
     final Writer writer =
         generator.generate(

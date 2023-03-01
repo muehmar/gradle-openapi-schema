@@ -8,8 +8,11 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 
@@ -142,6 +145,17 @@ public class ComposedAnyofDto {
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
+  }
+
+  public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+    final List<T> result = new ArrayList<>();
+    if (isValidAgainstUser()) {
+      result.add(onUserDto.apply(asUserDto()));
+    }
+    if (isValidAgainstNecessityAndNullability()) {
+      result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
+    }
+    return result;
   }
 
   private UserDto asUserDto() {
@@ -320,8 +334,11 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 
@@ -454,6 +471,17 @@ public class ComposedAnyofDto {
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
+  }
+
+  public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+    final List<T> result = new ArrayList<>();
+    if (isValidAgainstUser()) {
+      result.add(onUserDto.apply(asUserDto()));
+    }
+    if (isValidAgainstNecessityAndNullability()) {
+      result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
+    }
+    return result;
   }
 
   private UserDto asUserDto() {
@@ -632,8 +660,11 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import javax.validation.constraints.AssertFalse;
 
 /**
@@ -753,6 +784,17 @@ public class ComposedAnyofDto {
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
+  }
+
+  public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+    final List<T> result = new ArrayList<>();
+    if (isValidAgainstUser()) {
+      result.add(onUserDto.apply(asUserDto()));
+    }
+    if (isValidAgainstNecessityAndNullability()) {
+      result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
+    }
+    return result;
   }
 
   private UserDto asUserDto() {
