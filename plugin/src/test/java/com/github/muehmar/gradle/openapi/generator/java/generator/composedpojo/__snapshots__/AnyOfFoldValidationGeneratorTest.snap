@@ -1,0 +1,9 @@
+AnyOf=[
+@Valid
+private List<Object> getAnyOf() {
+  if (getValidCount() == 0) {
+    return null;
+  }
+  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto);
+}
+]
