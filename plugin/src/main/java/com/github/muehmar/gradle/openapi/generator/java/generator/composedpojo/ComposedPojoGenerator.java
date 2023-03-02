@@ -67,6 +67,8 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendSingleBlankLine()
         .append(OneOfFoldValidationGenerator.generator())
         .appendSingleBlankLine()
+        .append(AnyOfFoldValidationGenerator.generator())
+        .appendSingleBlankLine()
         .append(ValidCountMethodGenerator.validCountMethod())
         .appendSingleBlankLine()
         .appendList(isValidAgainstMethod(), JavaComposedPojo::getJavaPojos, newLine())
