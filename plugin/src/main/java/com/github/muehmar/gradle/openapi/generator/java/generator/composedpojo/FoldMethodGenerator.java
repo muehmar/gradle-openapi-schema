@@ -7,6 +7,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
@@ -89,8 +90,7 @@ public class FoldMethodGenerator {
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> singleAnyOfFold() {
     return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) -> w.println("if (isValidAgainst%s()) {", p.memberPojo.getName().getName()))
+        .append((p, s, w) -> w.println("if (%s()) {", p.isValidAgainstMethodName()))
         .append(
             (p, s, w) ->
                 w.println(
@@ -105,10 +105,10 @@ public class FoldMethodGenerator {
         .append(
             (pojo, s, w) ->
                 w.println(
-                    "%s (%sisValidAgainst%s()) {",
+                    "%s (%s%s()) {",
                     pojo.ifOrElseIf(),
                     pojo.discriminatorCondition(),
-                    pojo.getMemberPojo().getName().getName()))
+                    pojo.isValidAgainstMethodName()))
         .append(
             (p, s, w) ->
                 w.tab(1)
@@ -157,6 +157,10 @@ public class FoldMethodGenerator {
           .filter(memberPojo::equals)
           .map(ignore -> "if")
           .orElse("else if");
+    }
+
+    private Name isValidAgainstMethodName() {
+      return CompositionNames.isValidAgainstMethodName(memberPojo);
     }
   }
 }

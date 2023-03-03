@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Validat
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
@@ -51,8 +52,8 @@ public class DiscriminatorValidationMethodGenerator {
     return Generator.of(
         (p, s, w) ->
             w.println(
-                "case \"%s\": return isValidAgainst%s();",
-                p.getDiscriminatorValue(), p.getPojo().getName().getName()));
+                "case \"%s\": return %s();",
+                p.getDiscriminatorValue(), p.isValidAgainstMethodName()));
   }
 
   @Value
@@ -76,6 +77,10 @@ public class DiscriminatorValidationMethodGenerator {
 
     String getDiscriminatorValue() {
       return discriminator.getValueForPojoName(pojo.getName());
+    }
+
+    Name isValidAgainstMethodName() {
+      return CompositionNames.isValidAgainstMethodName(pojo);
     }
   }
 }
