@@ -94,8 +94,8 @@ public class FoldMethodGenerator {
         .append(
             (p, s, w) ->
                 w.println(
-                    "result.add(on%s.apply(as%s()));",
-                    p.memberPojo.getName(), p.memberPojo.getName()),
+                    "result.add(on%s.apply(%s()));",
+                    p.memberPojo.getName(), p.asConversionMethodName()),
             1)
         .append(constant("}"));
   }
@@ -113,8 +113,8 @@ public class FoldMethodGenerator {
             (p, s, w) ->
                 w.tab(1)
                     .println(
-                        "return on%s.apply(as%s());",
-                        p.memberPojo.getName(), p.memberPojo.getName()))
+                        "return on%s.apply(%s());",
+                        p.memberPojo.getName(), p.asConversionMethodName()))
         .append(constant("}"));
   }
 
@@ -161,6 +161,10 @@ public class FoldMethodGenerator {
 
     private Name isValidAgainstMethodName() {
       return CompositionNames.isValidAgainstMethodName(memberPojo);
+    }
+
+    private Name asConversionMethodName() {
+      return CompositionNames.asConversionMethodName(memberPojo);
     }
   }
 }

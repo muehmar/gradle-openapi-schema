@@ -9,4 +9,8 @@ public class CompositionNames {
   public static Name isValidAgainstMethodName(JavaPojo pojo) {
     return Name.ofString(String.format("isValidAgainst%s", pojo.getName().getName()));
   }
+
+  public static Name asConversionMethodName(JavaPojo pojo) {
+    return Name.ofString(String.format("as%s", pojo.getName()));
+  }
 }
