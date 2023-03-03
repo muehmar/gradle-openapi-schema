@@ -13,4 +13,8 @@ public class CompositionNames {
   public static Name asConversionMethodName(JavaPojo pojo) {
     return Name.ofString(String.format("as%s", pojo.getName()));
   }
+
+  public static Name dtoMappingArgumentName(JavaPojo pojo) {
+    return Name.ofString(String.format("on%s", pojo.getName()));
+  }
 }

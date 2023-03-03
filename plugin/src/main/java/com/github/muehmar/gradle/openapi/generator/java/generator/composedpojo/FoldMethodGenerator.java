@@ -62,7 +62,8 @@ public class FoldMethodGenerator {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .append(constant("return fold("))
         .appendList(
-            (p, s, w) -> w.tab(1).println("on%s,", p.getName()), JavaComposedPojo::getJavaPojos)
+            (p, s, w) -> w.tab(1).println("%s,", CompositionNames.dtoMappingArgumentName(p)),
+            JavaComposedPojo::getJavaPojos)
         .append(
             (p, s, w) ->
                 w.println(
@@ -94,8 +95,8 @@ public class FoldMethodGenerator {
         .append(
             (p, s, w) ->
                 w.println(
-                    "result.add(on%s.apply(%s()));",
-                    p.memberPojo.getName(), p.asConversionMethodName()),
+                    "result.add(%s.apply(%s()));",
+                    p.dtoMappingArgument(), p.asConversionMethodName()),
             1)
         .append(constant("}"));
   }
@@ -113,8 +114,8 @@ public class FoldMethodGenerator {
             (p, s, w) ->
                 w.tab(1)
                     .println(
-                        "return on%s.apply(%s());",
-                        p.memberPojo.getName(), p.asConversionMethodName()))
+                        "return %s.apply(%s());",
+                        p.dtoMappingArgument(), p.asConversionMethodName()))
         .append(constant("}"));
   }
 
@@ -125,8 +126,11 @@ public class FoldMethodGenerator {
   private static PList<String> standardFoldMethodArguments(JavaComposedPojo composedPojo) {
     return composedPojo
         .getJavaPojos()
-        .map(JavaPojo::getName)
-        .map(name -> String.format("Function<%s, T> on%s", name, name));
+        .map(
+            pojo ->
+                String.format(
+                    "Function<%s, T> %s",
+                    pojo.getName(), CompositionNames.dtoMappingArgumentName(pojo)));
   }
 
   @Value
@@ -165,6 +169,10 @@ public class FoldMethodGenerator {
 
     private Name asConversionMethodName() {
       return CompositionNames.asConversionMethodName(memberPojo);
+    }
+
+    private Name dtoMappingArgument() {
+      return CompositionNames.dtoMappingArgumentName(memberPojo);
     }
   }
 }
