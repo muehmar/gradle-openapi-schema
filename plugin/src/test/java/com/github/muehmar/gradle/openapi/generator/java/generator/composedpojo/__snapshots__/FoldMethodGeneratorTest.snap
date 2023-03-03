@@ -1,4 +1,19 @@
-DiscriminatorWithMapping=[
+AnyOf=[
+
+public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+  final List<T> result = new ArrayList<>();
+  if (isValidAgainstUser()) {
+    result.add(onUserDto.apply(asUserDto()));
+  }
+  if (isValidAgainstNecessityAndNullability()) {
+    result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
+  }
+  return result;
+}
+]
+
+
+OneOfDiscriminatorWithMapping=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if ("UserValue".equals(requiredStringVal) && isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());
@@ -21,7 +36,7 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 ]
 
 
-DiscriminatorWithoutMapping=[
+OneOfDiscriminatorWithoutMapping=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if ("User".equals(requiredStringVal) && isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());
@@ -44,7 +59,7 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 ]
 
 
-NoDiscriminator=[
+OneOfNoDiscriminator=[
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if (isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());

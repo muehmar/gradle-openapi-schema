@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ANY_OF;
+import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ONE_OF;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -64,6 +67,14 @@ public class JavaComposedPojo implements JavaPojo {
 
   public ComposedPojo.CompositionType getCompositionType() {
     return compositionType;
+  }
+
+  public boolean isAnyOf() {
+    return compositionType.equals(ANY_OF);
+  }
+
+  public boolean isOneOf() {
+    return compositionType.equals(ONE_OF);
   }
 
   public Optional<Discriminator> getDiscriminator() {

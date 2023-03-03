@@ -13,14 +13,11 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
-public class OneOfFoldMethodGenerator {
-  private OneOfFoldMethodGenerator() {}
+public class FoldMethodGenerator {
+  private FoldMethodGenerator() {}
 
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
-    return fullFoldMethod()
-        .appendSingleBlankLine()
-        .append(throwingFoldMethod())
-        .filter(p -> p.getCompositionType().equals(ONE_OF));
+    return fullFoldMethod().appendSingleBlankLine().append(standardFoldMethod());
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> fullFoldMethod() {
@@ -29,34 +26,39 @@ public class OneOfFoldMethodGenerator {
         .genericTypes("T")
         .returnType("T")
         .methodName("fold")
-        .arguments(OneOfFoldMethodGenerator::fullFoldMethodArguments) // FIX for validation
+        .arguments(FoldMethodGenerator::fullFoldMethodArguments)
         .content(fullFoldMethodContent())
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_FUNCTION))
-        .append(w -> w.ref(JavaRefs.JAVA_UTIL_SUPPLIER));
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_SUPPLIER))
+        .filter(JavaComposedPojo::isOneOf);
   }
 
-  private static Generator<JavaComposedPojo, PojoSettings> throwingFoldMethod() {
+  private static Generator<JavaComposedPojo, PojoSettings> standardFoldMethod() {
     return MethodGenBuilder.<JavaComposedPojo, PojoSettings>create()
         .modifiers(PUBLIC)
         .genericTypes("T")
-        .returnType("T")
+        .returnType(FoldMethodGenerator::standardFoldMethodReturnType)
         .methodName("fold")
-        .arguments(OneOfFoldMethodGenerator::throwingFoldMethodArguments) // FIX for validation
-        .content(throwingFoldMethodContent())
+        .arguments(FoldMethodGenerator::standardFoldMethodArguments)
+        .content(standardOneOfFoldMethodContent().append(standardAnyOfFoldMethodContent()))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_FUNCTION));
   }
 
+  private static String standardFoldMethodReturnType(JavaComposedPojo composedPojo) {
+    return composedPojo.isAnyOf() ? "List<T>" : "T";
+  }
+
   private static Generator<JavaComposedPojo, PojoSettings> fullFoldMethodContent() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
-        .appendList(foldConditionAndContent(), ComposedAndMemberPojo::fromComposedPojo)
+        .appendList(oneOfFoldConditionAndContent(), ComposedAndMemberPojo::fromComposedPojo)
         .append(constant("else {"))
         .append(constant("return onInvalid.get();"), 1)
         .append(constant("}"));
   }
 
-  private static Generator<JavaComposedPojo, PojoSettings> throwingFoldMethodContent() {
+  private static Generator<JavaComposedPojo, PojoSettings> standardOneOfFoldMethodContent() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .append(constant("return fold("))
         .appendList(
@@ -66,7 +68,18 @@ public class OneOfFoldMethodGenerator {
                 w.println(
                     "() -> {throw new IllegalStateException(\"%s\");}", getOnInvalidMessage(p)),
             1)
-        .append(constant(");"));
+        .append(constant(");"))
+        .filter(p -> p.getCompositionType().equals(ONE_OF));
+  }
+
+  private static Generator<JavaComposedPojo, PojoSettings> standardAnyOfFoldMethodContent() {
+    return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
+        .append(constant("final List<T> result = new ArrayList<>();"))
+        .appendList(singleAnyOfFold(), ComposedAndMemberPojo::fromComposedPojo)
+        .append(constant("return result;"))
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_LIST))
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAY_LIST))
+        .filter(JavaComposedPojo::isAnyOf);
   }
 
   private static String getOnInvalidMessage(JavaComposedPojo composedPojo) {
@@ -75,7 +88,20 @@ public class OneOfFoldMethodGenerator {
         composedPojo.getName(), composedPojo.getJavaPojos().map(JavaPojo::getName).mkString(", "));
   }
 
-  private static Generator<ComposedAndMemberPojo, PojoSettings> foldConditionAndContent() {
+  private static Generator<ComposedAndMemberPojo, PojoSettings> singleAnyOfFold() {
+    return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
+        .append(
+            (p, s, w) -> w.println("if (isValidAgainst%s()) {", p.memberPojo.getName().getName()))
+        .append(
+            (p, s, w) ->
+                w.println(
+                    "result.add(on%s.apply(as%s()));",
+                    p.memberPojo.getName(), p.memberPojo.getName()),
+            1)
+        .append(constant("}"));
+  }
+
+  private static Generator<ComposedAndMemberPojo, PojoSettings> oneOfFoldConditionAndContent() {
     return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
         .append(
             (pojo, s, w) ->
@@ -94,10 +120,10 @@ public class OneOfFoldMethodGenerator {
   }
 
   private static PList<String> fullFoldMethodArguments(JavaComposedPojo composedPojo) {
-    return throwingFoldMethodArguments(composedPojo).add("Supplier<T> onInvalid");
+    return standardFoldMethodArguments(composedPojo).add("Supplier<T> onInvalid");
   }
 
-  private static PList<String> throwingFoldMethodArguments(JavaComposedPojo composedPojo) {
+  private static PList<String> standardFoldMethodArguments(JavaComposedPojo composedPojo) {
     return composedPojo
         .getJavaPojos()
         .map(JavaPojo::getName)

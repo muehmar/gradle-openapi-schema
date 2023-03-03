@@ -20,14 +20,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SnapshotExtension.class)
-class OneOfFoldMethodGeneratorTest {
+class FoldMethodGeneratorTest {
   private Expect expect;
 
   @Test
-  @SnapshotName("NoDiscriminator")
+  @SnapshotName("OneOfNoDiscriminator")
   void generate_when_calledWithoutDiscriminator_then_correctContent() {
-    final Generator<JavaComposedPojo, PojoSettings> generator =
-        OneOfFoldMethodGenerator.generator();
+    final Generator<JavaComposedPojo, PojoSettings> generator = FoldMethodGenerator.generator();
     final Writer writer =
         generator.generate(
             JavaPojos.composedPojo(ONE_OF),
@@ -41,10 +40,9 @@ class OneOfFoldMethodGeneratorTest {
   }
 
   @Test
-  @SnapshotName("DiscriminatorWithoutMapping")
+  @SnapshotName("OneOfDiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctContent() {
-    final Generator<JavaComposedPojo, PojoSettings> generator =
-        OneOfFoldMethodGenerator.generator();
+    final Generator<JavaComposedPojo, PojoSettings> generator = FoldMethodGenerator.generator();
     final Writer writer =
         generator.generate(
             JavaPojos.composedPojoWithDiscriminator(ONE_OF),
@@ -58,10 +56,9 @@ class OneOfFoldMethodGeneratorTest {
   }
 
   @Test
-  @SnapshotName("DiscriminatorWithMapping")
+  @SnapshotName("OneOfDiscriminatorWithMapping")
   void generate_when_calledWithDiscriminatorAndMapping_then_correctContent() {
-    final Generator<JavaComposedPojo, PojoSettings> generator =
-        OneOfFoldMethodGenerator.generator();
+    final Generator<JavaComposedPojo, PojoSettings> generator = FoldMethodGenerator.generator();
     final Writer writer =
         generator.generate(
             JavaPojos.composedPojoWithDiscriminatorMapping(ONE_OF),
@@ -75,15 +72,20 @@ class OneOfFoldMethodGeneratorTest {
   }
 
   @Test
-  void generate_when_anyOfPojo_then_noContent() {
-    final Generator<JavaComposedPojo, PojoSettings> generator =
-        OneOfFoldMethodGenerator.generator();
+  @SnapshotName("AnyOf")
+  void generate_when_anyOf_then_correctOutput() {
+    final Generator<JavaComposedPojo, PojoSettings> generator = FoldMethodGenerator.generator();
+
     final Writer writer =
         generator.generate(
             JavaPojos.composedPojo(ANY_OF),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    assertEquals("", writer.asString());
+    expect.toMatchSnapshot(writer.asString());
+    assertEquals(3, writer.getRefs().size());
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAY_LIST::equals));
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_FUNCTION::equals));
   }
 }
