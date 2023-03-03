@@ -5,7 +5,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Validat
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
@@ -59,9 +58,6 @@ public class ValidCountValidationMethod {
             .noArguments()
             .content("return getValidCount() > 1;")
             .build();
-    return annotation
-        .append(method)
-        .prependNewLine()
-        .filter(pojo -> pojo.getCompositionType().equals(ComposedPojo.CompositionType.ONE_OF));
+    return annotation.append(method).prependNewLine().filter(JavaComposedPojo::isOneOf);
   }
 }

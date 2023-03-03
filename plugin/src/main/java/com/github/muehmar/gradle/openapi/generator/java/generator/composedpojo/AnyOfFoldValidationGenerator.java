@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
-import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ANY_OF;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
@@ -28,7 +27,7 @@ public class AnyOfFoldValidationGenerator {
 
     return ValidationGenerator.<JavaComposedPojo>validAnnotation()
         .append(method)
-        .filter(p -> p.getCompositionType().equals(ANY_OF));
+        .filter(JavaComposedPojo::isAnyOf);
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> methodContent() {

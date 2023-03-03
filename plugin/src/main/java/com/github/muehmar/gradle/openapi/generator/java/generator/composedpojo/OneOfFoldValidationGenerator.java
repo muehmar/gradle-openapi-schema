@@ -5,7 +5,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
@@ -27,7 +26,7 @@ public class OneOfFoldValidationGenerator {
 
     return ValidationGenerator.<JavaComposedPojo>validAnnotation()
         .append(method)
-        .filter(p -> p.getCompositionType().equals(ComposedPojo.CompositionType.ONE_OF));
+        .filter(JavaComposedPojo::isOneOf);
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> methodContent() {

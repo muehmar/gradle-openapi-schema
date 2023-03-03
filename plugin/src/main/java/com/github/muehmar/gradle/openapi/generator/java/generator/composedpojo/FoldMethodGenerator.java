@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
-import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ONE_OF;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -69,7 +68,7 @@ public class FoldMethodGenerator {
                     "() -> {throw new IllegalStateException(\"%s\");}", getOnInvalidMessage(p)),
             1)
         .append(constant(");"))
-        .filter(p -> p.getCompositionType().equals(ONE_OF));
+        .filter(JavaComposedPojo::isOneOf);
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> standardAnyOfFoldMethodContent() {

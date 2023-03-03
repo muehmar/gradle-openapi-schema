@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
-import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ANY_OF;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -20,7 +19,7 @@ public class AnyOfWithMethod {
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .appendList(witherMethod(), ComposedAndMemberPojo::fromJavaComposedPojo, newLine())
-        .filter(p -> p.getCompositionType().equals(ANY_OF));
+        .filter(JavaComposedPojo::isAnyOf);
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> witherMethod() {
