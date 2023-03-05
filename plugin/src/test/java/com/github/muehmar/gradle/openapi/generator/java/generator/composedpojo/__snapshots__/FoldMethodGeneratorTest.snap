@@ -26,6 +26,20 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
   }
 }
 
+/**
+ * Folds this instance using the given mapping functions for the DTO's. If this
+ * instance is valid against exactly one of the specified schemas, its
+ * corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br><br>
+ * 
+ * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+ * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * 
+ * This method assumes this instance is either manually or automatically
+ * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
+ * either valid against no schema or multiple schemas, it will throw an {@link
+ * IllegalStateException}.
+ */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   return fold(
     onUserDto,
@@ -49,6 +63,20 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
   }
 }
 
+/**
+ * Folds this instance using the given mapping functions for the DTO's. If this
+ * instance is valid against exactly one of the specified schemas, its
+ * corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br><br>
+ * 
+ * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+ * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * 
+ * This method assumes this instance is either manually or automatically
+ * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
+ * either valid against no schema or multiple schemas, it will throw an {@link
+ * IllegalStateException}.
+ */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   return fold(
     onUserDto,
@@ -72,6 +100,20 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
   }
 }
 
+/**
+ * Folds this instance using the given mapping functions for the DTO's. If this
+ * instance is valid against exactly one of the specified schemas, its
+ * corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br><br>
+ * 
+ * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+ * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * 
+ * This method assumes this instance is either manually or automatically
+ * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
+ * either valid against no schema or multiple schemas, it will throw an {@link
+ * IllegalStateException}.
+ */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   return fold(
     onUserDto,

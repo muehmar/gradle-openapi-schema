@@ -5,6 +5,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -17,7 +18,39 @@ public class FoldMethodGenerator {
   private FoldMethodGenerator() {}
 
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
-    return fullFoldMethod().appendSingleBlankLine().append(standardFoldMethod());
+    return fullFoldMethod()
+        .appendSingleBlankLine()
+        .append(standardFoldOneOfJavaDoc())
+        .append(standardFoldMethod());
+  }
+
+  public static Generator<JavaComposedPojo, PojoSettings> standardFoldOneOfJavaDoc() {
+    final String firstJavaDoc =
+        "Folds this instance using the given mapping functions for the DTO's. If this instance is valid against exactly"
+            + " one of the specified schemas, its corresponding mapping function gets executed with the DTO as input and"
+            + " its result is returned.<br><br>\n\n";
+    final String exampleJavaDoc =
+        "I.e. if the JSON was valid against the schema '%s', the mapping method {@code %s} "
+            + "gets executed with the {@link %s} as argument.<br><br>\n\n";
+    final String thirdJavaDoc =
+        "This method assumes this instance is either manually or automatically validated, i.e. "
+            + "the JSON is valid against exactly one of the schemas. If it is either valid against no schema or multiple schemas, "
+            + "it will throw an {@link IllegalStateException}.";
+    return JavaDocGenerator.<JavaComposedPojo, PojoSettings>javaDoc(
+            (p, s) ->
+                firstJavaDoc
+                    + p.getJavaPojos()
+                        .headOption()
+                        .map(
+                            ep ->
+                                String.format(
+                                    exampleJavaDoc,
+                                    ep.getName().getName(),
+                                    CompositionNames.dtoMappingArgumentName(ep),
+                                    ep.getName()))
+                        .orElse("")
+                    + thirdJavaDoc)
+        .filter(JavaComposedPojo::isOneOf);
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> fullFoldMethod() {

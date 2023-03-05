@@ -3,11 +3,16 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 import ch.bluecare.commons.data.PList;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.function.BiFunction;
 
 public class JavaDocGenerator {
   private static final int MAX_LENGTH = 80;
 
   private JavaDocGenerator() {}
+
+  public static <A, B> Generator<A, B> javaDoc(BiFunction<A, B, String> javaDoc) {
+    return (a, b, writer) -> javaDoc().generate(javaDoc.apply(a, b), (Void) null, writer);
+  }
 
   public static <A, B> Generator<A, B> ofJavaDocString(String javaDoc) {
     return (a, b, writer) -> javaDoc().generate(javaDoc, (Void) null, writer);
