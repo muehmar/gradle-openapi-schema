@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ANY_OF;
 import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ONE_OF;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
@@ -11,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -33,12 +35,34 @@ public class JavaComposedPojo implements JavaPojo {
       ComposedPojo.CompositionType compositionType,
       Constraints constraints,
       Optional<Discriminator> discriminator) {
+    assertPropertiesHaveNotSameNameAndDifferentAttributes(javaPojos);
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.javaPojos = javaPojos;
     this.compositionType = compositionType;
     this.constraints = constraints;
     this.discriminator = discriminator;
+  }
+
+  private static void assertPropertiesHaveNotSameNameAndDifferentAttributes(
+      PList<JavaPojo> javaPojos) {
+    final PList<JavaPojoMember> allMembers = javaPojos.flatMap(JavaPojo::getMembersOrEmpty);
+    final PList<JavaPojoMember> invalidMembers =
+        allMembers
+            .filter(
+                member1 ->
+                    allMembers.exists(member2 -> sameNameButDifferentAttributes(member1, member2)))
+            .duplicates(Comparator.comparing(m -> m.getName().asString()));
+    if (invalidMembers.nonEmpty()) {
+      throw new IllegalArgumentException(
+          String.format(
+              "For schema compositions (oneOf, anyOf), two schemas must not have properties with same name but different attributes (e.g. type, constraints)! Invalid properties: [%s].",
+              invalidMembers.map(JavaPojoMember::getName).mkString(", ")));
+    }
+  }
+
+  private static boolean sameNameButDifferentAttributes(JavaPojoMember m1, JavaPojoMember m2) {
+    return m1.getName().equals(m2.getName()) && not(m1.equals(m2));
   }
 
   public static JavaComposedPojo wrap(ComposedPojo composedPojo, TypeMappings typeMappings) {

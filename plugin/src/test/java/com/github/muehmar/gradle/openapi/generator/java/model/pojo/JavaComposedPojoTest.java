@@ -1,11 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.model.Necessity;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import org.junit.jupiter.api.Test;
 
@@ -27,5 +30,20 @@ class JavaComposedPojoTest {
         pojo1.getMembersOrEmpty().add(JavaPojoMembers.requiredBirthdate());
 
     assertEquals(expectedMembers.toHashSet(), composedMembers.toHashSet());
+  }
+
+  @Test
+  void new_when_pojosHaveMembersWithSameNameButDifferentAttributes_then_throwsException() {
+    final JavaObjectPojo pojo1 =
+        JavaPojos.objectPojo(
+            PList.single(JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE)));
+    final JavaObjectPojo pojo2 =
+        JavaPojos.objectPojo(
+            PList.single(JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NOT_NULLABLE)));
+
+    final PList<JavaPojo> pojos = PList.of(pojo1, pojo2);
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> JavaPojos.composedPojo(pojos, ComposedPojo.CompositionType.ONE_OF));
   }
 }
