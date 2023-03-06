@@ -19,7 +19,20 @@ public class FactoryMethodGenerator {
 
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
+        .append(fromMethods())
+        .appendSingleBlankLine()
+        .append(witherMethods());
+  }
+
+  private static Generator<JavaComposedPojo, PojoSettings> fromMethods() {
+    return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .appendList(fromFactoryMethod(), ComposedAndMemberPojo::fromJavaComposedPojo, newLine());
+  }
+
+  private static Generator<JavaComposedPojo, PojoSettings> witherMethods() {
+    return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
+        .appendList(witherMethod(), ComposedAndMemberPojo::fromJavaComposedPojo, newLine())
+        .filter(JavaComposedPojo::isAnyOf);
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> fromFactoryMethod() {
@@ -31,28 +44,62 @@ public class FactoryMethodGenerator {
             pojos -> String.format("from%s", pojos.memberPojo.getName().getName().startUpperCase()))
         .singleArgument(
             pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
-        .content(fromFactoryMethodContent())
+        .content(fromMethodContent())
         .build();
   }
 
-  private static Generator<ComposedAndMemberPojo, PojoSettings> fromFactoryMethodContent() {
+  private static Generator<ComposedAndMemberPojo, PojoSettings> witherMethod() {
+    return MethodGenBuilder.<ComposedAndMemberPojo, PojoSettings>create()
+        .modifiers(PUBLIC)
+        .noGenericTypes()
+        .returnType(pojos -> pojos.composedPojo.getName().asString())
+        .methodName(
+            pojos -> String.format("with%s", pojos.memberPojo.getName().getName().startUpperCase()))
+        .singleArgument(
+            pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
+        .content(withMethodContent())
+        .build();
+  }
+
+  private static Generator<ComposedAndMemberPojo, PojoSettings> fromMethodContent() {
     return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getName()))
-        .appendList(gen(), pojos -> pojos.composedPojo.getMembers().map(pojos::withMember))
+        .appendList(
+            fromMethodMemberGen(), pojos -> pojos.composedPojo.getMembers().map(pojos::withMember))
         .append(w -> w.println(");"));
   }
 
-  private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> gen() {
+  private static Generator<ComposedAndMemberPojo, PojoSettings> withMethodContent() {
+    return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
+        .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getName()))
+        .appendList(
+            withMethodMemberGen(), pojos -> pojos.composedPojo.getMembers().map(pojos::withMember))
+        .append(w -> w.println(");"));
+  }
+
+  private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> fromMethodMemberGen() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append(discriminator(), 1)
         .append(requiredMember(), 1)
-        .append(requiredMemberForOtherObject(), 1)
+        .append(requiredMemberForOtherObjectFromMethod(), 1)
         .append(requiredNullableMember(), 1)
-        .append(requiredNullableMemberForOtherObject(), 1)
+        .append(requiredNullableMemberForOtherObjectFromMethod(), 1)
         .append(optionalMember(), 1)
-        .append(optionalMemberForOtherObject(), 1)
+        .append(optionalMemberForOtherObjectFromMethod(), 1)
         .append(optionalNullableMember(), 1)
-        .append(optionalNullableMemberForOtherObject(), 1);
+        .append(optionalNullableMemberForOtherObjectFromMethod(), 1);
+  }
+
+  private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> withMethodMemberGen() {
+    return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
+        .append(requiredMember(), 1)
+        .append(requiredMemberForOtherObjectWithMethod(), 1)
+        .append(requiredNullableMember(), 1)
+        .append(requiredNullableMemberForOtherObjectWithMethod(), 1)
+        .append(optionalMember(), 1)
+        .append(optionalMemberForOtherObjectWithMethod(), 1)
+        .append(optionalNullableMember(), 1)
+        .append(optionalNullableMemberForOtherObjectWithMethod(), 1);
   }
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> requiredMember() {
@@ -82,10 +129,18 @@ public class FactoryMethodGenerator {
   }
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
-      requiredMemberForOtherObject() {
+      requiredMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("null%s", p.commaAfterParameter()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
+        .filter(
+            pojos -> pojos.member.isRequiredAndNotNullable() && pojos.isNotMemberOfMemberPojo());
+  }
+
+  private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
+      requiredMemberForOtherObjectWithMethod() {
+    return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
+        .append((p, s, w) -> w.println("%s%s", p.member.getName(), p.commaAfterParameter()))
         .filter(
             pojos -> pojos.member.isRequiredAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -99,11 +154,21 @@ public class FactoryMethodGenerator {
   }
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
-      requiredNullableMemberForOtherObject() {
+      requiredNullableMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append(w -> w.println("null,"))
         .append((p, s, w) -> w.println("false%s", p.commaAfterParameter()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
+        .filter(pojos -> pojos.member.isRequiredAndNullable() && pojos.isNotMemberOfMemberPojo());
+  }
+
+  private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
+      requiredNullableMemberForOtherObjectWithMethod() {
+    return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
+        .append((p, s, w) -> w.println("%s,", p.member.getName()))
+        .append(
+            (p, s, w) ->
+                w.println("%s%s", p.member.getIsPresentFlagName(), p.commaAfterParameter()))
         .filter(pojos -> pojos.member.isRequiredAndNullable() && pojos.isNotMemberOfMemberPojo());
   }
 
@@ -117,10 +182,18 @@ public class FactoryMethodGenerator {
   }
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
-      optionalMemberForOtherObject() {
+      optionalMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("null%s", p.commaAfterParameter()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
+        .filter(
+            pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isNotMemberOfMemberPojo());
+  }
+
+  private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
+      optionalMemberForOtherObjectWithMethod() {
+    return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
+        .append((p, s, w) -> w.println("%s%s", p.member.getName(), p.commaAfterParameter()))
         .filter(
             pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -142,11 +215,20 @@ public class FactoryMethodGenerator {
   }
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
-      optionalNullableMemberForOtherObject() {
+      optionalNullableMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append(w -> w.println("null,"))
         .append((p, s, w) -> w.println("false%s", p.commaAfterParameter()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
+        .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isNotMemberOfMemberPojo());
+  }
+
+  private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
+      optionalNullableMemberForOtherObjectWithMethod() {
+    return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
+        .append((p, s, w) -> w.println("%s,", p.member.getName()))
+        .append(
+            (p, s, w) -> w.println("%s%s", p.member.getIsNullFlagName(), p.commaAfterParameter()))
         .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isNotMemberOfMemberPojo());
   }
 
