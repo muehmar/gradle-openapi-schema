@@ -19,7 +19,7 @@ public class TestPojoSettings {
         .formatTypeMappings(Collections.emptyList())
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
         .getterSuffixes(defaultGetterSuffixes())
-        .rawGetter(defaultRawGetter())
+        .validationMethods(defaultValidationMethods())
         .excludeSchemas(Collections.emptyList())
         .andAllOptionals()
         .build();
@@ -41,10 +41,10 @@ public class TestPojoSettings {
         .build();
   }
 
-  public static RawGetter defaultRawGetter() {
-    return RawGetterBuilder.create()
+  public static ValidationMethods defaultValidationMethods() {
+    return ValidationMethodsBuilder.create()
         .modifier(JavaModifier.PRIVATE)
-        .suffix("Raw")
+        .getterSuffix("Raw")
         .deprecatedAnnotation(false)
         .andAllOptionals()
         .build();

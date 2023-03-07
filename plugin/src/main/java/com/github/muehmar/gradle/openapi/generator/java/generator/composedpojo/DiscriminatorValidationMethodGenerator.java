@@ -4,6 +4,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.ofWriterFunction;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
@@ -25,7 +26,7 @@ public class DiscriminatorValidationMethodGenerator {
             pojo -> "Not valid against the schema described by the discriminator");
     final MethodGen<PojoAndDiscriminator, PojoSettings> method =
         MethodGenBuilder.<PojoAndDiscriminator, PojoSettings>create()
-            .modifiers((pojo, settings) -> settings.getRawGetter().getModifier().asJavaModifiers())
+            .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
             .methodName("isValidAgainstTheCorrectSchema")

@@ -33,10 +33,10 @@ class CommonGetterTest {
 
     final PojoSettings settings =
         TestPojoSettings.defaultSettings()
-            .withRawGetter(
-                TestPojoSettings.defaultRawGetter()
+            .withValidationMethods(
+                TestPojoSettings.defaultValidationMethods()
                     .withModifier(JavaModifier.PUBLIC)
-                    .withSuffix("CustomSuffix"));
+                    .withGetterSuffix("CustomSuffix"));
     final Writer writer =
         generator.generate(JavaPojoMembers.optionalString(), settings, Writer.createDefault());
 

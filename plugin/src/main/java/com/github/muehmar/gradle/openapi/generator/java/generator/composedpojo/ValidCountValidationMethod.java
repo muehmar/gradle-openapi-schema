@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
@@ -31,7 +32,7 @@ public class ValidCountValidationMethod {
         ValidationGenerator.assertFalse(message);
     final MethodGen<JavaComposedPojo, PojoSettings> method =
         MethodGenBuilder.<JavaComposedPojo, PojoSettings>create()
-            .modifiers((pojo, settings) -> settings.getRawGetter().getModifier().asJavaModifiers())
+            .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
             .methodName("isValidAgainstNoSchema")
@@ -51,7 +52,7 @@ public class ValidCountValidationMethod {
         ValidationGenerator.assertFalse(message);
     final MethodGen<JavaComposedPojo, PojoSettings> method =
         MethodGenBuilder.<JavaComposedPojo, PojoSettings>create()
-            .modifiers((pojo, settings) -> settings.getRawGetter().getModifier().asJavaModifiers())
+            .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
             .methodName("isValidAgainstMoreThanOneSchema")

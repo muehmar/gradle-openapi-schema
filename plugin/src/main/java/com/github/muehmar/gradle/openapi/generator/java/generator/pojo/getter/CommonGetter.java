@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -43,10 +44,12 @@ public class CommonGetter {
 
   public static Generator<JavaPojoMember, PojoSettings> rawGetterMethod() {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers((f, s) -> s.getRawGetter().getModifier().asJavaModifiers())
+        .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType(f -> f.getJavaType().getFullClassName().asString())
-        .methodName((f, s) -> f.getGetterName().append(s.getRawGetter().getSuffix()).asString())
+        .methodName(
+            (f, s) ->
+                f.getGetterName().append(s.getValidationMethods().getGetterSuffix()).asString())
         .noArguments()
         .content(f -> String.format("return %s;", f.getName()))
         .build();

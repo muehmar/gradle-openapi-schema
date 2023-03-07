@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedRawGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.assertTrue;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotations;
@@ -11,6 +11,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.RequiredNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -55,7 +56,7 @@ public class RequiredNullableGetter {
         .appendNewLine()
         .append(validationAnnotations())
         .append(jsonProperty())
-        .append(deprecatedRawGetter())
+        .append(deprecatedValidationMethod())
         .append(CommonGetter.rawGetterMethod())
         .filter(isJacksonJsonOrValidation);
   }
@@ -64,14 +65,14 @@ public class RequiredNullableGetter {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(assertTrue(f -> String.format("%s is required but it is not present", f.getName())))
-        .append(deprecatedRawGetter())
+        .append(deprecatedValidationMethod())
         .append(requiredValidationMethod())
         .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<JavaPojoMember, PojoSettings> requiredValidationMethod() {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers((f, s) -> s.getRawGetter().getModifier().asJavaModifiers())
+        .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType("boolean")
         .methodName(field -> String.format("is%sPresent", field.getName().startUpperCase()))

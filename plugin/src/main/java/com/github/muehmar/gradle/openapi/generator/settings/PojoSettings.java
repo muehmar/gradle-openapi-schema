@@ -25,7 +25,7 @@ public class PojoSettings implements Serializable {
   List<FormatTypeMapping> formatTypeMappings;
   EnumDescriptionSettings enumDescriptionSettings;
   GetterSuffixes getterSuffixes;
-  RawGetter rawGetter;
+  ValidationMethods validationMethods;
   List<String> excludeSchemas;
 
   public boolean isJacksonJson() {
@@ -79,10 +79,6 @@ public class PojoSettings implements Serializable {
   public static List<FormatTypeMapping> formatTypeMappings(
       PList<FormatTypeMapping> formatTypeMappings) {
     return formatTypeMappings.toArrayList();
-  }
-
-  public RawGetter getRawGetter() {
-    return rawGetter;
   }
 
   public TypeMappings getTypeMappings() {
