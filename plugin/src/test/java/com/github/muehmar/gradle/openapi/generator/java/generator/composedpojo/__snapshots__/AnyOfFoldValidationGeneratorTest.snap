@@ -7,3 +7,15 @@ private List<Object> getAnyOf() {
   return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto);
 }
 ]
+
+
+AnyOfProtectedAndDeprecatedSettings=[
+@Valid
+@Deprecated
+protected List<Object> getAnyOf() {
+  if (getValidCount() == 0) {
+    return null;
+  }
+  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto);
+}
+]
