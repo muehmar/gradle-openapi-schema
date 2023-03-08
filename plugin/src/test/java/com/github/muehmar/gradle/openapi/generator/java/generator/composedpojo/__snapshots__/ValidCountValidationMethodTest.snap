@@ -1,11 +1,11 @@
-ValidCountValidationMethod[ANY_OF,false,jakarta-2]=[
+ValidCountValidationMethod[ANY_OF,false,jakarta-2,PRIVATE]=[
 .
 .
 
 ]
 
 
-ValidCountValidationMethod[ANY_OF,true,jakarta-2]=[
+ValidCountValidationMethod[ANY_OF,true,jakarta-2,PRIVATE]=[
 javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
@@ -15,7 +15,18 @@ private boolean isValidAgainstNoSchema() {
 ]
 
 
-ValidCountValidationMethod[ANY_OF,true,jakarta-3]=[
+ValidCountValidationMethod[ANY_OF,true,jakarta-2,PROTECTED]=[
+javax.validation.constraints.AssertFalse
+
+@AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+@Deprecated
+protected boolean isValidAgainstNoSchema() {
+  return getValidCount() == 0;
+}
+]
+
+
+ValidCountValidationMethod[ANY_OF,true,jakarta-3,PRIVATE]=[
 jakarta.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
@@ -25,14 +36,14 @@ private boolean isValidAgainstNoSchema() {
 ]
 
 
-ValidCountValidationMethod[ONE_OF,false,jakarta-2]=[
+ValidCountValidationMethod[ONE_OF,false,jakarta-2,PRIVATE]=[
 .
 .
 
 ]
 
 
-ValidCountValidationMethod[ONE_OF,true,jakarta-2]=[
+ValidCountValidationMethod[ONE_OF,true,jakarta-2,PRIVATE]=[
 javax.validation.constraints.AssertFalse
 javax.validation.constraints.AssertFalse
 
@@ -48,7 +59,25 @@ private boolean isValidAgainstMoreThanOneSchema() {
 ]
 
 
-ValidCountValidationMethod[ONE_OF,true,jakarta-3]=[
+ValidCountValidationMethod[ONE_OF,true,jakarta-2,PROTECTED]=[
+javax.validation.constraints.AssertFalse
+javax.validation.constraints.AssertFalse
+
+@AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+@Deprecated
+protected boolean isValidAgainstNoSchema() {
+  return getValidCount() == 0;
+}
+
+@AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+@Deprecated
+protected boolean isValidAgainstMoreThanOneSchema() {
+  return getValidCount() > 1;
+}
+]
+
+
+ValidCountValidationMethod[ONE_OF,true,jakarta-3,PRIVATE]=[
 jakarta.validation.constraints.AssertFalse
 jakarta.validation.constraints.AssertFalse
 
