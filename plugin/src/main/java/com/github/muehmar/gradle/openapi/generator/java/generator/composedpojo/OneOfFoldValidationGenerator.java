@@ -1,8 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static io.github.muehmar.codegenerator.Generator.constant;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -16,7 +17,7 @@ public class OneOfFoldValidationGenerator {
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
     final MethodGen<JavaComposedPojo, PojoSettings> method =
         MethodGenBuilder.<JavaComposedPojo, PojoSettings>create()
-            .modifiers(PRIVATE)
+            .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("Object")
             .methodName("getOneOf")
@@ -25,6 +26,7 @@ public class OneOfFoldValidationGenerator {
             .build();
 
     return ValidationGenerator.<JavaComposedPojo>validAnnotation()
+        .append(AnnotationGenerator.deprecatedValidationMethod())
         .append(method)
         .filter(JavaComposedPojo::isOneOf);
   }
