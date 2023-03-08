@@ -28,6 +28,22 @@ private boolean isValidAgainstTheCorrectSchema() {
 ]
 
 
+DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@Deprecated
+protected boolean isValidAgainstTheCorrectSchema() {
+  if (requiredStringVal == null) {
+    return false;
+  }
+  switch(requiredStringVal) {
+    case "User": return isValidAgainstUser();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
 DiscriminatorWithoutMapping[ANY_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 private boolean isValidAgainstTheCorrectSchema() {

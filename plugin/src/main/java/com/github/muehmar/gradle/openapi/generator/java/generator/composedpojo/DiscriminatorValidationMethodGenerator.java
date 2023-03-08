@@ -4,6 +4,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.ofWriterFunction;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
@@ -34,8 +35,11 @@ public class DiscriminatorValidationMethodGenerator {
             .content(methodContent())
             .build();
 
+    final Generator<PojoAndDiscriminator, PojoSettings> completeMethodGen =
+        annotation.append(AnnotationGenerator.deprecatedValidationMethod()).append(method);
+
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
-        .appendOptional(annotation.append(method), PojoAndDiscriminator::fromPojo);
+        .appendOptional(completeMethodGen, PojoAndDiscriminator::fromPojo);
   }
 
   private static Generator<PojoAndDiscriminator, PojoSettings> methodContent() {
