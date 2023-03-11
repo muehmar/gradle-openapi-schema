@@ -1,5 +1,6 @@
 DiscriminatorWithMapping[ANY_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
   if (requiredStringVal == null) {
     return false;
@@ -15,6 +16,7 @@ private boolean isValidAgainstTheCorrectSchema() {
 
 DiscriminatorWithMapping[ONE_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
   if (requiredStringVal == null) {
     return false;
@@ -31,6 +33,7 @@ private boolean isValidAgainstTheCorrectSchema() {
 DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 @Deprecated
+@JsonIgnore
 protected boolean isValidAgainstTheCorrectSchema() {
   if (requiredStringVal == null) {
     return false;
@@ -46,6 +49,7 @@ protected boolean isValidAgainstTheCorrectSchema() {
 
 DiscriminatorWithoutMapping[ANY_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
   if (requiredStringVal == null) {
     return false;
@@ -61,6 +65,7 @@ private boolean isValidAgainstTheCorrectSchema() {
 
 DiscriminatorWithoutMapping[ONE_OF]=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
   if (requiredStringVal == null) {
     return false;

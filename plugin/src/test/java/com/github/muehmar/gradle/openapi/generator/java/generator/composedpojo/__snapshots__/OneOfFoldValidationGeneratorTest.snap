@@ -1,5 +1,6 @@
 oneOf=[
 @Valid
+@JsonIgnore
 private Object getOneOf() {
   if (getValidCount() != 1) {
     return null;
@@ -12,6 +13,7 @@ private Object getOneOf() {
 oneOfProtectedAndDeprecatedSettings=[
 @Valid
 @Deprecated
+@JsonIgnore
 protected Object getOneOf() {
   if (getValidCount() != 1) {
     return null;

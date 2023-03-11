@@ -1,6 +1,7 @@
 ComposedPojoGenerator[ANY_OF,null]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -139,6 +140,7 @@ public class ComposedAnyofDto {
   }
 
   @Valid
+  @JsonIgnore
   private List<Object> getAnyOf() {
     if (getValidCount() == 0) {
       return null;
@@ -165,6 +167,7 @@ public class ComposedAnyofDto {
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
   }
@@ -349,6 +352,7 @@ public class ComposedAnyofDto {
 ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -461,6 +465,7 @@ public class ComposedOneofDto {
   }
 
   @Valid
+  @JsonIgnore
   private Object getOneOf() {
     if (getValidCount() != 1) {
       return null;
@@ -487,6 +492,7 @@ public class ComposedOneofDto {
   }
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  @JsonIgnore
   private boolean isValidAgainstTheCorrectSchema() {
     if (requiredStringVal == null) {
       return false;
@@ -499,11 +505,13 @@ public class ComposedOneofDto {
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
   }
 
   @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
   private boolean isValidAgainstMoreThanOneSchema() {
     return getValidCount() > 1;
   }
@@ -711,6 +719,7 @@ public class ComposedOneofDto {
 ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional.empty)]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -823,6 +832,7 @@ public class ComposedOneofDto {
   }
 
   @Valid
+  @JsonIgnore
   private Object getOneOf() {
     if (getValidCount() != 1) {
       return null;
@@ -849,6 +859,7 @@ public class ComposedOneofDto {
   }
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  @JsonIgnore
   private boolean isValidAgainstTheCorrectSchema() {
     if (requiredStringVal == null) {
       return false;
@@ -861,11 +872,13 @@ public class ComposedOneofDto {
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
   }
 
   @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
   private boolean isValidAgainstMoreThanOneSchema() {
     return getValidCount() > 1;
   }
@@ -1073,6 +1086,7 @@ public class ComposedOneofDto {
 ComposedPojoGenerator[ONE_OF,null]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -1184,6 +1198,7 @@ public class ComposedOneofDto {
   }
 
   @Valid
+  @JsonIgnore
   private Object getOneOf() {
     if (getValidCount() != 1) {
       return null;
@@ -1210,11 +1225,13 @@ public class ComposedOneofDto {
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
   }
 
   @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
   private boolean isValidAgainstMoreThanOneSchema() {
     return getValidCount() > 1;
   }

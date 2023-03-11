@@ -4,6 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Annotatio
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -40,7 +41,10 @@ public class ValidCountValidationMethod {
             .noArguments()
             .content("return getValidCount() == 0;")
             .build();
-    return annotation.append(AnnotationGenerator.deprecatedValidationMethod()).append(method);
+    return annotation
+        .append(AnnotationGenerator.deprecatedValidationMethod())
+        .append(JacksonAnnotationGenerator.jsonIgnore())
+        .append(method);
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> isValidAgainstMoreThanOneSchema() {
@@ -62,6 +66,7 @@ public class ValidCountValidationMethod {
             .build();
     return annotation
         .append(AnnotationGenerator.deprecatedValidationMethod())
+        .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
         .prependNewLine()
         .filter(JavaComposedPojo::isOneOf);

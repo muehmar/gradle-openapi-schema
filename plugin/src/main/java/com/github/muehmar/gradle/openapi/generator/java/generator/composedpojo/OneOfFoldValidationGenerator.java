@@ -5,6 +5,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -27,6 +28,7 @@ public class OneOfFoldValidationGenerator {
 
     return ValidationGenerator.<JavaComposedPojo>validAnnotation()
         .append(AnnotationGenerator.deprecatedValidationMethod())
+        .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
         .filter(JavaComposedPojo::isOneOf);
   }

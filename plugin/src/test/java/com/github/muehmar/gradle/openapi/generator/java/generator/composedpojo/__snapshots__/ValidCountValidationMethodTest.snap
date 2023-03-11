@@ -6,9 +6,11 @@ ValidCountValidationMethod[ANY_OF,false,jakarta-2,PRIVATE]=[
 
 
 ValidCountValidationMethod[ANY_OF,true,jakarta-2,PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+@JsonIgnore
 private boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
@@ -16,10 +18,12 @@ private boolean isValidAgainstNoSchema() {
 
 
 ValidCountValidationMethod[ANY_OF,true,jakarta-2,PROTECTED]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
 @Deprecated
+@JsonIgnore
 protected boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
@@ -27,9 +31,11 @@ protected boolean isValidAgainstNoSchema() {
 
 
 ValidCountValidationMethod[ANY_OF,true,jakarta-3,PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 jakarta.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+@JsonIgnore
 private boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
@@ -44,15 +50,19 @@ ValidCountValidationMethod[ONE_OF,false,jakarta-2,PRIVATE]=[
 
 
 ValidCountValidationMethod[ONE_OF,true,jakarta-2,PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertFalse
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+@JsonIgnore
 private boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
 
 @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+@JsonIgnore
 private boolean isValidAgainstMoreThanOneSchema() {
   return getValidCount() > 1;
 }
@@ -60,17 +70,21 @@ private boolean isValidAgainstMoreThanOneSchema() {
 
 
 ValidCountValidationMethod[ONE_OF,true,jakarta-2,PROTECTED]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertFalse
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
 @Deprecated
+@JsonIgnore
 protected boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
 
 @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
 @Deprecated
+@JsonIgnore
 protected boolean isValidAgainstMoreThanOneSchema() {
   return getValidCount() > 1;
 }
@@ -78,15 +92,19 @@ protected boolean isValidAgainstMoreThanOneSchema() {
 
 
 ValidCountValidationMethod[ONE_OF,true,jakarta-3,PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 jakarta.validation.constraints.AssertFalse
+com.fasterxml.jackson.annotation.JsonIgnore
 jakarta.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+@JsonIgnore
 private boolean isValidAgainstNoSchema() {
   return getValidCount() == 0;
 }
 
 @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+@JsonIgnore
 private boolean isValidAgainstMoreThanOneSchema() {
   return getValidCount() > 1;
 }

@@ -1,5 +1,6 @@
 AnyOf=[
 @Valid
+@JsonIgnore
 private List<Object> getAnyOf() {
   if (getValidCount() == 0) {
     return null;
@@ -12,6 +13,7 @@ private List<Object> getAnyOf() {
 AnyOfProtectedAndDeprecatedSettings=[
 @Valid
 @Deprecated
+@JsonIgnore
 protected List<Object> getAnyOf() {
   if (getValidCount() == 0) {
     return null;

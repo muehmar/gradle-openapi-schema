@@ -7,6 +7,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
@@ -36,7 +37,10 @@ public class DiscriminatorValidationMethodGenerator {
             .build();
 
     final Generator<PojoAndDiscriminator, PojoSettings> completeMethodGen =
-        annotation.append(AnnotationGenerator.deprecatedValidationMethod()).append(method);
+        annotation
+            .append(AnnotationGenerator.deprecatedValidationMethod())
+            .append(JacksonAnnotationGenerator.jsonIgnore())
+            .append(method);
 
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .appendOptional(completeMethodGen, PojoAndDiscriminator::fromPojo);
