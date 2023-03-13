@@ -14,6 +14,19 @@ public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNul
 
 
 OneOfDiscriminatorWithMapping=[
+/**
+ * Folds this instance using the given mapping functions for the DTO's. If this
+ * instance is valid against exactly one of the specified schemas, its
+ * corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br><br>
+ * 
+ * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+ * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * 
+ * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+ * as last parameter a {@link Supplier} which gets called in case this instance is
+ * not valid against exactly one of the defined schemas and its value is returned.
+ */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if ("UserValue".equals(requiredStringVal) && isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());
@@ -51,6 +64,19 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 
 
 OneOfDiscriminatorWithoutMapping=[
+/**
+ * Folds this instance using the given mapping functions for the DTO's. If this
+ * instance is valid against exactly one of the specified schemas, its
+ * corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br><br>
+ * 
+ * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+ * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * 
+ * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+ * as last parameter a {@link Supplier} which gets called in case this instance is
+ * not valid against exactly one of the defined schemas and its value is returned.
+ */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if ("User".equals(requiredStringVal) && isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());
@@ -88,6 +114,19 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 
 
 OneOfNoDiscriminator=[
+/**
+ * Folds this instance using the given mapping functions for the DTO's. If this
+ * instance is valid against exactly one of the specified schemas, its
+ * corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br><br>
+ * 
+ * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+ * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * 
+ * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+ * as last parameter a {@link Supplier} which gets called in case this instance is
+ * not valid against exactly one of the defined schemas and its value is returned.
+ */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
   if (isValidAgainstUser()) {
     return onUserDto.apply(asUserDto());

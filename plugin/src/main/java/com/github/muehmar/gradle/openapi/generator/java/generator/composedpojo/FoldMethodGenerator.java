@@ -15,42 +15,64 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
 public class FoldMethodGenerator {
+
+  private static final String JAVA_DOC_FOLD =
+      "Folds this instance using the given mapping functions for the DTO's. If this instance is valid against exactly"
+          + " one of the specified schemas, its corresponding mapping function gets executed with the DTO as input and"
+          + " its result is returned.<br><br>\n\n";
+  private static final String JAVA_DOC_EXAMPLE =
+      "I.e. if the JSON was valid against the schema '%s', the mapping method {@code %s} "
+          + "gets executed with the {@link %s} as argument.<br><br>\n\n";
+  private static final String JAVA_DOC_THROWS =
+      "This method assumes this instance is either manually or automatically validated, i.e. "
+          + "the JSON is valid against exactly one of the schemas. If it is either valid against no schema or multiple schemas, "
+          + "it will throw an {@link IllegalStateException}.";
+  private static final String JAVA_DOC_FULL_FOLD =
+      "Unlike %s, this method accepts as last parameter a {@link Supplier}"
+          + " which gets called in case this instance is not valid against exactly one of the defined schemas and"
+          + " its value is returned.";
+
   private FoldMethodGenerator() {}
 
   public static Generator<JavaComposedPojo, PojoSettings> generator() {
-    return fullFoldMethod()
+    return fullFoldOneOfJavaDoc()
+        .append(fullFoldMethod())
         .appendSingleBlankLine()
         .append(standardFoldOneOfJavaDoc())
         .append(standardFoldMethod());
   }
 
   public static Generator<JavaComposedPojo, PojoSettings> standardFoldOneOfJavaDoc() {
-    final String firstJavaDoc =
-        "Folds this instance using the given mapping functions for the DTO's. If this instance is valid against exactly"
-            + " one of the specified schemas, its corresponding mapping function gets executed with the DTO as input and"
-            + " its result is returned.<br><br>\n\n";
-    final String exampleJavaDoc =
-        "I.e. if the JSON was valid against the schema '%s', the mapping method {@code %s} "
-            + "gets executed with the {@link %s} as argument.<br><br>\n\n";
-    final String thirdJavaDoc =
-        "This method assumes this instance is either manually or automatically validated, i.e. "
-            + "the JSON is valid against exactly one of the schemas. If it is either valid against no schema or multiple schemas, "
-            + "it will throw an {@link IllegalStateException}.";
     return JavaDocGenerator.<JavaComposedPojo, PojoSettings>javaDoc(
-            (p, s) ->
-                firstJavaDoc
-                    + p.getJavaPojos()
-                        .headOption()
-                        .map(
-                            ep ->
-                                String.format(
-                                    exampleJavaDoc,
-                                    ep.getName().getName(),
-                                    CompositionNames.dtoMappingArgumentName(ep),
-                                    ep.getName()))
-                        .orElse("")
-                    + thirdJavaDoc)
+            (p, s) -> JAVA_DOC_FOLD + getJavaDocExample(p) + JAVA_DOC_THROWS)
         .filter(JavaComposedPojo::isOneOf);
+  }
+
+  public static Generator<JavaComposedPojo, PojoSettings> fullFoldOneOfJavaDoc() {
+    return JavaDocGenerator.<JavaComposedPojo, PojoSettings>javaDoc(
+            (p, s) -> JAVA_DOC_FOLD + getJavaDocExample(p) + getJavaDocFullFoldString(p))
+        .filter(JavaComposedPojo::isOneOf);
+  }
+
+  private static String getJavaDocExample(JavaComposedPojo pojo) {
+    return pojo.getJavaPojos()
+        .headOption()
+        .map(
+            ep ->
+                String.format(
+                    JAVA_DOC_EXAMPLE,
+                    ep.getName().getName(),
+                    CompositionNames.dtoMappingArgumentName(ep),
+                    ep.getName()))
+        .orElse("");
+  }
+
+  private static String getJavaDocFullFoldString(JavaComposedPojo pojo) {
+    final String unsafeFoldRef =
+        String.format(
+            "{@link %s#fold(%s)}",
+            pojo.getName(), pojo.getJavaPojos().map(ignore -> "Function").mkString(", "));
+    return String.format(JAVA_DOC_FULL_FOLD, unsafeFoldRef);
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> fullFoldMethod() {
