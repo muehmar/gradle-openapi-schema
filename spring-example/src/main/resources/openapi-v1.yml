@@ -24,6 +24,27 @@ paths:
      responses:
        '200':
          description: OK
+  /api/v1/anyof:
+    get:
+      summary: AnyOf Get Endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminAndOrUser"
+    post:
+     summary: AnyOf Post Endpoint
+     requestBody:
+       required: true
+       content:
+         application/json:
+            schema:
+              $ref: "#/components/schemas/AdminAndOrUser"
+     responses:
+       '200':
+         description: OK
 
 
 components:
@@ -71,4 +92,9 @@ components:
         - $ref: '#/components/schemas/User'
       discriminator:
         propertyName: type
+
+    AdminAndOrUser:
+      anyOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
 
