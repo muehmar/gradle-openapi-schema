@@ -1,5 +1,21 @@
 AnyOf=[
 
+/**
+ * Folds this instance using the given mapping functions for the DTO's. All
+ * mapping functions gets executed with its corresponding DTO as input if this
+ * instance is valid against the corresponding schema and the results are returned
+ * in a list. The order of the elements in the returned list is deterministic: The
+ * order corresponds to the order of the mapping function arguments, i.e. the
+ * result of the first mapping function will always be at the first position in
+ * the list (if the function gets executed).<br><br>
+ * 
+ * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+ * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * 
+ * This method assumes this instance is either manually or automatically
+ * validated, i.e. the JSON is valid against at least one of the schemas. If it is
+ * valid against no schema, it will simply return an empty list.
+ */
 public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   final List<T> result = new ArrayList<>();
   if (isValidAgainstUser()) {

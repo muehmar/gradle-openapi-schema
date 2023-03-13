@@ -16,18 +16,33 @@ import lombok.Value;
 
 public class FoldMethodGenerator {
 
-  private static final String JAVA_DOC_FOLD =
+  private static final String JAVA_DOC_ONE_OF_FOLD =
       "Folds this instance using the given mapping functions for the DTO's. If this instance is valid against exactly"
           + " one of the specified schemas, its corresponding mapping function gets executed with the DTO as input and"
           + " its result is returned.<br><br>\n\n";
+
+  private static final String JAVA_DOC_ANY_OF_FOLD =
+      "Folds this instance using the given mapping functions for the DTO's. All mapping functions gets executed with its"
+          + " corresponding DTO as input if this instance is valid against the corresponding schema and the results"
+          + " are returned in a list. The order of the elements in the returned list is deterministic: The order"
+          + " corresponds to the order of the mapping function arguments, i.e. the result of the first mapping function"
+          + " will always be at the first position in the list (if the function gets executed).<br><br>\n\n";
+
   private static final String JAVA_DOC_EXAMPLE =
       "I.e. if the JSON was valid against the schema '%s', the mapping method {@code %s} "
           + "gets executed with the {@link %s} as argument.<br><br>\n\n";
-  private static final String JAVA_DOC_THROWS =
+
+  private static final String JAVA_DOC_ONE_OF_THROWS =
       "This method assumes this instance is either manually or automatically validated, i.e. "
           + "the JSON is valid against exactly one of the schemas. If it is either valid against no schema or multiple schemas, "
           + "it will throw an {@link IllegalStateException}.";
-  private static final String JAVA_DOC_FULL_FOLD =
+
+  private static final String JAVA_DOC_ANY_OF_INVALID =
+      "This method assumes this instance is either manually or automatically validated, i.e. "
+          + "the JSON is valid against at least one of the schemas. If it is valid against no schema, "
+          + "it will simply return an empty list.";
+
+  private static final String JAVA_DOC_ONE_OF_FULL_FOLD =
       "Unlike %s, this method accepts as last parameter a {@link Supplier}"
           + " which gets called in case this instance is not valid against exactly one of the defined schemas and"
           + " its value is returned.";
@@ -38,19 +53,26 @@ public class FoldMethodGenerator {
     return fullFoldOneOfJavaDoc()
         .append(fullFoldMethod())
         .appendSingleBlankLine()
+        .append(standardFoldAnyOfJavaDoc())
         .append(standardFoldOneOfJavaDoc())
         .append(standardFoldMethod());
   }
 
+  public static Generator<JavaComposedPojo, PojoSettings> standardFoldAnyOfJavaDoc() {
+    return JavaDocGenerator.<JavaComposedPojo, PojoSettings>javaDoc(
+            (p, s) -> JAVA_DOC_ANY_OF_FOLD + getJavaDocExample(p) + JAVA_DOC_ANY_OF_INVALID)
+        .filter(JavaComposedPojo::isAnyOf);
+  }
+
   public static Generator<JavaComposedPojo, PojoSettings> standardFoldOneOfJavaDoc() {
     return JavaDocGenerator.<JavaComposedPojo, PojoSettings>javaDoc(
-            (p, s) -> JAVA_DOC_FOLD + getJavaDocExample(p) + JAVA_DOC_THROWS)
+            (p, s) -> JAVA_DOC_ONE_OF_FOLD + getJavaDocExample(p) + JAVA_DOC_ONE_OF_THROWS)
         .filter(JavaComposedPojo::isOneOf);
   }
 
   public static Generator<JavaComposedPojo, PojoSettings> fullFoldOneOfJavaDoc() {
     return JavaDocGenerator.<JavaComposedPojo, PojoSettings>javaDoc(
-            (p, s) -> JAVA_DOC_FOLD + getJavaDocExample(p) + getJavaDocFullFoldString(p))
+            (p, s) -> JAVA_DOC_ONE_OF_FOLD + getJavaDocExample(p) + getJavaDocFullFoldString(p))
         .filter(JavaComposedPojo::isOneOf);
   }
 
@@ -72,7 +94,7 @@ public class FoldMethodGenerator {
         String.format(
             "{@link %s#fold(%s)}",
             pojo.getName(), pojo.getJavaPojos().map(ignore -> "Function").mkString(", "));
-    return String.format(JAVA_DOC_FULL_FOLD, unsafeFoldRef);
+    return String.format(JAVA_DOC_ONE_OF_FULL_FOLD, unsafeFoldRef);
   }
 
   private static Generator<JavaComposedPojo, PojoSettings> fullFoldMethod() {
