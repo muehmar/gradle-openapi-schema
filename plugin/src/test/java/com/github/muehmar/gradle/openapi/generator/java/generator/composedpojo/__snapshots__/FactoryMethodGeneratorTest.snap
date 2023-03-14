@@ -1,4 +1,7 @@
 ComposedPojoGenerator[ANY_OF,null]=[
+/**
+ * Creates an instance of {@link ComposedAnyofDto} from a {@link UserDto}.
+ */
 public static ComposedAnyofDto fromUser(UserDto dto) {
   return new ComposedAnyofDto(
     dto.getUsername(),
@@ -12,6 +15,10 @@ public static ComposedAnyofDto fromUser(UserDto dto) {
   );
 }
 
+/**
+ * Creates an instance of {@link ComposedAnyofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
 public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
   return new ComposedAnyofDto(
     null,
@@ -25,6 +32,11 @@ public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabili
   );
 }
 
+/**
+ * Returns a new instance adding the supplied {@link UserDto}. This will overwrite
+ * any shared properties with other schemas to the value of the properties in the
+ * supplied {@link UserDto}.
+ */
 public ComposedAnyofDto withUser(UserDto dto) {
   return new ComposedAnyofDto(
     dto.getUsername(),
@@ -38,6 +50,11 @@ public ComposedAnyofDto withUser(UserDto dto) {
   );
 }
 
+/**
+ * Returns a new instance adding the supplied {@link NecessityAndNullabilityDto}.
+ * This will overwrite any shared properties with other schemas to the value of
+ * the properties in the supplied {@link NecessityAndNullabilityDto}.
+ */
 public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto dto) {
   return new ComposedAnyofDto(
     username,
@@ -54,6 +71,9 @@ public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto d
 
 
 ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+ */
 public static ComposedOneofDto fromUser(UserDto dto) {
   return new ComposedOneofDto(
     dto.getUsername(),
@@ -67,6 +87,10 @@ public static ComposedOneofDto fromUser(UserDto dto) {
   );
 }
 
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
 public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
   return new ComposedOneofDto(
     null,
@@ -84,6 +108,9 @@ public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabili
 
 
 ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional.empty)]=[
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+ */
 public static ComposedOneofDto fromUser(UserDto dto) {
   return new ComposedOneofDto(
     dto.getUsername(),
@@ -97,6 +124,10 @@ public static ComposedOneofDto fromUser(UserDto dto) {
   );
 }
 
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
 public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
   return new ComposedOneofDto(
     null,
@@ -114,6 +145,9 @@ public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabili
 
 
 ComposedPojoGenerator[ONE_OF,null]=[
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+ */
 public static ComposedOneofDto fromUser(UserDto dto) {
   return new ComposedOneofDto(
     dto.getUsername(),
@@ -127,6 +161,10 @@ public static ComposedOneofDto fromUser(UserDto dto) {
   );
 }
 
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
 public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
   return new ComposedOneofDto(
     null,

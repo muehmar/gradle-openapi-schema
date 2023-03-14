@@ -6,11 +6,13 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
@@ -36,29 +38,48 @@ public class FactoryMethodGenerator {
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> fromFactoryMethod() {
-    return MethodGenBuilder.<ComposedAndMemberPojo, PojoSettings>create()
-        .modifiers(PUBLIC, STATIC)
-        .noGenericTypes()
-        .returnType(pojos -> pojos.composedPojo.getName().asString())
-        .methodName(
-            pojos -> String.format("from%s", pojos.memberPojo.getName().getName().startUpperCase()))
-        .singleArgument(
-            pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
-        .content(fromMethodContent())
-        .build();
+    final MethodGen<ComposedAndMemberPojo, PojoSettings> method =
+        MethodGenBuilder.<ComposedAndMemberPojo, PojoSettings>create()
+            .modifiers(PUBLIC, STATIC)
+            .noGenericTypes()
+            .returnType(pojos -> pojos.composedPojo.getName().asString())
+            .methodName(
+                pojos ->
+                    String.format("from%s", pojos.memberPojo.getName().getName().startUpperCase()))
+            .singleArgument(
+                pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
+            .content(fromMethodContent())
+            .build();
+    final Generator<ComposedAndMemberPojo, PojoSettings> javaDoc =
+        JavaDocGenerator.javaDoc(
+            (p, s) ->
+                String.format(
+                    "Creates an instance of {@link %s} from a {@link %s}.",
+                    p.getComposedPojo().getName(), p.getMemberPojo().getName()));
+    return javaDoc.append(method);
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> witherMethod() {
-    return MethodGenBuilder.<ComposedAndMemberPojo, PojoSettings>create()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnType(pojos -> pojos.composedPojo.getName().asString())
-        .methodName(
-            pojos -> String.format("with%s", pojos.memberPojo.getName().getName().startUpperCase()))
-        .singleArgument(
-            pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
-        .content(withMethodContent())
-        .build();
+    final MethodGen<ComposedAndMemberPojo, PojoSettings> method =
+        MethodGenBuilder.<ComposedAndMemberPojo, PojoSettings>create()
+            .modifiers(PUBLIC)
+            .noGenericTypes()
+            .returnType(pojos -> pojos.composedPojo.getName().asString())
+            .methodName(
+                pojos ->
+                    String.format("with%s", pojos.memberPojo.getName().getName().startUpperCase()))
+            .singleArgument(
+                pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
+            .content(withMethodContent())
+            .build();
+    final Generator<ComposedAndMemberPojo, PojoSettings> javaDoc =
+        JavaDocGenerator.javaDoc(
+            (p, s) ->
+                String.format(
+                    "Returns a new instance adding the supplied {@link %s}. This will overwrite any shared properties with other"
+                        + " schemas to the value of the properties in the supplied {@link %s}.",
+                    p.getMemberPojo().getName(), p.getMemberPojo().getName()));
+    return javaDoc.append(method);
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> fromMethodContent() {

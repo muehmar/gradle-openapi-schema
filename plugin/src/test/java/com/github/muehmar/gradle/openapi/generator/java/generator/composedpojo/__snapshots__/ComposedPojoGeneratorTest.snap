@@ -51,6 +51,9 @@ public class ComposedAnyofDto {
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
   }
 
+  /**
+   * Creates an instance of {@link ComposedAnyofDto} from a {@link UserDto}.
+   */
   public static ComposedAnyofDto fromUser(UserDto dto) {
     return new ComposedAnyofDto(
       dto.getUsername(),
@@ -64,6 +67,10 @@ public class ComposedAnyofDto {
     );
   }
 
+  /**
+   * Creates an instance of {@link ComposedAnyofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
   public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
     return new ComposedAnyofDto(
       null,
@@ -77,6 +84,11 @@ public class ComposedAnyofDto {
     );
   }
 
+  /**
+   * Returns a new instance adding the supplied {@link UserDto}. This will overwrite
+   * any shared properties with other schemas to the value of the properties in the
+   * supplied {@link UserDto}.
+   */
   public ComposedAnyofDto withUser(UserDto dto) {
     return new ComposedAnyofDto(
       dto.getUsername(),
@@ -90,6 +102,11 @@ public class ComposedAnyofDto {
     );
   }
 
+  /**
+   * Returns a new instance adding the supplied {@link NecessityAndNullabilityDto}.
+   * This will overwrite any shared properties with other schemas to the value of
+   * the properties in the supplied {@link NecessityAndNullabilityDto}.
+   */
   public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto dto) {
     return new ComposedAnyofDto(
       username,
@@ -418,6 +435,9 @@ public class ComposedOneofDto {
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
   }
 
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+   */
   public static ComposedOneofDto fromUser(UserDto dto) {
     return new ComposedOneofDto(
       dto.getUsername(),
@@ -431,6 +451,10 @@ public class ComposedOneofDto {
     );
   }
 
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
   public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
     return new ComposedOneofDto(
       null,
@@ -798,6 +822,9 @@ public class ComposedOneofDto {
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
   }
 
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+   */
   public static ComposedOneofDto fromUser(UserDto dto) {
     return new ComposedOneofDto(
       dto.getUsername(),
@@ -811,6 +838,10 @@ public class ComposedOneofDto {
     );
   }
 
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
   public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
     return new ComposedOneofDto(
       null,
@@ -1177,6 +1208,9 @@ public class ComposedOneofDto {
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
   }
 
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+   */
   public static ComposedOneofDto fromUser(UserDto dto) {
     return new ComposedOneofDto(
       dto.getUsername(),
@@ -1190,6 +1224,10 @@ public class ComposedOneofDto {
     );
   }
 
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
   public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
     return new ComposedOneofDto(
       null,
