@@ -8,8 +8,8 @@ import lombok.With;
 @Value
 @With
 @PojoBuilder
-public class RawGetter implements Serializable {
+public class ValidationMethods implements Serializable {
   JavaModifier modifier;
-  String suffix;
+  String getterSuffix;
   boolean deprecatedAnnotation;
 }

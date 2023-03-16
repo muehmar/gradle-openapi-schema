@@ -1,6 +1,391 @@
-composedPojoAndDefaultSettings=[
+ComposedPojoGenerator[ANY_OF,null]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+
+/**
+ * Composition Description
+ */
+@JsonDeserialize(builder = ComposedAnyofDto.Builder.class)
+public class ComposedAnyofDto {
+  private final String username;
+  private final LocalDate birthdate;
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public ComposedAnyofDto(
+      String username,
+      LocalDate birthdate,
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.username = username;
+    this.birthdate = birthdate;
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  /**
+   * Creates an instance of {@link ComposedAnyofDto} from a {@link UserDto}.
+   */
+  public static ComposedAnyofDto fromUser(UserDto dto) {
+    return new ComposedAnyofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false
+    );
+  }
+
+  /**
+   * Creates an instance of {@link ComposedAnyofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
+  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedAnyofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
+
+  /**
+   * Returns a new instance adding the supplied {@link UserDto}. This will overwrite
+   * any shared properties with other schemas to the value of the properties in the
+   * supplied {@link UserDto}.
+   */
+  public ComposedAnyofDto withUser(UserDto dto) {
+    return new ComposedAnyofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  /**
+   * Returns a new instance adding the supplied {@link NecessityAndNullabilityDto}.
+   * This will overwrite any shared properties with other schemas to the value of
+   * the properties in the supplied {@link NecessityAndNullabilityDto}.
+   */
+  public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedAnyofDto(
+      username,
+      birthdate,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Valid
+  @JsonIgnore
+  private List<Object> getAnyOf() {
+    if (getValidCount() == 0) {
+      return null;
+    }
+    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto);
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. All
+   * mapping functions gets executed with its corresponding DTO as input if this
+   * instance is valid against the corresponding schema and the results are returned
+   * in a list. The order of the elements in the returned list is deterministic: The
+   * order corresponds to the order of the mapping function arguments, i.e. the
+   * result of the first mapping function will always be at the first position in
+   * the list (if the function gets executed).<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+   * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+   * 
+   * This method assumes this instance is either manually or automatically
+   * validated, i.e. the JSON is valid against at least one of the schemas. If it is
+   * valid against no schema, it will simply return an empty list.
+   */
+  public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+    final List<T> result = new ArrayList<>();
+    if (isValidAgainstUser()) {
+      result.add(onUserDto.apply(asUserDto()));
+    }
+    if (isValidAgainstNecessityAndNullability()) {
+      result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
+    }
+    return result;
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedAnyofDto other = (ComposedAnyofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedAnyofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String username;
+    private LocalDate birthdate;
+    private String requiredStringVal;
+    private String requiredNullableStringVal;
+    private boolean isRequiredNullableStringValPresent = false;
+    private String optionalStringVal;
+    private String optionalNullableStringVal;
+    private boolean isOptionalNullableStringValNull = false;
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    @JsonProperty("requiredNullableStringVal")
+    private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal;
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    @JsonProperty("optionalStringVal")
+    public Builder setOptionalStringVal(String optionalStringVal) {
+      this.optionalStringVal = optionalStringVal;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+      this.optionalStringVal = optionalStringVal.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    @JsonProperty("optionalNullableStringVal")
+    public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal;
+      this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    public ComposedAnyofDto build() {
+      return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    }
+  }
+}
+]
+
+
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -10,12 +395,17 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 
 /**
  * Composition Description
  */
 @JsonDeserialize(builder = ComposedOneofDto.Builder.class)
-public enum ComposedOneofDto {
+public class ComposedOneofDto {
   private final String username;
   private final LocalDate birthdate;
   private final String requiredStringVal;
@@ -43,6 +433,235 @@ public enum ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+   */
+  public static ComposedOneofDto fromUser(UserDto dto) {
+    return new ComposedOneofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      "UserValue",
+      null,
+      false,
+      null,
+      null,
+      false
+    );
+  }
+
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
+  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedOneofDto(
+      null,
+      null,
+      "NNVariantsValue",
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Valid
+  @JsonIgnore
+  private Object getOneOf() {
+    if (getValidCount() != 1) {
+      return null;
+    }
+    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  @JsonIgnore
+  private boolean isValidAgainstTheCorrectSchema() {
+    if (requiredStringVal == null) {
+      return false;
+    }
+    switch(requiredStringVal) {
+      case "UserValue": return isValidAgainstUser();
+      case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+    }
+    return false;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. If this
+   * instance is valid against exactly one of the specified schemas, its
+   * corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+   * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+   * 
+   * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+   * as last parameter a {@link Supplier} which gets called in case this instance is
+   * not valid against exactly one of the defined schemas and its value is returned.
+   */
+  public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
+    if ("UserValue".equals(requiredStringVal) && isValidAgainstUser()) {
+      return onUserDto.apply(asUserDto());
+    }
+    else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
+      return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
+    }
+    else {
+      return onInvalid.get();
+    }
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. If this
+   * instance is valid against exactly one of the specified schemas, its
+   * corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+   * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+   * 
+   * This method assumes this instance is either manually or automatically
+   * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
+   * either valid against no schema or multiple schemas, it will throw an {@link
+   * IllegalStateException}.
+   */
+  public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+    return fold(
+      onUserDto,
+      onNecessityAndNullabilityDto,
+      () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
+    );
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedOneofDto other = (ComposedOneofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedOneofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "}";
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -146,48 +765,71 @@ public enum ComposedOneofDto {
       return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
+}
+]
 
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
-    return username;
+
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional.empty)]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
+
+/**
+ * Composition Description
+ */
+@JsonDeserialize(builder = ComposedOneofDto.Builder.class)
+public class ComposedOneofDto {
+  private final String username;
+  private final LocalDate birthdate;
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public ComposedOneofDto(
+      String username,
+      LocalDate birthdate,
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.username = username;
+    this.birthdate = birthdate;
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
   }
 
-  @JsonProperty("birthdate")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
-    return birthdate;
-  }
-
-  @JsonProperty("requiredStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredStringVal() {
-    return requiredStringVal;
-  }
-
-  @JsonProperty("requiredNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getRequiredNullableStringVal() {
-    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
-  }
-
-  @JsonProperty("optionalStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalStringVal() {
-    return optionalStringVal;
-  }
-
-  @JsonProperty("optionalNullableStringVal")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getOptionalNullableStringVal() {
-    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+   */
   public static ComposedOneofDto fromUser(UserDto dto) {
     return new ComposedOneofDto(
       dto.getUsername(),
       dto.getBirthdate(),
-      null,
+      "User",
       null,
       false,
       null,
@@ -196,17 +838,66 @@ public enum ComposedOneofDto {
     );
   }
 
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
   public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
     return new ComposedOneofDto(
       null,
       null,
-      dto.getRequiredStringVal(),
+      "NecessityAndNullability",
       dto.getRequiredNullableStringValOr(null),
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
     );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Valid
+  @JsonIgnore
+  private Object getOneOf() {
+    if (getValidCount() != 1) {
+      return null;
+    }
+    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
   }
 
   private int getValidCount() {
@@ -225,6 +916,78 @@ public enum ComposedOneofDto {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the discriminator")
+  @JsonIgnore
+  private boolean isValidAgainstTheCorrectSchema() {
+    if (requiredStringVal == null) {
+      return false;
+    }
+    switch(requiredStringVal) {
+      case "User": return isValidAgainstUser();
+      case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+    }
+    return false;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. If this
+   * instance is valid against exactly one of the specified schemas, its
+   * corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+   * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+   * 
+   * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+   * as last parameter a {@link Supplier} which gets called in case this instance is
+   * not valid against exactly one of the defined schemas and its value is returned.
+   */
+  public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
+    if ("User".equals(requiredStringVal) && isValidAgainstUser()) {
+      return onUserDto.apply(asUserDto());
+    }
+    else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
+      return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
+    }
+    else {
+      return onInvalid.get();
+    }
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. If this
+   * instance is valid against exactly one of the specified schemas, its
+   * corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+   * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+   * 
+   * This method assumes this instance is either manually or automatically
+   * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
+   * either valid against no schema or multiple schemas, it will throw an {@link
+   * IllegalStateException}.
+   */
+  public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+    return fold(
+      onUserDto,
+      onNecessityAndNullabilityDto,
+      () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
+    );
   }
 
   private UserDto asUserDto() {
@@ -286,6 +1049,481 @@ public enum ComposedOneofDto {
       ", optionalNullableStringVal=" + optionalNullableStringVal +
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String username;
+    private LocalDate birthdate;
+    private String requiredStringVal;
+    private String requiredNullableStringVal;
+    private boolean isRequiredNullableStringValPresent = false;
+    private String optionalStringVal;
+    private String optionalNullableStringVal;
+    private boolean isOptionalNullableStringValNull = false;
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    @JsonProperty("requiredNullableStringVal")
+    private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal;
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    @JsonProperty("optionalStringVal")
+    public Builder setOptionalStringVal(String optionalStringVal) {
+      this.optionalStringVal = optionalStringVal;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+      this.optionalStringVal = optionalStringVal.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    @JsonProperty("optionalNullableStringVal")
+    public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal;
+      this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    public ComposedOneofDto build() {
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    }
+  }
+}
+]
+
+
+ComposedPojoGenerator[ONE_OF,null]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+
+/**
+ * Composition Description
+ */
+@JsonDeserialize(builder = ComposedOneofDto.Builder.class)
+public class ComposedOneofDto {
+  private final String username;
+  private final LocalDate birthdate;
+  private final String requiredStringVal;
+  private final String requiredNullableStringVal;
+  private final boolean isRequiredNullableStringValPresent;
+  private final String optionalStringVal;
+  private final String optionalNullableStringVal;
+  private final boolean isOptionalNullableStringValNull;
+
+  public ComposedOneofDto(
+      String username,
+      LocalDate birthdate,
+      String requiredStringVal,
+      String requiredNullableStringVal,
+      boolean isRequiredNullableStringValPresent,
+      String optionalStringVal,
+      String optionalNullableStringVal,
+      boolean isOptionalNullableStringValNull
+    ) {
+    this.username = username;
+    this.birthdate = birthdate;
+    this.requiredStringVal = requiredStringVal;
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+    this.optionalStringVal = optionalStringVal;
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  }
+
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+   */
+  public static ComposedOneofDto fromUser(UserDto dto) {
+    return new ComposedOneofDto(
+      dto.getUsername(),
+      dto.getBirthdate(),
+      null,
+      null,
+      false,
+      null,
+      null,
+      false
+    );
+  }
+
+  /**
+   * Creates an instance of {@link ComposedOneofDto} from a {@link
+   * NecessityAndNullabilityDto}.
+   */
+  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+    return new ComposedOneofDto(
+      null,
+      null,
+      dto.getRequiredStringVal(),
+      dto.getRequiredNullableStringValOr(null),
+      true,
+      dto.getOptionalStringValOr(null),
+      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+    );
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getUsername() {
+    return username;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredNullableStringVal() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonProperty("optionalStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalStringVal() {
+    return optionalStringVal;
+  }
+
+  @JsonProperty("optionalNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableStringVal() {
+    return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+  }
+
+  @Valid
+  @JsonIgnore
+  private Object getOneOf() {
+    if (getValidCount() != 1) {
+      return null;
+    }
+    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstUser() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstUser() {
+    return
+      username != null &&
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstNecessityAndNullability() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
+  @JsonIgnore
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getValidCount() > 1;
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. If this
+   * instance is valid against exactly one of the specified schemas, its
+   * corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+   * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+   * 
+   * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+   * as last parameter a {@link Supplier} which gets called in case this instance is
+   * not valid against exactly one of the defined schemas and its value is returned.
+   */
+  public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
+    if (isValidAgainstUser()) {
+      return onUserDto.apply(asUserDto());
+    }
+    else if (isValidAgainstNecessityAndNullability()) {
+      return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
+    }
+    else {
+      return onInvalid.get();
+    }
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. If this
+   * instance is valid against exactly one of the specified schemas, its
+   * corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
+   * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+   * 
+   * This method assumes this instance is either manually or automatically
+   * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
+   * either valid against no schema or multiple schemas, it will throw an {@link
+   * IllegalStateException}.
+   */
+  public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+    return fold(
+      onUserDto,
+      onNecessityAndNullabilityDto,
+      () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
+    );
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      birthdate
+    );
+  }
+
+  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+    return new NecessityAndNullabilityDto(
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      username,
+      birthdate,
+      requiredStringVal,
+      requiredNullableStringVal,
+      isRequiredNullableStringValPresent,
+      optionalStringVal,
+      optionalNullableStringVal,
+      isOptionalNullableStringValNull
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedOneofDto other = (ComposedOneofDto) obj;
+    return Objects.equals(username, other.username)
+        && Objects.equals(birthdate, other.birthdate)
+        && Objects.equals(requiredStringVal, other.requiredStringVal)
+        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(optionalStringVal, other.optionalStringVal)
+        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedOneofDto{" +
+      "username=" + username +
+      ", birthdate=" + birthdate +
+      ", requiredStringVal=" + requiredStringVal +
+      ", requiredNullableStringVal=" + requiredNullableStringVal +
+      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
+      ", optionalStringVal=" + optionalStringVal +
+      ", optionalNullableStringVal=" + optionalNullableStringVal +
+      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String username;
+    private LocalDate birthdate;
+    private String requiredStringVal;
+    private String requiredNullableStringVal;
+    private boolean isRequiredNullableStringValPresent = false;
+    private String optionalStringVal;
+    private String optionalNullableStringVal;
+    private boolean isOptionalNullableStringValNull = false;
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    @JsonProperty("requiredNullableStringVal")
+    private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal;
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableStringVal
+     */
+    private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+      this.isRequiredNullableStringValPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    @JsonProperty("optionalStringVal")
+    public Builder setOptionalStringVal(String optionalStringVal) {
+      this.optionalStringVal = optionalStringVal;
+      return this;
+    }
+
+    /**
+     * OptionalStringVal
+     */
+    public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+      this.optionalStringVal = optionalStringVal.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    @JsonProperty("optionalNullableStringVal")
+    public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal;
+      this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableStringVal
+     */
+    public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+      this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    public ComposedOneofDto build() {
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    }
   }
 }
 ]

@@ -49,7 +49,8 @@ public class ValidCountMethodGenerator {
 
     private String validCountLine() {
       return String.format(
-          "(isValidAgainst%s() ? 1 : 0)%s", memberPojo.getName().getName(), isLast() ? ";" : " +");
+          "(%s() ? 1 : 0)%s",
+          CompositionNames.isValidAgainstMethodName(memberPojo), isLast() ? ";" : " +");
     }
   }
 }

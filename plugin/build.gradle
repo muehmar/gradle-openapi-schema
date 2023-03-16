@@ -26,7 +26,7 @@ dependencies {
     implementation "io.github.muehmar:pojo-builder-annotations:1.0.0"
     annotationProcessor "io.github.muehmar:pojo-builder:1.0.0"
 
-    implementation "io.github.muehmar:code-generator:0.8.0"
+    implementation "io.github.muehmar:code-generator:0.11.0"
 
     implementation 'io.github.origin-energy:java-snapshot-testing-junit5:4.0.2'
 

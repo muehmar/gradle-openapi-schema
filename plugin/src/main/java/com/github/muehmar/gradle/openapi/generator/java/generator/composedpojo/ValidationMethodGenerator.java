@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -18,11 +19,11 @@ public class ValidationMethodGenerator {
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("boolean")
-        .methodName(javaPojo -> String.format("isValidAgainst%s", javaPojo.getName().getName()))
+        .methodName(p -> CompositionNames.isValidAgainstMethodName(p).asString())
         .noArguments()
         .content(isValidAgainstMethodContent())
         .build()
-        .filter((pojos, settings) -> settings.isEnableValidation());
+        .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<JavaPojo, PojoSettings> isValidAgainstMethodContent() {

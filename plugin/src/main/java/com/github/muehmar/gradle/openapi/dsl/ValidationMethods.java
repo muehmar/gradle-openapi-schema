@@ -13,36 +13,36 @@ import org.gradle.api.InvalidUserDataException;
 
 @Data
 @PojoBuilder
-public class RawGetter implements Serializable {
+public class ValidationMethods implements Serializable {
   private static final String DEFAULT_MODIFIER = JavaModifier.PRIVATE.getValue();
   private static final String DEFAULT_SUFFIX = "Raw";
   private static final boolean DEFAULT_DEPRECATED_ANNOTATION = false;
 
   @Nullable String modifier;
-  @Nullable String suffix;
+  @Nullable String getterSuffix;
   @Nullable Boolean deprecatedAnnotation;
 
-  public RawGetter() {
+  public ValidationMethods() {
     this(null, null, null);
   }
 
-  public RawGetter(String modifier, String suffix, Boolean deprecatedAnnotation) {
+  public ValidationMethods(String modifier, String getterSuffix, Boolean deprecatedAnnotation) {
     this.modifier = modifier;
-    this.suffix = suffix;
+    this.getterSuffix = getterSuffix;
     this.deprecatedAnnotation = deprecatedAnnotation;
   }
 
-  public static RawGetter allUndefined() {
-    return new RawGetter();
+  public static ValidationMethods allUndefined() {
+    return new ValidationMethods();
   }
 
-  public RawGetter withCommonRawGetter(RawGetter commonRawGetter) {
-    return RawGetterBuilder.create()
+  public ValidationMethods withCommonRawGetter(ValidationMethods commonValidationMethods) {
+    return ValidationMethodsBuilder.create()
         .andAllOptionals()
-        .modifier(or(getModifier(), commonRawGetter.getModifier()))
-        .suffix(or(getSuffix(), commonRawGetter.getSuffix()))
+        .modifier(or(getModifier(), commonValidationMethods.getModifier()))
+        .getterSuffix(or(getGetterSuffix(), commonValidationMethods.getGetterSuffix()))
         .deprecatedAnnotation(
-            or(getDeprecatedAnnotation(), commonRawGetter.getDeprecatedAnnotation()))
+            or(getDeprecatedAnnotation(), commonValidationMethods.getDeprecatedAnnotation()))
         .build();
   }
 
@@ -65,12 +65,12 @@ public class RawGetter implements Serializable {
                             .mkString(", ")));
   }
 
-  public Optional<String> getSuffix() {
-    return Optional.ofNullable(suffix);
+  public Optional<String> getGetterSuffix() {
+    return Optional.ofNullable(getterSuffix);
   }
 
-  public String getSuffixOrDefault() {
-    return getSuffix().orElse(DEFAULT_SUFFIX);
+  public String getGetterSuffixOrDefault() {
+    return getGetterSuffix().orElse(DEFAULT_SUFFIX);
   }
 
   public Optional<Boolean> getDeprecatedAnnotation() {

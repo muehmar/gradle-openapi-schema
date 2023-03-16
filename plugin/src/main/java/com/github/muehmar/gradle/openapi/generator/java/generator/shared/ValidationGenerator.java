@@ -1,10 +1,9 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.Jakarta3ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
@@ -20,21 +19,25 @@ import java.util.function.Function;
 public class ValidationGenerator {
   private ValidationGenerator() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> assertTrue(
-      Function<JavaPojoMember, String> message) {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(
-            (field, settings, writer) ->
-                writer.println(
-                    String.format("@AssertTrue(message = \"%s\")", message.apply(field))))
+  public static <T> Generator<T, PojoSettings> assertTrue(Function<T, String> message) {
+    return Generator.<T, PojoSettings>emptyGen()
+        .append((t, s, w) -> w.println("@AssertTrue(message = \"%s\")", message.apply(t)))
         .append(jakarta2Ref(Jakarta2ValidationRefs.ASSERT_TRUE))
         .append(jakarta3Ref(Jakarta3ValidationRefs.ASSERT_TRUE))
         .filter(Filters.isValidationEnabled());
   }
 
+  public static <T> Generator<T, PojoSettings> assertFalse(Function<T, String> message) {
+    return Generator.<T, PojoSettings>emptyGen()
+        .append((t, s, w) -> w.println("@AssertFalse(message = \"%s\")", message.apply(t)))
+        .append(jakarta2Ref(Jakarta2ValidationRefs.ASSERT_FALSE))
+        .append(jakarta3Ref(Jakarta3ValidationRefs.ASSERT_FALSE))
+        .filter(Filters.isValidationEnabled());
+  }
+
   public static Generator<JavaPojoMember, PojoSettings> validationAnnotations() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(validAnnotation())
+        .append(memberValidAnnotation())
         .append(notNullAnnotation())
         .append(emailAnnotation())
         .append(minAnnotation())
@@ -46,10 +49,15 @@ public class ValidationGenerator {
         .filter(Filters.isValidationEnabled());
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> validAnnotation() {
-    return Generator.<JavaPojoMember, PojoSettings>ofWriterFunction(w -> w.println("@Valid"))
+  public static <T> Generator<T, PojoSettings> validAnnotation() {
+    return Generator.<T, PojoSettings>ofWriterFunction(w -> w.println("@Valid"))
         .append(jakarta2Ref(Jakarta2ValidationRefs.VALID))
         .append(jakarta3Ref(Jakarta3ValidationRefs.VALID))
+        .filter(Filters.isValidationEnabled());
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> memberValidAnnotation() {
+    return ValidationGenerator.<JavaPojoMember>validAnnotation()
         .filter((field, settings) -> shouldValidateDeep(field.getJavaType()));
   }
 

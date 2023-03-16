@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -25,10 +26,6 @@ public class Discriminator {
     return new Discriminator(propertyName, Optional.of(mapping));
   }
 
-  public Discriminator withMapping(Map<String, PojoName> mapping) {
-    return new Discriminator(propertyName, Optional.of(mapping));
-  }
-
   public Discriminator withMapping(Optional<Map<String, PojoName>> mapping) {
     return new Discriminator(propertyName, mapping);
   }
@@ -37,7 +34,11 @@ public class Discriminator {
     return propertyName;
   }
 
-  public Optional<Map<String, PojoName>> getMapping() {
-    return mapping;
+  public String getValueForPojoName(PojoName pojoName) {
+    return mapping.orElse(Collections.emptyMap()).entrySet().stream()
+        .filter(e -> e.getValue().equals(pojoName))
+        .findFirst()
+        .map(Map.Entry::getKey)
+        .orElse(pojoName.getName().asString());
   }
 }

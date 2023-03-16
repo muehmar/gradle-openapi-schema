@@ -1,0 +1,181 @@
+ComposedPojoGenerator[ANY_OF,null]=[
+/**
+ * Creates an instance of {@link ComposedAnyofDto} from a {@link UserDto}.
+ */
+public static ComposedAnyofDto fromUser(UserDto dto) {
+  return new ComposedAnyofDto(
+    dto.getUsername(),
+    dto.getBirthdate(),
+    null,
+    null,
+    false,
+    null,
+    null,
+    false
+  );
+}
+
+/**
+ * Creates an instance of {@link ComposedAnyofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
+public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ComposedAnyofDto(
+    null,
+    null,
+    dto.getRequiredStringVal(),
+    dto.getRequiredNullableStringValOr(null),
+    true,
+    dto.getOptionalStringValOr(null),
+    dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+    dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+  );
+}
+
+/**
+ * Returns a new instance adding the supplied {@link UserDto}. This will overwrite
+ * any shared properties with other schemas to the value of the properties in the
+ * supplied {@link UserDto}.
+ */
+public ComposedAnyofDto withUser(UserDto dto) {
+  return new ComposedAnyofDto(
+    dto.getUsername(),
+    dto.getBirthdate(),
+    requiredStringVal,
+    requiredNullableStringVal,
+    isRequiredNullableStringValPresent,
+    optionalStringVal,
+    optionalNullableStringVal,
+    isOptionalNullableStringValNull
+  );
+}
+
+/**
+ * Returns a new instance adding the supplied {@link NecessityAndNullabilityDto}.
+ * This will overwrite any shared properties with other schemas to the value of
+ * the properties in the supplied {@link NecessityAndNullabilityDto}.
+ */
+public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ComposedAnyofDto(
+    username,
+    birthdate,
+    dto.getRequiredStringVal(),
+    dto.getRequiredNullableStringValOr(null),
+    true,
+    dto.getOptionalStringValOr(null),
+    dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+    dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+  );
+}
+]
+
+
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+ */
+public static ComposedOneofDto fromUser(UserDto dto) {
+  return new ComposedOneofDto(
+    dto.getUsername(),
+    dto.getBirthdate(),
+    "UserValue",
+    null,
+    false,
+    null,
+    null,
+    false
+  );
+}
+
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
+public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ComposedOneofDto(
+    null,
+    null,
+    "NNVariantsValue",
+    dto.getRequiredNullableStringValOr(null),
+    true,
+    dto.getOptionalStringValOr(null),
+    dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+    dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+  );
+}
+
+]
+
+
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional.empty)]=[
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+ */
+public static ComposedOneofDto fromUser(UserDto dto) {
+  return new ComposedOneofDto(
+    dto.getUsername(),
+    dto.getBirthdate(),
+    "User",
+    null,
+    false,
+    null,
+    null,
+    false
+  );
+}
+
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
+public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ComposedOneofDto(
+    null,
+    null,
+    "NecessityAndNullability",
+    dto.getRequiredNullableStringValOr(null),
+    true,
+    dto.getOptionalStringValOr(null),
+    dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+    dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+  );
+}
+
+]
+
+
+ComposedPojoGenerator[ONE_OF,null]=[
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
+ */
+public static ComposedOneofDto fromUser(UserDto dto) {
+  return new ComposedOneofDto(
+    dto.getUsername(),
+    dto.getBirthdate(),
+    null,
+    null,
+    false,
+    null,
+    null,
+    false
+  );
+}
+
+/**
+ * Creates an instance of {@link ComposedOneofDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
+public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ComposedOneofDto(
+    null,
+    null,
+    dto.getRequiredStringVal(),
+    dto.getRequiredNullableStringValOr(null),
+    true,
+    dto.getOptionalStringValOr(null),
+    dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+    dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+  );
+}
+
+]

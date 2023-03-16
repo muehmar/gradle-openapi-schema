@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.freeform;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;

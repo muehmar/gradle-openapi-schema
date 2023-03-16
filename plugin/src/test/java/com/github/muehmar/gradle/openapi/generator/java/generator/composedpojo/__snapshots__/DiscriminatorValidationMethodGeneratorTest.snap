@@ -1,0 +1,89 @@
+DiscriminatorWithMapping[ANY_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (requiredStringVal == null) {
+    return false;
+  }
+  switch(requiredStringVal) {
+    case "UserValue": return isValidAgainstUser();
+    case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithMapping[ONE_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (requiredStringVal == null) {
+    return false;
+  }
+  switch(requiredStringVal) {
+    case "UserValue": return isValidAgainstUser();
+    case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@Deprecated
+@JsonIgnore
+protected boolean isValidAgainstTheCorrectSchema() {
+  if (requiredStringVal == null) {
+    return false;
+  }
+  switch(requiredStringVal) {
+    case "User": return isValidAgainstUser();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithoutMapping[ANY_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (requiredStringVal == null) {
+    return false;
+  }
+  switch(requiredStringVal) {
+    case "User": return isValidAgainstUser();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithoutMapping[ONE_OF]=[
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (requiredStringVal == null) {
+    return false;
+  }
+  switch(requiredStringVal) {
+    case "User": return isValidAgainstUser();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+  }
+  return false;
+}
+]
+
+
+NoDiscriminator[ANY_OF]=[
+
+]
+
+
+NoDiscriminator[ONE_OF]=[
+
+]

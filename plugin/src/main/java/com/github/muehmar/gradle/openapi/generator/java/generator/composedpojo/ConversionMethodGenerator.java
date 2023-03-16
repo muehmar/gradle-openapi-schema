@@ -20,7 +20,7 @@ public class ConversionMethodGenerator {
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType(pojo -> pojo.getName().asString())
-        .methodName(pojo -> String.format("as%s", pojo.getName()))
+        .methodName(pojo -> CompositionNames.asConversionMethodName(pojo).asString())
         .noArguments()
         .content(asDtoMethodContent())
         .build();

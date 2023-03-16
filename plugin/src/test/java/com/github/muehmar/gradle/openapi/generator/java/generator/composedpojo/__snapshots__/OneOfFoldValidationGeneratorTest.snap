@@ -1,0 +1,23 @@
+oneOf=[
+@Valid
+@JsonIgnore
+private Object getOneOf() {
+  if (getValidCount() != 1) {
+    return null;
+  }
+  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+}
+]
+
+
+oneOfProtectedAndDeprecatedSettings=[
+@Valid
+@Deprecated
+@JsonIgnore
+protected Object getOneOf() {
+  if (getValidCount() != 1) {
+    return null;
+  }
+  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+}
+]

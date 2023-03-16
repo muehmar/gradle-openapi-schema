@@ -1,0 +1,40 @@
+assertFalseAnnotation[false,jakarta-2]=[
+.
+.
+
+]
+
+
+assertFalseAnnotation[true,jakarta-2]=[
+javax.validation.constraints.AssertFalse
+
+@AssertFalse(message = "Message")
+]
+
+
+assertFalseAnnotation[true,jakarta-3]=[
+jakarta.validation.constraints.AssertFalse
+
+@AssertFalse(message = "Message")
+]
+
+
+assertTrueAnnotation[false,jakarta-2]=[
+.
+.
+
+]
+
+
+assertTrueAnnotation[true,jakarta-2]=[
+javax.validation.constraints.AssertTrue
+
+@AssertTrue(message = "Message")
+]
+
+
+assertTrueAnnotation[true,jakarta-3]=[
+jakarta.validation.constraints.AssertTrue
+
+@AssertTrue(message = "Message")
+]

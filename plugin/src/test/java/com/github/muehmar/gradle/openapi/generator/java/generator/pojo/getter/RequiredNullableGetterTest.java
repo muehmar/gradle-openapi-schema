@@ -17,8 +17,8 @@ import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilde
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.RawGetter;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationMethods;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -199,8 +199,8 @@ class RequiredNullableGetterTest {
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
-    final RawGetter rawGetter =
-        TestPojoSettings.defaultRawGetter()
+    final ValidationMethods validationMethods =
+        TestPojoSettings.defaultValidationMethods()
             .withDeprecatedAnnotation(true)
             .withModifier(JavaModifier.PUBLIC);
 
@@ -209,7 +209,7 @@ class RequiredNullableGetterTest {
             pojoMember,
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.JACKSON)
-                .withRawGetter(rawGetter),
+                .withValidationMethods(validationMethods),
             Writer.createDefault());
 
     assertEquals(

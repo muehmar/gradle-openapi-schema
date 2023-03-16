@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
@@ -8,8 +8,9 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -21,10 +22,16 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class JavaPojos {
   private JavaPojos() {}
+
+  public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
+    return JavaObjectPojo.from(
+        PojoName.ofNameAndSuffix("ObjectPojo1", "Dto"), "", members, Constraints.empty());
+  }
 
   public static JavaPojo allNecessityAndNullabilityVariants(Constraints constraints) {
     return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty());
@@ -62,7 +69,35 @@ public class JavaPojos {
     return JavaEnumPojo.wrap(enumPojo);
   }
 
-  public static JavaPojo composedPojo(ComposedPojo.CompositionType type) {
+  public static JavaComposedPojo composedPojo(ComposedPojo.CompositionType type) {
+    return composedPojo(type, Optional.empty());
+  }
+
+  public static JavaComposedPojo composedPojoWithDiscriminator(ComposedPojo.CompositionType type) {
+    final Discriminator discriminator =
+        Discriminator.fromPropertyName(Name.ofString(requiredString().getName().asString()));
+    return composedPojo(type, discriminator);
+  }
+
+  public static JavaComposedPojo composedPojoWithDiscriminatorMapping(
+      ComposedPojo.CompositionType type) {
+    final HashMap<String, PojoName> mapping = new HashMap<>();
+    mapping.put("UserValue", PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"));
+    mapping.put(
+        "NNVariantsValue", allNecessityAndNullabilityVariantsPojo(Constraints.empty()).getName());
+    final Discriminator discriminator =
+        Discriminator.fromPropertyNameAndMapping(
+            Name.ofString(requiredString().getName().asString()), mapping);
+    return composedPojo(type, discriminator);
+  }
+
+  public static JavaComposedPojo composedPojo(
+      ComposedPojo.CompositionType type, Discriminator discriminator) {
+    return composedPojo(type, Optional.of(discriminator));
+  }
+
+  private static JavaComposedPojo composedPojo(
+      ComposedPojo.CompositionType type, Optional<Discriminator> discriminator) {
     final ObjectPojo userObjectPojo =
         ObjectPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
@@ -78,13 +113,24 @@ public class JavaPojos {
             UnresolvedComposedPojo.CompositionType.ONE_OF,
             PList.empty(),
             Constraints.empty(),
-            Optional.empty());
+            discriminator);
     final PList<Pojo> pojos =
         PList.of(userObjectPojo, allNecessityAndNullabilityVariantsPojo(Constraints.empty()));
     final ComposedPojo composedPojo =
         type.equals(ComposedPojo.CompositionType.ANY_OF)
             ? ComposedPojo.resolvedAnyOf(pojos, unresolvedComposedPojo)
             : ComposedPojo.resolvedOneOf(pojos, unresolvedComposedPojo);
-    return JavaPojo.wrap(composedPojo, TypeMappings.empty());
+    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty());
+  }
+
+  public static JavaComposedPojo composedPojo(
+      PList<JavaPojo> pojos, ComposedPojo.CompositionType compositionType) {
+    return new JavaComposedPojo(
+        PojoName.ofNameAndSuffix("ComposedPojo", "Dto"),
+        "",
+        pojos,
+        compositionType,
+        Constraints.empty(),
+        Optional.empty());
   }
 }

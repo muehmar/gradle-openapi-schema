@@ -13,4 +13,5 @@ public class Jakarta3ValidationRefs {
   public static final String DECIMAL_MIN = "jakarta.validation.constraints.DecimalMin";
   public static final String DECIMAL_MAX = "jakarta.validation.constraints.DecimalMax";
   public static final String ASSERT_TRUE = "jakarta.validation.constraints.AssertTrue";
+  public static final String ASSERT_FALSE = "jakarta.validation.constraints.AssertFalse";
 }

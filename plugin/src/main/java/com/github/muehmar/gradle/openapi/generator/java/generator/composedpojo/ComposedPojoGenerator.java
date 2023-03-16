@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ConversionMethodGenerator.asDtoMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidationMethodGenerator.isValidAgainstMethod;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -32,7 +33,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
   public ComposedPojoGenerator() {
     this.delegate =
         ClassGenBuilder.<JavaComposedPojo, PojoSettings>create()
-            .enum_()
+            .clazz()
             .declaration(TOP_LEVEL)
             .packageGen(new PackageGenerator<>())
             .javaDoc(
@@ -54,23 +55,37 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
 
   private Generator<JavaComposedPojo, PojoSettings> content() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
-        .appendList(FieldsGenerator.fields(), JavaComposedPojo::getJavaPojos)
-        .appendNewLine()
+        .appendList(FieldsGenerator.singleField(), JavaComposedPojo::getMembers)
+        .appendSingleBlankLine()
         .append(PojoConstructorGenerator.generator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
-        .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendList(memberGetter().prependNewLine(), JavaComposedPojo::getMembers)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(FactoryMethodGenerator.generator())
+        .appendSingleBlankLine()
+        .appendList(memberGetter(), JavaComposedPojo::getMembers, newLine())
+        .appendSingleBlankLine()
+        .append(OneOfFoldValidationGenerator.generator())
+        .appendSingleBlankLine()
+        .append(AnyOfFoldValidationGenerator.generator())
+        .appendSingleBlankLine()
         .append(ValidCountMethodGenerator.validCountMethod())
-        .appendList(isValidAgainstMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
-        .appendList(asDtoMethod().prependNewLine(), JavaComposedPojo::getJavaPojos)
-        .appendNewLine()
+        .appendSingleBlankLine()
+        .appendList(isValidAgainstMethod(), JavaComposedPojo::getJavaPojos, newLine())
+        .appendSingleBlankLine()
+        .append(DiscriminatorValidationMethodGenerator.generator())
+        .appendSingleBlankLine()
+        .append(ValidCountValidationMethod.generator())
+        .appendSingleBlankLine()
+        .append(FoldMethodGenerator.generator())
+        .appendSingleBlankLine()
+        .appendList(asDtoMethod(), JavaComposedPojo::getJavaPojos, newLine())
+        .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
-        .appendNewLine()
-        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo);
+        .appendSingleBlankLine()
+        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .appendSingleBlankLine()
+        .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo);
   }
 
   private Generator<JavaPojoMember, PojoSettings> memberGetter() {
@@ -78,7 +93,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
             .modifiers(PRIVATE)
             .noGenericTypes()
-            .returnType(member -> member.getJavaType().getFullClassName().asString())
+            .returnType("Object")
             .methodName(member -> member.getGetterName().asString())
             .noArguments()
             .content(memberGetterContent())

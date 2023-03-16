@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
@@ -6,6 +6,9 @@ import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSetti
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.annotations.SnapshotName;
+import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -21,15 +24,64 @@ import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@ExtendWith(SnapshotExtension.class)
 class ValidationGeneratorTest {
+
+  private Expect expect;
+
+  private static Stream<Arguments> settingsVariants() {
+    return TestPojoSettings.validationVariants().map(Arguments::arguments).toStream();
+  }
+
+  @ParameterizedTest
+  @SnapshotName("assertTrueAnnotation")
+  @MethodSource("settingsVariants")
+  void assertTrue_when_settings_then_correctOutput(PojoSettings settings) {
+    final Generator<String, PojoSettings> generator =
+        ValidationGenerator.assertTrue(Function.identity());
+    final Writer writer = generator.generate("Message", settings, Writer.createDefault());
+
+    final String scenario =
+        PList.of(
+                Boolean.toString(settings.isEnableValidation()),
+                settings.getValidationApi().getValue())
+            .mkString(",");
+
+    expect
+        .scenario(scenario)
+        .toMatchSnapshot(writer.getRefs().mkString("\n") + "\n\n" + writer.asString());
+  }
+
+  @ParameterizedTest
+  @SnapshotName("assertFalseAnnotation")
+  @MethodSource("settingsVariants")
+  void assertFalse_when_settings_then_correctOutput(PojoSettings settings) {
+    final Generator<String, PojoSettings> generator =
+        ValidationGenerator.assertFalse(Function.identity());
+    final Writer writer = generator.generate("Message", settings, Writer.createDefault());
+
+    final String scenario =
+        PList.of(
+                Boolean.toString(settings.isEnableValidation()),
+                settings.getValidationApi().getValue())
+            .mkString(",");
+
+    expect
+        .scenario(scenario)
+        .toMatchSnapshot(writer.getRefs().mkString("\n") + "\n\n" + writer.asString());
+  }
+
   @Test
   void validationAnnotations_when_validationDisabled_then_noOutput() {
     final JavaPojoMember member = JavaPojoMembers.requiredBirthdate();
