@@ -29,7 +29,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '0.22.1'
+    id 'com.github.muehmar.openapischema' version '1.0.0'
 }
 ```
 
@@ -664,6 +664,7 @@ afterEvaluate {
 
 ## Change Log
 
+* 1.0.0 - Add support for `anyOf` and `oneOf` (issues `#6` and `#7`)
 * 0.22.1 - Fix DecimalMin and DecimalMax imports (issue `#54`)
 * 0.22.0
     * Support Free-Form objects (issue `#41`)
