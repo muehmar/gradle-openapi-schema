@@ -6,7 +6,7 @@ name: build
 on: [ push ]
 
 jobs:
-  build:
+  test-and-build-plugin:
 
     runs-on: ubuntu-latest
 
@@ -20,3 +20,21 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew :plugin:build
+
+  test-examples:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run example tests
+        run: ./gradlew :example:test
+      - name: Run jakarta 3 example tests
+        run: ./gradlew :example-jakarta-3:test
+      - name: Run spring integration tests
+        run: ./gradlew :spring-example:integrationTest
