@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.22.1"
+    id "com.github.muehmar.openapischema" version "1.0.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -42,8 +42,8 @@ openApiGenerator {
         toClass = "java.util.ArrayList"
     }
 
-    rawGetter {
-        suffix = "Raw"
+    validationMethods {
+        getterSuffix = "Raw"
     }
 
     schemas {
@@ -168,6 +168,27 @@ openApiGenerator {
             inputSpec = "$projectDir/src/main/resources/openapi-validation.yml"
             outputDir = "$buildDir/generated/openapi"
             packageName = "${project.group}.${project.name}.api.validation.model"
+
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
+        oneOf {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-oneof.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.oneof.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
+        anyOf {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-anyof.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.anyof.model"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
