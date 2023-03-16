@@ -1,0 +1,100 @@
+openapi: "3.0.0"
+info:
+  title: OpenAPI Spring Example API
+  version: 1.0.0
+paths:
+  /api/v1/oneof:
+    get:
+      summary: OneOf Get Endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOrUserDiscriminator"
+    post:
+     summary: OneOf Post Endpoint
+     requestBody:
+       required: true
+       content:
+         application/json:
+            schema:
+              $ref: "#/components/schemas/AdminOrUserDiscriminator"
+     responses:
+       '200':
+         description: OK
+  /api/v1/anyof:
+    get:
+      summary: AnyOf Get Endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminAndOrUser"
+    post:
+     summary: AnyOf Post Endpoint
+     requestBody:
+       required: true
+       content:
+         application/json:
+            schema:
+              $ref: "#/components/schemas/AdminAndOrUser"
+     responses:
+       '200':
+         description: OK
+
+
+components:
+  schemas:
+    User:
+      required:
+        - id
+        - username
+      properties:
+        id:
+          type: string
+          minLength: 5
+        type:
+          type: string
+        username:
+          type: string
+        age:
+          type: integer
+          format: int32
+          minimum: 18
+          maximum: 199
+        email:
+          type: string
+          nullable: true
+    Admin:
+      required:
+        - id
+        - adminname
+      properties:
+        id:
+          type: string
+          minLength: 5
+        type:
+          type: string
+        adminname:
+          type: string
+        level:
+          type: integer
+          format: int64
+          minimum: 1
+
+    AdminOrUserDiscriminator:
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+      discriminator:
+        propertyName: type
+
+    AdminAndOrUser:
+      anyOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+
