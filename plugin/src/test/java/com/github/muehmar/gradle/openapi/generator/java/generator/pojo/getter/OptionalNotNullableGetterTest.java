@@ -5,6 +5,8 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
@@ -22,8 +24,12 @@ import com.github.muehmar.gradle.openapi.generator.settings.ValidationMethods;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(SnapshotExtension.class)
 class OptionalNotNullableGetterTest {
+
+  private Expect expect;
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {
@@ -39,29 +45,8 @@ class OptionalNotNullableGetterTest {
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -83,26 +68,8 @@ class OptionalNotNullableGetterTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.PATTERN::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@Pattern(regexp=\"DatePattern\")\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -121,21 +88,8 @@ class OptionalNotNullableGetterTest {
     assertEquals(2, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -163,21 +117,8 @@ class OptionalNotNullableGetterTest {
     assertEquals(2, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Optional<LocalDate> getBirthdateOpt() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -198,29 +139,6 @@ class OptionalNotNullableGetterTest {
                 .withValidationMethods(validationMethods),
             Writer.createDefault());
 
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "@Deprecated\n"
-            + "public LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+    expect.toMatchSnapshot(writer.asString());
   }
 }

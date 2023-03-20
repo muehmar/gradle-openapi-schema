@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
@@ -23,8 +25,12 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(SnapshotExtension.class)
 class OptionalNullableGetterTest {
+
+  private Expect expect;
 
   @Test
   void generator_when_enabledJacksonAndDisabledValidation_then_correctOutputAndRefs() {
@@ -48,21 +54,8 @@ class OptionalNullableGetterTest {
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Tristate<LocalDate> getBirthdate() {\n"
-            + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private Object getBirthdateJackson() {\n"
-            + "  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -82,19 +75,8 @@ class OptionalNullableGetterTest {
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Tristate<LocalDate> getBirthdate() {\n"
-            + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
-            + "}\n"
-            + "\n"
-            + "@Pattern(regexp=\"DatePattern\")\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -125,14 +107,8 @@ class OptionalNullableGetterTest {
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Tristate<LocalDate> getBirthdateOptNull() {\n"
-            + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -154,25 +130,6 @@ class OptionalNullableGetterTest {
                 .withValidationMethods(validationMethods),
             Writer.createDefault());
 
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Tristate<LocalDate> getBirthdate() {\n"
-            + "  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "@JsonInclude(JsonInclude.Include.NON_NULL)\n"
-            + "private Object getBirthdateJackson() {\n"
-            + "  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@Deprecated\n"
-            + "public LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+    expect.toMatchSnapshot(writer.asString());
   }
 }

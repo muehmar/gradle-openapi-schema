@@ -13,6 +13,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.OptionalNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -81,6 +82,7 @@ public class OptionalNullableGetter {
   private static Generator<JavaPojoMember, PojoSettings> validationMethod() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
+        .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
         .append(validationAnnotations())
         .append(deprecatedValidationMethod())
         .append(CommonGetter.rawGetterMethod())

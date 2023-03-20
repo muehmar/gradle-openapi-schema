@@ -1,0 +1,66 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNullableGetterTest.generator_when_deprecatedAnnotation_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+@JsonIgnore
+public Tristate<LocalDate> getBirthdate() {
+  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+}
+
+@JsonProperty("birthdate")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getBirthdateJackson() {
+  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+}
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@Deprecated
+public LocalDate getBirthdateRaw() {
+  return birthdate;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNullableGetterTest.generator_when_disabledJacksonAndEnabledValidation_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+public Tristate<LocalDate> getBirthdate() {
+  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+}
+
+@Pattern(regexp="DatePattern")
+private LocalDate getBirthdateRaw() {
+  return birthdate;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNullableGetterTest.generator_when_enabledJacksonAndDisabledValidation_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+@JsonIgnore
+public Tristate<LocalDate> getBirthdate() {
+  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+}
+
+@JsonProperty("birthdate")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getBirthdateJackson() {
+  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNullableGetterTest.generator_when_optionalNullableSuffix_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+public Tristate<LocalDate> getBirthdateOptNull() {
+  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+}
+]

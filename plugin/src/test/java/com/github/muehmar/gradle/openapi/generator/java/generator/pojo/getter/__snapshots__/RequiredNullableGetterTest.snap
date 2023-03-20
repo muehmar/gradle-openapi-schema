@@ -1,0 +1,127 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_deprecatedAnnotation_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+@JsonIgnore
+public Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
+}
+
+/**
+ * Birthdate
+ */
+@JsonIgnore
+public LocalDate getBirthdateOr(LocalDate defaultValue) {
+  return birthdate == null ? defaultValue : birthdate;
+}
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@JsonProperty("birthdate")
+@Deprecated
+public LocalDate getBirthdateRaw() {
+  return birthdate;
+}
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@AssertTrue(message = "birthdate is required but it is not present")
+@Deprecated
+public boolean isBirthdatePresent() {
+  return isBirthdatePresent;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+public Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
+}
+
+/**
+ * Birthdate
+ */
+public LocalDate getBirthdateOr(LocalDate defaultValue) {
+  return birthdate == null ? defaultValue : birthdate;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_disabledJackson_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+public Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
+}
+
+/**
+ * Birthdate
+ */
+public LocalDate getBirthdateOr(LocalDate defaultValue) {
+  return birthdate == null ? defaultValue : birthdate;
+}
+
+@Pattern(regexp="DatePattern")
+private LocalDate getBirthdateRaw() {
+  return birthdate;
+}
+
+@AssertTrue(message = "birthdate is required but it is not present")
+private boolean isBirthdatePresent() {
+  return isBirthdatePresent;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_enabledJackson_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+@JsonIgnore
+public Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
+}
+
+/**
+ * Birthdate
+ */
+@JsonIgnore
+public LocalDate getBirthdateOr(LocalDate defaultValue) {
+  return birthdate == null ? defaultValue : birthdate;
+}
+
+@JsonProperty("birthdate")
+private LocalDate getBirthdateRaw() {
+  return birthdate;
+}
+
+@AssertTrue(message = "birthdate is required but it is not present")
+private boolean isBirthdatePresent() {
+  return isBirthdatePresent;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_requiredNullableSuffix_then_correctOutputAndRefs=[
+/**
+ * Birthdate
+ */
+public Optional<LocalDate> getBirthdateReqNull() {
+  return Optional.ofNullable(birthdate);
+}
+
+/**
+ * Birthdate
+ */
+public LocalDate getBirthdateOr(LocalDate defaultValue) {
+  return birthdate == null ? defaultValue : birthdate;
+}
+]

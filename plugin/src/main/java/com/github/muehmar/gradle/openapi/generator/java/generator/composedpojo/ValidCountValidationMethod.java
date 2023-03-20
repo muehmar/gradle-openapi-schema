@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
@@ -41,7 +42,8 @@ public class ValidCountValidationMethod {
             .noArguments()
             .content("return getValidCount() == 0;")
             .build();
-    return annotation
+    return JavaDocGenerators.<JavaComposedPojo>deprecatedValidationMethodJavaDoc()
+        .append(annotation)
         .append(AnnotationGenerator.deprecatedValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
@@ -64,7 +66,8 @@ public class ValidCountValidationMethod {
             .noArguments()
             .content("return getValidCount() > 1;")
             .build();
-    return annotation
+    return JavaDocGenerators.<JavaComposedPojo>deprecatedValidationMethodJavaDoc()
+        .append(annotation)
         .append(AnnotationGenerator.deprecatedValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
