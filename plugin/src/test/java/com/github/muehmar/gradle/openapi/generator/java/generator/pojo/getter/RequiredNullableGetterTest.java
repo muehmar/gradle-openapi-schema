@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
@@ -22,8 +24,12 @@ import com.github.muehmar.gradle.openapi.generator.settings.ValidationMethods;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(SnapshotExtension.class)
 class RequiredNullableGetterTest {
+
+  private Expect expect;
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {
@@ -40,33 +46,8 @@ class RequiredNullableGetterTest {
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.ASSERT_TRUE::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@AssertTrue(message = \"birthdate is required but it is not present\")\n"
-            + "private boolean isBirthdatePresent() {\n"
-            + "  return isBirthdatePresent;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -89,31 +70,8 @@ class RequiredNullableGetterTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.ASSERT_TRUE::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.PATTERN::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@Pattern(regexp=\"DatePattern\")\n"
-            + "private LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@AssertTrue(message = \"birthdate is required but it is not present\")\n"
-            + "private boolean isBirthdatePresent() {\n"
-            + "  return isBirthdatePresent;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -133,21 +91,8 @@ class RequiredNullableGetterTest {
     assertEquals(2, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -176,21 +121,8 @@ class RequiredNullableGetterTest {
     assertEquals(2, writer.getRefs().toHashSet().size());
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public Optional<LocalDate> getBirthdateReqNull() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
@@ -212,34 +144,6 @@ class RequiredNullableGetterTest {
                 .withValidationMethods(validationMethods),
             Writer.createDefault());
 
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public Optional<LocalDate> getBirthdate() {\n"
-            + "  return Optional.ofNullable(birthdate);\n"
-            + "}\n"
-            + "\n"
-            + "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@JsonIgnore\n"
-            + "public LocalDate getBirthdateOr(LocalDate defaultValue) {\n"
-            + "  return birthdate == null ? defaultValue : birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@JsonProperty(\"birthdate\")\n"
-            + "@Deprecated\n"
-            + "public LocalDate getBirthdateRaw() {\n"
-            + "  return birthdate;\n"
-            + "}\n"
-            + "\n"
-            + "@AssertTrue(message = \"birthdate is required but it is not present\")\n"
-            + "@Deprecated\n"
-            + "public boolean isBirthdatePresent() {\n"
-            + "  return isBirthdatePresent;\n"
-            + "}",
-        writer.asString());
+    expect.toMatchSnapshot(writer.asString());
   }
 }

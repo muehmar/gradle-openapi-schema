@@ -11,6 +11,10 @@ private List<Object> getAnyOf() {
 
 
 AnyOfProtectedAndDeprecatedSettings=[
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
 @Valid
 @Deprecated
 @JsonIgnore

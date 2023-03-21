@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.RequiredNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
@@ -54,6 +55,7 @@ public class RequiredNullableGetter {
       BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
+        .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
         .append(validationAnnotations())
         .append(jsonProperty())
         .append(deprecatedValidationMethod())
@@ -64,6 +66,7 @@ public class RequiredNullableGetter {
   private static Generator<JavaPojoMember, PojoSettings> requiredValidationMethodWithAnnotation() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
+        .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
         .append(assertTrue(f -> String.format("%s is required but it is not present", f.getName())))
         .append(deprecatedValidationMethod())
         .append(requiredValidationMethod())

@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.OptionalNotNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
@@ -47,6 +48,7 @@ public class OptionalNotNullableGetter {
   private static Generator<JavaPojoMember, PojoSettings> rawGetter() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
+        .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
         .append(validationAnnotations())

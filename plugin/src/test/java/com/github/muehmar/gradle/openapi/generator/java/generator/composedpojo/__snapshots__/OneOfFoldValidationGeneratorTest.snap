@@ -11,6 +11,10 @@ private Object getOneOf() {
 
 
 oneOfProtectedAndDeprecatedSettings=[
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
 @Valid
 @Deprecated
 @JsonIgnore

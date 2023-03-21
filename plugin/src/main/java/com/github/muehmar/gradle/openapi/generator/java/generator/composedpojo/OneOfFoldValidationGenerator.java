@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
@@ -26,7 +27,8 @@ public class OneOfFoldValidationGenerator {
             .content(methodContent())
             .build();
 
-    return ValidationGenerator.<JavaComposedPojo>validAnnotation()
+    return JavaDocGenerators.<JavaComposedPojo>deprecatedValidationMethodJavaDoc()
+        .append(ValidationGenerator.validAnnotation())
         .append(AnnotationGenerator.deprecatedValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
