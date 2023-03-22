@@ -297,6 +297,8 @@ validationMethods {
 | modifier             | String    | private | Modifier for validation methods. Can be one of `public`, `protected`, `package-private` or `private` |
 | deprecatedAnnotation | boolean   | false   | Determines if the validation methods should be annotated with deprecated.                            |
 
+See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes use of this configuration.
+
 ## Compositions
 The OpenAPI specification supports the composition of schemas via `oneOf`, `anyOf` and `allOf` keyword. This plugin supports 
 all three keywords. 
