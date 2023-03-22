@@ -664,6 +664,8 @@ afterEvaluate {
 
 ## Change Log
 
+* Next
+    * Add JavaDoc explanation for deprecated validation methods (issue `#57`)
 * 1.0.0 - Add support for `anyOf` and `oneOf` (issues `#6` and `#7`)
 * 0.22.1 - Fix DecimalMin and DecimalMax imports (issue `#54`)
 * 0.22.0
