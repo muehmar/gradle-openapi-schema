@@ -11,15 +11,15 @@ import javax.validation.ValidatorFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class DoubleValidationTest {
+class IntValidationTest {
   @ParameterizedTest
-  @ValueSource(doubles = {5.1, 7.0, 100.49999})
-  void validate_when_ok_then_noViolations(double value) {
+  @ValueSource(ints = {-5, -1, 0, 1, 22})
+  void validate_when_ok_then_noViolations(int value) {
     final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     final Validator validator = validatorFactory.getValidator();
 
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        AllValueObjectDto.newBuilder().andOptionals().setIntValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations =
         validator.validate(dto);
@@ -28,13 +28,13 @@ class DoubleValidationTest {
   }
 
   @ParameterizedTest
-  @ValueSource(doubles = {1, 5.0999, 100.5, 200})
-  void validate_when_exceedsRange_then_violation(double value) {
+  @ValueSource(ints = {-1000, -6, 23, 5000})
+  void validate_when_exceedsRange_then_violation(int value) {
     final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     final Validator validator = validatorFactory.getValidator();
 
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        AllValueObjectDto.newBuilder().andOptionals().setIntValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations =
         validator.validate(dto);
