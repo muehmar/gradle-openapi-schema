@@ -414,6 +414,21 @@ There is a single fold method can be used to decompose an `anyOf` DTO:
 This method is similar to the fold method of the `oneOf` composition only that it returns a list as multiple mapping 
 functions can be called. In case the DTO is valid against no schema, it will simply return and empty list.
 
+### Examples
+#### AnyOf
+* [OpenAPI spec](example/src/main/resources/openapi-anyof.yml)
+* [Object creation and serialisation](example/src/test/java/com/github/muehmar/gradle/openapi/anyof/TestSerialisation.java)
+* [Deserialisation and decomposition](example/src/test/java/com/github/muehmar/gradle/openapi/anyof/TestDeserialisation.java)
+* [Validation](example/src/test/java/com/github/muehmar/gradle/openapi/anyof/TestValidation.java)
+
+#### OneOf
+* [OpenAPI spec](example/src/main/resources/openapi-oneof.yml)
+* [Object creation and serialisation](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestSerialisation.java)
+* [Deserialisation and decomposition](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestDeserialisation.java)
+* [Validation](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestValidation.java)
+* [Object creation and serialisation with discriminator](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestDiscriminatorSerialisation.java)
+* [Deserialisation and decomposition with discriminator](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestDiscriminatorDeserialisation.java)
+
 ## Nullability
 
 With version 3.0.x of the OpenAPI specification one can declare a property to be nullable:
