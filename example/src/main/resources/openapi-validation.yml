@@ -16,6 +16,8 @@ components:
           $ref: "#/components/schemas/IntValue"
         longValue:
           $ref: "#/components/schemas/LongValue"
+        stringValue:
+          $ref: "#/components/schemas/StringValue"
         email:
           $ref: "#/components/schemas/Email"
 
@@ -43,6 +45,13 @@ components:
       type: integer
       format: int64
       minimum: -122
+      maximum: 249
+
+    StringValue:
+      type: string
+      pattern: "[A-Za-z0-9]*"
+      minLength: 2
+      maxLength: 10
       maximum: 249
 
     Email:
