@@ -21,6 +21,24 @@ components:
         email:
           $ref: "#/components/schemas/Email"
 
+    NumbersObject:
+      type: object
+      properties:
+        doubleValue:
+          type: number
+          format: double
+        floatValue:
+          type: number
+          format: float
+        intValue:
+          type: integer
+          format: int32
+        longValue:
+          type: integer
+          format: int64
+      minProperties: 2
+      maxProperties: 3
+
     DoubleValue:
       type: number
       format: double
