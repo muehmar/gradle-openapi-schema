@@ -16,6 +16,8 @@ components:
           $ref: "#/components/schemas/IntValue"
         longValue:
           $ref: "#/components/schemas/LongValue"
+        email:
+          $ref: "#/components/schemas/Email"
 
     DoubleValue:
       type: number
@@ -42,3 +44,7 @@ components:
       format: int64
       minimum: -122
       maximum: 249
+
+    Email:
+      type: string
+      format: email
