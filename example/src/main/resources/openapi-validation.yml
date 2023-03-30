@@ -39,6 +39,19 @@ components:
       minProperties: 2
       maxProperties: 3
 
+    IntegerArray:
+      type: object
+      required:
+        - numbers
+      properties:
+        numbers:
+          type: array
+          items:
+            type: integer
+            format: int32
+          minItems: 3
+          maxItems: 5
+
     DoubleValue:
       type: number
       format: double
