@@ -63,6 +63,16 @@ components:
           type: string
           nullable: true
 
+    Nested:
+      required:
+        - id
+        - obj
+      properties:
+        id:
+          type: string
+        obj:
+          $ref: "#/components/schemas/AllValueObject"
+
     DoubleValue:
       type: number
       format: double
