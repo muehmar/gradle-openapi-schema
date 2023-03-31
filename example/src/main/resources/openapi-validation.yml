@@ -52,6 +52,17 @@ components:
           minItems: 3
           maxItems: 5
 
+    RequiredProperties:
+      required:
+        - val1
+        - val2
+      properties:
+        val1:
+          type: string
+        val2:
+          type: string
+          nullable: true
+
     DoubleValue:
       type: number
       format: double
