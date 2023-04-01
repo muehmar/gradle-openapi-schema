@@ -1,0 +1,52 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    BaseOrder:
+      required:
+        - orderNumber
+        - title
+      properties:
+        orderNumber:
+          type: integer
+        title:
+          type: string
+
+    Invoice:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrder'
+        - type: object
+          required:
+            - paid
+          properties:
+            remark:
+              type: string
+            paid:
+              type: boolean
+
+    Report:
+      required:
+        - invoices
+      properties:
+        invoices:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/BaseOrder'
+              - type: object
+                required:
+                  - paid
+                properties:
+                  remark:
+                    type: string
+                  paid:
+                    type: boolean
+
+
+
+
+

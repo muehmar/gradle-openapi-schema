@@ -193,6 +193,16 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
+        allOf {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-allof.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.allof.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
     }
 }
 
