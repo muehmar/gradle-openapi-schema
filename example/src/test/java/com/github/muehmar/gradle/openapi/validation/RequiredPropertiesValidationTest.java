@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.validation;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import OpenApiSchema.example.api.validation.model.RequiredPropertiesDto;
@@ -7,9 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -22,11 +20,7 @@ class RequiredPropertiesValidationTest {
       throws JsonProcessingException {
     final RequiredPropertiesDto dto = MAPPER.readValue(json, RequiredPropertiesDto.class);
 
-    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    final Validator validator = validatorFactory.getValidator();
-
-    final Set<ConstraintViolation<RequiredPropertiesDto>> constraintViolations =
-        validator.validate(dto);
+    final Set<ConstraintViolation<RequiredPropertiesDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
   }
@@ -37,11 +31,7 @@ class RequiredPropertiesValidationTest {
       throws JsonProcessingException {
     final RequiredPropertiesDto dto = MAPPER.readValue(json, RequiredPropertiesDto.class);
 
-    final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-    final Validator validator = validatorFactory.getValidator();
-
-    final Set<ConstraintViolation<RequiredPropertiesDto>> constraintViolations =
-        validator.validate(dto);
+    final Set<ConstraintViolation<RequiredPropertiesDto>> constraintViolations = validate(dto);
 
     assertEquals(1, constraintViolations.size());
   }
