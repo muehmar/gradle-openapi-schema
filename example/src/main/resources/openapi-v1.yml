@@ -109,37 +109,6 @@ components:
         name:
           type: string
 
-    Color:
-      required:
-        - colorKey
-        - colorName
-      properties:
-        colorKey:
-          type: integer
-        colorName:
-          type: string
-
-    Car:
-      allOf:
-        - $ref: '#/components/schemas/Color'
-        - type: object
-          required:
-            - model
-          properties:
-            model:
-              type: string
-            isCombi:
-              type: boolean
-
-    Reports:
-      properties:
-        invoice:
-          type: array
-          items:
-            allOf:
-              - $ref: "#/components/schemas/Color"
-              - $ref: "#/components/schemas/Flags"
-
     UserKey:
       type: string
       format: uuid
@@ -159,15 +128,5 @@ components:
         - EVENT:SUB_EVENT
         - EVENT:*WILDCARD
         - 123456
-
-    Flags:
-      required:
-        - boolFlag
-        - intFlag
-      properties:
-        boolFlag:
-          type: boolean
-        intFlag:
-          type: integer
 
 

@@ -7,11 +7,71 @@ components:
   schemas:
     AllValueObject:
       type: object
-      required:
-        - doubleValue
       properties:
         doubleValue:
           $ref: "#/components/schemas/DoubleValue"
+        floatValue:
+          $ref: "#/components/schemas/FloatValue"
+        intValue:
+          $ref: "#/components/schemas/IntValue"
+        longValue:
+          $ref: "#/components/schemas/LongValue"
+        stringValue:
+          $ref: "#/components/schemas/StringValue"
+        email:
+          $ref: "#/components/schemas/Email"
+
+    NumbersObject:
+      type: object
+      properties:
+        doubleValue:
+          type: number
+          format: double
+        floatValue:
+          type: number
+          format: float
+        intValue:
+          type: integer
+          format: int32
+        longValue:
+          type: integer
+          format: int64
+      minProperties: 2
+      maxProperties: 3
+
+    IntegerArray:
+      type: object
+      required:
+        - numbers
+      properties:
+        numbers:
+          type: array
+          items:
+            type: integer
+            format: int32
+          minItems: 3
+          maxItems: 5
+
+    RequiredProperties:
+      required:
+        - val1
+        - val2
+      properties:
+        val1:
+          type: string
+        val2:
+          type: string
+          nullable: true
+
+    Nested:
+      required:
+        - id
+        - obj
+      properties:
+        id:
+          type: string
+        obj:
+          $ref: "#/components/schemas/AllValueObject"
 
     DoubleValue:
       type: number
@@ -19,3 +79,33 @@ components:
       minimum: 5.1
       maximum: 100.5
       exclusiveMaximum: true
+
+    FloatValue:
+      type: number
+      format: float
+      minimum: 200.25
+      maximum: 300.5
+      exclusiveMaximum: true
+
+    IntValue:
+      type: integer
+      format: int32
+      minimum: -5
+      maximum: 22
+
+    LongValue:
+      type: integer
+      format: int64
+      minimum: -122
+      maximum: 249
+
+    StringValue:
+      type: string
+      pattern: "[A-Za-z0-9]*"
+      minLength: 2
+      maxLength: 10
+      maximum: 249
+
+    Email:
+      type: string
+      format: email

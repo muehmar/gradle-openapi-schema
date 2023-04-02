@@ -6,26 +6,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import OpenApiSchema.example.api.validation.model.AllValueObjectDto;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 
-class DoubleValidationTest {
-  @ParameterizedTest
-  @ValueSource(doubles = {5.1, 7.0, 100.49999})
-  void validate_when_ok_then_noViolations(double value) {
+class EmailValidationTest {
+  @Test
+  void validate_when_ok_then_noViolations() {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        AllValueObjectDto.newBuilder().andOptionals().setEmail("muehmar@github.com").build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
   }
 
-  @ParameterizedTest
-  @ValueSource(doubles = {1, 5.0999, 100.5, 200})
-  void validate_when_exceedsRange_then_violation(double value) {
+  @Test
+  void validate_when_invalidEmail_then_violation() {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        AllValueObjectDto.newBuilder().andOptionals().setEmail("muehmar").build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
