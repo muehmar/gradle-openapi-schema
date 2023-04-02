@@ -582,6 +582,14 @@ against, only the presence of the required properties are considered. This means
 (or more) schemas are present for a `oneOf` composition, but a property of one schema is not valid, the object should be 
 considered as valid but it will result in an invalid object as the required properties of two schemas are present.
 
+### Examples
+* [OpenAPI spec](example/src/main/resources/openapi-validation.yml)
+* [Directory with Tests](example/src/test/java/com/github/muehmar/gradle/openapi/validation)
+
+Samples with Tests for compositions can be found here:
+* [OneOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestValidation.java)
+* [AnyOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/anyof/TestValidation.java)
+
 ## Extraction of enum description
 
 The plugin supports the extraction of description for each member of an enum from the openapi specification. The idea is
