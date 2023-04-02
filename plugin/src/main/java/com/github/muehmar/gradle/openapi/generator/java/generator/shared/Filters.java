@@ -13,4 +13,8 @@ public class Filters {
   public static <T> BiPredicate<T, PojoSettings> isJacksonJson() {
     return (ignore, settings) -> settings.isJacksonJson();
   }
+
+  public static <T> BiPredicate<T, PojoSettings> isSafeBuilder() {
+    return (ignore, settings) -> settings.isEnableSafeBuilder();
+  }
 }

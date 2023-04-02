@@ -1,0 +1,5 @@
+enabledSafeBuilder=[
+public static Builder0 newBuilder() {
+  return new Builder0(new Builder());
+}
+]
