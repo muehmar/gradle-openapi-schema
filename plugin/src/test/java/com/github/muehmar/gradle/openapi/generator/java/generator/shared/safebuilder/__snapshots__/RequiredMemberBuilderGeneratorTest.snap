@@ -1,0 +1,39 @@
+allNecessityAndNullabilityVariants=[
+public static final class Builder0 {
+  private final Builder builder;
+
+  private Builder0(Builder builder) {
+    this.builder = builder
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public Builder1 setRequiredStringVal(String requiredStringVal) {
+    return new Builder1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+}
+
+public static final class Builder1 {
+  private final Builder builder;
+
+  private Builder1(Builder builder) {
+    this.builder = builder
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public Builder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+}
+]

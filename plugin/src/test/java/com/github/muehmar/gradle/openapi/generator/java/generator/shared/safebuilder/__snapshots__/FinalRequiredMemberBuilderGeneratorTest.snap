@@ -1,0 +1,21 @@
+allNecessityAndNullabilityVariants=[
+public static final class Builder2 {
+  private final Builder builder;
+
+  private Builder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public OptBuilder0 andAllOptionals(){
+    return new OptBuilder0(builder);
+  }
+
+  public Builder andOptionals(){
+    return builder;
+  }
+
+  public NecessityAndNullabilityDto build(){
+    return builder.build();
+  }
+}
+]
