@@ -26,6 +26,8 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
         this.<JavaObjectPojo>factoryMethod()
             .appendNewLine()
             .appendList(requiredBuilder(), RequiredMember::fromObjectPojo, Generator.newLine())
+            .appendSingleBlankLine()
+            .append(finalRequiredBuilder())
             .filter(Filters.isSafeBuilder());
   }
 
@@ -71,7 +73,8 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
         .append(nullableSetter.filter(RequiredMember::isNullable));
   }
 
-  private static Generator<RequiredMember, PojoSettings> requiredBuilderSetter(String argumentFormat) {
+  private static Generator<RequiredMember, PojoSettings> requiredBuilderSetter(
+      String argumentFormat) {
     final Generator<RequiredMember, PojoSettings> method =
         MethodGenBuilder.<RequiredMember, PojoSettings>create()
             .modifiers(PUBLIC)
@@ -96,6 +99,38 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
     return JavaDocGenerator.<PojoSettings>javaDoc()
         .<RequiredMember>contraMap(m -> m.member.getDescription())
         .append(method);
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> finalRequiredBuilder() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(
+            (p, s, w) ->
+                w.println(
+                    "public static final class Builder%d {",
+                    p.getMembers().filter(JavaPojoMember::isRequired).size()))
+        .append(constant("private final Builder builder;"), 1)
+        .appendNewLine()
+        .append(
+            (p, s, w) ->
+                w.println(
+                    "private Builder%d(Builder builder) {",
+                    p.getMembers().filter(JavaPojoMember::isRequired).size()),
+            1)
+        .append(constant("this.builder = builder;"), 2)
+        .append(constant("}"), 1)
+        .appendNewLine()
+        .append(constant("public OptBuilder0 andAllOptionals(){"), 1)
+        .append(constant("return new OptBuilder0(builder);"), 2)
+        .append(constant("}"), 1)
+        .appendNewLine()
+        .append(constant("public Builder andOptionals(){"), 1)
+        .append(constant("return builder;"), 2)
+        .append(constant("}"), 1)
+        .appendNewLine()
+        .append((p, s, w) -> w.println("public %s build(){", p.getName()), 1)
+        .append(constant("return builder.build();"), 2)
+        .append(constant("}"), 1)
+        .append(constant("}"));
   }
 
   @Value
