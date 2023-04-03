@@ -13,17 +13,11 @@ class FinalRequiredMemberBuilderGenerator {
   public static Generator<JavaObjectPojo, PojoSettings> generator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
-            (p, s, w) ->
-                w.println(
-                    "public static final class Builder%d {",
-                    p.getMembers().filter(JavaPojoMember::isRequired).size()))
+            (p, s, w) -> w.println("public static final class Builder%d {", requiredMemberCount(p)))
         .append(constant("private final Builder builder;"), 1)
         .appendNewLine()
         .append(
-            (p, s, w) ->
-                w.println(
-                    "private Builder%d(Builder builder) {",
-                    p.getMembers().filter(JavaPojoMember::isRequired).size()),
+            (p, s, w) -> w.println("private Builder%d(Builder builder) {", requiredMemberCount(p)),
             1)
         .append(constant("this.builder = builder;"), 2)
         .append(constant("}"), 1)
@@ -40,5 +34,9 @@ class FinalRequiredMemberBuilderGenerator {
         .append(constant("return builder.build();"), 2)
         .append(constant("}"), 1)
         .append(constant("}"));
+  }
+
+  private static int requiredMemberCount(JavaObjectPojo pojo) {
+    return pojo.getMembers().filter(JavaPojoMember::isRequired).size();
   }
 }
