@@ -18,6 +18,8 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
             .append(RequiredMemberBuilderGenerator.generator())
             .appendSingleBlankLine()
             .append(FinalRequiredMemberBuilderGenerator.generator())
+            .appendSingleBlankLine()
+            .append(OptionalMemberBuilderGenerator.generator())
             .filter(Filters.isSafeBuilder());
   }
 
