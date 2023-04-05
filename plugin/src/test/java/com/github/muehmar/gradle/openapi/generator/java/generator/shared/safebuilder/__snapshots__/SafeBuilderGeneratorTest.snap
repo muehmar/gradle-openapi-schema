@@ -104,4 +104,16 @@ public static final class OptBuilder1 {
     return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
 }
+
+public static final class OptBuilder2 {
+  private final Builder builder;
+
+  private OptBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public NecessityAndNullabilityDto build(){
+    return builder.build();
+  }
+}
 ]
