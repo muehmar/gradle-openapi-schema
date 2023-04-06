@@ -47,7 +47,7 @@ class RequiredMemberBuilderGenerator {
         .append(constant("private final Builder builder;"))
         .appendNewLine()
         .append((m, s, w) -> w.println("private Builder%d(Builder builder) {", m.idx))
-        .append(constant("this.builder = builder"), 1)
+        .append(constant("this.builder = builder;"), 1)
         .append(constant("}"))
         .appendNewLine()
         .append(normalSetter)

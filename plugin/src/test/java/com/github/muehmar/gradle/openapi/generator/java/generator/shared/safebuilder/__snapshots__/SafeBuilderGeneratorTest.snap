@@ -7,7 +7,7 @@ public static final class Builder0 {
   private final Builder builder;
 
   private Builder0(Builder builder) {
-    this.builder = builder
+    this.builder = builder;
   }
 
   /**
@@ -23,7 +23,7 @@ public static final class Builder1 {
   private final Builder builder;
 
   private Builder1(Builder builder) {
-    this.builder = builder
+    this.builder = builder;
   }
 
   /**
@@ -65,7 +65,7 @@ public static final class OptBuilder0 {
   private final Builder builder;
 
   private OptBuilder0(Builder builder) {
-    this.builder = builder
+    this.builder = builder;
   }
 
   /**
@@ -87,7 +87,7 @@ public static final class OptBuilder1 {
   private final Builder builder;
 
   private OptBuilder1(Builder builder) {
-    this.builder = builder
+    this.builder = builder;
   }
 
   /**

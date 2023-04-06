@@ -1128,13 +1128,13 @@ public class UserDto {
       return new UserDto(id, name, language);
     }
   }
-
   public static Builder0 newBuilder() {
     return new Builder0(new Builder());
   }
 
   public static final class Builder0 {
     private final Builder builder;
+
     private Builder0(Builder builder) {
       this.builder = builder;
     }
@@ -1142,13 +1142,15 @@ public class UserDto {
     /**
      * ID of this user
      */
-    public Builder1 setId(Long id){
+    public Builder1 setId(Long id) {
       return new Builder1(builder.setId(id));
     }
+
   }
 
   public static final class Builder1 {
     private final Builder builder;
+
     private Builder1(Builder builder) {
       this.builder = builder;
     }
@@ -1156,22 +1158,27 @@ public class UserDto {
     /**
      * Name of this user
      */
-    public Builder2 setName(String name){
+    public Builder2 setName(String name) {
       return new Builder2(builder.setName(name));
     }
+
   }
 
   public static final class Builder2 {
     private final Builder builder;
+
     private Builder2(Builder builder) {
       this.builder = builder;
     }
+
     public OptBuilder0 andAllOptionals(){
       return new OptBuilder0(builder);
     }
+
     public Builder andOptionals(){
       return builder;
     }
+
     public UserDto build(){
       return builder.build();
     }
@@ -1179,6 +1186,7 @@ public class UserDto {
 
   public static final class OptBuilder0 {
     private final Builder builder;
+
     private OptBuilder0(Builder builder) {
       this.builder = builder;
     }
@@ -1186,23 +1194,25 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
-    public OptBuilder1 setLanguage(LanguageEnum language){
+    public OptBuilder1 setLanguage(LanguageEnum language) {
       return new OptBuilder1(builder.setLanguage(language));
     }
 
     /**
      * Preferred language of this user
      */
-    public OptBuilder1 setLanguage(Optional<LanguageEnum> language){
-      return new OptBuilder1(language.map(builder::setLanguage).orElse(builder));
+    public OptBuilder1 setLanguage(Optional<LanguageEnum> language) {
+      return new OptBuilder1(builder.setLanguage(language));
     }
   }
 
   public static final class OptBuilder1 {
     private final Builder builder;
+
     private OptBuilder1(Builder builder) {
       this.builder = builder;
     }
+
     public UserDto build(){
       return builder.build();
     }
@@ -2057,13 +2067,13 @@ public class NecessityAndNullabilityDto {
       return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
-
   public static Builder0 newBuilder() {
     return new Builder0(new Builder());
   }
 
   public static final class Builder0 {
     private final Builder builder;
+
     private Builder0(Builder builder) {
       this.builder = builder;
     }
@@ -2071,13 +2081,15 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredStringVal
      */
-    public Builder1 setRequiredStringVal(String requiredStringVal){
+    public Builder1 setRequiredStringVal(String requiredStringVal) {
       return new Builder1(builder.setRequiredStringVal(requiredStringVal));
     }
+
   }
 
   public static final class Builder1 {
     private final Builder builder;
+
     private Builder1(Builder builder) {
       this.builder = builder;
     }
@@ -2085,29 +2097,33 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableStringVal
      */
-    public Builder2 setRequiredNullableStringVal(String requiredNullableStringVal){
+    public Builder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
       return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
     }
 
     /**
      * RequiredNullableStringVal
      */
-    public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal){
+    public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
       return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
     }
   }
 
   public static final class Builder2 {
     private final Builder builder;
+
     private Builder2(Builder builder) {
       this.builder = builder;
     }
+
     public OptBuilder0 andAllOptionals(){
       return new OptBuilder0(builder);
     }
+
     public Builder andOptionals(){
       return builder;
     }
+
     public NecessityAndNullabilityDto build(){
       return builder.build();
     }
@@ -2115,6 +2131,7 @@ public class NecessityAndNullabilityDto {
 
   public static final class OptBuilder0 {
     private final Builder builder;
+
     private OptBuilder0(Builder builder) {
       this.builder = builder;
     }
@@ -2122,20 +2139,21 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
-    public OptBuilder1 setOptionalStringVal(String optionalStringVal){
+    public OptBuilder1 setOptionalStringVal(String optionalStringVal) {
       return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
     }
 
     /**
      * OptionalStringVal
      */
-    public OptBuilder1 setOptionalStringVal(Optional<String> optionalStringVal){
-      return new OptBuilder1(optionalStringVal.map(builder::setOptionalStringVal).orElse(builder));
+    public OptBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
+      return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
     }
   }
 
   public static final class OptBuilder1 {
     private final Builder builder;
+
     private OptBuilder1(Builder builder) {
       this.builder = builder;
     }
@@ -2143,23 +2161,25 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableStringVal
      */
-    public OptBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal){
+    public OptBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
       return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
     }
 
     /**
      * OptionalNullableStringVal
      */
-    public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal){
+    public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
       return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
     }
   }
 
   public static final class OptBuilder2 {
     private final Builder builder;
+
     private OptBuilder2(Builder builder) {
       this.builder = builder;
     }
+
     public NecessityAndNullabilityDto build(){
       return builder.build();
     }
