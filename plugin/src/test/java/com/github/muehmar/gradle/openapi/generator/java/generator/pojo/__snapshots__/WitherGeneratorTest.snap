@@ -1,0 +1,29 @@
+allNullabilityAndNecessityVariants=[
+/**
+ * RequiredStringVal
+ */
+public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+
+/**
+ * RequiredNullableStringVal
+ */
+public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+
+/**
+ * OptionalStringVal
+ */
+public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+
+/**
+ * OptionalNullableStringVal
+ */
+public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+]
