@@ -39,6 +39,7 @@ public static final class Builder1 {
   public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
+
 }
 
 public static final class Builder2 {
@@ -81,6 +82,7 @@ public static final class OptBuilder0 {
   public OptBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
     return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
   }
+
 }
 
 public static final class OptBuilder1 {
@@ -103,6 +105,7 @@ public static final class OptBuilder1 {
   public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
+
 }
 
 public static final class OptBuilder2 {

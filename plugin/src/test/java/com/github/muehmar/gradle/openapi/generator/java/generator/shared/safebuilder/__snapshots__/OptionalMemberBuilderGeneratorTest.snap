@@ -19,6 +19,7 @@ public static final class OptBuilder0 {
   public OptBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
     return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
   }
+
 }
 
 public static final class OptBuilder1 {
@@ -41,5 +42,6 @@ public static final class OptBuilder1 {
   public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
+
 }
 ]
