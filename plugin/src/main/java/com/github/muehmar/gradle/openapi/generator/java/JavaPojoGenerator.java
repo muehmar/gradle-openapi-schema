@@ -64,35 +64,6 @@ public class JavaPojoGenerator implements PojoGenerator {
         .close(packagePath + "/" + pojo.getName() + ".java");
   }
 
-  private static Writer dummyWriter() {
-    return new Writer() {
-      @Override
-      public Writer print(String string, Object... args) {
-        return this;
-      }
-
-      @Override
-      public Writer println() {
-        return this;
-      }
-
-      @Override
-      public Writer tab(int tabs) {
-        return this;
-      }
-
-      @Override
-      public Writer ref(String ref) {
-        return this;
-      }
-
-      @Override
-      public boolean close(String path) {
-        return false;
-      }
-    };
-  }
-
   private Writer generateFreeFormPojo(
       JavaFreeFormPojo freeFormPojo, Writer writer, PojoSettings pojoSettings) {
     final FreeFormPojoGenerator freeFormPojoGenerator = new FreeFormPojoGenerator();
