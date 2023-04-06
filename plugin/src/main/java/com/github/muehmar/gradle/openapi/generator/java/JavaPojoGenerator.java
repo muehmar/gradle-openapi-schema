@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.Eq
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SafeBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
@@ -34,7 +35,6 @@ import com.github.muehmar.gradle.openapi.writer.Writer;
 import io.github.muehmar.codegenerator.Generator;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 
 public class JavaPojoGenerator implements PojoGenerator {
   private final Supplier<Writer> createWriter;
@@ -62,35 +62,6 @@ public class JavaPojoGenerator implements PojoGenerator {
             composedPojo -> generateComposedPojo(composedPojo, writer, pojoSettings),
             freeFormPojo -> generateFreeFormPojo(freeFormPojo, writer, pojoSettings))
         .close(packagePath + "/" + pojo.getName() + ".java");
-  }
-
-  private static Writer dummyWriter() {
-    return new Writer() {
-      @Override
-      public Writer print(String string, Object... args) {
-        return this;
-      }
-
-      @Override
-      public Writer println() {
-        return this;
-      }
-
-      @Override
-      public Writer tab(int tabs) {
-        return this;
-      }
-
-      @Override
-      public Writer ref(String ref) {
-        return this;
-      }
-
-      @Override
-      public boolean close(String path) {
-        return false;
-      }
-    };
   }
 
   private Writer generateFreeFormPojo(
@@ -380,173 +351,11 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println(output);
   }
 
-  protected void printSafeBuilder(Writer writer, JavaPojo pojo, PojoSettings settings) {
-    writer.println();
-    writer.tab(1).println("public static Builder0 newBuilder() {");
-    writer.tab(2).println("return new Builder0(new Builder());");
-    writer.tab(1).println("}");
-
-    final PList<JavaPojoMember> optionalMembers =
-        pojo.getMembersOrEmpty().filter(JavaPojoMember::isOptional);
-    final PList<JavaPojoMember> requiredMembers =
-        pojo.getMembersOrEmpty().filter(JavaPojoMember::isRequired);
-
-    final String builderMethodPrefix = settings.getBuilderMethodPrefix();
-    IntStream.range(0, requiredMembers.size())
-        .forEach(
-            idx -> {
-              final JavaPojoMember member = requiredMembers.apply(idx);
-              final String memberName = member.getName().asString();
-              final String memberType = member.getJavaType().getFullClassName().asString();
-              writer.println();
-              writer.tab(1).println("public static final class Builder%d {", idx);
-
-              writer.tab(2).println("private final Builder builder;");
-              writer.tab(2).println("private Builder%d(Builder builder) {", idx);
-              writer.tab(3).println("this.builder = builder;");
-              writer.tab(2).println("}");
-
-              // Normal setter method
-              writer.println();
-              printJavaDoc(writer, 2, member.getDescription());
-              writer
-                  .tab(2)
-                  .println(
-                      "public Builder%d %s(%s %s){",
-                      idx + 1,
-                      member.prefixedMethodName(builderMethodPrefix),
-                      memberType,
-                      memberName);
-              writer
-                  .tab(3)
-                  .println(
-                      "return new Builder%d(builder.%s(%s));",
-                      idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
-              writer.tab(2).println("}");
-
-              // Required nullable method
-              if (member.isRequiredAndNullable()) {
-                writer.println();
-                printJavaDoc(writer, 2, member.getDescription());
-                writer
-                    .tab(2)
-                    .println(
-                        "public Builder%d %s(Optional<%s> %s){",
-                        idx + 1,
-                        member.prefixedMethodName(builderMethodPrefix),
-                        memberType,
-                        memberName);
-                writer
-                    .tab(3)
-                    .println(
-                        "return new Builder%d(builder.%s(%s));",
-                        idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
-                writer.tab(2).println("}");
-              }
-
-              writer.tab(1).println("}");
-            });
-
-    // Builder after all required members have been set
-    writer.println();
-    writer.tab(1).println("public static final class Builder%d {", requiredMembers.size());
-    writer.tab(2).println("private final Builder builder;");
-    writer.tab(2).println("private Builder%d(Builder builder) {", requiredMembers.size());
-    writer.tab(3).println("this.builder = builder;");
-    writer.tab(2).println("}");
-    writer.tab(2).println("public OptBuilder0 andAllOptionals(){");
-    writer.tab(3).println("return new OptBuilder0(builder);");
-    writer.tab(2).println("}");
-    writer.tab(2).println("public Builder andOptionals(){");
-    writer.tab(3).println("return builder;");
-    writer.tab(2).println("}");
-    writer.tab(2).println("public %s build(){", pojo.getName());
-    writer.tab(3).println("return builder.build();");
-    writer.tab(2).println("}");
-    writer.tab(1).println("}");
-
-    IntStream.range(0, optionalMembers.size())
-        .forEach(
-            idx -> {
-              final JavaPojoMember member = optionalMembers.apply(idx);
-              final String memberName = member.getName().asString();
-              final String memberType = member.getJavaType().getFullClassName().asString();
-              writer.println();
-              writer.tab(1).println("public static final class OptBuilder%d {", idx);
-
-              writer.tab(2).println("private final Builder builder;");
-              writer.tab(2).println("private OptBuilder%d(Builder builder) {", idx);
-              writer.tab(3).println("this.builder = builder;");
-              writer.tab(2).println("}");
-
-              // Normal setter
-              writer.println();
-              printJavaDoc(writer, 2, member.getDescription());
-              writer
-                  .tab(2)
-                  .println(
-                      "public OptBuilder%d %s(%s %s){",
-                      idx + 1,
-                      member.prefixedMethodName(builderMethodPrefix),
-                      memberType,
-                      memberName);
-              writer
-                  .tab(3)
-                  .println(
-                      "return new OptBuilder%d(builder.%s(%s));",
-                      idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
-              writer.tab(2).println("}");
-
-              if (member.isNotNullable()) {
-                writer.println();
-                printJavaDoc(writer, 2, member.getDescription());
-                writer
-                    .tab(2)
-                    .println(
-                        "public OptBuilder%d %s(Optional<%s> %s){",
-                        idx + 1,
-                        member.prefixedMethodName(builderMethodPrefix),
-                        memberType,
-                        memberName);
-                writer
-                    .tab(3)
-                    .println(
-                        "return new OptBuilder%d(%s.map(builder::%s).orElse(builder));",
-                        idx + 1, memberName, member.prefixedMethodName(builderMethodPrefix));
-                writer.tab(2).println("}");
-              } else {
-                writer.println();
-                printJavaDoc(writer, 2, member.getDescription());
-                writer
-                    .tab(2)
-                    .println(
-                        "public OptBuilder%d %s(Tristate<%s> %s){",
-                        idx + 1,
-                        member.prefixedMethodName(builderMethodPrefix),
-                        memberType,
-                        memberName);
-                writer
-                    .tab(3)
-                    .println(
-                        "return new OptBuilder%d(builder.%s(%s));",
-                        idx + 1, member.prefixedMethodName(builderMethodPrefix), memberName);
-                writer.tab(2).println("}");
-              }
-
-              writer.tab(1).println("}");
-            });
-
-    // Final Builder
-    writer.println();
-    writer.tab(1).println("public static final class OptBuilder%d {", optionalMembers.size());
-    writer.tab(2).println("private final Builder builder;");
-    writer.tab(2).println("private OptBuilder%d(Builder builder) {", optionalMembers.size());
-    writer.tab(3).println("this.builder = builder;");
-    writer.tab(2).println("}");
-    writer.tab(2).println("public %s build(){", pojo.getName());
-    writer.tab(3).println("return builder.build();");
-    writer.tab(2).println("}");
-    writer.tab(1).println("}");
+  protected void printSafeBuilder(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {
+    final Generator<JavaObjectPojo, PojoSettings> safeBuilderGenerator =
+        new SafeBuilderGenerator().indent(1);
+    final String output = applyGen(safeBuilderGenerator, pojo, settings);
+    writer.println(output);
   }
 
   protected void printEqualsAndHash(Writer writer, JavaPojo pojo, PojoSettings settings) {
