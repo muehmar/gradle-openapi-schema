@@ -82,10 +82,18 @@ public class WitherGenerator {
     }
 
     String constructorCall() {
-      return String.format(
-          "new %s(%s)",
-          pojo.getClassName(),
-          pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+      final String constructorCall =
+          String.format(
+              "new %s(%s)",
+              pojo.getClassName(),
+              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+      if (pojoMember.isRequiredAndNullable()) {
+        return constructorCall.replaceAll(pojoMember.getIsPresentFlagName().asString(), "true");
+      } else if (pojoMember.isOptionalAndNullable()) {
+        return constructorCall.replaceAll(pojoMember.getIsNullFlagName().asString(), "false");
+      } else {
+        return constructorCall;
+      }
     }
   }
 }

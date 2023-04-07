@@ -10,7 +10,7 @@ public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal
  * RequiredNullableStringVal
  */
 public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
-  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
 }
 
 /**
@@ -24,6 +24,6 @@ public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal
  * OptionalNullableStringVal
  */
 public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
-  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, false);
 }
 ]
