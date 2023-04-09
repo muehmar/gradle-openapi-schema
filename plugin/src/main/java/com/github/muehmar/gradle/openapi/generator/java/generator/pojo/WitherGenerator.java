@@ -31,7 +31,7 @@ public class WitherGenerator {
             .content(methodContent())
             .build();
     return JavaDocGenerator.<PojoSettings>javaDoc()
-        .<WitherMethod>contraMap(WitherMethod::javaDocString)
+        .contraMap(WitherMethod::javaDocString)
         .append(method);
   }
 
@@ -45,7 +45,20 @@ public class WitherGenerator {
     protected final JavaPojoMember pojoMember;
 
     public static PList<WitherMethod> fromPojo(JavaPojo pojo) {
-      return pojo.getMembersOrEmpty().map(member -> new NormalWitherMethod(pojo, member));
+      return pojo.getMembersOrEmpty()
+          .flatMap(
+              member -> {
+                final NormalWitherMethod normalWitherMethod = new NormalWitherMethod(pojo, member);
+                if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
+                  final OptionalWitherMethod optionalWitherMethod =
+                      new OptionalWitherMethod(pojo, member);
+                  return PList.of(normalWitherMethod, optionalWitherMethod);
+                } else if (member.isOptionalAndNullable()) {
+                  return PList.of(normalWitherMethod, new TristateWitherMethod(pojo, member));
+                } else {
+                  return PList.single(normalWitherMethod);
+                }
+              });
     }
 
     public String javaDocString() {
@@ -91,6 +104,82 @@ public class WitherGenerator {
         return constructorCall.replaceAll(pojoMember.getIsPresentFlagName().asString(), "true");
       } else if (pojoMember.isOptionalAndNullable()) {
         return constructorCall.replaceAll(pojoMember.getIsNullFlagName().asString(), "false");
+      } else {
+        return constructorCall;
+      }
+    }
+  }
+
+  private static class OptionalWitherMethod extends WitherMethod {
+    public OptionalWitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
+      super(pojo, pojoMember);
+    }
+
+    PList<String> argument() {
+      return PList.single(
+          String.format(
+              "Optional<%s> %s",
+              pojoMember.getJavaType().getFullClassName(), pojoMember.getName()));
+    }
+
+    String constructorCall() {
+      final String constructorCall =
+          String.format(
+              "new %s(%s)",
+              pojo.getName(),
+              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::getPropertyNames).mkString(", "));
+      if (pojoMember.isRequiredAndNullable()) {
+        return constructorCall
+            .replaceAll(
+                pojoMember.getName().asString(),
+                String.format("%s.orElse(null)", pojoMember.getName()))
+            .replaceAll(
+                pojoMember.getIsPresentFlagName().asString(),
+                String.format("%s.isPresent()", pojoMember.getName()));
+      } else if (pojoMember.isOptionalAndNotNullable()) {
+        return constructorCall
+            .replaceAll(
+                pojoMember.getName().asString(),
+                String.format("%s.orElse(null)", pojoMember.getName()))
+            .replaceAll(
+                pojoMember.getIsNullFlagName().asString(),
+                String.format("!%s.isPresent()", pojoMember.getName()));
+      } else {
+        return constructorCall;
+      }
+    }
+  }
+
+  private static class TristateWitherMethod extends WitherMethod {
+    public TristateWitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
+      super(pojo, pojoMember);
+    }
+
+    PList<String> argument() {
+      return PList.single(
+          String.format(
+              "Tristate<%s> %s",
+              pojoMember.getJavaType().getFullClassName(), pojoMember.getName()));
+    }
+
+    String constructorCall() {
+      final String constructorCall =
+          String.format(
+              "new %s(%s)",
+              pojo.getName(),
+              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::getPropertyNames).mkString(", "));
+      if (pojoMember.isOptionalAndNullable()) {
+        return constructorCall
+            .replaceAll(
+                pojoMember.getName().asString(),
+                String.format(
+                    "%s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)",
+                    pojoMember.getName()))
+            .replaceAll(
+                pojoMember.getIsNullFlagName().asString(),
+                String.format(
+                    "%s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)",
+                    pojoMember.getName()));
       } else {
         return constructorCall;
       }
