@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
+import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -28,6 +30,8 @@ class WitherGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
+    assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
     expect.toMatchSnapshot(writer.asString());
   }
 }

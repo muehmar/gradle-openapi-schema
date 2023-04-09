@@ -4,6 +4,8 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -11,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 public class WitherGenerator {
   private WitherGenerator() {}
@@ -32,7 +35,8 @@ public class WitherGenerator {
             .build();
     return JavaDocGenerator.<PojoSettings>javaDoc()
         .contraMap(WitherMethod::javaDocString)
-        .append(method);
+        .append(method)
+        .append((wm, s, w) -> wm.addRefs(w));
   }
 
   private static Generator<WitherMethod, PojoSettings> methodContent() {
@@ -47,19 +51,15 @@ public class WitherGenerator {
     public static PList<WitherMethod> fromPojo(JavaPojo pojo) {
       return pojo.getMembersOrEmpty()
           .flatMap(
-              member -> {
-                final NormalWitherMethod normalWitherMethod = new NormalWitherMethod(pojo, member);
-                if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
-                  final OptionalWitherMethod optionalWitherMethod =
-                      new OptionalWitherMethod(pojo, member);
-                  return PList.of(normalWitherMethod, optionalWitherMethod);
-                } else if (member.isOptionalAndNullable()) {
-                  return PList.of(normalWitherMethod, new TristateWitherMethod(pojo, member));
-                } else {
-                  return PList.single(normalWitherMethod);
-                }
-              });
+              member ->
+                  PList.of(
+                      new NormalWitherMethod(pojo, member),
+                      new OptionalWitherMethod(pojo, member),
+                      new TristateWitherMethod(pojo, member)))
+          .filter(WitherMethod::shouldBeUsed);
     }
+
+    abstract boolean shouldBeUsed();
 
     public String javaDocString() {
       return pojoMember.getDescription();
@@ -78,21 +78,13 @@ public class WitherGenerator {
       return pojoMember.getWitherName().asString();
     }
 
-    abstract PList<String> argument();
-
-    abstract String constructorCall();
-  }
-
-  private static class NormalWitherMethod extends WitherMethod {
-    public NormalWitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
-      super(pojo, pojoMember);
-    }
-
     PList<String> argument() {
       return PList.single(
           String.format(
-              "%s %s", pojoMember.getJavaType().getFullClassName(), pojoMember.getName()));
+              argumentFormat(), pojoMember.getJavaType().getFullClassName(), pojoMember.getName()));
     }
+
+    abstract String argumentFormat();
 
     String constructorCall() {
       final String constructorCall =
@@ -100,13 +92,43 @@ public class WitherGenerator {
               "new %s(%s)",
               pojo.getClassName(),
               pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+      return replacePropertiesInConstructorCall(constructorCall);
+    }
+
+    abstract String replacePropertiesInConstructorCall(String call);
+
+    abstract Writer addRefs(Writer writer);
+  }
+
+  private static class NormalWitherMethod extends WitherMethod {
+    public NormalWitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
+      super(pojo, pojoMember);
+    }
+
+    @Override
+    boolean shouldBeUsed() {
+      return true;
+    }
+
+    @Override
+    String argumentFormat() {
+      return "%s %s";
+    }
+
+    @Override
+    String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isRequiredAndNullable()) {
-        return constructorCall.replaceAll(pojoMember.getIsPresentFlagName().asString(), "true");
+        return call.replaceAll(pojoMember.getIsPresentFlagName().asString(), "true");
       } else if (pojoMember.isOptionalAndNullable()) {
-        return constructorCall.replaceAll(pojoMember.getIsNullFlagName().asString(), "false");
+        return call.replaceAll(pojoMember.getIsNullFlagName().asString(), "false");
       } else {
-        return constructorCall;
+        return call;
       }
+    }
+
+    @Override
+    Writer addRefs(Writer writer) {
+      return writer;
     }
   }
 
@@ -115,38 +137,40 @@ public class WitherGenerator {
       super(pojo, pojoMember);
     }
 
-    PList<String> argument() {
-      return PList.single(
-          String.format(
-              "Optional<%s> %s",
-              pojoMember.getJavaType().getFullClassName(), pojoMember.getName()));
+    @Override
+    boolean shouldBeUsed() {
+      return pojoMember.isRequiredAndNullable() || pojoMember.isOptionalAndNotNullable();
     }
 
-    String constructorCall() {
-      final String constructorCall =
-          String.format(
-              "new %s(%s)",
-              pojo.getClassName(),
-              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+    @Override
+    String argumentFormat() {
+      return "Optional<%s> %s";
+    }
+
+    @Override
+    String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isRequiredAndNullable()) {
-        return constructorCall
-            .replaceAll(
+        return call.replaceAll(
                 pojoMember.getName().asString(),
                 String.format("%s.orElse(null)", pojoMember.getName()))
             .replaceAll(
                 pojoMember.getIsPresentFlagName().asString(),
                 String.format("%s.isPresent()", pojoMember.getName()));
       } else if (pojoMember.isOptionalAndNotNullable()) {
-        return constructorCall
-            .replaceAll(
+        return call.replaceAll(
                 pojoMember.getName().asString(),
                 String.format("%s.orElse(null)", pojoMember.getName()))
             .replaceAll(
                 pojoMember.getIsNullFlagName().asString(),
                 String.format("!%s.isPresent()", pojoMember.getName()));
       } else {
-        return constructorCall;
+        return call;
       }
+    }
+
+    @Override
+    Writer addRefs(Writer writer) {
+      return writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL);
     }
   }
 
@@ -155,30 +179,33 @@ public class WitherGenerator {
       super(pojo, pojoMember);
     }
 
-    PList<String> argument() {
-      return PList.single(
-          String.format(
-              "Tristate<%s> %s",
-              pojoMember.getJavaType().getFullClassName(), pojoMember.getName()));
+    @Override
+    boolean shouldBeUsed() {
+      return pojoMember.isOptionalAndNullable();
     }
 
-    String constructorCall() {
-      final String constructorCall =
-          String.format(
-              "new %s(%s)",
-              pojo.getClassName(),
-              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+    @Override
+    String argumentFormat() {
+      return "Tristate<%s> %s";
+    }
+
+    @Override
+    String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isOptionalAndNullable()) {
-        return constructorCall
-            .replaceAll(
+        return call.replaceAll(
                 pojoMember.getName().asString(),
                 String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToProperty()))
             .replaceAll(
                 pojoMember.getIsNullFlagName().asString(),
                 String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToIsNullFlag()));
       } else {
-        return constructorCall;
+        return call;
       }
+    }
+
+    @Override
+    Writer addRefs(Writer writer) {
+      return writer.ref(OpenApiUtilRefs.TRISTATE);
     }
   }
 }
