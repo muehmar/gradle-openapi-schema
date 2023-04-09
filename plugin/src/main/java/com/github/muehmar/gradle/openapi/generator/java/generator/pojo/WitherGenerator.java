@@ -126,8 +126,8 @@ public class WitherGenerator {
       final String constructorCall =
           String.format(
               "new %s(%s)",
-              pojo.getName(),
-              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::getPropertyNames).mkString(", "));
+              pojo.getClassName(),
+              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
       if (pojoMember.isRequiredAndNullable()) {
         return constructorCall
             .replaceAll(
@@ -166,20 +166,16 @@ public class WitherGenerator {
       final String constructorCall =
           String.format(
               "new %s(%s)",
-              pojo.getName(),
-              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::getPropertyNames).mkString(", "));
+              pojo.getClassName(),
+              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
       if (pojoMember.isOptionalAndNullable()) {
         return constructorCall
             .replaceAll(
                 pojoMember.getName().asString(),
-                String.format(
-                    "%s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)",
-                    pojoMember.getName()))
+                String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToProperty()))
             .replaceAll(
                 pojoMember.getIsNullFlagName().asString(),
-                String.format(
-                    "%s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)",
-                    pojoMember.getName()));
+                String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToIsNullFlag()));
       } else {
         return constructorCall;
       }

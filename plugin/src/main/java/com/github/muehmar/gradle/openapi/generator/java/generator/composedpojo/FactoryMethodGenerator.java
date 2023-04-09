@@ -224,13 +224,15 @@ public class FactoryMethodGenerator {
         .append(
             (p, s, w) ->
                 w.println(
-                    "dto.%s().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),",
-                    p.member.getGetterNameWithSuffix(s)))
+                    "dto.%s().%s,",
+                    p.member.getGetterNameWithSuffix(s), p.member.tristateToProperty()))
         .append(
             (p, s, w) ->
                 w.println(
-                    "dto.%s().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)%s",
-                    p.member.getGetterNameWithSuffix(s), p.commaAfterParameter()))
+                    "dto.%s().%s%s",
+                    p.member.getGetterNameWithSuffix(s),
+                    p.member.tristateToIsNullFlag(),
+                    p.commaAfterParameter()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isMemberOfMemberPojo());
   }

@@ -21,6 +21,11 @@ public class JavaPojoMember {
   private final Necessity necessity;
   private final Nullability nullability;
 
+  private static final String TRISTATE_TO_PROPERTY =
+      "onValue(val -> val).onNull(() -> null).onAbsent(() -> null)";
+  private static final String TRISTATE_TO_ISNULL_FLAG =
+      "onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)";
+
   private JavaPojoMember(
       JavaMemberName name,
       String description,
@@ -168,5 +173,13 @@ public class JavaPojoMember {
     } else {
       return PList.single(memberName);
     }
+  }
+
+  public String tristateToProperty() {
+    return TRISTATE_TO_PROPERTY;
+  }
+
+  public String tristateToIsNullFlag() {
+    return TRISTATE_TO_ISNULL_FLAG;
   }
 }

@@ -251,12 +251,15 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 (member, settings, writer) ->
                     writer
                         .println(
-                            "this.%s = %s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);",
+                            "this.%s = %s.%s;",
                             member.getJavaName().asIdentifier(),
-                            member.getJavaName().asIdentifier())
+                            member.getJavaName().asIdentifier(),
+                            member.tristateToProperty())
                         .println(
-                            "this.%s = %s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);",
-                            member.getIsNullFlagName(), member.getJavaName().asIdentifier())
+                            "this.%s = %s.%s;",
+                            member.getIsNullFlagName(),
+                            member.getJavaName().asIdentifier(),
+                            member.tristateToIsNullFlag())
                         .println("return this;")
                         .ref(OpenApiUtilRefs.TRISTATE))
             .build();
