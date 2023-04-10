@@ -158,8 +158,7 @@ public class FactoryMethodGenerator {
       requiredMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append(
-            (p, s, w) ->
-                w.println("%s%s", p.member.getJavaName().asIdentifier(), p.commaAfterParameter()))
+            (p, s, w) -> w.println("%s%s", p.member.getNameAsIdentifier(), p.commaAfterParameter()))
         .filter(
             pojos -> pojos.member.isRequiredAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -184,7 +183,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       requiredNullableMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("%s,", p.member.getJavaName().asIdentifier()))
+        .append((p, s, w) -> w.println("%s,", p.member.getNameAsIdentifier()))
         .append(
             (p, s, w) ->
                 w.println("%s%s", p.member.getIsPresentFlagName(), p.commaAfterParameter()))
@@ -213,8 +212,7 @@ public class FactoryMethodGenerator {
       optionalMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append(
-            (p, s, w) ->
-                w.println("%s%s", p.member.getJavaName().asIdentifier(), p.commaAfterParameter()))
+            (p, s, w) -> w.println("%s%s", p.member.getNameAsIdentifier(), p.commaAfterParameter()))
         .filter(
             pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -249,7 +247,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       optionalNullableMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("%s,", p.member.getJavaName().asIdentifier()))
+        .append((p, s, w) -> w.println("%s,", p.member.getNameAsIdentifier()))
         .append(
             (p, s, w) -> w.println("%s%s", p.member.getIsNullFlagName(), p.commaAfterParameter()))
         .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isNotMemberOfMemberPojo());

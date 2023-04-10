@@ -20,8 +20,7 @@ public class CommonGetter {
         .returnType(f -> String.format("Optional<%s>", f.getJavaType().getFullClassName()))
         .methodName(getterName())
         .noArguments()
-        .content(
-            f -> String.format("return Optional.ofNullable(%s);", f.getJavaName().asIdentifier()))
+        .content(f -> String.format("return Optional.ofNullable(%s);", f.getNameAsIdentifier()))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
@@ -37,7 +36,7 @@ public class CommonGetter {
             f ->
                 String.format(
                     "return this.%s == null ? defaultValue : this.%s;",
-                    f.getJavaName().asIdentifier(), f.getJavaName().asIdentifier()))
+                    f.getNameAsIdentifier(), f.getNameAsIdentifier()))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
@@ -53,7 +52,7 @@ public class CommonGetter {
         .returnType(f -> f.getJavaType().getFullClassName().asString())
         .methodName((f, s) -> f.getValidationGetterName(s).asString())
         .noArguments()
-        .content(f -> String.format("return %s;", f.getJavaName().asIdentifier()))
+        .content(f -> String.format("return %s;", f.getNameAsIdentifier()))
         .build();
   }
 }

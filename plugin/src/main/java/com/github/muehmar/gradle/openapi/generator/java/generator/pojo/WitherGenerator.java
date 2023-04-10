@@ -118,9 +118,9 @@ public class WitherGenerator {
     @Override
     String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isRequiredAndNullable()) {
-        return call.replaceAll(pojoMember.getIsPresentFlagName().asString(), "true");
+        return call.replaceAll(pojoMember.getIsPresentFlagName().wordBoundaryPattern(), "true");
       } else if (pojoMember.isOptionalAndNullable()) {
-        return call.replaceAll(pojoMember.getIsNullFlagName().asString(), "false");
+        return call.replaceAll(pojoMember.getIsNullFlagName().wordBoundaryPattern(), "false");
       } else {
         return call;
       }
@@ -151,17 +151,17 @@ public class WitherGenerator {
     String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isRequiredAndNullable()) {
         return call.replaceAll(
-                pojoMember.getName().asString(),
+                pojoMember.getNameAsIdentifier().wordBoundaryPattern(),
                 String.format("%s.orElse(null)", pojoMember.getName()))
             .replaceAll(
-                pojoMember.getIsPresentFlagName().asString(),
+                pojoMember.getIsPresentFlagName().wordBoundaryPattern(),
                 String.format("%s.isPresent()", pojoMember.getName()));
       } else if (pojoMember.isOptionalAndNotNullable()) {
         return call.replaceAll(
-                pojoMember.getName().asString(),
+                pojoMember.getNameAsIdentifier().wordBoundaryPattern(),
                 String.format("%s.orElse(null)", pojoMember.getName()))
             .replaceAll(
-                pojoMember.getIsNullFlagName().asString(),
+                pojoMember.getIsNullFlagName().wordBoundaryPattern(),
                 String.format("!%s.isPresent()", pojoMember.getName()));
       } else {
         return call;
@@ -193,10 +193,10 @@ public class WitherGenerator {
     String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isOptionalAndNullable()) {
         return call.replaceAll(
-                pojoMember.getName().asString(),
+                pojoMember.getNameAsIdentifier().wordBoundaryPattern(),
                 String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToProperty()))
             .replaceAll(
-                pojoMember.getIsNullFlagName().asString(),
+                pojoMember.getIsNullFlagName().wordBoundaryPattern(),
                 String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToIsNullFlag()));
       } else {
         return call;

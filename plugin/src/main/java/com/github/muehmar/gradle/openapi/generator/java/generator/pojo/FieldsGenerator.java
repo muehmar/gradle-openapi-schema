@@ -22,7 +22,7 @@ public class FieldsGenerator {
         (field, settings, writer) ->
             writer.println(
                 "private final %s %s;",
-                field.getJavaType().getFullClassName(), field.getJavaName().asIdentifier());
+                field.getJavaType().getFullClassName(), field.getNameAsIdentifier());
     final Generator<JavaPojoMember, PojoSettings> requiredNullableFlag =
         (field, settings, writer) ->
             writer.println("private final boolean %s;", field.getIsPresentFlagName());

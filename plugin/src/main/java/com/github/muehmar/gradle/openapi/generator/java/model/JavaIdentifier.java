@@ -87,6 +87,10 @@ public class JavaIdentifier {
         .replaceFirst("^(\\d)", "_$1");
   }
 
+  public String wordBoundaryPattern() {
+    return String.format("\\b%s\\b", identifier);
+  }
+
   public static JavaIdentifier fromName(Name name) {
     return fromString(name.asString());
   }

@@ -63,8 +63,8 @@ public class JavaPojoMember {
     return name;
   }
 
-  public JavaName getJavaName() {
-    return name.asJavaName();
+  public JavaIdentifier getNameAsIdentifier() {
+    return name.asJavaName().asIdentifier();
   }
 
   public Nullability getNullability() {

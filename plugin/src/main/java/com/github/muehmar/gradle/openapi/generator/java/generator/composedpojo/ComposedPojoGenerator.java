@@ -110,7 +110,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         Generator.<JavaPojoMember, PojoSettings>emptyGen()
             .append(
                 (member, settings, writer) ->
-                    writer.println("return %s;", member.getJavaName().asIdentifier()))
+                    writer.println("return %s;", member.getNameAsIdentifier()))
             .filter(
                 member -> member.isRequiredAndNotNullable() || member.isOptionalAndNotNullable());
 
@@ -120,7 +120,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
                 (member, settings, writer) ->
                     writer.println(
                         "return %s ? new JacksonNullContainer<>(%s) : null;",
-                        member.getIsPresentFlagName(), member.getJavaName().asIdentifier()))
+                        member.getIsPresentFlagName(), member.getNameAsIdentifier()))
             .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
             .filter(JavaPojoMember::isRequiredAndNullable);
 
@@ -131,8 +131,8 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
                     writer.println(
                         "return %s ? new JacksonNullContainer<>(%s) : %s;",
                         member.getIsNullFlagName(),
-                        member.getJavaName().asIdentifier(),
-                        member.getJavaName().asIdentifier()))
+                        member.getNameAsIdentifier(),
+                        member.getNameAsIdentifier()))
             .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
             .filter(JavaPojoMember::isOptionalAndNullable);
 

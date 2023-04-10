@@ -25,9 +25,7 @@ public class FreeFormPropertyCountMethodGenerator {
             .methodName("getPropertyCount")
             .noArguments()
             .content(
-                pojo ->
-                    String.format(
-                        "return %s.size();", pojo.getMember().getJavaName().asIdentifier()))
+                pojo -> String.format("return %s.size();", pojo.getMember().getNameAsIdentifier()))
             .build();
     return JavaDocGenerator.<JavaFreeFormPojo, PojoSettings>ofJavaDocString(JAVA_DOC)
         .append(

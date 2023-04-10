@@ -79,7 +79,7 @@ public class FreeFormPojoGenerator implements Generator<JavaFreeFormPojo, PojoSe
             pojo ->
                 String.format(
                     "return Optional.ofNullable(%s.get(propertyName));",
-                    pojo.getMember().getJavaName().asIdentifier()))
+                    pojo.getMember().getNameAsIdentifier()))
         .build()
         .append(RefsGenerator.fieldRefs(), JavaFreeFormPojo::getMember)
         .append(RefsGenerator.optionalRef());

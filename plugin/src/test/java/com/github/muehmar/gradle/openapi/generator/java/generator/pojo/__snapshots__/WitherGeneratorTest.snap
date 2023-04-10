@@ -48,3 +48,34 @@ public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String>
   return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false));
 }
 ]
+
+
+propertyNameMatchesSubstringOfOtherProperty=[
+/**
+ * desc
+ */
+public ObjectPojo1Dto withSurname(String surname) {
+  return new ObjectPojo1Dto(surname, true, name, isNameNull);
+}
+
+/**
+ * desc
+ */
+public ObjectPojo1Dto withSurname(Optional<String> surname) {
+  return new ObjectPojo1Dto(surname.orElse(null), surname.isPresent(), name, isNameNull);
+}
+
+/**
+ * desc
+ */
+public ObjectPojo1Dto withName(String name) {
+  return new ObjectPojo1Dto(surname, isSurnamePresent, name, false);
+}
+
+/**
+ * desc
+ */
+public ObjectPojo1Dto withName(Tristate<String> name) {
+  return new ObjectPojo1Dto(surname, isSurnamePresent, name.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false));
+}
+]
