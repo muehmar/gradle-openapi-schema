@@ -19,7 +19,9 @@ public class NumberSchemaMapper extends BaseMemberSchemaMapper<NumberSchema> {
       Name pojoMemberName,
       NumberSchema schema,
       CompleteMemberSchemaMapper completeMapper) {
-    final Constraints constraints = ConstraintsMapper.getDecimalMinimumAndMaximum(schema);
+    final Constraints constraints =
+        ConstraintsMapper.getDecimalMinimumAndMaximum(schema)
+            .and(ConstraintsMapper.getMultipleOf(schema));
     final NumericType.Format format =
         Optional.ofNullable(schema.getFormat())
             .flatMap(NumericType.Format::parseString)

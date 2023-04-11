@@ -19,7 +19,8 @@ public class IntegerSchemaMapper extends BaseMemberSchemaMapper<IntegerSchema> {
       Name pojoMemberName,
       IntegerSchema schema,
       CompleteMemberSchemaMapper completeMapper) {
-    final Constraints constraints = ConstraintsMapper.getMinimumAndMaximum(schema);
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(schema).and(ConstraintsMapper.getMultipleOf(schema));
     final IntegerType.Format format =
         Optional.ofNullable(schema.getFormat())
             .flatMap(IntegerType.Format::parseString)
