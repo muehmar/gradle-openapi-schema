@@ -7,6 +7,10 @@ import lombok.Value;
 public class MultipleOf {
   BigDecimal value;
 
+  public String asIntegerLiteralString() {
+    return String.format("%dL", value.longValue());
+  }
+
   public String asString() {
     return value.toString();
   }

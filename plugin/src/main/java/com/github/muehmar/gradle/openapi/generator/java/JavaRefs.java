@@ -24,4 +24,6 @@ public class JavaRefs {
 
   public static final String JAVA_UTIL_STREAM_COLLECTOR = "java.util.stream.Collectors";
   public static final String JAVA_UTIL_STREAM_STREAM = "java.util.stream.Stream";
+
+  public static final String JAVA_MATH_BIG_DECIMAL = "java.math.BigDecimal";
 }
