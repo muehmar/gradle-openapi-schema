@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
@@ -31,6 +32,13 @@ public class ConstraintsMapper {
 
   public static Constraints getMinAndMaxItems(Schema<?> schema) {
     return getSizeConstraints(schema::getMinItems, schema::getMaxItems);
+  }
+
+  public static Constraints getMultipleOf(Schema<?> schema) {
+    return Optional.ofNullable(schema.getMultipleOf())
+        .map(MultipleOf::new)
+        .map(Constraints::ofMultipleOf)
+        .orElseGet(Constraints::empty);
   }
 
   @SuppressWarnings("java:S4276")

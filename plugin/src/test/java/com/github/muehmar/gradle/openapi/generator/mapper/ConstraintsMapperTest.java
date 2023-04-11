@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import io.swagger.v3.oas.models.media.Schema;
 import java.math.BigDecimal;
@@ -182,5 +183,20 @@ class ConstraintsMapperTest {
         Constraints.ofDecimalMinAndMax(
             new DecimalMin("10.10", true), new DecimalMax("50.50", false)),
         constraints);
+  }
+
+  @Test
+  void getMultipleOf_when_nothing_then_emptyConstraint() {
+    final Constraints minAndMaxItems = ConstraintsMapper.getMultipleOf(new Schema<>());
+
+    assertEquals(Constraints.empty(), minAndMaxItems);
+  }
+
+  @Test
+  void getMultipleOf_when_minItemsDefined_then_minSize() {
+    final Constraints constraints =
+        ConstraintsMapper.getMultipleOf(new Schema<>().multipleOf(new BigDecimal("9.02")));
+
+    assertEquals(Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("9.02"))), constraints);
   }
 }
