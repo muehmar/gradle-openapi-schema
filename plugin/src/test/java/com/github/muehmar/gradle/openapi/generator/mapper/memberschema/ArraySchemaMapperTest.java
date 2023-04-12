@@ -84,4 +84,16 @@ class ArraySchemaMapperTest extends BaseTypeMapperTest {
         mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
+
+  @Test
+  void mapSchema_when_uniqueItemsConstraint_then_typeWithCorrectConstraint() {
+    final Schema<?> arraySchema = new ArraySchema().items(new DateTimeSchema()).uniqueItems(true);
+    final MemberSchemaMapResult mappedSchema = run(arraySchema);
+
+    final StringType itemType = StringType.ofFormat(StringType.Format.DATE_TIME);
+    assertEquals(
+        ArrayType.ofItemType(itemType).withConstraints(Constraints.ofUniqueItems(true)),
+        mappedSchema.getType());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
+  }
 }
