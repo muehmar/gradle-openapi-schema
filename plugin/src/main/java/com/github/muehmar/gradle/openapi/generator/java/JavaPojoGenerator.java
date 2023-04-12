@@ -5,7 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.settings.ValidationApi
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.array.UniqueItemsValidationMethodGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.array.ArrayPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ComposedPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPojoGenerator;
@@ -111,22 +111,9 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private Writer generateArrayPojo(JavaArrayPojo pojo, Writer writer, PojoSettings pojoSettings) {
-    printPackage(writer, pojoSettings.getPackageName());
-    printImports(writer, pojo, pojoSettings);
-    printClassStart(writer, pojo, pojoSettings);
-    printFields(writer, pojo, pojoSettings);
-    printConstructor(writer, pojo, pojoSettings);
-
-    printEnums(writer, pojo, pojoSettings);
-
-    printGetters(writer, pojo, pojoSettings);
-    printWithers(writer, pojo, pojoSettings);
-
-    printUniqueItemsMethod(writer, pojo, pojoSettings);
-
-    printEqualsAndHash(writer, pojo, pojoSettings);
-    printToString(writer, pojo, pojoSettings);
-    printClassEnd(writer);
+    final ArrayPojoGenerator arrayPojoGenerator = new ArrayPojoGenerator();
+    final String output = applyGen(arrayPojoGenerator, pojo, pojoSettings);
+    writer.println(output);
     return writer;
   }
 
@@ -310,13 +297,6 @@ public class JavaPojoGenerator implements PojoGenerator {
   private void printPropertyCount(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         PojoPropertyCountMethod.propertyCountMethod().indent(1);
-    final String output = applyGen(generator.prependNewLine(), pojo, settings);
-    writer.println(output);
-  }
-
-  private void printUniqueItemsMethod(Writer writer, JavaArrayPojo pojo, PojoSettings settings) {
-    final Generator<JavaArrayPojo, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.generator().indent(1);
     final String output = applyGen(generator.prependNewLine(), pojo, settings);
     writer.println(output);
   }

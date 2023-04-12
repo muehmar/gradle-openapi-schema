@@ -1,0 +1,46 @@
+arrayPojo=[
+@JsonCreator
+public PosologyDto(
+    List<Double> value
+  ) {
+  this.value = value;
+}
+]
+
+
+necessityAndNullabilityObjectPojo=[
+public NecessityAndNullabilityDto(
+    String requiredStringVal,
+    String requiredNullableStringVal,
+    boolean isRequiredNullableStringValPresent,
+    String optionalStringVal,
+    String optionalNullableStringVal,
+    boolean isOptionalNullableStringValNull
+  ) {
+  this.requiredStringVal = requiredStringVal;
+  this.requiredNullableStringVal = requiredNullableStringVal;
+  this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+  this.optionalStringVal = optionalStringVal;
+  this.optionalNullableStringVal = optionalNullableStringVal;
+  this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+}
+]
+
+
+objectPojo=[
+public NecessityAndNullabilityDto(
+    String requiredStringVal,
+    String requiredNullableStringVal,
+    boolean isRequiredNullableStringValPresent,
+    String optionalStringVal,
+    String optionalNullableStringVal,
+    boolean isOptionalNullableStringValNull
+  ) {
+  this.requiredStringVal = requiredStringVal;
+  this.requiredNullableStringVal = requiredNullableStringVal;
+  this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
+  this.optionalStringVal = optionalStringVal;
+  this.optionalNullableStringVal = optionalNullableStringVal;
+  this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+}
+]

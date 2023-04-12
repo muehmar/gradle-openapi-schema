@@ -4,6 +4,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ConstructorGeneratorBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -16,13 +17,15 @@ public class PojoConstructorGenerator {
   private PojoConstructorGenerator() {}
 
   public static <T extends JavaPojo> Generator<T, PojoSettings> generator() {
-    return ConstructorGeneratorBuilder.<T, PojoSettings>create()
-        .modifiers(PUBLIC)
-        .javaClassName(JavaPojo::getClassName)
-        .arguments(constructorArguments())
-        .content(constructorContent())
-        .build()
-        .filter(JavaPojo::isNotEnum);
+    final Generator<T, PojoSettings> method =
+        ConstructorGeneratorBuilder.<T, PojoSettings>create()
+            .modifiers(PUBLIC)
+            .javaClassName(JavaPojo::getClassName)
+            .arguments(constructorArguments())
+            .content(constructorContent())
+            .build()
+            .filter(JavaPojo::isNotEnum);
+    return JacksonAnnotationGenerator.<T>jsonCreator().filter(JavaPojo::isArray).append(method);
   }
 
   private static <T extends JavaPojo>
