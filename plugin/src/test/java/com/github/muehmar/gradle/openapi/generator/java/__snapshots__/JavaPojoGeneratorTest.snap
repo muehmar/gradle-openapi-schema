@@ -72,26 +72,19 @@ public class PosologyDto {
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_enableValidation_then_correctPojoGenerated[jakarta-2]=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.Tristate;
-
 import java.util.Objects;
 import java.util.Optional;
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.AssertTrue;
-.
-.
+
 /**
  * User of the Application
  */
@@ -431,8 +424,7 @@ public class UserDto {
   private boolean isMultipleOfValueMultipleOfValid() {
     return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
-.
-.
+
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -566,6 +558,7 @@ public class UserDto {
       return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
     }
   }
+
 }
 
 ]
@@ -574,26 +567,19 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_enableValidation_then_correctPojoGenerated[jakarta-3]=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.Tristate;
-
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Optional;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.AssertTrue;
-.
-.
 /**
  * User of the Application
  */
@@ -933,8 +919,7 @@ public class UserDto {
   private boolean isMultipleOfValueMultipleOfValid() {
     return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
-.
-.
+
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -1068,6 +1053,7 @@ public class UserDto {
       return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
     }
   }
+
 }
 
 ]
@@ -1076,15 +1062,11 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_enabledSafeBuilder_then_correctPojoGenerated=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.Tristate;
-
 import java.util.Objects;
 import java.util.Optional;
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-.
-.
+
 /**
  * User of the Application. This description is intentionally longer to see if its
  * wrapped to a new line.
@@ -1238,8 +1220,7 @@ public class UserDto {
       ", language=" + language +
       "}";
   }
-.
-.
+
   public static final class Builder {
 
     private Builder() {
@@ -1285,6 +1266,7 @@ public class UserDto {
       return new UserDto(id, name, language);
     }
   }
+
   public static Builder0 newBuilder() {
     return new Builder0(new Builder());
   }
@@ -1430,7 +1412,6 @@ public enum GenderDto {
         + "]");
   }
 }
-
 ]
 
 
@@ -1480,31 +1461,24 @@ public enum GenderDto {
         + "]");
   }
 }
-
 ]
 
 
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_jsonSupportJackson_then_correctPojoGenerated=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.JacksonNullContainer;
-import com.github.muehmar.openapi.util.Tristate;
-
-import java.util.Objects;
-import java.util.Optional;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-.
-.
+
 /**
  * User of the Application. This description is intentionally longer to see if its
  * wrapped to a new line.
@@ -1670,8 +1644,7 @@ public class UserDto {
       ", language=" + language +
       "}";
   }
-.
-.
+
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -1722,6 +1695,7 @@ public class UserDto {
       return new UserDto(id, name, language);
     }
   }
+
 }
 
 ]
@@ -1730,15 +1704,11 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_minimalPojoSetting_then_correctPojoGenerated=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.Tristate;
-
 import java.util.Objects;
 import java.util.Optional;
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-.
-.
+
 /**
  * User of the Application. This description is intentionally longer to see if its
  * wrapped to a new line.
@@ -1892,8 +1862,7 @@ public class UserDto {
       ", language=" + language +
       "}";
   }
-.
-.
+
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -1940,6 +1909,7 @@ public class UserDto {
       return new UserDto(id, name, language);
     }
   }
+
 }
 
 ]
@@ -1948,35 +1918,19 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_necessityAndNullabilityVariants_then_correctPojoGenerated=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.JacksonNullContainer;
-import com.github.muehmar.openapi.util.Tristate;
-
-import java.util.Objects;
-import java.util.Optional;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Email;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Objects;
+import java.util.Optional;
 import javax.validation.constraints.AssertTrue;
-.
-.
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  * NecessityAndNullability
  */
@@ -2180,8 +2134,7 @@ public class NecessityAndNullabilityDto {
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
-.
-.
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -2263,6 +2216,7 @@ public class NecessityAndNullabilityDto {
       return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
   }
+
   public static Builder0 newBuilder() {
     return new Builder0(new Builder());
   }
@@ -2391,35 +2345,18 @@ public class NecessityAndNullabilityDto {
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescriptionAndJacksonSupport_then_correctPojoGenerated=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.JacksonNullContainer;
-import com.github.muehmar.openapi.util.Tristate;
-
-import java.util.Objects;
-import java.util.Optional;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.AssertTrue;
-.
-.
 /**
  * User of the Application
  */
@@ -2557,8 +2494,7 @@ public class UserDto {
       "language=" + language +
       "}";
   }
-.
-.
+
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -2593,6 +2529,7 @@ public class UserDto {
       return new UserDto(language);
     }
   }
+
 }
 
 ]
@@ -2601,26 +2538,11 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescription_then_correctPojoGenerated=[
 package com.github.muehmar;
 
-import com.github.muehmar.openapi.util.Tristate;
-
 import java.util.Objects;
 import java.util.Optional;
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.AssertTrue;
-.
-.
 /**
  * User of the Application
  */
@@ -2749,8 +2671,7 @@ public class UserDto {
       "language=" + language +
       "}";
   }
-.
-.
+
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -2783,6 +2704,7 @@ public class UserDto {
       return new UserDto(language);
     }
   }
+
 }
 
 ]
