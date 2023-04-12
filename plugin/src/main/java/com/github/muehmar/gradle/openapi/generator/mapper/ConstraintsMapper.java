@@ -41,6 +41,12 @@ public class ConstraintsMapper {
         .orElseGet(Constraints::empty);
   }
 
+  public static Constraints getUniqueItems(Schema<?> schema) {
+    return Optional.ofNullable(schema.getUniqueItems())
+        .map(Constraints::ofUniqueItems)
+        .orElseGet(Constraints::empty);
+  }
+
   @SuppressWarnings("java:S4276")
   private static Constraints getSizeConstraints(
       Supplier<Integer> getMin, Supplier<Integer> getMax) {
