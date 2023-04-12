@@ -331,7 +331,8 @@ class JavaPojoGeneratorTest {
     final TestStringWriter writer = new TestStringWriter();
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
 
-    pojoGenerator.generatePojo(JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings());
+    pojoGenerator.generatePojo(
+        JavaPojos.arrayPojo(Constraints.ofUniqueItems(true)), TestPojoSettings.defaultSettings());
 
     expect.toMatchSnapshot(writer.asString());
   }
