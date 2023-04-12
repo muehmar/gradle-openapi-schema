@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
@@ -31,6 +32,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.writer.TestStringWriter;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -191,6 +193,14 @@ class JavaPojoGeneratorTest {
                         StringType.noFormat()
                             .withConstraints(
                                 Constraints.ofPattern(Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("multipleOfValue"),
+                        "Multiple of value",
+                        IntegerType.formatLong()
+                            .withConstraints(
+                                Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("5")))),
                         OPTIONAL,
                         NOT_NULLABLE),
                     new PojoMember(

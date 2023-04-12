@@ -121,6 +121,7 @@ public class UserDto {
   private final Double height;
   private final Long level;
   private final String uppercase;
+  private final Long multipleOfValue;
   private final AnotherPojo anotherPojo;
 
   public UserDto(
@@ -132,6 +133,7 @@ public class UserDto {
       Double height,
       Long level,
       String uppercase,
+      Long multipleOfValue,
       AnotherPojo anotherPojo
     ) {
     this.id = id;
@@ -142,6 +144,7 @@ public class UserDto {
     this.height = height;
     this.level = level;
     this.uppercase = uppercase;
+    this.multipleOfValue = multipleOfValue;
     this.anotherPojo = anotherPojo;
   }
 
@@ -239,6 +242,24 @@ public class UserDto {
   }
 
   /**
+   * Multiple of value
+   */
+  public Optional<Long> getMultipleOfValue() {
+    return Optional.ofNullable(multipleOfValue);
+  }
+
+  /**
+   * Multiple of value
+   */
+  public Long getMultipleOfValueOr(Long defaultValue) {
+    return this.multipleOfValue == null ? defaultValue : this.multipleOfValue;
+  }
+
+  private Long getMultipleOfValueRaw() {
+    return multipleOfValue;
+  }
+
+  /**
    * Another Pojo
    */
   public Optional<AnotherPojo> getAnotherPojo() {
@@ -261,84 +282,98 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo);
+  }
+
+  /**
+   * Multiple of value
+   */
+  public UserDto withMultipleOfValue(Long multipleOfValue) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+  }
+
+  /**
+   * Multiple of value
+   */
+  public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo.orElse(null));
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null));
   }
 
   /**
@@ -356,6 +391,7 @@ public class UserDto {
       1 +
       (level != null ? 1 : 0) +
       (uppercase != null ? 1 : 0) +
+      (multipleOfValue != null ? 1 : 0) +
       (anotherPojo != null ? 1 : 0);
   }
 
@@ -372,6 +408,7 @@ public class UserDto {
         && Objects.equals(this.height, other.height)
         && Objects.equals(this.level, other.level)
         && Objects.equals(this.uppercase, other.uppercase)
+        && Objects.equals(this.multipleOfValue, other.multipleOfValue)
         && Objects.equals(this.anotherPojo, other.anotherPojo);
   }
 
@@ -386,6 +423,7 @@ public class UserDto {
       height,
       level,
       uppercase,
+      multipleOfValue,
       anotherPojo
     );
   }
@@ -401,10 +439,17 @@ public class UserDto {
       ", height=" + height +
       ", level=" + level +
       ", uppercase=" + uppercase +
+      ", multipleOfValue=" + multipleOfValue +
       ", anotherPojo=" + anotherPojo +
       "}";
   }
 
+  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
+  private boolean isMultipleOfValueMultipleOfValid() {
+    return multipleOfValue == null || multipleOfValue % 5L == 0;
+  }
+.
+.
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -419,6 +464,7 @@ public class UserDto {
     private Double height;
     private Long level;
     private String uppercase;
+    private Long multipleOfValue;
     private AnotherPojo anotherPojo;
 
     /**
@@ -502,6 +548,22 @@ public class UserDto {
     }
 
     /**
+     * Multiple of value
+     */
+    public Builder setMultipleOfValue(Long multipleOfValue) {
+      this.multipleOfValue = multipleOfValue;
+      return this;
+    }
+
+    /**
+     * Multiple of value
+     */
+    public Builder setMultipleOfValue(Optional<Long> multipleOfValue) {
+      this.multipleOfValue = multipleOfValue.orElse(null);
+      return this;
+    }
+
+    /**
      * Another Pojo
      */
     public Builder setAnotherPojo(AnotherPojo anotherPojo) {
@@ -518,7 +580,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
     }
   }
 }
@@ -561,6 +623,7 @@ public class UserDto {
   private final Double height;
   private final Long level;
   private final String uppercase;
+  private final Long multipleOfValue;
   private final AnotherPojo anotherPojo;
 
   public UserDto(
@@ -572,6 +635,7 @@ public class UserDto {
       Double height,
       Long level,
       String uppercase,
+      Long multipleOfValue,
       AnotherPojo anotherPojo
     ) {
     this.id = id;
@@ -582,6 +646,7 @@ public class UserDto {
     this.height = height;
     this.level = level;
     this.uppercase = uppercase;
+    this.multipleOfValue = multipleOfValue;
     this.anotherPojo = anotherPojo;
   }
 
@@ -679,6 +744,24 @@ public class UserDto {
   }
 
   /**
+   * Multiple of value
+   */
+  public Optional<Long> getMultipleOfValue() {
+    return Optional.ofNullable(multipleOfValue);
+  }
+
+  /**
+   * Multiple of value
+   */
+  public Long getMultipleOfValueOr(Long defaultValue) {
+    return this.multipleOfValue == null ? defaultValue : this.multipleOfValue;
+  }
+
+  private Long getMultipleOfValueRaw() {
+    return multipleOfValue;
+  }
+
+  /**
    * Another Pojo
    */
   public Optional<AnotherPojo> getAnotherPojo() {
@@ -701,84 +784,98 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo);
+  }
+
+  /**
+   * Multiple of value
+   */
+  public UserDto withMultipleOfValue(Long multipleOfValue) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+  }
+
+  /**
+   * Multiple of value
+   */
+  public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo.orElse(null));
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null));
   }
 
   /**
@@ -796,6 +893,7 @@ public class UserDto {
       1 +
       (level != null ? 1 : 0) +
       (uppercase != null ? 1 : 0) +
+      (multipleOfValue != null ? 1 : 0) +
       (anotherPojo != null ? 1 : 0);
   }
 
@@ -812,6 +910,7 @@ public class UserDto {
         && Objects.equals(this.height, other.height)
         && Objects.equals(this.level, other.level)
         && Objects.equals(this.uppercase, other.uppercase)
+        && Objects.equals(this.multipleOfValue, other.multipleOfValue)
         && Objects.equals(this.anotherPojo, other.anotherPojo);
   }
 
@@ -826,6 +925,7 @@ public class UserDto {
       height,
       level,
       uppercase,
+      multipleOfValue,
       anotherPojo
     );
   }
@@ -841,10 +941,17 @@ public class UserDto {
       ", height=" + height +
       ", level=" + level +
       ", uppercase=" + uppercase +
+      ", multipleOfValue=" + multipleOfValue +
       ", anotherPojo=" + anotherPojo +
       "}";
   }
 
+  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
+  private boolean isMultipleOfValueMultipleOfValid() {
+    return multipleOfValue == null || multipleOfValue % 5L == 0;
+  }
+.
+.
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -859,6 +966,7 @@ public class UserDto {
     private Double height;
     private Long level;
     private String uppercase;
+    private Long multipleOfValue;
     private AnotherPojo anotherPojo;
 
     /**
@@ -942,6 +1050,22 @@ public class UserDto {
     }
 
     /**
+     * Multiple of value
+     */
+    public Builder setMultipleOfValue(Long multipleOfValue) {
+      this.multipleOfValue = multipleOfValue;
+      return this;
+    }
+
+    /**
+     * Multiple of value
+     */
+    public Builder setMultipleOfValue(Optional<Long> multipleOfValue) {
+      this.multipleOfValue = multipleOfValue.orElse(null);
+      return this;
+    }
+
+    /**
      * Another Pojo
      */
     public Builder setAnotherPojo(AnotherPojo anotherPojo) {
@@ -958,7 +1082,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, anotherPojo);
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
     }
   }
 }
@@ -1131,7 +1255,8 @@ public class UserDto {
       ", language=" + language +
       "}";
   }
-
+.
+.
   public static final class Builder {
 
     private Builder() {
@@ -1562,7 +1687,8 @@ public class UserDto {
       ", language=" + language +
       "}";
   }
-
+.
+.
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -1783,7 +1909,8 @@ public class UserDto {
       ", language=" + language +
       "}";
   }
-
+.
+.
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -2070,7 +2197,8 @@ public class NecessityAndNullabilityDto {
       ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
-
+.
+.
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -2446,7 +2574,8 @@ public class UserDto {
       "language=" + language +
       "}";
   }
-
+.
+.
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -2637,7 +2766,8 @@ public class UserDto {
       "language=" + language +
       "}";
   }
-
+.
+.
   public static Builder newBuilder() {
     return new Builder();
   }
