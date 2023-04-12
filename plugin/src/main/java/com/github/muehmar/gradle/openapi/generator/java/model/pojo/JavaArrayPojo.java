@@ -94,4 +94,8 @@ public class JavaArrayPojo implements JavaPojo {
       Function<JavaFreeFormPojo, T> onFreeFormPojo) {
     return onArrayPojo.apply(this);
   }
+
+  public Constraints getConstraints() {
+    return constraints;
+  }
 }
