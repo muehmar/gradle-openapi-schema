@@ -39,7 +39,7 @@ components:
       minProperties: 2
       maxProperties: 3
 
-    IntegerArray:
+    IntegerMemberArray:
       type: object
       required:
         - numbers
@@ -51,6 +51,33 @@ components:
             format: int32
           minItems: 3
           maxItems: 5
+
+    IntegerPojoArray:
+      type: array
+      items:
+        type: integer
+        format: int32
+      minItems: 3
+      maxItems: 5
+
+    LongMemberArray:
+      type: object
+      required:
+        - numbers
+      properties:
+        numbers:
+          type: array
+          items:
+            type: integer
+            format: int64
+          uniqueItems: true
+
+    LongPojoArray:
+      type: array
+      items:
+        type: integer
+        format: int64
+      uniqueItems: true
 
     RequiredProperties:
       required:
