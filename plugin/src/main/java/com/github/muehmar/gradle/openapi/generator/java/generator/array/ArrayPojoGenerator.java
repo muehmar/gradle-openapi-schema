@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGen
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
@@ -56,7 +57,7 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
         .appendSingleBlankLine()
         .append(WitherGenerator.generator(), pojo -> pojo)
         .appendSingleBlankLine()
-        .append(UniqueItemsValidationMethodGenerator.generator())
+        .append(UniqueItemsValidationMethodGenerator.generator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod())
         .appendSingleBlankLine()

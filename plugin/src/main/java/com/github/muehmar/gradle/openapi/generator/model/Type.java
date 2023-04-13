@@ -79,4 +79,21 @@ public interface Type {
         ignore -> Optional.empty(),
         ignore -> Optional.empty());
   }
+
+  default Optional<ArrayType> asArrayType() {
+    return fold(
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        Optional::of,
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty());
+  }
+
+  default boolean isArrayType() {
+    return asArrayType().isPresent();
+  }
 }

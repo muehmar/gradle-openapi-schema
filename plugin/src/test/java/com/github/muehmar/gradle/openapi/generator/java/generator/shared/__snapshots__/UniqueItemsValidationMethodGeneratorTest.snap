@@ -1,0 +1,6 @@
+uniqueItemsConstraint=[
+@AssertTrue(message = "listVal does not contain unique items")
+private boolean hasListValUniqueItems() {
+  return new HashSet<>(listVal).size() == listVal.size();
+}
+]

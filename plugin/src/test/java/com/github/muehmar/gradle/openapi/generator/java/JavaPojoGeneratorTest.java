@@ -8,6 +8,8 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -323,7 +325,7 @@ class JavaPojoGeneratorTest {
   }
 
   @Test
-  void generatePojo_when_arrayPojo_then_correctPojoGenerated() {
+  void generatePojo_when_arrayPojoWithUniqueItems_then_correctPojoGenerated() {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final String content =
@@ -331,6 +333,23 @@ class JavaPojoGeneratorTest {
             .generatePojo(
                 JavaPojos.arrayPojo(Constraints.ofUniqueItems(true)),
                 TestPojoSettings.defaultSettings())
+            .getContent();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  void generatePojo_when_objectWithArrayWithUniqueItems_then_correctPojoGenerated() {
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
+
+    final JavaPojoMember member =
+        JavaPojoMembers.list(
+            StringType.noFormat(), Constraints.ofUniqueItems(true), REQUIRED, NOT_NULLABLE);
+
+    final String content =
+        pojoGenerator
+            .generatePojo(
+                JavaPojos.objectPojo(PList.single(member)), TestPojoSettings.defaultSettings())
             .getContent();
 
     expect.toMatchSnapshot(content);

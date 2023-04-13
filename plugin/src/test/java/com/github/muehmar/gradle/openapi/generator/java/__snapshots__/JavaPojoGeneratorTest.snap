@@ -1,4 +1,4 @@
-com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_arrayPojo_then_correctPojoGenerated=[
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_arrayPojoWithUniqueItems_then_correctPojoGenerated=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,8 +38,8 @@ public class PosologyDto {
     return new PosologyDto(value);
   }
 
-  @AssertTrue(message = "PosologyDto does not contain unique items")
-  private boolean isAllUniqueItems() {
+  @AssertTrue(message = "value does not contain unique items")
+  private boolean hasValueUniqueItems() {
     return new HashSet<>(value).size() == value.size();
   }
 
@@ -2328,6 +2328,160 @@ public class NecessityAndNullabilityDto {
     }
 
     public NecessityAndNullabilityDto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_objectWithArrayWithUniqueItems_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+
+/**
+ * 
+ */
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final List<String> listVal;
+
+  public ObjectPojo1Dto(
+      List<String> listVal
+    ) {
+    this.listVal = listVal;
+  }
+
+  /**
+   * List
+   */
+  @NotNull
+  public List<String> getListVal() {
+    return listVal;
+  }
+
+  /**
+   * List
+   */
+  public ObjectPojo1Dto withListVal(List<String> listVal) {
+    return new ObjectPojo1Dto(listVal);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      1;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.equals(this.listVal, other.listVal);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      listVal
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "listVal=" + listVal +
+      "}";
+  }
+
+  @AssertTrue(message = "listVal does not contain unique items")
+  private boolean hasListValUniqueItems() {
+    return new HashSet<>(listVal).size() == listVal.size();
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private List<String> listVal;
+
+    /**
+     * List
+     */
+    @JsonProperty("listVal")
+    private Builder setListVal(List<String> listVal) {
+      this.listVal = listVal;
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(listVal);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * List
+     */
+    public Builder1 setListVal(List<String> listVal) {
+      return new Builder1(builder.setListVal(listVal));
+    }
+
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public ObjectPojo1Dto build(){
       return builder.build();
     }
   }

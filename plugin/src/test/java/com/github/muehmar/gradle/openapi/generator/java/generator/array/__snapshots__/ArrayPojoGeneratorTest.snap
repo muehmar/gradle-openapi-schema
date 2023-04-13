@@ -38,8 +38,8 @@ public class PosologyDto {
     return new PosologyDto(value);
   }
 
-  @AssertTrue(message = "PosologyDto does not contain unique items")
-  private boolean isAllUniqueItems() {
+  @AssertTrue(message = "value does not contain unique items")
+  private boolean hasValueUniqueItems() {
     return new HashSet<>(value).size() == value.size();
   }
 

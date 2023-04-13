@@ -1,6 +1,0 @@
-uniqueItemsConstraint=[
-@AssertTrue(message = "PosologyDto does not contain unique items")
-private boolean isAllUniqueItems() {
-  return new HashSet<>(value).size() == value.size();
-}
-]
