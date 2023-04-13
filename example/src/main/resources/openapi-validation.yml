@@ -20,6 +20,17 @@ components:
           $ref: "#/components/schemas/StringValue"
         email:
           $ref: "#/components/schemas/Email"
+    MultipleOfObject:
+      type: object
+      properties:
+        doubleValue:
+          $ref: "#/components/schemas/MultipleOfDoubleValue"
+        floatValue:
+          $ref: "#/components/schemas/MultipleOfFloatValue"
+        intValue:
+          $ref: "#/components/schemas/MultipleOfIntValue"
+        longValue:
+          $ref: "#/components/schemas/MultipleOfLongValue"
 
     NumbersObject:
       type: object
@@ -125,6 +136,26 @@ components:
       format: int64
       minimum: -122
       maximum: 249
+
+    MultipleOfDoubleValue:
+      type: number
+      format: double
+      multipleOf: 5.5
+
+    MultipleOfFloatValue:
+      type: number
+      format: float
+      multipleOf: 2.25
+
+    MultipleOfIntValue:
+      type: integer
+      format: int32
+      multipleOf: 11
+
+    MultipleOfLongValue:
+      type: integer
+      format: int64
+      multipleOf: 22
 
     StringValue:
       type: string
