@@ -31,7 +31,6 @@ import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.*;
-import com.github.muehmar.gradle.openapi.writer.TestStringWriter;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -80,8 +79,7 @@ class JavaPojoGeneratorTest {
 
   @Test
   void generatePojo_when_minimalPojoSetting_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings()
@@ -89,28 +87,28 @@ class JavaPojoGeneratorTest {
             .withEnableSafeBuilder(false)
             .withEnableValidation(false);
 
-    pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
+    final String content =
+        pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings).getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @Test
   void generatePojo_when_jsonSupportJackson_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(false);
 
-    pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
+    final String content =
+        pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings).getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @Test
   void generatePojo_when_enabledSafeBuilder_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings()
@@ -118,16 +116,16 @@ class JavaPojoGeneratorTest {
             .withEnableSafeBuilder(true)
             .withEnableValidation(false);
 
-    pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings);
+    final String content =
+        pojoGenerator.generatePojo(SAMPLE_OBJECT_POJO, pojoSettings).getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @ParameterizedTest
   @EnumSource(ValidationApi.class)
   void generatePojo_when_enableValidation_then_correctPojoGenerated(ValidationApi validationApi) {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings()
@@ -212,15 +210,14 @@ class JavaPojoGeneratorTest {
                 Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 15))),
             TypeMappings.empty());
 
-    pojoGenerator.generatePojo(pojo, pojoSettings);
+    final String content = pojoGenerator.generatePojo(pojo, pojoSettings).getContent();
 
-    expect.scenario(validationApi.getValue()).toMatchSnapshot(writer.asString());
+    expect.scenario(validationApi.getValue()).toMatchSnapshot(content);
   }
 
   @Test
   void generatePojo_when_enumPojo_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings()
@@ -228,28 +225,26 @@ class JavaPojoGeneratorTest {
             .withEnableSafeBuilder(false)
             .withEnableValidation(true);
 
-    pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
+    final String content = pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings).getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @Test
   void generatePojo_when_enumPojoAndJacksonSupport_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(true);
 
-    pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings);
+    final String content = pojoGenerator.generatePojo(GENDER_ENUM_POJO, pojoSettings).getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @Test
   void generatePojo_when_pojoWithEnumAndEnumDescription_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings()
@@ -275,16 +270,15 @@ class JavaPojoGeneratorTest {
                 Constraints.empty()),
             TypeMappings.empty());
 
-    pojoGenerator.generatePojo(pojo, pojoSettings);
+    final String content = pojoGenerator.generatePojo(pojo, pojoSettings).getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @Test
   void
       generatePojo_when_pojoWithEnumAndEnumDescriptionAndJacksonSupport_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final PojoSettings pojoSettings =
         TestPojoSettings.defaultSettings()
@@ -309,31 +303,36 @@ class JavaPojoGeneratorTest {
                 Constraints.empty()),
             TypeMappings.empty());
 
-    pojoGenerator.generatePojo(pojo, pojoSettings);
+    final String content = pojoGenerator.generatePojo(pojo, pojoSettings).getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @Test
   void generatePojo_when_necessityAndNullabilityVariants_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
-    pojoGenerator.generatePojo(
-        JavaPojos.allNecessityAndNullabilityVariants(),
-        TestPojoSettings.defaultSettings().withEnableSafeBuilder(true));
+    final String content =
+        pojoGenerator
+            .generatePojo(
+                JavaPojos.allNecessityAndNullabilityVariants(),
+                TestPojoSettings.defaultSettings().withEnableSafeBuilder(true))
+            .getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 
   @Test
   void generatePojo_when_arrayPojo_then_correctPojoGenerated() {
-    final TestStringWriter writer = new TestStringWriter();
-    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator(() -> writer);
+    final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
-    pojoGenerator.generatePojo(
-        JavaPojos.arrayPojo(Constraints.ofUniqueItems(true)), TestPojoSettings.defaultSettings());
+    final String content =
+        pojoGenerator
+            .generatePojo(
+                JavaPojos.arrayPojo(Constraints.ofUniqueItems(true)),
+                TestPojoSettings.defaultSettings())
+            .getContent();
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(content);
   }
 }
