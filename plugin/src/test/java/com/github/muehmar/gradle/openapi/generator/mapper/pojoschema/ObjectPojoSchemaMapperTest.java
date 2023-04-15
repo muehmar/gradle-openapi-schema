@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
@@ -76,18 +77,21 @@ class ObjectPojoSchemaMapperTest {
                     Name.ofString("objectVal"),
                     null,
                     ObjectType.ofName(memberObjectPojoName),
+                    PropertyScope.DEFAULT,
                     Necessity.OPTIONAL,
                     Nullability.NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("stringVal"),
                     null,
                     StringType.noFormat(),
+                    PropertyScope.DEFAULT,
                     Necessity.OPTIONAL,
                     Nullability.NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("refVal"),
                     null,
                     ObjectType.ofName(PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto")),
+                    PropertyScope.DEFAULT,
                     Necessity.OPTIONAL,
                     Nullability.NOT_NULLABLE)),
             Constraints.empty());
@@ -129,19 +133,82 @@ class ObjectPojoSchemaMapperTest {
                 Name.ofString("intVal"),
                 null,
                 IntegerType.formatInteger(),
+                PropertyScope.DEFAULT,
                 Necessity.OPTIONAL,
                 Nullability.NULLABLE),
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
                 NumericType.formatFloat(),
+                PropertyScope.DEFAULT,
                 Necessity.REQUIRED,
                 Nullability.NULLABLE),
             new PojoMember(
                 Name.ofString("stringVal"),
                 null,
                 StringType.noFormat(),
+                PropertyScope.DEFAULT,
                 Necessity.REQUIRED,
+                Nullability.NOT_NULLABLE));
+    assertEquals(
+        expectedMembers,
+        unresolvedMapResult
+            .getPojos()
+            .apply(0)
+            .asObjectPojo()
+            .map(ObjectPojo::getMembers)
+            .orElse(PList.empty())
+            .sort(Comparator.comparing(member -> member.getName().asString())));
+    assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
+  }
+
+  @Test
+  void map_when_schemaWithReadOnlyAndWriteOnly_then_correctPojoMemberCreated() {
+    final ObjectSchema objectSchema = new ObjectSchema();
+    objectSchema.setDescription("Test description");
+
+    final HashMap<String, Schema> properties = new HashMap<>();
+    properties.put("stringVal", new StringSchema().readOnly(true));
+    properties.put("intVal", new IntegerSchema().writeOnly(true));
+    properties.put("numVal", new NumberSchema());
+    objectSchema.setProperties(properties);
+
+    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("Object"), "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(pojoName, objectSchema);
+
+    // method call
+    final Optional<MapContext> result = OBJECT_POJO_SCHEMA_MAPPER.map(pojoSchema);
+
+    assertTrue(result.isPresent());
+    final MapContext mapContext = result.get();
+
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(1, unresolvedMapResult.getPojos().size());
+    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+
+    final PList<PojoMember> expectedMembers =
+        PList.of(
+            new PojoMember(
+                Name.ofString("intVal"),
+                null,
+                IntegerType.formatInteger(),
+                PropertyScope.WRITE_ONLY,
+                Necessity.OPTIONAL,
+                Nullability.NOT_NULLABLE),
+            new PojoMember(
+                Name.ofString("numVal"),
+                null,
+                NumericType.formatFloat(),
+                PropertyScope.DEFAULT,
+                Necessity.OPTIONAL,
+                Nullability.NOT_NULLABLE),
+            new PojoMember(
+                Name.ofString("stringVal"),
+                null,
+                StringType.noFormat(),
+                PropertyScope.READ_ONLY,
+                Necessity.OPTIONAL,
                 Nullability.NOT_NULLABLE));
     assertEquals(
         expectedMembers,

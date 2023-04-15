@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
@@ -151,6 +152,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     Name.ofString("name"),
                     "",
                     StringType.ofFormat(StringType.Format.NONE),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -177,9 +179,19 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("key"), "", IntegerType.formatInteger(), REQUIRED, NOT_NULLABLE),
+                    Name.ofString("key"),
+                    "",
+                    IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("name"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE)),
+                    Name.ofString("name"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    REQUIRED,
+                    NOT_NULLABLE)),
             Constraints.empty()),
         pojos.apply(0));
 
@@ -188,34 +200,54 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             PojoName.ofNameAndSuffix("User", "Dto"),
             "",
             PList.of(
-                new PojoMember(Name.ofString("id"), "", StringType.uuid(), REQUIRED, NOT_NULLABLE),
+                new PojoMember(
+                    Name.ofString("id"),
+                    "",
+                    StringType.uuid(),
+                    PropertyScope.DEFAULT,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("externalId"),
                     "",
                     IntegerType.formatLong(),
+                    PropertyScope.DEFAULT,
                     REQUIRED,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("user"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE),
+                    Name.ofString("user"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("birthday"),
                     "",
                     StringType.ofFormat(DATE),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("email"),
                     "",
                     StringType.ofFormat(EMAIL).withConstraints(Constraints.ofEmail()),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("city"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE),
+                    Name.ofString("city"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("age"),
                     "",
                     IntegerType.formatInteger()
                         .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -225,12 +257,14 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                         .withConstraints(
                             Constraints.ofDecimalMinAndMax(
                                 new DecimalMin("120", false), new DecimalMax("199", true))),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("lastLogin"),
                     "",
                     StringType.ofFormat(DATE_TIME),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -238,12 +272,14 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     EnumType.ofNameAndMembers(
                         Name.ofString("RoleEnum"), PList.of("Admin", "User", "Visitor")),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("currencies"),
                     "",
                     MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -253,6 +289,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                         StringType.noFormat(),
                         ArrayType.ofItemType(
                             ObjectType.ofName(PojoName.ofNameAndSuffix("UserInterests", "Dto")))),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -261,6 +298,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     MapType.ofKeyAndValueType(
                         StringType.noFormat(),
                         ObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -269,12 +307,14 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     MapType.ofKeyAndValueType(
                         StringType.noFormat(),
                         ObjectType.ofName(PojoName.ofNameAndSuffix("UserHobbies", "Dto"))),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("data"),
                     "Some user related data",
                     NoType.create(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -289,6 +329,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     Name.ofString("owner"),
                     "",
                     ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -296,6 +337,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     ArrayType.ofItemType(
                         ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto"))),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
@@ -303,6 +345,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     "",
                     ArrayType.ofItemType(
                         ObjectType.ofName(PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"))),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3))),
@@ -314,9 +357,19 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("id"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("id"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("name"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE)),
+                    Name.ofString("name"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE)),
             Constraints.empty()),
         pojos.apply(3));
 
@@ -326,11 +379,17 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("name"), "", StringType.noFormat(), REQUIRED, NOT_NULLABLE),
+                    Name.ofString("name"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("description"),
                     "",
                     StringType.noFormat(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -342,11 +401,17 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("name"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("name"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("prio"),
                     "",
                     IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -385,9 +450,19 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("user"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE)),
+                    Name.ofString("key"),
+                    "",
+                    IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE)),
             Constraints.empty()),
         pojos.apply(0));
 
@@ -397,9 +472,19 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("user"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE)),
+                    Name.ofString("key"),
+                    "",
+                    IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE)),
             Constraints.empty()),
         pojos.apply(1));
   }
@@ -451,9 +536,19 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("user"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE)),
+                    Name.ofString("key"),
+                    "",
+                    IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE)),
             Constraints.empty()),
         pojos.apply(0));
 
@@ -466,12 +561,14 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     Name.ofString("registerDate"),
                     "",
                     StringType.ofFormat(DATE),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("languages"),
                     "",
                     ArrayType.ofItemType(StringType.noFormat()),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -483,27 +580,45 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("color"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("color"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("group"),
                     "",
                     IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("user"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("user"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
-                    Name.ofString("key"), "", IntegerType.formatInteger(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("key"),
+                    "",
+                    IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("registerDate"),
                     "",
                     StringType.ofFormat(DATE),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("languages"),
                     "",
                     ArrayType.ofItemType(StringType.noFormat()),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -515,11 +630,17 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.of(
                 new PojoMember(
-                    Name.ofString("color"), "", StringType.noFormat(), OPTIONAL, NOT_NULLABLE),
+                    Name.ofString("color"),
+                    "",
+                    StringType.noFormat(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("group"),
                     "",
                     IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -554,7 +675,12 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
             "",
             PList.single(
                 new PojoMember(
-                    Name.ofString("key"), "User key", StringType.uuid(), OPTIONAL, NOT_NULLABLE)),
+                    Name.ofString("key"),
+                    "User key",
+                    StringType.uuid(),
+                    PropertyScope.DEFAULT,
+                    OPTIONAL,
+                    NOT_NULLABLE)),
             Constraints.empty()),
         pojos.apply(0));
   }
@@ -591,6 +717,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     Name.ofString("age"),
                     "User age",
                     IntegerType.formatInteger(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -629,6 +756,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     Name.ofString("height"),
                     "User height",
                     NumericType.formatFloat(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -667,6 +795,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     Name.ofString("admin"),
                     "User is admin",
                     BooleanType.create(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),
@@ -714,6 +843,7 @@ class SpecificationMapperImplTest extends ResourceSchemaMapperTest {
                     Name.ofString("gender"),
                     "Gender of a user",
                     ObjectType.ofName(PojoName.ofNameAndSuffix("Gender", "Dto")),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty()),

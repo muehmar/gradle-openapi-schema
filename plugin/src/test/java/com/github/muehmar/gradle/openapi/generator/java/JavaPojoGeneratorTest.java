@@ -16,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
@@ -61,12 +62,14 @@ class JavaPojoGeneratorTest {
                       Name.ofString("id"),
                       "ID of this user",
                       IntegerType.formatLong(),
+                      PropertyScope.DEFAULT,
                       REQUIRED,
                       NOT_NULLABLE),
                   new PojoMember(
                       Name.ofString("name"),
                       "Name of this user",
                       StringType.noFormat(),
+                      PropertyScope.DEFAULT,
                       REQUIRED,
                       NOT_NULLABLE),
                   new PojoMember(
@@ -74,6 +77,7 @@ class JavaPojoGeneratorTest {
                       "Preferred language of this user",
                       EnumType.ofNameAndMembers(
                           Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
+                      PropertyScope.DEFAULT,
                       OPTIONAL,
                       NOT_NULLABLE)),
               Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(2, 10))),
@@ -146,30 +150,35 @@ class JavaPojoGeneratorTest {
                         Name.ofString("id"),
                         "ID of this user",
                         IntegerType.formatLong().withConstraints(Constraints.ofMax(new Max(50))),
+                        PropertyScope.DEFAULT,
                         REQUIRED,
                         NOT_NULLABLE),
                     new PojoMember(
                         Name.ofString("name"),
                         "Name of this user",
                         StringType.noFormat().withConstraints(Constraints.ofSize(Size.of(10, 15))),
+                        PropertyScope.DEFAULT,
                         REQUIRED,
                         NOT_NULLABLE),
                     new PojoMember(
                         Name.ofString("lastName"),
                         "Lastname of this user",
                         StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(10))),
+                        PropertyScope.DEFAULT,
                         REQUIRED,
                         NOT_NULLABLE),
                     new PojoMember(
                         Name.ofString("nickName"),
                         "Nickname of this user",
                         StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMax(50))),
+                        PropertyScope.DEFAULT,
                         REQUIRED,
                         NOT_NULLABLE),
                     new PojoMember(
                         Name.ofString("email"),
                         "Email of this user",
                         StringType.noFormat().withConstraints(Constraints.ofEmail()),
+                        PropertyScope.DEFAULT,
                         REQUIRED,
                         NOT_NULLABLE),
                     new PojoMember(
@@ -179,12 +188,14 @@ class JavaPojoGeneratorTest {
                             .withConstraints(
                                 Constraints.ofDecimalMin(new DecimalMin("120.0", true))
                                     .withDecimalMax(new DecimalMax("199", false))),
+                        PropertyScope.DEFAULT,
                         REQUIRED,
                         NOT_NULLABLE),
                     new PojoMember(
                         Name.ofString("level"),
                         "Level of this user",
                         IntegerType.formatLong().withConstraints(Constraints.ofMin(new Min(5))),
+                        PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE),
                     new PojoMember(
@@ -193,6 +204,7 @@ class JavaPojoGeneratorTest {
                         StringType.noFormat()
                             .withConstraints(
                                 Constraints.ofPattern(Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
+                        PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE),
                     new PojoMember(
@@ -201,12 +213,14 @@ class JavaPojoGeneratorTest {
                         IntegerType.formatLong()
                             .withConstraints(
                                 Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("5")))),
+                        PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE),
                     new PojoMember(
                         Name.ofString("anotherPojo"),
                         "Another Pojo",
                         ObjectType.ofName(PojoName.ofName(Name.ofString("AnotherPojo"))),
+                        PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)),
                 Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 15))),
@@ -267,6 +281,7 @@ class JavaPojoGeneratorTest {
                             + "* `ENGLISH`: English language",
                         EnumType.ofNameAndMembers(
                             Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
+                        PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)),
                 Constraints.empty()),
@@ -300,6 +315,7 @@ class JavaPojoGeneratorTest {
                             + "* `ENGLISH`: English language",
                         EnumType.ofNameAndMembers(
                             Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
+                        PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)),
                 Constraints.empty()),
