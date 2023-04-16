@@ -35,7 +35,8 @@ public class JavaPojos {
   }
 
   public static JavaPojo allNecessityAndNullabilityVariants(Constraints constraints) {
-    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty());
+    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
+        .head();
   }
 
   public static JavaPojo allNecessityAndNullabilityVariants() {
@@ -126,7 +127,7 @@ public class JavaPojos {
         type.equals(ComposedPojo.CompositionType.ANY_OF)
             ? ComposedPojo.resolvedAnyOf(pojos, unresolvedComposedPojo)
             : ComposedPojo.resolvedOneOf(pojos, unresolvedComposedPojo);
-    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty());
+    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty()).head();
   }
 
   public static JavaComposedPojo composedPojo(

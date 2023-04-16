@@ -1,11 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -47,14 +44,16 @@ public class JavaObjectPojo implements JavaPojo {
     return from(JavaPojoName.wrap(name), description, members, constraints);
   }
 
-  public static JavaObjectPojo wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
+  public static NonEmptyList<JavaObjectPojo> wrap(
+      ObjectPojo objectPojo, TypeMappings typeMappings) {
     final PList<JavaPojoMember> members =
         objectPojo.getMembers().map(member -> JavaPojoMember.wrap(member, typeMappings));
-    return new JavaObjectPojo(
-        JavaPojoName.wrap(objectPojo.getName()),
-        objectPojo.getDescription(),
-        members,
-        objectPojo.getConstraints());
+    return NonEmptyList.single(
+        new JavaObjectPojo(
+            JavaPojoName.wrap(objectPojo.getName()),
+            objectPojo.getDescription(),
+            members,
+            objectPojo.getConstraints()));
   }
 
   @Override
@@ -70,6 +69,11 @@ public class JavaObjectPojo implements JavaPojo {
   @Override
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public PojoType getType() {
+    return PojoType.DEFAULT;
   }
 
   public PList<JavaPojoMember> getMembers() {

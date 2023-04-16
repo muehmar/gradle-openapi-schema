@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
@@ -15,13 +16,13 @@ import java.util.function.Predicate;
 
 public interface JavaPojo {
 
-  static JavaPojo wrap(Pojo pojo, TypeMappings typeMappings) {
+  static NonEmptyList<? extends JavaPojo> wrap(Pojo pojo, TypeMappings typeMappings) {
     return pojo.fold(
         objectPojo -> JavaObjectPojo.wrap(objectPojo, typeMappings),
-        arrayPojo -> JavaArrayPojo.wrap(arrayPojo, typeMappings),
-        JavaEnumPojo::wrap,
+        arrayPojo -> NonEmptyList.single(JavaArrayPojo.wrap(arrayPojo, typeMappings)),
+        enumPojo -> NonEmptyList.single(JavaEnumPojo.wrap(enumPojo)),
         composedPojo -> JavaComposedPojo.wrap(composedPojo, typeMappings),
-        JavaFreeFormPojo::wrap);
+        freeFormPojo -> NonEmptyList.single(JavaFreeFormPojo.wrap(freeFormPojo)));
   }
 
   JavaName getSchemaName();
@@ -29,6 +30,8 @@ public interface JavaPojo {
   JavaIdentifier getClassName();
 
   String getDescription();
+
+  PojoType getType();
 
   <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,

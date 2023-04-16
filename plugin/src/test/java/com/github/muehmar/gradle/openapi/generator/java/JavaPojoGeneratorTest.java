@@ -54,34 +54,35 @@ class JavaPojoGeneratorTest {
 
   private static final JavaPojo SAMPLE_OBJECT_POJO =
       JavaObjectPojo.wrap(
-          ObjectPojo.of(
-              PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
-              "User of the Application. This description is intentionally longer to see if its wrapped to a new line.",
-              PList.of(
-                  new PojoMember(
-                      Name.ofString("id"),
-                      "ID of this user",
-                      IntegerType.formatLong(),
-                      PropertyScope.DEFAULT,
-                      REQUIRED,
-                      NOT_NULLABLE),
-                  new PojoMember(
-                      Name.ofString("name"),
-                      "Name of this user",
-                      StringType.noFormat(),
-                      PropertyScope.DEFAULT,
-                      REQUIRED,
-                      NOT_NULLABLE),
-                  new PojoMember(
-                      Name.ofString("language"),
-                      "Preferred language of this user",
-                      EnumType.ofNameAndMembers(
-                          Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
-                      PropertyScope.DEFAULT,
-                      OPTIONAL,
-                      NOT_NULLABLE)),
-              Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(2, 10))),
-          TypeMappings.empty());
+              ObjectPojo.of(
+                  PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
+                  "User of the Application. This description is intentionally longer to see if its wrapped to a new line.",
+                  PList.of(
+                      new PojoMember(
+                          Name.ofString("id"),
+                          "ID of this user",
+                          IntegerType.formatLong(),
+                          PropertyScope.DEFAULT,
+                          REQUIRED,
+                          NOT_NULLABLE),
+                      new PojoMember(
+                          Name.ofString("name"),
+                          "Name of this user",
+                          StringType.noFormat(),
+                          PropertyScope.DEFAULT,
+                          REQUIRED,
+                          NOT_NULLABLE),
+                      new PojoMember(
+                          Name.ofString("language"),
+                          "Preferred language of this user",
+                          EnumType.ofNameAndMembers(
+                              Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
+                          PropertyScope.DEFAULT,
+                          OPTIONAL,
+                          NOT_NULLABLE)),
+                  Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(2, 10))),
+              TypeMappings.empty())
+          .head();
 
   @Test
   void generatePojo_when_minimalPojoSetting_then_correctPojoGenerated() {
@@ -142,89 +143,95 @@ class JavaPojoGeneratorTest {
 
     final JavaPojo pojo =
         JavaObjectPojo.wrap(
-            ObjectPojo.of(
-                PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
-                "User of the Application",
-                PList.of(
-                    new PojoMember(
-                        Name.ofString("id"),
-                        "ID of this user",
-                        IntegerType.formatLong().withConstraints(Constraints.ofMax(new Max(50))),
-                        PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("name"),
-                        "Name of this user",
-                        StringType.noFormat().withConstraints(Constraints.ofSize(Size.of(10, 15))),
-                        PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("lastName"),
-                        "Lastname of this user",
-                        StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(10))),
-                        PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("nickName"),
-                        "Nickname of this user",
-                        StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMax(50))),
-                        PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("email"),
-                        "Email of this user",
-                        StringType.noFormat().withConstraints(Constraints.ofEmail()),
-                        PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("height"),
-                        "Height of this user",
-                        NumericType.formatDouble()
-                            .withConstraints(
-                                Constraints.ofDecimalMin(new DecimalMin("120.0", true))
-                                    .withDecimalMax(new DecimalMax("199", false))),
-                        PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("level"),
-                        "Level of this user",
-                        IntegerType.formatLong().withConstraints(Constraints.ofMin(new Min(5))),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("uppercase"),
-                        "Something uppercase",
-                        StringType.noFormat()
-                            .withConstraints(
-                                Constraints.ofPattern(Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("multipleOfValue"),
-                        "Multiple of value",
-                        IntegerType.formatLong()
-                            .withConstraints(
-                                Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("5")))),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("anotherPojo"),
-                        "Another Pojo",
-                        ObjectType.ofName(PojoName.ofName(Name.ofString("AnotherPojo"))),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)),
-                Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 15))),
-            TypeMappings.empty());
+                ObjectPojo.of(
+                    PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
+                    "User of the Application",
+                    PList.of(
+                        new PojoMember(
+                            Name.ofString("id"),
+                            "ID of this user",
+                            IntegerType.formatLong()
+                                .withConstraints(Constraints.ofMax(new Max(50))),
+                            PropertyScope.DEFAULT,
+                            REQUIRED,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("name"),
+                            "Name of this user",
+                            StringType.noFormat()
+                                .withConstraints(Constraints.ofSize(Size.of(10, 15))),
+                            PropertyScope.DEFAULT,
+                            REQUIRED,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("lastName"),
+                            "Lastname of this user",
+                            StringType.noFormat()
+                                .withConstraints(Constraints.ofSize(Size.ofMin(10))),
+                            PropertyScope.DEFAULT,
+                            REQUIRED,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("nickName"),
+                            "Nickname of this user",
+                            StringType.noFormat()
+                                .withConstraints(Constraints.ofSize(Size.ofMax(50))),
+                            PropertyScope.DEFAULT,
+                            REQUIRED,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("email"),
+                            "Email of this user",
+                            StringType.noFormat().withConstraints(Constraints.ofEmail()),
+                            PropertyScope.DEFAULT,
+                            REQUIRED,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("height"),
+                            "Height of this user",
+                            NumericType.formatDouble()
+                                .withConstraints(
+                                    Constraints.ofDecimalMin(new DecimalMin("120.0", true))
+                                        .withDecimalMax(new DecimalMax("199", false))),
+                            PropertyScope.DEFAULT,
+                            REQUIRED,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("level"),
+                            "Level of this user",
+                            IntegerType.formatLong().withConstraints(Constraints.ofMin(new Min(5))),
+                            PropertyScope.DEFAULT,
+                            OPTIONAL,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("uppercase"),
+                            "Something uppercase",
+                            StringType.noFormat()
+                                .withConstraints(
+                                    Constraints.ofPattern(
+                                        Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
+                            PropertyScope.DEFAULT,
+                            OPTIONAL,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("multipleOfValue"),
+                            "Multiple of value",
+                            IntegerType.formatLong()
+                                .withConstraints(
+                                    Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("5")))),
+                            PropertyScope.DEFAULT,
+                            OPTIONAL,
+                            NOT_NULLABLE),
+                        new PojoMember(
+                            Name.ofString("anotherPojo"),
+                            "Another Pojo",
+                            ObjectType.ofName(PojoName.ofName(Name.ofString("AnotherPojo"))),
+                            PropertyScope.DEFAULT,
+                            OPTIONAL,
+                            NOT_NULLABLE)),
+                    Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 15))),
+                TypeMappings.empty())
+            .head();
 
     final String content = pojoGenerator.generatePojo(pojo, pojoSettings).getContent();
 
@@ -270,22 +277,23 @@ class JavaPojoGeneratorTest {
 
     final JavaPojo pojo =
         JavaObjectPojo.wrap(
-            ObjectPojo.of(
-                PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
-                "User of the Application",
-                PList.of(
-                    new PojoMember(
-                        Name.ofString("language"),
-                        "Preferred language of this user\n"
-                            + "* `GERMAN`: German language\n"
-                            + "* `ENGLISH`: English language",
-                        EnumType.ofNameAndMembers(
-                            Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)),
-                Constraints.empty()),
-            TypeMappings.empty());
+                ObjectPojo.of(
+                    PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
+                    "User of the Application",
+                    PList.of(
+                        new PojoMember(
+                            Name.ofString("language"),
+                            "Preferred language of this user\n"
+                                + "* `GERMAN`: German language\n"
+                                + "* `ENGLISH`: English language",
+                            EnumType.ofNameAndMembers(
+                                Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
+                            PropertyScope.DEFAULT,
+                            OPTIONAL,
+                            NOT_NULLABLE)),
+                    Constraints.empty()),
+                TypeMappings.empty())
+            .head();
 
     final String content = pojoGenerator.generatePojo(pojo, pojoSettings).getContent();
 
@@ -304,22 +312,23 @@ class JavaPojoGeneratorTest {
 
     final JavaPojo pojo =
         JavaObjectPojo.wrap(
-            ObjectPojo.of(
-                PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
-                "User of the Application",
-                PList.of(
-                    new PojoMember(
-                        Name.ofString("language"),
-                        "Preferred language of this user\n"
-                            + "* `GERMAN`: German language\n"
-                            + "* `ENGLISH`: English language",
-                        EnumType.ofNameAndMembers(
-                            Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)),
-                Constraints.empty()),
-            TypeMappings.empty());
+                ObjectPojo.of(
+                    PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
+                    "User of the Application",
+                    PList.of(
+                        new PojoMember(
+                            Name.ofString("language"),
+                            "Preferred language of this user\n"
+                                + "* `GERMAN`: German language\n"
+                                + "* `ENGLISH`: English language",
+                            EnumType.ofNameAndMembers(
+                                Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
+                            PropertyScope.DEFAULT,
+                            OPTIONAL,
+                            NOT_NULLABLE)),
+                    Constraints.empty()),
+                TypeMappings.empty())
+            .head();
 
     final String content = pojoGenerator.generatePojo(pojo, pojoSettings).getContent();
 

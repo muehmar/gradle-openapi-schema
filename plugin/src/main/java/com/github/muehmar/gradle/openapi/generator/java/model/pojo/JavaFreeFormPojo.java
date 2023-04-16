@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -55,6 +56,11 @@ public class JavaFreeFormPojo implements JavaPojo {
   @Override
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public PojoType getType() {
+    return PojoType.DEFAULT;
   }
 
   public Constraints getConstraints() {

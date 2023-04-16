@@ -4,12 +4,14 @@ import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPoj
 import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ONE_OF;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
@@ -67,14 +69,19 @@ public class JavaComposedPojo implements JavaPojo {
     return m1.getName().equals(m2.getName()) && not(m1.equals(m2));
   }
 
-  public static JavaComposedPojo wrap(ComposedPojo composedPojo, TypeMappings typeMappings) {
-    return new JavaComposedPojo(
-        JavaPojoName.wrap(composedPojo.getName()),
-        composedPojo.getDescription(),
-        composedPojo.getPojos().map(pojo -> JavaPojo.wrap(pojo, typeMappings)),
-        composedPojo.getCompositionType(),
-        composedPojo.getConstraints(),
-        composedPojo.getDiscriminator());
+  public static NonEmptyList<JavaComposedPojo> wrap(
+      ComposedPojo composedPojo, TypeMappings typeMappings) {
+    return NonEmptyList.single(
+        new JavaComposedPojo(
+            JavaPojoName.wrap(composedPojo.getName()),
+            composedPojo.getDescription(),
+            composedPojo
+                .getPojos()
+                .flatMap(pojo -> JavaPojo.wrap(pojo, typeMappings))
+                .map(pojo -> pojo),
+            composedPojo.getCompositionType(),
+            composedPojo.getConstraints(),
+            composedPojo.getDiscriminator()));
   }
 
   @Override
@@ -90,6 +97,11 @@ public class JavaComposedPojo implements JavaPojo {
   @Override
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public PojoType getType() {
+    return PojoType.DEFAULT;
   }
 
   public PList<JavaPojo> getJavaPojos() {

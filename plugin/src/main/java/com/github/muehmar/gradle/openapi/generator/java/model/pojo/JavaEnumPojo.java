@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import java.util.Optional;
@@ -51,6 +52,11 @@ public class JavaEnumPojo implements JavaPojo {
   @Override
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public PojoType getType() {
+    return PojoType.DEFAULT;
   }
 
   public PList<EnumConstantName> getMembers() {
