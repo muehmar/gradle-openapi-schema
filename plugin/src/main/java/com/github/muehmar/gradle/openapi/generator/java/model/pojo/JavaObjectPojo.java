@@ -18,16 +18,19 @@ public class JavaObjectPojo implements JavaPojo {
   private final JavaPojoName name;
   private final String description;
   private final PList<JavaPojoMember> members;
+  private final PojoType type;
   private final Constraints constraints;
 
   private JavaObjectPojo(
       JavaPojoName name,
       String description,
       PList<JavaPojoMember> members,
+      PojoType type,
       Constraints constraints) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.members = members;
+    this.type = type;
     this.constraints = constraints;
   }
 
@@ -35,25 +38,45 @@ public class JavaObjectPojo implements JavaPojo {
       JavaPojoName name,
       String description,
       PList<JavaPojoMember> members,
+      PojoType type,
       Constraints constraints) {
-    return new JavaObjectPojo(name, description, members, constraints);
+    return new JavaObjectPojo(name, description, members, type, constraints);
   }
 
   public static JavaObjectPojo from(
-      PojoName name, String description, PList<JavaPojoMember> members, Constraints constraints) {
-    return from(JavaPojoName.wrap(name), description, members, constraints);
+      PojoName name,
+      String description,
+      PList<JavaPojoMember> members,
+      PojoType type,
+      Constraints constraints) {
+    return from(JavaPojoName.wrap(name), description, members, type, constraints);
   }
 
   public static NonEmptyList<JavaObjectPojo> wrap(
       ObjectPojo objectPojo, TypeMappings typeMappings) {
+    if (objectPojo.containsNoneDefaultPropertyScope()) {
+      return NonEmptyList.of(
+          createForType(objectPojo, typeMappings, PojoType.DEFAULT),
+          createForType(objectPojo, typeMappings, PojoType.REQUEST),
+          createForType(objectPojo, typeMappings, PojoType.RESPONSE));
+    } else {
+      return NonEmptyList.single(createForType(objectPojo, typeMappings, PojoType.DEFAULT));
+    }
+  }
+
+  private static JavaObjectPojo createForType(
+      ObjectPojo objectPojo, TypeMappings typeMappings, PojoType type) {
     final PList<JavaPojoMember> members =
-        objectPojo.getMembers().map(member -> JavaPojoMember.wrap(member, typeMappings));
-    return NonEmptyList.single(
-        new JavaObjectPojo(
-            JavaPojoName.wrap(objectPojo.getName()),
-            objectPojo.getDescription(),
-            members,
-            objectPojo.getConstraints()));
+        objectPojo
+            .getMembers()
+            .filter(member -> type.includesPropertyScope(member.getPropertyScope()))
+            .map(member -> JavaPojoMember.wrap(member, typeMappings));
+    return new JavaObjectPojo(
+        JavaPojoName.wrap(type.mapName(objectPojo.getName())),
+        objectPojo.getDescription(),
+        members,
+        type,
+        objectPojo.getConstraints());
   }
 
   @Override
@@ -73,7 +96,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   @Override
   public PojoType getType() {
-    return PojoType.DEFAULT;
+    return type;
   }
 
   public PList<JavaPojoMember> getMembers() {

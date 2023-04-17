@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -78,5 +80,9 @@ public class ObjectPojo implements Pojo {
       Function<ComposedPojo, T> onComposedPojo,
       Function<FreeFormPojo, T> onFreeFormPojo) {
     return onObjectPojo.apply(this);
+  }
+
+  public boolean containsNoneDefaultPropertyScope() {
+    return members.exists(member -> not(member.isDefaultScope()));
   }
 }

@@ -29,6 +29,10 @@ public class PojoName {
     return new PojoName(name, pojoName.getSuffix());
   }
 
+  public PojoName prependSuffix(String prependText) {
+    return new PojoName(name, prependText + suffix);
+  }
+
   public boolean equalsIgnoreCase(PojoName other) {
     return name.equalsIgnoreCase(other.name) && suffix.equals(other.suffix);
   }

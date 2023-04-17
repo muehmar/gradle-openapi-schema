@@ -22,22 +22,30 @@ public class PojoMembers {
   }
 
   public static PojoMember requiredBirthdate() {
+    return requiredBirthdate(PropertyScope.DEFAULT);
+  }
+
+  public static PojoMember requiredBirthdate(PropertyScope propertyScope) {
     return new PojoMember(
         Name.ofString("birthdate"),
         "Birthdate",
         StringType.ofFormat(StringType.Format.DATE),
-        PropertyScope.DEFAULT,
+        propertyScope,
         Necessity.REQUIRED,
         Nullability.NOT_NULLABLE);
   }
 
   public static PojoMember requiredString() {
+    return requiredString(PropertyScope.DEFAULT);
+  }
+
+  public static PojoMember requiredString(PropertyScope propertyScope) {
     return new PojoMember(
         Name.ofString("requiredStringVal"),
         "RequiredStringVal",
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-        PropertyScope.DEFAULT,
+        propertyScope,
         Necessity.REQUIRED,
         Nullability.NOT_NULLABLE);
   }

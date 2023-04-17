@@ -29,6 +29,7 @@ public class JavaComposedPojo implements JavaPojo {
   private final String description;
   private final PList<JavaPojo> javaPojos;
   private final ComposedPojo.CompositionType compositionType;
+  private final PojoType type;
   private final Constraints constraints;
   private final Optional<Discriminator> discriminator;
 
@@ -37,6 +38,7 @@ public class JavaComposedPojo implements JavaPojo {
       String description,
       PList<JavaPojo> javaPojos,
       ComposedPojo.CompositionType compositionType,
+      PojoType type,
       Constraints constraints,
       Optional<Discriminator> discriminator) {
     assertPropertiesHaveNotSameNameAndDifferentAttributes(javaPojos);
@@ -44,6 +46,7 @@ public class JavaComposedPojo implements JavaPojo {
     this.description = Optional.ofNullable(description).orElse("");
     this.javaPojos = javaPojos;
     this.compositionType = compositionType;
+    this.type = type;
     this.constraints = constraints;
     this.discriminator = discriminator;
   }
@@ -71,17 +74,36 @@ public class JavaComposedPojo implements JavaPojo {
 
   public static NonEmptyList<JavaComposedPojo> wrap(
       ComposedPojo composedPojo, TypeMappings typeMappings) {
-    return NonEmptyList.single(
-        new JavaComposedPojo(
-            JavaPojoName.wrap(composedPojo.getName()),
-            composedPojo.getDescription(),
-            composedPojo
-                .getPojos()
-                .flatMap(pojo -> JavaPojo.wrap(pojo, typeMappings))
-                .map(pojo -> pojo),
-            composedPojo.getCompositionType(),
-            composedPojo.getConstraints(),
-            composedPojo.getDiscriminator()));
+    final JavaComposedPojo defaultComposedPojo =
+        createForType(composedPojo, typeMappings, PojoType.DEFAULT);
+    final JavaComposedPojo requestComposedPojo =
+        createForType(composedPojo, typeMappings, PojoType.REQUEST);
+    final JavaComposedPojo responseComposedPojo =
+        createForType(composedPojo, typeMappings, PojoType.RESPONSE);
+
+    if (defaultComposedPojo.getJavaPojos().equals(requestComposedPojo.getJavaPojos())
+        && defaultComposedPojo.getJavaPojos().equals(responseComposedPojo.getJavaPojos())) {
+      return NonEmptyList.single(defaultComposedPojo);
+    } else {
+      return NonEmptyList.of(defaultComposedPojo, requestComposedPojo, responseComposedPojo);
+    }
+  }
+
+  private static JavaComposedPojo createForType(
+      ComposedPojo composedPojo, TypeMappings typeMappings, PojoType type) {
+    final PList<JavaPojo> javaPojos =
+        composedPojo
+            .getPojos()
+            .<NonEmptyList<JavaPojo>>map(pojo -> JavaPojo.wrap(pojo, typeMappings).map(p -> p))
+            .map(pojos -> pojos.toPList().find(p -> p.getType().equals(type)).orElse(pojos.head()));
+    return new JavaComposedPojo(
+        JavaPojoName.wrap(type.mapName(composedPojo.getName())),
+        composedPojo.getDescription(),
+        javaPojos,
+        composedPojo.getCompositionType(),
+        type,
+        composedPojo.getConstraints(),
+        composedPojo.getDiscriminator());
   }
 
   @Override
@@ -101,7 +123,7 @@ public class JavaComposedPojo implements JavaPojo {
 
   @Override
   public PojoType getType() {
-    return PojoType.DEFAULT;
+    return type;
   }
 
   public PList<JavaPojo> getJavaPojos() {
@@ -125,7 +147,7 @@ public class JavaComposedPojo implements JavaPojo {
   }
 
   public JavaObjectPojo wrapIntoJavaObjectPojo() {
-    return JavaObjectPojo.from(name, description, getMembers(), constraints);
+    return JavaObjectPojo.from(name, description, getMembers(), type, constraints);
   }
 
   public PList<JavaPojoMember> getMembers() {
