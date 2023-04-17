@@ -1,0 +1,22 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    ReadWrite:
+      type: object
+      required:
+        - id
+        - readOnly
+        - writeOnly
+      properties:
+        id:
+          type: string
+        readOnly:
+          type: string
+          readOnly: true
+        writeOnly:
+          type: string
+          writeOnly: true
