@@ -48,6 +48,10 @@ public class StringType implements Type {
     return new StringType(format, formatString, constraints);
   }
 
+  public StringType addConstraints(Constraints constraints) {
+    return new StringType(format, formatString, this.constraints.and(constraints));
+  }
+
   @Override
   public Constraints getConstraints() {
     return constraints;

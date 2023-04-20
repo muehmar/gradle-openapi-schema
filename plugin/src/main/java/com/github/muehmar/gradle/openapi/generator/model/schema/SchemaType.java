@@ -28,10 +28,6 @@ public enum SchemaType {
     }
   }
 
-  public boolean matchesTypeAndFormat(Schema<?> schema, String format) {
-    return format.equals(schema.getFormat()) && matchesType(schema);
-  }
-
   public boolean isType(String type) {
     return asString().equals(type);
   }

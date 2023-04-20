@@ -1,7 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import ch.bluecare.commons.data.NonEmptyList;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.util.Optionals;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import java.util.function.Function;
@@ -19,10 +26,38 @@ public interface OpenApiSchema {
         .add(ReferenceSchema::wrap)
         .add(StringSchema::wrap)
         .add(MapSchema::wrap)
+        .add(EnumSchema::wrap)
+        .add(ComposedSchema::wrap)
         .add(NoTypeSchema::wrap)
         .map(f -> f.apply(schema))
         .reduce(Optionals::or)
         .<OpenApiSchema>map(s -> s)
         .orElse(UnknownSchema.wrap(schema));
+  }
+
+  /** Maps the current schema to a {@link Pojo} returned within a {@link MapContext}. */
+  MapContext mapToPojo(PojoName pojoName);
+
+  /**
+   * Maps the current schema to a member-type {@link Type} of a pojo returned within a {@link
+   * MemberSchemaMapResult}.
+   */
+  MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName);
+
+  Schema<?> getDelegateSchema();
+
+  default String getDescription() {
+    return Optional.ofNullable(getDelegateSchema().getDescription()).orElse("");
+  }
+
+  default boolean isNullable() {
+    final Schema<?> delegateSchema = getDelegateSchema();
+    if (delegateSchema.getSpecVersion().equals(SpecVersion.V30)) {
+      return Optional.ofNullable(delegateSchema.getNullable()).orElse(false);
+    } else {
+      return Optional.ofNullable(delegateSchema.getTypes())
+          .map(types -> types.contains(SchemaType.NULL.asString()))
+          .orElse(false);
+    }
   }
 }

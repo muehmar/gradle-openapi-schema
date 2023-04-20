@@ -26,7 +26,7 @@ class SchemaTypeTest {
 
   @ParameterizedTest
   @MethodSource("v30SchemaTypes")
-  void matchesType_when_v30Schema_then_matchesExpecteds(
+  void isType_when_v30Schema_then_matchesExpected(
       SchemaType schemaType, String type, boolean expectedMatchesType) {
     assertEquals(expectedMatchesType, schemaType.isType(type));
   }

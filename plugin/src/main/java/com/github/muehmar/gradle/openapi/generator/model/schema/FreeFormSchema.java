@@ -1,5 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
+import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -36,14 +46,34 @@ public class FreeFormSchema implements OpenApiSchema {
   private static boolean isNoSchemaAdditionalProperties(Object additionalProperties) {
     if (additionalProperties instanceof Schema) {
       final Schema<?> schema = (Schema<?>) additionalProperties;
-      return schema.getProperties() == null
+      return schema.getType() == null
+          && schema.getTypes() == null
+          && schema.getProperties() == null
           && schema.getAdditionalProperties() == null
           && schema.get$ref() == null;
     }
     return false;
   }
 
-  public Schema<?> getSchema() {
+  @Override
+  public MapContext mapToPojo(PojoName pojoName) {
+    final FreeFormPojo freeFormPojo =
+        FreeFormPojo.of(pojoName, getDescription(), getFreeFormConstraints());
+    return MapContext.ofPojo(freeFormPojo);
+  }
+
+  @Override
+  public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
+    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), NoType.create());
+    return MemberSchemaMapResult.ofType(mapType);
+  }
+
+  @Override
+  public Schema<?> getDelegateSchema() {
     return delegate;
+  }
+
+  private Constraints getFreeFormConstraints() {
+    return ConstraintsMapper.getPropertyCountConstraints(delegate);
   }
 }

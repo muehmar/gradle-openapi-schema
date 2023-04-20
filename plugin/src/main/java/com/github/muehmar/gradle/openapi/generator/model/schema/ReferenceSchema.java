@@ -1,5 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
+import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
+import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -25,7 +32,27 @@ public class ReferenceSchema implements OpenApiSchema {
     return Optional.empty();
   }
 
-  public Schema<?> getSchema() {
+  @Override
+  public MapContext mapToPojo(PojoName pojoName) {
+    throw new OpenApiGeneratorException(
+        "A reference schema is currently not supported as root schema.");
+  }
+
+  @Override
+  public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
+    final SchemaReference schemaReference = SchemaReference.fromRefString(reference);
+    final PojoName name =
+        PojoName.ofNameAndSuffix(schemaReference.getSchemaName(), pojoName.getSuffix());
+    final ObjectType objectType = ObjectType.ofName(name);
+    return MemberSchemaMapResult.ofType(objectType).addOpenApiSpec(schemaReference.getRemoteSpec());
+  }
+
+  @Override
+  public Schema<?> getDelegateSchema() {
     return delegate;
+  }
+
+  public String getReference() {
+    return reference;
   }
 }

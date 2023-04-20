@@ -5,6 +5,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import java.util.function.BiFunction;
@@ -38,6 +39,11 @@ public class MapContext {
 
   public static MapContext ofPojo(Pojo pojo) {
     return new MapContext(UnmappedItems.empty(), UnresolvedMapResult.ofPojo(pojo));
+  }
+
+  public static MapContext ofPojoMemberReference(PojoMemberReference pojoMemberReference) {
+    return new MapContext(
+        UnmappedItems.empty(), UnresolvedMapResult.ofPojoMemberReference(pojoMemberReference));
   }
 
   public UnresolvedMapResult onUnmappedItems(
