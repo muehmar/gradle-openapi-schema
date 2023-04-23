@@ -77,7 +77,7 @@ public class DiscriminatorValidationMethodGenerator {
     }
 
     PList<SinglePojoAndDiscriminator> getPojos() {
-      return pojo.getJavaPojos().map(pojo -> new SinglePojoAndDiscriminator(pojo, discriminator));
+      return pojo.getJavaPojos().map(p -> new SinglePojoAndDiscriminator(p, discriminator));
     }
   }
 
@@ -87,7 +87,7 @@ public class DiscriminatorValidationMethodGenerator {
     Discriminator discriminator;
 
     String getDiscriminatorValue() {
-      return discriminator.getValueForPojoName(pojo.getName());
+      return discriminator.getValueForSchemaName(pojo.getSchemaName().asName());
     }
 
     Name isValidAgainstMethodName() {

@@ -1,13 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
@@ -22,12 +24,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaFreeFormPojo implements JavaPojo {
-  private final PojoName name;
+  private final JavaPojoName name;
   private final String description;
   private final Constraints constraints;
   private static final Type VALUE_TYPE = NoType.create();
 
-  private JavaFreeFormPojo(PojoName name, String description, Constraints constraints) {
+  private JavaFreeFormPojo(JavaPojoName name, String description, Constraints constraints) {
     this.name = name;
     this.description = description;
     this.constraints = constraints;
@@ -35,12 +37,19 @@ public class JavaFreeFormPojo implements JavaPojo {
 
   public static JavaFreeFormPojo wrap(FreeFormPojo freeFormPojo) {
     return new JavaFreeFormPojo(
-        freeFormPojo.getName(), freeFormPojo.getDescription(), freeFormPojo.getConstraints());
+        JavaPojoName.wrap(freeFormPojo.getName()),
+        freeFormPojo.getDescription(),
+        freeFormPojo.getConstraints());
   }
 
   @Override
-  public PojoName getName() {
-    return name;
+  public JavaName getSchemaName() {
+    return JavaName.fromName(name.getSchemaName());
+  }
+
+  @Override
+  public JavaIdentifier getClassName() {
+    return name.asJavaName().asIdentifier();
   }
 
   @Override

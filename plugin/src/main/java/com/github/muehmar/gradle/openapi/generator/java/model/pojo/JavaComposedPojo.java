@@ -5,10 +5,12 @@ import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPoj
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -21,7 +23,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaComposedPojo implements JavaPojo {
-  private final PojoName name;
+  private final JavaPojoName name;
   private final String description;
   private final PList<JavaPojo> javaPojos;
   private final ComposedPojo.CompositionType compositionType;
@@ -29,7 +31,7 @@ public class JavaComposedPojo implements JavaPojo {
   private final Optional<Discriminator> discriminator;
 
   JavaComposedPojo(
-      PojoName name,
+      JavaPojoName name,
       String description,
       PList<JavaPojo> javaPojos,
       ComposedPojo.CompositionType compositionType,
@@ -67,7 +69,7 @@ public class JavaComposedPojo implements JavaPojo {
 
   public static JavaComposedPojo wrap(ComposedPojo composedPojo, TypeMappings typeMappings) {
     return new JavaComposedPojo(
-        composedPojo.getName(),
+        JavaPojoName.wrap(composedPojo.getName()),
         composedPojo.getDescription(),
         composedPojo.getPojos().map(pojo -> JavaPojo.wrap(pojo, typeMappings)),
         composedPojo.getCompositionType(),
@@ -76,8 +78,13 @@ public class JavaComposedPojo implements JavaPojo {
   }
 
   @Override
-  public PojoName getName() {
-    return name;
+  public JavaName getSchemaName() {
+    return JavaName.fromName(name.getSchemaName());
+  }
+
+  @Override
+  public JavaIdentifier getClassName() {
+    return name.asJavaName().asIdentifier();
   }
 
   @Override

@@ -42,12 +42,10 @@ public class FactoryMethodGenerator {
         MethodGenBuilder.<ComposedAndMemberPojo, PojoSettings>create()
             .modifiers(PUBLIC, STATIC)
             .noGenericTypes()
-            .returnType(pojos -> pojos.composedPojo.getName().asString())
+            .returnType(pojos -> pojos.composedPojo.getClassName().asString())
             .methodName(
-                pojos ->
-                    String.format("from%s", pojos.memberPojo.getName().getName().startUpperCase()))
-            .singleArgument(
-                pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
+                pojos -> String.format("from%s", pojos.memberPojo.getSchemaName().asIdentifier()))
+            .singleArgument(pojos -> String.format("%s dto", pojos.memberPojo.getClassName()))
             .content(fromMethodContent())
             .build();
     final Generator<ComposedAndMemberPojo, PojoSettings> javaDoc =
@@ -55,7 +53,7 @@ public class FactoryMethodGenerator {
             (p, s) ->
                 String.format(
                     "Creates an instance of {@link %s} from a {@link %s}.",
-                    p.getComposedPojo().getName(), p.getMemberPojo().getName()));
+                    p.getComposedPojo().getClassName(), p.getMemberPojo().getClassName()));
     return javaDoc.append(method);
   }
 
@@ -64,12 +62,10 @@ public class FactoryMethodGenerator {
         MethodGenBuilder.<ComposedAndMemberPojo, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
-            .returnType(pojos -> pojos.composedPojo.getName().asString())
+            .returnType(pojos -> pojos.composedPojo.getClassName().asString())
             .methodName(
-                pojos ->
-                    String.format("with%s", pojos.memberPojo.getName().getName().startUpperCase()))
-            .singleArgument(
-                pojos -> String.format("%s dto", pojos.memberPojo.getName().startUppercase()))
+                pojos -> String.format("with%s", pojos.memberPojo.getSchemaName().asIdentifier()))
+            .singleArgument(pojos -> String.format("%s dto", pojos.memberPojo.getClassName()))
             .content(withMethodContent())
             .build();
     final Generator<ComposedAndMemberPojo, PojoSettings> javaDoc =
@@ -78,13 +74,13 @@ public class FactoryMethodGenerator {
                 String.format(
                     "Returns a new instance adding the supplied {@link %s}. This will overwrite any shared properties with other"
                         + " schemas to the value of the properties in the supplied {@link %s}.",
-                    p.getMemberPojo().getName(), p.getMemberPojo().getName()));
+                    p.getMemberPojo().getClassName(), p.getMemberPojo().getClassName()));
     return javaDoc.append(method);
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> fromMethodContent() {
     return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getName()))
+        .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getClassName()))
         .appendList(
             fromMethodMemberGen(), pojos -> pojos.composedPojo.getMembers().map(pojos::withMember))
         .append(w -> w.println(");"));
@@ -92,7 +88,7 @@ public class FactoryMethodGenerator {
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> withMethodContent() {
     return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getName()))
+        .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getClassName()))
         .appendList(
             withMethodMemberGen(), pojos -> pojos.composedPojo.getMembers().map(pojos::withMember))
         .append(w -> w.println(");"));
@@ -143,7 +139,7 @@ public class FactoryMethodGenerator {
                         d ->
                             w.println(
                                 "\"%s\"%s",
-                                d.getValueForPojoName(p.getMemberPojo().getName()),
+                                d.getValueForSchemaName(p.getMemberPojo().getSchemaName().asName()),
                                 p.commaAfterParameter()))
                     .orElse(w))
         .filter(ComposedAndMemberPojoAndMember::isDiscriminator);
@@ -161,7 +157,9 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       requiredMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("%s%s", p.member.getName(), p.commaAfterParameter()))
+        .append(
+            (p, s, w) ->
+                w.println("%s%s", p.member.getJavaName().asIdentifier(), p.commaAfterParameter()))
         .filter(
             pojos -> pojos.member.isRequiredAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -186,7 +184,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       requiredNullableMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("%s,", p.member.getName()))
+        .append((p, s, w) -> w.println("%s,", p.member.getJavaName().asIdentifier()))
         .append(
             (p, s, w) ->
                 w.println("%s%s", p.member.getIsPresentFlagName(), p.commaAfterParameter()))
@@ -214,7 +212,9 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       optionalMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("%s%s", p.member.getName(), p.commaAfterParameter()))
+        .append(
+            (p, s, w) ->
+                w.println("%s%s", p.member.getJavaName().asIdentifier(), p.commaAfterParameter()))
         .filter(
             pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -247,7 +247,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       optionalNullableMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("%s,", p.member.getName()))
+        .append((p, s, w) -> w.println("%s,", p.member.getJavaName().asIdentifier()))
         .append(
             (p, s, w) -> w.println("%s%s", p.member.getIsNullFlagName(), p.commaAfterParameter()))
         .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isNotMemberOfMemberPojo());
@@ -283,7 +283,7 @@ public class FactoryMethodGenerator {
     boolean isDiscriminator() {
       return composedPojo
           .getDiscriminator()
-          .map(d -> d.getPropertyName().equals(member.getName()))
+          .map(d -> d.getPropertyName().equals(member.getName().asName()))
           .orElse(false);
     }
 

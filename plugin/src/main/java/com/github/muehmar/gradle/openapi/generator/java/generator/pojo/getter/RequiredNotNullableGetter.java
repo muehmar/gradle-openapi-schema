@@ -31,7 +31,7 @@ public class RequiredNotNullableGetter {
         .returnType(f -> f.getJavaType().getFullClassName().asString())
         .methodName((f, settings) -> f.getGetterNameWithSuffix(settings).asString())
         .noArguments()
-        .content(f -> String.format("return %s;", f.getName()))
+        .content(f -> String.format("return %s;", f.getJavaName().asIdentifier()))
         .build()
         .append(RefsGenerator.fieldRefs());
   }

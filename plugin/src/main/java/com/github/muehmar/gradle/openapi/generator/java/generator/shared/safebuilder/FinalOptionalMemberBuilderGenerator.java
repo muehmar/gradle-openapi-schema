@@ -24,7 +24,7 @@ class FinalOptionalMemberBuilderGenerator {
         .append(constant("this.builder = builder;"), 2)
         .append(constant("}"), 1)
         .appendNewLine()
-        .append((p, s, w) -> w.println("public %s build(){", p.getName()), 1)
+        .append((p, s, w) -> w.println("public %s build(){", p.getClassName()), 1)
         .append(constant("return builder.build();"), 2)
         .append(constant("}"), 1)
         .append(constant("}"));

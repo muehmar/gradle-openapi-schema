@@ -83,9 +83,9 @@ public class FoldMethodGenerator {
             ep ->
                 String.format(
                     JAVA_DOC_EXAMPLE,
-                    ep.getName().getName(),
+                    ep.getSchemaName(),
                     CompositionNames.dtoMappingArgumentName(ep),
-                    ep.getName()))
+                    ep.getClassName()))
         .orElse("");
   }
 
@@ -93,7 +93,7 @@ public class FoldMethodGenerator {
     final String unsafeFoldRef =
         String.format(
             "{@link %s#fold(%s)}",
-            pojo.getName(), pojo.getJavaPojos().map(ignore -> "Function").mkString(", "));
+            pojo.getClassName(), pojo.getJavaPojos().map(ignore -> "Function").mkString(", "));
     return String.format(JAVA_DOC_ONE_OF_FULL_FOLD, unsafeFoldRef);
   }
 
@@ -163,7 +163,8 @@ public class FoldMethodGenerator {
   private static String getOnInvalidMessage(JavaComposedPojo composedPojo) {
     return String.format(
         "Unable to fold %s: Not valid against one of the schemas [%s].",
-        composedPojo.getName(), composedPojo.getJavaPojos().map(JavaPojo::getName).mkString(", "));
+        composedPojo.getClassName(),
+        composedPojo.getJavaPojos().map(JavaPojo::getClassName).mkString(", "));
   }
 
   private static Generator<ComposedAndMemberPojo, PojoSettings> singleAnyOfFold() {
@@ -207,7 +208,7 @@ public class FoldMethodGenerator {
             pojo ->
                 String.format(
                     "Function<%s, T> %s",
-                    pojo.getName(), CompositionNames.dtoMappingArgumentName(pojo)));
+                    pojo.getClassName(), CompositionNames.dtoMappingArgumentName(pojo)));
   }
 
   @Value
@@ -226,7 +227,7 @@ public class FoldMethodGenerator {
               discriminator ->
                   String.format(
                       "\"%s\".equals(%s) && ",
-                      discriminator.getValueForPojoName(memberPojo.getName()),
+                      discriminator.getValueForSchemaName(memberPojo.getSchemaName().asName()),
                       discriminator.getPropertyName()))
           .orElse("");
     }

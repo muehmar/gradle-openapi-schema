@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
@@ -59,8 +61,51 @@ class JavaPojoMemberTest {
 
   @ParameterizedTest
   @CsvSource({"is, isStringVal", "get, getStringVal", "set, setStringVal", "'', stringVal"})
-  void test(String prefix, String expectedMethodName) {
+  void prefixedMethodName_when_called_then_matchExpectedMethodName(
+      String prefix, String expectedMethodName) {
     final JavaPojoMember member = JavaPojoMembers.requiredString();
     assertEquals(expectedMethodName, member.prefixedMethodName(prefix).asString());
+  }
+
+  @Test
+  void getValidationGetterName_when_calledWithDefaultSettings_then_correctMethodName() {
+    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaIdentifier validationGetterName =
+        member.getValidationGetterName(TestPojoSettings.defaultSettings());
+    assertEquals("getStringValRaw", validationGetterName.asString());
+  }
+
+  @Test
+  void getIsNullFlagName_when_called_then_correctMethodName() {
+    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaIdentifier validationGetterName = member.getIsNullFlagName();
+    assertEquals("isStringValNull", validationGetterName.asString());
+  }
+
+  @Test
+  void getIsPresentFlagName_when_called_then_correctMethodName() {
+    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaIdentifier validationGetterName = member.getIsPresentFlagName();
+    assertEquals("isStringValPresent", validationGetterName.asString());
+  }
+
+  @ParameterizedTest
+  @MethodSource("membersForCreatingFieldNames")
+  void createFieldNames_when_called_then_matchExpectedFieldNames(
+      JavaPojoMember member, String expected) {
+    PList<JavaIdentifier> fieldNames = member.createFieldNames();
+    assertEquals(expected, fieldNames.mkString(","));
+  }
+
+  public static Stream<Arguments> membersForCreatingFieldNames() {
+    return Stream.of(
+        arguments(JavaPojoMembers.requiredBirthdate(), "birthdate"),
+        arguments(JavaPojoMembers.optionalString(), "optionalStringVal"),
+        arguments(
+            JavaPojoMembers.requiredNullableString(),
+            "requiredNullableStringVal,isRequiredNullableStringValPresent"),
+        arguments(
+            JavaPojoMembers.optionalNullableString(),
+            "optionalNullableStringVal,isOptionalNullableStringValNull"));
   }
 }

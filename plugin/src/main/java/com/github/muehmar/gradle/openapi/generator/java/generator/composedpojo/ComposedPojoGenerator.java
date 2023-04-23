@@ -41,7 +41,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
                     .contraMap(JavaComposedPojo::getDescription))
             .singleAnnotation(JacksonAnnotationGenerator.jsonDeserialize())
             .modifiers(PUBLIC)
-            .className(enumPojo -> enumPojo.getName().asString())
+            .className(enumPojo -> enumPojo.getClassName().asString())
             .noSuperClass()
             .noInterfaces()
             .content(content())
@@ -108,7 +108,9 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
   private Generator<JavaPojoMember, PojoSettings> memberGetterContent() {
     final Generator<JavaPojoMember, PojoSettings> requiredOrOptionalMember =
         Generator.<JavaPojoMember, PojoSettings>emptyGen()
-            .append((member, settings, writer) -> writer.println("return %s;", member.getName()))
+            .append(
+                (member, settings, writer) ->
+                    writer.println("return %s;", member.getJavaName().asIdentifier()))
             .filter(
                 member -> member.isRequiredAndNotNullable() || member.isOptionalAndNotNullable());
 
@@ -118,7 +120,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
                 (member, settings, writer) ->
                     writer.println(
                         "return %s ? new JacksonNullContainer<>(%s) : null;",
-                        member.getIsPresentFlagName(), member.getName()))
+                        member.getIsPresentFlagName(), member.getJavaName().asIdentifier()))
             .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
             .filter(JavaPojoMember::isRequiredAndNullable);
 
@@ -128,7 +130,9 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
                 (member, settings, writer) ->
                     writer.println(
                         "return %s ? new JacksonNullContainer<>(%s) : %s;",
-                        member.getIsNullFlagName(), member.getName(), member.getName()))
+                        member.getIsNullFlagName(),
+                        member.getJavaName().asIdentifier(),
+                        member.getJavaName().asIdentifier()))
             .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
             .filter(JavaPojoMember::isOptionalAndNullable);
 

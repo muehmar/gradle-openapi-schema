@@ -1,8 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -15,13 +18,16 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaObjectPojo implements JavaPojo {
-  private final PojoName name;
+  private final JavaPojoName name;
   private final String description;
   private final PList<JavaPojoMember> members;
   private final Constraints constraints;
 
   private JavaObjectPojo(
-      PojoName name, String description, PList<JavaPojoMember> members, Constraints constraints) {
+      JavaPojoName name,
+      String description,
+      PList<JavaPojoMember> members,
+      Constraints constraints) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.members = members;
@@ -29,20 +35,36 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public static JavaObjectPojo from(
-      PojoName name, String description, PList<JavaPojoMember> members, Constraints constraints) {
+      JavaPojoName name,
+      String description,
+      PList<JavaPojoMember> members,
+      Constraints constraints) {
     return new JavaObjectPojo(name, description, members, constraints);
+  }
+
+  public static JavaObjectPojo from(
+      PojoName name, String description, PList<JavaPojoMember> members, Constraints constraints) {
+    return from(JavaPojoName.wrap(name), description, members, constraints);
   }
 
   public static JavaObjectPojo wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
     final PList<JavaPojoMember> members =
         objectPojo.getMembers().map(member -> JavaPojoMember.wrap(member, typeMappings));
     return new JavaObjectPojo(
-        objectPojo.getName(), objectPojo.getDescription(), members, objectPojo.getConstraints());
+        JavaPojoName.wrap(objectPojo.getName()),
+        objectPojo.getDescription(),
+        members,
+        objectPojo.getConstraints());
   }
 
   @Override
-  public PojoName getName() {
-    return name;
+  public JavaName getSchemaName() {
+    return JavaName.fromName(name.getSchemaName());
+  }
+
+  @Override
+  public JavaIdentifier getClassName() {
+    return name.asJavaName().asIdentifier();
   }
 
   @Override

@@ -8,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Validat
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
@@ -30,7 +29,7 @@ public class ValidCountValidationMethod {
         pojo ->
             String.format(
                 "Is not valid against one of the schemas [%s]",
-                pojo.getJavaPojos().map(JavaPojo::getName).map(PojoName::getName).mkString(", "));
+                pojo.getJavaPojos().map(JavaPojo::getSchemaName).mkString(", "));
     final Generator<JavaComposedPojo, PojoSettings> annotation =
         ValidationGenerator.assertFalse(message);
     final MethodGen<JavaComposedPojo, PojoSettings> method =
@@ -54,7 +53,7 @@ public class ValidCountValidationMethod {
         pojo ->
             String.format(
                 "Is valid against more than one of the schemas [%s]",
-                pojo.getJavaPojos().map(JavaPojo::getName).map(PojoName::getName).mkString(", "));
+                pojo.getJavaPojos().map(JavaPojo::getSchemaName).mkString(", "));
     final Generator<JavaComposedPojo, PojoSettings> annotation =
         ValidationGenerator.assertFalse(message);
     final MethodGen<JavaComposedPojo, PojoSettings> method =

@@ -1,13 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
@@ -20,14 +22,14 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaArrayPojo implements JavaPojo {
-  private final PojoName name;
+  private final JavaPojoName name;
   private final String description;
   private final JavaType itemType;
   private final Constraints constraints;
   private final JavaPojoMember arrayPojoMember;
 
   private JavaArrayPojo(
-      PojoName name,
+      JavaPojoName name,
       String description,
       JavaType itemType,
       Constraints constraints,
@@ -43,7 +45,7 @@ public class JavaArrayPojo implements JavaPojo {
     final JavaType itemType = JavaType.wrap(arrayPojo.getItemType(), typeMappings);
     final JavaPojoMember arrayPojoMember = createItemTypeMember(arrayPojo, typeMappings);
     return new JavaArrayPojo(
-        arrayPojo.getName(),
+        JavaPojoName.wrap(arrayPojo.getName()),
         arrayPojo.getDescription(),
         itemType,
         arrayPojo.getConstraints(),
@@ -65,8 +67,13 @@ public class JavaArrayPojo implements JavaPojo {
   }
 
   @Override
-  public PojoName getName() {
-    return name;
+  public JavaName getSchemaName() {
+    return JavaName.fromName(name.getSchemaName());
+  }
+
+  @Override
+  public JavaIdentifier getClassName() {
+    return name.asJavaName().asIdentifier();
   }
 
   @Override

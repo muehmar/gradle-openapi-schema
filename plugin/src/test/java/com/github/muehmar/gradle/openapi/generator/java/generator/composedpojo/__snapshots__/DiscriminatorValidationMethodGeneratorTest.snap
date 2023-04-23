@@ -6,8 +6,8 @@ private boolean isValidAgainstTheCorrectSchema() {
     return false;
   }
   switch(requiredStringVal) {
-    case "UserValue": return isValidAgainstUser();
-    case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+    case "UserValue": return isValidAgainstUserDto();
+    case "NNVariantsValue": return isValidAgainstNecessityAndNullabilityDto();
   }
   return false;
 }
@@ -22,8 +22,8 @@ private boolean isValidAgainstTheCorrectSchema() {
     return false;
   }
   switch(requiredStringVal) {
-    case "UserValue": return isValidAgainstUser();
-    case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+    case "UserValue": return isValidAgainstUserDto();
+    case "NNVariantsValue": return isValidAgainstNecessityAndNullabilityDto();
   }
   return false;
 }
@@ -43,8 +43,8 @@ protected boolean isValidAgainstTheCorrectSchema() {
     return false;
   }
   switch(requiredStringVal) {
-    case "User": return isValidAgainstUser();
-    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+    case "User": return isValidAgainstUserDto();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
   }
   return false;
 }
@@ -59,8 +59,8 @@ private boolean isValidAgainstTheCorrectSchema() {
     return false;
   }
   switch(requiredStringVal) {
-    case "User": return isValidAgainstUser();
-    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+    case "User": return isValidAgainstUserDto();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
   }
   return false;
 }
@@ -75,8 +75,8 @@ private boolean isValidAgainstTheCorrectSchema() {
     return false;
   }
   switch(requiredStringVal) {
-    case "User": return isValidAgainstUser();
-    case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+    case "User": return isValidAgainstUserDto();
+    case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
   }
   return false;
 }

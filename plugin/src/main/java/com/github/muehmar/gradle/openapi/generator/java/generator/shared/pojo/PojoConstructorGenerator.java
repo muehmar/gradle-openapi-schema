@@ -4,9 +4,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ConstructorGeneratorBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -18,7 +18,7 @@ public class PojoConstructorGenerator {
   public static <T extends JavaPojo> Generator<T, PojoSettings> generator() {
     return ConstructorGeneratorBuilder.<T, PojoSettings>create()
         .modifiers(PUBLIC)
-        .pojoName(JavaPojo::getName)
+        .javaClassName(JavaPojo::getClassName)
         .arguments(constructorArguments())
         .content(constructorContent())
         .build()
@@ -33,14 +33,13 @@ public class PojoConstructorGenerator {
 
   private static PList<String> createArguments(JavaPojoMember member) {
     final String memberArgument =
-        String.format("%s %s", member.getJavaType().getFullClassName(), member.getName());
+        String.format(
+            "%s %s", member.getJavaType().getFullClassName(), member.getJavaName().asIdentifier());
     if (member.isRequired() && member.isNullable()) {
-      final String requiredPresentFlag =
-          String.format("boolean is%sPresent", member.getName().startUpperCase());
+      final String requiredPresentFlag = String.format("boolean %s", member.getIsPresentFlagName());
       return PList.of(memberArgument, requiredPresentFlag);
     } else if (member.isOptional() && member.isNullable()) {
-      final String optionalNullFlag =
-          String.format("boolean is%sNull", member.getName().startUpperCase());
+      final String optionalNullFlag = String.format("boolean %s", member.getIsNullFlagName());
       return PList.of(memberArgument, optionalNullFlag);
     } else {
       return PList.single(memberArgument);
@@ -56,19 +55,18 @@ public class PojoConstructorGenerator {
   }
 
   private static PList<String> createMemberAssignment(JavaPojoMember member) {
-    final Name memberName = member.getName();
-    final String memberAssignment = String.format("this.%s = %s;", memberName, memberName);
+    final JavaIdentifier memberName = member.getJavaName().asIdentifier();
+    final String memberAssignmentFormat = "this.%s = %s;";
+    final String memberAssignment = String.format(memberAssignmentFormat, memberName, memberName);
     if (member.isRequiredAndNullable()) {
       final String requiredPresentFlagAssignment =
           String.format(
-              "this.is%sPresent = is%sPresent;",
-              memberName.startUpperCase(), memberName.startUpperCase());
+              memberAssignmentFormat, member.getIsPresentFlagName(), member.getIsPresentFlagName());
       return PList.of(memberAssignment, requiredPresentFlagAssignment);
     } else if (member.isOptionalAndNullable()) {
       final String optionalNullFlagAssignment =
           String.format(
-              "this.is%sNull = is%sNull;",
-              memberName.startUpperCase(), memberName.startUpperCase());
+              memberAssignmentFormat, member.getIsNullFlagName(), member.getIsNullFlagName());
       return PList.of(memberAssignment, optionalNullFlagAssignment);
     } else {
       return PList.single(memberAssignment);

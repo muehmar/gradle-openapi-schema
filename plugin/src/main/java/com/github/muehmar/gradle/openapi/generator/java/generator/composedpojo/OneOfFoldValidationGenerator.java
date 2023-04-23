@@ -44,9 +44,6 @@ public class OneOfFoldValidationGenerator {
             (p, s, w) ->
                 w.println(
                     "return fold(%s, () -> null);",
-                    p.getJavaPojos()
-                        .map(jp -> jp.getName().asString().toLowerCase())
-                        .map(name -> String.format("%s -> %s", name, name))
-                        .mkString(", ")));
+                    p.getJavaPojos().map(name -> "dto -> dto").mkString(", ")));
   }
 }

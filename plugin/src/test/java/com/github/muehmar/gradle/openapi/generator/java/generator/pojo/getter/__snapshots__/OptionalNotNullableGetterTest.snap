@@ -12,7 +12,7 @@ public Optional<LocalDate> getBirthdate() {
  */
 @JsonIgnore
 public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return birthdate == null ? defaultValue : birthdate;
+  return this.birthdate == null ? defaultValue : this.birthdate;
 }
 
 /**
@@ -40,7 +40,7 @@ public Optional<LocalDate> getBirthdate() {
  * Birthdate
  */
 public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return birthdate == null ? defaultValue : birthdate;
+  return this.birthdate == null ? defaultValue : this.birthdate;
 }
 
 @Pattern(regexp="DatePattern")
@@ -62,7 +62,7 @@ public Optional<LocalDate> getBirthdate() {
  * Birthdate
  */
 public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return birthdate == null ? defaultValue : birthdate;
+  return this.birthdate == null ? defaultValue : this.birthdate;
 }
 ]
 
@@ -81,7 +81,7 @@ public Optional<LocalDate> getBirthdate() {
  */
 @JsonIgnore
 public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return birthdate == null ? defaultValue : birthdate;
+  return this.birthdate == null ? defaultValue : this.birthdate;
 }
 
 @JsonProperty("birthdate")
@@ -104,6 +104,6 @@ public Optional<LocalDate> getBirthdateOpt() {
  * Birthdate
  */
 public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return birthdate == null ? defaultValue : birthdate;
+  return this.birthdate == null ? defaultValue : this.birthdate;
 }
 ]

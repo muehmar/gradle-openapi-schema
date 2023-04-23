@@ -7,14 +7,14 @@ public class CompositionNames {
   private CompositionNames() {}
 
   public static Name isValidAgainstMethodName(JavaPojo pojo) {
-    return Name.ofString(String.format("isValidAgainst%s", pojo.getName().getName()));
+    return Name.ofString(String.format("isValidAgainst%s", pojo.getClassName()));
   }
 
   public static Name asConversionMethodName(JavaPojo pojo) {
-    return Name.ofString(String.format("as%s", pojo.getName()));
+    return Name.ofString(String.format("as%s", pojo.getClassName()));
   }
 
   public static Name dtoMappingArgumentName(JavaPojo pojo) {
-    return Name.ofString(String.format("on%s", pojo.getName()));
+    return Name.ofString(String.format("on%s", pojo.getClassName()));
   }
 }

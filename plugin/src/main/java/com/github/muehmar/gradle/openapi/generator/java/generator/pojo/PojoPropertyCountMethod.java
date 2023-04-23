@@ -69,7 +69,8 @@ public class PojoPropertyCountMethod {
         .append(
             (pam, s, w) ->
                 w.println(
-                    "(%s != null ? 1 : 0)%s", pam.getMember().getName(), pam.plusOrSemicolon()))
+                    "(%s != null ? 1 : 0)%s",
+                    pam.getMember().getJavaName().asIdentifier(), pam.plusOrSemicolon()))
         .filter(pam -> pam.getMember().isOptionalAndNotNullable());
   }
 
@@ -80,7 +81,7 @@ public class PojoPropertyCountMethod {
                 w.println(
                     "((%s || %s != null) ? 1 : 0)%s",
                     pam.getMember().getIsNullFlagName(),
-                    pam.getMember().getName(),
+                    pam.getMember().getJavaName().asIdentifier(),
                     pam.plusOrSemicolon()))
         .filter(pam -> pam.getMember().isOptionalAndNullable());
   }

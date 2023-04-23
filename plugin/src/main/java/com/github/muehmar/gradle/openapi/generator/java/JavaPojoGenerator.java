@@ -19,15 +19,11 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.Ha
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SafeBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.*;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -61,7 +57,7 @@ public class JavaPojoGenerator implements PojoGenerator {
             objectPojo -> generateObjectPojo(objectPojo, writer, pojoSettings),
             composedPojo -> generateComposedPojo(composedPojo, writer, pojoSettings),
             freeFormPojo -> generateFreeFormPojo(freeFormPojo, writer, pojoSettings))
-        .close(packagePath + "/" + pojo.getName() + ".java");
+        .close(packagePath + "/" + pojo.getClassName() + ".java");
   }
 
   private Writer generateFreeFormPojo(
@@ -224,9 +220,9 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println();
     printJavaDoc(writer, 0, pojo.getDescription());
     if (settings.isJacksonJson() && not(pojo.isArray())) {
-      writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.getName());
+      writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.getClassName());
     }
-    writer.tab(0).println("public class %s {", pojo.getName());
+    writer.tab(0).println("public class %s {", pojo.getClassName());
   }
 
   private void printFields(Writer writer, JavaPojo pojo, PojoSettings settings) {
@@ -254,21 +250,8 @@ public class JavaPojoGenerator implements PojoGenerator {
   private String createNamesCommaSeparated(JavaPojo pojo) {
     final PList<String> formattedPairs =
         pojo.getMembersOrEmpty()
-            .flatMap(
-                member -> {
-                  final Name memberName = member.getName();
-                  if (member.isRequiredAndNullable()) {
-                    final String requiredNullableFlagName =
-                        String.format("is%sPresent", memberName.startUpperCase());
-                    return PList.of(memberName.asString(), requiredNullableFlagName);
-                  } else if (member.isOptionalAndNullable()) {
-                    final String optionalNullableFlagName =
-                        String.format("is%sNull", memberName.startUpperCase());
-                    return PList.of(memberName.asString(), optionalNullableFlagName);
-                  } else {
-                    return PList.single(memberName.asString());
-                  }
-                });
+            .flatMap(JavaPojoMember::createFieldNames)
+            .map(JavaIdentifier::asString);
 
     return String.join(", ", formattedPairs);
   }
@@ -324,13 +307,14 @@ public class JavaPojoGenerator implements PojoGenerator {
                   .tab(1)
                   .println(
                       "public %s %s(%s %s) {",
-                      pojo.getName(),
+                      pojo.getClassName(),
                       member.getWitherName(),
                       member.getJavaType().getFullClassName(),
-                      member.getName());
+                      member.getJavaName().asIdentifier());
               writer
                   .tab(2)
-                  .println("return new %s(%s);", pojo.getName(), createNamesCommaSeparated(pojo));
+                  .println(
+                      "return new %s(%s);", pojo.getClassName(), createNamesCommaSeparated(pojo));
               writer.tab(1).println("}");
             });
   }

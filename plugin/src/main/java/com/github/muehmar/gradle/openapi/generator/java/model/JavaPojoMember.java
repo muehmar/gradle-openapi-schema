@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -14,14 +15,14 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaPojoMember {
-  private final Name name;
+  private final JavaMemberName name;
   private final String description;
   private final JavaType javaType;
   private final Necessity necessity;
   private final Nullability nullability;
 
   private JavaPojoMember(
-      Name name,
+      JavaMemberName name,
       String description,
       JavaType javaType,
       Necessity necessity,
@@ -39,17 +40,26 @@ public class JavaPojoMember {
       JavaType javaType,
       Necessity necessity,
       Nullability nullability) {
-    return new JavaPojoMember(name, description, javaType, necessity, nullability);
+    return new JavaPojoMember(
+        JavaMemberName.wrap(name), description, javaType, necessity, nullability);
   }
 
   public static JavaPojoMember wrap(PojoMember pojoMember, TypeMappings typeMappings) {
     final JavaType javaType = JavaType.wrap(pojoMember.getType(), typeMappings);
     return new JavaPojoMember(
-        pojoMember.getName(),
+        JavaMemberName.wrap(pojoMember.getName()),
         pojoMember.getDescription(),
         javaType,
         pojoMember.getNecessity(),
         pojoMember.getNullability());
+  }
+
+  public JavaMemberName getName() {
+    return name;
+  }
+
+  public JavaName getJavaName() {
+    return name.asJavaName();
   }
 
   public Nullability getNullability() {
@@ -62,10 +72,6 @@ public class JavaPojoMember {
 
   public String getDescription() {
     return description;
-  }
-
-  public Name getName() {
-    return name;
   }
 
   public JavaType getJavaType() {
@@ -104,24 +110,32 @@ public class JavaPojoMember {
     return isOptional() && isNotNullable();
   }
 
-  public Name getSetterName() {
-    return prefixedMethodName("set");
+  public JavaIdentifier getWitherName() {
+    return prefixedMethodName("with");
   }
 
-  public Name getGetterName() {
+  public JavaIdentifier getIsPresentFlagName() {
+    return name.asJavaName().startUpperCase().prefix("is").append("Present").asIdentifier();
+  }
+
+  public JavaIdentifier getIsNullFlagName() {
+    return name.asJavaName().startUpperCase().prefix("is").append("Null").asIdentifier();
+  }
+
+  public JavaIdentifier getGetterName() {
     return prefixedMethodName("get");
   }
 
-  public Name getIsPresentFlagName() {
-    return name.startUpperCase().prefix("is").append("Present");
+  public JavaIdentifier getValidationGetterName(PojoSettings settings) {
+    return JavaName.fromString(getGetterName().asString())
+        .append(settings.getValidationMethods().getGetterSuffix())
+        .asIdentifier();
   }
 
-  public Name getIsNullFlagName() {
-    return name.startUpperCase().prefix("is").append("Null");
-  }
-
-  public Name getGetterNameWithSuffix(PojoSettings settings) {
-    return getGetterName().append(determineSuffix(settings));
+  public JavaIdentifier getGetterNameWithSuffix(PojoSettings settings) {
+    return JavaName.fromString(getGetterName().asString())
+        .append(determineSuffix(settings))
+        .asIdentifier();
   }
 
   private String determineSuffix(PojoSettings settings) {
@@ -137,15 +151,22 @@ public class JavaPojoMember {
     }
   }
 
-  public Name getWitherName() {
-    return prefixedMethodName("with");
+  public JavaIdentifier prefixedMethodName(String prefix) {
+    if (prefix.isEmpty()) {
+      return name.asJavaName().asIdentifier();
+    } else {
+      return name.asJavaName().startUpperCase().prefix(prefix).asIdentifier();
+    }
   }
 
-  public Name prefixedMethodName(String prefix) {
-    if (prefix.isEmpty()) {
-      return name;
+  public PList<JavaIdentifier> createFieldNames() {
+    final JavaIdentifier memberName = name.asIdentifier();
+    if (isRequiredAndNullable()) {
+      return PList.of(memberName, getIsPresentFlagName());
+    } else if (isOptionalAndNullable()) {
+      return PList.of(memberName, getIsNullFlagName());
     } else {
-      return name.startUpperCase().prefix(prefix);
+      return PList.single(memberName);
     }
   }
 }

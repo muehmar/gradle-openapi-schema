@@ -46,8 +46,8 @@ public class OptionalNullableGetter {
         .content(
             f ->
                 String.format(
-                    "return Tristate.ofNullableAndNullFlag(%s, is%sNull);",
-                    f.getName(), f.getName().startUpperCase()))
+                    "return Tristate.ofNullableAndNullFlag(%s, %s);",
+                    f.getJavaName().asIdentifier(), f.getIsNullFlagName()))
         .build()
         .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
   }
@@ -71,8 +71,10 @@ public class OptionalNullableGetter {
         .content(
             f ->
                 String.format(
-                    "return is%sNull ? new JacksonNullContainer<>(%s) : %s;",
-                    f.getName().startUpperCase(), f.getName(), f.getName()))
+                    "return %s ? new JacksonNullContainer<>(%s) : %s;",
+                    f.getIsNullFlagName(),
+                    f.getJavaName().asIdentifier(),
+                    f.getJavaName().asIdentifier()))
         .build()
         .append(RefsGenerator.fieldRefs())
         .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))

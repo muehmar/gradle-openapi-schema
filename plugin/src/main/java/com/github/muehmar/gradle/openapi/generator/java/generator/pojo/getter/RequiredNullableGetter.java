@@ -78,9 +78,9 @@ public class RequiredNullableGetter {
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType("boolean")
-        .methodName(field -> String.format("is%sPresent", field.getName().startUpperCase()))
+        .methodName(field -> field.getIsPresentFlagName().asString())
         .noArguments()
-        .content(field -> String.format("return is%sPresent;", field.getName().startUpperCase()))
+        .content(field -> String.format("return %s;", field.getIsPresentFlagName()))
         .build();
   }
 }

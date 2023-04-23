@@ -143,9 +143,9 @@ class ResourceComposedPojoMapperTest extends ResourceSchemaMapperTest {
     assertEquals(ComposedPojo.CompositionType.ONE_OF, personDto.getCompositionType());
     assertEquals(PList.of(adminDto, userDto), personPojos);
 
-    final Map<String, PojoName> mapping = new HashMap<>();
-    mapping.put("usr", PojoName.ofNameAndSuffix("User", "Dto"));
-    mapping.put("adm", PojoName.ofNameAndSuffix("Admin", "Dto"));
+    final Map<String, Name> mapping = new HashMap<>();
+    mapping.put("usr", Name.ofString("User"));
+    mapping.put("adm", Name.ofString("Admin"));
     final Discriminator expectedDiscriminator =
         Discriminator.fromPropertyNameAndMapping(Name.ofString("personType"), mapping);
     assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());

@@ -5,8 +5,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -54,28 +55,15 @@ public class EqualsGenerator {
   }
 
   private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCastObjectToCompare() {
-    return (p, s, w) -> w.println("final %s other = (%s) obj;", p.getName(), p.getName());
+    return (p, s, w) -> w.println("final %s other = (%s) obj;", p.getClassName(), p.getClassName());
   }
 
   private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCompareFields() {
     return (pojo, s, w) -> {
       final PList<String> fieldNames =
           pojo.getMembersOrEmpty()
-              .flatMap(
-                  member -> {
-                    final Name memberName = member.getName();
-                    if (member.isRequiredAndNullable()) {
-                      final String requiredNullableFlagName =
-                          String.format("is%sPresent", memberName.startUpperCase());
-                      return PList.of(memberName.asString(), requiredNullableFlagName);
-                    } else if (member.isOptionalAndNullable()) {
-                      final String optionalNullableFlagName =
-                          String.format("is%sNull", memberName.startUpperCase());
-                      return PList.of(memberName.asString(), optionalNullableFlagName);
-                    } else {
-                      return PList.single(memberName.asString());
-                    }
-                  });
+              .flatMap(JavaPojoMember::createFieldNames)
+              .map(JavaIdentifier::asString);
       final Writer writerAfterFirstField =
           fieldNames
               .headOption()
