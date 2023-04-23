@@ -7,7 +7,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class EnumConstantName {
-  private static final String ILLEGAL_FIELD_CHARACTERS_PATTERN = "[^A-Za-z0-9$_]";
   private final String originalConstant;
 
   private EnumConstantName(String originalConstant) {
@@ -22,8 +21,8 @@ public class EnumConstantName {
     return originalConstant;
   }
 
-  public Name asJavaConstant() {
-    return toAsciiJavaName(toUpperCaseSnakeCase(originalConstant));
+  public JavaIdentifier asJavaConstant() {
+    return JavaIdentifier.fromName(toUpperCaseSnakeCase(originalConstant));
   }
 
   private static Name toUpperCaseSnakeCase(String name) {
@@ -38,13 +37,5 @@ public class EnumConstantName {
             .replaceFirst("^_", "")
             .replaceAll("_+", "_");
     return Name.ofString(converted);
-  }
-
-  private static Name toAsciiJavaName(Name fieldName) {
-    return fieldName.map(
-        str ->
-            str.replaceAll(ILLEGAL_FIELD_CHARACTERS_PATTERN + "+", "_")
-                .replaceAll("_+", "_")
-                .replaceFirst("^([0-9])", "_$1"));
   }
 }
