@@ -122,11 +122,3 @@ components:
         - UNKNOWN
       description: Gender
 
-    SpecialCharacterEnum:
-      type: string
-      enum:
-        - EVENT:SUB_EVENT
-        - EVENT:*WILDCARD
-        - 123456
-
-

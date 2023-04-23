@@ -203,6 +203,16 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
+        identifiers {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-identifiers.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.identifiers.model"
+            jsonSupport = "jackson"
+            suffix = ""
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
     }
 }
 

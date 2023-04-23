@@ -1,0 +1,55 @@
+
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User1:
+      required:
+        - new
+      properties:
+        new:
+          type: string
+          minLength: 3
+        interface:
+          type: string
+    User2:
+      required:
+        - public
+      properties:
+        public:
+          type: string
+          nullable: true
+          minLength: 6
+        null:
+          type: string
+          nullable: true
+
+    User1OrUser2:
+      anyOf:
+        - $ref: "#/components/schemas/User1"
+        - $ref: "#/components/schemas/User2"
+
+    new:
+      properties:
+        bar:
+          type: string
+
+    null:
+      properties:
+        bar:
+          type: string
+
+    Dashed-Object:
+      properties:
+        dashed-property:
+          type: string
+
+    Special-Character-Enum:
+      type: string
+      enum:
+        - EVENT:SUB_EVENT
+        - EVENT:*WILDCARD
+        - 123456
