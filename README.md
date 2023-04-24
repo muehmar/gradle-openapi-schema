@@ -710,6 +710,9 @@ afterEvaluate {
 
 * Next
     * Add JavaDoc explanation for deprecated validation methods (issue `#57`)
+* 1.0.1
+    * Fix issue with property name 'other' (issue `#71`)
+    * Fix java keywords as property names and special characters for properties and classes (issue `#72`)
 * 1.0.0 - Add support for `anyOf` and `oneOf` (issues `#6` and `#7`)
 * 0.22.1 - Fix DecimalMin and DecimalMax imports (issue `#54`)
 * 0.22.0
