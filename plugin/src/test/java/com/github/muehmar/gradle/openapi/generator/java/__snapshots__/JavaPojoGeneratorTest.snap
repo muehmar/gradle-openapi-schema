@@ -65,7 +65,7 @@ public class PosologyDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final PosologyDto other = (PosologyDto) obj;
-    return Objects.equals(value, other.value);
+    return Objects.equals(this.value, other.value);
   }
 
   @Override
@@ -343,15 +343,15 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(id, other.id)
-        && Objects.equals(name, other.name)
-        && Objects.equals(lastName, other.lastName)
-        && Objects.equals(nickName, other.nickName)
-        && Objects.equals(email, other.email)
-        && Objects.equals(height, other.height)
-        && Objects.equals(level, other.level)
-        && Objects.equals(uppercase, other.uppercase)
-        && Objects.equals(anotherPojo, other.anotherPojo);
+    return Objects.equals(this.id, other.id)
+        && Objects.equals(this.name, other.name)
+        && Objects.equals(this.lastName, other.lastName)
+        && Objects.equals(this.nickName, other.nickName)
+        && Objects.equals(this.email, other.email)
+        && Objects.equals(this.height, other.height)
+        && Objects.equals(this.level, other.level)
+        && Objects.equals(this.uppercase, other.uppercase)
+        && Objects.equals(this.anotherPojo, other.anotherPojo);
   }
 
   @Override
@@ -762,15 +762,15 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(id, other.id)
-        && Objects.equals(name, other.name)
-        && Objects.equals(lastName, other.lastName)
-        && Objects.equals(nickName, other.nickName)
-        && Objects.equals(email, other.email)
-        && Objects.equals(height, other.height)
-        && Objects.equals(level, other.level)
-        && Objects.equals(uppercase, other.uppercase)
-        && Objects.equals(anotherPojo, other.anotherPojo);
+    return Objects.equals(this.id, other.id)
+        && Objects.equals(this.name, other.name)
+        && Objects.equals(this.lastName, other.lastName)
+        && Objects.equals(this.nickName, other.nickName)
+        && Objects.equals(this.email, other.email)
+        && Objects.equals(this.height, other.height)
+        && Objects.equals(this.level, other.level)
+        && Objects.equals(this.uppercase, other.uppercase)
+        && Objects.equals(this.anotherPojo, other.anotherPojo);
   }
 
   @Override
@@ -1060,9 +1060,9 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(id, other.id)
-        && Objects.equals(name, other.name)
-        && Objects.equals(language, other.language);
+    return Objects.equals(this.id, other.id)
+        && Objects.equals(this.name, other.name)
+        && Objects.equals(this.language, other.language);
   }
 
   @Override
@@ -1484,9 +1484,9 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(id, other.id)
-        && Objects.equals(name, other.name)
-        && Objects.equals(language, other.language);
+    return Objects.equals(this.id, other.id)
+        && Objects.equals(this.name, other.name)
+        && Objects.equals(this.language, other.language);
   }
 
   @Override
@@ -1698,9 +1698,9 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(id, other.id)
-        && Objects.equals(name, other.name)
-        && Objects.equals(language, other.language);
+    return Objects.equals(this.id, other.id)
+        && Objects.equals(this.name, other.name)
+        && Objects.equals(this.language, other.language);
   }
 
   @Override
@@ -1955,12 +1955,12 @@ public class NecessityAndNullabilityDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final NecessityAndNullabilityDto other = (NecessityAndNullabilityDto) obj;
-    return Objects.equals(requiredStringVal, other.requiredStringVal)
-        && Objects.equals(requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(optionalStringVal, other.optionalStringVal)
-        && Objects.equals(optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+    return Objects.equals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.equals(this.requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.equals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.equals(this.optionalStringVal, other.optionalStringVal)
+        && Objects.equals(this.optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.equals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -2337,7 +2337,7 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(language, other.language);
+    return Objects.equals(this.language, other.language);
   }
 
   @Override
@@ -2519,7 +2519,7 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(language, other.language);
+    return Objects.equals(this.language, other.language);
   }
 
   @Override

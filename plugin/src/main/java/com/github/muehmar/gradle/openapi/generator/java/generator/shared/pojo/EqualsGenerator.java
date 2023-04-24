@@ -93,7 +93,7 @@ public class EqualsGenerator {
 
   private static Generator<String, PojoSettings> equalsCompareField() {
     return (fieldName, s, w) ->
-        w.print("Objects.equals(%s, other.%s)", fieldName, fieldName)
+        w.print("Objects.equals(this.%s, other.%s)", fieldName, fieldName)
             .ref(JavaRefs.JAVA_UTIL_OBJECTS);
   }
 }

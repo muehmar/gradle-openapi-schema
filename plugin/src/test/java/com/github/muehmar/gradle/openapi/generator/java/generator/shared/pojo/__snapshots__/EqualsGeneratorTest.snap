@@ -1,0 +1,25 @@
+allNecessityAndNullabilityVariants=[
+@Override
+public boolean equals(Object obj) {
+  if (this == obj) return true;
+  if (obj == null || this.getClass() != obj.getClass()) return false;
+  final NecessityAndNullabilityDto other = (NecessityAndNullabilityDto) obj;
+  return Objects.equals(this.requiredStringVal, other.requiredStringVal)
+      && Objects.equals(this.requiredNullableStringVal, other.requiredNullableStringVal)
+      && Objects.equals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+      && Objects.equals(this.optionalStringVal, other.optionalStringVal)
+      && Objects.equals(this.optionalNullableStringVal, other.optionalNullableStringVal)
+      && Objects.equals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+}
+]
+
+
+arrayPojo=[
+@Override
+public boolean equals(Object obj) {
+  if (this == obj) return true;
+  if (obj == null || this.getClass() != obj.getClass()) return false;
+  final PosologyDto other = (PosologyDto) obj;
+  return Objects.equals(this.value, other.value);
+}
+]
