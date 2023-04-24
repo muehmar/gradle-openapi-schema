@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "0.22.0"
+    id "com.github.muehmar.openapischema" version "1.0.1"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -20,8 +20,8 @@ dependencies {
 }
 
 openApiGenerator {
-    rawGetter {
-        suffix = "Raw"
+    validationMethods {
+        getterSuffix = "Raw"
     }
 
     schemas {
