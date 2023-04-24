@@ -10,6 +10,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -81,10 +82,11 @@ public class JavaPojos {
 
   public static JavaComposedPojo composedPojoWithDiscriminatorMapping(
       ComposedPojo.CompositionType type) {
-    final HashMap<String, PojoName> mapping = new HashMap<>();
-    mapping.put("UserValue", PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"));
+    final HashMap<String, Name> mapping = new HashMap<>();
+    mapping.put("UserValue", Name.ofString("User"));
     mapping.put(
-        "NNVariantsValue", allNecessityAndNullabilityVariantsPojo(Constraints.empty()).getName());
+        "NNVariantsValue",
+        allNecessityAndNullabilityVariantsPojo(Constraints.empty()).getName().getName());
     final Discriminator discriminator =
         Discriminator.fromPropertyNameAndMapping(
             Name.ofString(requiredString().getName().asString()), mapping);
@@ -126,7 +128,7 @@ public class JavaPojos {
   public static JavaComposedPojo composedPojo(
       PList<JavaPojo> pojos, ComposedPojo.CompositionType compositionType) {
     return new JavaComposedPojo(
-        PojoName.ofNameAndSuffix("ComposedPojo", "Dto"),
+        JavaPojoName.wrap(PojoName.ofNameAndSuffix("ComposedPojo", "Dto")),
         "",
         pojos,
         compositionType,

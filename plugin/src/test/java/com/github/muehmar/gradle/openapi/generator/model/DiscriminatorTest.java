@@ -8,21 +8,19 @@ import org.junit.jupiter.api.Test;
 
 class DiscriminatorTest {
 
-  private static final PojoName USER_POJO_NAME =
-      PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto");
-  private static final PojoName CLIENT_POJO_NAME =
-      PojoName.ofNameAndSuffix(Name.ofString("Client"), "Dto");
+  private static final Name USER_SCHEMA_NAME = Name.ofString("User");
+  private static final Name CLIENT_SCHEMA_NAME = Name.ofString("Client");
   private static final Discriminator DISCRIMINATOR =
       Discriminator.fromPropertyName(Name.ofString("prop"))
-          .withMapping(Optional.of(Collections.singletonMap("-user-", USER_POJO_NAME)));
+          .withMapping(Optional.of(Collections.singletonMap("-user-", USER_SCHEMA_NAME)));
 
   @Test
   void getValueForPojoName_when_mappingPresent_then_returnMappingKey() {
-    assertEquals("-user-", DISCRIMINATOR.getValueForPojoName(USER_POJO_NAME));
+    assertEquals("-user-", DISCRIMINATOR.getValueForSchemaName(USER_SCHEMA_NAME));
   }
 
   @Test
   void getValueForPojoName_when_noMappingPresent_then_returnPojoName() {
-    assertEquals("Client", DISCRIMINATOR.getValueForPojoName(CLIENT_POJO_NAME));
+    assertEquals("Client", DISCRIMINATOR.getValueForSchemaName(CLIENT_SCHEMA_NAME));
   }
 }

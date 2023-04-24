@@ -211,7 +211,7 @@ public class UserDto {
    * Level of this user
    */
   public Long getLevelOr(Long defaultValue) {
-    return level == null ? defaultValue : level;
+    return this.level == null ? defaultValue : this.level;
   }
 
   @Min(value = 5)
@@ -230,7 +230,7 @@ public class UserDto {
    * Something uppercase
    */
   public String getUppercaseOr(String defaultValue) {
-    return uppercase == null ? defaultValue : uppercase;
+    return this.uppercase == null ? defaultValue : this.uppercase;
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
@@ -249,7 +249,7 @@ public class UserDto {
    * Another Pojo
    */
   public AnotherPojo getAnotherPojoOr(AnotherPojo defaultValue) {
-    return anotherPojo == null ? defaultValue : anotherPojo;
+    return this.anotherPojo == null ? defaultValue : this.anotherPojo;
   }
 
   @Valid
@@ -630,7 +630,7 @@ public class UserDto {
    * Level of this user
    */
   public Long getLevelOr(Long defaultValue) {
-    return level == null ? defaultValue : level;
+    return this.level == null ? defaultValue : this.level;
   }
 
   @Min(value = 5)
@@ -649,7 +649,7 @@ public class UserDto {
    * Something uppercase
    */
   public String getUppercaseOr(String defaultValue) {
-    return uppercase == null ? defaultValue : uppercase;
+    return this.uppercase == null ? defaultValue : this.uppercase;
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
@@ -668,7 +668,7 @@ public class UserDto {
    * Another Pojo
    */
   public AnotherPojo getAnotherPojoOr(AnotherPojo defaultValue) {
-    return anotherPojo == null ? defaultValue : anotherPojo;
+    return this.anotherPojo == null ? defaultValue : this.anotherPojo;
   }
 
   @Valid
@@ -1021,7 +1021,7 @@ public class UserDto {
    * Preferred language of this user
    */
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return language == null ? defaultValue : language;
+    return this.language == null ? defaultValue : this.language;
   }
 
   /**
@@ -1438,7 +1438,7 @@ public class UserDto {
    */
   @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return language == null ? defaultValue : language;
+    return this.language == null ? defaultValue : this.language;
   }
 
   @JsonProperty("language")
@@ -1659,7 +1659,7 @@ public class UserDto {
    * Preferred language of this user
    */
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return language == null ? defaultValue : language;
+    return this.language == null ? defaultValue : this.language;
   }
 
   /**
@@ -1854,7 +1854,7 @@ public class NecessityAndNullabilityDto {
    */
   @JsonIgnore
   public String getRequiredNullableStringValOr(String defaultValue) {
-    return requiredNullableStringVal == null ? defaultValue : requiredNullableStringVal;
+    return this.requiredNullableStringVal == null ? defaultValue : this.requiredNullableStringVal;
   }
 
   @Pattern(regexp="Hello")
@@ -1881,7 +1881,7 @@ public class NecessityAndNullabilityDto {
    */
   @JsonIgnore
   public String getOptionalStringValOr(String defaultValue) {
-    return optionalStringVal == null ? defaultValue : optionalStringVal;
+    return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
   }
 
   @JsonProperty("optionalStringVal")
@@ -2305,7 +2305,7 @@ public class UserDto {
    */
   @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return language == null ? defaultValue : language;
+    return this.language == null ? defaultValue : this.language;
   }
 
   @JsonProperty("language")
@@ -2490,7 +2490,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return language == null ? defaultValue : language;
+    return this.language == null ? defaultValue : this.language;
   }
 
   private LanguageEnum getLanguageRaw() {

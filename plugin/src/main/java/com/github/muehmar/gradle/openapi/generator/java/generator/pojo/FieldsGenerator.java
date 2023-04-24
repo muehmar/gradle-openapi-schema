@@ -21,13 +21,14 @@ public class FieldsGenerator {
     final Generator<JavaPojoMember, PojoSettings> fieldDeclaration =
         (field, settings, writer) ->
             writer.println(
-                "private final %s %s;", field.getJavaType().getFullClassName(), field.getName());
+                "private final %s %s;",
+                field.getJavaType().getFullClassName(), field.getJavaName().asIdentifier());
     final Generator<JavaPojoMember, PojoSettings> requiredNullableFlag =
         (field, settings, writer) ->
-            writer.println("private final boolean is%sPresent;", field.getName().startUpperCase());
+            writer.println("private final boolean %s;", field.getIsPresentFlagName());
     final Generator<JavaPojoMember, PojoSettings> optionalNullableFlag =
         (field, settings, writer) ->
-            writer.println("private final boolean is%sNull;", field.getName().startUpperCase());
+            writer.println("private final boolean %s;", field.getIsNullFlagName());
     return fieldDeclaration
         .appendConditionally(JavaPojoMember::isRequiredAndNullable, requiredNullableFlag)
         .appendConditionally(JavaPojoMember::isOptionalAndNullable, optionalNullableFlag)

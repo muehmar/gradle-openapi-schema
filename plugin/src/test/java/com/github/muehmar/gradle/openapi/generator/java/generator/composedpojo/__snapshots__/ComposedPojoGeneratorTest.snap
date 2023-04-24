@@ -162,22 +162,22 @@ public class ComposedAnyofDto {
     if (getValidCount() == 0) {
       return null;
     }
-    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto);
+    return fold(dto -> dto, dto -> dto);
   }
 
   private int getValidCount() {
     return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+      (isValidAgainstUserDto() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
-  private boolean isValidAgainstUser() {
+  private boolean isValidAgainstUserDto() {
     return
       username != null &&
       birthdate != null;
   }
 
-  private boolean isValidAgainstNecessityAndNullability() {
+  private boolean isValidAgainstNecessityAndNullabilityDto() {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
@@ -207,10 +207,10 @@ public class ComposedAnyofDto {
    */
   public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
     final List<T> result = new ArrayList<>();
-    if (isValidAgainstUser()) {
+    if (isValidAgainstUserDto()) {
       result.add(onUserDto.apply(asUserDto()));
     }
-    if (isValidAgainstNecessityAndNullability()) {
+    if (isValidAgainstNecessityAndNullabilityDto()) {
       result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
     }
     return result;
@@ -382,7 +382,7 @@ public class ComposedAnyofDto {
 ]
 
 
-ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->User, NNVariantsValue->NecessityAndNullability}))]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -510,22 +510,22 @@ public class ComposedOneofDto {
     if (getValidCount() != 1) {
       return null;
     }
-    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+    return fold(dto -> dto, dto -> dto, () -> null);
   }
 
   private int getValidCount() {
     return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+      (isValidAgainstUserDto() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
-  private boolean isValidAgainstUser() {
+  private boolean isValidAgainstUserDto() {
     return
       username != null &&
       birthdate != null;
   }
 
-  private boolean isValidAgainstNecessityAndNullability() {
+  private boolean isValidAgainstNecessityAndNullabilityDto() {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
@@ -538,8 +538,8 @@ public class ComposedOneofDto {
       return false;
     }
     switch(requiredStringVal) {
-      case "UserValue": return isValidAgainstUser();
-      case "NNVariantsValue": return isValidAgainstNecessityAndNullability();
+      case "UserValue": return isValidAgainstUserDto();
+      case "NNVariantsValue": return isValidAgainstNecessityAndNullabilityDto();
     }
     return false;
   }
@@ -570,10 +570,10 @@ public class ComposedOneofDto {
    * not valid against exactly one of the defined schemas and its value is returned.
    */
   public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-    if ("UserValue".equals(requiredStringVal) && isValidAgainstUser()) {
+    if ("UserValue".equals(requiredStringVal) && isValidAgainstUserDto()) {
       return onUserDto.apply(asUserDto());
     }
-    else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
+    else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullabilityDto()) {
       return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
     }
     else {
@@ -897,22 +897,22 @@ public class ComposedOneofDto {
     if (getValidCount() != 1) {
       return null;
     }
-    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+    return fold(dto -> dto, dto -> dto, () -> null);
   }
 
   private int getValidCount() {
     return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+      (isValidAgainstUserDto() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
-  private boolean isValidAgainstUser() {
+  private boolean isValidAgainstUserDto() {
     return
       username != null &&
       birthdate != null;
   }
 
-  private boolean isValidAgainstNecessityAndNullability() {
+  private boolean isValidAgainstNecessityAndNullabilityDto() {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
@@ -925,8 +925,8 @@ public class ComposedOneofDto {
       return false;
     }
     switch(requiredStringVal) {
-      case "User": return isValidAgainstUser();
-      case "NecessityAndNullability": return isValidAgainstNecessityAndNullability();
+      case "User": return isValidAgainstUserDto();
+      case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
     }
     return false;
   }
@@ -957,10 +957,10 @@ public class ComposedOneofDto {
    * not valid against exactly one of the defined schemas and its value is returned.
    */
   public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-    if ("User".equals(requiredStringVal) && isValidAgainstUser()) {
+    if ("User".equals(requiredStringVal) && isValidAgainstUserDto()) {
       return onUserDto.apply(asUserDto());
     }
-    else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
+    else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullabilityDto()) {
       return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
     }
     else {
@@ -1283,22 +1283,22 @@ public class ComposedOneofDto {
     if (getValidCount() != 1) {
       return null;
     }
-    return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+    return fold(dto -> dto, dto -> dto, () -> null);
   }
 
   private int getValidCount() {
     return
-      (isValidAgainstUser() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullability() ? 1 : 0);
+      (isValidAgainstUserDto() ? 1 : 0) +
+      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
-  private boolean isValidAgainstUser() {
+  private boolean isValidAgainstUserDto() {
     return
       username != null &&
       birthdate != null;
   }
 
-  private boolean isValidAgainstNecessityAndNullability() {
+  private boolean isValidAgainstNecessityAndNullabilityDto() {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent;
@@ -1330,10 +1330,10 @@ public class ComposedOneofDto {
    * not valid against exactly one of the defined schemas and its value is returned.
    */
   public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-    if (isValidAgainstUser()) {
+    if (isValidAgainstUserDto()) {
       return onUserDto.apply(asUserDto());
     }
-    else if (isValidAgainstNecessityAndNullability()) {
+    else if (isValidAgainstNecessityAndNullabilityDto()) {
       return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
     }
     else {

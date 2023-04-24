@@ -20,7 +20,8 @@ public class CommonGetter {
         .returnType(f -> String.format("Optional<%s>", f.getJavaType().getFullClassName()))
         .methodName(getterName())
         .noArguments()
-        .content(f -> String.format("return Optional.ofNullable(%s);", f.getName()))
+        .content(
+            f -> String.format("return Optional.ofNullable(%s);", f.getJavaName().asIdentifier()))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
@@ -33,7 +34,10 @@ public class CommonGetter {
         .methodName(f -> String.format("%sOr", f.getGetterName()))
         .singleArgument(f -> String.format("%s defaultValue", f.getJavaType().getFullClassName()))
         .content(
-            f -> String.format("return %s == null ? defaultValue : %s;", f.getName(), f.getName()))
+            f ->
+                String.format(
+                    "return this.%s == null ? defaultValue : this.%s;",
+                    f.getJavaName().asIdentifier(), f.getJavaName().asIdentifier()))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
@@ -47,11 +51,9 @@ public class CommonGetter {
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType(f -> f.getJavaType().getFullClassName().asString())
-        .methodName(
-            (f, s) ->
-                f.getGetterName().append(s.getValidationMethods().getGetterSuffix()).asString())
+        .methodName((f, s) -> f.getValidationGetterName(s).asString())
         .noArguments()
-        .content(f -> String.format("return %s;", f.getName()))
+        .content(f -> String.format("return %s;", f.getJavaName().asIdentifier()))
         .build();
   }
 }

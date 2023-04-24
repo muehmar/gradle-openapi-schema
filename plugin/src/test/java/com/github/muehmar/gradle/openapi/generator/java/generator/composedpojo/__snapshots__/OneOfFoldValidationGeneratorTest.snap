@@ -5,7 +5,7 @@ private Object getOneOf() {
   if (getValidCount() != 1) {
     return null;
   }
-  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+  return fold(dto -> dto, dto -> dto, () -> null);
 }
 ]
 
@@ -22,6 +22,6 @@ protected Object getOneOf() {
   if (getValidCount() != 1) {
     return null;
   }
-  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+  return fold(dto -> dto, dto -> dto, () -> null);
 }
 ]

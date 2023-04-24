@@ -9,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -25,7 +24,9 @@ public interface JavaPojo {
         JavaFreeFormPojo::wrap);
   }
 
-  PojoName getName();
+  JavaName getSchemaName();
+
+  JavaIdentifier getClassName();
 
   String getDescription();
 

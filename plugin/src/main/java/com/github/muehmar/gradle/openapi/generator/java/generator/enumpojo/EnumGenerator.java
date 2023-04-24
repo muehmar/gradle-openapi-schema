@@ -35,7 +35,7 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
                 JavaDocGenerator.<PojoSettings>javaDoc().contraMap(JavaEnumPojo::getDescription))
             .noAnnotations()
             .modifiers(PUBLIC)
-            .className(enumPojo -> enumPojo.getName().asString())
+            .className(enumPojo -> enumPojo.getClassName().asString())
             .noSuperClass()
             .noInterfaces()
             .content(content())
@@ -105,7 +105,7 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
   private Generator<JavaEnumPojo, PojoSettings> printConstructor() {
     return ConstructorGenBuilder.<JavaEnumPojo, PojoSettings>create()
         .modifiers()
-        .className(javaEnumPojo -> javaEnumPojo.getName().asString())
+        .className(javaEnumPojo -> javaEnumPojo.getClassName().asString())
         .arguments(ignore -> PList.of("String value", "String description"))
         .content(w -> w.println("this.value = value;").println("this.description = description;"))
         .build();
@@ -153,7 +153,7 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
     return MethodGenBuilder.<JavaEnumPojo, PojoSettings>create()
         .modifiers(PUBLIC, STATIC)
         .noGenericTypes()
-        .returnType(javaEnumPojo -> javaEnumPojo.getName().asString())
+        .returnType(javaEnumPojo -> javaEnumPojo.getClassName().asString())
         .methodName("fromValue")
         .singleArgument(javaEnumPojo -> "String value")
         .content(this::fromValueContent)
@@ -161,7 +161,7 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
   }
 
   private Writer fromValueContent(JavaEnumPojo javaEnumPojo, PojoSettings settings, Writer writer) {
-    final String enumName = javaEnumPojo.getName().asString();
+    final String enumName = javaEnumPojo.getClassName().asString();
     return writer
         .println("for (%s e: %s.values()) {", enumName, enumName)
         .tab(1)

@@ -99,8 +99,7 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
                       PojoName.ofNameAndSuffix(openApiPojoName, pojoName.getSuffix()), schema);
                 });
 
-    final Optional<Discriminator> discriminator =
-        extractDiscriminator(composedSchema, pojoName.getSuffix());
+    final Optional<Discriminator> discriminator = extractDiscriminator(composedSchema);
 
     final UnmappedItems unmappedItems =
         UnmappedItemsBuilder.create()
@@ -122,31 +121,27 @@ public class ComposedPojoSchemaMapper implements SinglePojoSchemaMapper {
     return MapContext.fromUnmappedItemsAndResult(unmappedItems, unresolvedMapResult);
   }
 
-  private Optional<Discriminator> extractDiscriminator(
-      ComposedSchema composedSchema, String suffix) {
+  private Optional<Discriminator> extractDiscriminator(ComposedSchema composedSchema) {
     return Optional.ofNullable(composedSchema.getDiscriminator())
         .filter(discriminator -> discriminator.getPropertyName() != null)
-        .map(discriminator -> fromOpenApiDiscriminator(discriminator, suffix));
+        .map(this::fromOpenApiDiscriminator);
   }
 
   private Discriminator fromOpenApiDiscriminator(
-      io.swagger.v3.oas.models.media.Discriminator oasDiscriminator, String suffix) {
+      io.swagger.v3.oas.models.media.Discriminator oasDiscriminator) {
     final Name propertyName = Name.ofString(oasDiscriminator.getPropertyName());
-    final Optional<Map<String, PojoName>> pojoNameMapping =
+    final Optional<Map<String, Name>> pojoNameMapping =
         Optional.ofNullable(oasDiscriminator.getMapping())
-            .map(mapping -> fromOpenApiDiscriminatorMapping(suffix, mapping));
+            .map(this::fromOpenApiDiscriminatorMapping);
     return Discriminator.fromPropertyName(propertyName).withMapping(pojoNameMapping);
   }
 
-  private Map<String, PojoName> fromOpenApiDiscriminatorMapping(
-      String suffix, Map<String, String> mapping) {
+  private Map<String, Name> fromOpenApiDiscriminatorMapping(Map<String, String> mapping) {
     return mapping.entrySet().stream()
-        .collect(
-            Collectors.toMap(Map.Entry::getKey, e -> mapMappingReference(e.getValue(), suffix)));
+        .collect(Collectors.toMap(Map.Entry::getKey, e -> mapMappingReference(e.getValue())));
   }
 
-  private PojoName mapMappingReference(String reference, String suffix) {
-    final Name refName = SchemaReference.fromRefString(reference).getSchemaName();
-    return PojoName.ofNameAndSuffix(refName, suffix);
+  private Name mapMappingReference(String reference) {
+    return SchemaReference.fromRefString(reference).getSchemaName();
   }
 }

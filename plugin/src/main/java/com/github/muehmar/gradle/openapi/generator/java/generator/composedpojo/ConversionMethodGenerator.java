@@ -3,9 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
@@ -19,7 +19,7 @@ public class ConversionMethodGenerator {
     return MethodGenBuilder.<JavaPojo, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
-        .returnType(pojo -> pojo.getName().asString())
+        .returnType(pojo -> pojo.getClassName().asString())
         .methodName(pojo -> CompositionNames.asConversionMethodName(pojo).asString())
         .noArguments()
         .content(asDtoMethodContent())
@@ -30,7 +30,7 @@ public class ConversionMethodGenerator {
     final Generator<ConstructorArgument, PojoSettings> memberGen =
         (a, s, w) -> w.println("%s%s", a.getArgumentName(), a.getCommaOrNothing());
     return Generator.<JavaPojo, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("return new %s(", p.getName()))
+        .append((p, s, w) -> w.println("return new %s(", p.getClassName()))
         .appendList(
             memberGen.indent(1),
             pojo ->
@@ -55,14 +55,15 @@ public class ConversionMethodGenerator {
 
     private PList<ConstructorArgument> asConstructorArguments() {
       if (member.isRequiredAndNotNullable() || member.isOptionalAndNotNullable()) {
-        return PList.single(new ConstructorArgument(member.getName(), commaOrNothing()));
+        return PList.single(
+            new ConstructorArgument(member.getJavaName().asIdentifier(), commaOrNothing()));
       } else if (member.isRequiredAndNullable()) {
         return PList.of(
-            new ConstructorArgument(member.getName(), ","),
+            new ConstructorArgument(member.getJavaName().asIdentifier(), ","),
             new ConstructorArgument(member.getIsPresentFlagName(), commaOrNothing()));
       } else {
         return PList.of(
-            new ConstructorArgument(member.getName(), ","),
+            new ConstructorArgument(member.getJavaName().asIdentifier(), ","),
             new ConstructorArgument(member.getIsNullFlagName(), commaOrNothing()));
       }
     }
@@ -70,7 +71,7 @@ public class ConversionMethodGenerator {
 
   @Value
   private static class ConstructorArgument {
-    Name argumentName;
+    JavaIdentifier argumentName;
     String commaOrNothing;
   }
 }

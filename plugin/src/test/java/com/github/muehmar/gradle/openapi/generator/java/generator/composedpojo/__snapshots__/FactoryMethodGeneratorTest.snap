@@ -70,7 +70,7 @@ public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto d
 ]
 
 
-ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->UserDto, NNVariantsValue->NecessityAndNullabilityDto}))]=[
+ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->User, NNVariantsValue->NecessityAndNullability}))]=[
 /**
  * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
  */

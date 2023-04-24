@@ -5,7 +5,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
@@ -13,7 +12,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Package
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGen;
@@ -24,9 +22,7 @@ import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
-import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
   private final Generator<JavaObjectPojo, PojoSettings> delegate;
@@ -92,7 +88,8 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
   private <B> Generator<JavaPojoMember, B> normalMember() {
     return ((member, settings, writer) ->
         writer.println(
-            "private %s %s;", member.getJavaType().getFullClassName(), member.getName()));
+            "private %s %s;",
+            member.getJavaType().getFullClassName(), member.getJavaName().asIdentifier()));
   }
 
   private <B> Generator<JavaPojoMember, B> memberIsPresentFlag() {
@@ -134,7 +131,9 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             .singleArgument(
                 member ->
                     String.format(
-                        "%s %s", member.getJavaType().getFullClassName(), member.getName()))
+                        "%s %s",
+                        member.getJavaType().getFullClassName(),
+                        member.getJavaName().asIdentifier()))
             .content(setterMethodContent())
             .build();
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
@@ -147,7 +146,9 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(
             (member, settings, writer) ->
-                writer.println("this.%s = %s;", member.getName(), member.getName()))
+                writer.println(
+                    "this.%s = %s;",
+                    member.getJavaName().asIdentifier(), member.getJavaName().asIdentifier()))
         .appendConditionally(
             JavaPojoMember::isRequiredAndNullable,
             (member, settings, writer) ->
@@ -156,7 +157,8 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             JavaPojoMember::isOptionalAndNullable,
             (member, settings, writer) ->
                 writer.println(
-                    "this.%s = %s == null;", member.getIsNullFlagName(), member.getName()))
+                    "this.%s = %s == null;",
+                    member.getIsNullFlagName(), member.getJavaName().asIdentifier()))
         .append(w -> w.println("return this;"));
   }
 
@@ -176,11 +178,15 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 member ->
                     String.format(
                         "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getName()))
+                        member.getJavaType().getFullClassName(),
+                        member.getJavaName().asIdentifier()))
             .content(
                 (member, settings, writer) ->
                     writer
-                        .println("this.%s = %s.orElse(null);", member.getName(), member.getName())
+                        .println(
+                            "this.%s = %s.orElse(null);",
+                            member.getJavaName().asIdentifier(),
+                            member.getJavaName().asIdentifier())
                         .println("this.%s = true;", member.getIsPresentFlagName())
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
@@ -206,11 +212,15 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 member ->
                     String.format(
                         "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getName()))
+                        member.getJavaType().getFullClassName(),
+                        member.getJavaName().asIdentifier()))
             .content(
                 (member, settings, writer) ->
                     writer
-                        .println("this.%s = %s.orElse(null);", member.getName(), member.getName())
+                        .println(
+                            "this.%s = %s.orElse(null);",
+                            member.getJavaName().asIdentifier(),
+                            member.getJavaName().asIdentifier())
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
@@ -235,16 +245,18 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 member ->
                     String.format(
                         "Tristate<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getName()))
+                        member.getJavaType().getFullClassName(),
+                        member.getJavaName().asIdentifier()))
             .content(
                 (member, settings, writer) ->
                     writer
                         .println(
                             "this.%s = %s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);",
-                            member.getName(), member.getName())
+                            member.getJavaName().asIdentifier(),
+                            member.getJavaName().asIdentifier())
                         .println(
                             "this.%s = %s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);",
-                            member.getIsNullFlagName(), member.getName())
+                            member.getIsNullFlagName(), member.getJavaName().asIdentifier())
                         .println("return this;")
                         .ref(OpenApiUtilRefs.TRISTATE))
             .build();
@@ -260,7 +272,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
     return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnTypeName(JavaObjectPojo::getName)
+        .returnTypeName(JavaObjectPojo::getClassName)
         .methodName("build")
         .noArguments()
         .content(buildMethodContent())
@@ -271,17 +283,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
     return (pojo, settings, writer) ->
         writer.print(
             "return new %s(%s);",
-            pojo.getName(), pojo.getMembers().flatMap(this::memberNamesFromObject).mkString(", "));
-  }
-
-  private PList<String> memberNamesFromObject(JavaPojoMember member) {
-    return PList.of(
-            Optional.of(member.getName()),
-            Optional.of(member.getIsPresentFlagName())
-                .filter(ignore -> member.isRequiredAndNullable()),
-            Optional.of(member.getIsNullFlagName())
-                .filter(ignore -> member.isOptionalAndNullable()))
-        .flatMapOptional(Function.identity())
-        .map(Name::asString);
+            pojo.getClassName(),
+            pojo.getMembers().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
   }
 }

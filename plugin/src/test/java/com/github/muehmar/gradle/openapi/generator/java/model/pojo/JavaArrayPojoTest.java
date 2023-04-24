@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -27,7 +28,7 @@ class JavaArrayPojoTest {
 
     final JavaPojoMember arrayPojoMember = javaArrayPojo.getArrayPojoMember();
 
-    assertEquals(Name.ofString("value"), arrayPojoMember.getName());
+    assertEquals(JavaMemberName.wrap(Name.ofString("value")), arrayPojoMember.getName());
     assertEquals(arrayPojo.getDescription(), arrayPojoMember.getDescription());
     assertEquals(arrayPojo.getConstraints(), arrayPojoMember.getJavaType().getConstraints());
     assertEquals(Name.ofString("List<Double>"), arrayPojoMember.getJavaType().getFullClassName());

@@ -23,6 +23,8 @@ class EnumConstantNameTest {
         Arguments.of("*fieldName*", "_FIELD_NAME_"),
         Arguments.of("field**Name", "FIELD_NAME"),
         Arguments.of("123FieldName", "_123_FIELD_NAME"),
+        Arguments.of("_123FieldName", "_123_FIELD_NAME"),
+        Arguments.of("$123FieldName", "$123_FIELD_NAME"),
         Arguments.of("anyCase", "ANY_CASE"),
         Arguments.of("AnyCase", "ANY_CASE"),
         Arguments.of("anyCase", "ANY_CASE"),

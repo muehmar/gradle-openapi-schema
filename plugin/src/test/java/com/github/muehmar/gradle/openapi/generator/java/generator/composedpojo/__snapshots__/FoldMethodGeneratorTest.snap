@@ -18,10 +18,10 @@ AnyOf=[
  */
 public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
   final List<T> result = new ArrayList<>();
-  if (isValidAgainstUser()) {
+  if (isValidAgainstUserDto()) {
     result.add(onUserDto.apply(asUserDto()));
   }
-  if (isValidAgainstNecessityAndNullability()) {
+  if (isValidAgainstNecessityAndNullabilityDto()) {
     result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
   }
   return result;
@@ -44,10 +44,10 @@ OneOfDiscriminatorWithMapping=[
  * not valid against exactly one of the defined schemas and its value is returned.
  */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if ("UserValue".equals(requiredStringVal) && isValidAgainstUser()) {
+  if ("UserValue".equals(requiredStringVal) && isValidAgainstUserDto()) {
     return onUserDto.apply(asUserDto());
   }
-  else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
+  else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullabilityDto()) {
     return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {
@@ -94,10 +94,10 @@ OneOfDiscriminatorWithoutMapping=[
  * not valid against exactly one of the defined schemas and its value is returned.
  */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if ("User".equals(requiredStringVal) && isValidAgainstUser()) {
+  if ("User".equals(requiredStringVal) && isValidAgainstUserDto()) {
     return onUserDto.apply(asUserDto());
   }
-  else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullability()) {
+  else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullabilityDto()) {
     return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {
@@ -144,10 +144,10 @@ OneOfNoDiscriminator=[
  * not valid against exactly one of the defined schemas and its value is returned.
  */
 public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if (isValidAgainstUser()) {
+  if (isValidAgainstUserDto()) {
     return onUserDto.apply(asUserDto());
   }
-  else if (isValidAgainstNecessityAndNullability()) {
+  else if (isValidAgainstNecessityAndNullabilityDto()) {
     return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
   }
   else {

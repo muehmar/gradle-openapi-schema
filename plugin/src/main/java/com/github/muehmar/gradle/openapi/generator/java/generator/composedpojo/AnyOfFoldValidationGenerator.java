@@ -44,10 +44,6 @@ public class AnyOfFoldValidationGenerator {
         .append(
             (p, s, w) ->
                 w.println(
-                    "return fold(%s);",
-                    p.getJavaPojos()
-                        .map(jp -> jp.getName().asString().toLowerCase())
-                        .map(name -> String.format("%s -> %s", name, name))
-                        .mkString(", ")));
+                    "return fold(%s);", p.getJavaPojos().map(name -> "dto -> dto").mkString(", ")));
   }
 }

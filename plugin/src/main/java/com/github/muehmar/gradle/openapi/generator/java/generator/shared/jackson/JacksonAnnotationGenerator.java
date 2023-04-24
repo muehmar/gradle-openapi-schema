@@ -64,8 +64,7 @@ public class JacksonAnnotationGenerator {
     return Generator.<T, PojoSettings>emptyGen()
         .append(
             (pojo, settings, writer) ->
-                writer.println(
-                    "@JsonDeserialize(builder = %s.Builder.class)", pojo.getName().asString()))
+                writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.getClassName()))
         .append(w -> w.ref(JacksonRefs.JSON_DESERIALIZE))
         .filter(isJacksonJson());
   }
