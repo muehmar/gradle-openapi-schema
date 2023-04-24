@@ -53,3 +53,10 @@ components:
         - EVENT:SUB_EVENT
         - EVENT:*WILDCARD
         - 123456
+
+    SchemaWithPropertyNameOther:
+      properties:
+        foo:
+          type: string
+        other:
+          type: string
