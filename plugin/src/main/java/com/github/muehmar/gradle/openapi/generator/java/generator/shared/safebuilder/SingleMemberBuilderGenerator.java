@@ -67,14 +67,14 @@ class SingleMemberBuilderGenerator {
                     String.format(
                         argumentFormat,
                         m.getMember().getJavaType().getFullClassName().asString(),
-                        m.getMember().getName()))
+                        m.getMember().getNameAsIdentifier()))
             .content(
                 (m, s, w) ->
                     w.println(
                         "return new %s(builder.%s(%s));",
                         m.nextBuilderClassName(),
                         m.getMember().prefixedMethodName(s.getBuilderMethodPrefix()),
-                        m.getMember().getName()))
+                        m.getMember().getNameAsIdentifier()))
             .build();
     return JavaDocGenerator.<PojoSettings>javaDoc()
         .<T>contraMap(m -> m.getMember().getDescription())
