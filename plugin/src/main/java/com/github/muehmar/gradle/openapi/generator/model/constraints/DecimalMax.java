@@ -1,7 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.model.constraints;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode
+@ToString
 public class DecimalMax {
   private final String value;
   private final boolean inclusiveMax;
@@ -15,6 +18,10 @@ public class DecimalMax {
     return new DecimalMax(value, true);
   }
 
+  public static DecimalMax exclusive(String value) {
+    return new DecimalMax(value, false);
+  }
+
   public DecimalMax withInclusiveMax(boolean inclusiveMax) {
     return new DecimalMax(value, inclusiveMax);
   }
@@ -25,27 +32,5 @@ public class DecimalMax {
 
   public boolean isInclusiveMax() {
     return inclusiveMax;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    DecimalMax that = (DecimalMax) o;
-    return inclusiveMax == that.inclusiveMax && Objects.equals(value, that.value);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(value, inclusiveMax);
-  }
-
-  @Override
-  public String toString() {
-    return "DecimalMax{" + "value='" + value + '\'' + ", inclusiveMax=" + inclusiveMax + '}';
   }
 }

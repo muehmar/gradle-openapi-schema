@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCou
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.util.Booleans;
 import com.github.muehmar.gradle.openapi.util.Optionals;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.Schema;
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -73,35 +74,45 @@ public class ConstraintsMapper {
   }
 
   public static Constraints getMinimumAndMaximum(Schema<?> schema) {
-    final Optional<Min> min =
-        Optional.ofNullable(schema.getMinimum())
-            .map(BigDecimal::longValue)
-            .map(val -> isInclusiveMin(schema) ? val : val + 1)
-            .map(Min::new);
-    final Optional<Max> max =
-        Optional.ofNullable(schema.getMaximum())
-            .map(BigDecimal::longValue)
-            .map(val -> isInclusiveMax(schema) ? val : val - 1)
-            .map(Max::new);
+    final Optional<Min> min = getMin(schema);
+    final Optional<Max> max = getMax(schema);
 
     return Optionals.combine(
             min, max, Constraints::ofMin, Constraints::ofMax, Constraints::ofMinAndMax)
         .orElseGet(Constraints::empty);
   }
 
+  private static Optional<Max> getMax(Schema<?> schema) {
+    final Optional<Long> maximum =
+        Optional.ofNullable(schema.getMaximum()).map(BigDecimal::longValue);
+    if (SpecVersion.V30.equals(schema.getSpecVersion())) {
+      return maximum.map(val -> isInclusiveMax(schema) ? val : val - 1).map(Max::new);
+    } else {
+      Optional<Long> exclusiveMaximum =
+          Optional.ofNullable(schema.getExclusiveMaximumValue())
+              .map(BigDecimal::longValue)
+              .map(val -> val - 1);
+      return Optionals.or(exclusiveMaximum, maximum).map(Max::new);
+    }
+  }
+
+  private static Optional<Min> getMin(Schema<?> schema) {
+    final Optional<Long> minimum =
+        Optional.ofNullable(schema.getMinimum()).map(BigDecimal::longValue);
+    if (SpecVersion.V30.equals(schema.getSpecVersion())) {
+      return minimum.map(val -> isInclusiveMin(schema) ? val : val + 1).map(Min::new);
+    } else {
+      Optional<Long> exclusiveMinimum =
+          Optional.ofNullable(schema.getExclusiveMinimumValue())
+              .map(BigDecimal::longValue)
+              .map(val -> val + 1);
+      return Optionals.or(exclusiveMinimum, minimum).map(Min::new);
+    }
+  }
+
   public static Constraints getDecimalMinimumAndMaximum(Schema<?> schema) {
-
-    final Optional<DecimalMin> min =
-        Optional.ofNullable(schema.getMinimum())
-            .map(BigDecimal::toString)
-            .map(DecimalMin::inclusive)
-            .map(decimalMin -> decimalMin.withInclusiveMin(isInclusiveMin(schema)));
-
-    final Optional<DecimalMax> max =
-        Optional.ofNullable(schema.getMaximum())
-            .map(BigDecimal::toString)
-            .map(DecimalMax::inclusive)
-            .map(decimalMax -> decimalMax.withInclusiveMax(isInclusiveMax(schema)));
+    final Optional<DecimalMin> min = getDecimalMin(schema);
+    final Optional<DecimalMax> max = getDecimalMax(schema);
 
     return Optionals.combine(
             min,
@@ -110,6 +121,40 @@ public class ConstraintsMapper {
             Constraints::ofDecimalMax,
             Constraints::ofDecimalMinAndMax)
         .orElseGet(Constraints::empty);
+  }
+
+  private static Optional<DecimalMax> getDecimalMax(Schema<?> schema) {
+    final Optional<DecimalMax> decimalMaxInclusive =
+        Optional.ofNullable(schema.getMaximum())
+            .map(BigDecimal::toString)
+            .map(DecimalMax::inclusive);
+    if (SpecVersion.V30.equals(schema.getSpecVersion())) {
+      return decimalMaxInclusive.map(
+          decimalMax -> decimalMax.withInclusiveMax(isInclusiveMax(schema)));
+    } else {
+      final Optional<DecimalMax> decimalMaxExclusive =
+          Optional.ofNullable(schema.getExclusiveMaximumValue())
+              .map(BigDecimal::toString)
+              .map(DecimalMax::exclusive);
+      return Optionals.or(decimalMaxExclusive, decimalMaxInclusive);
+    }
+  }
+
+  private static Optional<DecimalMin> getDecimalMin(Schema<?> schema) {
+    final Optional<DecimalMin> decimalMinInclusive =
+        Optional.ofNullable(schema.getMinimum())
+            .map(BigDecimal::toString)
+            .map(DecimalMin::inclusive);
+    if (SpecVersion.V30.equals(schema.getSpecVersion())) {
+      return decimalMinInclusive.map(
+          decimalMin -> decimalMin.withInclusiveMin(isInclusiveMin(schema)));
+    } else {
+      final Optional<DecimalMin> decimalMinExclusive =
+          Optional.ofNullable(schema.getExclusiveMinimumValue())
+              .map(BigDecimal::toString)
+              .map(DecimalMin::exclusive);
+      return Optionals.or(decimalMinExclusive, decimalMinInclusive);
+    }
   }
 
   private static boolean isInclusiveMax(Schema<?> schema) {
