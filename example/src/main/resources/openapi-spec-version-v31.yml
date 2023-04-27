@@ -1,0 +1,30 @@
+openapi: "3.1.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Client:
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type:
+            - string
+        name:
+          type:
+            - string
+            - null
+        age:
+          type:
+            - integer
+          minimum: 18
+          exclusiveMaximum: 100
+        height:
+          type:
+            - number
+          exclusiveMinimum: 120.5
+          maximum: 200
+

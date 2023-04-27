@@ -223,6 +223,16 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
+        specVersionV31 {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-spec-version-v31.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.specversionv31.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
     }
 }
 
