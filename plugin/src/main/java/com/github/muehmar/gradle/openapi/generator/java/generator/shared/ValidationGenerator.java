@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import io.github.muehmar.codegenerator.Generator;
 import java.util.Optional;
 import java.util.function.Function;
+import lombok.Value;
 
 public class ValidationGenerator {
   private ValidationGenerator() {}
@@ -44,7 +45,8 @@ public class ValidationGenerator {
         .append(maxAnnotation())
         .append(decimalMinAnnotation())
         .append(decimalMaxAnnotation())
-        .append(sizeAnnotation())
+        .append(sizeAnnotationForMinAndMax())
+        .append(sizeAnnotationForPropertyCount())
         .append(patternAnnotation())
         .filter(Filters.isValidationEnabled());
   }
@@ -143,24 +145,36 @@ public class ValidationGenerator {
         .contraMap(JavaPojoMember::getJavaType);
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> sizeAnnotation() {
-    final Generator<Size, PojoSettings> gen =
-        Generator.<Size, PojoSettings>emptyGen()
-            .append(
-                (size, s, w) -> {
-                  final String minMax =
-                      PList.of(
-                              size.getMin().map(min -> String.format("min = %d", min)),
-                              size.getMax().map(max -> String.format("max = %d", max)))
-                          .flatMapOptional(Function.identity())
-                          .mkString(", ");
-                  return w.println("@Size(%s)", minMax);
-                })
-            .append(jakarta2Ref(Jakarta2ValidationRefs.SIZE))
-            .append(jakarta3Ref(Jakarta3ValidationRefs.SIZE));
-    return fromOptional(gen, Constraints::getSize)
+  private static Generator<JavaPojoMember, PojoSettings> sizeAnnotationForMinAndMax() {
+    return fromOptional(
+            sizeAnnotation().contraMap(SizeAnnotationValues::fromSize), Constraints::getSize)
         .contraMap(JavaType::getConstraints)
         .contraMap(JavaPojoMember::getJavaType);
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> sizeAnnotationForPropertyCount() {
+    return fromOptional(
+            sizeAnnotation().contraMap(SizeAnnotationValues::fromPropertyCount),
+            Constraints::getPropertyCount)
+        .contraMap(JavaType::getConstraints)
+        .filter(type -> type.getType().isMapType())
+        .contraMap(JavaPojoMember::getJavaType);
+  }
+
+  private static Generator<SizeAnnotationValues, PojoSettings> sizeAnnotation() {
+    return Generator.<SizeAnnotationValues, PojoSettings>emptyGen()
+        .append(
+            (size, s, w) -> {
+              final String minMax =
+                  PList.of(
+                          size.getMin().map(min -> String.format("min = %d", min)),
+                          size.getMax().map(max -> String.format("max = %d", max)))
+                      .flatMapOptional(Function.identity())
+                      .mkString(", ");
+              return w.println("@Size(%s)", minMax);
+            })
+        .append(jakarta2Ref(Jakarta2ValidationRefs.SIZE))
+        .append(jakarta3Ref(Jakarta3ValidationRefs.SIZE));
   }
 
   public static Generator<Constraints, PojoSettings> minAnnotationForPropertyCount() {
@@ -214,5 +228,20 @@ public class ValidationGenerator {
   private static <A, B, C> Generator<A, C> fromOptional(
       Generator<B, C> gen, Function<A, Optional<B>> getOptional) {
     return (a, c, w) -> getOptional.apply(a).map(b -> gen.generate(b, c, w)).orElse(w);
+  }
+
+  @Value
+  private static class SizeAnnotationValues {
+    Optional<Integer> min;
+    Optional<Integer> max;
+
+    static SizeAnnotationValues fromPropertyCount(PropertyCount propertyCount) {
+      return new SizeAnnotationValues(
+          propertyCount.getMinProperties(), propertyCount.getMaxProperties());
+    }
+
+    static SizeAnnotationValues fromSize(Size size) {
+      return new SizeAnnotationValues(size.getMin(), size.getMax());
+    }
   }
 }

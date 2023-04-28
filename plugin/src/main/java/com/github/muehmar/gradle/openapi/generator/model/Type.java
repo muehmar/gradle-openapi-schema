@@ -93,7 +93,24 @@ public interface Type {
         ignore -> Optional.empty());
   }
 
+  default Optional<MapType> asMapType() {
+    return fold(
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        Optional::of,
+        ignore -> Optional.empty());
+  }
+
   default boolean isArrayType() {
     return asArrayType().isPresent();
+  }
+
+  default boolean isMapType() {
+    return asMapType().isPresent();
   }
 }
