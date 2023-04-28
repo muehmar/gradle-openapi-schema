@@ -1,0 +1,526 @@
+dtoMapWithDefaultSettings[jakarta-2]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+/**
+ * DTO map
+ */
+public final class DtoMapDto {
+  @JsonValue
+  private final Map<String, OtherDto> values;
+
+  @JsonCreator
+  public DtoMapDto(
+      Map<String, OtherDto> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @Valid
+  @NotNull
+  public Map<String, OtherDto> getValues() {
+    return values;
+  }
+
+  public Optional<OtherDto> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(1)
+  @Max(3)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final DtoMapDto other = (DtoMapDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+dtoMapWithDefaultSettings[jakarta-3]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * DTO map
+ */
+public final class DtoMapDto {
+  @JsonValue
+  private final Map<String, OtherDto> values;
+
+  @JsonCreator
+  public DtoMapDto(
+      Map<String, OtherDto> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @Valid
+  @NotNull
+  public Map<String, OtherDto> getValues() {
+    return values;
+  }
+
+  public Optional<OtherDto> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(1)
+  @Max(3)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final DtoMapDto other = (DtoMapDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+integerMapWithDefaultSettings[jakarta-2]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+/**
+ * Free form object
+ */
+public final class FreeFormDto {
+  @JsonValue
+  private final Map<String, Integer> values;
+
+  @JsonCreator
+  public FreeFormDto(
+      Map<String, Integer> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @NotNull
+  public Map<String, Integer> getValues() {
+    return values;
+  }
+
+  public Optional<Integer> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final FreeFormDto other = (FreeFormDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+integerMapWithDefaultSettings[jakarta-3]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Free form object
+ */
+public final class FreeFormDto {
+  @JsonValue
+  private final Map<String, Integer> values;
+
+  @JsonCreator
+  public FreeFormDto(
+      Map<String, Integer> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @NotNull
+  public Map<String, Integer> getValues() {
+    return values;
+  }
+
+  public Optional<Integer> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final FreeFormDto other = (FreeFormDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+objectMapWithDefaultSettings[jakarta-2]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+/**
+ * Object map
+ */
+public final class ObjectMapDto {
+  @JsonValue
+  private final Map<String, Object> values;
+
+  @JsonCreator
+  public ObjectMapDto(
+      Map<String, Object> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @NotNull
+  public Map<String, Object> getValues() {
+    return values;
+  }
+
+  public Optional<Object> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectMapDto other = (ObjectMapDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+objectMapWithDefaultSettings[jakarta-3]=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Object map
+ */
+public final class ObjectMapDto {
+  @JsonValue
+  private final Map<String, Object> values;
+
+  @JsonCreator
+  public ObjectMapDto(
+      Map<String, Object> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @NotNull
+  public Map<String, Object> getValues() {
+    return values;
+  }
+
+  public Optional<Object> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectMapDto other = (ObjectMapDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+objectMapWithNoJsonSupport=[
+package com.github.muehmar;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+/**
+ * Object map
+ */
+public final class ObjectMapDto {
+  private final Map<String, Object> values;
+
+  public ObjectMapDto(
+      Map<String, Object> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  @NotNull
+  public Map<String, Object> getValues() {
+    return values;
+  }
+
+  public Optional<Object> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(10)
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectMapDto other = (ObjectMapDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]
+
+
+objectMapWithValidationDisabled=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Object map
+ */
+public final class ObjectMapDto {
+  @JsonValue
+  private final Map<String, Object> values;
+
+  @JsonCreator
+  public ObjectMapDto(
+      Map<String, Object> values
+    ) {
+    this.values = values;
+  }
+
+  /**
+   * 
+   */
+  public Map<String, Object> getValues() {
+    return values;
+  }
+
+  public Optional<Object> getProperty(String propertyName) {
+    return Optional.ofNullable(values.get(propertyName));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return values.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectMapDto other = (ObjectMapDto) obj;
+    return Objects.equals(this.values, other.values);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      values
+    );
+  }
+}
+]

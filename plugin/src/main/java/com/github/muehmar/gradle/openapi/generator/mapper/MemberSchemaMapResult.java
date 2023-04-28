@@ -23,6 +23,11 @@ public class MemberSchemaMapResult {
     this.unmappedItems = unmappedItems;
   }
 
+  public static MemberSchemaMapResult ofTypeAndUnmappedItems(
+      Type type, UnmappedItems unmappedItems) {
+    return new MemberSchemaMapResult(type, unmappedItems);
+  }
+
   public static MemberSchemaMapResult ofType(Type type) {
     return new MemberSchemaMapResult(type, UnmappedItems.empty());
   }

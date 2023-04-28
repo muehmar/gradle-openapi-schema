@@ -69,7 +69,7 @@ public class JavaEnumPojo implements JavaPojo {
       Function<JavaEnumPojo, T> onEnumPojo,
       Function<JavaObjectPojo, T> onObjectPojo,
       Function<JavaComposedPojo, T> onComposedPojo,
-      Function<JavaFreeFormPojo, T> onFreeFormPojo) {
+      Function<JavaMapPojo, T> onFreeFormPojo) {
     return onEnumPojo.apply(this);
   }
 }

@@ -11,11 +11,9 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.MapPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
@@ -24,23 +22,26 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class JavaFreeFormPojo implements JavaPojo {
+public class JavaMapPojo implements JavaPojo {
   private final JavaPojoName name;
   private final String description;
+  private final JavaType valueType;
   private final Constraints constraints;
-  private static final Type VALUE_TYPE = NoType.create();
 
-  private JavaFreeFormPojo(JavaPojoName name, String description, Constraints constraints) {
+  private JavaMapPojo(
+      JavaPojoName name, String description, JavaType valueType, Constraints constraints) {
     this.name = name;
     this.description = description;
+    this.valueType = valueType;
     this.constraints = constraints;
   }
 
-  public static JavaFreeFormPojo wrap(FreeFormPojo freeFormPojo) {
-    return new JavaFreeFormPojo(
-        JavaPojoName.wrap(freeFormPojo.getName()),
-        freeFormPojo.getDescription(),
-        freeFormPojo.getConstraints());
+  public static JavaMapPojo wrap(MapPojo mapPojo, TypeMappings typeMappings) {
+    return new JavaMapPojo(
+        JavaPojoName.wrap(mapPojo.getName()),
+        mapPojo.getDescription(),
+        JavaType.wrap(mapPojo.getValueType(), typeMappings),
+        mapPojo.getConstraints());
   }
 
   @Override
@@ -72,13 +73,13 @@ public class JavaFreeFormPojo implements JavaPojo {
         Name.ofString("values"), "", getMemberType(), Necessity.REQUIRED, Nullability.NOT_NULLABLE);
   }
 
-  public JavaType getMemberType() {
-    return JavaMapType.wrap(
-        MapType.ofKeyAndValueType(StringType.noFormat(), VALUE_TYPE), TypeMappings.empty());
+  private JavaType getMemberType() {
+    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), valueType.getType());
+    return JavaMapType.wrap(mapType, TypeMappings.empty());
   }
 
   public JavaType getValueType() {
-    return JavaType.wrap(VALUE_TYPE, TypeMappings.empty());
+    return valueType;
   }
 
   @Override
@@ -87,7 +88,7 @@ public class JavaFreeFormPojo implements JavaPojo {
       Function<JavaEnumPojo, T> onEnumPojo,
       Function<JavaObjectPojo, T> onObjectPojo,
       Function<JavaComposedPojo, T> onComposedPojo,
-      Function<JavaFreeFormPojo, T> onFreeFormPojo) {
+      Function<JavaMapPojo, T> onFreeFormPojo) {
     return onFreeFormPojo.apply(this);
   }
 }

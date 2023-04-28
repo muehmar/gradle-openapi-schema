@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.freeform;
+package com.github.muehmar.gradle.openapi.generator.java.generator.map;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPropertyCountMethodGenerator.propertyCountMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.map.MapPropertyCountMethodGenerator.propertyCountMethod;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -10,30 +10,28 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGener
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaMapPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
 
-public class FreeFormPojoGenerator implements Generator<JavaFreeFormPojo, PojoSettings> {
-  private final Generator<JavaFreeFormPojo, PojoSettings> delegate;
+public class MapPojoGenerator implements Generator<JavaMapPojo, PojoSettings> {
+  private final Generator<JavaMapPojo, PojoSettings> delegate;
 
-  public FreeFormPojoGenerator() {
+  public MapPojoGenerator() {
     this.delegate =
-        ClassGenBuilder.<JavaFreeFormPojo, PojoSettings>create()
+        ClassGenBuilder.<JavaMapPojo, PojoSettings>create()
             .clazz()
             .topLevel()
             .packageGen(new PackageGenerator<>())
             .javaDoc(
-                JavaDocGenerator.<PojoSettings>javaDoc()
-                    .contraMap(JavaFreeFormPojo::getDescription))
+                JavaDocGenerator.<PojoSettings>javaDoc().contraMap(JavaMapPojo::getDescription))
             .noAnnotations()
             .modifiers(PUBLIC, FINAL)
             .className(pojo -> pojo.getClassName().asString())
@@ -45,19 +43,18 @@ public class FreeFormPojoGenerator implements Generator<JavaFreeFormPojo, PojoSe
   }
 
   @Override
-  public Writer generate(JavaFreeFormPojo data, PojoSettings settings, Writer writer) {
+  public Writer generate(JavaMapPojo data, PojoSettings settings, Writer writer) {
     return delegate.generate(data, settings, writer);
   }
 
-  private static Generator<JavaFreeFormPojo, PojoSettings> content() {
-    return JacksonAnnotationGenerator.<JavaFreeFormPojo>jsonValue()
-        .append(FieldsGenerator.singleField(), JavaFreeFormPojo::getMember)
+  private static Generator<JavaMapPojo, PojoSettings> content() {
+    return JacksonAnnotationGenerator.<JavaMapPojo>jsonValue()
+        .append(FieldsGenerator.singleField(), JavaMapPojo::getMember)
         .appendNewLine()
         .append(JacksonAnnotationGenerator.jsonCreator())
         .append(PojoConstructorGenerator.generator())
         .appendNewLine()
-        .append(ValidationGenerator.memberValidAnnotation(), JavaFreeFormPojo::getMember)
-        .append(GetterGeneratorFactory.create(), JavaFreeFormPojo::getMember)
+        .append(GetterGeneratorFactory.create(), JavaMapPojo::getMember)
         .appendNewLine()
         .append(getPropertyMethod())
         .appendNewLine()
@@ -68,8 +65,8 @@ public class FreeFormPojoGenerator implements Generator<JavaFreeFormPojo, PojoSe
         .append(HashCodeGenerator.hashCodeMethod());
   }
 
-  private static Generator<JavaFreeFormPojo, PojoSettings> getPropertyMethod() {
-    return MethodGenBuilder.<JavaFreeFormPojo, PojoSettings>create()
+  private static Generator<JavaMapPojo, PojoSettings> getPropertyMethod() {
+    return MethodGenBuilder.<JavaMapPojo, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(pojo -> String.format("Optional<%s>", pojo.getValueType().getFullClassName()))
@@ -81,7 +78,7 @@ public class FreeFormPojoGenerator implements Generator<JavaFreeFormPojo, PojoSe
                     "return Optional.ofNullable(%s.get(propertyName));",
                     pojo.getMember().getNameAsIdentifier()))
         .build()
-        .append(RefsGenerator.fieldRefs(), JavaFreeFormPojo::getMember)
+        .append(RefsGenerator.fieldRefs(), JavaMapPojo::getMember)
         .append(RefsGenerator.optionalRef());
   }
 }

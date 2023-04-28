@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.MapPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import java.util.Optional;
 import java.util.function.Function;
@@ -23,7 +23,7 @@ public interface Pojo {
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo,
       Function<ComposedPojo, T> onComposedPojo,
-      Function<FreeFormPojo, T> onFreeFormPojo);
+      Function<MapPojo, T> onMapPojo);
 
   default boolean isComposedPojo() {
     return fold(

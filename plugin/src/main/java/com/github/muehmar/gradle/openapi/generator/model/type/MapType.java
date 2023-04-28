@@ -11,14 +11,16 @@ import lombok.ToString;
 public class MapType implements Type {
   private final Type key;
   private final Type value;
+  private final Constraints constraints;
 
-  private MapType(Type key, Type value) {
+  private MapType(Type key, Type value, Constraints constraints) {
     this.key = key;
     this.value = value;
+    this.constraints = constraints;
   }
 
   public static MapType ofKeyAndValueType(Type key, Type value) {
-    return new MapType(key, value);
+    return new MapType(key, value, Constraints.empty());
   }
 
   public Type getKey() {
@@ -29,9 +31,13 @@ public class MapType implements Type {
     return value;
   }
 
+  public MapType withConstraints(Constraints constraints) {
+    return new MapType(key, value, constraints);
+  }
+
   @Override
   public Constraints getConstraints() {
-    return null;
+    return constraints;
   }
 
   @Override

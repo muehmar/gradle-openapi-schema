@@ -19,7 +19,6 @@ public interface OpenApiSchema {
     return NonEmptyList.<Function<Schema<?>, Optional<? extends OpenApiSchema>>>single(
             ArraySchema::wrap)
         .add(BooleanSchema::wrap)
-        .add(FreeFormSchema::wrap)
         .add(IntegerSchema::wrap)
         .add(NumberSchema::wrap)
         .add(ObjectSchema::wrap)
