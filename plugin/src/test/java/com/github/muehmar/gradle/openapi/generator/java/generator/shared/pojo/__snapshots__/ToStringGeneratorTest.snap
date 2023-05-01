@@ -1,0 +1,34 @@
+allNecessityAndNullabilityVariants=[
+@Override
+public String toString() {
+  return "NecessityAndNullabilityDto{" +
+    "requiredStringVal=" + requiredStringVal + ", " +
+    "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+    "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
+    "optionalStringVal=" + optionalStringVal + ", " +
+    "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+    "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+    "}";
+}
+]
+
+
+arrayPojo=[
+@Override
+public String toString() {
+  return "PosologyDto{" +
+    "value=" + value +
+    "}";
+}
+]
+
+
+byteArrayMember=[
+@Override
+public String toString() {
+  return "ObjectPojo1Dto{" +
+    "data=" + Arrays.toString(data) + ", " +
+    "doubleVal=" + doubleVal +
+    "}";
+}
+]

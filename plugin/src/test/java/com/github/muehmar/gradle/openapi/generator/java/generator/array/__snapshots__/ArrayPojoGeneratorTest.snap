@@ -48,7 +48,7 @@ public class PosologyDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final PosologyDto other = (PosologyDto) obj;
-    return Objects.equals(this.value, other.value);
+    return Objects.deepEquals(this.value, other.value);
   }
 
   @Override

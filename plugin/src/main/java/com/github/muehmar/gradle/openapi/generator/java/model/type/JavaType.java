@@ -9,13 +9,25 @@ import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
 
 public interface JavaType {
+  /** Returns the name of the class of this type without any type parameter classes. */
   Name getClassName();
 
   Type getType();
 
+  /**
+   * Returns the qualified classnames used for this type, including the classes of possible type
+   * parameters.s
+   */
   PList<Name> getAllQualifiedClassNames();
 
+  /** Returns the full classname, i.e. including possible type parameters. */
   Name getFullClassName();
+
+  /**
+   * Returns true in case this class is a java array (not to be confused with the openapi
+   * array-type).
+   */
+  boolean isJavaArray();
 
   Constraints getConstraints();
 

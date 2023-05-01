@@ -1,0 +1,34 @@
+allNecessityAndNullabilityVariants=[
+@Override
+public int hashCode() {
+  return Objects.hash(
+    requiredStringVal,
+    requiredNullableStringVal,
+    isRequiredNullableStringValPresent,
+    optionalStringVal,
+    optionalNullableStringVal,
+    isOptionalNullableStringValNull
+  );
+}
+]
+
+
+arrayPojo=[
+@Override
+public int hashCode() {
+  return Objects.hash(
+    value
+  );
+}
+]
+
+
+byteArrayMember=[
+@Override
+public int hashCode() {
+  return Objects.hash(
+    Arrays.hashCode(data),
+    doubleVal
+  );
+}
+]

@@ -63,6 +63,11 @@ public class JavaMapType implements JavaType {
   }
 
   @Override
+  public boolean isJavaArray() {
+    return false;
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }

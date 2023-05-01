@@ -22,6 +22,11 @@ public class JavaNoType extends NonGenericJavaType {
   }
 
   @Override
+  public boolean isJavaArray() {
+    return false;
+  }
+
+  @Override
   public Constraints getConstraints() {
     return Constraints.empty();
   }

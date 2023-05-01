@@ -253,27 +253,27 @@ public class ComposedAnyofDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ComposedAnyofDto other = (ComposedAnyofDto) obj;
-    return Objects.equals(this.username, other.username)
-        && Objects.equals(this.birthdate, other.birthdate)
-        && Objects.equals(this.requiredStringVal, other.requiredStringVal)
-        && Objects.equals(this.requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(this.optionalStringVal, other.optionalStringVal)
-        && Objects.equals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+    return Objects.deepEquals(this.username, other.username)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
+        && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
   public String toString() {
     return "ComposedAnyofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "username=" + username + ", " +
+      "birthdate=" + birthdate + ", " +
+      "requiredStringVal=" + requiredStringVal + ", " +
+      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
+      "optionalStringVal=" + optionalStringVal + ", " +
+      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
 
@@ -640,27 +640,27 @@ public class ComposedOneofDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ComposedOneofDto other = (ComposedOneofDto) obj;
-    return Objects.equals(this.username, other.username)
-        && Objects.equals(this.birthdate, other.birthdate)
-        && Objects.equals(this.requiredStringVal, other.requiredStringVal)
-        && Objects.equals(this.requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(this.optionalStringVal, other.optionalStringVal)
-        && Objects.equals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+    return Objects.deepEquals(this.username, other.username)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
+        && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
   public String toString() {
     return "ComposedOneofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "username=" + username + ", " +
+      "birthdate=" + birthdate + ", " +
+      "requiredStringVal=" + requiredStringVal + ", " +
+      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
+      "optionalStringVal=" + optionalStringVal + ", " +
+      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
 
@@ -1027,27 +1027,27 @@ public class ComposedOneofDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ComposedOneofDto other = (ComposedOneofDto) obj;
-    return Objects.equals(this.username, other.username)
-        && Objects.equals(this.birthdate, other.birthdate)
-        && Objects.equals(this.requiredStringVal, other.requiredStringVal)
-        && Objects.equals(this.requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(this.optionalStringVal, other.optionalStringVal)
-        && Objects.equals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+    return Objects.deepEquals(this.username, other.username)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
+        && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
   public String toString() {
     return "ComposedOneofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "username=" + username + ", " +
+      "birthdate=" + birthdate + ", " +
+      "requiredStringVal=" + requiredStringVal + ", " +
+      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
+      "optionalStringVal=" + optionalStringVal + ", " +
+      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
 
@@ -1400,27 +1400,27 @@ public class ComposedOneofDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ComposedOneofDto other = (ComposedOneofDto) obj;
-    return Objects.equals(this.username, other.username)
-        && Objects.equals(this.birthdate, other.birthdate)
-        && Objects.equals(this.requiredStringVal, other.requiredStringVal)
-        && Objects.equals(this.requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(this.optionalStringVal, other.optionalStringVal)
-        && Objects.equals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+    return Objects.deepEquals(this.username, other.username)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
+        && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
   public String toString() {
     return "ComposedOneofDto{" +
-      "username=" + username +
-      ", birthdate=" + birthdate +
-      ", requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "username=" + username + ", " +
+      "birthdate=" + birthdate + ", " +
+      "requiredStringVal=" + requiredStringVal + ", " +
+      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
+      "optionalStringVal=" + optionalStringVal + ", " +
+      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
 
