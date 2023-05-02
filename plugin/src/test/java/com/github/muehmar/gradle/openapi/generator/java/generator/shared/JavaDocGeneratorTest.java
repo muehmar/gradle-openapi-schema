@@ -35,4 +35,13 @@ class JavaDocGeneratorTest {
             + " */",
         output);
   }
+
+  @Test
+  void javaDoc_when_noJavaDocText_then_notOutput() {
+    final Generator<String, Void> generator = JavaDocGenerator.javaDoc();
+
+    final String output = generator.generate("", noSettings(), Writer.createDefault()).asString();
+
+    assertEquals("", output);
+  }
 }

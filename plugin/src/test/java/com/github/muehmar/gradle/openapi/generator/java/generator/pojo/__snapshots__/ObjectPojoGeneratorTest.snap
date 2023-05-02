@@ -2176,9 +2176,6 @@ import java.util.Objects;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
-/**
- * 
- */
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
   private final List<String> listVal;
@@ -2330,9 +2327,6 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * 
- */
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
   private final Map<String, UUID> mapVal;
