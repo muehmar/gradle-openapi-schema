@@ -2,32 +2,32 @@ package com.github.muehmar.gradle.openapi.array;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.arrayproperty.model.CustomerDto;
-import OpenApiSchema.example.api.arrayproperty.model.PosologyDto;
+import OpenApiSchema.example.api.array.model.PosologyDto;
+import OpenApiSchema.example.api.array.model.ReferenceArrayPropertyDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 class TestArrayProperty {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+
+  private static final ReferenceArrayPropertyDto DTO =
+      new ReferenceArrayPropertyDto(
+          new PosologyDto(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0))));
+  private static final String JSON = "{\"posology\":[1.0,2.0,3.0,4.0]}";
 
   @Test
-  void testDeserialisation() throws JsonProcessingException {
-    final String json = "{\"posology\":[1.0,2.0,3.0,4.0]}";
-    final CustomerDto customerDto = MAPPER.readValue(json, CustomerDto.class);
-
-    assertEquals(Arrays.asList(1.0, 2.0, 3.0, 4.0), customerDto.getPosology().getValue());
+  void deserialize_when_referenceArrayProprtyDto_then_correctDto() throws JsonProcessingException {
+    final ReferenceArrayPropertyDto deserializedDto =
+        MAPPER.readValue(JSON, ReferenceArrayPropertyDto.class);
+    assertEquals(DTO, deserializedDto);
   }
 
   @Test
-  void testSerialisation() throws JsonProcessingException {
-    final PosologyDto posology =
-        new PosologyDto(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0)));
-    final CustomerDto customerDto = CustomerDto.newBuilder().setPosology(posology).build();
-    final String json1 = MAPPER.writeValueAsString(customerDto);
-
-    assertEquals("{\"posology\":[1.0,2.0,3.0,4.0]}", json1);
+  void serialize_when_() throws JsonProcessingException {
+    assertEquals(JSON, MAPPER.writeValueAsString(DTO));
   }
 }

@@ -159,7 +159,7 @@ components:
 
     StringValue:
       type: string
-      pattern: "[A-Za-z0-9]*"
+      pattern: '[A-Za-z\d]*'
       minLength: 2
       maxLength: 10
       maximum: 249

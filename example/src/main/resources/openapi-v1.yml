@@ -5,39 +5,86 @@ paths: { }
 
 components:
   schemas:
-    User:
-      required:
-        - id
-        - externalId
-        - user
-        - city
+
+    DataTypes:
       properties:
-        id:
-          $ref: "#/components/schemas/UserKey"
-        externalId:
-          type: integer
-          format: int64
-        locationId:
+        string:
           type: string
-          pattern: '^(\d[A-Z]*)'
-        user:
-          type: string
-          minLength: 7
-          maxLength: 25
-        birthday:
+        date:
           type: string
           format: date
-        gender:
-          $ref: "#/components/schemas/gender"
-        city:
-          type: string
-        age:
-          type: integer
-          minimum: 15
-          maximum: 49
-        lastLogin:
+        dateTime:
           type: string
           format: date-time
+        time:
+          type: string
+          format: partial-time
+        byte:
+          type: string
+          format: byte
+        binary:
+          type: string
+          format: binary
+        email:
+          type: string
+          format: email
+        uuid:
+          type: string
+          format: uuid
+        uri:
+          type: string
+          format: uri
+        url:
+          type: string
+          format: url
+        defaultInt:
+          type: integer
+        int32:
+          type: integer
+          format: int32
+        int64:
+          type: integer
+          format: int64
+        defaultNumber:
+          type: number
+        float:
+          type: number
+          format: float
+        double:
+          type: number
+          format: double
+        bool:
+          type: boolean
+        data:
+          description: Data
+
+    Sample:
+      type: object
+      required:
+        - prop1
+        - prop2
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: integer
+        prop3:
+          type: string
+        prop4:
+          type: integer
+
+    RootEnum:
+      type: string
+      enum: [ "Admin", "User", "Visitor" ]
+      description: |
+        Role of the user
+        * `Admin`: Administrator role
+        * `User`: User role
+        * `Visitor`: Visitor role
+
+    InlineEnum:
+      type: object
+      properties:
         role:
           type: string
           enum: [ "Admin", "User", "Visitor" ]
@@ -46,26 +93,23 @@ components:
             * `Admin`: Administrator role
             * `User`: User role
             * `Visitor`: Visitor role
-        currencies:
-          type: object
-          additionalProperties:
+
+    RootMapSchema:
+      type: object
+      additionalProperties:
+        type: object
+        required:
+          - name
+        properties:
+          name:
             type: string
-        interests:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                prio:
-                  type: integer
-        languages:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Language'
-        hobbies:
+          description:
+            type: string
+
+    InlinedMapSchema:
+      type: object
+      properties:
+        map:
           type: object
           additionalProperties:
             type: object
@@ -76,49 +120,4 @@ components:
                 type: string
               description:
                 type: string
-        data:
-          description: 'Some user related data'
-
-    UserGroup:
-      properties:
-        owner:
-          $ref: "#/components/schemas/User"
-        members:
-          type: array
-          minItems: 1
-          maxItems: 5
-          items:
-            $ref: "#/components/schemas/User"
-        languages:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-
-    Language:
-      required:
-        - key
-        - name
-      properties:
-        key:
-          type: integer
-        name:
-          type: string
-
-    UserKey:
-      type: string
-      format: uuid
-      description: Key for a user
-
-    gender:
-      type: string
-      enum:
-        - MALE
-        - FEMALE
-        - UNKNOWN
-      description: Gender
 

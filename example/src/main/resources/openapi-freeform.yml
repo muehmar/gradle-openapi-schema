@@ -19,3 +19,11 @@ components:
       additionalProperties: { }
       minProperties: 3
       maxProperties: 5
+    InlineFreeForm:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          minProperties: 4
+          maxProperties: 6

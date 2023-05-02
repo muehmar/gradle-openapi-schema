@@ -110,11 +110,11 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
-        arrayProperty {
+        array {
             sourceSet = 'main'
-            inputSpec = "$projectDir/src/main/resources/openapi-array-property.yml"
+            inputSpec = "$projectDir/src/main/resources/openapi-array.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.arrayproperty.model"
+            packageName = "${project.group}.${project.name}.api.array.model"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true

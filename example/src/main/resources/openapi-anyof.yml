@@ -43,6 +43,17 @@ components:
         - $ref: '#/components/schemas/Admin'
         - $ref: '#/components/schemas/User'
 
+    InlinedAnyOf:
+      type: object
+      required:
+        - adminOrUser
+      properties:
+        adminOrUser:
+          anyOf:
+            - $ref: '#/components/schemas/Admin'
+            - $ref: '#/components/schemas/User'
+
+
 
 
 
