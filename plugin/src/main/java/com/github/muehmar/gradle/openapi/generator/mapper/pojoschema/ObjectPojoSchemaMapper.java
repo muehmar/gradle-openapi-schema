@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.pojoschema;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
+import com.github.muehmar.gradle.openapi.generator.mapper.PropertyScopeMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.memberschema.CompleteMemberSchemaMapper;
@@ -15,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.FreeFormPojo;
@@ -106,11 +108,13 @@ public class ObjectPojoSchemaMapper implements SinglePojoSchemaMapper {
       Necessity necessity,
       Nullability nullability) {
     final MemberSchemaMapResult result = COMPLETE_TYPE_MAPPER.map(pojoName, pojoMemberName, schema);
+    final PropertyScope propertyScope = PropertyScopeMapper.mapScope(schema);
 
     final Type type = result.getType();
 
     final PojoMember pojoMember =
-        new PojoMember(pojoMemberName, schema.getDescription(), type, necessity, nullability);
+        new PojoMember(
+            pojoMemberName, schema.getDescription(), type, propertyScope, necessity, nullability);
     return new PojoMemberProcessResult(pojoMember, result.getUnmappedItems());
   }
 

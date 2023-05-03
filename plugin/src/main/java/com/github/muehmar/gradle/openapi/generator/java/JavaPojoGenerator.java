@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.array.ArrayPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ComposedPojoGenerator;
@@ -21,9 +22,10 @@ import io.github.muehmar.codegenerator.writer.Writer;
 public class JavaPojoGenerator implements PojoGenerator {
 
   @Override
-  public GeneratedFile generatePojo(Pojo pojo, PojoSettings pojoSettings) {
-    final JavaPojo javaPojo = JavaPojo.wrap(pojo, pojoSettings.getTypeMappings());
-    return generatePojo(javaPojo, pojoSettings);
+  public NonEmptyList<GeneratedFile> generatePojo(Pojo pojo, PojoSettings pojoSettings) {
+    final NonEmptyList<? extends JavaPojo> javaPojos =
+        JavaPojo.wrap(pojo, pojoSettings.getTypeMappings());
+    return javaPojos.map(javaPojo -> generatePojo(javaPojo, pojoSettings));
   }
 
   public GeneratedFile generatePojo(JavaPojo pojo, PojoSettings pojoSettings) {

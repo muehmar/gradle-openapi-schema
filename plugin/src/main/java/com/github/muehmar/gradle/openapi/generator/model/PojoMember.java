@@ -12,14 +12,21 @@ public class PojoMember {
   Name name;
   String description;
   Type type;
+  PropertyScope propertyScope;
   Necessity necessity;
   Nullability nullability;
 
   public PojoMember(
-      Name name, String description, Type type, Necessity necessity, Nullability nullability) {
+      Name name,
+      String description,
+      Type type,
+      PropertyScope propertyScope,
+      Necessity necessity,
+      Nullability nullability) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
+    this.propertyScope = propertyScope;
     this.necessity = necessity;
     this.nullability = nullability;
   }
@@ -69,5 +76,21 @@ public class PojoMember {
 
   public boolean isOptionalAndNotNullable() {
     return isOptional() && !isNullable();
+  }
+
+  public PropertyScope getPropertyScope() {
+    return propertyScope;
+  }
+
+  public boolean isReadOnlyScope() {
+    return getPropertyScope().equals(PropertyScope.READ_ONLY);
+  }
+
+  public boolean isWriteOnlyScope() {
+    return getPropertyScope().equals(PropertyScope.WRITE_ONLY);
+  }
+
+  public boolean isDefaultScope() {
+    return getPropertyScope().equals(PropertyScope.DEFAULT);
   }
 }

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.task;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.Generators;
@@ -70,7 +71,7 @@ public class GenerateSchemasTask extends DefaultTask {
     final MapResult mapResult = cachedMapping.get();
     final Generators generators = GeneratorFactory.create(Language.JAVA);
 
-    mapResult.getPojos().map(pojo -> createPojo(pojo, generators)).forEach(this::writeFile);
+    mapResult.getPojos().flatMap(pojo -> createPojo(pojo, generators)).forEach(this::writeFile);
 
     mapResult
         .getParameters()
@@ -80,7 +81,7 @@ public class GenerateSchemasTask extends DefaultTask {
     generators.getUtilsGenerator().generateUtils().forEach(this::writeFile);
   }
 
-  private GeneratedFile createPojo(Pojo pojo, Generators generators) {
+  private NonEmptyList<GeneratedFile> createPojo(Pojo pojo, Generators generators) {
     return generators.getPojoGenerator().generatePojo(pojo, pojoSettings.get());
   }
 

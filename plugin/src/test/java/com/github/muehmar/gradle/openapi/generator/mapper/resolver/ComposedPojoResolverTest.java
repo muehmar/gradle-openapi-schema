@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -34,11 +35,17 @@ class ComposedPojoResolverTest {
             "Tires",
             PList.of(
                 new PojoMember(
-                    Name.ofString("tireKey"), "Key", StringType.uuid(), REQUIRED, NOT_NULLABLE),
+                    Name.ofString("tireKey"),
+                    "Key",
+                    StringType.uuid(),
+                    PropertyScope.DEFAULT,
+                    REQUIRED,
+                    NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("tireName"),
                     "Name",
                     StringType.noFormat(),
+                    PropertyScope.DEFAULT,
                     REQUIRED,
                     NOT_NULLABLE)),
             Constraints.empty());
@@ -52,12 +59,14 @@ class ComposedPojoResolverTest {
                     Name.ofString("colorKey"),
                     "Key",
                     IntegerType.formatLong(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE),
                 new PojoMember(
                     Name.ofString("colorName"),
                     "Name",
                     StringType.noFormat(),
+                    PropertyScope.DEFAULT,
                     OPTIONAL,
                     NOT_NULLABLE)),
             Constraints.empty());

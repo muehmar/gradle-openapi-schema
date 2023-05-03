@@ -11,6 +11,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -31,11 +32,16 @@ public class JavaPojos {
 
   public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
     return JavaObjectPojo.from(
-        PojoName.ofNameAndSuffix("ObjectPojo1", "Dto"), "", members, Constraints.empty());
+        PojoName.ofNameAndSuffix("ObjectPojo1", "Dto"),
+        "",
+        members,
+        PojoType.DEFAULT,
+        Constraints.empty());
   }
 
   public static JavaPojo allNecessityAndNullabilityVariants(Constraints constraints) {
-    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty());
+    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
+        .head();
   }
 
   public static JavaPojo allNecessityAndNullabilityVariants() {
@@ -126,7 +132,7 @@ public class JavaPojos {
         type.equals(ComposedPojo.CompositionType.ANY_OF)
             ? ComposedPojo.resolvedAnyOf(pojos, unresolvedComposedPojo)
             : ComposedPojo.resolvedOneOf(pojos, unresolvedComposedPojo);
-    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty());
+    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty()).head();
   }
 
   public static JavaComposedPojo composedPojo(
@@ -136,6 +142,7 @@ public class JavaPojos {
         "",
         pojos,
         compositionType,
+        PojoType.DEFAULT,
         Constraints.empty(),
         Optional.empty());
   }

@@ -16,25 +16,36 @@ public class PojoMembers {
         Name.ofString("username"),
         "Username",
         StringType.noFormat(),
+        PropertyScope.DEFAULT,
         Necessity.REQUIRED,
         Nullability.NOT_NULLABLE);
   }
 
   public static PojoMember requiredBirthdate() {
+    return requiredBirthdate(PropertyScope.DEFAULT);
+  }
+
+  public static PojoMember requiredBirthdate(PropertyScope propertyScope) {
     return new PojoMember(
         Name.ofString("birthdate"),
         "Birthdate",
         StringType.ofFormat(StringType.Format.DATE),
+        propertyScope,
         Necessity.REQUIRED,
         Nullability.NOT_NULLABLE);
   }
 
   public static PojoMember requiredString() {
+    return requiredString(PropertyScope.DEFAULT);
+  }
+
+  public static PojoMember requiredString(PropertyScope propertyScope) {
     return new PojoMember(
         Name.ofString("requiredStringVal"),
         "RequiredStringVal",
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+        propertyScope,
         Necessity.REQUIRED,
         Nullability.NOT_NULLABLE);
   }
@@ -45,6 +56,7 @@ public class PojoMembers {
         "RequiredNullableStringVal",
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+        PropertyScope.DEFAULT,
         Necessity.REQUIRED,
         NULLABLE);
   }
@@ -55,6 +67,7 @@ public class PojoMembers {
         "OptionalStringVal",
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+        PropertyScope.DEFAULT,
         OPTIONAL,
         NOT_NULLABLE);
   }
@@ -65,6 +78,7 @@ public class PojoMembers {
         "OptionalNullableStringVal",
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+        PropertyScope.DEFAULT,
         OPTIONAL,
         NULLABLE);
   }
