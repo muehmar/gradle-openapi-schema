@@ -8,10 +8,10 @@ import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
@@ -50,7 +50,7 @@ public class SwaggerSpecificationParser implements SpecificationParser {
             entry ->
                 new PojoSchema(
                     PojoName.ofNameAndSuffix(entry.getKey(), pojoSuffix),
-                    (Schema<?>) entry.getValue()));
+                    OpenApiSchema.wrapSchema(entry.getValue())));
   }
 
   private PList<ParameterSchema> parseParameters(OpenAPI openAPI) {
@@ -60,7 +60,9 @@ public class SwaggerSpecificationParser implements SpecificationParser {
         .filter(entry -> nonNull(entry.getValue().getSchema()))
         .map(
             entry ->
-                new ParameterSchema(Name.ofString(entry.getKey()), entry.getValue().getSchema()));
+                new ParameterSchema(
+                    Name.ofString(entry.getKey()),
+                    OpenApiSchema.wrapSchema(entry.getValue().getSchema())));
   }
 
   private OpenAPI parseSpec(String inputSpec) {

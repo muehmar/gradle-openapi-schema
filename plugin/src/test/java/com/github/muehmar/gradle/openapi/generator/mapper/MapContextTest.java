@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
+import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -87,7 +88,9 @@ class MapContextTest {
             EnumPojo.of(
                 PojoName.ofNameAndSuffix("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
     final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Schema", "Dto"), new StringSchema());
+        new PojoSchema(
+            PojoName.ofNameAndSuffix("Schema", "Dto"),
+            OpenApiSchema.wrapSchema(new StringSchema()));
     final UnmappedItems unmappedItems = UnmappedItems.ofPojoSchema(pojoSchema);
     final MapContext mapContext =
         MapContext.fromUnmappedItemsAndResult(unmappedItems, UnresolvedMapResult.empty());
@@ -118,7 +121,8 @@ class MapContextTest {
   @Test
   void onUnmappedItems_when_parameterSchema_then_onParametersCalled() {
     final ParameterSchema parameterSchema =
-        new ParameterSchema(Name.ofString("limitParam"), new IntegerSchema());
+        new ParameterSchema(
+            Name.ofString("limitParam"), OpenApiSchema.wrapSchema(new IntegerSchema()));
     final UnmappedItems unmappedItems = UnmappedItems.ofParameterSchema(parameterSchema);
     final MapContext mapContext =
         MapContext.fromUnmappedItemsAndResult(unmappedItems, UnresolvedMapResult.empty());

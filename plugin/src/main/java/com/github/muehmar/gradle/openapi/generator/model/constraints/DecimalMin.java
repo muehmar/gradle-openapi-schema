@@ -1,7 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.model.constraints;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode
+@ToString
 public class DecimalMin {
   private final String value;
   private final boolean inclusiveMin;
@@ -15,6 +18,10 @@ public class DecimalMin {
     return new DecimalMin(value, true);
   }
 
+  public static DecimalMin exclusive(String value) {
+    return new DecimalMin(value, false);
+  }
+
   public DecimalMin withInclusiveMin(boolean inclusiveMin) {
     return new DecimalMin(value, inclusiveMin);
   }
@@ -25,27 +32,5 @@ public class DecimalMin {
 
   public boolean isInclusiveMin() {
     return inclusiveMin;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    DecimalMin that = (DecimalMin) o;
-    return inclusiveMin == that.inclusiveMin && Objects.equals(value, that.value);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(value, inclusiveMin);
-  }
-
-  @Override
-  public String toString() {
-    return "DecimalMin{" + "value='" + value + '\'' + ", inclusiveMin=" + inclusiveMin + '}';
   }
 }

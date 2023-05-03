@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
+import com.github.muehmar.gradle.openapi.generator.model.schema.IntegerSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
-import io.swagger.v3.oas.models.media.IntegerSchema;
 import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
