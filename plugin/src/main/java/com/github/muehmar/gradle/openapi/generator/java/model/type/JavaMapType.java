@@ -21,12 +21,15 @@ public class JavaMapType implements JavaType {
   private final MapType mapType;
   private final JavaType key;
   private final JavaType value;
+  private final Constraints constraints;
 
-  private JavaMapType(ClassName className, MapType mapType, JavaType key, JavaType value) {
+  private JavaMapType(
+      ClassName className, MapType mapType, JavaType key, JavaType value, Constraints constraints) {
     this.className = className;
     this.mapType = mapType;
     this.key = key;
     this.value = value;
+    this.constraints = constraints;
   }
 
   public static JavaMapType wrap(MapType mapType, TypeMappings typeMappings) {
@@ -34,7 +37,7 @@ public class JavaMapType implements JavaType {
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     final JavaType key = JavaType.wrap(mapType.getKey(), typeMappings);
     final JavaType value = JavaType.wrap(mapType.getValue(), typeMappings);
-    return new JavaMapType(className, mapType, key, value);
+    return new JavaMapType(className, mapType, key, value, mapType.getConstraints());
   }
 
   @Override
@@ -61,7 +64,7 @@ public class JavaMapType implements JavaType {
 
   @Override
   public Constraints getConstraints() {
-    return Constraints.empty();
+    return constraints;
   }
 
   public JavaType getKey() {

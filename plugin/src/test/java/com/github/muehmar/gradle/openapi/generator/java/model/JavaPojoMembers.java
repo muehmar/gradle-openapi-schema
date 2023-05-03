@@ -129,10 +129,21 @@ public class JavaPojoMembers {
 
   public static JavaPojoMember map(
       Type keyType, Type valueType, Necessity necessity, Nullability nullability) {
+    return map(keyType, valueType, necessity, nullability, Constraints.empty());
+  }
+
+  public static JavaPojoMember map(
+      Type keyType,
+      Type valueType,
+      Necessity necessity,
+      Nullability nullability,
+      Constraints constraints) {
     return JavaPojoMember.of(
         Name.ofString("mapVal"),
         "Map",
-        JavaType.wrap(MapType.ofKeyAndValueType(keyType, valueType), TypeMappings.empty()),
+        JavaType.wrap(
+            MapType.ofKeyAndValueType(keyType, valueType).withConstraints(constraints),
+            TypeMappings.empty()),
         necessity,
         nullability);
   }
