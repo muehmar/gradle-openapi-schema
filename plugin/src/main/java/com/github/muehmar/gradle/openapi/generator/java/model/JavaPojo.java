@@ -7,7 +7,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaFreeFormPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaMapPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -22,7 +22,7 @@ public interface JavaPojo {
         arrayPojo -> NonEmptyList.single(JavaArrayPojo.wrap(arrayPojo, typeMappings)),
         enumPojo -> NonEmptyList.single(JavaEnumPojo.wrap(enumPojo)),
         composedPojo -> JavaComposedPojo.wrap(composedPojo, typeMappings),
-        freeFormPojo -> NonEmptyList.single(JavaFreeFormPojo.wrap(freeFormPojo)));
+        mapPojo -> NonEmptyList.single(JavaMapPojo.wrap(mapPojo, typeMappings)));
   }
 
   JavaName getSchemaName();
@@ -38,7 +38,7 @@ public interface JavaPojo {
       Function<JavaEnumPojo, T> onEnumPojo,
       Function<JavaObjectPojo, T> onObjectPojo,
       Function<JavaComposedPojo, T> onComposedPojo,
-      Function<JavaFreeFormPojo, T> onFreeFormPojo);
+      Function<JavaMapPojo, T> onFreeFormPojo);
 
   default PList<JavaPojoMember> getMembersOrEmpty() {
     return fold(

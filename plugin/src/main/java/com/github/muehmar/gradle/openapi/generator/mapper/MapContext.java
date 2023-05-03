@@ -86,6 +86,10 @@ public class MapContext {
     return new MapContext(unmappedItems.addParameterSchemas(parameterSchemas), unresolvedMapResult);
   }
 
+  public MapContext addUnmappedItems(UnmappedItems other) {
+    return new MapContext(unmappedItems.merge(other), unresolvedMapResult);
+  }
+
   public UnmappedItems getUnmappedItems() {
     return unmappedItems;
   }

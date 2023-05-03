@@ -10,19 +10,22 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class FreeFormPojo implements Pojo {
+public class MapPojo implements Pojo {
   private final PojoName name;
   private final String description;
+  private final Type valueType;
   private final Constraints constraints;
 
-  private FreeFormPojo(PojoName name, String description, Constraints constraints) {
+  private MapPojo(PojoName name, String description, Type valueType, Constraints constraints) {
     this.name = name;
     this.description = description;
+    this.valueType = valueType;
     this.constraints = constraints;
   }
 
-  public static FreeFormPojo of(PojoName name, String description, Constraints constraints) {
-    return new FreeFormPojo(name, description, constraints);
+  public static MapPojo of(
+      PojoName name, String description, Type valueType, Constraints constraints) {
+    return new MapPojo(name, description, valueType, constraints);
   }
 
   @Override
@@ -33,6 +36,10 @@ public class FreeFormPojo implements Pojo {
   @Override
   public String getDescription() {
     return description;
+  }
+
+  public Type getValueType() {
+    return valueType;
   }
 
   public Constraints getConstraints() {
@@ -56,7 +63,7 @@ public class FreeFormPojo implements Pojo {
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo,
       Function<ComposedPojo, T> onComposedPojo,
-      Function<FreeFormPojo, T> onFreeFormPojo) {
-    return onFreeFormPojo.apply(this);
+      Function<MapPojo, T> onMapPojo) {
+    return onMapPojo.apply(this);
   }
 }

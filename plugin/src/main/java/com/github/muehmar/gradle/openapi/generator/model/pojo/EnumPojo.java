@@ -52,7 +52,7 @@ public class EnumPojo implements Pojo {
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo,
       Function<ComposedPojo, T> onComposedPojo,
-      Function<FreeFormPojo, T> onFreeFormPojo) {
+      Function<MapPojo, T> onMapPojo) {
     return onEnumPojo.apply(this);
   }
 
