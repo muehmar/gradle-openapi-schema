@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -21,7 +23,8 @@ public class JavaDocGenerator {
   public static <B> Generator<String, B> javaDoc() {
     return Generator.<String, B>ofWriterFunction(w -> w.println("/**"))
         .append(content())
-        .append(w -> w.println(" */"));
+        .append(w -> w.println(" */"))
+        .filter(javadoc -> not(javadoc.trim().isEmpty()));
   }
 
   private static <B> Generator<String, B> content() {

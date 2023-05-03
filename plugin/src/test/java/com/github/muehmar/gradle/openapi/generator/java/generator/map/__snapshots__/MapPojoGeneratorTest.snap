@@ -26,9 +26,6 @@ public final class DtoMapDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   @Valid
   @NotNull
   public Map<String, OtherDto> getValues() {
@@ -95,9 +92,6 @@ public final class DtoMapDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   @Valid
   @NotNull
   public Map<String, OtherDto> getValues() {
@@ -163,9 +157,6 @@ public final class FreeFormDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   @NotNull
   public Map<String, Integer> getValues() {
     return values;
@@ -230,9 +221,6 @@ public final class FreeFormDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   @NotNull
   public Map<String, Integer> getValues() {
     return values;
@@ -297,9 +285,6 @@ public final class ObjectMapDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   @NotNull
   public Map<String, Object> getValues() {
     return values;
@@ -364,9 +349,6 @@ public final class ObjectMapDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   @NotNull
   public Map<String, Object> getValues() {
     return values;
@@ -426,9 +408,6 @@ public final class ObjectMapDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   @NotNull
   public Map<String, Object> getValues() {
     return values;
@@ -489,9 +468,6 @@ public final class ObjectMapDto {
     this.values = values;
   }
 
-  /**
-   * 
-   */
   public Map<String, Object> getValues() {
     return values;
   }
