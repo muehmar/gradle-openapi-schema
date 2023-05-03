@@ -1,12 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class JavaIdentifierTest {
 
@@ -30,5 +32,21 @@ class JavaIdentifierTest {
         arguments("New", "New"),
         arguments("public", "public_"),
         arguments("Public", "Public"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"name", "other, name, other", "name, name"})
+  void wordBoundaryPattern_when_usedAsPattern_then_matchesTexts(String text) {
+    final JavaIdentifier javaIdentifier = JavaIdentifier.fromString("name");
+    final Pattern pattern = Pattern.compile(javaIdentifier.wordBoundaryPattern());
+    assertTrue(pattern.matcher(text).find());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"namename", "surname", "names"})
+  void wordBoundaryPattern_when_usedAsPattern_then_doesNotMatchesTexts(String text) {
+    final JavaIdentifier javaIdentifier = JavaIdentifier.fromString("name");
+    final Pattern pattern = Pattern.compile(javaIdentifier.wordBoundaryPattern());
+    assertFalse(pattern.matcher(text).find());
   }
 }

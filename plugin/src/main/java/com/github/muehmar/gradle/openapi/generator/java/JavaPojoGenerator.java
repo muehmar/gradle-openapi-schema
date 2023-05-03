@@ -4,13 +4,13 @@ import static com.github.muehmar.gradle.openapi.generator.settings.ValidationApi
 import static com.github.muehmar.gradle.openapi.generator.settings.ValidationApi.JAKARTA_3_0;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ComposedPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.PojoPropertyCountMethod;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
@@ -19,7 +19,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.Ha
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SafeBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.*;
@@ -85,7 +84,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     printEnums(writer, pojo, pojoSettings);
 
     printGetters(writer, pojo, pojoSettings);
-    printWithers(writer, pojo);
+    printWithers(writer, pojo, pojoSettings);
 
     printPropertyCount(writer, pojo, pojoSettings);
 
@@ -117,7 +116,7 @@ public class JavaPojoGenerator implements PojoGenerator {
     printEnums(writer, pojo, pojoSettings);
 
     printGetters(writer, pojo, pojoSettings);
-    printWithers(writer, pojo);
+    printWithers(writer, pojo, pojoSettings);
 
     printEqualsAndHash(writer, pojo, pojoSettings);
     printToString(writer, pojo, pojoSettings);
@@ -247,15 +246,6 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println(output);
   }
 
-  private String createNamesCommaSeparated(JavaPojo pojo) {
-    final PList<String> formattedPairs =
-        pojo.getMembersOrEmpty()
-            .flatMap(JavaPojoMember::createFieldNames)
-            .map(JavaIdentifier::asString);
-
-    return String.join(", ", formattedPairs);
-  }
-
   protected void printEnums(Writer writer, JavaPojo pojo, PojoSettings settings) {
     final Generator<JavaEnumPojo, PojoSettings> generator =
         Generator.<JavaEnumPojo, PojoSettings>emptyGen()
@@ -297,26 +287,10 @@ public class JavaPojoGenerator implements PojoGenerator {
         .forEach(writer::println);
   }
 
-  protected void printWithers(Writer writer, JavaPojo pojo) {
-    pojo.getMembersOrEmpty()
-        .forEach(
-            member -> {
-              writer.println();
-              printJavaDoc(writer, 1, member.getDescription());
-              writer
-                  .tab(1)
-                  .println(
-                      "public %s %s(%s %s) {",
-                      pojo.getClassName(),
-                      member.getWitherName(),
-                      member.getJavaType().getFullClassName(),
-                      member.getJavaName().asIdentifier());
-              writer
-                  .tab(2)
-                  .println(
-                      "return new %s(%s);", pojo.getClassName(), createNamesCommaSeparated(pojo));
-              writer.tab(1).println("}");
-            });
+  protected void printWithers(Writer writer, JavaPojo pojo, PojoSettings settings) {
+    final Generator<JavaPojo, PojoSettings> generator = WitherGenerator.generator().indent(1);
+    final String output = applyGen(generator.prependNewLine(), pojo, settings);
+    writer.println(output);
   }
 
   private void printPropertyCount(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {

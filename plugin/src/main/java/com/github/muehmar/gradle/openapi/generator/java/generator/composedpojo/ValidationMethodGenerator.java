@@ -42,8 +42,7 @@ public class ValidationMethodGenerator {
   private static Generator<JavaPojoAndMember, PojoSettings> javaPojoMemberGen() {
     final Generator<JavaPojoAndMember, PojoSettings> requiredNotNullableGen =
         (pm, s, w) ->
-            w.println(
-                "%s != null%s", pm.member.getJavaName().asIdentifier(), pm.ampersandOrSemicolon());
+            w.println("%s != null%s", pm.member.getNameAsIdentifier(), pm.ampersandOrSemicolon());
     final Generator<JavaPojoAndMember, PojoSettings> requiredNullableGen =
         (pm, s, w) ->
             w.println("%s%s", pm.member.getIsPresentFlagName(), pm.ampersandOrSemicolon());

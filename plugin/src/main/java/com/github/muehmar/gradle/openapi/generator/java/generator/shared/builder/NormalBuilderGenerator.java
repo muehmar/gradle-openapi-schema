@@ -89,7 +89,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
     return ((member, settings, writer) ->
         writer.println(
             "private %s %s;",
-            member.getJavaType().getFullClassName(), member.getJavaName().asIdentifier()));
+            member.getJavaType().getFullClassName(), member.getNameAsIdentifier()));
   }
 
   private <B> Generator<JavaPojoMember, B> memberIsPresentFlag() {
@@ -132,8 +132,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 member ->
                     String.format(
                         "%s %s",
-                        member.getJavaType().getFullClassName(),
-                        member.getJavaName().asIdentifier()))
+                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
             .content(setterMethodContent())
             .build();
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
@@ -147,8 +146,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .append(
             (member, settings, writer) ->
                 writer.println(
-                    "this.%s = %s;",
-                    member.getJavaName().asIdentifier(), member.getJavaName().asIdentifier()))
+                    "this.%s = %s;", member.getNameAsIdentifier(), member.getNameAsIdentifier()))
         .appendConditionally(
             JavaPojoMember::isRequiredAndNullable,
             (member, settings, writer) ->
@@ -158,7 +156,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             (member, settings, writer) ->
                 writer.println(
                     "this.%s = %s == null;",
-                    member.getIsNullFlagName(), member.getJavaName().asIdentifier()))
+                    member.getIsNullFlagName(), member.getNameAsIdentifier()))
         .append(w -> w.println("return this;"));
   }
 
@@ -178,15 +176,13 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 member ->
                     String.format(
                         "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(),
-                        member.getJavaName().asIdentifier()))
+                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
             .content(
                 (member, settings, writer) ->
                     writer
                         .println(
                             "this.%s = %s.orElse(null);",
-                            member.getJavaName().asIdentifier(),
-                            member.getJavaName().asIdentifier())
+                            member.getNameAsIdentifier(), member.getNameAsIdentifier())
                         .println("this.%s = true;", member.getIsPresentFlagName())
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
@@ -212,15 +208,13 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 member ->
                     String.format(
                         "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(),
-                        member.getJavaName().asIdentifier()))
+                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
             .content(
                 (member, settings, writer) ->
                     writer
                         .println(
                             "this.%s = %s.orElse(null);",
-                            member.getJavaName().asIdentifier(),
-                            member.getJavaName().asIdentifier())
+                            member.getNameAsIdentifier(), member.getNameAsIdentifier())
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
@@ -245,18 +239,20 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 member ->
                     String.format(
                         "Tristate<%s> %s",
-                        member.getJavaType().getFullClassName(),
-                        member.getJavaName().asIdentifier()))
+                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
             .content(
                 (member, settings, writer) ->
                     writer
                         .println(
-                            "this.%s = %s.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);",
-                            member.getJavaName().asIdentifier(),
-                            member.getJavaName().asIdentifier())
+                            "this.%s = %s.%s;",
+                            member.getNameAsIdentifier(),
+                            member.getNameAsIdentifier(),
+                            member.tristateToProperty())
                         .println(
-                            "this.%s = %s.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);",
-                            member.getIsNullFlagName(), member.getJavaName().asIdentifier())
+                            "this.%s = %s.%s;",
+                            member.getIsNullFlagName(),
+                            member.getNameAsIdentifier(),
+                            member.tristateToIsNullFlag())
                         .println("return this;")
                         .ref(OpenApiUtilRefs.TRISTATE))
             .build();

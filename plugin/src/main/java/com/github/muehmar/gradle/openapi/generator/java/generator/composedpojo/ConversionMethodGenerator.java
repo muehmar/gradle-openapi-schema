@@ -56,14 +56,14 @@ public class ConversionMethodGenerator {
     private PList<ConstructorArgument> asConstructorArguments() {
       if (member.isRequiredAndNotNullable() || member.isOptionalAndNotNullable()) {
         return PList.single(
-            new ConstructorArgument(member.getJavaName().asIdentifier(), commaOrNothing()));
+            new ConstructorArgument(member.getNameAsIdentifier(), commaOrNothing()));
       } else if (member.isRequiredAndNullable()) {
         return PList.of(
-            new ConstructorArgument(member.getJavaName().asIdentifier(), ","),
+            new ConstructorArgument(member.getNameAsIdentifier(), ","),
             new ConstructorArgument(member.getIsPresentFlagName(), commaOrNothing()));
       } else {
         return PList.of(
-            new ConstructorArgument(member.getJavaName().asIdentifier(), ","),
+            new ConstructorArgument(member.getNameAsIdentifier(), ","),
             new ConstructorArgument(member.getIsNullFlagName(), commaOrNothing()));
       }
     }

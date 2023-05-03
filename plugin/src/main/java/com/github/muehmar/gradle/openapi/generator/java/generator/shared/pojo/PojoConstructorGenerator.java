@@ -34,7 +34,7 @@ public class PojoConstructorGenerator {
   private static PList<String> createArguments(JavaPojoMember member) {
     final String memberArgument =
         String.format(
-            "%s %s", member.getJavaType().getFullClassName(), member.getJavaName().asIdentifier());
+            "%s %s", member.getJavaType().getFullClassName(), member.getNameAsIdentifier());
     if (member.isRequired() && member.isNullable()) {
       final String requiredPresentFlag = String.format("boolean %s", member.getIsPresentFlagName());
       return PList.of(memberArgument, requiredPresentFlag);
@@ -55,7 +55,7 @@ public class PojoConstructorGenerator {
   }
 
   private static PList<String> createMemberAssignment(JavaPojoMember member) {
-    final JavaIdentifier memberName = member.getJavaName().asIdentifier();
+    final JavaIdentifier memberName = member.getNameAsIdentifier();
     final String memberAssignmentFormat = "this.%s = %s;";
     final String memberAssignment = String.format(memberAssignmentFormat, memberName, memberName);
     if (member.isRequiredAndNullable()) {
