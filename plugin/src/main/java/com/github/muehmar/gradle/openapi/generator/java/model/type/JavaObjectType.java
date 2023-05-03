@@ -23,6 +23,11 @@ public class JavaObjectType extends NonGenericJavaType {
   }
 
   @Override
+  public boolean isJavaArray() {
+    return false;
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }

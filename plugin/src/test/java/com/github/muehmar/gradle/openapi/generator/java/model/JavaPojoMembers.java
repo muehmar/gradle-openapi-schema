@@ -28,6 +28,15 @@ import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 public class JavaPojoMembers {
   public JavaPojoMembers() {}
 
+  public static JavaPojoMember byteArrayMember() {
+    return JavaPojoMember.of(
+        Name.ofString("data"),
+        "data",
+        JavaType.wrap(StringType.ofFormat(StringType.Format.BINARY), TypeMappings.empty()),
+        Necessity.REQUIRED,
+        Nullability.NOT_NULLABLE);
+  }
+
   public static JavaPojoMember birthdate(
       Constraints constraints, Necessity necessity, Nullability nullability) {
     return JavaPojoMember.of(

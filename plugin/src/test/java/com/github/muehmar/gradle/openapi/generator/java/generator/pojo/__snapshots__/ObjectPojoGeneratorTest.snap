@@ -305,16 +305,16 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(this.id, other.id)
-        && Objects.equals(this.name, other.name)
-        && Objects.equals(this.lastName, other.lastName)
-        && Objects.equals(this.nickName, other.nickName)
-        && Objects.equals(this.email, other.email)
-        && Objects.equals(this.height, other.height)
-        && Objects.equals(this.level, other.level)
-        && Objects.equals(this.uppercase, other.uppercase)
-        && Objects.equals(this.multipleOfValue, other.multipleOfValue)
-        && Objects.equals(this.anotherPojo, other.anotherPojo);
+    return Objects.deepEquals(this.id, other.id)
+        && Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.lastName, other.lastName)
+        && Objects.deepEquals(this.nickName, other.nickName)
+        && Objects.deepEquals(this.email, other.email)
+        && Objects.deepEquals(this.height, other.height)
+        && Objects.deepEquals(this.level, other.level)
+        && Objects.deepEquals(this.uppercase, other.uppercase)
+        && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
+        && Objects.deepEquals(this.anotherPojo, other.anotherPojo);
   }
 
   @Override
@@ -336,16 +336,16 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "id=" + id +
-      ", name=" + name +
-      ", lastName=" + lastName +
-      ", nickName=" + nickName +
-      ", email=" + email +
-      ", height=" + height +
-      ", level=" + level +
-      ", uppercase=" + uppercase +
-      ", multipleOfValue=" + multipleOfValue +
-      ", anotherPojo=" + anotherPojo +
+      "id=" + id + ", " +
+      "name=" + name + ", " +
+      "lastName=" + lastName + ", " +
+      "nickName=" + nickName + ", " +
+      "email=" + email + ", " +
+      "height=" + height + ", " +
+      "level=" + level + ", " +
+      "uppercase=" + uppercase + ", " +
+      "multipleOfValue=" + multipleOfValue + ", " +
+      "anotherPojo=" + anotherPojo +
       "}";
   }
 
@@ -799,16 +799,16 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(this.id, other.id)
-        && Objects.equals(this.name, other.name)
-        && Objects.equals(this.lastName, other.lastName)
-        && Objects.equals(this.nickName, other.nickName)
-        && Objects.equals(this.email, other.email)
-        && Objects.equals(this.height, other.height)
-        && Objects.equals(this.level, other.level)
-        && Objects.equals(this.uppercase, other.uppercase)
-        && Objects.equals(this.multipleOfValue, other.multipleOfValue)
-        && Objects.equals(this.anotherPojo, other.anotherPojo);
+    return Objects.deepEquals(this.id, other.id)
+        && Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.lastName, other.lastName)
+        && Objects.deepEquals(this.nickName, other.nickName)
+        && Objects.deepEquals(this.email, other.email)
+        && Objects.deepEquals(this.height, other.height)
+        && Objects.deepEquals(this.level, other.level)
+        && Objects.deepEquals(this.uppercase, other.uppercase)
+        && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
+        && Objects.deepEquals(this.anotherPojo, other.anotherPojo);
   }
 
   @Override
@@ -830,16 +830,16 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "id=" + id +
-      ", name=" + name +
-      ", lastName=" + lastName +
-      ", nickName=" + nickName +
-      ", email=" + email +
-      ", height=" + height +
-      ", level=" + level +
-      ", uppercase=" + uppercase +
-      ", multipleOfValue=" + multipleOfValue +
-      ", anotherPojo=" + anotherPojo +
+      "id=" + id + ", " +
+      "name=" + name + ", " +
+      "lastName=" + lastName + ", " +
+      "nickName=" + nickName + ", " +
+      "email=" + email + ", " +
+      "height=" + height + ", " +
+      "level=" + level + ", " +
+      "uppercase=" + uppercase + ", " +
+      "multipleOfValue=" + multipleOfValue + ", " +
+      "anotherPojo=" + anotherPojo +
       "}";
   }
 
@@ -1125,9 +1125,9 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(this.id, other.id)
-        && Objects.equals(this.name, other.name)
-        && Objects.equals(this.language, other.language);
+    return Objects.deepEquals(this.id, other.id)
+        && Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.language, other.language);
   }
 
   @Override
@@ -1142,9 +1142,9 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "id=" + id +
-      ", name=" + name +
-      ", language=" + language +
+      "id=" + id + ", " +
+      "name=" + name + ", " +
+      "language=" + language +
       "}";
   }
 
@@ -1446,9 +1446,9 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(this.id, other.id)
-        && Objects.equals(this.name, other.name)
-        && Objects.equals(this.language, other.language);
+    return Objects.deepEquals(this.id, other.id)
+        && Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.language, other.language);
   }
 
   @Override
@@ -1463,9 +1463,9 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "id=" + id +
-      ", name=" + name +
-      ", language=" + language +
+      "id=" + id + ", " +
+      "name=" + name + ", " +
+      "language=" + language +
       "}";
   }
 
@@ -1663,9 +1663,9 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(this.id, other.id)
-        && Objects.equals(this.name, other.name)
-        && Objects.equals(this.language, other.language);
+    return Objects.deepEquals(this.id, other.id)
+        && Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.language, other.language);
   }
 
   @Override
@@ -1680,9 +1680,9 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "id=" + id +
-      ", name=" + name +
-      ", language=" + language +
+      "id=" + id + ", " +
+      "name=" + name + ", " +
+      "language=" + language +
       "}";
   }
 
@@ -1925,12 +1925,12 @@ public class NecessityAndNullabilityDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final NecessityAndNullabilityDto other = (NecessityAndNullabilityDto) obj;
-    return Objects.equals(this.requiredStringVal, other.requiredStringVal)
-        && Objects.equals(this.requiredNullableStringVal, other.requiredNullableStringVal)
-        && Objects.equals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
-        && Objects.equals(this.optionalStringVal, other.optionalStringVal)
-        && Objects.equals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.equals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+    return Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.requiredNullableStringVal, other.requiredNullableStringVal)
+        && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
+        && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
+        && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
   }
 
   @Override
@@ -1948,12 +1948,12 @@ public class NecessityAndNullabilityDto {
   @Override
   public String toString() {
     return "NecessityAndNullabilityDto{" +
-      "requiredStringVal=" + requiredStringVal +
-      ", requiredNullableStringVal=" + requiredNullableStringVal +
-      ", isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent +
-      ", optionalStringVal=" + optionalStringVal +
-      ", optionalNullableStringVal=" + optionalNullableStringVal +
-      ", isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "requiredStringVal=" + requiredStringVal + ", " +
+      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
+      "optionalStringVal=" + optionalStringVal + ", " +
+      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
       "}";
   }
 
@@ -2218,7 +2218,7 @@ public class ObjectPojo1Dto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
-    return Objects.equals(this.listVal, other.listVal);
+    return Objects.deepEquals(this.listVal, other.listVal);
   }
 
   @Override
@@ -2373,7 +2373,7 @@ public class ObjectPojo1Dto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
-    return Objects.equals(this.mapVal, other.mapVal);
+    return Objects.deepEquals(this.mapVal, other.mapVal);
   }
 
   @Override
@@ -2603,7 +2603,7 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(this.language, other.language);
+    return Objects.deepEquals(this.language, other.language);
   }
 
   @Override
@@ -2779,7 +2779,7 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.equals(this.language, other.language);
+    return Objects.deepEquals(this.language, other.language);
   }
 
   @Override

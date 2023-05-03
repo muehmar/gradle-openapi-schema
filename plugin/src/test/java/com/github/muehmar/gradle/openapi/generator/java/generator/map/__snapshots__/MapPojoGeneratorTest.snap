@@ -54,7 +54,7 @@ public final class DtoMapDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final DtoMapDto other = (DtoMapDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override
@@ -123,7 +123,7 @@ public final class DtoMapDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final DtoMapDto other = (DtoMapDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override
@@ -190,7 +190,7 @@ public final class FreeFormDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final FreeFormDto other = (FreeFormDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override
@@ -257,7 +257,7 @@ public final class FreeFormDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final FreeFormDto other = (FreeFormDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override
@@ -324,7 +324,7 @@ public final class ObjectMapDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectMapDto other = (ObjectMapDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override
@@ -391,7 +391,7 @@ public final class ObjectMapDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectMapDto other = (ObjectMapDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override
@@ -452,7 +452,7 @@ public final class ObjectMapDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectMapDto other = (ObjectMapDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override
@@ -513,7 +513,7 @@ public final class ObjectMapDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectMapDto other = (ObjectMapDto) obj;
-    return Objects.equals(this.values, other.values);
+    return Objects.deepEquals(this.values, other.values);
   }
 
   @Override

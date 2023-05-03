@@ -12,6 +12,7 @@ import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/** Wraps a {@link ArrayType} but not to be confused with actual java arrays. */
 @EqualsAndHashCode
 @ToString
 public class JavaArrayType implements JavaType {
@@ -59,6 +60,11 @@ public class JavaArrayType implements JavaType {
   @Override
   public Name getFullClassName() {
     return className.getClassNameWithGenerics(itemType.getFullClassName());
+  }
+
+  @Override
+  public boolean isJavaArray() {
+    return false;
   }
 
   @Override

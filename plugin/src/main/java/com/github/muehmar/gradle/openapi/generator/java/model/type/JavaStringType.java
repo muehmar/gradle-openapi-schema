@@ -58,6 +58,11 @@ public class JavaStringType extends NonGenericJavaType {
   }
 
   @Override
+  public boolean isJavaArray() {
+    return className.equals(ClassNames.BYTE_ARRAY);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }
