@@ -3,21 +3,19 @@ package com.github.muehmar.gradle.openapi.task;
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.Generators;
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.TristateGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonNullContainerGenerator;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.SpecificationMapper;
+import com.github.muehmar.gradle.openapi.generator.model.Parameter;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Suppliers;
+import com.github.muehmar.gradle.openapi.writer.BaseDirFileWriter;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
-import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.writer.Writer;
-import java.io.File;
+import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -70,15 +68,29 @@ public class GenerateSchemasTask extends DefaultTask {
 
   private void runTask() {
     final MapResult mapResult = cachedMapping.get();
-    final Generators generators = GeneratorFactory.create(Language.JAVA, outputDir.get());
+    final Generators generators = GeneratorFactory.create(Language.JAVA);
+
+    mapResult.getPojos().map(pojo -> createPojo(pojo, generators)).forEach(this::writeFile);
 
     mapResult
-        .getPojos()
-        .forEach(pojo -> generators.getPojoGenerator().generatePojo(pojo, pojoSettings.get()));
+        .getParameters()
+        .map(parameter -> createParameter(parameter, generators))
+        .forEach(this::writeFile);
 
-    generators.getParametersGenerator().generate(mapResult.getParameters(), pojoSettings.get());
+    generators.getUtilsGenerator().generateUtils().forEach(this::writeFile);
+  }
 
-    writeOpenApiUtils();
+  private GeneratedFile createPojo(Pojo pojo, Generators generators) {
+    return generators.getPojoGenerator().generatePojo(pojo, pojoSettings.get());
+  }
+
+  private GeneratedFile createParameter(Parameter parameter, Generators generators) {
+    return generators.getParametersGenerator().generate(parameter, pojoSettings.get());
+  }
+
+  private void writeFile(GeneratedFile file) {
+    final FileWriter fileWriter = new BaseDirFileWriter(outputDir.get());
+    fileWriter.writeFile(file);
   }
 
   private MapResult executeMapping() {
@@ -113,21 +125,6 @@ public class GenerateSchemasTask extends DefaultTask {
   private static MainDirectory deviateMainDirectory(String inputSpec) {
     final Path specPath = Paths.get(inputSpec);
     return MainDirectory.fromPath(Optional.ofNullable(specPath.getParent()).orElse(Paths.get("")));
-  }
-
-  private void writeOpenApiUtils() {
-    final Generator<Void, Void> tristateGen = TristateGenerator.tristateClass();
-    final FileWriter tristateWriter = new FileWriter(outputDir.get());
-    tristateWriter.println(tristateGen.generate(null, null, Writer.createDefault()).asString());
-    tristateWriter.close(OpenApiUtilRefs.TRISTATE.replace(".", File.separator) + ".java");
-
-    final Generator<Void, Void> jacksonContainerGen =
-        JacksonNullContainerGenerator.containerClass();
-    final FileWriter jacksonContainerWriter = new FileWriter(outputDir.get());
-    jacksonContainerWriter.println(
-        jacksonContainerGen.generate(null, null, Writer.createDefault()).asString());
-    jacksonContainerWriter.close(
-        OpenApiUtilRefs.JACKSON_NULL_CONTAINER.replace(".", File.separator) + ".java");
   }
 
   @InputFiles

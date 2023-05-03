@@ -1,14 +1,19 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
+import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -181,5 +186,25 @@ public class JavaPojoMember {
 
   public String tristateToIsNullFlag() {
     return TRISTATE_TO_ISNULL_FLAG;
+  }
+
+  public Optional<JavaEnumPojo> asEnumPojo() {
+    final Function<JavaEnumType, Optional<JavaEnumPojo>> toEnumPojo =
+        type ->
+            Optional.of(
+                JavaEnumPojo.of(
+                    PojoName.ofName(getJavaType().getClassName()),
+                    getDescription(),
+                    type.getMembers()));
+    return javaType.fold(
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        toEnumPojo,
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty());
   }
 }

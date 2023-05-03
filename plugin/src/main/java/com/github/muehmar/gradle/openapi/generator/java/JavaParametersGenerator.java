@@ -1,45 +1,28 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.ParametersGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.parameter.JavaParameter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.parameter.ParameterGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaFileName;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.writer.Writer;
-import java.util.function.Supplier;
+import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 public class JavaParametersGenerator implements ParametersGenerator {
-  private final Supplier<Writer> createWriter;
-
-  public JavaParametersGenerator(Supplier<Writer> createWriter) {
-    this.createWriter = createWriter;
-  }
 
   @Override
-  public void generate(PList<Parameter> parameters, PojoSettings settings) {
-    final PList<JavaParameter> javaParameters = parameters.map(JavaParameter::wrap);
-    generateJavaParameters(javaParameters, settings);
+  public GeneratedFile generate(Parameter parameter, PojoSettings settings) {
+    return generateJavaParameter(JavaParameter.wrap(parameter), settings);
   }
 
-  private void generateJavaParameters(PList<JavaParameter> parameters, PojoSettings settings) {
-    parameters.forEach(parameter -> writeParameterClass(parameter, settings));
-  }
-
-  private void writeParameterClass(JavaParameter parameter, PojoSettings settings) {
-    final String packagePath = settings.getPackageName().replace(".", "/").replaceFirst("^/", "");
-
-    final Writer writer = createWriter.get();
+  private GeneratedFile generateJavaParameter(JavaParameter parameter, PojoSettings settings) {
 
     final ParameterGenerator parameterGenerator = new ParameterGenerator();
-    final String output =
-        parameterGenerator
-            .generate(
-                parameter, settings, io.github.muehmar.codegenerator.writer.Writer.createDefault())
-            .asString();
+    final String content =
+        parameterGenerator.generate(parameter, settings, Writer.createDefault()).asString();
 
-    writer.print(output);
-
-    writer.close(packagePath + "/parameter/" + parameter.getParamClassName() + ".java");
+    final JavaFileName javaFileName = JavaFileName.fromSettingsAndParameter(settings, parameter);
+    return new GeneratedFile(javaFileName.asPath(), content);
   }
 }

@@ -1,0 +1,68 @@
+arrayPojo=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+
+/**
+ * Doses to be taken
+ */
+public class PosologyDto {
+  @JsonValue
+  private final List<Double> value;
+
+  @JsonCreator
+  public PosologyDto(
+      List<Double> value
+    ) {
+    this.value = value;
+  }
+
+  /**
+   * Doses to be taken
+   */
+  @NotNull
+  public List<Double> getValue() {
+    return value;
+  }
+
+  /**
+   * Doses to be taken
+   */
+  public PosologyDto withValue(List<Double> value) {
+    return new PosologyDto(value);
+  }
+
+  @AssertTrue(message = "PosologyDto does not contain unique items")
+  private boolean isAllUniqueItems() {
+    return new HashSet<>(value).size() == value.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final PosologyDto other = (PosologyDto) obj;
+    return Objects.equals(this.value, other.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      value
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "PosologyDto{" +
+      "value=" + value +
+      "}";
+  }
+}
+]
