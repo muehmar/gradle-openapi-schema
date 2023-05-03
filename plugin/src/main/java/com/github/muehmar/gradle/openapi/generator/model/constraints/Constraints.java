@@ -4,43 +4,24 @@ import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.Function;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Value;
 
-@EqualsAndHashCode
-@ToString
+@Value
 @PojoBuilder
 public class Constraints {
-  private final Optional<Min> min;
-  private final Optional<Max> max;
-  private final Optional<DecimalMin> decimalMin;
-  private final Optional<DecimalMax> decimalMax;
-  private final Optional<Size> size;
-  private final Optional<Pattern> pattern;
-  private final Optional<Email> email;
-  private final Optional<PropertyCount> propertyCount;
-
-  Constraints(
-      Optional<Min> min,
-      Optional<Max> max,
-      Optional<DecimalMin> decimalMin,
-      Optional<DecimalMax> decimalMax,
-      Optional<Size> size,
-      Optional<Pattern> pattern,
-      Optional<Email> email,
-      Optional<PropertyCount> propertyCount) {
-    this.min = min;
-    this.max = max;
-    this.decimalMin = decimalMin;
-    this.decimalMax = decimalMax;
-    this.size = size;
-    this.pattern = pattern;
-    this.email = email;
-    this.propertyCount = propertyCount;
-  }
+  Optional<Min> min;
+  Optional<Max> max;
+  Optional<DecimalMin> decimalMin;
+  Optional<DecimalMax> decimalMax;
+  Optional<Size> size;
+  Optional<Pattern> pattern;
+  Optional<Email> email;
+  Optional<PropertyCount> propertyCount;
+  Optional<MultipleOf> multipleOf;
 
   public static Constraints empty() {
     return new Constraints(
+        Optional.empty(),
         Optional.empty(),
         Optional.empty(),
         Optional.empty(),
@@ -91,43 +72,99 @@ public class Constraints {
     return ConstraintsBuilder.create().andOptionals().propertyCount(propertyCount).build();
   }
 
-  public Optional<PropertyCount> getPropertyCount() {
-    return propertyCount;
+  public static Constraints ofMultipleOf(MultipleOf multipleOf) {
+    return ConstraintsBuilder.create().andOptionals().multipleOf(multipleOf).build();
   }
 
   public Constraints withMin(Min min) {
     return new Constraints(
-        Optional.ofNullable(min), max, decimalMin, decimalMax, size, pattern, email, propertyCount);
+        Optional.ofNullable(min),
+        max,
+        decimalMin,
+        decimalMax,
+        size,
+        pattern,
+        email,
+        propertyCount,
+        multipleOf);
   }
 
   public Constraints withMax(Max max) {
     return new Constraints(
-        min, Optional.ofNullable(max), decimalMin, decimalMax, size, pattern, email, propertyCount);
+        min,
+        Optional.ofNullable(max),
+        decimalMin,
+        decimalMax,
+        size,
+        pattern,
+        email,
+        propertyCount,
+        multipleOf);
   }
 
   public Constraints withSize(Size size) {
     return new Constraints(
-        min, max, decimalMin, decimalMax, Optional.ofNullable(size), pattern, email, propertyCount);
+        min,
+        max,
+        decimalMin,
+        decimalMax,
+        Optional.ofNullable(size),
+        pattern,
+        email,
+        propertyCount,
+        multipleOf);
   }
 
   public Constraints withPattern(Pattern pattern) {
     return new Constraints(
-        min, max, decimalMin, decimalMax, size, Optional.ofNullable(pattern), email, propertyCount);
+        min,
+        max,
+        decimalMin,
+        decimalMax,
+        size,
+        Optional.ofNullable(pattern),
+        email,
+        propertyCount,
+        multipleOf);
   }
 
   public Constraints withEmail(Email email) {
     return new Constraints(
-        min, max, decimalMin, decimalMax, size, pattern, Optional.ofNullable(email), propertyCount);
+        min,
+        max,
+        decimalMin,
+        decimalMax,
+        size,
+        pattern,
+        Optional.ofNullable(email),
+        propertyCount,
+        multipleOf);
   }
 
   public Constraints withDecimalMin(DecimalMin decimalMin) {
     return new Constraints(
-        min, max, Optional.ofNullable(decimalMin), decimalMax, size, pattern, email, propertyCount);
+        min,
+        max,
+        Optional.ofNullable(decimalMin),
+        decimalMax,
+        size,
+        pattern,
+        email,
+        propertyCount,
+        multipleOf);
   }
 
   public Constraints withDecimalMax(DecimalMax decimalMax) {
     return new Constraints(
-        min, max, decimalMin, Optional.ofNullable(decimalMax), size, pattern, email, propertyCount);
+        min,
+        max,
+        decimalMin,
+        Optional.ofNullable(decimalMax),
+        size,
+        pattern,
+        email,
+        propertyCount,
+        multipleOf);
   }
 
   public Constraints and(Constraints other) {
@@ -139,7 +176,8 @@ public class Constraints {
         Optionals.or(size, other.size),
         Optionals.or(pattern, other.pattern),
         Optionals.or(email, other.email),
-        Optionals.or(propertyCount, other.propertyCount));
+        Optionals.or(propertyCount, other.propertyCount),
+        Optionals.or(multipleOf, other.multipleOf));
   }
 
   public Optional<Min> getMin() {

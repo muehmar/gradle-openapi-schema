@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -60,6 +61,21 @@ class IntegerSchemaMapperTest extends BaseTypeMapperTest {
 
     final Type expectedType =
         fromFormat(format).withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50)));
+
+    assertEquals(expectedType, result.getType());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"int32", "int64"})
+  void mapThrowing_when_multipleOfConstraint_then_typeWithCorrectMultipleOfConstraint(
+      String format) {
+    final Schema<?> schema = new IntegerSchema().format(format).multipleOf(new BigDecimal(18));
+    final MemberSchemaMapResult result = run(schema);
+
+    final Type expectedType =
+        fromFormat(format)
+            .withConstraints(Constraints.ofMultipleOf(new MultipleOf(new BigDecimal(18))));
 
     assertEquals(expectedType, result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());

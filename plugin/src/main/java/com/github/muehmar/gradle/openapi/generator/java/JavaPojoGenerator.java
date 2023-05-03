@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.C
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MultipleOfValidationMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.PojoPropertyCountMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
@@ -90,6 +91,8 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     printEqualsAndHash(writer, pojo, pojoSettings);
     printToString(writer, pojo, pojoSettings);
+
+    printMultipleOfValidationMethod(writer, pojo, pojoSettings);
 
     printBuilder(writer, pojo, pojoSettings);
     if (pojoSettings.isEnableSafeBuilder()) {
@@ -293,6 +296,14 @@ public class JavaPojoGenerator implements PojoGenerator {
     writer.println(output);
   }
 
+  private void printMultipleOfValidationMethod(
+      Writer writer, JavaObjectPojo pojo, PojoSettings settings) {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        MultipleOfValidationMethodGenerator.generator().indent(1);
+    final String output = applyGen(generator.prependNewLine(), pojo, settings);
+    writer.println(output);
+  }
+
   private void printPropertyCount(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         PojoPropertyCountMethod.propertyCountMethod().indent(1);
@@ -346,7 +357,8 @@ public class JavaPojoGenerator implements PojoGenerator {
   private static <T, S> String applyGen(Generator<T, S> gen, T data, S settings) {
     return gen.generate(
             data, settings, io.github.muehmar.codegenerator.writer.Writer.createDefault())
-        .asString();
+        .asString()
+        .replace("%", "%%");
   }
 
   private static <T> String applyGen(Generator<T, Void> gen, T data) {

@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -64,6 +65,21 @@ class NumberSchemaMapperTest extends BaseTypeMapperTest {
             .withConstraints(
                 Constraints.ofDecimalMinAndMax(
                     new DecimalMin("18", true), new DecimalMax("50", true)));
+
+    assertEquals(expectedType, mappedSchema.getType());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"float", "double"})
+  void mapThrowing_when_multipleOfConstraint_then_typeWithCorrectMultipleOfConstraint(
+      String format) {
+    final Schema<?> schema = new NumberSchema().format(format).multipleOf(new BigDecimal(18));
+    final MemberSchemaMapResult mappedSchema = run(schema);
+
+    final Type expectedType =
+        fromFormat(format)
+            .withConstraints(Constraints.ofMultipleOf(new MultipleOf(new BigDecimal(18))));
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
