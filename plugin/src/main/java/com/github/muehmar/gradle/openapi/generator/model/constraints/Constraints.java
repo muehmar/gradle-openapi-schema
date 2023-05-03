@@ -5,8 +5,10 @@ import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.Value;
+import lombok.With;
 
 @Value
+@With
 @PojoBuilder
 public class Constraints {
   Optional<Min> min;
@@ -18,6 +20,7 @@ public class Constraints {
   Optional<Email> email;
   Optional<PropertyCount> propertyCount;
   Optional<MultipleOf> multipleOf;
+  boolean uniqueItems;
 
   public static Constraints empty() {
     return new Constraints(
@@ -29,7 +32,8 @@ public class Constraints {
         Optional.empty(),
         Optional.empty(),
         Optional.empty(),
-        Optional.empty());
+        Optional.empty(),
+        false);
   }
 
   public static Constraints ofMin(Min min) {
@@ -69,11 +73,15 @@ public class Constraints {
   }
 
   public static Constraints ofPropertiesCount(PropertyCount propertyCount) {
-    return ConstraintsBuilder.create().andOptionals().propertyCount(propertyCount).build();
+    return Constraints.empty().withPropertyCount(propertyCount);
   }
 
   public static Constraints ofMultipleOf(MultipleOf multipleOf) {
-    return ConstraintsBuilder.create().andOptionals().multipleOf(multipleOf).build();
+    return Constraints.empty().withMultipleOf(multipleOf);
+  }
+
+  public static Constraints ofUniqueItems(boolean uniqueItems) {
+    return Constraints.empty().withUniqueItems(uniqueItems);
   }
 
   public Constraints withMin(Min min) {
@@ -86,7 +94,8 @@ public class Constraints {
         pattern,
         email,
         propertyCount,
-        multipleOf);
+        multipleOf,
+        uniqueItems);
   }
 
   public Constraints withMax(Max max) {
@@ -99,7 +108,8 @@ public class Constraints {
         pattern,
         email,
         propertyCount,
-        multipleOf);
+        multipleOf,
+        uniqueItems);
   }
 
   public Constraints withSize(Size size) {
@@ -112,7 +122,8 @@ public class Constraints {
         pattern,
         email,
         propertyCount,
-        multipleOf);
+        multipleOf,
+        uniqueItems);
   }
 
   public Constraints withPattern(Pattern pattern) {
@@ -125,7 +136,8 @@ public class Constraints {
         Optional.ofNullable(pattern),
         email,
         propertyCount,
-        multipleOf);
+        multipleOf,
+        uniqueItems);
   }
 
   public Constraints withEmail(Email email) {
@@ -138,7 +150,8 @@ public class Constraints {
         pattern,
         Optional.ofNullable(email),
         propertyCount,
-        multipleOf);
+        multipleOf,
+        uniqueItems);
   }
 
   public Constraints withDecimalMin(DecimalMin decimalMin) {
@@ -151,7 +164,8 @@ public class Constraints {
         pattern,
         email,
         propertyCount,
-        multipleOf);
+        multipleOf,
+        uniqueItems);
   }
 
   public Constraints withDecimalMax(DecimalMax decimalMax) {
@@ -164,7 +178,36 @@ public class Constraints {
         pattern,
         email,
         propertyCount,
-        multipleOf);
+        multipleOf,
+        uniqueItems);
+  }
+
+  public Constraints withPropertyCount(PropertyCount propertyCount) {
+    return new Constraints(
+        min,
+        max,
+        decimalMin,
+        decimalMax,
+        size,
+        pattern,
+        email,
+        Optional.ofNullable(propertyCount),
+        multipleOf,
+        uniqueItems);
+  }
+
+  public Constraints withMultipleOf(MultipleOf multipleOf) {
+    return new Constraints(
+        min,
+        max,
+        decimalMin,
+        decimalMax,
+        size,
+        pattern,
+        email,
+        propertyCount,
+        Optional.ofNullable(multipleOf),
+        uniqueItems);
   }
 
   public Constraints and(Constraints other) {
@@ -177,7 +220,8 @@ public class Constraints {
         Optionals.or(pattern, other.pattern),
         Optionals.or(email, other.email),
         Optionals.or(propertyCount, other.propertyCount),
-        Optionals.or(multipleOf, other.multipleOf));
+        Optionals.or(multipleOf, other.multipleOf),
+        uniqueItems || other.uniqueItems);
   }
 
   public Optional<Min> getMin() {

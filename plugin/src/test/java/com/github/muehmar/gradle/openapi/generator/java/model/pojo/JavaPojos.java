@@ -51,14 +51,18 @@ public class JavaPojos {
         constraints);
   }
 
-  public static JavaPojo arrayPojo() {
+  public static JavaArrayPojo arrayPojo(Constraints constraints) {
     final ArrayPojo arrayPojo =
         ArrayPojo.of(
             PojoName.ofNameAndSuffix(Name.ofString("Posology"), "Dto"),
             "Doses to be taken",
             NumericType.formatDouble(),
-            Constraints.empty());
+            constraints);
     return JavaArrayPojo.wrap(arrayPojo, TypeMappings.empty());
+  }
+
+  public static JavaArrayPojo arrayPojo() {
+    return arrayPojo(Constraints.empty());
   }
 
   public static JavaPojo enumPojo() {

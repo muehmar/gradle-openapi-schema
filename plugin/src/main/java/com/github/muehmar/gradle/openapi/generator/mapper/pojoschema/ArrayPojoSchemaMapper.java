@@ -30,7 +30,8 @@ public class ArrayPojoSchemaMapper implements SinglePojoSchemaMapper {
   }
 
   private MapContext fromArraysSchema(PojoName pojoName, ArraySchema schema) {
-    final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
+    final Constraints constraints =
+        ConstraintsMapper.getMinAndMaxItems(schema).and(ConstraintsMapper.getUniqueItems(schema));
 
     final MemberSchemaMapResult memberSchemaMapResult =
         COMPLETE_TYPE_MAPPER.map(pojoName, Name.ofString("value"), schema.getItems());

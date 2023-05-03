@@ -25,7 +25,8 @@ public class ArraySchemaMapper extends BaseMemberSchemaMapper<ArraySchema> {
       CompleteMemberSchemaMapper completeMapper) {
     final Schema<?> items = schema.getItems();
 
-    final Constraints constraints = ConstraintsMapper.getMinAndMaxItems(schema);
+    final Constraints constraints =
+        ConstraintsMapper.getMinAndMaxItems(schema).and(ConstraintsMapper.getUniqueItems(schema));
 
     if (items instanceof ObjectSchema || items instanceof ComposedSchema) {
       final PojoName openApiPojoName = PojoName.deriveOpenApiPojoName(pojoName, pojoMemberName);

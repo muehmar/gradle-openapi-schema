@@ -199,4 +199,19 @@ class ConstraintsMapperTest {
 
     assertEquals(Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("9.02"))), constraints);
   }
+
+  @Test
+  void getUniqueItems_when_nothing_then_emptyConstraint() {
+    final Constraints minAndMaxItems = ConstraintsMapper.getUniqueItems(new Schema<>());
+
+    assertEquals(Constraints.empty(), minAndMaxItems);
+  }
+
+  @Test
+  void getUniqueItems_when_minItemsDefined_then_minSize() {
+    final Constraints constraints =
+        ConstraintsMapper.getUniqueItems(new Schema<>().uniqueItems(true));
+
+    assertEquals(Constraints.ofUniqueItems(true), constraints);
+  }
 }

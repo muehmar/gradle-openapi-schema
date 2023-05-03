@@ -60,6 +60,11 @@ public class PosologyDto {
     return new PosologyDto(value);
   }
 
+  @AssertTrue(message = "PosologyDto does not contain unique items")
+  private boolean isAllUniqueItems() {
+    return new HashSet<>(value).size() == value.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;

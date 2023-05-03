@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.settings.ValidationApi
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.array.UniqueItemsValidationMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ComposedPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.freeform.FreeFormPojoGenerator;
@@ -120,6 +121,8 @@ public class JavaPojoGenerator implements PojoGenerator {
 
     printGetters(writer, pojo, pojoSettings);
     printWithers(writer, pojo, pojoSettings);
+
+    printUniqueItemsMethod(writer, pojo, pojoSettings);
 
     printEqualsAndHash(writer, pojo, pojoSettings);
     printToString(writer, pojo, pojoSettings);
@@ -307,6 +310,13 @@ public class JavaPojoGenerator implements PojoGenerator {
   private void printPropertyCount(Writer writer, JavaObjectPojo pojo, PojoSettings settings) {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         PojoPropertyCountMethod.propertyCountMethod().indent(1);
+    final String output = applyGen(generator.prependNewLine(), pojo, settings);
+    writer.println(output);
+  }
+
+  private void printUniqueItemsMethod(Writer writer, JavaArrayPojo pojo, PojoSettings settings) {
+    final Generator<JavaArrayPojo, PojoSettings> generator =
+        UniqueItemsValidationMethodGenerator.generator().indent(1);
     final String output = applyGen(generator.prependNewLine(), pojo, settings);
     writer.println(output);
   }
