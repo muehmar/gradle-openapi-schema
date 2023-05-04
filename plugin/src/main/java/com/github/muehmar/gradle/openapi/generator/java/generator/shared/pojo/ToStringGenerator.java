@@ -18,9 +18,9 @@ import lombok.Value;
 public class ToStringGenerator {
   private ToStringGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> toStringMethod() {
-    final Generator<JavaPojo, PojoSettings> method =
-        JavaGenerators.<JavaPojo, PojoSettings>methodGen()
+  public static <T extends JavaPojo> Generator<T, PojoSettings> toStringMethod() {
+    final Generator<T, PojoSettings> method =
+        JavaGenerators.<T, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("String")
@@ -28,7 +28,7 @@ public class ToStringGenerator {
             .noArguments()
             .content(toStringMethodContent())
             .build();
-    return AnnotationGenerator.<JavaPojo, PojoSettings>override()
+    return AnnotationGenerator.<T, PojoSettings>override()
         .append(method)
         .append(arraysRefGenerator())
         .filter(JavaPojo::isNotEnum);
@@ -45,7 +45,7 @@ public class ToStringGenerator {
     return p.getMembersOrEmpty().exists(m -> m.getJavaType().isJavaArray());
   }
 
-  private static Generator<JavaPojo, PojoSettings> toStringMethodContent() {
+  private static <T extends JavaPojo> Generator<T, PojoSettings> toStringMethodContent() {
     return (pojo, s, w) -> {
       final Writer writerStartPrinted = w.println("return \"%s{\" +", pojo.getClassName());
 
