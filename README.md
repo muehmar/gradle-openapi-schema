@@ -3,7 +3,7 @@
 
 # Gradle OpenApi Schema Codegen
 
-This is a gradle plugin to generate Java code given an openapi 3.0.x specification. Unlike other codegen tools, this
+This is a gradle plugin to generate Java code given an openapi 3.0.x or 3.1.0 specification. Unlike other codegen tools, this
 focuses mainly on the `#/component/schema` section. It generates immutable classes and special builder classes to
 support a safe way creating instances. The data classes support JSON conversions via jackson. Additionally, the plugin
 generates simple classes for parameters (`#/component/parameters` section) to support checking the constraints.
@@ -298,6 +298,25 @@ validationMethods {
 | deprecatedAnnotation | boolean   | false   | Determines if the validation methods should be annotated with deprecated.                            |
 
 See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes use of this configuration.
+
+## OpenAPI v3.0.x vs v3.1.0
+The version 3.1.0 of the OpenAPI specification is not backwards compatible with 3.0.x, i.e. has some breaking changes. 
+The most obvious change is the specification of the type, in 3.0.x it is a single property, whereas in 3.1.0 the type
+is an array. This plugin does currently not support multiple types with one exception: the `null` type.
+
+The following in v3.0.x:
+```
+type: string
+nullable: true
+```
+is equivalent to in v3.1.0:
+```
+type:
+  - string
+  - null
+```
+
+Any other combination of types is currently not supported.
 
 ## Compositions
 The OpenAPI specification supports the composition of schemas via `oneOf`, `anyOf` and `allOf` keyword. This plugin supports 
@@ -705,6 +724,8 @@ afterEvaluate {
   framework supports unknown properties, no validation error will occur in case of additional properties.
 * The combination of `properties` and `additionalProperties` for object types is not supported. If both keywords are
   present, only `properties` will be used, the value of `additionalProperties` gets ignored.
+* Multi-Types in v3.1.0 are not supported, i.e. the list in type can contain only one type and optionally the `null` 
+  type.
 
 ## Change Log
 
