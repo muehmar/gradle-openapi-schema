@@ -29,7 +29,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '1.0.0'
+    id 'com.github.muehmar.openapischema' version '1.0.1'
 }
 ```
 
@@ -709,7 +709,18 @@ afterEvaluate {
 ## Change Log
 
 * Next
+    * Support OpenAPI spec version 3.1.0 (issue `#60`)
     * Add JavaDoc explanation for deprecated validation methods (issue `#57`)
+    * Fix with methods for nullable properties (issue `#70`)
+    * Support validation of `multipleOf` constraint (issue `#64`)
+    * Support validation of `uniqueItems` constraint (issue `#64`)
+    * Support `readOnly` and `writeOnly` keywords (issue `#68`)
+    * Remove unused imports in DTO's (issue `#9`)
+    * Support root map schemas (issue `#80`)
+    * Validate property count constraint for map-properties (issue `#84`)
+    * Fix equals, hashCode and toString method for Java-array properties (issue `#83`)
+    * Remove empty java-doc tags for empty description (issue `#88`)
+    * Add toString method for freeform schemas (issue `#91`)
 * 1.0.1
     * Fix issue with property name 'other' (issue `#71`)
     * Fix java keywords as property names and special characters for properties and classes (issue `#72`)
