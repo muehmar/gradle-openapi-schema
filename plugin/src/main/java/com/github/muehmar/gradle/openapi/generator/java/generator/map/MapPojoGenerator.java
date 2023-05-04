@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaMapPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -62,7 +63,9 @@ public class MapPojoGenerator implements Generator<JavaMapPojo, PojoSettings> {
         .appendNewLine()
         .append(EqualsGenerator.equalsMethod())
         .appendNewLine()
-        .append(HashCodeGenerator.hashCodeMethod());
+        .append(HashCodeGenerator.hashCodeMethod())
+        .appendNewLine()
+        .append(ToStringGenerator.toStringMethod());
   }
 
   private static Generator<JavaMapPojo, PojoSettings> getPropertyMethod() {

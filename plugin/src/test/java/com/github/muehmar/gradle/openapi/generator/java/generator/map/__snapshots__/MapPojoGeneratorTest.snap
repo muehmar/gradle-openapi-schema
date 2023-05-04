@@ -60,6 +60,13 @@ public final class DtoMapDto {
       values
     );
   }
+
+  @Override
+  public String toString() {
+    return "DtoMapDto{" +
+      "values=" + values +
+      "}";
+  }
 }
 ]
 
@@ -126,6 +133,13 @@ public final class DtoMapDto {
       values
     );
   }
+
+  @Override
+  public String toString() {
+    return "DtoMapDto{" +
+      "values=" + values +
+      "}";
+  }
 }
 ]
 
@@ -189,6 +203,13 @@ public final class FreeFormDto {
     return Objects.hash(
       values
     );
+  }
+
+  @Override
+  public String toString() {
+    return "FreeFormDto{" +
+      "values=" + values +
+      "}";
   }
 }
 ]
@@ -254,6 +275,13 @@ public final class FreeFormDto {
       values
     );
   }
+
+  @Override
+  public String toString() {
+    return "FreeFormDto{" +
+      "values=" + values +
+      "}";
+  }
 }
 ]
 
@@ -317,6 +345,13 @@ public final class ObjectMapDto {
     return Objects.hash(
       values
     );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectMapDto{" +
+      "values=" + values +
+      "}";
   }
 }
 ]
@@ -382,6 +417,13 @@ public final class ObjectMapDto {
       values
     );
   }
+
+  @Override
+  public String toString() {
+    return "ObjectMapDto{" +
+      "values=" + values +
+      "}";
+  }
 }
 ]
 
@@ -440,6 +482,13 @@ public final class ObjectMapDto {
       values
     );
   }
+
+  @Override
+  public String toString() {
+    return "ObjectMapDto{" +
+      "values=" + values +
+      "}";
+  }
 }
 ]
 
@@ -497,6 +546,13 @@ public final class ObjectMapDto {
     return Objects.hash(
       values
     );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectMapDto{" +
+      "values=" + values +
+      "}";
   }
 }
 ]
