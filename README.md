@@ -565,24 +565,27 @@ annotation.
 
 The following type specific constraints are supported:
 
-| Type / Format                       | Keyword                                                       | Annotation                       |
-|-------------------------------------|---------------------------------------------------------------|----------------------------------|
-| number / double<br/>number / float  | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@DecimaleMin`<br/>`@DecimalMax` |
-| integer / int32<br/>integer / int64 | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@Min`<br/>`@Max`                |
-| string                              | minLength<br/>maxLength                                       | `@Size`                          |
-| string                              | pattern                                                       | `@Pattern`                       |
-| string / email                      | -                                                             | `@Email`                         |
-| array                               | minItems<br/>maxItems                                         | `@Size`                          |
+| Type / Format                       | Keyword                                                       | Annotation                             | Remark                                                                |
+|-------------------------------------|---------------------------------------------------------------|----------------------------------------|-----------------------------------------------------------------------|
+| number / double<br/>number / float  | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@DecimaleMin`<br/>`@DecimalMax`       |                                                                       |
+| integer / int32<br/>integer / int64 | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@Min`<br/>`@Max`                      |                                                                       |
+| string                              | minLength<br/>maxLength                                       | `@Size`                                |                                                                       |
+| string                              | pattern                                                       | `@Pattern`                             |                                                                       |
+| string / email                      | -                                                             | `@Email`                               |                                                                       |
+| array                               | minItems<br/>maxItems                                         | `@Size`                                |                                                                       |
+| integer / number                    | multipleOf                                                    | Special validation method is generated | Validation for number types might be unreliable due to numeric errors |
+
 
 ### Required properties
 The validation of required properties is supported through the `@NotNull` annotation. Required properties marked
-as `nullable: true` are also supported for validation.
+as `nullable: true` (in v3.0.x) or with the additional type `null` (in v3.1.0) are also supported for validation.
 
 ### Object level validation
 
 The following keywords are supported:
 
 * `minProperties` and `maxProperties` for object types
+* `uniqueItems` for array types
 
 The plugin generates a method which returns the number of present properties of an object which is annotated with the
 constraints (if present).
@@ -608,6 +611,22 @@ considered as valid but it will result in an invalid object as the required prop
 Samples with Tests for compositions can be found here:
 * [OneOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestValidation.java)
 * [AnyOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/anyof/TestValidation.java)
+
+## Keywords `readOnly` and `writeOnly` 
+These keywords for properties are supported. If used, three different DTO's for the same schema are generated:
+
+* Normal DTO containing all properties
+* Response DTO containing general and `readOnly` properties
+* Request DTO containing general and `writeOnly` properties.
+
+The DTO's are named accordingly, i.e. the normal DTO is named like normal DTO's, the response DTO is suffixed with 
+`Response` and the request DTO is suffixed with `Request`. This suffix is added before any configured general suffix,
+i.e. if the suffix `Dto` is configured and a schema `Example` contains properties marked as `readOnly` or `writeOnly`, 
+then the following DTO's are generated:
+
+* ExampleDto
+* ExampleResponseDto
+* ExampleRequestDto
 
 ## Extraction of enum description
 
