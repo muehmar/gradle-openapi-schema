@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -22,11 +23,12 @@ class JavaObjectPojoTest {
   void wrap_when_objectPojosWithAllPropertiesDefaultScope_then_singlePojoWithTypeDefaultCreated() {
     final PojoMember pojoMember = PojoMembers.requiredString(PropertyScope.DEFAULT);
     final ObjectPojo objectPojo =
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("Object", "Dto"),
-            "Description",
-            PList.single(pojoMember),
-            Constraints.empty());
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("Object", "Dto"))
+            .description("Description")
+            .members(PList.single(pojoMember))
+            .constraints(Constraints.empty())
+            .build();
 
     final NonEmptyList<JavaObjectPojo> javaObjectPojos =
         JavaObjectPojo.wrap(objectPojo, TypeMappings.empty());
@@ -42,11 +44,12 @@ class JavaObjectPojoTest {
     final PojoMember pojoMember1 = PojoMembers.requiredString(PropertyScope.READ_ONLY);
     final PojoMember pojoMember2 = PojoMembers.requiredBirthdate(PropertyScope.WRITE_ONLY);
     final ObjectPojo objectPojo =
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("Object", "Dto"),
-            "Description",
-            PList.of(pojoMember1, pojoMember2),
-            Constraints.empty());
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("Object", "Dto"))
+            .description("Description")
+            .members(PList.of(pojoMember1, pojoMember2))
+            .constraints(Constraints.empty())
+            .build();
 
     final NonEmptyList<JavaObjectPojo> javaObjectPojos =
         JavaObjectPojo.wrap(objectPojo, TypeMappings.empty());

@@ -8,7 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import java.util.Optional;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
@@ -16,26 +16,19 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
+@PojoBuilder
 public class ObjectPojo implements Pojo {
   private final PojoName name;
-  private final Optional<String> description;
+  private final String description;
   private final PList<PojoMember> members;
   private final Constraints constraints;
 
-  private ObjectPojo(
-      PojoName name,
-      Optional<String> description,
-      PList<PojoMember> members,
-      Constraints constraints) {
+  ObjectPojo(
+      PojoName name, String description, PList<PojoMember> members, Constraints constraints) {
     this.name = name;
     this.description = description;
     this.members = members;
     this.constraints = constraints;
-  }
-
-  public static ObjectPojo of(
-      PojoName name, String description, PList<PojoMember> members, Constraints constraints) {
-    return new ObjectPojo(name, Optional.ofNullable(description), members, constraints);
   }
 
   @Override
@@ -45,7 +38,7 @@ public class ObjectPojo implements Pojo {
 
   @Override
   public String getDescription() {
-    return description.orElse("");
+    return description;
   }
 
   public PList<PojoMember> getMembers() {

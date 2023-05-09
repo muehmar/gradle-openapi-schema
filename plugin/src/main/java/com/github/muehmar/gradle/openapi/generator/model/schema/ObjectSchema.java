@@ -17,7 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.MemberSchema;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import io.swagger.v3.oas.models.media.Schema;
@@ -56,11 +56,13 @@ public class ObjectSchema implements OpenApiSchema {
     final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
 
     final Pojo objectPojo =
-        ObjectPojo.of(
-            pojoName,
-            getDescription(),
-            pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember),
-            constraints);
+        ObjectPojoBuilder.create()
+            .name(pojoName)
+            .description(getDescription())
+            .members(pojoMemberAndOpenApiPojos.map(PojoMemberProcessResult::getPojoMember))
+            .constraints(constraints)
+            .andAllOptionals()
+            .build();
 
     final UnmappedItems unmappedItems =
         pojoMemberAndOpenApiPojos

@@ -17,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
@@ -82,32 +83,34 @@ class ObjectSchemaTest {
     final PojoName memberObjectPojoName = PojoName.ofNameAndSuffix("ObjectObjectVal", "Dto");
 
     final ObjectPojo expectedPojo =
-        ObjectPojo.of(
-            pojoName,
-            "Test description",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("objectVal"),
-                    null,
-                    ObjectType.ofName(memberObjectPojoName),
-                    PropertyScope.DEFAULT,
-                    Necessity.OPTIONAL,
-                    Nullability.NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("stringVal"),
-                    null,
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    Necessity.OPTIONAL,
-                    Nullability.NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("refVal"),
-                    null,
-                    ObjectType.ofName(PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto")),
-                    PropertyScope.DEFAULT,
-                    Necessity.OPTIONAL,
-                    Nullability.NOT_NULLABLE)),
-            Constraints.empty());
+        ObjectPojoBuilder.create()
+            .name(pojoName)
+            .description("Test description")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("objectVal"),
+                        null,
+                        ObjectType.ofName(memberObjectPojoName),
+                        PropertyScope.DEFAULT,
+                        Necessity.OPTIONAL,
+                        Nullability.NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("stringVal"),
+                        null,
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        Necessity.OPTIONAL,
+                        Nullability.NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("refVal"),
+                        null,
+                        ObjectType.ofName(PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto")),
+                        PropertyScope.DEFAULT,
+                        Necessity.OPTIONAL,
+                        Nullability.NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build();
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(
         UnmappedItems.ofPojoSchema(new PojoSchema(memberObjectPojoName, objectSchemaProp)),

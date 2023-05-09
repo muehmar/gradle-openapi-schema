@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -70,11 +71,13 @@ public class UnresolvedComposedPojoResolver {
                     freeFormPojo -> PList.empty()));
 
     final ObjectPojo objectPojo =
-        ObjectPojo.of(
-            unresolvedComposedPojo.getName(),
-            unresolvedComposedPojo.getDescription(),
-            allPojoMembers,
-            unresolvedComposedPojo.getConstraints());
+        ObjectPojoBuilder.create()
+            .name(unresolvedComposedPojo.getName())
+            .description(unresolvedComposedPojo.getDescription())
+            .members(allPojoMembers)
+            .constraints(unresolvedComposedPojo.getConstraints())
+            .andAllOptionals()
+            .build();
     return context.successfullyResolved(objectPojo);
   }
 

@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import java.util.Comparator;
@@ -30,46 +31,50 @@ class ComposedPojoResolverTest {
     final PojoName colorName = PojoName.ofNameAndSuffix(Name.ofString("Color"), "Dto");
 
     final ObjectPojo tiresPojo =
-        ObjectPojo.of(
-            tiresName,
-            "Tires",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("tireKey"),
-                    "Key",
-                    StringType.uuid(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("tireName"),
-                    "Name",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE)),
-            Constraints.empty());
+        ObjectPojoBuilder.create()
+            .name(tiresName)
+            .description("Tires")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("tireKey"),
+                        "Key",
+                        StringType.uuid(),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("tireName"),
+                        "Name",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build();
 
     final ObjectPojo colorPojo =
-        ObjectPojo.of(
-            colorName,
-            "Colors",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("colorKey"),
-                    "Key",
-                    IntegerType.formatLong(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("colorName"),
-                    "Name",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty());
+        ObjectPojoBuilder.create()
+            .name(colorName)
+            .description("Colors")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("colorKey"),
+                        "Key",
+                        IntegerType.formatLong(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("colorName"),
+                        "Name",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build();
 
     final UnresolvedComposedPojo unresolvedComposedPojo =
         UnresolvedComposedPojoBuilder.create()
@@ -94,11 +99,12 @@ class ComposedPojoResolverTest {
     assertEquals(tiresPojo, resultingPojos.apply(2));
 
     assertEquals(
-        ObjectPojo.of(
-            unresolvedComposedPojo.getName(),
-            unresolvedComposedPojo.getDescription(),
-            colorPojo.getMembers().concat(tiresPojo.getMembers()),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(unresolvedComposedPojo.getName())
+            .description(unresolvedComposedPojo.getDescription())
+            .members(colorPojo.getMembers().concat(tiresPojo.getMembers()))
+            .constraints(Constraints.empty())
+            .build(),
         resultingPojos.apply(1));
   }
 }

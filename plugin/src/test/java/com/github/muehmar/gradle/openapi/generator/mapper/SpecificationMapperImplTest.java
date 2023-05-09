@@ -30,6 +30,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
@@ -143,18 +144,20 @@ class SpecificationMapperImplTest {
     assertEquals(1, pojos.size());
     final Pojo pojo = pojos.head();
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"),
-            "",
-            PList.single(
-                new PojoMember(
-                    Name.ofString("name"),
-                    "",
-                    StringType.ofFormat(StringType.Format.NONE),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix(Name.ofString("PojoName"), "Dto"))
+            .description("")
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("name"),
+                        "",
+                        StringType.ofFormat(StringType.Format.NONE),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojo);
   }
 
@@ -175,247 +178,261 @@ class SpecificationMapperImplTest {
     assertEquals(6, pojos.size());
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("Language", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("name"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("Language", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("key"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("name"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(0));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("User", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("id"),
-                    "",
-                    StringType.uuid(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("externalId"),
-                    "",
-                    IntegerType.formatLong(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("user"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("birthday"),
-                    "",
-                    StringType.ofFormat(DATE),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("email"),
-                    "",
-                    StringType.ofFormat(EMAIL).withConstraints(Constraints.ofEmail()),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("city"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("age"),
-                    "",
-                    IntegerType.formatInteger()
-                        .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("height"),
-                    "",
-                    NumericType.formatFloat()
-                        .withConstraints(
-                            Constraints.ofDecimalMinAndMax(
-                                new DecimalMin("120", false), new DecimalMax("199", true))),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("lastLogin"),
-                    "",
-                    StringType.ofFormat(DATE_TIME),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("role"),
-                    "",
-                    EnumType.ofNameAndMembers(
-                        Name.ofString("RoleEnum"), PList.of("Admin", "User", "Visitor")),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("currencies"),
-                    "",
-                    MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("interests"),
-                    "",
-                    MapType.ofKeyAndValueType(
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("id"),
+                        "",
+                        StringType.uuid(),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("externalId"),
+                        "",
+                        IntegerType.formatLong(),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("user"),
+                        "",
                         StringType.noFormat(),
-                        ArrayType.ofItemType(
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("UserInterests", "Dto")))),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("languages"),
-                    "",
-                    MapType.ofKeyAndValueType(
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("birthday"),
+                        "",
+                        StringType.ofFormat(DATE),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("email"),
+                        "",
+                        StringType.ofFormat(EMAIL).withConstraints(Constraints.ofEmail()),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("city"),
+                        "",
                         StringType.noFormat(),
-                        ObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("hobbies"),
-                    "",
-                    MapType.ofKeyAndValueType(
-                        StringType.noFormat(),
-                        ObjectType.ofName(PojoName.ofNameAndSuffix("UserHobbies", "Dto"))),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("data"),
-                    "Some user related data",
-                    NoType.create(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("age"),
+                        "",
+                        IntegerType.formatInteger()
+                            .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("height"),
+                        "",
+                        NumericType.formatFloat()
+                            .withConstraints(
+                                Constraints.ofDecimalMinAndMax(
+                                    new DecimalMin("120", false), new DecimalMax("199", true))),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("lastLogin"),
+                        "",
+                        StringType.ofFormat(DATE_TIME),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("role"),
+                        "",
+                        EnumType.ofNameAndMembers(
+                            Name.ofString("RoleEnum"), PList.of("Admin", "User", "Visitor")),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("currencies"),
+                        "",
+                        MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("interests"),
+                        "",
+                        MapType.ofKeyAndValueType(
+                            StringType.noFormat(),
+                            ArrayType.ofItemType(
+                                ObjectType.ofName(
+                                    PojoName.ofNameAndSuffix("UserInterests", "Dto")))),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("languages"),
+                        "",
+                        MapType.ofKeyAndValueType(
+                            StringType.noFormat(),
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("hobbies"),
+                        "",
+                        MapType.ofKeyAndValueType(
+                            StringType.noFormat(),
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("UserHobbies", "Dto"))),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("data"),
+                        "Some user related data",
+                        NoType.create(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(1));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("UserGroup", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("owner"),
-                    "",
-                    ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("members"),
-                    "",
-                    ArrayType.ofItemType(
-                        ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto"))),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("languages"),
-                    "",
-                    ArrayType.ofItemType(
-                        ObjectType.ofName(PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"))),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3))),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("UserGroup", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("owner"),
+                        "",
+                        ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("members"),
+                        "",
+                        ArrayType.ofItemType(
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto"))),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("languages"),
+                        "",
+                        ArrayType.ofItemType(
+                            ObjectType.ofName(
+                                PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"))),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3)))
+            .build(),
         pojos.apply(2));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("id"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("name"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("id"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("name"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(3));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("UserHobbies", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("name"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    REQUIRED,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("description"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("UserHobbies", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("name"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        REQUIRED,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("description"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(4));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("UserInterests", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("name"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("prio"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("UserInterests", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("name"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("prio"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(5));
   }
 
@@ -446,47 +463,51 @@ class SpecificationMapperImplTest {
     assertEquals(2, pojos.size());
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("ComposedPojoNameAllOf", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("user"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("ComposedPojoNameAllOf", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("user"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("key"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(0));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("user"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("user"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("key"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(1));
   }
 
@@ -532,119 +553,127 @@ class SpecificationMapperImplTest {
     assertEquals(4, pojos.size());
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("ComposedPojoNameAllOf0", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("user"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("ComposedPojoNameAllOf0", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("user"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("key"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(0));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("ComposedPojoNameAllOf1", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("registerDate"),
-                    "",
-                    StringType.ofFormat(DATE),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("languages"),
-                    "",
-                    ArrayType.ofItemType(StringType.noFormat()),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("ComposedPojoNameAllOf1", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("registerDate"),
+                        "",
+                        StringType.ofFormat(DATE),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("languages"),
+                        "",
+                        ArrayType.ofItemType(StringType.noFormat()),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(1));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("color"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("group"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("user"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("key"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("registerDate"),
-                    "",
-                    StringType.ofFormat(DATE),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("languages"),
-                    "",
-                    ArrayType.ofItemType(StringType.noFormat()),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("color"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("group"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("user"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("key"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("registerDate"),
+                        "",
+                        StringType.ofFormat(DATE),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("languages"),
+                        "",
+                        ArrayType.ofItemType(StringType.noFormat()),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(2));
 
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"),
-            "",
-            PList.of(
-                new PojoMember(
-                    Name.ofString("color"),
-                    "",
-                    StringType.noFormat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE),
-                new PojoMember(
-                    Name.ofString("group"),
-                    "",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"))
+            .description("")
+            .members(
+                PList.of(
+                    new PojoMember(
+                        Name.ofString("color"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE),
+                    new PojoMember(
+                        Name.ofString("group"),
+                        "",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(3));
   }
 
@@ -671,18 +700,20 @@ class SpecificationMapperImplTest {
 
     assertEquals(1, pojos.size());
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("User", "Dto"),
-            "",
-            PList.single(
-                new PojoMember(
-                    Name.ofString("key"),
-                    "User key",
-                    StringType.uuid(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .description("")
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("key"),
+                        "User key",
+                        StringType.uuid(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(0));
   }
 
@@ -710,18 +741,20 @@ class SpecificationMapperImplTest {
 
     assertEquals(1, pojos.size());
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("User", "Dto"),
-            "",
-            PList.single(
-                new PojoMember(
-                    Name.ofString("age"),
-                    "User age",
-                    IntegerType.formatInteger(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .description("")
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("age"),
+                        "User age",
+                        IntegerType.formatInteger(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(0));
   }
 
@@ -749,18 +782,20 @@ class SpecificationMapperImplTest {
 
     assertEquals(1, pojos.size());
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("User", "Dto"),
-            "",
-            PList.single(
-                new PojoMember(
-                    Name.ofString("height"),
-                    "User height",
-                    NumericType.formatFloat(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .description("")
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("height"),
+                        "User height",
+                        NumericType.formatFloat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(0));
   }
 
@@ -788,18 +823,20 @@ class SpecificationMapperImplTest {
 
     assertEquals(1, pojos.size());
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("User", "Dto"),
-            "",
-            PList.single(
-                new PojoMember(
-                    Name.ofString("admin"),
-                    "User is admin",
-                    BooleanType.create(),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .description("")
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("admin"),
+                        "User is admin",
+                        BooleanType.create(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(0));
   }
 
@@ -836,18 +873,20 @@ class SpecificationMapperImplTest {
             PList.of("FEMALE", "MALE", "UNKNOWN")),
         pojos.apply(0));
     assertEquals(
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix("User", "Dto"),
-            "",
-            PList.single(
-                new PojoMember(
-                    Name.ofString("gender"),
-                    "Gender of a user",
-                    ObjectType.ofName(PojoName.ofNameAndSuffix("Gender", "Dto")),
-                    PropertyScope.DEFAULT,
-                    OPTIONAL,
-                    NOT_NULLABLE)),
-            Constraints.empty()),
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .description("")
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("gender"),
+                        "Gender of a user",
+                        ObjectType.ofName(PojoName.ofNameAndSuffix("Gender", "Dto")),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL,
+                        NOT_NULLABLE)))
+            .constraints(Constraints.empty())
+            .build(),
         pojos.apply(1));
   }
 

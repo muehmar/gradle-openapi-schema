@@ -22,6 +22,7 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.HashMap;
@@ -49,12 +50,17 @@ public class JavaPojos {
   }
 
   private static ObjectPojo allNecessityAndNullabilityVariantsPojo(Constraints constraints) {
-    return ObjectPojo.of(
-        PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"),
-        "NecessityAndNullability",
-        PList.of(
-            requiredString(), requiredNullableString(), optionalString(), optionalNullableString()),
-        constraints);
+    return ObjectPojoBuilder.create()
+        .name(PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"))
+        .description("NecessityAndNullability")
+        .members(
+            PList.of(
+                requiredString(),
+                requiredNullableString(),
+                optionalString(),
+                optionalNullableString()))
+        .constraints(constraints)
+        .build();
   }
 
   public static JavaArrayPojo arrayPojo(Constraints constraints) {
@@ -111,11 +117,12 @@ public class JavaPojos {
   private static JavaComposedPojo composedPojo(
       ComposedPojo.CompositionType type, Optional<Discriminator> discriminator) {
     final ObjectPojo userObjectPojo =
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
-            "User",
-            PList.of(requiredUsername(), requiredBirthdate()),
-            Constraints.empty());
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"))
+            .description("User")
+            .members(PList.of(requiredUsername(), requiredBirthdate()))
+            .constraints(Constraints.empty())
+            .build();
     final Name typeName =
         Name.ofString(type.name().toLowerCase().replace("_", "")).startUpperCase();
     final UnresolvedComposedPojo unresolvedComposedPojo =
