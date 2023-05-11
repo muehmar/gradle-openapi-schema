@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
+import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
@@ -157,6 +158,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojo);
   }
@@ -198,6 +200,7 @@ class SpecificationMapperImplTest {
                         REQUIRED,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(0));
 
@@ -326,6 +329,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(1));
 
@@ -360,6 +364,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3)))
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(2));
 
@@ -384,6 +389,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(3));
 
@@ -408,6 +414,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(4));
 
@@ -432,6 +439,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(5));
   }
@@ -483,6 +491,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(0));
 
@@ -507,6 +516,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(1));
   }
@@ -573,6 +583,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(0));
 
@@ -597,6 +608,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(1));
 
@@ -649,6 +661,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(2));
 
@@ -673,6 +686,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(3));
   }
@@ -713,6 +727,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(0));
   }
@@ -754,6 +769,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(0));
   }
@@ -795,6 +811,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(0));
   }
@@ -836,6 +853,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(0));
   }
@@ -886,6 +904,7 @@ class SpecificationMapperImplTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         pojos.apply(1));
   }

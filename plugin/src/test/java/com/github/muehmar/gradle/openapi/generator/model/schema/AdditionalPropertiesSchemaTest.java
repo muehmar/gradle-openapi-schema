@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ class AdditionalPropertiesSchemaTest {
 
     assertTrue(additionalPropertiesSchema.isAllowed());
     assertEquals(
-        ObjectType.ofName(PojoName.ofNameAndSuffix("UserProperties", "Dto")),
+        MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create()),
         additionalPropertiesType);
   }
 }

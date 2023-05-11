@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
+import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
@@ -51,6 +52,7 @@ class ComposedPojoResolverTest {
                         REQUIRED,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build();
 
     final ObjectPojo colorPojo =
@@ -74,6 +76,7 @@ class ComposedPojoResolverTest {
                         OPTIONAL,
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build();
 
     final UnresolvedComposedPojo unresolvedComposedPojo =
@@ -104,6 +107,7 @@ class ComposedPojoResolverTest {
             .description(unresolvedComposedPojo.getDescription())
             .members(colorPojo.getMembers().concat(tiresPojo.getMembers()))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build(),
         resultingPojos.apply(1));
   }

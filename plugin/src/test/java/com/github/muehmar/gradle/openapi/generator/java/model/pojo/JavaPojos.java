@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredBirthdate;
@@ -60,6 +61,7 @@ public class JavaPojos {
                 optionalString(),
                 optionalNullableString()))
         .constraints(constraints)
+        .additionalProperties(anyTypeAllowed())
         .build();
   }
 
@@ -122,6 +124,7 @@ public class JavaPojos {
             .description("User")
             .members(PList.of(requiredUsername(), requiredBirthdate()))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build();
     final Name typeName =
         Name.ofString(type.name().toLowerCase().replace("_", "")).startUpperCase();

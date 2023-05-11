@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
@@ -80,6 +81,7 @@ class ObjectPojoGeneratorTest {
                               NOT_NULLABLE)))
                   .constraints(
                       Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(2, 10)))
+                  .additionalProperties(anyTypeAllowed())
                   .build(),
               TypeMappings.empty())
           .head();
@@ -234,6 +236,7 @@ class ObjectPojoGeneratorTest {
                                 NOT_NULLABLE)))
                     .constraints(
                         Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 15)))
+                    .additionalProperties(anyTypeAllowed())
                     .build(),
                 TypeMappings.empty())
             .head();
@@ -272,6 +275,7 @@ class ObjectPojoGeneratorTest {
                                 OPTIONAL,
                                 NOT_NULLABLE)))
                     .constraints(Constraints.empty())
+                    .additionalProperties(anyTypeAllowed())
                     .build(),
                 TypeMappings.empty())
             .head();
@@ -310,6 +314,7 @@ class ObjectPojoGeneratorTest {
                                 OPTIONAL,
                                 NOT_NULLABLE)))
                     .constraints(Constraints.empty())
+                    .additionalProperties(anyTypeAllowed())
                     .build(),
                 TypeMappings.empty())
             .head();

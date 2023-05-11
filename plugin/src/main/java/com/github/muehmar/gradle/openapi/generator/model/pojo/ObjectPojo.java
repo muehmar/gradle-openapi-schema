@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -22,13 +23,19 @@ public class ObjectPojo implements Pojo {
   private final String description;
   private final PList<PojoMember> members;
   private final Constraints constraints;
+  private final AdditionalProperties additionalProperties;
 
   ObjectPojo(
-      PojoName name, String description, PList<PojoMember> members, Constraints constraints) {
+      PojoName name,
+      String description,
+      PList<PojoMember> members,
+      Constraints constraints,
+      AdditionalProperties additionalProperties) {
     this.name = name;
     this.description = description;
     this.members = members;
     this.constraints = constraints;
+    this.additionalProperties = additionalProperties;
   }
 
   @Override
@@ -49,6 +56,14 @@ public class ObjectPojo implements Pojo {
     return constraints;
   }
 
+  public AdditionalProperties getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  public boolean allowsAdditionalProperties() {
+    return additionalProperties.isAllowed();
+  }
+
   @Override
   public Pojo addObjectTypeDescription(PojoName objectTypeName, String description) {
     return mapMembers(member -> member.addObjectTypeDescription(objectTypeName, description));
@@ -62,7 +77,7 @@ public class ObjectPojo implements Pojo {
   }
 
   private Pojo mapMembers(UnaryOperator<PojoMember> map) {
-    return new ObjectPojo(name, description, members.map(map), constraints);
+    return new ObjectPojo(name, description, members.map(map), constraints, additionalProperties);
   }
 
   @Override

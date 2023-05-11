@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
@@ -16,6 +18,7 @@ public class Pojos {
         .description("Object pojo")
         .members(members)
         .constraints(Constraints.empty())
+        .additionalProperties(anyTypeAllowed())
         .build();
   }
 

@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.UnresolvedCompos
 import static com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo.CompositionType.ANY_OF;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -11,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -62,13 +64,11 @@ public class UnresolvedComposedPojoResolver {
       PList<Pojo> resolvedPojos) {
     final PList<PojoMember> allPojoMembers =
         resolvedPojos.flatMap(
-            pojo ->
-                pojo.fold(
-                    ObjectPojo::getMembers,
-                    arrayPojo -> PList.empty(),
-                    enumPojo -> PList.empty(),
-                    composedPojo -> PList.empty(),
-                    freeFormPojo -> PList.empty()));
+            pojo -> pojo.asObjectPojo().map(ObjectPojo::getMembers).orElseGet(PList::empty));
+
+    boolean allowsAdditionalProperties =
+        resolvedPojos.exists(
+            pojo -> pojo.asObjectPojo().map(ObjectPojo::allowsAdditionalProperties).orElse(false));
 
     final ObjectPojo objectPojo =
         ObjectPojoBuilder.create()
@@ -76,6 +76,8 @@ public class UnresolvedComposedPojoResolver {
             .description(unresolvedComposedPojo.getDescription())
             .members(allPojoMembers)
             .constraints(unresolvedComposedPojo.getConstraints())
+            .additionalProperties(
+                new AdditionalProperties(allowsAdditionalProperties, AnyType.create()))
             .andAllOptionals()
             .build();
     return context.successfullyResolved(objectPojo);

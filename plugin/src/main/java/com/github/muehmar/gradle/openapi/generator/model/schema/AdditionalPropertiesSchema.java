@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
@@ -41,9 +42,22 @@ class AdditionalPropertiesSchema {
     return getAdditionalPropertiesMapResult(pojoName).getType();
   }
 
+  public MemberSchemaMapResult getAdditionalPropertiesMapResult(
+      PojoName pojoName, Name memberName) {
+    return schema
+        .map(s -> s.mapToMemberType(pojoName, memberName))
+        .orElse(MemberSchemaMapResult.ofType(AnyType.create()));
+  }
+
   public MemberSchemaMapResult getAdditionalPropertiesMapResult(PojoName pojoName) {
     return schema
-        .map(s -> s.mapToMemberType(pojoName, Name.ofString("Properties")))
+        .map(s -> s.mapToMemberType(pojoName, Name.ofString("Property")))
         .orElse(MemberSchemaMapResult.ofType(AnyType.create()));
+  }
+
+  public AdditionalProperties asAdditionalProperties(PojoName pojoName) {
+    return allowed
+        ? AdditionalProperties.allowed(getAdditionalPropertiesType(pojoName))
+        : AdditionalProperties.notAllowed();
   }
 }

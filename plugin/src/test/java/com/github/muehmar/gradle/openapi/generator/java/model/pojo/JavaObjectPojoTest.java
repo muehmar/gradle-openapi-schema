@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -28,6 +29,7 @@ class JavaObjectPojoTest {
             .description("Description")
             .members(PList.single(pojoMember))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build();
 
     final NonEmptyList<JavaObjectPojo> javaObjectPojos =
@@ -49,6 +51,7 @@ class JavaObjectPojoTest {
             .description("Description")
             .members(PList.of(pojoMember1, pojoMember2))
             .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
             .build();
 
     final NonEmptyList<JavaObjectPojo> javaObjectPojos =
