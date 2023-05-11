@@ -4,7 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -44,6 +44,6 @@ class AdditionalPropertiesSchema {
   public MemberSchemaMapResult getAdditionalPropertiesMapResult(PojoName pojoName) {
     return schema
         .map(s -> s.mapToMemberType(pojoName, Name.ofString("Properties")))
-        .orElse(MemberSchemaMapResult.ofType(NoType.create()));
+        .orElse(MemberSchemaMapResult.ofType(AnyType.create()));
   }
 }

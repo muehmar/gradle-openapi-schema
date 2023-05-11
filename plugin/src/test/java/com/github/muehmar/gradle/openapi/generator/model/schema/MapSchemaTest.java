@@ -12,8 +12,8 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.MapPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.MapSchema;
@@ -151,7 +151,7 @@ class MapSchemaTest {
     final MemberSchemaMapResult result = mapToMemberType(mapSchema);
 
     final MapType mapType =
-        MapType.ofKeyAndValueType(StringType.noFormat(), NoType.create())
+        MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create())
             .withConstraints(Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(9)));
 
     final MemberSchemaMapResult memberSchemaMapResult = MemberSchemaMapResult.ofType(mapType);
@@ -176,7 +176,7 @@ class MapSchemaTest {
             MapPojo.of(
                 pojoName,
                 "",
-                NoType.create(),
+                AnyType.create(),
                 Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(2))));
 
     assertEquals(expectedContext, mapContext);

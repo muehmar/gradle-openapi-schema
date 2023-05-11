@@ -97,7 +97,7 @@ public class JavaMapType implements JavaType {
       Function<JavaBooleanType, T> onBooleanType,
       Function<JavaEnumType, T> onEnumType,
       Function<JavaMapType, T> onMapType,
-      Function<JavaNoType, T> onNoType,
+      Function<JavaAnyType, T> onAnyType,
       Function<JavaNumericType, T> onNumericType,
       Function<JavaIntegerType, T> onIntegerType,
       Function<JavaObjectType, T> onObjectType,

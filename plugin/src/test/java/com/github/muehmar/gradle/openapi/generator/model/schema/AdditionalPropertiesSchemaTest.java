@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import java.util.Collections;
@@ -30,7 +30,7 @@ class AdditionalPropertiesSchemaTest {
             PojoName.ofNameAndSuffix("Map", "Dto"));
 
     assertTrue(additionalPropertiesSchema.isAllowed());
-    assertEquals(NoType.create(), additionalPropertiesType);
+    assertEquals(AnyType.create(), additionalPropertiesType);
   }
 
   @Test

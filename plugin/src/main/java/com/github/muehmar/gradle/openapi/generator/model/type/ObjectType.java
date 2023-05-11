@@ -41,7 +41,7 @@ public class ObjectType implements Type {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
-      Function<NoType, T> onNoType) {
+      Function<AnyType, T> onAnyType) {
     return onObjectType.apply(this);
   }
 }

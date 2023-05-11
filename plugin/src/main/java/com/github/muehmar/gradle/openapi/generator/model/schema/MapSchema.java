@@ -11,8 +11,8 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.pojo.MapPojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -78,7 +78,7 @@ public class MapSchema implements OpenApiSchema {
   }
 
   private static MapTypeAndUnmappedItems createMapTypeForFreeFormSchema() {
-    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), NoType.create());
+    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create());
     return new MapTypeAndUnmappedItems(mapType, UnmappedItems.empty());
   }
 

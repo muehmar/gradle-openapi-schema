@@ -8,8 +8,8 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.MapPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -28,7 +28,7 @@ class MapPojoGeneratorTest {
       MapPojo.of(
           PojoName.ofNameAndSuffix("ObjectMap", "Dto"),
           "Object map",
-          NoType.create(),
+          AnyType.create(),
           Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 10)));
   public static final MapPojo DTO_MAP_POJO =
       MapPojo.of(
