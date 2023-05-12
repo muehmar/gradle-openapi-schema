@@ -1,6 +1,8 @@
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_enableValidation_then_correctPojoGenerated[jakarta-2]=[
 package com.github.muehmar;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -39,7 +41,8 @@ public class UserDto {
       Long level,
       String uppercase,
       Long multipleOfValue,
-      AnotherPojo anotherPojo
+      AnotherPojo anotherPojo,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
@@ -51,6 +54,7 @@ public class UserDto {
     this.uppercase = uppercase;
     this.multipleOfValue = multipleOfValue;
     this.anotherPojo = anotherPojo;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -505,6 +509,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -533,7 +539,8 @@ public class UserDto {
       Long level,
       String uppercase,
       Long multipleOfValue,
-      AnotherPojo anotherPojo
+      AnotherPojo anotherPojo,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
@@ -545,6 +552,7 @@ public class UserDto {
     this.uppercase = uppercase;
     this.multipleOfValue = multipleOfValue;
     this.anotherPojo = anotherPojo;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -989,6 +997,8 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_enabledSafeBuilder_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -1006,11 +1016,13 @@ public class UserDto {
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1298,6 +1310,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -1316,11 +1330,13 @@ public class UserDto {
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1527,6 +1543,8 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_minimalPojoSetting_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -1544,11 +1562,13 @@ public class UserDto {
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1747,6 +1767,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.AssertTrue;
@@ -1771,7 +1793,8 @@ public class NecessityAndNullabilityDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.requiredStringVal = requiredStringVal;
     this.requiredNullableStringVal = requiredNullableStringVal;
@@ -1779,6 +1802,7 @@ public class NecessityAndNullabilityDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2170,8 +2194,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
@@ -2181,9 +2207,11 @@ public class ObjectPojo1Dto {
   private final List<String> listVal;
 
   public ObjectPojo1Dto(
-      List<String> listVal
+      List<String> listVal,
+      Map<String, Object> additionalProperties
     ) {
     this.listVal = listVal;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2321,6 +2349,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -2332,9 +2361,11 @@ public class ObjectPojo1Dto {
   private final Map<String, UUID> mapVal;
 
   public ObjectPojo1Dto(
-      Map<String, UUID> mapVal
+      Map<String, UUID> mapVal,
+      Map<String, Object> additionalProperties
     ) {
     this.mapVal = mapVal;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2471,6 +2502,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -2484,9 +2517,11 @@ public class UserDto {
   private final LanguageEnum language;
 
   public UserDto(
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2656,6 +2691,8 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescription_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -2668,9 +2705,11 @@ public class UserDto {
   private final LanguageEnum language;
 
   public UserDto(
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**

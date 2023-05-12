@@ -15,7 +15,8 @@ public NecessityAndNullabilityDto(
     boolean isRequiredNullableStringValPresent,
     String optionalStringVal,
     String optionalNullableStringVal,
-    boolean isOptionalNullableStringValNull
+    boolean isOptionalNullableStringValNull,
+    Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
   this.requiredNullableStringVal = requiredNullableStringVal;
@@ -23,6 +24,7 @@ public NecessityAndNullabilityDto(
   this.optionalStringVal = optionalStringVal;
   this.optionalNullableStringVal = optionalNullableStringVal;
   this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]
 
@@ -34,7 +36,8 @@ public NecessityAndNullabilityDto(
     boolean isRequiredNullableStringValPresent,
     String optionalStringVal,
     String optionalNullableStringVal,
-    boolean isOptionalNullableStringValNull
+    boolean isOptionalNullableStringValNull,
+    Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
   this.requiredNullableStringVal = requiredNullableStringVal;
@@ -42,5 +45,6 @@ public NecessityAndNullabilityDto(
   this.optionalStringVal = optionalStringVal;
   this.optionalNullableStringVal = optionalNullableStringVal;
   this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]

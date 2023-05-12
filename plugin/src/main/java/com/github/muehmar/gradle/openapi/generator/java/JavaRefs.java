@@ -12,6 +12,7 @@ public class JavaRefs {
   public static final String JAVA_UTIL_LIST = "java.util.List";
   public static final String JAVA_UTIL_ARRAY_LIST = "java.util.ArrayList";
   public static final String JAVA_UTIL_HASH_SET = "java.util.HashSet";
+  public static final String JAVA_UTIL_COLLECTIONS = "java.util.Collections";
 
   public static final String JAVA_UTIL_REGEX_PATTERN = "java.util.regex.Pattern";
 

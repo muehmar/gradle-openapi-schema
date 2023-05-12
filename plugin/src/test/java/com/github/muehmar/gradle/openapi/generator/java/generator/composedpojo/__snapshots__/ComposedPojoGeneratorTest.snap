@@ -10,7 +10,9 @@ import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -39,7 +41,8 @@ public class ComposedAnyofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -49,6 +52,7 @@ public class ComposedAnyofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -393,6 +397,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -423,7 +429,8 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -433,6 +440,7 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -780,6 +788,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -810,7 +820,8 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -820,6 +831,7 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1167,6 +1179,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -1196,7 +1210,8 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -1206,6 +1221,7 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
