@@ -6,7 +6,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator;
@@ -53,7 +53,7 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
         .appendSingleBlankLine()
         .appendOptional(EnumGenerator.nested(), pojo -> pojo.getArrayPojoMember().asEnumPojo())
         .appendSingleBlankLine()
-        .append(GetterGeneratorFactory.create(), JavaArrayPojo::getArrayPojoMember)
+        .append(GetterGenerator.generator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
         .append(WitherGenerator.generator(), pojo -> pojo)
         .appendSingleBlankLine()

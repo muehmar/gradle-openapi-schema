@@ -7,7 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
@@ -55,7 +55,7 @@ public class MapPojoGenerator implements Generator<JavaMapPojo, PojoSettings> {
         .append(JacksonAnnotationGenerator.jsonCreator())
         .append(PojoConstructorGenerator.generator())
         .appendNewLine()
-        .append(GetterGeneratorFactory.create(), JavaMapPojo::getMember)
+        .append(GetterGenerator.generator(), JavaMapPojo::getMember)
         .appendNewLine()
         .append(getPropertyMethod())
         .appendNewLine()

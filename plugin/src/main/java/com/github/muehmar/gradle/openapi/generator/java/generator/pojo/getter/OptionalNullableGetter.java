@@ -15,7 +15,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.OptionalNullableGetterGen;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -24,16 +23,15 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 public class OptionalNullableGetter {
   private OptionalNullableGetter() {}
 
-  public static OptionalNullableGetterGen getter() {
-    final Generator<JavaPojoMember, PojoSettings> gen =
-        Generator.<JavaPojoMember, PojoSettings>emptyGen()
-            .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
-            .append(jsonIgnore())
-            .append(tristateGetterMethod())
-            .append(jacksonSerializerMethodWithAnnotations())
-            .append(validationMethod())
-            .append(RefsGenerator.fieldRefs());
-    return OptionalNullableGetterGen.wrap(gen);
+  public static Generator<JavaPojoMember, PojoSettings> getter() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
+        .append(jsonIgnore())
+        .append(tristateGetterMethod())
+        .append(jacksonSerializerMethodWithAnnotations())
+        .append(validationMethod())
+        .append(RefsGenerator.fieldRefs())
+        .filter(JavaPojoMember::isOptionalAndNullable);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> tristateGetterMethod() {

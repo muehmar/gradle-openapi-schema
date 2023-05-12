@@ -5,7 +5,7 @@ import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVE
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator;
@@ -58,7 +58,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
             pojo -> pojo.getMembers().flatMapOptional(JavaPojoMember::asEnumPojo),
             newLine())
         .appendSingleBlankLine()
-        .appendList(GetterGeneratorFactory.create(), JavaObjectPojo::getMembers, newLine())
+        .appendList(GetterGenerator.generator(), JavaObjectPojo::getMembers, newLine())
         .appendSingleBlankLine()
         .append(WitherGenerator.generator(), pojo -> pojo)
         .appendSingleBlankLine()
