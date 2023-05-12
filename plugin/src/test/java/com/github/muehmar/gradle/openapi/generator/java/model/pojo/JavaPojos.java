@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
@@ -38,6 +39,7 @@ public class JavaPojos {
         "",
         members,
         PojoType.DEFAULT,
+        JavaAdditionalProperties.anyTypeAllowed(),
         Constraints.empty());
   }
 

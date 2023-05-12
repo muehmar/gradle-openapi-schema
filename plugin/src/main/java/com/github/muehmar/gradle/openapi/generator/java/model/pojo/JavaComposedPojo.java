@@ -6,12 +6,14 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
@@ -146,8 +148,15 @@ public class JavaComposedPojo implements JavaPojo {
     return discriminator;
   }
 
+  // FIXME: Replace with dedicated object for corresponding generator
   public JavaObjectPojo wrapIntoJavaObjectPojo() {
-    return JavaObjectPojo.from(name, description, getMembers(), type, constraints);
+    return JavaObjectPojo.from(
+        name,
+        description,
+        getMembers(),
+        type,
+        new JavaAdditionalProperties(true, JavaAnyType.create()),
+        constraints);
   }
 
   public PList<JavaPojoMember> getMembers() {
