@@ -364,7 +364,8 @@ public class UserDto {
       "level=" + level + ", " +
       "uppercase=" + uppercase + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
-      "anotherPojo=" + anotherPojo +
+      "anotherPojo=" + anotherPojo + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -877,7 +878,8 @@ public class UserDto {
       "level=" + level + ", " +
       "uppercase=" + uppercase + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
-      "anotherPojo=" + anotherPojo +
+      "anotherPojo=" + anotherPojo + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1201,7 +1203,8 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + name + ", " +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1543,7 +1546,8 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + name + ", " +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1779,7 +1783,8 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + name + ", " +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2071,7 +2076,8 @@ public class NecessityAndNullabilityDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2368,7 +2374,8 @@ public class ObjectPojo1Dto {
   @Override
   public String toString() {
     return "ObjectPojo1Dto{" +
-      "listVal=" + listVal +
+      "listVal=" + listVal + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2541,7 +2548,8 @@ public class ObjectPojo1Dto {
   @Override
   public String toString() {
     return "ObjectPojo1Dto{" +
-      "mapVal=" + mapVal +
+      "mapVal=" + mapVal + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2792,7 +2800,8 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2987,7 +2996,8 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 

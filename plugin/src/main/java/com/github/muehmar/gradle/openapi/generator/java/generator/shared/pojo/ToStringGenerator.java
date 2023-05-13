@@ -6,9 +6,11 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -16,6 +18,8 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import lombok.Value;
 
 public class ToStringGenerator {
+  private static final String SINGLE_PROPERTY_FORMAT = "\"%s=\" + %s +";
+
   private ToStringGenerator() {}
 
   public static <T extends JavaPojo> Generator<T, PojoSettings> toStringMethod() {
@@ -49,9 +53,13 @@ public class ToStringGenerator {
     return (pojo, s, w) -> {
       final Writer writerStartPrinted = w.println("return \"%s{\" +", pojo.getClassName());
 
+      final ToStringAdditionalProperty toStringAdditionalProperty =
+          new ToStringAdditionalProperty(pojo);
+
       return pojo.getMembersOrEmpty()
           .map(ToStringMember::new)
           .flatMap(ToStringMember::toStringLines)
+          .concat(toStringAdditionalProperty.toStringLines())
           .reverse()
           .zipWithIndex()
           .map(allExceptFirst(line -> line.concat(" \", \" +")))
@@ -69,13 +77,26 @@ public class ToStringGenerator {
     private PList<String> toStringLines() {
       return member
           .createFieldNames()
-          .map(name -> String.format("\"%s=\" + %s +", name, toRightHandExpression(name)));
+          .map(name -> String.format(SINGLE_PROPERTY_FORMAT, name, toRightHandExpression(name)));
     }
 
     private String toRightHandExpression(JavaIdentifier name) {
       return member.getJavaType().isJavaArray() && name.equals(member.getNameAsIdentifier())
           ? String.format("Arrays.toString(%s)", name)
           : name.asString();
+    }
+  }
+
+  @Value
+  private static class ToStringAdditionalProperty {
+    JavaPojo pojo;
+
+    private PList<String> toStringLines() {
+      return PList.fromOptional(
+          pojo.asObjectPojo()
+              .map(JavaObjectPojo::getAdditionalProperties)
+              .map(JavaAdditionalProperties::getPropertyName)
+              .map(name -> String.format(SINGLE_PROPERTY_FORMAT, name, name)));
     }
   }
 }

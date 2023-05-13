@@ -279,7 +279,8 @@ public class ComposedAnyofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -672,7 +673,8 @@ public class ComposedOneofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1065,7 +1067,8 @@ public class ComposedOneofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1444,7 +1447,8 @@ public class ComposedOneofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
