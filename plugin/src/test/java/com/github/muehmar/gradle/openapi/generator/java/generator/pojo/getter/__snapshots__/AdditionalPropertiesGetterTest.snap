@@ -1,0 +1,31 @@
+additionalPropertiesTypeIsList=[
+@JsonAnyGetter
+public Map<String, List<String>> getAdditionalProperties() {
+  return additionalProperties;
+}
+
+/**
+ * Returns the additional property with {@code key} wrapped in and {@link
+ * Optional} if present, {@link Optional#empty()} otherwise
+ */
+public Optional<List<String>> getAdditionalProperty(String key) {
+  return Optional.ofNullable(additionalProperties.get(key));
+}
+]
+
+
+additionalPropertiesTypeIsObject=[
+@JsonAnyGetter
+@Valid
+public Map<String, ObjectDto> getAdditionalProperties() {
+  return additionalProperties;
+}
+
+/**
+ * Returns the additional property with {@code key} wrapped in and {@link
+ * Optional} if present, {@link Optional#empty()} otherwise
+ */
+public Optional<ObjectDto> getAdditionalProperty(String key) {
+  return Optional.ofNullable(additionalProperties.get(key));
+}
+]

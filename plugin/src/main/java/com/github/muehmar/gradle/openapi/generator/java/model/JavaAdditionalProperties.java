@@ -24,6 +24,10 @@ public class JavaAdditionalProperties {
     return new JavaAdditionalProperties(true, JavaAnyType.create());
   }
 
+  public static JavaAdditionalProperties allowedFor(JavaType type) {
+    return new JavaAdditionalProperties(true, type);
+  }
+
   public Name getPropertyName() {
     return MAP_PROPERTY_NAME;
   }

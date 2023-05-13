@@ -187,6 +187,18 @@ public class UserDto {
     return anotherPojo;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
@@ -685,6 +697,18 @@ public class UserDto {
     return anotherPojo;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
@@ -1094,6 +1118,18 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
@@ -1303,6 +1339,7 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_jsonSupportJackson_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -1416,6 +1453,19 @@ public class UserDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LanguageEnum getLanguageRaw() {
     return language;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
   }
 
   /**
@@ -1640,6 +1690,18 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
@@ -1760,6 +1822,7 @@ public class UserDto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_necessityAndNullabilityVariants_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -1881,6 +1944,19 @@ public class NecessityAndNullabilityDto {
   @Pattern(regexp="Hello")
   private String getOptionalNullableStringValRaw() {
     return optionalNullableStringVal;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
   }
 
   /**
@@ -2190,6 +2266,7 @@ public class NecessityAndNullabilityDto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_objectWithArrayWithUniqueItems_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -2199,6 +2276,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
@@ -2220,6 +2298,19 @@ public class ObjectPojo1Dto {
   @NotNull
   public List<String> getListVal() {
     return listVal;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
   }
 
   /**
@@ -2345,6 +2436,7 @@ public class ObjectPojo1Dto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_objectWithMapMember_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -2352,6 +2444,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -2375,6 +2468,19 @@ public class ObjectPojo1Dto {
   @Size(min = 3, max = 8)
   public Map<String, UUID> getMapVal() {
     return mapVal;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
   }
 
   /**
@@ -2495,6 +2601,7 @@ public class ObjectPojo1Dto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescriptionAndJacksonSupport_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -2598,6 +2705,19 @@ public class UserDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LanguageEnum getLanguageRaw() {
     return language;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
   }
 
   /**
@@ -2779,6 +2899,18 @@ public class UserDto {
 
   private LanguageEnum getLanguageRaw() {
     return language;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
   }
 
   /**

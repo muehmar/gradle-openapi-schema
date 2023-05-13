@@ -47,6 +47,20 @@ public class JacksonAnnotationGenerator {
         .filter(isJacksonJson());
   }
 
+  public static <A> Generator<A, PojoSettings> jsonAnyGetter() {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.println("@JsonAnyGetter"))
+        .append(w -> w.ref(JacksonRefs.JSON_ANY_GETTER))
+        .filter(isJacksonJson());
+  }
+
+  public static <A> Generator<A, PojoSettings> jsonAnySetter() {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(w -> w.println("@JsonAnySetter"))
+        .append(w -> w.ref(JacksonRefs.JSON_ANY_SETTER))
+        .filter(isJacksonJson());
+  }
+
   private static <A> Generator<A, PojoSettings> jsonPojoBuilder(Optional<String> prefix) {
     final String prefixString =
         prefix.map(p -> String.format("(withPrefix = \"%s\")", p)).orElse("");

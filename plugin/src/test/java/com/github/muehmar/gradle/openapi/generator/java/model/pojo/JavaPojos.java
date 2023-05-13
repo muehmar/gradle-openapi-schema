@@ -33,14 +33,19 @@ import java.util.Optional;
 public class JavaPojos {
   private JavaPojos() {}
 
-  public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
+  public static JavaObjectPojo objectPojo(
+      PList<JavaPojoMember> members, JavaAdditionalProperties additionalProperties) {
     return JavaObjectPojo.from(
         PojoName.ofNameAndSuffix("ObjectPojo1", "Dto"),
         "",
         members,
         PojoType.DEFAULT,
-        JavaAdditionalProperties.anyTypeAllowed(),
+        additionalProperties,
         Constraints.empty());
+  }
+
+  public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
+    return objectPojo(members, JavaAdditionalProperties.anyTypeAllowed());
   }
 
   public static JavaPojo allNecessityAndNullabilityVariants(Constraints constraints) {
