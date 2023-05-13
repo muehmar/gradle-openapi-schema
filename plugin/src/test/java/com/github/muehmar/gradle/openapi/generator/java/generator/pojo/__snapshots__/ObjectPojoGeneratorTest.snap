@@ -347,7 +347,8 @@ public class UserDto {
       level,
       uppercase,
       multipleOfValue,
-      anotherPojo
+      anotherPojo,
+      additionalProperties
     );
   }
 
@@ -859,7 +860,8 @@ public class UserDto {
       level,
       uppercase,
       multipleOfValue,
-      anotherPojo
+      anotherPojo,
+      additionalProperties
     );
   }
 
@@ -1189,7 +1191,8 @@ public class UserDto {
     return Objects.hash(
       id,
       name,
-      language
+      language,
+      additionalProperties
     );
   }
 
@@ -1530,7 +1533,8 @@ public class UserDto {
     return Objects.hash(
       id,
       name,
-      language
+      language,
+      additionalProperties
     );
   }
 
@@ -1765,7 +1769,8 @@ public class UserDto {
     return Objects.hash(
       id,
       name,
-      language
+      language,
+      additionalProperties
     );
   }
 
@@ -2053,7 +2058,8 @@ public class NecessityAndNullabilityDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -2354,7 +2360,8 @@ public class ObjectPojo1Dto {
   @Override
   public int hashCode() {
     return Objects.hash(
-      listVal
+      listVal,
+      additionalProperties
     );
   }
 
@@ -2526,7 +2533,8 @@ public class ObjectPojo1Dto {
   @Override
   public int hashCode() {
     return Objects.hash(
-      mapVal
+      mapVal,
+      additionalProperties
     );
   }
 
@@ -2776,7 +2784,8 @@ public class UserDto {
   @Override
   public int hashCode() {
     return Objects.hash(
-      language
+      language,
+      additionalProperties
     );
   }
 
@@ -2970,7 +2979,8 @@ public class UserDto {
   @Override
   public int hashCode() {
     return Objects.hash(
-      language
+      language,
+      additionalProperties
     );
   }
 

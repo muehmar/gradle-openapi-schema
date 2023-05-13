@@ -248,7 +248,8 @@ public class ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -640,7 +641,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1032,7 +1034,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1410,7 +1413,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 

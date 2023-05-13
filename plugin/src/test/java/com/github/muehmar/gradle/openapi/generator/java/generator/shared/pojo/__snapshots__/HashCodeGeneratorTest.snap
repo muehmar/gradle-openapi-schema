@@ -7,7 +7,8 @@ public int hashCode() {
     isRequiredNullableStringValPresent,
     optionalStringVal,
     optionalNullableStringVal,
-    isOptionalNullableStringValNull
+    isOptionalNullableStringValNull,
+    additionalProperties
   );
 }
 ]
@@ -28,7 +29,8 @@ byteArrayMember=[
 public int hashCode() {
   return Objects.hash(
     Arrays.hashCode(data),
-    doubleVal
+    doubleVal,
+    additionalProperties
   );
 }
 ]
