@@ -313,7 +313,8 @@ public class UserDto {
       (level != null ? 1 : 0) +
       (uppercase != null ? 1 : 0) +
       (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0);
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -823,7 +824,8 @@ public class UserDto {
       (level != null ? 1 : 0) +
       (uppercase != null ? 1 : 0) +
       (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0);
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -1165,7 +1167,8 @@ public class UserDto {
     return
       1 +
       1 +
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -1504,7 +1507,8 @@ public class UserDto {
     return
       1 +
       1 +
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -1737,7 +1741,8 @@ public class UserDto {
     return
       1 +
       1 +
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -2017,7 +2022,8 @@ public class NecessityAndNullabilityDto {
       1 +
       (isRequiredNullableStringValPresent ? 1 : 0) +
       (optionalStringVal != null ? 1 : 0) +
-      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -2326,7 +2332,8 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   public int getPropertyCount() {
     return
-      1;
+      1 +
+      additionalProperties.size();
   }
 
   @Override
@@ -2496,7 +2503,8 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   public int getPropertyCount() {
     return
-      1;
+      1 +
+      additionalProperties.size();
   }
 
   @Override
@@ -2744,7 +2752,8 @@ public class UserDto {
   @JsonIgnore
   public int getPropertyCount() {
     return
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -2936,7 +2945,8 @@ public class UserDto {
    */
   public int getPropertyCount() {
     return
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
