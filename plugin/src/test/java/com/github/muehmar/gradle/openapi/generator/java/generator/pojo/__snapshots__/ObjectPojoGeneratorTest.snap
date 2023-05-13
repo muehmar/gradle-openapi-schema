@@ -331,7 +331,8 @@ public class UserDto {
         && Objects.deepEquals(this.level, other.level)
         && Objects.deepEquals(this.uppercase, other.uppercase)
         && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
-        && Objects.deepEquals(this.anotherPojo, other.anotherPojo);
+        && Objects.deepEquals(this.anotherPojo, other.anotherPojo)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -842,7 +843,8 @@ public class UserDto {
         && Objects.deepEquals(this.level, other.level)
         && Objects.deepEquals(this.uppercase, other.uppercase)
         && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
-        && Objects.deepEquals(this.anotherPojo, other.anotherPojo);
+        && Objects.deepEquals(this.anotherPojo, other.anotherPojo)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1178,7 +1180,8 @@ public class UserDto {
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.language, other.language);
+        && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1518,7 +1521,8 @@ public class UserDto {
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.language, other.language);
+        && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1752,7 +1756,8 @@ public class UserDto {
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.language, other.language);
+        && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -2036,7 +2041,8 @@ public class NecessityAndNullabilityDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -2341,7 +2347,8 @@ public class ObjectPojo1Dto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
-    return Objects.deepEquals(this.listVal, other.listVal);
+    return Objects.deepEquals(this.listVal, other.listVal)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -2512,7 +2519,8 @@ public class ObjectPojo1Dto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
-    return Objects.deepEquals(this.mapVal, other.mapVal);
+    return Objects.deepEquals(this.mapVal, other.mapVal)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -2761,7 +2769,8 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.deepEquals(this.language, other.language);
+    return Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -2954,7 +2963,8 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.deepEquals(this.language, other.language);
+    return Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override

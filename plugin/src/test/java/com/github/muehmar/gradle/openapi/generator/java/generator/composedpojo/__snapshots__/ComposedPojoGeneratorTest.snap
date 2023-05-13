@@ -264,7 +264,8 @@ public class ComposedAnyofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -655,7 +656,8 @@ public class ComposedOneofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1046,7 +1048,8 @@ public class ComposedOneofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1423,7 +1426,8 @@ public class ComposedOneofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override

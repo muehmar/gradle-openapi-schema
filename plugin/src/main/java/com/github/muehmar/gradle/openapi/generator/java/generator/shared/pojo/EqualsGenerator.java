@@ -5,9 +5,12 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -60,10 +63,17 @@ public class EqualsGenerator {
 
   private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCompareFields() {
     return (pojo, s, w) -> {
+      final PList<String> additionalPropertiesFieldName =
+          PList.fromOptional(
+              pojo.asObjectPojo()
+                  .map(JavaObjectPojo::getAdditionalProperties)
+                  .map(JavaAdditionalProperties::getPropertyName)
+                  .map(Name::asString));
       final PList<String> fieldNames =
           pojo.getMembersOrEmpty()
               .flatMap(JavaPojoMember::createFieldNames)
-              .map(JavaIdentifier::asString);
+              .map(JavaIdentifier::asString)
+              .concat(additionalPropertiesFieldName);
       final Writer writerAfterFirstField =
           fieldNames
               .headOption()
