@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
@@ -89,6 +92,10 @@ public class JavaArrayPojo implements JavaPojo {
 
   public JavaPojoMember getArrayPojoMember() {
     return arrayPojoMember;
+  }
+
+  public HashCodeGenerator.HashCodeContent getHashCodeContent() {
+    return HashCodeContentBuilder.create().members(PList.single(getArrayPojoMember())).build();
   }
 
   @Override

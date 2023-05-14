@@ -69,7 +69,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod())
         .appendSingleBlankLine()
-        .append(HashCodeGenerator.hashCodeMethod())
+        .append(HashCodeGenerator.hashCodeMethod(), JavaObjectPojo::getHashCodeContent)
         .appendSingleBlankLine()
         .append(ToStringGenerator.toStringMethod(), pojo -> pojo)
         .appendSingleBlankLine()

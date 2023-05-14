@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -8,7 +7,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator.HashCodeContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -26,10 +25,10 @@ class HashCodeGeneratorTest {
   @Test
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctHashCodeMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
+    final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants()).getHashCodeContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -41,10 +40,12 @@ class HashCodeGeneratorTest {
   @Test
   @SnapshotName("arrayPojo")
   void generate_when_arrayPojo_then_correctHashCodeMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
+    final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
     final Writer writer =
         generator.generate(
-            JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+            JavaPojos.arrayPojo().getHashCodeContent(),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
 
@@ -54,29 +55,19 @@ class HashCodeGeneratorTest {
   @Test
   @SnapshotName("byteArrayMember")
   void generate_when_byteArrayMember_then_correctHashCodeMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
+    final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
 
-    final JavaObjectPojo pojo =
-        JavaPojos.objectPojo(
-            PList.of(JavaPojoMembers.byteArrayMember(), JavaPojoMembers.requiredDouble()));
+    final HashCodeContent hashCodeContent =
+        HashCodeContentBuilder.create()
+            .members(PList.of(JavaPojoMembers.byteArrayMember(), JavaPojoMembers.requiredDouble()))
+            .build();
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(
+            hashCodeContent, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAYS::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
 
     expect.toMatchSnapshot(writer.asString());
-  }
-
-  @Test
-  void generate_when_enumPojo_then_noOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
-    final Writer writer =
-        generator.generate(
-            JavaPojos.enumPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
-
-    assertEquals(PList.empty(), writer.getRefs());
-
-    assertEquals("", writer.asString());
   }
 }

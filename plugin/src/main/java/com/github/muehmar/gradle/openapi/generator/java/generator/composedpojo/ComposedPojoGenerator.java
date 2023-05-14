@@ -79,7 +79,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendSingleBlankLine()
         .appendList(asDtoMethod(), JavaComposedPojo::getJavaPojos, newLine())
         .appendSingleBlankLine()
-        .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::getHashCodeContent)
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
         .appendSingleBlankLine()
