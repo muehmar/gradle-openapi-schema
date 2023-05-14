@@ -516,7 +516,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
     }
   }
 
@@ -1042,7 +1042,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
     }
   }
 
@@ -1286,7 +1286,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, language);
+      return new UserDto(id, name, language, additionalProperties);
     }
   }
 
@@ -1648,7 +1648,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, language);
+      return new UserDto(id, name, language, additionalProperties);
     }
   }
 
@@ -1893,7 +1893,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(id, name, language);
+      return new UserDto(id, name, language, additionalProperties);
     }
   }
 
@@ -2235,7 +2235,7 @@ public class NecessityAndNullabilityDto {
     }
 
     public NecessityAndNullabilityDto build() {
-      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 
@@ -2492,7 +2492,7 @@ public class ObjectPojo1Dto {
     }
 
     public ObjectPojo1Dto build() {
-      return new ObjectPojo1Dto(listVal);
+      return new ObjectPojo1Dto(listVal, additionalProperties);
     }
   }
 
@@ -2675,7 +2675,7 @@ public class ObjectPojo1Dto {
     }
 
     public ObjectPojo1Dto build() {
-      return new ObjectPojo1Dto(mapVal);
+      return new ObjectPojo1Dto(mapVal, additionalProperties);
     }
   }
 
@@ -2954,7 +2954,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(language);
+      return new UserDto(language, additionalProperties);
     }
   }
 
@@ -3160,7 +3160,7 @@ public class UserDto {
     }
 
     public UserDto build() {
-      return new UserDto(language);
+      return new UserDto(language, additionalProperties);
     }
   }
 

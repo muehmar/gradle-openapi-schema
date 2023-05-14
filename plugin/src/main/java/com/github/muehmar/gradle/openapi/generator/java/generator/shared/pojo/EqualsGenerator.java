@@ -9,8 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -63,17 +61,14 @@ public class EqualsGenerator {
 
   private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCompareFields() {
     return (pojo, s, w) -> {
-      final PList<String> additionalPropertiesFieldName =
+      final PList<JavaIdentifier> additionalPropertiesFieldName =
           PList.fromOptional(
-              pojo.asObjectPojo()
-                  .map(JavaObjectPojo::getAdditionalProperties)
-                  .map(JavaAdditionalProperties::getPropertyName)
-                  .map(Name::asString));
+              pojo.asObjectPojo().map(ignore -> JavaAdditionalProperties.getPropertyName()));
       final PList<String> fieldNames =
           pojo.getMembersOrEmpty()
               .flatMap(JavaPojoMember::createFieldNames)
-              .map(JavaIdentifier::asString)
-              .concat(additionalPropertiesFieldName);
+              .concat(additionalPropertiesFieldName)
+              .map(JavaIdentifier::asString);
       final Writer writerAfterFirstField =
           fieldNames
               .headOption()

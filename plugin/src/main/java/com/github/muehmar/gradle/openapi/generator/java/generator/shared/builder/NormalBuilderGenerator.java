@@ -357,6 +357,9 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         writer.print(
             "return new %s(%s);",
             pojo.getClassName(),
-            pojo.getMembers().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+            pojo.getMembers()
+                .flatMap(JavaPojoMember::createFieldNames)
+                .add(JavaAdditionalProperties.getPropertyName())
+                .mkString(", "));
   }
 }

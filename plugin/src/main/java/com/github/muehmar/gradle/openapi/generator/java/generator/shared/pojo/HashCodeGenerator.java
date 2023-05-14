@@ -10,8 +10,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -50,10 +48,8 @@ public class HashCodeGenerator {
 
       final PList<String> additionalPropertiesArgument =
           PList.fromOptional(
-              pojo.asObjectPojo()
-                  .map(JavaObjectPojo::getAdditionalProperties)
-                  .map(JavaAdditionalProperties::getPropertyName)
-                  .map(Name::asString));
+                  pojo.asObjectPojo().map(ignore -> JavaAdditionalProperties.getPropertyName()))
+              .map(JavaIdentifier::asString);
 
       return pojo.getMembersOrEmpty()
           .map(HashCodeMember::new)
