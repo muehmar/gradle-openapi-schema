@@ -6,6 +6,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
@@ -28,6 +29,8 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.function.BiFunction;
 
 public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
+  private static final String RETURN_THIS = "return this;";
+
   private final Generator<JavaObjectPojo, PojoSettings> delegate;
 
   public NormalBuilderGenerator() {
@@ -71,6 +74,9 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .append(additionalPropertiesDeclaration())
         .appendNewLine()
         .appendList(setter(), JavaObjectPojo::getMembers)
+        .appendSingleBlankLine()
+        .append(additionalPropertiesSetters())
+        .appendSingleBlankLine()
         .append(buildMethod());
   }
 
@@ -133,6 +139,58 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .append(optionalNullableSetter());
   }
 
+  private Generator<JavaObjectPojo, PojoSettings> additionalPropertiesSetters() {
+    return singleAdditionalPropertiesSetter()
+        .appendSingleBlankLine()
+        .append(allAdditionalPropertiesSetter());
+  }
+
+  private Generator<JavaObjectPojo, PojoSettings> singleAdditionalPropertiesSetter() {
+    final Generator<JavaObjectPojo, PojoSettings> method =
+        MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
+            .modifiers(PUBLIC)
+            .noGenericTypes()
+            .returnType("Builder")
+            .methodName("addAdditionalProperty")
+            .arguments(
+                props ->
+                    PList.of(
+                        "String key",
+                        String.format("%s value", props.getType().getFullClassName())))
+            .content(
+                (props, s, w) ->
+                    w.println("this.%s.put(key, value);", props.getPropertyName())
+                        .println(RETURN_THIS))
+            .build()
+            .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
+            .contraMap(JavaObjectPojo::getAdditionalProperties);
+    return JacksonAnnotationGenerator.<JavaObjectPojo>jsonAnySetter().append(method);
+  }
+
+  private Generator<JavaObjectPojo, PojoSettings> allAdditionalPropertiesSetter() {
+    return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
+        .modifiers(PUBLIC)
+        .noGenericTypes()
+        .returnType("Builder")
+        .methodName("setAdditionalProperties")
+        .singleArgument(
+            props ->
+                String.format(
+                    "Map<String, %s> %s",
+                    props.getType().getFullClassName(), props.getPropertyName()))
+        .content(
+            (props, s, w) ->
+                w.println(
+                        "this.%s = new HashMap<>(%s);",
+                        props.getPropertyName(), props.getPropertyName())
+                    .println(RETURN_THIS))
+        .build()
+        .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
+        .append(ref(JavaRefs.JAVA_UTIL_MAP))
+        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
+        .contraMap(JavaObjectPojo::getAdditionalProperties);
+  }
+
   private Generator<JavaPojoMember, PojoSettings> standardSetter() {
     final BiFunction<JavaPojoMember, PojoSettings, JavaModifiers> modifiers =
         (member, settings) ->
@@ -176,7 +234,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 writer.println(
                     "this.%s = %s == null;",
                     member.getIsNullFlagName(), member.getNameAsIdentifier()))
-        .append(w -> w.println("return this;"));
+        .append(w -> w.println(RETURN_THIS));
   }
 
   private Generator<JavaPojoMember, PojoSettings> requiredNullableSetter() {

@@ -505,6 +505,16 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
       return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
     }
@@ -1021,6 +1031,16 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
       return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
     }
@@ -1255,6 +1275,16 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
       return new UserDto(id, name, language);
     }
@@ -1358,6 +1388,7 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGenera
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -1605,6 +1636,17 @@ public class UserDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
       return new UserDto(id, name, language);
     }
@@ -1840,6 +1882,16 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
       return new UserDto(id, name, language);
     }
@@ -1853,6 +1905,7 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGenera
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -2170,6 +2223,17 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public NecessityAndNullabilityDto build() {
       return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
     }
@@ -2303,6 +2367,7 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGenera
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -2415,6 +2480,17 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ObjectPojo1Dto build() {
       return new ObjectPojo1Dto(listVal);
     }
@@ -2479,6 +2555,7 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGenera
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -2586,6 +2663,17 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ObjectPojo1Dto build() {
       return new ObjectPojo1Dto(mapVal);
     }
@@ -2650,6 +2738,7 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGenera
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -2853,6 +2942,17 @@ public class UserDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
       return new UserDto(language);
     }
@@ -3046,6 +3146,16 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
     }
 

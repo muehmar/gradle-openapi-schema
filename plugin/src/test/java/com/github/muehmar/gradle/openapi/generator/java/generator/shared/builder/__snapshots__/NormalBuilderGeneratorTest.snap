@@ -77,6 +77,17 @@ public static final class Builder {
     return this;
   }
 
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
   public NecessityAndNullabilityDto build() {
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
   }
@@ -155,6 +166,16 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
     return this;
   }
 
@@ -242,6 +263,17 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
     return this;
   }
 
