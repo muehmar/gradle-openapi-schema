@@ -6,6 +6,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.Eq
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -134,6 +136,15 @@ public class JavaObjectPojo implements JavaPojo {
 
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return EqualsContentBuilder.create()
+        .className(getClassName())
+        .members(members)
+        .andAllOptionals()
+        .additionalProperties(additionalProperties)
+        .build();
+  }
+
+  public ToStringGenerator.ToStringContent getToStringContent() {
+    return ToStringContentBuilder.create()
         .className(getClassName())
         .members(members)
         .andAllOptionals()

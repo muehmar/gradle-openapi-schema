@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -8,7 +7,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator.ToStringContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -26,11 +25,11 @@ class ToStringGeneratorTest {
   @Test
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctToStringMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
+    final Generator<ToStringContent, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants()).getToStringContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -42,11 +41,13 @@ class ToStringGeneratorTest {
   @Test
   @SnapshotName("arrayPojo")
   void generate_when_arrayPojo_then_correctToStringMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
+    final Generator<ToStringContent, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
     final Writer writer =
         generator.generate(
-            JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+            JavaPojos.arrayPojo().getToStringContent(),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
 
     assertTrue(writer.getRefs().isEmpty());
 
@@ -56,29 +57,17 @@ class ToStringGeneratorTest {
   @Test
   @SnapshotName("byteArrayMember")
   void generate_when_byteArrayMember_then_correctToStringMethod() {
-    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
+    final Generator<ToStringContent, PojoSettings> generator = ToStringGenerator.toStringMethod();
 
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo(
             PList.of(JavaPojoMembers.byteArrayMember(), JavaPojoMembers.requiredDouble()));
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(
+            pojo.getToStringContent(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAYS::equals));
 
     expect.toMatchSnapshot(writer.asString());
-  }
-
-  @Test
-  void generate_when_enumPojo_then_noOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = ToStringGenerator.toStringMethod();
-
-    final Writer writer =
-        generator.generate(
-            JavaPojos.enumPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
-
-    assertTrue(writer.getRefs().isEmpty());
-
-    assertEquals("", writer.asString());
   }
 }

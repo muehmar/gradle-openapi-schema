@@ -5,6 +5,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.Eq
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
@@ -102,6 +104,13 @@ public class JavaArrayPojo implements JavaPojo {
 
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return EqualsContentBuilder.create()
+        .className(getClassName())
+        .members(PList.single(getArrayPojoMember()))
+        .build();
+  }
+
+  public ToStringGenerator.ToStringContent getToStringContent() {
+    return ToStringContentBuilder.create()
         .className(getClassName())
         .members(PList.single(getArrayPojoMember()))
         .build();

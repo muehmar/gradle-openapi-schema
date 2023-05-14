@@ -8,12 +8,13 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Optional;
 import lombok.Value;
 
 public class ToStringGenerator {
@@ -21,9 +22,9 @@ public class ToStringGenerator {
 
   private ToStringGenerator() {}
 
-  public static <T extends JavaPojo> Generator<T, PojoSettings> toStringMethod() {
-    final Generator<T, PojoSettings> method =
-        JavaGenerators.<T, PojoSettings>methodGen()
+  public static Generator<ToStringContent, PojoSettings> toStringMethod() {
+    final Generator<ToStringContent, PojoSettings> method =
+        JavaGenerators.<ToStringContent, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("String")
@@ -31,31 +32,27 @@ public class ToStringGenerator {
             .noArguments()
             .content(toStringMethodContent())
             .build();
-    return AnnotationGenerator.<T, PojoSettings>override()
+    return AnnotationGenerator.<ToStringContent, PojoSettings>override()
         .append(method)
-        .append(arraysRefGenerator())
-        .filter(JavaPojo::isNotEnum);
+        .append(arraysRefGenerator());
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> arraysRefGenerator() {
-    return Generator.<T, PojoSettings>emptyGen()
+  private static Generator<ToStringContent, PojoSettings> arraysRefGenerator() {
+    return Generator.<ToStringContent, PojoSettings>emptyGen()
         .appendConditionally(
-            ToStringGenerator::hasArrayMemberType,
+            ToStringContent::hasArrayMemberType,
             Generator.ofWriterFunction(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAYS)));
   }
 
-  private static <T extends JavaPojo> boolean hasArrayMemberType(T p) {
-    return p.getMembersOrEmpty().exists(m -> m.getJavaType().isJavaArray());
-  }
-
-  private static <T extends JavaPojo> Generator<T, PojoSettings> toStringMethodContent() {
-    return (pojo, s, w) -> {
-      final Writer writerStartPrinted = w.println("return \"%s{\" +", pojo.getClassName());
+  private static Generator<ToStringContent, PojoSettings> toStringMethodContent() {
+    return (content, s, w) -> {
+      final Writer writerStartPrinted = w.println("return \"%s{\" +", content.getClassName());
 
       final ToStringAdditionalProperty toStringAdditionalProperty =
-          new ToStringAdditionalProperty(pojo);
+          new ToStringAdditionalProperty(content.getAdditionalProperties());
 
-      return pojo.getMembersOrEmpty()
+      return content
+          .getMembers()
           .map(ToStringMember::new)
           .flatMap(ToStringMember::toStringLines)
           .concat(toStringAdditionalProperty.toStringLines())
@@ -67,6 +64,18 @@ public class ToStringGenerator {
           .tab(1)
           .println("\"}\";");
     };
+  }
+
+  @PojoBuilder(builderName = "ToStringContentBuilder")
+  @Value
+  public static class ToStringContent {
+    JavaIdentifier className;
+    PList<JavaPojoMember> members;
+    Optional<JavaAdditionalProperties> additionalProperties;
+
+    public boolean hasArrayMemberType() {
+      return members.exists(m -> m.getJavaType().isJavaArray());
+    }
   }
 
   @Value
@@ -88,11 +97,11 @@ public class ToStringGenerator {
 
   @Value
   private static class ToStringAdditionalProperty {
-    JavaPojo pojo;
+    Optional<JavaAdditionalProperties> additionalProperties;
 
     private PList<String> toStringLines() {
       return PList.fromOptional(
-          pojo.asObjectPojo()
+          additionalProperties
               .map(ignore -> JavaAdditionalProperties.getPropertyName())
               .map(name -> String.format(SINGLE_PROPERTY_FORMAT, name, name)));
     }

@@ -63,6 +63,6 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
         .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaArrayPojo::getHashCodeContent)
         .appendSingleBlankLine()
-        .append(ToStringGenerator.toStringMethod(), pojo -> pojo);
+        .append(ToStringGenerator.toStringMethod(), JavaArrayPojo::getToStringContent);
   }
 }

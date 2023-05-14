@@ -71,7 +71,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaObjectPojo::getHashCodeContent)
         .appendSingleBlankLine()
-        .append(ToStringGenerator.toStringMethod(), pojo -> pojo)
+        .append(ToStringGenerator.toStringMethod(), JavaObjectPojo::getToStringContent)
         .appendSingleBlankLine()
         .append(MultipleOfValidationMethodGenerator.generator())
         .appendSingleBlankLine()

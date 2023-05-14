@@ -65,7 +65,7 @@ public class MapPojoGenerator implements Generator<JavaMapPojo, PojoSettings> {
         .appendNewLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaMapPojo::getHashCodeContent)
         .appendNewLine()
-        .append(ToStringGenerator.toStringMethod());
+        .append(ToStringGenerator.toStringMethod(), JavaMapPojo::getToStringContent);
   }
 
   private static Generator<JavaMapPojo, PojoSettings> getPropertyMethod() {

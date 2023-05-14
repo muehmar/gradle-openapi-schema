@@ -83,7 +83,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::getEqualsContent)
         .appendSingleBlankLine()
-        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::getToStringContent)
         .appendSingleBlankLine()
         .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo);
   }
