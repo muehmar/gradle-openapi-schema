@@ -61,7 +61,7 @@ public class MapPojoGenerator implements Generator<JavaMapPojo, PojoSettings> {
         .appendNewLine()
         .append(propertyCountMethod())
         .appendNewLine()
-        .append(EqualsGenerator.equalsMethod())
+        .append(EqualsGenerator.equalsMethod(), JavaMapPojo::getEqualsContent)
         .appendNewLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaMapPojo::getHashCodeContent)
         .appendNewLine()

@@ -6,6 +6,8 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
@@ -163,6 +165,15 @@ public class JavaComposedPojo implements JavaPojo {
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return HashCodeContentBuilder.create()
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
+  }
+
+  public EqualsGenerator.EqualsContent getEqualsContent() {
+    return EqualsContentBuilder.create()
+        .className(getClassName())
         .members(getMembers())
         .andAllOptionals()
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())

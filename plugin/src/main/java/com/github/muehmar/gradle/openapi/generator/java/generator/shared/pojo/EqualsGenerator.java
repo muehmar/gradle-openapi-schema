@@ -7,20 +7,22 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Optional;
 import java.util.function.UnaryOperator;
+import lombok.Value;
 
 public class EqualsGenerator {
   private EqualsGenerator() {}
 
-  public static <T extends JavaPojo> Generator<T, PojoSettings> equalsMethod() {
-    final Generator<T, PojoSettings> method =
-        JavaGenerators.<T, PojoSettings>methodGen()
+  public static Generator<EqualsContent, PojoSettings> equalsMethod() {
+    final Generator<EqualsContent, PojoSettings> method =
+        JavaGenerators.<EqualsContent, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("boolean")
@@ -28,26 +30,17 @@ public class EqualsGenerator {
             .singleArgument(pojo -> "Object obj")
             .content(equalsMethodContent())
             .build();
-    return AnnotationGenerator.<T, PojoSettings>override()
-        .append(method)
-        .filter(
-            pojo ->
-                pojo.fold(
-                    arrayPojo -> true,
-                    enumPojo -> false,
-                    objectPojo -> true,
-                    composedPojo -> true,
-                    freeFormPojo -> true));
+    return AnnotationGenerator.<EqualsContent, PojoSettings>override().append(method);
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsMethodContent() {
-    return EqualsGenerator.<T>equalsCheckIdentity()
+  private static Generator<EqualsContent, PojoSettings> equalsMethodContent() {
+    return EqualsGenerator.<EqualsContent>equalsCheckIdentity()
         .append(equalsCheckNullAndSameClass())
         .append(equalsCastObjectToCompare())
         .append(equalsCompareFields());
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCheckIdentity() {
+  private static Generator<EqualsContent, PojoSettings> equalsCheckIdentity() {
     return Generator.constant("if (this == obj) return true;");
   }
 
@@ -55,17 +48,21 @@ public class EqualsGenerator {
     return w -> w.println("if (obj == null || this.getClass() != obj.getClass()) return false;");
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCastObjectToCompare() {
-    return (p, s, w) -> w.println("final %s other = (%s) obj;", p.getClassName(), p.getClassName());
+  private static Generator<EqualsContent, PojoSettings> equalsCastObjectToCompare() {
+    return (content, s, w) ->
+        w.println("final %s other = (%s) obj;", content.getClassName(), content.getClassName());
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> equalsCompareFields() {
-    return (pojo, s, w) -> {
+  private static Generator<EqualsContent, PojoSettings> equalsCompareFields() {
+    return (content, s, w) -> {
       final PList<JavaIdentifier> additionalPropertiesFieldName =
           PList.fromOptional(
-              pojo.asObjectPojo().map(ignore -> JavaAdditionalProperties.getPropertyName()));
+              content
+                  .getAdditionalProperties()
+                  .map(ignore -> JavaAdditionalProperties.getPropertyName()));
       final PList<String> fieldNames =
-          pojo.getMembersOrEmpty()
+          content
+              .getMembers()
               .flatMap(JavaPojoMember::createFieldNames)
               .concat(additionalPropertiesFieldName)
               .map(JavaIdentifier::asString);
@@ -88,5 +85,13 @@ public class EqualsGenerator {
     return (fieldName, s, w) ->
         w.print("Objects.deepEquals(this.%s, other.%s)", fieldName, fieldName)
             .ref(JavaRefs.JAVA_UTIL_OBJECTS);
+  }
+
+  @PojoBuilder(builderName = "EqualsContentBuilder")
+  @Value
+  public static class EqualsContent {
+    JavaIdentifier className;
+    PList<JavaPojoMember> members;
+    Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

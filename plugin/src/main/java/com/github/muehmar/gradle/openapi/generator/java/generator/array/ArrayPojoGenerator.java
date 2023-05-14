@@ -59,7 +59,7 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
         .appendSingleBlankLine()
         .append(UniqueItemsValidationMethodGenerator.generator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
-        .append(EqualsGenerator.equalsMethod())
+        .append(EqualsGenerator.equalsMethod(), JavaArrayPojo::getEqualsContent)
         .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaArrayPojo::getHashCodeContent)
         .appendSingleBlankLine()

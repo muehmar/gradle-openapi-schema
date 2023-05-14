@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
@@ -73,6 +75,13 @@ public class JavaMapPojo implements JavaPojo {
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return HashCodeContentBuilder.create().members(PList.single(getMember())).build();
+  }
+
+  public EqualsGenerator.EqualsContent getEqualsContent() {
+    return EqualsContentBuilder.create()
+        .className(getClassName())
+        .members(PList.single(getMember()))
+        .build();
   }
 
   public JavaPojoMember getMember() {

@@ -67,7 +67,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .append(PojoPropertyCountMethod.propertyCountMethod())
         .appendSingleBlankLine()
-        .append(EqualsGenerator.equalsMethod())
+        .append(EqualsGenerator.equalsMethod(), JavaObjectPojo::getEqualsContent)
         .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaObjectPojo::getHashCodeContent)
         .appendSingleBlankLine()
