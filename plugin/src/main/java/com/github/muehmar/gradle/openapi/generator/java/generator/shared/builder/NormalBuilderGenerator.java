@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -7,9 +8,11 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -65,6 +68,7 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .appendNewLine()
         .append(constructor())
         .appendList(memberDeclaration(), JavaObjectPojo::getMembers)
+        .append(additionalPropertiesDeclaration())
         .appendNewLine()
         .appendList(setter(), JavaObjectPojo::getMembers)
         .append(buildMethod());
@@ -82,28 +86,43 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
   }
 
   private <B> Generator<JavaPojoMember, B> memberDeclaration() {
-    return this.<B>normalMember().append(memberIsPresentFlag()).append(memberIsNullFlag());
+    return this.<B>normalMemberDeclaration()
+        .append(memberIsPresentFlagDeclaration())
+        .append(memberIsNullFlagDeclaratino());
   }
 
-  private <B> Generator<JavaPojoMember, B> normalMember() {
+  private <B> Generator<JavaPojoMember, B> normalMemberDeclaration() {
     return ((member, settings, writer) ->
         writer.println(
             "private %s %s;",
             member.getJavaType().getFullClassName(), member.getNameAsIdentifier()));
   }
 
-  private <B> Generator<JavaPojoMember, B> memberIsPresentFlag() {
+  private <B> Generator<JavaPojoMember, B> memberIsPresentFlagDeclaration() {
     final Generator<JavaPojoMember, B> generator =
         (member, settings, writer) ->
             writer.println("private boolean %s = false;", member.getIsPresentFlagName());
     return generator.filter(JavaPojoMember::isRequiredAndNullable);
   }
 
-  private <B> Generator<JavaPojoMember, B> memberIsNullFlag() {
+  private <B> Generator<JavaPojoMember, B> memberIsNullFlagDeclaratino() {
     final Generator<JavaPojoMember, B> generator =
         (member, settings, writer) ->
             writer.println("private boolean %s = false;", member.getIsNullFlagName());
     return generator.filter(JavaPojoMember::isOptionalAndNullable);
+  }
+
+  private <B> Generator<JavaObjectPojo, B> additionalPropertiesDeclaration() {
+    final Generator<JavaAdditionalProperties, B> generator =
+        (props, settings, writer) ->
+            writer.println(
+                "private Map<String, %s> %s = new HashMap<>();",
+                props.getType().getFullClassName(), props.getPropertyName());
+    return generator
+        .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
+        .append(ref(JavaRefs.JAVA_UTIL_MAP))
+        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
+        .contraMap(JavaObjectPojo::getAdditionalProperties);
   }
 
   private Generator<JavaPojoMember, PojoSettings> setter() {

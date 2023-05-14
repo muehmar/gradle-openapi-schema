@@ -11,6 +11,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -298,6 +299,7 @@ public class ComposedAnyofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
@@ -401,6 +403,7 @@ import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -692,6 +695,7 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
@@ -795,6 +799,7 @@ import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -1086,6 +1091,7 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
@@ -1189,6 +1195,7 @@ import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -1466,6 +1473,7 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
