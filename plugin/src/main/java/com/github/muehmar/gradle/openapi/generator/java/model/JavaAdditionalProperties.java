@@ -28,6 +28,10 @@ public class JavaAdditionalProperties {
     return new JavaAdditionalProperties(true, type);
   }
 
+  public static JavaAdditionalProperties notAllowed() {
+    return new JavaAdditionalProperties(false, JavaAnyType.create());
+  }
+
   public static JavaIdentifier getPropertyName() {
     return MAP_PROPERTY_NAME;
   }

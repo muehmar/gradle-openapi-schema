@@ -115,6 +115,14 @@ public static final class OptBuilder2 {
     this.builder = builder;
   }
 
+  public OptBuilder2 addAdditionalProperty(String key, Object value) {
+    return new OptBuilder2(builder.addAdditionalProperty(key, value));
+  }
+
+  public OptBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new OptBuilder2(builder.setAdditionalProperties(additionalProperties));
+  }
+
   public NecessityAndNullabilityDto build(){
     return builder.build();
   }

@@ -1376,6 +1376,14 @@ public class UserDto {
       this.builder = builder;
     }
 
+    public OptBuilder1 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder1(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder1(builder.setAdditionalProperties(additionalProperties));
+    }
+
     public UserDto build(){
       return builder.build();
     }
@@ -2355,6 +2363,14 @@ public class NecessityAndNullabilityDto {
       this.builder = builder;
     }
 
+    public OptBuilder2 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder2(builder.setAdditionalProperties(additionalProperties));
+    }
+
     public NecessityAndNullabilityDto build(){
       return builder.build();
     }
@@ -2543,6 +2559,14 @@ public class ObjectPojo1Dto {
       this.builder = builder;
     }
 
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
     public ObjectPojo1Dto build(){
       return builder.build();
     }
@@ -2724,6 +2748,14 @@ public class ObjectPojo1Dto {
 
     private OptBuilder0(Builder builder) {
       this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
     }
 
     public ObjectPojo1Dto build(){
