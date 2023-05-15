@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "1.0.1"
+    id "com.github.muehmar.openapischema" version "1.1.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -110,11 +110,11 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
-        arrayProperty {
+        array {
             sourceSet = 'main'
-            inputSpec = "$projectDir/src/main/resources/openapi-array-property.yml"
+            inputSpec = "$projectDir/src/main/resources/openapi-array.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.arrayproperty.model"
+            packageName = "${project.group}.${project.name}.api.array.model"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -210,6 +210,26 @@ openApiGenerator {
             packageName = "${project.group}.${project.name}.api.identifiers.model"
             jsonSupport = "jackson"
             suffix = ""
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
+        readOnlyWriteOnly {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-read-only-write-only.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.readwriteonly.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
+        specVersionV31 {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-spec-version-v31.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.specversionv31.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
             enableValidation = true
             builderMethodPrefix = "set"
         }

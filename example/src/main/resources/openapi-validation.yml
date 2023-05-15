@@ -20,6 +20,17 @@ components:
           $ref: "#/components/schemas/StringValue"
         email:
           $ref: "#/components/schemas/Email"
+    MultipleOfObject:
+      type: object
+      properties:
+        doubleValue:
+          $ref: "#/components/schemas/MultipleOfDoubleValue"
+        floatValue:
+          $ref: "#/components/schemas/MultipleOfFloatValue"
+        intValue:
+          $ref: "#/components/schemas/MultipleOfIntValue"
+        longValue:
+          $ref: "#/components/schemas/MultipleOfLongValue"
 
     NumbersObject:
       type: object
@@ -39,7 +50,7 @@ components:
       minProperties: 2
       maxProperties: 3
 
-    IntegerArray:
+    IntegerMemberArray:
       type: object
       required:
         - numbers
@@ -51,6 +62,33 @@ components:
             format: int32
           minItems: 3
           maxItems: 5
+
+    IntegerPojoArray:
+      type: array
+      items:
+        type: integer
+        format: int32
+      minItems: 3
+      maxItems: 5
+
+    LongMemberArray:
+      type: object
+      required:
+        - numbers
+      properties:
+        numbers:
+          type: array
+          items:
+            type: integer
+            format: int64
+          uniqueItems: true
+
+    LongPojoArray:
+      type: array
+      items:
+        type: integer
+        format: int64
+      uniqueItems: true
 
     RequiredProperties:
       required:
@@ -99,9 +137,29 @@ components:
       minimum: -122
       maximum: 249
 
+    MultipleOfDoubleValue:
+      type: number
+      format: double
+      multipleOf: 5.5
+
+    MultipleOfFloatValue:
+      type: number
+      format: float
+      multipleOf: 2.25
+
+    MultipleOfIntValue:
+      type: integer
+      format: int32
+      multipleOf: 11
+
+    MultipleOfLongValue:
+      type: integer
+      format: int64
+      multipleOf: 22
+
     StringValue:
       type: string
-      pattern: "[A-Za-z0-9]*"
+      pattern: '[A-Za-z\d]*'
       minLength: 2
       maxLength: 10
       maximum: 249

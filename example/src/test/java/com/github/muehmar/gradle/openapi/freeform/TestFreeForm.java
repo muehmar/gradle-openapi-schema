@@ -5,32 +5,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import OpenApiSchema.example.api.freeform.model.FreeForm1Dto;
 import OpenApiSchema.example.api.freeform.model.FreeForm2Dto;
 import OpenApiSchema.example.api.freeform.model.FreeForm3Dto;
+import OpenApiSchema.example.api.freeform.model.InlineFreeFormDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class TestFreeForm {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-
-  @BeforeAll
-  static void setupMapper() {
-    MAPPER.setConfig(
-        MAPPER.getSerializationConfig().with(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY));
-  }
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
-  void serialize_when_freeFormDtos_then_correctJson() throws JsonProcessingException {
+  void serialize_when_rootFreeFormDtos_then_correctJson() throws JsonProcessingException {
     final HashMap<String, Object> map = new HashMap<>();
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
@@ -45,7 +36,19 @@ class TestFreeForm {
   }
 
   @Test
-  void deserialize_when_freeFormDtos_then_correctObject() throws JsonProcessingException {
+  void serialize_when_inlineFreeFormDto_then_correctJson() throws JsonProcessingException {
+    final HashMap<String, Object> map = new HashMap<>();
+    map.put("firstName", "Dexter");
+    map.put("lastName", "Morgan");
+    final InlineFreeFormDto dto =
+        InlineFreeFormDto.newBuilder().andAllOptionals().setData(map).build();
+
+    final String expectedJson = "{\"data\":{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}}";
+    assertEquals(expectedJson, MAPPER.writeValueAsString(dto));
+  }
+
+  @Test
+  void deserialize_when_rootFreeFormDtos_then_correctObject() throws JsonProcessingException {
     final String input = "{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}";
 
     final FreeForm1Dto dto1 = MAPPER.readValue(input, FreeForm1Dto.class);
@@ -65,6 +68,21 @@ class TestFreeForm {
   }
 
   @Test
+  void deserialize_when_inlineFreeFormDto_then_correctObject() throws JsonProcessingException {
+    final String input = "{\"data\":{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}}";
+
+    final InlineFreeFormDto dto = MAPPER.readValue(input, InlineFreeFormDto.class);
+
+    final HashMap<String, Object> map = new HashMap<>();
+    map.put("firstName", "Dexter");
+    map.put("lastName", "Morgan");
+    final InlineFreeFormDto expectedDto =
+        InlineFreeFormDto.newBuilder().andAllOptionals().setData(map).build();
+
+    assertEquals(expectedDto, dto);
+  }
+
+  @Test
   void getPropertyCount_when_freeFormDtos_then_correctCount() {
     final HashMap<String, Object> map = new HashMap<>();
     map.put("firstName", "Dexter");
@@ -79,26 +97,58 @@ class TestFreeForm {
   }
 
   @ParameterizedTest
-  @ValueSource(ints = {0, 1, 2, 3, 4})
-  void validate_when_freeFormDto1WithTwoProperties_then_valid(int propertyCount) {
-    try (final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
-      final Validator validator = validatorFactory.getValidator();
+  @CsvSource({"0,1", "1,0", "2,0", "3,0", "4,1"})
+  void validate_when_freeFormDto1_then_matchExpectedViolationCount(
+      int propertyCount, int violationCount) {
+    final FreeForm1Dto dto = new FreeForm1Dto(createPropertyMap(propertyCount));
 
-      final HashMap<String, Object> map = new HashMap<>();
+    final Set<?> violations = ValidationUtil.validate(dto);
 
-      for (int i = 0; i < propertyCount; i++) {
-        map.put("prop" + i, i);
-      }
+    assertEquals(violationCount, violations.size());
+  }
 
-      final FreeForm1Dto dto1 = new FreeForm1Dto(map);
+  @ParameterizedTest
+  @CsvSource({"1,1", "2,0", "3,0", "4,0", "5,1"})
+  void validate_when_freeFormDto2_then_matchExpectedViolationCount(
+      int propertyCount, int violationCount) {
+    final FreeForm2Dto dto = new FreeForm2Dto(createPropertyMap(propertyCount));
 
-      final Set<ConstraintViolation<FreeForm1Dto>> violations = validator.validate(dto1);
+    final Set<?> violations = ValidationUtil.validate(dto);
 
-      if (1 <= propertyCount && propertyCount <= 3) {
-        assertEquals(0, violations.size());
-      } else {
-        assertEquals(1, violations.size());
-      }
+    assertEquals(violationCount, violations.size());
+  }
+
+  @ParameterizedTest
+  @CsvSource({"2,1", "3,0", "4,0", "5,0", "6,1"})
+  void validate_when_freeFormDto3_then_matchExpectedViolationCount(
+      int propertyCount, int violationCount) {
+    final FreeForm3Dto dto = new FreeForm3Dto(createPropertyMap(propertyCount));
+
+    final Set<?> violations = ValidationUtil.validate(dto);
+
+    assertEquals(violationCount, violations.size());
+  }
+
+  @ParameterizedTest
+  @CsvSource({"3,1", "4,0", "5,0", "6,0", "7,1"})
+  void validate_when_inlineFreeFormDto_then_matchExpectedViolationCount(
+      int propertyCount, int violationCount) {
+    final InlineFreeFormDto dto =
+        InlineFreeFormDto.newBuilder()
+            .andAllOptionals()
+            .setData(createPropertyMap(propertyCount))
+            .build();
+
+    final Set<?> violations = ValidationUtil.validate(dto);
+
+    assertEquals(violationCount, violations.size());
+  }
+
+  private static HashMap<String, Object> createPropertyMap(int propertyCount) {
+    final HashMap<String, Object> map = new HashMap<>();
+    for (int i = 0; i < propertyCount; i++) {
+      map.put("prop" + i, i);
     }
+    return map;
   }
 }
