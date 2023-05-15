@@ -1,10 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
@@ -88,6 +90,14 @@ public class JavaMapPojo implements JavaPojo {
 
   public ToStringGenerator.ToStringContent getToStringContent() {
     return ToStringContentBuilder.create()
+        .className(getClassName())
+        .members(PList.single(getMember()))
+        .build();
+  }
+
+  public PojoConstructorGenerator.ConstructorContent getConstructorContent() {
+    return ConstructorContentBuilder.create()
+        .isArray(false)
         .className(getClassName())
         .members(PList.single(getMember()))
         .build();

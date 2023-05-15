@@ -53,7 +53,7 @@ public class MapPojoGenerator implements Generator<JavaMapPojo, PojoSettings> {
         .append(FieldsGenerator.singleField(), JavaMapPojo::getMember)
         .appendNewLine()
         .append(JacksonAnnotationGenerator.jsonCreator())
-        .append(PojoConstructorGenerator.generator())
+        .append(PojoConstructorGenerator.generator(), JavaMapPojo::getConstructorContent)
         .appendNewLine()
         .append(GetterGenerator.generator(), JavaMapPojo::getMember)
         .appendNewLine()

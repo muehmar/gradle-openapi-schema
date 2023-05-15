@@ -9,46 +9,48 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGener
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Optional;
 import java.util.function.BiFunction;
+import lombok.Value;
 
 public class PojoConstructorGenerator {
   private PojoConstructorGenerator() {}
 
-  public static <T extends JavaPojo> Generator<T, PojoSettings> generator() {
-    final Generator<T, PojoSettings> method =
-        ConstructorGeneratorBuilder.<T, PojoSettings>create()
+  public static Generator<ConstructorContent, PojoSettings> generator() {
+    final Generator<ConstructorContent, PojoSettings> method =
+        ConstructorGeneratorBuilder.<ConstructorContent, PojoSettings>create()
             .modifiers(PUBLIC)
-            .javaClassName(JavaPojo::getClassName)
+            .javaClassName(ConstructorContent::getClassName)
             .arguments(constructorArguments())
             .content(constructorContent())
             .build()
-            .filter(JavaPojo::isNotEnum)
             .append(additionalPropertiesImports());
-    return JacksonAnnotationGenerator.<T>jsonCreator().filter(JavaPojo::isArray).append(method);
+    return JacksonAnnotationGenerator.<ConstructorContent>jsonCreator()
+        .filter(ConstructorContent::isArray)
+        .append(method);
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> additionalPropertiesImports() {
-    final Generator<JavaObjectPojo, PojoSettings> imports =
+  private static Generator<ConstructorContent, PojoSettings> additionalPropertiesImports() {
+    final Generator<JavaAdditionalProperties, PojoSettings> imports =
         Generator.<JavaType, PojoSettings>emptyGen()
             .append(w -> w.ref(JavaRefs.JAVA_UTIL_MAP))
             .append(w -> w.ref(JavaRefs.JAVA_UTIL_COLLECTIONS))
             .append(RefsGenerator.javaTypeRefs())
-            .contraMap(JavaAdditionalProperties::getType)
-            .contraMap(JavaObjectPojo::getAdditionalProperties);
-    return Generator.<T, PojoSettings>emptyGen().appendOptional(imports, JavaPojo::asObjectPojo);
+            .contraMap(JavaAdditionalProperties::getType);
+    return Generator.<ConstructorContent, PojoSettings>emptyGen()
+        .appendOptional(imports, ConstructorContent::getAdditionalProperties);
   }
 
-  private static <T extends JavaPojo>
-      BiFunction<T, PojoSettings, PList<String>> constructorArguments() {
+  private static BiFunction<ConstructorContent, PojoSettings, PList<String>>
+      constructorArguments() {
     return (pojo, pojoSettings) ->
-        pojo.getMembersOrEmpty()
+        pojo.getMembers()
             .flatMap(PojoConstructorGenerator::createArguments)
             .concat(createAdditionalPropertyArgument(pojo));
   }
@@ -68,22 +70,23 @@ public class PojoConstructorGenerator {
     }
   }
 
-  private static PList<String> createAdditionalPropertyArgument(JavaPojo pojo) {
-    return PList.fromOptional(pojo.asObjectPojo())
-        .map(JavaObjectPojo::getAdditionalProperties)
+  private static PList<String> createAdditionalPropertyArgument(ConstructorContent content) {
+    return PList.fromOptional(content.getAdditionalProperties())
         .map(
             props ->
                 String.format(
                     "Map<String, %s> %s",
-                    props.getType().getFullClassName(), props.getPropertyName()));
+                    props.getType().getFullClassName(),
+                    JavaAdditionalProperties.getPropertyName()));
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> constructorContent() {
-    return (pojo, settings, writer) -> {
+  private static Generator<ConstructorContent, PojoSettings> constructorContent() {
+    return (content, settings, writer) -> {
       final PList<String> assignments =
-          pojo.getMembersOrEmpty()
+          content
+              .getMembers()
               .flatMap(PojoConstructorGenerator::createMemberAssignment)
-              .concat(createAdditionalPropertiesAssignment(pojo));
+              .concat(createAdditionalPropertiesAssignment(content));
       return assignments.foldLeft(writer, Writer::println);
     };
   }
@@ -107,13 +110,22 @@ public class PojoConstructorGenerator {
     }
   }
 
-  private static PList<String> createAdditionalPropertiesAssignment(JavaPojo pojo) {
-    return PList.fromOptional(pojo.asObjectPojo())
-        .map(JavaObjectPojo::getAdditionalProperties)
+  private static PList<String> createAdditionalPropertiesAssignment(ConstructorContent content) {
+    return PList.fromOptional(content.getAdditionalProperties())
         .map(
             props ->
                 String.format(
                     "this.%s = Collections.unmodifiableMap(%s);",
-                    props.getPropertyName(), props.getPropertyName()));
+                    JavaAdditionalProperties.getPropertyName(),
+                    JavaAdditionalProperties.getPropertyName()));
+  }
+
+  @Value
+  @PojoBuilder(builderName = "ConstructorContentBuilder")
+  public static class ConstructorContent {
+    boolean isArray;
+    JavaIdentifier className;
+    PList<JavaPojoMember> members;
+    Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

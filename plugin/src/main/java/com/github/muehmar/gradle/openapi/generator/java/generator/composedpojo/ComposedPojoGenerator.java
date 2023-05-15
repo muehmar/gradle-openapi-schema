@@ -57,7 +57,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
         .appendList(FieldsGenerator.singleField(), JavaComposedPojo::getMembers)
         .appendSingleBlankLine()
-        .append(PojoConstructorGenerator.generator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(PojoConstructorGenerator.generator(), JavaComposedPojo::getConstructorContent)
         .appendSingleBlankLine()
         .append(FactoryMethodGenerator.generator())
         .appendSingleBlankLine()

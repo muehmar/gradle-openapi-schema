@@ -52,7 +52,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
     return FieldsGenerator.fields()
         .<JavaObjectPojo>contraMap(pojo -> pojo)
         .appendSingleBlankLine()
-        .append(PojoConstructorGenerator.generator())
+        .append(PojoConstructorGenerator.generator(), JavaObjectPojo::getConstructorContent)
         .appendSingleBlankLine()
         .appendList(
             EnumGenerator.nested(),
