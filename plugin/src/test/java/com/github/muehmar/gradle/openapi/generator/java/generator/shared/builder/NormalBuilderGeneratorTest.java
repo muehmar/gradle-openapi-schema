@@ -30,7 +30,8 @@ class NormalBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
+            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants())
+                .getNormalBuilderContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -49,7 +50,8 @@ class NormalBuilderGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.objectPojo(
-                PList.empty(), JavaAdditionalProperties.allowedFor(JavaTypes.STRING_LIST)),
+                    PList.empty(), JavaAdditionalProperties.allowedFor(JavaTypes.STRING_LIST))
+                .getNormalBuilderContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -63,7 +65,8 @@ class NormalBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
+            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants())
+                .getNormalBuilderContent(),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
@@ -80,7 +83,8 @@ class NormalBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
+            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants())
+                .getNormalBuilderContent(),
             TestPojoSettings.defaultSettings().withEnableSafeBuilder(false),
             Writer.createDefault());
 

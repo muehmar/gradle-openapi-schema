@@ -14,8 +14,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDoc
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGen;
@@ -26,16 +26,20 @@ import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Optional;
 import java.util.function.BiFunction;
+import lombok.Value;
 
-public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
+public class NormalBuilderGenerator
+    implements Generator<NormalBuilderGenerator.NormalBuilderContent, PojoSettings> {
   private static final String RETURN_THIS = "return this;";
 
-  private final Generator<JavaObjectPojo, PojoSettings> delegate;
+  private final Generator<NormalBuilderContent, PojoSettings> delegate;
 
   public NormalBuilderGenerator() {
-    final ClassGen<JavaObjectPojo, PojoSettings> classGen =
-        ClassGenBuilder.<JavaObjectPojo, PojoSettings>create()
+    final ClassGen<NormalBuilderContent, PojoSettings> classGen =
+        ClassGenBuilder.<NormalBuilderContent, PojoSettings>create()
             .clazz()
             .nested()
             .packageGen(new PackageGenerator<>())
@@ -48,13 +52,13 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             .content(content())
             .build();
     this.delegate =
-        this.<JavaObjectPojo>factoryMethod()
+        this.<NormalBuilderContent>factoryMethod()
             .append(JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set"))
             .append(classGen);
   }
 
   @Override
-  public Writer generate(JavaObjectPojo data, PojoSettings settings, Writer writer) {
+  public Writer generate(NormalBuilderContent data, PojoSettings settings, Writer writer) {
     return delegate.generate(data, settings, writer);
   }
 
@@ -66,16 +70,18 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .filter((data, settings) -> settings.isDisableSafeBuilder());
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> content() {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+  private Generator<NormalBuilderContent, PojoSettings> content() {
+    return Generator.<NormalBuilderContent, PojoSettings>emptyGen()
         .appendNewLine()
         .append(constructor())
-        .appendList(memberDeclaration(), JavaObjectPojo::getMembers)
-        .append(additionalPropertiesDeclaration())
+        .appendList(memberDeclaration(), NormalBuilderContent::getMembers)
+        .appendOptional(
+            additionalPropertiesDeclaration(), NormalBuilderContent::getAdditionalProperties)
         .appendNewLine()
-        .appendList(setter(), JavaObjectPojo::getMembers)
+        .appendList(setter(), NormalBuilderContent::getMembers)
         .appendSingleBlankLine()
-        .append(additionalPropertiesSetters())
+        .appendOptional(
+            additionalPropertiesSetters(), NormalBuilderContent::getAdditionalProperties)
         .appendSingleBlankLine()
         .append(buildMethod());
   }
@@ -118,17 +124,16 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
     return generator.filter(JavaPojoMember::isOptionalAndNullable);
   }
 
-  private <B> Generator<JavaObjectPojo, B> additionalPropertiesDeclaration() {
-    final Generator<JavaAdditionalProperties, B> generator =
-        (props, settings, writer) ->
-            writer.println(
-                "private Map<String, %s> %s = new HashMap<>();",
-                props.getType().getFullClassName(), props.getPropertyName());
-    return generator
+  private <B> Generator<JavaAdditionalProperties, B> additionalPropertiesDeclaration() {
+    return Generator.<JavaAdditionalProperties, B>emptyGen()
+        .append(
+            (props, settings, writer) ->
+                writer.println(
+                    "private Map<String, %s> %s = new HashMap<>();",
+                    props.getType().getFullClassName(), JavaAdditionalProperties.getPropertyName()))
         .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
         .append(ref(JavaRefs.JAVA_UTIL_MAP))
-        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
-        .contraMap(JavaObjectPojo::getAdditionalProperties);
+        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
   }
 
   private Generator<JavaPojoMember, PojoSettings> setter() {
@@ -139,14 +144,14 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .append(optionalNullableSetter());
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> additionalPropertiesSetters() {
+  private Generator<JavaAdditionalProperties, PojoSettings> additionalPropertiesSetters() {
     return singleAdditionalPropertiesSetter()
         .appendSingleBlankLine()
         .append(allAdditionalPropertiesSetter());
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> singleAdditionalPropertiesSetter() {
-    final Generator<JavaObjectPojo, PojoSettings> method =
+  private Generator<JavaAdditionalProperties, PojoSettings> singleAdditionalPropertiesSetter() {
+    final Generator<JavaAdditionalProperties, PojoSettings> method =
         MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
@@ -159,15 +164,15 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                         String.format("%s value", props.getType().getFullClassName())))
             .content(
                 (props, s, w) ->
-                    w.println("this.%s.put(key, value);", props.getPropertyName())
+                    w.println(
+                            "this.%s.put(key, value);", JavaAdditionalProperties.getPropertyName())
                         .println(RETURN_THIS))
             .build()
-            .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
-            .contraMap(JavaObjectPojo::getAdditionalProperties);
-    return JacksonAnnotationGenerator.<JavaObjectPojo>jsonAnySetter().append(method);
+            .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType);
+    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonAnySetter().append(method);
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> allAdditionalPropertiesSetter() {
+  private Generator<JavaAdditionalProperties, PojoSettings> allAdditionalPropertiesSetter() {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
@@ -177,18 +182,18 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             props ->
                 String.format(
                     "Map<String, %s> %s",
-                    props.getType().getFullClassName(), props.getPropertyName()))
+                    props.getType().getFullClassName(), JavaAdditionalProperties.getPropertyName()))
         .content(
             (props, s, w) ->
                 w.println(
                         "this.%s = new HashMap<>(%s);",
-                        props.getPropertyName(), props.getPropertyName())
+                        JavaAdditionalProperties.getPropertyName(),
+                        JavaAdditionalProperties.getPropertyName())
                     .println(RETURN_THIS))
         .build()
         .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
         .append(ref(JavaRefs.JAVA_UTIL_MAP))
-        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
-        .contraMap(JavaObjectPojo::getAdditionalProperties);
+        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
   }
 
   private Generator<JavaPojoMember, PojoSettings> standardSetter() {
@@ -341,18 +346,18 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .filter(JavaPojoMember::isOptionalAndNullable);
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> buildMethod() {
-    return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
+  private Generator<NormalBuilderContent, PojoSettings> buildMethod() {
+    return MethodGenBuilder.<NormalBuilderContent, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnTypeName(JavaObjectPojo::getClassName)
+        .returnTypeName(NormalBuilderContent::getClassName)
         .methodName("build")
         .noArguments()
         .content(buildMethodContent())
         .build();
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> buildMethodContent() {
+  private Generator<NormalBuilderContent, PojoSettings> buildMethodContent() {
     return (pojo, settings, writer) ->
         writer.print(
             "return new %s(%s);",
@@ -361,5 +366,13 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
                 .flatMap(JavaPojoMember::createFieldNames)
                 .add(JavaAdditionalProperties.getPropertyName())
                 .mkString(", "));
+  }
+
+  @Value
+  @PojoBuilder(builderName = "NormalBuilderContentBuilder")
+  public static class NormalBuilderContent {
+    JavaIdentifier className;
+    PList<JavaPojoMember> members;
+    Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

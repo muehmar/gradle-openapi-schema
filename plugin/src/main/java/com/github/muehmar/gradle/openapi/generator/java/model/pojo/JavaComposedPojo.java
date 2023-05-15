@@ -6,6 +6,8 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
@@ -21,7 +23,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
@@ -156,17 +157,6 @@ public class JavaComposedPojo implements JavaPojo {
     return discriminator;
   }
 
-  // FIXME: Replace with dedicated object for corresponding generator
-  public JavaObjectPojo wrapIntoJavaObjectPojo() {
-    return JavaObjectPojo.from(
-        name,
-        description,
-        getMembers(),
-        type,
-        new JavaAdditionalProperties(true, JavaAnyType.create()),
-        constraints);
-  }
-
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return HashCodeContentBuilder.create()
         .members(getMembers())
@@ -186,6 +176,15 @@ public class JavaComposedPojo implements JavaPojo {
 
   public ToStringGenerator.ToStringContent getToStringContent() {
     return ToStringContentBuilder.create()
+        .className(getClassName())
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
+  }
+
+  public NormalBuilderGenerator.NormalBuilderContent getNormalBuilderContent() {
+    return NormalBuilderContentBuilder.create()
         .className(getClassName())
         .members(getMembers())
         .andAllOptionals()
