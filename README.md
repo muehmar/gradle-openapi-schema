@@ -3,7 +3,7 @@
 
 # Gradle OpenApi Schema Codegen
 
-This is a gradle plugin to generate Java code given an openapi 3.0.x specification. Unlike other codegen tools, this
+This is a gradle plugin to generate Java code given an openapi 3.0.x or 3.1.0 specification. Unlike other codegen tools, this
 focuses mainly on the `#/component/schema` section. It generates immutable classes and special builder classes to
 support a safe way creating instances. The data classes support JSON conversions via jackson. Additionally, the plugin
 generates simple classes for parameters (`#/component/parameters` section) to support checking the constraints.
@@ -29,7 +29,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '1.0.1'
+    id 'com.github.muehmar.openapischema' version '1.1.0'
 }
 ```
 
@@ -299,6 +299,25 @@ validationMethods {
 
 See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes use of this configuration.
 
+## OpenAPI v3.0.x vs v3.1.0
+The version 3.1.0 of the OpenAPI specification is not backwards compatible with 3.0.x, i.e. has some breaking changes. 
+The most obvious change is the specification of the type, in 3.0.x it is a single property, whereas in 3.1.0 the type
+is an array. This plugin does currently not support multiple types with one exception: the `null` type.
+
+The following in v3.0.x:
+```
+type: string
+nullable: true
+```
+is equivalent to in v3.1.0:
+```
+type:
+  - string
+  - null
+```
+
+Any other combination of types is currently not supported.
+
 ## Compositions
 The OpenAPI specification supports the composition of schemas via `oneOf`, `anyOf` and `allOf` keyword. This plugin supports 
 all three keywords. 
@@ -546,24 +565,27 @@ annotation.
 
 The following type specific constraints are supported:
 
-| Type / Format                       | Keyword                                                       | Annotation                       |
-|-------------------------------------|---------------------------------------------------------------|----------------------------------|
-| number / double<br/>number / float  | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@DecimaleMin`<br/>`@DecimalMax` |
-| integer / int32<br/>integer / int64 | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@Min`<br/>`@Max`                |
-| string                              | minLength<br/>maxLength                                       | `@Size`                          |
-| string                              | pattern                                                       | `@Pattern`                       |
-| string / email                      | -                                                             | `@Email`                         |
-| array                               | minItems<br/>maxItems                                         | `@Size`                          |
+| Type / Format                       | Keyword                                                       | Annotation                             | Remark                                                                |
+|-------------------------------------|---------------------------------------------------------------|----------------------------------------|-----------------------------------------------------------------------|
+| number / double<br/>number / float  | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@DecimaleMin`<br/>`@DecimalMax`       |                                                                       |
+| integer / int32<br/>integer / int64 | minimum<br/>exclusiveMinimum<br/>maximum<br/>exclusiveMaximum | `@Min`<br/>`@Max`                      |                                                                       |
+| string                              | minLength<br/>maxLength                                       | `@Size`                                |                                                                       |
+| string                              | pattern                                                       | `@Pattern`                             |                                                                       |
+| string / email                      | -                                                             | `@Email`                               |                                                                       |
+| array                               | minItems<br/>maxItems                                         | `@Size`                                |                                                                       |
+| integer / number                    | multipleOf                                                    | Special validation method is generated | Validation for number types might be unreliable due to numeric errors |
+
 
 ### Required properties
 The validation of required properties is supported through the `@NotNull` annotation. Required properties marked
-as `nullable: true` are also supported for validation.
+as `nullable: true` (in v3.0.x) or with the additional type `null` (in v3.1.0) are also supported for validation.
 
 ### Object level validation
 
 The following keywords are supported:
 
 * `minProperties` and `maxProperties` for object types
+* `uniqueItems` for array types
 
 The plugin generates a method which returns the number of present properties of an object which is annotated with the
 constraints (if present).
@@ -589,6 +611,22 @@ considered as valid but it will result in an invalid object as the required prop
 Samples with Tests for compositions can be found here:
 * [OneOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestValidation.java)
 * [AnyOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/anyof/TestValidation.java)
+
+## Keywords `readOnly` and `writeOnly` 
+These keywords for properties are supported. If used, three different DTO's for the same schema are generated:
+
+* Normal DTO containing all properties
+* Response DTO containing general and `readOnly` properties
+* Request DTO containing general and `writeOnly` properties.
+
+The DTO's are named accordingly, i.e. the normal DTO is named like normal DTO's, the response DTO is suffixed with 
+`Response` and the request DTO is suffixed with `Request`. This suffix is added before any configured general suffix,
+i.e. if the suffix `Dto` is configured and a schema `Example` contains properties marked as `readOnly` or `writeOnly`, 
+then the following DTO's are generated:
+
+* ExampleDto
+* ExampleResponseDto
+* ExampleRequestDto
 
 ## Extraction of enum description
 
@@ -705,10 +743,12 @@ afterEvaluate {
   framework supports unknown properties, no validation error will occur in case of additional properties.
 * The combination of `properties` and `additionalProperties` for object types is not supported. If both keywords are
   present, only `properties` will be used, the value of `additionalProperties` gets ignored.
+* Multi-Types in v3.1.0 are not supported, i.e. the list in type can contain only one type and optionally the `null` 
+  type.
 
 ## Change Log
 
-* Next
+* 1.1.0
     * Support OpenAPI spec version 3.1.0 (issue `#60`)
     * Add JavaDoc explanation for deprecated validation methods (issue `#57`)
     * Fix with methods for nullable properties (issue `#70`)
