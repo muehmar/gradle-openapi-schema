@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -375,6 +376,20 @@ class ObjectPojoGeneratorTest {
         generator
             .generate(
                 JavaPojos.objectPojo(PList.single(member)),
+                TestPojoSettings.defaultSettings(),
+                Writer.createDefault())
+            .asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  void generatePojo_when_noAdditionalPropertiesAllowed_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final String content =
+        generator
+            .generate(
+                JavaPojos.objectPojo(PList.empty(), JavaAdditionalProperties.notAllowed()),
                 TestPojoSettings.defaultSettings(),
                 Writer.createDefault())
             .asString();

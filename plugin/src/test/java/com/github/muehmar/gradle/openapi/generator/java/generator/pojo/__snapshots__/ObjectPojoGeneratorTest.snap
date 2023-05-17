@@ -2379,6 +2379,142 @@ public class NecessityAndNullabilityDto {
 ]
 
 
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_noAdditionalPropertiesAllowed_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.AssertTrue;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+
+  public ObjectPojo1Dto(
+      Map<String, Object> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @AssertTrue(message = "No additional properties allowed")
+  private boolean hasNoAdditionalProperties() {
+    return additionalProperties.size() == 0;
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_objectWithArrayWithUniqueItems_then_correctPojoGenerated=[
 package com.github.muehmar;
 
