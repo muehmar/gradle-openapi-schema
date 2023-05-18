@@ -8,7 +8,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
@@ -55,7 +55,7 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
 
   private Generator<JavaComposedPojo, PojoSettings> content() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
-        .appendList(FieldsGenerator.singleField(), JavaComposedPojo::getMembers)
+        .append(MemberGenerator.generator(), JavaComposedPojo::getMemberContent)
         .appendSingleBlankLine()
         .append(PojoConstructorGenerator.generator(), JavaComposedPojo::getConstructorContent)
         .appendSingleBlankLine()

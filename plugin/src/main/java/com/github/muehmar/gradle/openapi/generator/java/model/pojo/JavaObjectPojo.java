@@ -2,6 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
@@ -128,6 +130,15 @@ public class JavaObjectPojo implements JavaPojo {
 
   public Constraints getConstraints() {
     return constraints;
+  }
+
+  public MemberGenerator.MemberContent getMemberContent() {
+    return MemberContentBuilder.create()
+        .isArrayPojo(false)
+        .members(members)
+        .andAllOptionals()
+        .additionalProperties(additionalProperties)
+        .build();
   }
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {

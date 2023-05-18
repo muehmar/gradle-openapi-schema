@@ -49,7 +49,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
   }
 
   private Generator<JavaObjectPojo, PojoSettings> content() {
-    return FieldsGenerator.fields()
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(MemberGenerator.generator(), JavaObjectPojo::getMemberContent)
         .<JavaObjectPojo>contraMap(pojo -> pojo)
         .appendSingleBlankLine()
         .append(PojoConstructorGenerator.generator(), JavaObjectPojo::getConstructorContent)

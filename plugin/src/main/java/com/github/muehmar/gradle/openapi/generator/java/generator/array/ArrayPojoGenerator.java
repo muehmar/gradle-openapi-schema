@@ -4,7 +4,7 @@ import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVE
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
@@ -47,7 +47,7 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
 
   private Generator<JavaArrayPojo, PojoSettings> content() {
     return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
-        .append(FieldsGenerator.fields(), pojo -> pojo)
+        .append(MemberGenerator.generator(), JavaArrayPojo::getMemberContent)
         .appendSingleBlankLine()
         .append(PojoConstructorGenerator.generator(), JavaArrayPojo::getConstructorContent)
         .appendSingleBlankLine()

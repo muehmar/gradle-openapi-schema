@@ -31,6 +31,7 @@ public class UserDto {
   private final String uppercase;
   private final Long multipleOfValue;
   private final AnotherPojo anotherPojo;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
@@ -557,6 +558,7 @@ public class UserDto {
   private final String uppercase;
   private final Long multipleOfValue;
   private final AnotherPojo anotherPojo;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
@@ -1069,6 +1071,7 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
@@ -1421,6 +1424,7 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
@@ -1683,6 +1687,7 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
@@ -1941,6 +1946,7 @@ public class NecessityAndNullabilityDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public NecessityAndNullabilityDto(
       String requiredStringVal,
@@ -2396,6 +2402,7 @@ import javax.validation.constraints.AssertTrue;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
       Map<String, Object> additionalProperties
@@ -2537,6 +2544,7 @@ import javax.validation.constraints.NotNull;
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
   private final List<String> listVal;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
       List<String> listVal,
@@ -2732,6 +2740,7 @@ import javax.validation.constraints.Size;
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
   private final Map<String, UUID> mapVal;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
       Map<String, UUID> mapVal,
@@ -2928,6 +2937,7 @@ import java.util.stream.Stream;
 @JsonDeserialize(builder = UserDto.Builder.class)
 public class UserDto {
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       LanguageEnum language,
@@ -3146,6 +3156,7 @@ import java.util.stream.Stream;
  */
 public class UserDto {
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       LanguageEnum language,

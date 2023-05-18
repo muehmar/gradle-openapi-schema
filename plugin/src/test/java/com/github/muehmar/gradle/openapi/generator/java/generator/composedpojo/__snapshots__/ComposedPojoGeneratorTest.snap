@@ -34,6 +34,7 @@ public class ComposedAnyofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedAnyofDto(
       String username,
@@ -439,6 +440,7 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedOneofDto(
       String username,
@@ -847,6 +849,7 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedOneofDto(
       String username,
@@ -1254,6 +1257,7 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedOneofDto(
       String username,
