@@ -19,4 +19,13 @@ public class AdditionalProperties {
   public static AdditionalProperties notAllowed() {
     return new AdditionalProperties(false, AnyType.create());
   }
+
+  public AdditionalProperties inlineObjectReference(PojoName referenceName, Type referenceType) {
+    final Type newType =
+        type.asObjectType()
+            .filter(objectType -> objectType.getName().equals(referenceName))
+            .map(ignore -> referenceType)
+            .orElse(type);
+    return new AdditionalProperties(allowed, newType);
+  }
 }

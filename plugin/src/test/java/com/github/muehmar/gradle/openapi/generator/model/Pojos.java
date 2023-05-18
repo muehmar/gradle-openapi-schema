@@ -13,12 +13,17 @@ public class Pojos {
   private Pojos() {}
 
   public static ObjectPojo objectPojo(PList<PojoMember> members) {
+    return objectPojo(members, anyTypeAllowed());
+  }
+
+  public static ObjectPojo objectPojo(
+      PList<PojoMember> members, AdditionalProperties additionalProperties) {
     return ObjectPojoBuilder.create()
         .name(PojoName.ofNameAndSuffix("ObjectPojo", "Dto"))
         .description("Object pojo")
         .members(members)
         .constraints(Constraints.empty())
-        .additionalProperties(anyTypeAllowed())
+        .additionalProperties(additionalProperties)
         .build();
   }
 

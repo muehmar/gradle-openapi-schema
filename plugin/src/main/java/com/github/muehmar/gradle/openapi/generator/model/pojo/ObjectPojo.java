@@ -73,11 +73,18 @@ public class ObjectPojo implements Pojo {
   public Pojo inlineObjectReference(
       PojoName referenceName, String referenceDescription, Type referenceType) {
     return mapMembers(
-        member -> member.inlineObjectReference(referenceName, referenceDescription, referenceType));
+            member ->
+                member.inlineObjectReference(referenceName, referenceDescription, referenceType))
+        .mapAdditionalProperties(
+            props -> props.inlineObjectReference(referenceName, referenceType));
   }
 
-  private Pojo mapMembers(UnaryOperator<PojoMember> map) {
+  private ObjectPojo mapMembers(UnaryOperator<PojoMember> map) {
     return new ObjectPojo(name, description, members.map(map), constraints, additionalProperties);
+  }
+
+  private ObjectPojo mapAdditionalProperties(UnaryOperator<AdditionalProperties> map) {
+    return new ObjectPojo(name, description, members, constraints, map.apply(additionalProperties));
   }
 
   @Override
