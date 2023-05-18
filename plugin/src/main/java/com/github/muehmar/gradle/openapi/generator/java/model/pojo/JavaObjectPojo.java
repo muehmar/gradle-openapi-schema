@@ -4,6 +4,8 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
@@ -179,6 +181,15 @@ public class JavaObjectPojo implements JavaPojo {
 
   public NormalBuilderGenerator.NormalBuilderContent getNormalBuilderContent() {
     return NormalBuilderContentBuilder.create()
+        .className(getClassName())
+        .members(members)
+        .andAllOptionals()
+        .additionalProperties(additionalProperties)
+        .build();
+  }
+
+  public WitherGenerator.WitherContent getWitherContent() {
+    return WitherContentBuilder.create()
         .className(getClassName())
         .members(members)
         .andAllOptionals()

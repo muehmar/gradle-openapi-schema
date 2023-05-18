@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
@@ -130,6 +132,13 @@ public class JavaArrayPojo implements JavaPojo {
   public PojoConstructorGenerator.ConstructorContent getConstructorContent() {
     return ConstructorContentBuilder.create()
         .isArray(true)
+        .className(getClassName())
+        .members(PList.single(getArrayPojoMember()))
+        .build();
+  }
+
+  public WitherGenerator.WitherContent getWitherContent() {
+    return WitherContentBuilder.create()
         .className(getClassName())
         .members(PList.single(getArrayPojoMember()))
         .build();

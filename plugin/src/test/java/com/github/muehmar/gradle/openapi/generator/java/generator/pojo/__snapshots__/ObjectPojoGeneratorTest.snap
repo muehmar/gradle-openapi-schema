@@ -205,98 +205,98 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null));
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
   /**
@@ -732,98 +732,98 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null));
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
   /**
@@ -1170,28 +1170,28 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null));
+    return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
   /**
@@ -1534,28 +1534,28 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null));
+    return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
   /**
@@ -1786,28 +1786,28 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null));
+    return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
   /**
@@ -2061,49 +2061,49 @@ public class NecessityAndNullabilityDto {
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, false);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, false, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false));
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
   }
 
   /**
@@ -2579,7 +2579,7 @@ public class ObjectPojo1Dto {
    * List
    */
   public ObjectPojo1Dto withListVal(List<String> listVal) {
-    return new ObjectPojo1Dto(listVal);
+    return new ObjectPojo1Dto(listVal, additionalProperties);
   }
 
   /**
@@ -2776,7 +2776,7 @@ public class ObjectPojo1Dto {
    * Map
    */
   public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
-    return new ObjectPojo1Dto(mapVal);
+    return new ObjectPojo1Dto(mapVal, additionalProperties);
   }
 
   /**
@@ -3042,7 +3042,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language);
+    return new UserDto(language, additionalProperties);
   }
 
   /**
@@ -3051,7 +3051,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null));
+    return new UserDto(language.orElse(null), additionalProperties);
   }
 
   /**
@@ -3253,7 +3253,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language);
+    return new UserDto(language, additionalProperties);
   }
 
   /**
@@ -3262,7 +3262,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null));
+    return new UserDto(language.orElse(null), additionalProperties);
   }
 
   /**

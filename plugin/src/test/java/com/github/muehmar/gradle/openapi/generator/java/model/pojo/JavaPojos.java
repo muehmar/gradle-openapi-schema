@@ -48,12 +48,13 @@ public class JavaPojos {
     return objectPojo(members, JavaAdditionalProperties.anyTypeAllowed());
   }
 
-  public static JavaPojo allNecessityAndNullabilityVariants(Constraints constraints) {
-    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
-        .head();
+  public static JavaObjectPojo allNecessityAndNullabilityVariants(Constraints constraints) {
+    return (JavaObjectPojo)
+        JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
+            .head();
   }
 
-  public static JavaPojo allNecessityAndNullabilityVariants() {
+  public static JavaObjectPojo allNecessityAndNullabilityVariants() {
     return allNecessityAndNullabilityVariants(Constraints.empty());
   }
 
