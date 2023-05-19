@@ -25,7 +25,7 @@ public class JavaRefs {
   public static final String JAVA_UTIL_BIFUNCTION = "java.util.function.BiFunction";
   public static final String JAVA_UTIL_SUPPLIER = "java.util.function.Supplier";
 
-  public static final String JAVA_UTIL_STREAM_COLLECTOR = "java.util.stream.Collectors";
+  public static final String JAVA_UTIL_STREAM_COLLECTORS = "java.util.stream.Collectors";
   public static final String JAVA_UTIL_STREAM_STREAM = "java.util.stream.Stream";
 
   public static final String JAVA_MATH_BIG_DECIMAL = "java.math.BigDecimal";

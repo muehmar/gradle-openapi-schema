@@ -186,7 +186,7 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
         .println("+ possibleValues")
         .tab(2)
         .println("+ \"]\");")
-        .ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTOR)
+        .ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTORS)
         .ref(JavaRefs.JAVA_UTIL_STREAM_STREAM);
   }
 }

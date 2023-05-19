@@ -1,12 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
@@ -82,7 +86,8 @@ public class FactoryMethodGenerator {
     return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getClassName()))
         .appendList(
-            fromMethodMemberGen(), pojos -> pojos.composedPojo.getMembers().map(pojos::withMember))
+            fromMethodMemberGen(), pojo -> pojo.composedPojo.getMembers().map(pojo::withMember))
+        .append(fromMethodAdditionalProperties(), 1)
         .append(w -> w.println(");"));
   }
 
@@ -90,8 +95,32 @@ public class FactoryMethodGenerator {
     return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("return new %s(", p.composedPojo.getClassName()))
         .appendList(
-            withMethodMemberGen(), pojos -> pojos.composedPojo.getMembers().map(pojos::withMember))
+            withMethodMemberGen(), pojo -> pojo.composedPojo.getMembers().map(pojo::withMember))
+        .append(withMethodAdditionalProperties())
         .append(w -> w.println(");"));
+  }
+
+  private static Generator<ComposedAndMemberPojo, PojoSettings> fromMethodAdditionalProperties() {
+    return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
+        .append(
+            constant(
+                "dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))"))
+        .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_MAP))
+        .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTORS));
+  }
+
+  private static Generator<ComposedAndMemberPojo, PojoSettings> withMethodAdditionalProperties() {
+    return Generator.<ComposedAndMemberPojo, PojoSettings>emptyGen()
+        .append(constant("dto.getAdditionalProperties().entrySet().stream()"), 1)
+        .append(
+            (p, s, w) ->
+                w.println(
+                    ".collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(%s)))",
+                    JavaAdditionalProperties.getPropertyName()),
+            2)
+        .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_MAP))
+        .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_HASH_MAP))
+        .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTORS));
   }
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> fromMethodMemberGen() {
@@ -121,10 +150,7 @@ public class FactoryMethodGenerator {
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> requiredMember() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) ->
-                w.println(
-                    "dto.%s()%s", p.member.getGetterNameWithSuffix(s), p.commaAfterParameter()))
+        .append((p, s, w) -> w.println("dto.%s(),", p.member.getGetterNameWithSuffix(s)))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isRequiredAndNotNullable() && pojos.isMemberOfMemberPojo());
   }
@@ -138,9 +164,9 @@ public class FactoryMethodGenerator {
                     .map(
                         d ->
                             w.println(
-                                "\"%s\"%s",
-                                d.getValueForSchemaName(p.getMemberPojo().getSchemaName().asName()),
-                                p.commaAfterParameter()))
+                                "\"%s\",",
+                                d.getValueForSchemaName(
+                                    p.getMemberPojo().getSchemaName().asName())))
                     .orElse(w))
         .filter(ComposedAndMemberPojoAndMember::isDiscriminator);
   }
@@ -148,7 +174,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       requiredMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("null%s", p.commaAfterParameter()))
+        .append(constant("null,"))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(
             pojos -> pojos.member.isRequiredAndNotNullable() && pojos.isNotMemberOfMemberPojo());
@@ -157,8 +183,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       requiredMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) -> w.println("%s%s", p.member.getNameAsIdentifier(), p.commaAfterParameter()))
+        .append((p, s, w) -> w.println("%s,", p.member.getNameAsIdentifier()))
         .filter(
             pojos -> pojos.member.isRequiredAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -166,7 +191,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> requiredNullableMember() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("dto.%sOr(null),", p.member.getGetterName()))
-        .append((p, s, w) -> w.println("true%s", p.commaAfterParameter()))
+        .append((p, s, w) -> w.println("true,"))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isRequiredAndNullable() && pojos.isMemberOfMemberPojo());
   }
@@ -175,7 +200,7 @@ public class FactoryMethodGenerator {
       requiredNullableMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append(w -> w.println("null,"))
-        .append((p, s, w) -> w.println("false%s", p.commaAfterParameter()))
+        .append(constant("false,"))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isRequiredAndNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -184,17 +209,13 @@ public class FactoryMethodGenerator {
       requiredNullableMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("%s,", p.member.getNameAsIdentifier()))
-        .append(
-            (p, s, w) ->
-                w.println("%s%s", p.member.getIsPresentFlagName(), p.commaAfterParameter()))
+        .append((p, s, w) -> w.println("%s,", p.member.getIsPresentFlagName()))
         .filter(pojos -> pojos.member.isRequiredAndNullable() && pojos.isNotMemberOfMemberPojo());
   }
 
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings> optionalMember() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) ->
-                w.println("dto.%sOr(null)%s", p.member.getGetterName(), p.commaAfterParameter()))
+        .append((p, s, w) -> w.println("dto.%sOr(null),", p.member.getGetterName()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isMemberOfMemberPojo());
   }
@@ -202,7 +223,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       optionalMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("null%s", p.commaAfterParameter()))
+        .append(constant("null,"))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(
             pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isNotMemberOfMemberPojo());
@@ -211,8 +232,7 @@ public class FactoryMethodGenerator {
   private static Generator<ComposedAndMemberPojoAndMember, PojoSettings>
       optionalMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) -> w.println("%s%s", p.member.getNameAsIdentifier(), p.commaAfterParameter()))
+        .append((p, s, w) -> w.println("%s,", p.member.getNameAsIdentifier()))
         .filter(
             pojos -> pojos.member.isOptionalAndNotNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -227,10 +247,8 @@ public class FactoryMethodGenerator {
         .append(
             (p, s, w) ->
                 w.println(
-                    "dto.%s().%s%s",
-                    p.member.getGetterNameWithSuffix(s),
-                    p.member.tristateToIsNullFlag(),
-                    p.commaAfterParameter()))
+                    "dto.%s().%s,",
+                    p.member.getGetterNameWithSuffix(s), p.member.tristateToIsNullFlag()))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isMemberOfMemberPojo());
   }
@@ -239,7 +257,7 @@ public class FactoryMethodGenerator {
       optionalNullableMemberForOtherObjectFromMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append(w -> w.println("null,"))
-        .append((p, s, w) -> w.println("false%s", p.commaAfterParameter()))
+        .append(constant("false,"))
         .filter(ComposedAndMemberPojoAndMember::isNotDiscriminator)
         .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isNotMemberOfMemberPojo());
   }
@@ -248,8 +266,7 @@ public class FactoryMethodGenerator {
       optionalNullableMemberForOtherObjectWithMethod() {
     return Generator.<ComposedAndMemberPojoAndMember, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("%s,", p.member.getNameAsIdentifier()))
-        .append(
-            (p, s, w) -> w.println("%s%s", p.member.getIsNullFlagName(), p.commaAfterParameter()))
+        .append((p, s, w) -> w.println("%s,", p.member.getIsNullFlagName()))
         .filter(pojos -> pojos.member.isOptionalAndNullable() && pojos.isNotMemberOfMemberPojo());
   }
 
@@ -272,13 +289,6 @@ public class FactoryMethodGenerator {
     JavaComposedPojo composedPojo;
     JavaPojo memberPojo;
     JavaPojoMember member;
-
-    String commaAfterParameter() {
-      return composedPojo.getMembersOrEmpty().indexOf(member, JavaPojoMember::equals)
-              < composedPojo.getMembersOrEmpty().size() - 1
-          ? ","
-          : "";
-    }
 
     boolean isDiscriminator() {
       return composedPojo
