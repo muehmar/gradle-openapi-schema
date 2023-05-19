@@ -1,0 +1,29 @@
+objectPojoWithAnyTypeAdditionalProperties=[
+private ObjectPojo1Dto asObjectPojo1Dto() {
+  return new ObjectPojo1Dto(
+    birthdate,
+    additionalProperties
+  );
+}
+]
+
+
+objectPojoWithSpecificAdditionalPropertiesType=[
+private ObjectPojo1Dto asObjectPojo1Dto() {
+  return new ObjectPojo1Dto(
+    birthdate,
+    additionalProperties.entrySet().stream()
+      .filter(e -> e.getValue() instanceof String)
+      .collect(Collectors.toMap(Map.Entry::getKey, e -> (String)e.getValue()))
+  );
+}
+]
+
+
+pojoWithoutAdditionalProperties=[
+private PosologyDto asPosologyDto() {
+  return new PosologyDto(
+    value
+  );
+}
+]

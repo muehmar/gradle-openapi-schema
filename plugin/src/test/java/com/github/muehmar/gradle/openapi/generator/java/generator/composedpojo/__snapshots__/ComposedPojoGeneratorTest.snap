@@ -233,7 +233,8 @@ public class ComposedAnyofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -244,7 +245,8 @@ public class ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -645,7 +647,8 @@ public class ComposedOneofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -656,7 +659,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1057,7 +1061,8 @@ public class ComposedOneofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -1068,7 +1073,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1455,7 +1461,8 @@ public class ComposedOneofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -1466,7 +1473,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
