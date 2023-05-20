@@ -108,4 +108,17 @@ class JavaPojoMemberTest {
             JavaPojoMembers.optionalNullableString(),
             "optionalNullableStringVal,isOptionalNullableStringValNull"));
   }
+
+  @Test
+  void asInnerEnumOf_when_calledForStringMember_then_unchanged() {
+    final JavaPojoMember member = JavaPojoMembers.requiredString();
+    assertEquals(member, member.asInnerEnumOf(JavaIdentifier.fromString("AdminDto")));
+  }
+
+  @Test
+  void asInnerEnumOf_when_calledForEnumMember_then_classNameReferencedWithOuterClass() {
+    final JavaPojoMember member = JavaPojoMembers.requiredEnum();
+    final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaIdentifier.fromString("AdminDto"));
+    assertEquals("AdminDto.Color", mappedMember.getJavaType().getClassName().asString());
+  }
 }

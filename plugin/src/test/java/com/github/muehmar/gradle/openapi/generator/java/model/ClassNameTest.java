@@ -77,4 +77,12 @@ class ClassNameTest {
         ClassNames.MAP.getClassNameWithGenerics(Name.ofString("String"), Name.ofString("UserDto"));
     assertEquals("Map<String, UserDto>", classNameWithGenerics.asString());
   }
+
+  @Test
+  void asInnerClassOf_when_calledWithDtoName_then_correctReferenceWithOuterClass() {
+    final ClassName className = ClassName.ofName("Enum");
+    final ClassName innerClassName =
+        className.asInnerClassOf(JavaIdentifier.fromString("AdminDto"));
+    assertEquals("AdminDto.Enum", innerClassName.getClassName().asString());
+  }
 }

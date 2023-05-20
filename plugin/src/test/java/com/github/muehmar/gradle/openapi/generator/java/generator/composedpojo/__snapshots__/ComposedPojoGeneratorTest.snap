@@ -1527,3 +1527,246 @@ public class ComposedOneofDto {
   }
 }
 ]
+
+
+composedPojoWithEnumInSubPojos=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+
+@JsonDeserialize(builder = ComposedPojoDto.Builder.class)
+public class ComposedPojoDto {
+  private final String stringVal;
+  private final ObjectPojo1Dto.Color color;
+  private final Integer intVal;
+
+  public ComposedPojoDto(
+      String stringVal,
+      ObjectPojo1Dto.Color color,
+      Integer intVal
+    ) {
+    this.stringVal = stringVal;
+    this.color = color;
+    this.intVal = intVal;
+  }
+
+  /**
+   * Creates an instance of {@link ComposedPojoDto} from a {@link ObjectPojo1Dto}.
+   */
+  public static ComposedPojoDto fromObjectPojo1(ObjectPojo1Dto dto) {
+    return new ComposedPojoDto(
+      dto.getStringVal(),
+      null,
+      null
+    );
+  }
+
+  /**
+   * Creates an instance of {@link ComposedPojoDto} from a {@link ObjectPojo1Dto}.
+   */
+  public static ComposedPojoDto fromObjectPojo1(ObjectPojo1Dto dto) {
+    return new ComposedPojoDto(
+      null,
+      dto.getColor(),
+      dto.getIntVal()
+    );
+  }
+
+  /**
+   * Returns a new instance adding the supplied {@link ObjectPojo1Dto}. This will
+   * overwrite any shared properties with other schemas to the value of the
+   * properties in the supplied {@link ObjectPojo1Dto}.
+   */
+  public ComposedPojoDto withObjectPojo1(ObjectPojo1Dto dto) {
+    return new ComposedPojoDto(
+      dto.getStringVal(),
+      color,
+      intVal
+    );
+  }
+
+  /**
+   * Returns a new instance adding the supplied {@link ObjectPojo1Dto}. This will
+   * overwrite any shared properties with other schemas to the value of the
+   * properties in the supplied {@link ObjectPojo1Dto}.
+   */
+  public ComposedPojoDto withObjectPojo1(ObjectPojo1Dto dto) {
+    return new ComposedPojoDto(
+      stringVal,
+      dto.getColor(),
+      dto.getIntVal()
+    );
+  }
+
+  @JsonProperty("stringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getStringVal() {
+    return stringVal;
+  }
+
+  @JsonProperty("color")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getColor() {
+    return color;
+  }
+
+  @JsonProperty("intVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getIntVal() {
+    return intVal;
+  }
+
+  @Valid
+  @JsonIgnore
+  private List<Object> getAnyOf() {
+    if (getValidCount() == 0) {
+      return null;
+    }
+    return fold(dto -> dto, dto -> dto);
+  }
+
+  private int getValidCount() {
+    return
+      (isValidAgainstObjectPojo1Dto() ? 1 : 0) +
+      (isValidAgainstObjectPojo1Dto() ? 1 : 0);
+  }
+
+  private boolean isValidAgainstObjectPojo1Dto() {
+    return
+      stringVal != null;
+  }
+
+  private boolean isValidAgainstObjectPojo1Dto() {
+    return
+      color != null &&
+      intVal != null;
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [ObjectPojo1, ObjectPojo1]")
+  @JsonIgnore
+  private boolean isValidAgainstNoSchema() {
+    return getValidCount() == 0;
+  }
+
+  /**
+   * Folds this instance using the given mapping functions for the DTO's. All
+   * mapping functions gets executed with its corresponding DTO as input if this
+   * instance is valid against the corresponding schema and the results are returned
+   * in a list. The order of the elements in the returned list is deterministic: The
+   * order corresponds to the order of the mapping function arguments, i.e. the
+   * result of the first mapping function will always be at the first position in
+   * the list (if the function gets executed).<br><br>
+   * 
+   * I.e. if the JSON was valid against the schema 'ObjectPojo1', the mapping method
+   * {@code onObjectPojo1Dto} gets executed with the {@link ObjectPojo1Dto} as
+   * argument.<br><br>
+   * 
+   * This method assumes this instance is either manually or automatically
+   * validated, i.e. the JSON is valid against at least one of the schemas. If it is
+   * valid against no schema, it will simply return an empty list.
+   */
+  public <T> List<T> fold(Function<ObjectPojo1Dto, T> onObjectPojo1Dto, Function<ObjectPojo1Dto, T> onObjectPojo1Dto) {
+    final List<T> result = new ArrayList<>();
+    if (isValidAgainstObjectPojo1Dto()) {
+      result.add(onObjectPojo1Dto.apply(asObjectPojo1Dto()));
+    }
+    if (isValidAgainstObjectPojo1Dto()) {
+      result.add(onObjectPojo1Dto.apply(asObjectPojo1Dto()));
+    }
+    return result;
+  }
+
+  private ObjectPojo1Dto asObjectPojo1Dto() {
+    return new ObjectPojo1Dto(
+      stringVal
+    );
+  }
+
+  private ObjectPojo1Dto asObjectPojo1Dto() {
+    return new ObjectPojo1Dto(
+      color,
+      intVal
+    );
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      stringVal,
+      color,
+      intVal
+    );
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ComposedPojoDto other = (ComposedPojoDto) obj;
+    return Objects.deepEquals(this.stringVal, other.stringVal)
+        && Objects.deepEquals(this.color, other.color)
+        && Objects.deepEquals(this.intVal, other.intVal);
+  }
+
+  @Override
+  public String toString() {
+    return "ComposedPojoDto{" +
+      "stringVal=" + stringVal + ", " +
+      "color=" + color + ", " +
+      "intVal=" + intVal +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String stringVal;
+    private ObjectPojo1Dto.Color color;
+    private Integer intVal;
+
+    /**
+     * stringVal
+     */
+    @JsonProperty("stringVal")
+    private Builder setStringVal(String stringVal) {
+      this.stringVal = stringVal;
+      return this;
+    }
+
+    /**
+     * Color
+     */
+    @JsonProperty("color")
+    private Builder setColor(ObjectPojo1Dto.Color color) {
+      this.color = color;
+      return this;
+    }
+
+    /**
+     * intVal
+     */
+    @JsonProperty("intVal")
+    private Builder setIntVal(Integer intVal) {
+      this.intVal = intVal;
+      return this;
+    }
+
+    public ComposedPojoDto build() {
+      return new ComposedPojoDto(stringVal, color, intVal);
+    }
+  }
+}
+]

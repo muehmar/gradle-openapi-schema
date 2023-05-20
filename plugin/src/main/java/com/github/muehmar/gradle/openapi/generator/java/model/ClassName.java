@@ -90,4 +90,8 @@ public class ClassName {
         .map(ClassName::fromClassTypeMapping)
         .orElse(this);
   }
+
+  public ClassName asInnerClassOf(JavaIdentifier outerClassName) {
+    return new ClassName(pkg, Name.ofString(outerClassName.asString()).append(".").append(name));
+  }
 }
