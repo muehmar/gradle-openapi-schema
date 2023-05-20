@@ -51,7 +51,7 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
         .appendSingleBlankLine()
         .append(PojoConstructorGenerator.generator(), JavaArrayPojo::getConstructorContent)
         .appendSingleBlankLine()
-        .appendOptional(EnumGenerator.nested(), pojo -> pojo.getArrayPojoMember().asEnumPojo())
+        .appendOptional(EnumGenerator.nested(), pojo -> pojo.getArrayPojoMember().asEnumContent())
         .appendSingleBlankLine()
         .append(GetterGenerator.generator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()

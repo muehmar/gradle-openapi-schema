@@ -62,7 +62,7 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   private Writer generateEnumPojo(JavaEnumPojo pojo, Writer writer, PojoSettings pojoSettings) {
     final EnumGenerator generator = EnumGenerator.topLevel();
-    return generator.generate(pojo, pojoSettings, writer);
+    return generator.generate(pojo.asEnumContent(), pojoSettings, writer);
   }
 
   private Writer generateArrayPojo(JavaArrayPojo pojo, Writer writer, PojoSettings pojoSettings) {

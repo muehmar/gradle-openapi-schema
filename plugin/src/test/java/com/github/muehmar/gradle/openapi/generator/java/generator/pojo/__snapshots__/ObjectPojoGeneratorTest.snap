@@ -1395,6 +1395,193 @@ public class UserDto {
 ]
 
 
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_inlinedEnumAsAdditionalPropertiesType_then_correctPojoGenerated=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final Map<String, ColorEnum> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, ColorEnum> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * Additional property enum
+   */
+  public enum ColorEnum {
+    GREEN("green", ""),
+    YELLOW("yellow", ""),
+    RED("red", "");
+
+    private final String value;
+    private final String description;
+
+    ColorEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @JsonCreator
+    public static ColorEnum fromValue(String value) {
+      for (ColorEnum e: ColorEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(ColorEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for ColorEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  @JsonAnyGetter
+  public Map<String, ColorEnum> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<ColorEnum> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, ColorEnum> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, ColorEnum value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, ColorEnum value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_jsonSupportJackson_then_correctPojoGenerated=[
 package com.github.muehmar;
 

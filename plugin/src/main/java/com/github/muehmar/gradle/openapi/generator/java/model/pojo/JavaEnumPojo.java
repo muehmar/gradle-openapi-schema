@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
@@ -61,6 +63,14 @@ public class JavaEnumPojo implements JavaPojo {
 
   public PList<EnumConstantName> getMembers() {
     return members;
+  }
+
+  public EnumGenerator.EnumContent asEnumContent() {
+    return EnumContentBuilder.create()
+        .className(getClassName())
+        .description(description)
+        .members(members)
+        .build();
   }
 
   @Override
