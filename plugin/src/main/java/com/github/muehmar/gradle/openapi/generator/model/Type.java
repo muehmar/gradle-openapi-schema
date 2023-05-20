@@ -93,6 +93,10 @@ public interface Type {
         ignore -> Optional.empty());
   }
 
+  default boolean isArrayType() {
+    return asArrayType().isPresent();
+  }
+
   default Optional<MapType> asMapType() {
     return fold(
         ignore -> Optional.empty(),
@@ -104,10 +108,6 @@ public interface Type {
         ignore -> Optional.empty(),
         Optional::of,
         ignore -> Optional.empty());
-  }
-
-  default boolean isArrayType() {
-    return asArrayType().isPresent();
   }
 
   default boolean isMapType() {

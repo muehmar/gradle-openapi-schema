@@ -4,8 +4,10 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
+import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -45,14 +47,24 @@ class AdditionalPropertiesSchema {
   public MemberSchemaMapResult getAdditionalPropertiesMapResult(
       PojoName pojoName, Name memberName) {
     return schema
-        .map(s -> s.mapToMemberType(pojoName, memberName))
+        .map(s -> mapAdditionalPropertiesSchema(s, pojoName, memberName))
         .orElse(MemberSchemaMapResult.ofType(AnyType.create()));
   }
 
   public MemberSchemaMapResult getAdditionalPropertiesMapResult(PojoName pojoName) {
-    return schema
-        .map(s -> s.mapToMemberType(pojoName, Name.ofString("Property")))
-        .orElse(MemberSchemaMapResult.ofType(AnyType.create()));
+    return getAdditionalPropertiesMapResult(pojoName, Name.ofString("Property"));
+  }
+
+  private static MemberSchemaMapResult mapAdditionalPropertiesSchema(
+      OpenApiSchema schema, PojoName pojoName, Name memberName) {
+    final MemberSchemaMapResult result = schema.mapToMemberType(pojoName, memberName);
+    if (result.getType().isArrayType()) {
+      final PojoName arrayPojoName = PojoName.deriveOpenApiPojoName(pojoName, memberName);
+      final ObjectType type = ObjectType.ofName(arrayPojoName);
+      final PojoSchema arrayPojoSchema = new PojoSchema(arrayPojoName, schema);
+      return MemberSchemaMapResult.ofTypeAndPojoSchema(type, arrayPojoSchema);
+    }
+    return result;
   }
 
   public AdditionalProperties asAdditionalProperties(PojoName pojoName) {

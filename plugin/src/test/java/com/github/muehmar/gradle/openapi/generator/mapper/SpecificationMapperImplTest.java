@@ -177,7 +177,7 @@ class SpecificationMapperImplTest {
     final PList<Pojo> pojos =
         ResourceSchemaMappingTestUtil.mapSchema("/integration/completespec", "openapi.yml");
 
-    assertEquals(6, pojos.size());
+    assertEquals(7, pojos.size());
 
     assertEquals(
         ObjectPojoBuilder.create()
@@ -297,9 +297,7 @@ class SpecificationMapperImplTest {
                         "",
                         MapType.ofKeyAndValueType(
                             StringType.noFormat(),
-                            ArrayType.ofItemType(
-                                ObjectType.ofName(
-                                    PojoName.ofNameAndSuffix("UserInterests", "Dto")))),
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("UserInterests", "Dto"))),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE),
@@ -419,8 +417,16 @@ class SpecificationMapperImplTest {
         pojos.apply(4));
 
     assertEquals(
+        ArrayPojo.of(
+            PojoName.ofNameAndSuffix("UserInterests", "Dto"),
+            "",
+            ObjectType.ofName(PojoName.ofNameAndSuffix("UserInterestsValue", "Dto")),
+            Constraints.empty()),
+        pojos.apply(5));
+
+    assertEquals(
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("UserInterests", "Dto"))
+            .name(PojoName.ofNameAndSuffix("UserInterestsValue", "Dto"))
             .description("")
             .members(
                 PList.of(
@@ -441,7 +447,7 @@ class SpecificationMapperImplTest {
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
-        pojos.apply(5));
+        pojos.apply(6));
   }
 
   @Test
