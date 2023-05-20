@@ -151,7 +151,9 @@ public class JavaComposedPojo implements JavaPojo {
   }
 
   public PList<JavaPojoMember> getMembers() {
-    return javaPojos.flatMap(JavaPojo::getMembersOrEmpty).distinct(Function.identity());
+    final Function<JavaPojo, Iterable<JavaPojoMember>> getMembersWithInnerEnums =
+        pojo -> pojo.getMembersOrEmpty().map(m -> m.asInnerEnumOf(pojo.getClassName()));
+    return javaPojos.flatMap(getMembersWithInnerEnums).distinct(Function.identity());
   }
 
   @Override

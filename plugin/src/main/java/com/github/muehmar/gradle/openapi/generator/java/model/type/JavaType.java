@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -44,7 +46,9 @@ public interface JavaType {
 
   default PList<Name> getImports() {
     return getAllQualifiedClassNames()
-        .filter(qualifiedClassName -> qualifiedClassName.contains("."))
+        .filter(
+            qualifiedClassName ->
+                not(qualifiedClassName.equals(qualifiedClassName.startUpperCase())))
         .filter(
             qualifiedClassName ->
                 qualifiedClassName.startsNotWith(PackageNames.JAVA_LANG.asString()));

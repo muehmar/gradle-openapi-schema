@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import java.util.function.Function;
@@ -23,6 +24,11 @@ public class JavaEnumType extends NonGenericJavaType {
     final ClassName className = ClassName.ofName(enumType.getName());
     return new JavaEnumType(
         className, enumType.getMembers().map(EnumConstantName::ofString), enumType);
+  }
+
+  public JavaEnumType asInnerClassOf(JavaIdentifier outerClassName) {
+    return new JavaEnumType(
+        className.asInnerClassOf(outerClassName), members, (EnumType) getType());
   }
 
   @Override

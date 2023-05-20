@@ -207,4 +207,23 @@ public class JavaPojoMember {
         ignore -> Optional.empty(),
         ignore -> Optional.empty());
   }
+
+  /**
+   * In case this member is an enum type, it converts the classname of the enum so that it's
+   * referenced via outer-class {@code javaPojoName}.
+   */
+  public JavaPojoMember asInnerEnumOf(JavaIdentifier javaPojoName) {
+    final JavaType newType =
+        javaType.fold(
+            arrayType -> arrayType,
+            booleanType -> booleanType,
+            enumType -> enumType.asInnerClassOf(javaPojoName),
+            mapType -> mapType,
+            noType -> noType,
+            numericType -> numericType,
+            integerType -> integerType,
+            objectType -> objectType,
+            stringType -> stringType);
+    return new JavaPojoMember(name, description, newType, necessity, nullability);
+  }
 }

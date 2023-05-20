@@ -113,4 +113,21 @@ public interface Type {
   default boolean isMapType() {
     return asMapType().isPresent();
   }
+
+  default Optional<EnumType> asEnumType() {
+    return fold(
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        Optional::of,
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty());
+  }
+
+  default boolean isEnumType() {
+    return asEnumType().isPresent();
+  }
 }

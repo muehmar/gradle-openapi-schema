@@ -292,7 +292,9 @@ public class FactoryMethodGenerator {
     }
 
     boolean isMemberOfMemberPojo() {
-      return memberPojo.getMembersOrEmpty().exists(member::equals);
+      return memberPojo
+          .getMembersOrEmpty()
+          .exists(pojoMember -> pojoMember.getName().equals(member.getName()));
     }
 
     boolean isNotMemberOfMemberPojo() {

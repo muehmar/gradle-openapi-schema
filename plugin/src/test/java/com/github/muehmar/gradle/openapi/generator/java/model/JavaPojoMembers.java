@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIR
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -17,12 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
-import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
-import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
-import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
-import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
+import com.github.muehmar.gradle.openapi.generator.model.type.*;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 
 public class JavaPojoMembers {
@@ -207,5 +203,16 @@ public class JavaPojoMembers {
             TypeMappings.empty()),
         OPTIONAL,
         NULLABLE);
+  }
+
+  public static JavaPojoMember requiredEnum() {
+    return JavaPojoMember.of(
+        Name.ofString("color"),
+        "Color",
+        JavaType.wrap(
+            EnumType.ofNameAndMembers(Name.ofString("Color"), PList.of("yellow", "orange", "red")),
+            TypeMappings.empty()),
+        REQUIRED,
+        NOT_NULLABLE);
   }
 }
