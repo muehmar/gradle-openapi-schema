@@ -29,7 +29,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '1.1.0'
+    id 'com.github.muehmar.openapischema' version '1.1.1'
 }
 ```
 
@@ -747,7 +747,7 @@ afterEvaluate {
   type.
 
 ## Change Log
-
+* 1.1.1 - Fix enum reference in composed pojos (issue `#101`)
 * 1.1.0
     * Support OpenAPI spec version 3.1.0 (issue `#60`)
     * Add JavaDoc explanation for deprecated validation methods (issue `#57`)
