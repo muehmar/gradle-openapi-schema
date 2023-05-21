@@ -739,12 +739,11 @@ afterEvaluate {
 ## Limitations
 
 * The keyword `not` is not supported.
-* The keyword `additionalProperties` with value `false` is not supported for object types, i.e. if the serialisation
-  framework supports unknown properties, no validation error will occur in case of additional properties.
-* The combination of `properties` and `additionalProperties` for object types is not supported. If both keywords are
-  present, only `properties` will be used, the value of `additionalProperties` gets ignored.
 * Multi-Types in v3.1.0 are not supported, i.e. the list in type can contain only one type and optionally the `null` 
   type.
+* The object type does not support a combination of `properties`, `additionalProperties` and compositions `allOf`, `oneOf`
+  and `anyOf`. An object type can contain only one of the mentioned five keywords (issues `#76`, `#99`, `#100` targeted
+  for version 2.0.0).
 
 ## Change Log
 * 1.1.1 - Fix enum reference in composed pojos (issue `#101`)
