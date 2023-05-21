@@ -117,8 +117,7 @@ public class ConversionMethodGenerator {
           javaArrayPojo -> Optional.empty(),
           enumPojo -> Optional.empty(),
           objectPojo -> Optional.of(objectPojo.getAdditionalProperties()),
-          composedPojo -> Optional.of(JavaAdditionalProperties.anyTypeAllowed()),
-          mapPojo -> Optional.of(JavaAdditionalProperties.anyTypeAllowed()));
+          composedPojo -> Optional.of(JavaAdditionalProperties.anyTypeAllowed()));
     }
   }
 

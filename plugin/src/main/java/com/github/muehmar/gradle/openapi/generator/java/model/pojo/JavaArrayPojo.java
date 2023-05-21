@@ -149,8 +149,7 @@ public class JavaArrayPojo implements JavaPojo {
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
       Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo,
-      Function<JavaMapPojo, T> onFreeFormPojo) {
+      Function<JavaComposedPojo, T> onComposedPojo) {
     return onArrayPojo.apply(this);
   }
 
