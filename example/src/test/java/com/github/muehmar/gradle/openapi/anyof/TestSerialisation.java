@@ -10,6 +10,7 @@ import OpenApiSchema.example.api.anyof.model.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.openapi.util.Tristate;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class TestSerialisation {
@@ -23,6 +24,7 @@ class TestSerialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(Optional.empty())
             .build();
     final AdminOrUserDto dto = AdminOrUserDto.fromAdmin(adminDto);
 
@@ -40,6 +42,7 @@ class TestSerialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(AdminDto.ColorEnum.RED)
             .build();
     final InlinedAnyOfDto dto =
         InlinedAnyOfDto.newBuilder()
@@ -47,7 +50,7 @@ class TestSerialisation {
             .build();
 
     assertEquals(
-        "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5}}",
+        "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5,\"color\":\"red\"}}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -106,6 +109,7 @@ class TestSerialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(Optional.empty())
             .build();
 
     final AdminOrUserDto dto = AdminOrUserDto.fromUser(userDto).withAdmin(adminDto);
@@ -132,6 +136,7 @@ class TestSerialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(Optional.empty())
             .build();
 
     final InlinedAnyOfDto dto =

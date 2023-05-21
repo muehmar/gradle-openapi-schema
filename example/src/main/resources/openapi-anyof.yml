@@ -37,7 +37,12 @@ components:
           type: integer
           format: int64
           minimum: 1
-
+        color:
+          type: string
+          enum:
+            - yellow
+            - orange
+            - red
     AdminOrUser:
       anyOf:
         - $ref: '#/components/schemas/Admin'

@@ -12,6 +12,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class TestDeserialisation {
@@ -21,7 +22,7 @@ class TestDeserialisation {
   void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5}",
+            "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"color\":\"yellow\"}",
             AdminOrUserDto.class);
 
     final List<Object> result = adminOrUserDto.fold(admin -> admin, user -> user);
@@ -32,6 +33,7 @@ class TestDeserialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(AdminDto.ColorEnum.YELLOW)
             .build();
 
     assertEquals(Collections.singletonList(adminDto), result);
@@ -52,6 +54,7 @@ class TestDeserialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(Optional.empty())
             .build();
 
     assertEquals(Collections.singletonList(adminDto), result);
@@ -122,6 +125,7 @@ class TestDeserialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(Optional.empty())
             .build();
 
     final List<Object> expected = new ArrayList<>();
@@ -156,6 +160,7 @@ class TestDeserialisation {
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
+            .setColor(Optional.empty())
             .build();
 
     final List<Object> expected = new ArrayList<>();
