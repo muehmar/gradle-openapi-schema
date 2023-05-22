@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
@@ -11,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 class AdditionalPropertiesSetterGenerator {
@@ -32,7 +34,7 @@ class AdditionalPropertiesSetterGenerator {
       singleAdditionalPropertiesSetter() {
     final Generator<JavaAdditionalProperties, PojoSettings> method =
         MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-            .modifiers(PUBLIC)
+            .modifiers(props -> JavaModifiers.of(props.isAllowed() ? PUBLIC : PRIVATE))
             .noGenericTypes()
             .returnType("Builder")
             .methodName("addAdditionalProperty")
@@ -72,6 +74,7 @@ class AdditionalPropertiesSetterGenerator {
         .build()
         .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
         .append(ref(JavaRefs.JAVA_UTIL_MAP))
-        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
+        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
+        .filter(JavaAdditionalProperties::isAllowed);
   }
 }

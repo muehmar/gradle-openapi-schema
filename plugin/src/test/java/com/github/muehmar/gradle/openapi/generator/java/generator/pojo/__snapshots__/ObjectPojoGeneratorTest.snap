@@ -2655,13 +2655,8 @@ public class ObjectPojo1Dto {
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonAnySetter
-    public Builder addAdditionalProperty(String key, Object value) {
+    private Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
-      return this;
-    }
-
-    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
     }
 
