@@ -27,7 +27,8 @@ public class AdditionalPropertiesGetter {
         standardGetter()
             .appendSingleBlankLine()
             .append(singlePropGetter())
-            .contraMap(JavaObjectPojo::getAdditionalProperties);
+            .contraMap(JavaObjectPojo::getAdditionalProperties)
+            .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
     return Generator.<T, PojoSettings>emptyGen()
         .appendOptional(tPojoSettingsGenerator, JavaPojo::asObjectPojo);
   }

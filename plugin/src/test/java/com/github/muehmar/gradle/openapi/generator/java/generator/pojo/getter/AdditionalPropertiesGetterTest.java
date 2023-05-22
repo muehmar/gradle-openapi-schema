@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -63,6 +64,19 @@ class AdditionalPropertiesGetterTest {
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
 
     expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  void generate_when_noAdditionalPropertiesAllowed_then_noOutput() {
+    final Generator<JavaPojo, PojoSettings> generator = AdditionalPropertiesGetter.getter();
+
+    final JavaAdditionalProperties additionalProperties = JavaAdditionalProperties.notAllowed();
+    final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
+
+    final Writer writer =
+        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertEquals("", writer.asString());
   }
 
   @Test

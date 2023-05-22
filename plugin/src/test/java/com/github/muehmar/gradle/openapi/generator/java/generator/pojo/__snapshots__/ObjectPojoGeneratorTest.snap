@@ -2575,7 +2575,6 @@ public class NecessityAndNullabilityDto {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_noAdditionalPropertiesAllowed_then_correctPojoGenerated=[
 package com.github.muehmar;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -2584,7 +2583,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import javax.validation.constraints.AssertTrue;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
@@ -2595,19 +2593,6 @@ public class ObjectPojo1Dto {
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
-  }
-
-  @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
-   */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
   }
 
   /**
