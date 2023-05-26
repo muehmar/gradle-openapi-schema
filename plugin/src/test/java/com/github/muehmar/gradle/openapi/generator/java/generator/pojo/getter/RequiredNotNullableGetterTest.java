@@ -9,6 +9,9 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -93,6 +96,36 @@ class RequiredNotNullableGetterTest {
             + " */\n"
             + "public LocalDate getBirthdateReq() {\n"
             + "  return birthdate;\n"
+            + "}",
+        writer.asString());
+  }
+
+  @Test
+  void generator_when_valueTypeOfArrayHasConstraints_then_correctOutputAndRefs() {
+    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+
+    final IntegerType itemType =
+        IntegerType.formatInteger().withConstraints(Constraints.ofMin(new Min(5)));
+
+    final JavaPojoMember member =
+        JavaPojoMembers.list(
+            itemType, Constraints.empty(), Necessity.REQUIRED, Nullability.NOT_NULLABLE);
+
+    final Writer writer =
+        generator.generate(
+            member,
+            TestPojoSettings.defaultSettings().withEnableValidation(true),
+            Writer.createDefault());
+
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.NOT_NULL::equals));
+    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
+    assertEquals(
+        "/**\n"
+            + " * List\n"
+            + " */\n"
+            + "@NotNull\n"
+            + "public List<@Min(value = 5) Integer> getListVal() {\n"
+            + "  return listVal;\n"
             + "}",
         writer.asString());
   }

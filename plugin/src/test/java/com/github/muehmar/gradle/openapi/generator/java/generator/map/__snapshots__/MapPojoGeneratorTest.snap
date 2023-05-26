@@ -26,9 +26,9 @@ public final class DtoMapDto {
     this.values = values;
   }
 
-  @Valid
   @NotNull
-  public Map<String, OtherDto> getValues() {
+  @Valid
+  public Map<String, @Valid OtherDto> getValues() {
     return values;
   }
 
@@ -99,9 +99,9 @@ public final class DtoMapDto {
     this.values = values;
   }
 
-  @Valid
   @NotNull
-  public Map<String, OtherDto> getValues() {
+  @Valid
+  public Map<String, @Valid OtherDto> getValues() {
     return values;
   }
 
