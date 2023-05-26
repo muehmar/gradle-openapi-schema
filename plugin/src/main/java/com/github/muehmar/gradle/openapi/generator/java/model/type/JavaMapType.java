@@ -59,7 +59,18 @@ public class JavaMapType implements JavaType {
 
   @Override
   public Name getFullClassName() {
-    return className.getClassNameWithGenerics(key.getFullClassName(), value.getFullClassName());
+    return getFullAnnotatedClassName(AnnotationsCreator.empty()).getClassName();
+  }
+
+  @Override
+  public AnnotatedClassName getFullAnnotatedClassName(AnnotationsCreator creator) {
+    final AnnotationsCreator.Annotations annotations = creator.createForType(value);
+    final String annotatedValueType =
+        String.format("%s %s", annotations.getAnnotations(), value.getFullClassName()).trim();
+    final Name fullClassName =
+        className.getClassNameWithGenerics(
+            key.getFullClassName(), Name.ofString(annotatedValueType));
+    return AnnotatedClassName.fromClassNameAndImports(fullClassName, annotations.getImports());
   }
 
   @Override

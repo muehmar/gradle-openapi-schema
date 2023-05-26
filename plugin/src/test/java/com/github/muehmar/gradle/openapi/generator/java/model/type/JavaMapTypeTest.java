@@ -46,4 +46,38 @@ class JavaMapTypeTest {
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
+
+  @Test
+  void
+      getFullAnnotatedClassName_when_calledWithCreatorWithAnnotations_then_correctClassNameAndImportsReturned() {
+    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), StringType.uuid());
+    final JavaMapType javaType = JavaMapType.wrap(mapType, TypeMappings.empty());
+
+    final AnnotationsCreator annotationsCreator =
+        ignore -> new AnnotationsCreator.Annotations("@Annotation", PList.of("package.Annotation"));
+
+    // method call
+    final AnnotatedClassName fullAnnotatedClassName =
+        javaType.getFullAnnotatedClassName(annotationsCreator);
+
+    assertEquals("Map<String, @Annotation UUID>", fullAnnotatedClassName.getClassName().asString());
+    assertEquals(PList.of("package.Annotation"), fullAnnotatedClassName.getImports());
+  }
+
+  @Test
+  void
+      getFullAnnotatedClassName_when_calledWithCreatorWithoutAnnotations_then_correctClassNameAndImportsReturned() {
+    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), StringType.uuid());
+    final JavaMapType javaType = JavaMapType.wrap(mapType, TypeMappings.empty());
+
+    final AnnotationsCreator annotationsCreator =
+        ignore -> new AnnotationsCreator.Annotations("", PList.empty());
+
+    // method call
+    final AnnotatedClassName fullAnnotatedClassName =
+        javaType.getFullAnnotatedClassName(annotationsCreator);
+
+    assertEquals("Map<String, UUID>", fullAnnotatedClassName.getClassName().asString());
+    assertEquals(PList.empty(), fullAnnotatedClassName.getImports());
+  }
 }

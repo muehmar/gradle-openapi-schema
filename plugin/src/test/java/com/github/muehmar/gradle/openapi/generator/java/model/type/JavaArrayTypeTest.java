@@ -46,4 +46,38 @@ class JavaArrayTypeTest {
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
+
+  @Test
+  void
+      getFullAnnotatedClassName_when_calledWithCreatorWithAnnotations_then_correctClassNameAndImportsReturned() {
+    final JavaArrayType arrayType =
+        JavaArrayType.wrap(ArrayType.ofItemType(StringType.noFormat()), TypeMappings.empty());
+
+    final AnnotationsCreator annotationsCreator =
+        ignore -> new AnnotationsCreator.Annotations("@Annotation", PList.of("package.Annotation"));
+
+    // method call
+    final AnnotatedClassName fullAnnotatedClassName =
+        arrayType.getFullAnnotatedClassName(annotationsCreator);
+
+    assertEquals("List<@Annotation String>", fullAnnotatedClassName.getClassName().asString());
+    assertEquals(PList.of("package.Annotation"), fullAnnotatedClassName.getImports());
+  }
+
+  @Test
+  void
+      getFullAnnotatedClassName_when_calledWithCreatorWithoutAnnotations_then_correctClassNameAndImportsReturned() {
+    final JavaArrayType arrayType =
+        JavaArrayType.wrap(ArrayType.ofItemType(StringType.noFormat()), TypeMappings.empty());
+
+    final AnnotationsCreator annotationsCreator =
+        ignore -> new AnnotationsCreator.Annotations("", PList.empty());
+
+    // method call
+    final AnnotatedClassName fullAnnotatedClassName =
+        arrayType.getFullAnnotatedClassName(annotationsCreator);
+
+    assertEquals("List<String>", fullAnnotatedClassName.getClassName().asString());
+    assertEquals(PList.empty(), fullAnnotatedClassName.getImports());
+  }
 }

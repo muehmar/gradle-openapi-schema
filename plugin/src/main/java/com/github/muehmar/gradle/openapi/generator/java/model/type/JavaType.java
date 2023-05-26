@@ -26,6 +26,12 @@ public interface JavaType {
   Name getFullClassName();
 
   /**
+   * Returns the full classname, where the 'value type' for generic container types like lists and
+   * maps is annotated using the given {@link AnnotationsCreator}.
+   */
+  AnnotatedClassName getFullAnnotatedClassName(AnnotationsCreator creator);
+
+  /**
    * Returns true in case this class is a java array (not to be confused with the openapi
    * array-type).
    */
