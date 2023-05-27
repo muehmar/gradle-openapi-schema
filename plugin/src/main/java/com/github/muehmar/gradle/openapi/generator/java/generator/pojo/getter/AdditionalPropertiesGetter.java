@@ -2,16 +2,21 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedFullClassName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
@@ -39,7 +44,8 @@ public class AdditionalPropertiesGetter {
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType(
-                props -> String.format("Map<String, %s>", props.getType().getFullClassName()))
+                deepAnnotatedFullClassName()
+                    .contraMap(AdditionalPropertiesGetter::createMapTypeFromValueType))
             .methodName("getAdditionalProperties")
             .noArguments()
             .content(props -> String.format("return %s;", props.getPropertyName()))
@@ -48,8 +54,13 @@ public class AdditionalPropertiesGetter {
             .append(javaTypeRefs(), JavaAdditionalProperties::getType);
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
         .append(JacksonAnnotationGenerator.jsonAnyGetter())
-        .append(ValidationGenerator.validAnnotationForType(), JavaAdditionalProperties::getType)
         .append(method);
+  }
+
+  private static JavaType createMapTypeFromValueType(JavaAdditionalProperties props) {
+    final MapType mapType =
+        MapType.ofKeyAndValueType(StringType.noFormat(), props.getType().getType());
+    return JavaMapType.wrap(mapType, TypeMappings.empty());
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> singlePropGetter() {

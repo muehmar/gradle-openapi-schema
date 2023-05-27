@@ -36,7 +36,7 @@ public class ValidationGenerator {
         .filter(Filters.isValidationEnabled());
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> validationAnnotations() {
+  public static Generator<JavaPojoMember, PojoSettings> validationAnnotationsForMember() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(notNullAnnotation())
         .append(validationAnnotationsForType(), JavaPojoMember::getJavaType)

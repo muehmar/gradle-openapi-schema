@@ -16,8 +16,7 @@ public Optional<List<String>> getAdditionalProperty(String key) {
 
 additionalPropertiesTypeIsObject=[
 @JsonAnyGetter
-@Valid
-public Map<String, ObjectDto> getAdditionalProperties() {
+public Map<String, @Valid ObjectDto> getAdditionalProperties() {
   return additionalProperties;
 }
 
@@ -26,6 +25,22 @@ public Map<String, ObjectDto> getAdditionalProperties() {
  * Optional} if present, {@link Optional#empty()} otherwise
  */
 public Optional<ObjectDto> getAdditionalProperty(String key) {
+  return Optional.ofNullable(additionalProperties.get(key));
+}
+]
+
+
+additionalPropertiesTypeIsStringWithConstraints=[
+@JsonAnyGetter
+public Map<String, @Min(value = 3) @Max(value = 5) String> getAdditionalProperties() {
+  return additionalProperties;
+}
+
+/**
+ * Returns the additional property with {@code key} wrapped in and {@link
+ * Optional} if present, {@link Optional#empty()} otherwise
+ */
+public Optional<String> getAdditionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key));
 }
 ]

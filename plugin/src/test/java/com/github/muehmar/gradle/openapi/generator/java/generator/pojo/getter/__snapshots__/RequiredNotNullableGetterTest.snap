@@ -1,0 +1,40 @@
+requiredAndNotNullableField=[
+/**
+ * Birthdate
+ */
+@NotNull
+public LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
+requiredSuffix=[
+/**
+ * Birthdate
+ */
+public LocalDate getBirthdateReq() {
+  return birthdate;
+}
+]
+
+
+validationDisabled=[
+/**
+ * Birthdate
+ */
+public LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
+valueTypeOfArrayHasConstraints=[
+/**
+ * List
+ */
+@NotNull
+public List<@Min(value = 5) @Max(value = 10) Integer> getListVal() {
+  return listVal;
+}
+]

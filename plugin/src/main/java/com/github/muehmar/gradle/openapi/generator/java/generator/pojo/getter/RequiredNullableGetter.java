@@ -4,7 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noS
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.assertTrue;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotations;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotationsForMember;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 
@@ -54,7 +54,7 @@ public class RequiredNullableGetter {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
-        .append(validationAnnotations())
+        .append(validationAnnotationsForMember())
         .append(jsonProperty())
         .append(deprecatedValidationMethod())
         .append(CommonGetter.rawGetterMethod())

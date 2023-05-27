@@ -1,8 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.annotations.SnapshotName;
+import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -10,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
@@ -19,10 +22,14 @@ import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(SnapshotExtension.class)
 class RequiredNotNullableGetterTest {
+  private Expect expect;
 
   @Test
+  @SnapshotName("requiredAndNotNullableField")
   void generator_when_requiredAndNotNullableField_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
     final JavaPojoMember pojoMember =
@@ -33,18 +40,12 @@ class RequiredNotNullableGetterTest {
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.NOT_NULL::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "@NotNull\n"
-            + "public LocalDate getBirthdate() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
+  @SnapshotName("validationDisabled")
   void generator_when_validationDisabled_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
     final JavaPojoMember pojoMember =
@@ -57,17 +58,12 @@ class RequiredNotNullableGetterTest {
             Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdate() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
+  @SnapshotName("requiredSuffix")
   void generator_when_requiredSuffix_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
     final JavaPojoMember pojoMember =
@@ -90,22 +86,18 @@ class RequiredNotNullableGetterTest {
             Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertEquals(
-        "/**\n"
-            + " * Birthdate\n"
-            + " */\n"
-            + "public LocalDate getBirthdateReq() {\n"
-            + "  return birthdate;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 
   @Test
+  @SnapshotName("valueTypeOfArrayHasConstraints")
   void generator_when_valueTypeOfArrayHasConstraints_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
 
     final IntegerType itemType =
-        IntegerType.formatInteger().withConstraints(Constraints.ofMin(new Min(5)));
+        IntegerType.formatInteger()
+            .withConstraints(Constraints.ofMinAndMax(new Min(5), new Max(10)));
 
     final JavaPojoMember member =
         JavaPojoMembers.list(
@@ -119,14 +111,7 @@ class RequiredNotNullableGetterTest {
 
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.NOT_NULL::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
-    assertEquals(
-        "/**\n"
-            + " * List\n"
-            + " */\n"
-            + "@NotNull\n"
-            + "public List<@Min(value = 5) Integer> getListVal() {\n"
-            + "  return listVal;\n"
-            + "}",
-        writer.asString());
+
+    expect.toMatchSnapshot(writer.asString());
   }
 }
