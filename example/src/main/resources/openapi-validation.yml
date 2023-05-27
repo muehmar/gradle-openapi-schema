@@ -68,6 +68,7 @@ components:
       items:
         type: integer
         format: int32
+        maximum: 100
       minItems: 3
       maxItems: 5
 
@@ -110,6 +111,15 @@ components:
           type: string
         obj:
           $ref: "#/components/schemas/AllValueObject"
+
+    StringMap:
+      additionalProperties:
+        type: string
+        pattern: "[A-Za-z]*"
+
+    ObjectMap:
+      additionalProperties:
+        $ref: "#/components/schemas/AllValueObject"
 
     DoubleValue:
       type: number

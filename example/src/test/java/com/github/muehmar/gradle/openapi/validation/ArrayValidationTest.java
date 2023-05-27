@@ -85,6 +85,18 @@ class ArrayValidationTest {
   }
 
   @Test
+  void validate_when_singleValueInArrayViolatesMaximum_then_violation() {
+    final ArrayList<Integer> integers = new ArrayList<>(Arrays.asList(1, 2, 3, 150));
+    final IntegerPojoArrayDto dto = new IntegerPojoArrayDto(integers);
+
+    final Set<ConstraintViolation<IntegerPojoArrayDto>> violations = validate(dto);
+
+    assertEquals(1, violations.size());
+    assertEquals(
+        "must be less than or equal to 100", violations.stream().findFirst().get().getMessage());
+  }
+
+  @Test
   void validate_when_memberArrayAndUniqueItems_then_noViolation() {
     final ArrayList<Long> numbers = new ArrayList<>(Arrays.asList(1L, 2L, 3L, 4L, 5L));
 

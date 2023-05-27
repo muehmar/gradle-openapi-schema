@@ -23,6 +23,7 @@ components:
       items:
         type: number
         format: double
+        maximum: 10
       example:
         - 1
         - 0
