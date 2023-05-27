@@ -21,4 +21,9 @@ public abstract class NonGenericJavaType extends BaseJavaType {
   public Name getFullClassName() {
     return className.getClassName();
   }
+
+  @Override
+  public AnnotatedClassName getFullAnnotatedClassName(AnnotationsCreator creator) {
+    return AnnotatedClassName.fromClassName(getFullClassName());
+  }
 }

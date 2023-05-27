@@ -59,7 +59,16 @@ public class JavaArrayType implements JavaType {
 
   @Override
   public Name getFullClassName() {
-    return className.getClassNameWithGenerics(itemType.getFullClassName());
+    return getFullAnnotatedClassName(AnnotationsCreator.empty()).getClassName();
+  }
+
+  @Override
+  public AnnotatedClassName getFullAnnotatedClassName(AnnotationsCreator creator) {
+    final AnnotationsCreator.Annotations annotations = creator.createForType(itemType);
+    final String annotatedType =
+        String.format("%s %s", annotations.getAnnotations(), itemType.getFullClassName()).trim();
+    final Name fullClassName = className.getClassNameWithGenerics(Name.ofString(annotatedType));
+    return AnnotatedClassName.fromClassNameAndImports(fullClassName, annotations.getImports());
   }
 
   @Override
