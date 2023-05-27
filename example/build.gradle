@@ -243,6 +243,16 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
+        additionalProperties {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-additional-properties.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "${project.group}.${project.name}.api.additionalproperties.model"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
     }
 }
 
