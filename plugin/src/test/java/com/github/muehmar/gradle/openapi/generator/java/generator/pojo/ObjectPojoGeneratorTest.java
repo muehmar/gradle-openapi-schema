@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIR
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 
 import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
@@ -13,7 +14,10 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -89,6 +93,7 @@ class ObjectPojoGeneratorTest {
           .head();
 
   @Test
+  @SnapshotName("minimalPojoSetting")
   void generatePojo_when_minimalPojoSetting_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -105,6 +110,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("jsonSupportJackson")
   void generatePojo_when_jsonSupportJackson_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -118,6 +124,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("enabledSafeBuilder")
   void generatePojo_when_enabledSafeBuilder_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -135,6 +142,7 @@ class ObjectPojoGeneratorTest {
 
   @ParameterizedTest
   @EnumSource(ValidationApi.class)
+  @SnapshotName("enableValidation")
   void generatePojo_when_enableValidation_then_correctPojoGenerated(ValidationApi validationApi) {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -250,6 +258,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("pojoWithEnumAndEnumDescription")
   void generatePojo_when_pojoWithEnumAndEnumDescription_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -289,6 +298,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("pojoWithEnumAndEnumDescriptionAndJacksonSupport")
   void
       generatePojo_when_pojoWithEnumAndEnumDescriptionAndJacksonSupport_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
@@ -328,6 +338,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("necessityAndNullabilityVariants")
   void generatePojo_when_necessityAndNullabilityVariants_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -343,6 +354,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("objectWithArrayWithUniqueItems")
   void generatePojo_when_objectWithArrayWithUniqueItems_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -362,6 +374,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("objectWithMapMember")
   void generatePojo_when_objectWithMapMember_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
@@ -385,6 +398,7 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("noAdditionalPropertiesAllowed")
   void generatePojo_when_noAdditionalPropertiesAllowed_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
     final String content =
@@ -399,7 +413,8 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
-  void generatePojo_when_inlinedEnumAsAdditionalPropertiesType_then_correctPojoGenerated() {
+  @SnapshotName("inlinedEnumMapObject")
+  void generatePojo_when_inlinedEnumMapObject_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
     final String content =
         generator
@@ -411,6 +426,97 @@ class ObjectPojoGeneratorTest {
                             EnumType.ofNameAndMembers(
                                 Name.ofString("ColorEnum"), PList.of("green", "yellow", "red"))))),
                 TestPojoSettings.defaultSettings(),
+                Writer.createDefault())
+            .asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("objectMap")
+  void generatePojo_when_objectMap_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final String content =
+        generator
+            .generate(
+                JavaPojos.objectPojo(
+                    PList.empty(),
+                    JavaAdditionalProperties.allowedFor(
+                        JavaObjectType.wrap(
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
+                TestPojoSettings.defaultSettings(),
+                Writer.createDefault())
+            .asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("anyTypeMap")
+  void generatePojo_when_anyTypeMap_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final String content =
+        generator
+            .generate(
+                JavaPojos.objectPojo(
+                    PList.empty(), JavaAdditionalProperties.allowedFor(JavaAnyType.create())),
+                TestPojoSettings.defaultSettings(),
+                Writer.createDefault())
+            .asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("integerMap")
+  void generatePojo_when_integerMap_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final String content =
+        generator
+            .generate(
+                JavaPojos.objectPojo(
+                    PList.empty(),
+                    JavaAdditionalProperties.allowedFor(
+                        JavaIntegerType.wrap(IntegerType.formatInteger(), TypeMappings.empty()))),
+                TestPojoSettings.defaultSettings(),
+                Writer.createDefault())
+            .asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("objectMapDisabledValidation")
+  void generatePojo_when_objectMapDisabledValidation_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final String content =
+        generator
+            .generate(
+                JavaPojos.objectPojo(
+                    PList.empty(),
+                    JavaAdditionalProperties.allowedFor(
+                        JavaObjectType.wrap(
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
+                TestPojoSettings.defaultSettings().withEnableValidation(false),
+                Writer.createDefault())
+            .asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("objectMapNoJsonSupport")
+  void generatePojo_when_objectMapNoJsonSupport_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final String content =
+        generator
+            .generate(
+                JavaPojos.objectPojo(
+                    PList.empty(),
+                    JavaAdditionalProperties.allowedFor(
+                        JavaObjectType.wrap(
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
+                TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
                 Writer.createDefault())
             .asString();
 
