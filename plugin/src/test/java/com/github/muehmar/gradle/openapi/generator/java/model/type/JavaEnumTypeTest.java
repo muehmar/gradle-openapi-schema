@@ -18,7 +18,7 @@ class JavaEnumTypeTest {
     final JavaEnumType javaType = JavaEnumType.wrap(enumType);
 
     assertEquals("Gender", javaType.getFullClassName().asString());
-    assertEquals("Gender", javaType.getClassName().asString());
+    assertEquals("Gender", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("Gender"),
         javaType
@@ -34,6 +34,6 @@ class JavaEnumTypeTest {
             EnumType.ofNameAndMembers(Name.ofString("Color"), PList.of("yellow", "red")));
     final JavaEnumType mappedType = enumType.asInnerClassOf(JavaIdentifier.fromString("AdminDto"));
 
-    assertEquals("AdminDto.Color", mappedType.getClassName().asString());
+    assertEquals("AdminDto.Color", mappedType.getQualifiedClassName().getClassName().asString());
   }
 }

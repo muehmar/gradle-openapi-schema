@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -16,23 +16,26 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaArrayType implements JavaType {
-  private final ClassName className;
+  private final QualifiedClassName qualifiedClassName;
   private final JavaType itemType;
   private final ArrayType arrayType;
   private final Constraints constraints;
 
-  private static final ClassName JAVA_CLASS_NAME = ClassNames.LIST;
+  private static final QualifiedClassName JAVA_CLASS_NAME = QualifiedClassNames.LIST;
 
   private JavaArrayType(
-      ClassName className, JavaType itemType, ArrayType arrayType, Constraints constraints) {
-    this.className = className;
+      QualifiedClassName qualifiedClassName,
+      JavaType itemType,
+      ArrayType arrayType,
+      Constraints constraints) {
+    this.qualifiedClassName = qualifiedClassName;
     this.itemType = itemType;
     this.arrayType = arrayType;
     this.constraints = constraints;
   }
 
   public static JavaArrayType wrap(ArrayType arrayType, TypeMappings typeMappings) {
-    final ClassName className =
+    final QualifiedClassName className =
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     return new JavaArrayType(
         className,
@@ -42,8 +45,8 @@ public class JavaArrayType implements JavaType {
   }
 
   @Override
-  public Name getClassName() {
-    return className.getClassName();
+  public QualifiedClassName getQualifiedClassName() {
+    return qualifiedClassName;
   }
 
   @Override
@@ -53,8 +56,7 @@ public class JavaArrayType implements JavaType {
 
   @Override
   public PList<Name> getAllQualifiedClassNames() {
-    return PList.single(className.getQualifiedClassName())
-        .concat(itemType.getAllQualifiedClassNames());
+    return PList.single(qualifiedClassName.asName()).concat(itemType.getAllQualifiedClassNames());
   }
 
   @Override
@@ -67,7 +69,8 @@ public class JavaArrayType implements JavaType {
     final AnnotationsCreator.Annotations annotations = creator.createForType(itemType);
     final String annotatedType =
         String.format("%s %s", annotations.getAnnotations(), itemType.getFullClassName()).trim();
-    final Name fullClassName = className.getClassNameWithGenerics(Name.ofString(annotatedType));
+    final Name fullClassName =
+        qualifiedClassName.getClassNameWithGenerics(Name.ofString(annotatedType));
     return AnnotatedClassName.fromClassNameAndImports(fullClassName, annotations.getImports());
   }
 

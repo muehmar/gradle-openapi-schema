@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -14,15 +14,15 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class JavaBooleanType extends NonGenericJavaType {
-  private static final ClassName JAVA_CLASS_NAME =
-      ClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Boolean"));
+  private static final QualifiedClassName JAVA_CLASS_NAME =
+      QualifiedClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Boolean"));
 
-  private JavaBooleanType(ClassName className, Type type) {
+  private JavaBooleanType(QualifiedClassName className, Type type) {
     super(className, type);
   }
 
   public static JavaBooleanType wrap(TypeMappings typeMappings) {
-    final ClassName className =
+    final QualifiedClassName className =
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     return new JavaBooleanType(className, BooleanType.create());
   }

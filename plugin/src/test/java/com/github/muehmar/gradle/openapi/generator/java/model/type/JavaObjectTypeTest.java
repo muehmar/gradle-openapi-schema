@@ -18,7 +18,7 @@ class JavaObjectTypeTest {
     final JavaObjectType javaType = JavaObjectType.wrap(objectType);
 
     assertEquals("UserDto", javaType.getFullClassName().asString());
-    assertEquals("UserDto", javaType.getClassName().asString());
+    assertEquals("UserDto", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("UserDto"),
         javaType

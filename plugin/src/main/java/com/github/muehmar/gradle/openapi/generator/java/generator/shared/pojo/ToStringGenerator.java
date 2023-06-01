@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Annotatio
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -89,9 +90,15 @@ public class ToStringGenerator {
     }
 
     private String toRightHandExpression(JavaIdentifier name) {
-      return member.getJavaType().isJavaArray() && name.equals(member.getNameAsIdentifier())
-          ? String.format("Arrays.toString(%s)", name)
-          : name.asString();
+      final boolean nameMatchesMemberName = name.equals(member.getNameAsIdentifier());
+      if (member.getJavaType().isJavaArray() && nameMatchesMemberName) {
+        return String.format("Arrays.toString(%s)", name);
+      } else if (member.getJavaType().getQualifiedClassName().equals(QualifiedClassNames.STRING)
+          && nameMatchesMemberName) {
+        return String.format("\"'\" + %s + \"'\"", name);
+      } else {
+        return name.asString();
+      }
     }
   }
 

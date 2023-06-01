@@ -284,13 +284,13 @@ public class ComposedAnyofDto {
   @Override
   public String toString() {
     return "ComposedAnyofDto{" +
-      "username=" + username + ", " +
+      "username=" + "'" + username + "'" + ", " +
       "birthdate=" + birthdate + ", " +
-      "requiredStringVal=" + requiredStringVal + ", " +
-      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
-      "optionalStringVal=" + optionalStringVal + ", " +
-      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+      "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -698,13 +698,13 @@ public class ComposedOneofDto {
   @Override
   public String toString() {
     return "ComposedOneofDto{" +
-      "username=" + username + ", " +
+      "username=" + "'" + username + "'" + ", " +
       "birthdate=" + birthdate + ", " +
-      "requiredStringVal=" + requiredStringVal + ", " +
-      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
-      "optionalStringVal=" + optionalStringVal + ", " +
-      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+      "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -1112,13 +1112,13 @@ public class ComposedOneofDto {
   @Override
   public String toString() {
     return "ComposedOneofDto{" +
-      "username=" + username + ", " +
+      "username=" + "'" + username + "'" + ", " +
       "birthdate=" + birthdate + ", " +
-      "requiredStringVal=" + requiredStringVal + ", " +
-      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
-      "optionalStringVal=" + optionalStringVal + ", " +
-      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+      "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -1512,13 +1512,13 @@ public class ComposedOneofDto {
   @Override
   public String toString() {
     return "ComposedOneofDto{" +
-      "username=" + username + ", " +
+      "username=" + "'" + username + "'" + ", " +
       "birthdate=" + birthdate + ", " +
-      "requiredStringVal=" + requiredStringVal + ", " +
-      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
-      "optionalStringVal=" + optionalStringVal + ", " +
-      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+      "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -1851,7 +1851,7 @@ public class ComposedPojoDto {
   @Override
   public String toString() {
     return "ComposedPojoDto{" +
-      "stringVal=" + stringVal + ", " +
+      "stringVal=" + "'" + stringVal + "'" + ", " +
       "color=" + color + ", " +
       "intVal=" + intVal + ", " +
       "additionalProperties=" + additionalProperties +

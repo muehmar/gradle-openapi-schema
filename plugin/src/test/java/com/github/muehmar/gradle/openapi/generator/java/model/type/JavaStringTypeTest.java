@@ -25,7 +25,7 @@ class JavaStringTypeTest {
     final JavaStringType javaType = JavaStringType.wrap(stringType, TypeMappings.empty());
 
     assertEquals(className, javaType.getFullClassName().asString());
-    assertEquals(className, javaType.getClassName().asString());
+    assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of(qualifiedClassName),
         javaType
@@ -55,7 +55,7 @@ class JavaStringTypeTest {
                 new ClassTypeMapping("UUID", "com.custom.CustomUUID")));
 
     assertEquals("CustomUUID", javaType.getFullClassName().asString());
-    assertEquals("CustomUUID", javaType.getClassName().asString());
+    assertEquals("CustomUUID", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomUUID"),
         javaType
@@ -74,7 +74,7 @@ class JavaStringTypeTest {
                 new FormatTypeMapping("binary", "com.custom.CustomBinary")));
 
     assertEquals("CustomBinary", javaType.getFullClassName().asString());
-    assertEquals("CustomBinary", javaType.getClassName().asString());
+    assertEquals("CustomBinary", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomBinary"),
         javaType

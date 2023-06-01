@@ -2,11 +2,11 @@ allNecessityAndNullabilityVariants=[
 @Override
 public String toString() {
   return "NecessityAndNullabilityDto{" +
-    "requiredStringVal=" + requiredStringVal + ", " +
-    "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+    "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+    "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
     "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
-    "optionalStringVal=" + optionalStringVal + ", " +
-    "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+    "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+    "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
     "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
     "additionalProperties=" + additionalProperties +
     "}";

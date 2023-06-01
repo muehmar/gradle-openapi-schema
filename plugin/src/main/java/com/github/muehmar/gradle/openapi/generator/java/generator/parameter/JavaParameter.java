@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
@@ -26,7 +26,7 @@ public class JavaParameter {
   }
 
   public Name getTypeClassName() {
-    return javaType.getClassName();
+    return javaType.getQualifiedClassName().getClassName();
   }
 
   public Name getParamClassName() {
@@ -124,7 +124,7 @@ public class JavaParameter {
   }
 
   private boolean isJavaStringClass() {
-    return getJavaType().getClassName().equals(ClassNames.STRING.getClassName());
+    return getJavaType().getQualifiedClassName().equals(QualifiedClassNames.STRING);
   }
 
   public String formatConstant(Object value) {

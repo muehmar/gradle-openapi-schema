@@ -10,78 +10,82 @@ import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class ClassNameTest {
+class QualifiedClassNameTest {
 
   @Test
   void ofQualifiedClassName_when_stringSupplied_then_correctParsed() {
-    final ClassName className = ClassName.ofQualifiedClassName("java.lang.String");
+    final QualifiedClassName className =
+        QualifiedClassName.ofQualifiedClassName("java.lang.String");
     assertEquals("String", className.getClassName().asString());
-    assertEquals("java.lang.String", className.getQualifiedClassName().asString());
+    assertEquals("java.lang.String", className.asName().asString());
   }
 
   @Test
   void fromFormatTypeMapping_when_called_then_correctClassNameCreated() {
-    final ClassName className =
-        ClassName.fromFormatTypeMapping(new FormatTypeMapping("uuid", "com.custom.CustomUUID"));
+    final QualifiedClassName className =
+        QualifiedClassName.fromFormatTypeMapping(
+            new FormatTypeMapping("uuid", "com.custom.CustomUUID"));
     assertEquals("CustomUUID", className.getClassName().asString());
-    assertEquals("com.custom.CustomUUID", className.getQualifiedClassName().asString());
+    assertEquals("com.custom.CustomUUID", className.asName().asString());
   }
 
   @Test
   void fromFormatTypeMapping_when_noMatchingFormat_then_emptyReturned() {
-    final Optional<ClassName> className =
-        ClassName.fromFormatTypeMapping(
+    final Optional<QualifiedClassName> className =
+        QualifiedClassName.fromFormatTypeMapping(
             "url", PList.single(new FormatTypeMapping("uuid", "com.custom.CustomUUID")));
     assertEquals(Optional.empty(), className);
   }
 
   @Test
   void fromFormatTypeMapping_when_matchingFormat_then_mappedClassNameReturned() {
-    final Optional<ClassName> className =
-        ClassName.fromFormatTypeMapping(
+    final Optional<QualifiedClassName> className =
+        QualifiedClassName.fromFormatTypeMapping(
             "uuid", PList.single(new FormatTypeMapping("uuid", "com.custom.CustomUUID")));
     assertTrue(className.isPresent());
     assertEquals("CustomUUID", className.get().getClassName().asString());
-    assertEquals("com.custom.CustomUUID", className.get().getQualifiedClassName().asString());
+    assertEquals("com.custom.CustomUUID", className.get().asName().asString());
   }
 
   @Test
   void fromClassTypeMapping_when_called_then_correctClassNameCreated() {
-    final ClassName className =
-        ClassName.fromClassTypeMapping(new ClassTypeMapping("Double", "com.custom.CustomDouble"));
+    final QualifiedClassName className =
+        QualifiedClassName.fromClassTypeMapping(
+            new ClassTypeMapping("Double", "com.custom.CustomDouble"));
     assertEquals("CustomDouble", className.getClassName().asString());
-    assertEquals("com.custom.CustomDouble", className.getQualifiedClassName().asString());
+    assertEquals("com.custom.CustomDouble", className.asName().asString());
   }
 
   @Test
   void mapWithClassMappings_when_matchingClass_then_correctMapped() {
-    final ClassName className =
-        ClassNames.DOUBLE.mapWithClassMappings(
+    final QualifiedClassName className =
+        QualifiedClassNames.DOUBLE.mapWithClassMappings(
             PList.single(new ClassTypeMapping("Double", "com.custom.CustomDouble")));
     assertEquals("CustomDouble", className.getClassName().asString());
-    assertEquals("com.custom.CustomDouble", className.getQualifiedClassName().asString());
+    assertEquals("com.custom.CustomDouble", className.asName().asString());
   }
 
   @Test
   void mapWithClassMappings_when_noMatchingClass_then_notMapped() {
-    final ClassName className =
-        ClassNames.INTEGER.mapWithClassMappings(
+    final QualifiedClassName className =
+        QualifiedClassNames.INTEGER.mapWithClassMappings(
             PList.single(new ClassTypeMapping("Double", "com.custom.CustomDouble")));
     assertEquals("Integer", className.getClassName().asString());
-    assertEquals("java.lang.Integer", className.getQualifiedClassName().asString());
+    assertEquals("java.lang.Integer", className.asName().asString());
   }
 
   @Test
   void getClassNameWithGenerics_when_called_then_correctFormatted() {
     final Name classNameWithGenerics =
-        ClassNames.MAP.getClassNameWithGenerics(Name.ofString("String"), Name.ofString("UserDto"));
+        QualifiedClassNames.MAP.getClassNameWithGenerics(
+            Name.ofString("String"), Name.ofString("UserDto"));
     assertEquals("Map<String, UserDto>", classNameWithGenerics.asString());
   }
 
   @Test
   void asInnerClassOf_when_calledWithDtoName_then_correctReferenceWithOuterClass() {
-    final ClassName className = ClassName.ofName("Enum");
-    final ClassName innerClassName =
+    final QualifiedClassName className = QualifiedClassName.ofName("Enum");
+    final QualifiedClassName innerClassName =
         className.asInnerClassOf(JavaIdentifier.fromString("AdminDto"));
     assertEquals("AdminDto.Enum", innerClassName.getClassName().asString());
   }
