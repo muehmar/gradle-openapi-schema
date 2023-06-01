@@ -1,0 +1,5 @@
+arrayPojo=[
+public static PosologyDto fromItems(List<Double> items) {
+  return new PosologyDto(items);
+}
+]
