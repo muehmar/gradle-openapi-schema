@@ -16,7 +16,7 @@ class JavaBooleanTypeTest {
     final JavaBooleanType javaType = JavaBooleanType.wrap(TypeMappings.empty());
 
     assertEquals("Boolean", javaType.getFullClassName().asString());
-    assertEquals("Boolean", javaType.getClassName().asString());
+    assertEquals("Boolean", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang.Boolean"),
         javaType
@@ -33,7 +33,7 @@ class JavaBooleanTypeTest {
                 new ClassTypeMapping("Boolean", "com.custom.CustomBoolean")));
 
     assertEquals("CustomBoolean", javaType.getFullClassName().asString());
-    assertEquals("CustomBoolean", javaType.getClassName().asString());
+    assertEquals("CustomBoolean", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomBoolean"),
         javaType

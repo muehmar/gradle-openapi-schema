@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import java.util.function.Function;
@@ -15,20 +15,21 @@ import lombok.ToString;
 public class JavaEnumType extends NonGenericJavaType {
   private final PList<EnumConstantName> members;
 
-  private JavaEnumType(ClassName className, PList<EnumConstantName> members, EnumType enumType) {
+  private JavaEnumType(
+      QualifiedClassName className, PList<EnumConstantName> members, EnumType enumType) {
     super(className, enumType);
     this.members = members;
   }
 
   public static JavaEnumType wrap(EnumType enumType) {
-    final ClassName className = ClassName.ofName(enumType.getName());
+    final QualifiedClassName className = QualifiedClassName.ofName(enumType.getName());
     return new JavaEnumType(
         className, enumType.getMembers().map(EnumConstantName::ofString), enumType);
   }
 
   public JavaEnumType asInnerClassOf(JavaIdentifier outerClassName) {
     return new JavaEnumType(
-        className.asInnerClassOf(outerClassName), members, (EnumType) getType());
+        qualifiedClassName.asInnerClassOf(outerClassName), members, (EnumType) getType());
   }
 
   @Override

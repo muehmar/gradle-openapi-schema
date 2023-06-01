@@ -46,7 +46,7 @@ public class JavaAdditionalProperties {
         enumType ->
             Optional.of(
                 EnumContentBuilder.create()
-                    .className(JavaIdentifier.fromName(type.getClassName()))
+                    .className(JavaIdentifier.fromName(type.getQualifiedClassName().getClassName()))
                     .description("Additional property enum")
                     .members(enumType.getMembers())
                     .build());

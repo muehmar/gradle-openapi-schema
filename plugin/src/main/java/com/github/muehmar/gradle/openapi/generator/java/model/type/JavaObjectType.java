@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import java.util.function.Function;
@@ -12,13 +12,14 @@ import lombok.ToString;
 public class JavaObjectType extends NonGenericJavaType {
   private final Constraints constraints;
 
-  private JavaObjectType(ClassName className, Constraints constraints, ObjectType objectType) {
+  private JavaObjectType(
+      QualifiedClassName className, Constraints constraints, ObjectType objectType) {
     super(className, objectType);
     this.constraints = constraints;
   }
 
   public static JavaObjectType wrap(ObjectType objectType) {
-    final ClassName className = ClassName.ofName(objectType.getName().asString());
+    final QualifiedClassName className = QualifiedClassName.ofName(objectType.getName().asString());
     return new JavaObjectType(className, objectType.getConstraints(), objectType);
   }
 

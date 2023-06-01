@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
@@ -17,37 +17,39 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class JavaNumericType extends NonGenericJavaType {
-  private static final Map<NumericType.Format, ClassName> FORMAT_CLASS_NAME_MAP =
+  private static final Map<NumericType.Format, QualifiedClassName> FORMAT_CLASS_NAME_MAP =
       createFormatClassNameMap();
   private final Constraints constraints;
 
-  protected JavaNumericType(ClassName className, Constraints constraints, NumericType numericType) {
+  protected JavaNumericType(
+      QualifiedClassName className, Constraints constraints, NumericType numericType) {
     super(className, numericType);
     this.constraints = constraints;
   }
 
   public static JavaNumericType wrap(NumericType numericType, TypeMappings typeMappings) {
-    final ClassName className =
+    final QualifiedClassName className =
         classNameFromFormat(numericType, typeMappings.getFormatTypeMappings());
-    final ClassName finalClassName =
+    final QualifiedClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
     return new JavaNumericType(finalClassName, numericType.getConstraints(), numericType);
   }
 
-  private static ClassName classNameFromFormat(
+  private static QualifiedClassName classNameFromFormat(
       NumericType numericType, PList<FormatTypeMapping> formatTypeMappings) {
-    final Optional<ClassName> userFormatMappedClassName =
-        ClassName.fromFormatTypeMapping(numericType.getFormat().asString(), formatTypeMappings);
-    final ClassName formatMappedClassName =
+    final Optional<QualifiedClassName> userFormatMappedClassName =
+        QualifiedClassName.fromFormatTypeMapping(
+            numericType.getFormat().asString(), formatTypeMappings);
+    final QualifiedClassName formatMappedClassName =
         Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(numericType.getFormat()))
-            .orElse(ClassNames.DOUBLE);
+            .orElse(QualifiedClassNames.DOUBLE);
     return userFormatMappedClassName.orElse(formatMappedClassName);
   }
 
-  private static Map<NumericType.Format, ClassName> createFormatClassNameMap() {
-    final Map<NumericType.Format, ClassName> map = new EnumMap<>(NumericType.Format.class);
-    map.put(NumericType.Format.DOUBLE, ClassNames.DOUBLE);
-    map.put(NumericType.Format.FLOAT, ClassNames.FLOAT);
+  private static Map<NumericType.Format, QualifiedClassName> createFormatClassNameMap() {
+    final Map<NumericType.Format, QualifiedClassName> map = new EnumMap<>(NumericType.Format.class);
+    map.put(NumericType.Format.DOUBLE, QualifiedClassNames.DOUBLE);
+    map.put(NumericType.Format.FLOAT, QualifiedClassNames.FLOAT);
     return map;
   }
 

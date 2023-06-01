@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import java.util.function.Function;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class JavaAnyType extends NonGenericJavaType {
-  private static final ClassName CLASS_NAME = ClassNames.OBJECT;
+  private static final QualifiedClassName CLASS_NAME = QualifiedClassNames.OBJECT;
 
   private JavaAnyType() {
     super(CLASS_NAME, AnyType.create());

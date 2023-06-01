@@ -497,13 +497,13 @@ public class UserDto {
   public String toString() {
     return "UserDto{" +
       "id=" + id + ", " +
-      "name=" + name + ", " +
-      "lastName=" + lastName + ", " +
-      "nickName=" + nickName + ", " +
-      "email=" + email + ", " +
+      "name=" + "'" + name + "'" + ", " +
+      "lastName=" + "'" + lastName + "'" + ", " +
+      "nickName=" + "'" + nickName + "'" + ", " +
+      "email=" + "'" + email + "'" + ", " +
       "height=" + height + ", " +
       "level=" + level + ", " +
-      "uppercase=" + uppercase + ", " +
+      "uppercase=" + "'" + uppercase + "'" + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
       "anotherPojo=" + anotherPojo + ", " +
       "additionalProperties=" + additionalProperties +
@@ -1024,13 +1024,13 @@ public class UserDto {
   public String toString() {
     return "UserDto{" +
       "id=" + id + ", " +
-      "name=" + name + ", " +
-      "lastName=" + lastName + ", " +
-      "nickName=" + nickName + ", " +
-      "email=" + email + ", " +
+      "name=" + "'" + name + "'" + ", " +
+      "lastName=" + "'" + lastName + "'" + ", " +
+      "nickName=" + "'" + nickName + "'" + ", " +
+      "email=" + "'" + email + "'" + ", " +
       "height=" + height + ", " +
       "level=" + level + ", " +
-      "uppercase=" + uppercase + ", " +
+      "uppercase=" + "'" + uppercase + "'" + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
       "anotherPojo=" + anotherPojo + ", " +
       "additionalProperties=" + additionalProperties +
@@ -1369,7 +1369,7 @@ public class UserDto {
   public String toString() {
     return "UserDto{" +
       "id=" + id + ", " +
-      "name=" + name + ", " +
+      "name=" + "'" + name + "'" + ", " +
       "language=" + language + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -2060,7 +2060,7 @@ public class UserDto {
   public String toString() {
     return "UserDto{" +
       "id=" + id + ", " +
-      "name=" + name + ", " +
+      "name=" + "'" + name + "'" + ", " +
       "language=" + language + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -2311,7 +2311,7 @@ public class UserDto {
   public String toString() {
     return "UserDto{" +
       "id=" + id + ", " +
-      "name=" + name + ", " +
+      "name=" + "'" + name + "'" + ", " +
       "language=" + language + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -2614,11 +2614,11 @@ public class NecessityAndNullabilityDto {
   @Override
   public String toString() {
     return "NecessityAndNullabilityDto{" +
-      "requiredStringVal=" + requiredStringVal + ", " +
-      "requiredNullableStringVal=" + requiredNullableStringVal + ", " +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
-      "optionalStringVal=" + optionalStringVal + ", " +
-      "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
+      "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+      "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";

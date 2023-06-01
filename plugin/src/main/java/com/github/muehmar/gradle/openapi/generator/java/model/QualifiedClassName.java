@@ -10,68 +10,68 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class ClassName {
+public class QualifiedClassName {
   private final Optional<PackageName> pkg;
 
   private final Name name;
 
-  private ClassName(Optional<PackageName> pkg, Name name) {
+  private QualifiedClassName(Optional<PackageName> pkg, Name name) {
     this.pkg = pkg;
     this.name = name;
   }
 
-  private ClassName(Name name) {
+  private QualifiedClassName(Name name) {
     this(Optional.empty(), name);
   }
 
-  private ClassName(PackageName pkg, Name name) {
+  private QualifiedClassName(PackageName pkg, Name name) {
     this(Optional.of(pkg), name);
   }
 
-  public static ClassName ofQualifiedClassName(String qualifiedClassName) {
+  public static QualifiedClassName ofQualifiedClassName(String qualifiedClassName) {
     final int i = qualifiedClassName.lastIndexOf(".");
     if (i > 0 && i < qualifiedClassName.length() - 1) {
-      return new ClassName(
+      return new QualifiedClassName(
           PackageName.ofString(qualifiedClassName.substring(0, i)),
           Name.ofString(qualifiedClassName.substring(i + 1)));
     } else {
-      return new ClassName(Name.ofString(qualifiedClassName));
+      return new QualifiedClassName(Name.ofString(qualifiedClassName));
     }
   }
 
-  public static ClassName ofName(String name) {
-    return new ClassName(Name.ofString(name));
+  public static QualifiedClassName ofName(String name) {
+    return new QualifiedClassName(Name.ofString(name));
   }
 
-  public static ClassName ofName(Name name) {
-    return new ClassName(name);
+  public static QualifiedClassName ofName(Name name) {
+    return new QualifiedClassName(name);
   }
 
-  public static ClassName ofPackageAndName(PackageName pkg, Name name) {
-    return new ClassName(pkg, name);
+  public static QualifiedClassName ofPackageAndName(PackageName pkg, Name name) {
+    return new QualifiedClassName(pkg, name);
   }
 
-  public static ClassName fromFormatTypeMapping(FormatTypeMapping formatTypeMapping) {
-    return ClassName.ofQualifiedClassName(formatTypeMapping.getClassType());
+  public static QualifiedClassName fromFormatTypeMapping(FormatTypeMapping formatTypeMapping) {
+    return QualifiedClassName.ofQualifiedClassName(formatTypeMapping.getClassType());
   }
 
-  public static ClassName fromClassTypeMapping(ClassTypeMapping classTypeMapping) {
-    return ClassName.ofQualifiedClassName(classTypeMapping.getToClass());
+  public static QualifiedClassName fromClassTypeMapping(ClassTypeMapping classTypeMapping) {
+    return QualifiedClassName.ofQualifiedClassName(classTypeMapping.getToClass());
   }
 
-  public static Optional<ClassName> fromFormatTypeMapping(
+  public static Optional<QualifiedClassName> fromFormatTypeMapping(
       String formatString, PList<FormatTypeMapping> formatTypeMappings) {
     return formatTypeMappings
         .filter(formatTypeMapping -> formatTypeMapping.getFormatType().equals(formatString))
         .headOption()
-        .map(ClassName::fromFormatTypeMapping);
+        .map(QualifiedClassName::fromFormatTypeMapping);
   }
 
   public Name getClassName() {
     return name;
   }
 
-  public Name getQualifiedClassName() {
+  public Name asName() {
     return pkg.map(p -> p.qualifiedClassName(name)).orElse(name);
   }
 
@@ -83,15 +83,16 @@ public class ClassName {
     return getClassName().append(genericString);
   }
 
-  public ClassName mapWithClassMappings(PList<ClassTypeMapping> classMappings) {
+  public QualifiedClassName mapWithClassMappings(PList<ClassTypeMapping> classMappings) {
     return classMappings
         .filter(classMapping -> classMapping.getFromClass().equals(name.asString()))
         .headOption()
-        .map(ClassName::fromClassTypeMapping)
+        .map(QualifiedClassName::fromClassTypeMapping)
         .orElse(this);
   }
 
-  public ClassName asInnerClassOf(JavaIdentifier outerClassName) {
-    return new ClassName(pkg, Name.ofString(outerClassName.asString()).append(".").append(name));
+  public QualifiedClassName asInnerClassOf(JavaIdentifier outerClassName) {
+    return new QualifiedClassName(
+        pkg, Name.ofString(outerClassName.asString()).append(".").append(name));
   }
 }

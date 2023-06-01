@@ -25,7 +25,7 @@ class JavaIntegerTypeTest {
     final JavaIntegerType javaType = JavaIntegerType.wrap(integerType, TypeMappings.empty());
 
     assertEquals(className, javaType.getFullClassName().asString());
-    assertEquals(className, javaType.getClassName().asString());
+    assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang." + className),
         javaType
@@ -50,7 +50,7 @@ class JavaIntegerTypeTest {
                 new ClassTypeMapping("Long", "com.custom.CustomLong")));
 
     assertEquals("CustomLong", javaType.getFullClassName().asString());
-    assertEquals("CustomLong", javaType.getClassName().asString());
+    assertEquals("CustomLong", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomLong"),
         javaType
@@ -69,7 +69,7 @@ class JavaIntegerTypeTest {
                 new FormatTypeMapping("int64", "com.custom.CustomLong")));
 
     assertEquals("CustomLong", javaType.getFullClassName().asString());
-    assertEquals("CustomLong", javaType.getClassName().asString());
+    assertEquals("CustomLong", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomLong"),
         javaType

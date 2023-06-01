@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.ClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
@@ -17,49 +17,50 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class JavaStringType extends NonGenericJavaType {
-  private static final Map<StringType.Format, ClassName> FORMAT_CLASS_NAME_MAP =
+  private static final Map<StringType.Format, QualifiedClassName> FORMAT_CLASS_NAME_MAP =
       createFormatClassNameMap();
 
   private final Constraints constraints;
 
-  private static Map<StringType.Format, ClassName> createFormatClassNameMap() {
-    final Map<StringType.Format, ClassName> map = new EnumMap<>(StringType.Format.class);
-    map.put(StringType.Format.DATE, ClassNames.LOCAL_DATE);
-    map.put(StringType.Format.DATE_TIME, ClassNames.LOCAL_DATE_TIME);
-    map.put(StringType.Format.TIME, ClassNames.LOCAL_TIME);
-    map.put(StringType.Format.BINARY, ClassNames.BYTE_ARRAY);
-    map.put(StringType.Format.UUID, ClassNames.UUID);
-    map.put(StringType.Format.URL, ClassNames.URL);
-    map.put(StringType.Format.URI, ClassNames.URI);
+  private static Map<StringType.Format, QualifiedClassName> createFormatClassNameMap() {
+    final Map<StringType.Format, QualifiedClassName> map = new EnumMap<>(StringType.Format.class);
+    map.put(StringType.Format.DATE, QualifiedClassNames.LOCAL_DATE);
+    map.put(StringType.Format.DATE_TIME, QualifiedClassNames.LOCAL_DATE_TIME);
+    map.put(StringType.Format.TIME, QualifiedClassNames.LOCAL_TIME);
+    map.put(StringType.Format.BINARY, QualifiedClassNames.BYTE_ARRAY);
+    map.put(StringType.Format.UUID, QualifiedClassNames.UUID);
+    map.put(StringType.Format.URL, QualifiedClassNames.URL);
+    map.put(StringType.Format.URI, QualifiedClassNames.URI);
     return map;
   }
 
-  protected JavaStringType(ClassName className, Constraints constraints, StringType stringType) {
+  protected JavaStringType(
+      QualifiedClassName className, Constraints constraints, StringType stringType) {
     super(className, stringType);
     this.constraints = constraints;
   }
 
   public static JavaStringType wrap(StringType stringType, TypeMappings typeMappings) {
-    final ClassName className =
+    final QualifiedClassName className =
         classNameFromFormat(stringType, typeMappings.getFormatTypeMappings());
-    final ClassName finalClassName =
+    final QualifiedClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
     return new JavaStringType(finalClassName, stringType.getConstraints(), stringType);
   }
 
-  private static ClassName classNameFromFormat(
+  private static QualifiedClassName classNameFromFormat(
       StringType stringType, PList<FormatTypeMapping> formatTypeMappings) {
-    final Optional<ClassName> userFormatMappedClassName =
-        ClassName.fromFormatTypeMapping(stringType.getFormatString(), formatTypeMappings);
-    final ClassName formatMappedClassName =
+    final Optional<QualifiedClassName> userFormatMappedClassName =
+        QualifiedClassName.fromFormatTypeMapping(stringType.getFormatString(), formatTypeMappings);
+    final QualifiedClassName formatMappedClassName =
         Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(stringType.getFormat()))
-            .orElse(ClassNames.STRING);
+            .orElse(QualifiedClassNames.STRING);
     return userFormatMappedClassName.orElse(formatMappedClassName);
   }
 
   @Override
   public boolean isJavaArray() {
-    return className.equals(ClassNames.BYTE_ARRAY);
+    return qualifiedClassName.equals(QualifiedClassNames.BYTE_ARRAY);
   }
 
   @Override

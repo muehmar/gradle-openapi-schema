@@ -14,7 +14,7 @@ class JavaAnyTypeTest {
     final JavaAnyType javaType = JavaAnyType.create();
 
     assertEquals("Object", javaType.getFullClassName().asString());
-    assertEquals("Object", javaType.getClassName().asString());
+    assertEquals("Object", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang.Object"),
         javaType
