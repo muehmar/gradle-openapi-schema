@@ -12,7 +12,6 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
-import java.util.Optional;
 import lombok.Value;
 
 public class PojoPropertyCountMethod {
@@ -45,22 +44,19 @@ public class PojoPropertyCountMethod {
             .append(optionalNullablePropertyCount());
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(w -> w.println("return"))
-        .appendList(propertyCount.indent(1), PojoAndMember::fromPojo);
+        .appendList(propertyCount.indent(1), PojoAndMember::fromPojo)
+        .append(additionalPropertiesCount().indent(1));
   }
 
   private static Generator<PojoAndMember, PojoSettings> requiredNotNullablePropertyCount() {
     return Generator.<PojoAndMember, PojoSettings>emptyGen()
-        .append((pam, s, w) -> w.println("1%s", pam.plusOrSemicolon()))
+        .append((pam, s, w) -> w.println("1 +"))
         .filter(pam -> pam.getMember().isRequiredAndNotNullable());
   }
 
   private static Generator<PojoAndMember, PojoSettings> requiredNullablePropertyCount() {
     return Generator.<PojoAndMember, PojoSettings>emptyGen()
-        .append(
-            (pam, s, w) ->
-                w.println(
-                    "(%s ? 1 : 0)%s",
-                    pam.getMember().getIsPresentFlagName(), pam.plusOrSemicolon()))
+        .append((pam, s, w) -> w.println("(%s ? 1 : 0) +", pam.getMember().getIsPresentFlagName()))
         .filter(pam -> pam.getMember().isRequiredAndNullable());
   }
 
@@ -68,9 +64,7 @@ public class PojoPropertyCountMethod {
     return Generator.<PojoAndMember, PojoSettings>emptyGen()
         .append(
             (pam, s, w) ->
-                w.println(
-                    "(%s != null ? 1 : 0)%s",
-                    pam.getMember().getNameAsIdentifier(), pam.plusOrSemicolon()))
+                w.println("(%s != null ? 1 : 0) +", pam.getMember().getNameAsIdentifier()))
         .filter(pam -> pam.getMember().isOptionalAndNotNullable());
   }
 
@@ -79,11 +73,16 @@ public class PojoPropertyCountMethod {
         .append(
             (pam, s, w) ->
                 w.println(
-                    "((%s || %s != null) ? 1 : 0)%s",
-                    pam.getMember().getIsNullFlagName(),
-                    pam.getMember().getNameAsIdentifier(),
-                    pam.plusOrSemicolon()))
+                    "((%s || %s != null) ? 1 : 0) +",
+                    pam.getMember().getIsNullFlagName(), pam.getMember().getNameAsIdentifier()))
         .filter(pam -> pam.getMember().isOptionalAndNullable());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesCount() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(
+            (pojo, s, w) ->
+                w.println("%s.size();", pojo.getAdditionalProperties().getPropertyName()));
   }
 
   @Value
@@ -93,14 +92,6 @@ public class PojoPropertyCountMethod {
 
     private static PList<PojoAndMember> fromPojo(JavaObjectPojo pojo) {
       return pojo.getMembers().map(member -> new PojoAndMember(pojo, member));
-    }
-
-    private boolean isLast() {
-      return pojo.getMembers().reverse().headOption().equals(Optional.of(member));
-    }
-
-    private String plusOrSemicolon() {
-      return isLast() ? ";" : " +";
     }
   }
 }

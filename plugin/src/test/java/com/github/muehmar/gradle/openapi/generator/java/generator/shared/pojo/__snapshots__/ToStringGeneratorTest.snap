@@ -7,7 +7,8 @@ public String toString() {
     "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
     "optionalStringVal=" + optionalStringVal + ", " +
     "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-    "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+    "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+    "additionalProperties=" + additionalProperties +
     "}";
 }
 ]
@@ -28,7 +29,8 @@ byteArrayMember=[
 public String toString() {
   return "ObjectPojo1Dto{" +
     "data=" + Arrays.toString(data) + ", " +
-    "doubleVal=" + doubleVal +
+    "doubleVal=" + doubleVal + ", " +
+    "additionalProperties=" + additionalProperties +
     "}";
 }
 ]

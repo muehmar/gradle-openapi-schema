@@ -10,7 +10,8 @@ public int getPropertyCount() {
     1 +
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
-    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    additionalProperties.size();
 }
 ]
 
@@ -26,7 +27,8 @@ public int getPropertyCount() {
     1 +
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
-    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    additionalProperties.size();
 }
 ]
 
@@ -41,6 +43,7 @@ public int getPropertyCount() {
     1 +
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
-    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    additionalProperties.size();
 }
 ]

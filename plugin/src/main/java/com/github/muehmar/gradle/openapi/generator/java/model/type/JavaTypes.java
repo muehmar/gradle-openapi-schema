@@ -25,7 +25,7 @@ public class JavaTypes {
       JavaMapType.wrap(
           MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
           TypeMappings.empty());
-  public static final JavaNoType NO_TYPE = JavaNoType.create();
+  public static final JavaAnyType NO_TYPE = JavaAnyType.create();
   public static final JavaIntegerType INTEGER =
       JavaIntegerType.wrap(IntegerType.formatInteger(), TypeMappings.empty());
   public static final JavaObjectType OBJECT =

@@ -5,7 +5,8 @@ import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVE
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGeneratorFactory;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AdditionalPropertiesGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator;
@@ -48,34 +49,44 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
   }
 
   private Generator<JavaObjectPojo, PojoSettings> content() {
-    return FieldsGenerator.fields()
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(MemberGenerator.generator(), JavaObjectPojo::getMemberContent)
         .<JavaObjectPojo>contraMap(pojo -> pojo)
         .appendSingleBlankLine()
-        .append(PojoConstructorGenerator.generator())
+        .append(PojoConstructorGenerator.generator(), JavaObjectPojo::getConstructorContent)
         .appendSingleBlankLine()
         .appendList(
             EnumGenerator.nested(),
-            pojo -> pojo.getMembers().flatMapOptional(JavaPojoMember::asEnumPojo),
+            pojo -> pojo.getMembers().flatMapOptional(JavaPojoMember::asEnumContent),
             newLine())
         .appendSingleBlankLine()
-        .appendList(GetterGeneratorFactory.create(), JavaObjectPojo::getMembers, newLine())
+        .appendOptional(
+            EnumGenerator.nested(), pojo -> pojo.getAdditionalProperties().asEnumContent())
         .appendSingleBlankLine()
-        .append(WitherGenerator.generator(), pojo -> pojo)
+        .appendList(GetterGenerator.generator(), JavaObjectPojo::getMembers, newLine())
+        .appendSingleBlankLine()
+        .append(AdditionalPropertiesGetter.getter())
+        .appendSingleBlankLine()
+        .append(WitherGenerator.generator(), JavaObjectPojo::getWitherContent)
         .appendSingleBlankLine()
         .append(PojoPropertyCountMethod.propertyCountMethod())
         .appendSingleBlankLine()
-        .append(EqualsGenerator.equalsMethod())
+        .append(EqualsGenerator.equalsMethod(), JavaObjectPojo::getEqualsContent)
         .appendSingleBlankLine()
-        .append(HashCodeGenerator.hashCodeMethod())
+        .append(HashCodeGenerator.hashCodeMethod(), JavaObjectPojo::getHashCodeContent)
         .appendSingleBlankLine()
-        .append(ToStringGenerator.toStringMethod(), pojo -> pojo)
+        .append(ToStringGenerator.toStringMethod(), JavaObjectPojo::getToStringContent)
         .appendSingleBlankLine()
         .append(MultipleOfValidationMethodGenerator.generator())
+        .appendSingleBlankLine()
+        .append(
+            NoAdditionalPropertiesValidationMethodGenerator.generator(),
+            JavaObjectPojo::getAdditionalProperties)
         .appendSingleBlankLine()
         .appendList(
             UniqueItemsValidationMethodGenerator.generator().appendSingleBlankLine(),
             JavaObjectPojo::getMembers)
-        .append(new NormalBuilderGenerator())
+        .append(NormalBuilderGenerator.generator(), JavaObjectPojo::getNormalBuilderContent)
         .appendSingleBlankLine()
         .append(new SafeBuilderGenerator());
   }

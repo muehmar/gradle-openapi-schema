@@ -5,7 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -52,7 +52,7 @@ public class NoTypeSchema implements OpenApiSchema {
     return delegate;
   }
 
-  private NoType asType() {
-    return NoType.create();
+  private AnyType asType() {
+    return AnyType.create();
   }
 }

@@ -6,6 +6,19 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
@@ -146,8 +159,58 @@ public class JavaComposedPojo implements JavaPojo {
     return discriminator;
   }
 
-  public JavaObjectPojo wrapIntoJavaObjectPojo() {
-    return JavaObjectPojo.from(name, description, getMembers(), type, constraints);
+  public MemberGenerator.MemberContent getMemberContent() {
+    return MemberContentBuilder.create()
+        .isArrayPojo(false)
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
+  }
+
+  public HashCodeGenerator.HashCodeContent getHashCodeContent() {
+    return HashCodeContentBuilder.create()
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
+  }
+
+  public EqualsGenerator.EqualsContent getEqualsContent() {
+    return EqualsContentBuilder.create()
+        .className(getClassName())
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
+  }
+
+  public ToStringGenerator.ToStringContent getToStringContent() {
+    return ToStringContentBuilder.create()
+        .className(getClassName())
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
+  }
+
+  public NormalBuilderGenerator.NormalBuilderContent getNormalBuilderContent() {
+    return NormalBuilderContentBuilder.create()
+        .className(getClassName())
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
+  }
+
+  public PojoConstructorGenerator.ConstructorContent getConstructorContent() {
+    return ConstructorContentBuilder.create()
+        .isArray(false)
+        .className(getClassName())
+        .members(getMembers())
+        .andAllOptionals()
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .build();
   }
 
   public PList<JavaPojoMember> getMembers() {
@@ -161,8 +224,7 @@ public class JavaComposedPojo implements JavaPojo {
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
       Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo,
-      Function<JavaMapPojo, T> onFreeFormPojo) {
+      Function<JavaComposedPojo, T> onComposedPojo) {
     return onComposedPojo.apply(this);
   }
 }

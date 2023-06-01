@@ -8,7 +8,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.FieldsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
@@ -55,9 +55,9 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
 
   private Generator<JavaComposedPojo, PojoSettings> content() {
     return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
-        .appendList(FieldsGenerator.singleField(), JavaComposedPojo::getMembers)
+        .append(MemberGenerator.generator(), JavaComposedPojo::getMemberContent)
         .appendSingleBlankLine()
-        .append(PojoConstructorGenerator.generator(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(PojoConstructorGenerator.generator(), JavaComposedPojo::getConstructorContent)
         .appendSingleBlankLine()
         .append(FactoryMethodGenerator.generator())
         .appendSingleBlankLine()
@@ -79,13 +79,13 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendSingleBlankLine()
         .appendList(asDtoMethod(), JavaComposedPojo::getJavaPojos, newLine())
         .appendSingleBlankLine()
-        .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::getHashCodeContent)
         .appendSingleBlankLine()
-        .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::getEqualsContent)
         .appendSingleBlankLine()
-        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::wrapIntoJavaObjectPojo)
+        .append(ToStringGenerator.toStringMethod(), JavaComposedPojo::getToStringContent)
         .appendSingleBlankLine()
-        .append(new NormalBuilderGenerator(), JavaComposedPojo::wrapIntoJavaObjectPojo);
+        .append(NormalBuilderGenerator.generator(), JavaComposedPojo::getNormalBuilderContent);
   }
 
   private Generator<JavaPojoMember, PojoSettings> memberGetter() {

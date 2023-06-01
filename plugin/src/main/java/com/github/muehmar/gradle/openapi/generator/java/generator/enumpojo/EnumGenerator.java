@@ -10,7 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDoc
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.model.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -20,19 +20,21 @@ import io.github.muehmar.codegenerator.java.ConstructorGenBuilder;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import lombok.Value;
 
-public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
+public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoSettings> {
 
-  private final ClassGen<JavaEnumPojo, PojoSettings> delegate;
+  private final ClassGen<EnumContent, PojoSettings> delegate;
 
   private EnumGenerator(ClassGen.Declaration declaration) {
     delegate =
-        ClassGenBuilder.<JavaEnumPojo, PojoSettings>create()
+        ClassGenBuilder.<EnumContent, PojoSettings>create()
             .enum_()
             .declaration(declaration)
             .packageGen(new PackageGenerator<>())
             .javaDoc(
-                JavaDocGenerator.<PojoSettings>javaDoc().contraMap(JavaEnumPojo::getDescription))
+                JavaDocGenerator.<PojoSettings>javaDoc().contraMap(EnumContent::getDescription))
             .noAnnotations()
             .modifiers(PUBLIC)
             .className(enumPojo -> enumPojo.getClassName().asString())
@@ -51,12 +53,12 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
   }
 
   @Override
-  public Writer generate(JavaEnumPojo data, PojoSettings settings, Writer writer) {
+  public Writer generate(EnumContent data, PojoSettings settings, Writer writer) {
     return delegate.generate(data, settings, writer);
   }
 
-  private Generator<JavaEnumPojo, PojoSettings> content() {
-    return Generator.<JavaEnumPojo, PojoSettings>emptyGen()
+  private Generator<EnumContent, PojoSettings> content() {
+    return Generator.<EnumContent, PojoSettings>emptyGen()
         .append(this::printEnumMembers)
         .appendNewLine()
         .append(this::printClassMembers)
@@ -74,11 +76,11 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
         .append(printFromValue());
   }
 
-  private Writer printEnumMembers(JavaEnumPojo enumPojo, PojoSettings settings, Writer writer) {
-    final PList<EnumConstantName> members = enumPojo.getMembers();
+  private Writer printEnumMembers(EnumContent content, PojoSettings settings, Writer writer) {
+    final PList<EnumConstantName> members = content.getMembers();
 
     return EnumMember.extractDescriptions(
-            members, settings.getEnumDescriptionSettings(), enumPojo.getDescription())
+            members, settings.getEnumDescriptionSettings(), content.getDescription())
         .zipWithIndex()
         .foldLeft(
             writer,
@@ -96,23 +98,23 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
             });
   }
 
-  private Writer printClassMembers(JavaEnumPojo enumPojo, PojoSettings settings, Writer writer) {
+  private Writer printClassMembers(EnumContent content, PojoSettings settings, Writer writer) {
     return writer
         .println("private final String value;")
         .println("private final String description;");
   }
 
-  private Generator<JavaEnumPojo, PojoSettings> printConstructor() {
-    return ConstructorGenBuilder.<JavaEnumPojo, PojoSettings>create()
+  private Generator<EnumContent, PojoSettings> printConstructor() {
+    return ConstructorGenBuilder.<EnumContent, PojoSettings>create()
         .modifiers()
-        .className(javaEnumPojo -> javaEnumPojo.getClassName().asString())
+        .className(content -> content.getClassName().asString())
         .arguments(ignore -> PList.of("String value", "String description"))
         .content(w -> w.println("this.value = value;").println("this.description = description;"))
         .build();
   }
 
-  private Generator<JavaEnumPojo, PojoSettings> printValueGetter() {
-    return MethodGenBuilder.<JavaEnumPojo, PojoSettings>create()
+  private <T> Generator<T, PojoSettings> printValueGetter() {
+    return MethodGenBuilder.<T, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType("String")
@@ -122,9 +124,9 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
         .build();
   }
 
-  private Generator<JavaEnumPojo, PojoSettings> printDescriptionGetter() {
-    final MethodGen<JavaEnumPojo, PojoSettings> methodGen =
-        MethodGenBuilder.<JavaEnumPojo, PojoSettings>create()
+  private <T> Generator<T, PojoSettings> printDescriptionGetter() {
+    final MethodGen<T, PojoSettings> methodGen =
+        MethodGenBuilder.<T, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("String")
@@ -132,14 +134,14 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
             .noArguments()
             .content("return description;")
             .build();
-    return Generator.<JavaEnumPojo, PojoSettings>newLine()
+    return Generator.<T, PojoSettings>newLine()
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(methodGen)
-        .filter((pojo, settings) -> settings.getEnumDescriptionSettings().isEnabled());
+        .filter((data, settings) -> settings.getEnumDescriptionSettings().isEnabled());
   }
 
-  private Generator<JavaEnumPojo, PojoSettings> printToString() {
-    return MethodGenBuilder.<JavaEnumPojo, PojoSettings>create()
+  private <T> Generator<T, PojoSettings> printToString() {
+    return MethodGenBuilder.<T, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType("String")
@@ -149,8 +151,8 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
         .build();
   }
 
-  private Generator<JavaEnumPojo, PojoSettings> printFromValue() {
-    return MethodGenBuilder.<JavaEnumPojo, PojoSettings>create()
+  private Generator<EnumContent, PojoSettings> printFromValue() {
+    return MethodGenBuilder.<EnumContent, PojoSettings>create()
         .modifiers(PUBLIC, STATIC)
         .noGenericTypes()
         .returnType(javaEnumPojo -> javaEnumPojo.getClassName().asString())
@@ -160,8 +162,8 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
         .build();
   }
 
-  private Writer fromValueContent(JavaEnumPojo javaEnumPojo, PojoSettings settings, Writer writer) {
-    final String enumName = javaEnumPojo.getClassName().asString();
+  private Writer fromValueContent(EnumContent content, PojoSettings settings, Writer writer) {
+    final JavaIdentifier enumName = content.getClassName();
     return writer
         .println("for (%s e: %s.values()) {", enumName, enumName)
         .tab(1)
@@ -186,7 +188,15 @@ public class EnumGenerator implements Generator<JavaEnumPojo, PojoSettings> {
         .println("+ possibleValues")
         .tab(2)
         .println("+ \"]\");")
-        .ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTOR)
+        .ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTORS)
         .ref(JavaRefs.JAVA_UTIL_STREAM_STREAM);
+  }
+
+  @Value
+  @PojoBuilder(builderName = "EnumContentBuilder")
+  public static class EnumContent {
+    JavaIdentifier className;
+    String description;
+    PList<EnumConstantName> members;
   }
 }

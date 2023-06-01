@@ -6,21 +6,23 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Optional;
 import lombok.Value;
 
 public class HashCodeGenerator {
   private HashCodeGenerator() {}
 
-  public static <T extends JavaPojo> Generator<T, PojoSettings> hashCodeMethod() {
-    final Generator<T, PojoSettings> method =
-        JavaGenerators.<T, PojoSettings>methodGen()
+  public static Generator<HashCodeContent, PojoSettings> hashCodeMethod() {
+    final Generator<HashCodeContent, PojoSettings> method =
+        JavaGenerators.<HashCodeContent, PojoSettings>methodGen()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("int")
@@ -28,26 +30,27 @@ public class HashCodeGenerator {
             .noArguments()
             .content(hashCodeMethodContent())
             .build();
-    return AnnotationGenerator.<T, PojoSettings>override()
+    return AnnotationGenerator.<HashCodeContent, PojoSettings>override()
         .append(method)
-        .append(arraysRefGenerator())
-        .filter(
-            pojo ->
-                pojo.fold(
-                    arrayPojo -> true,
-                    enumPojo -> false,
-                    objectPojo -> true,
-                    composedPojo -> true,
-                    freeFormPojo -> true));
+        .append(arraysRefGenerator());
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> hashCodeMethodContent() {
-    return (pojo, s, w) -> {
+  private static Generator<HashCodeContent, PojoSettings> hashCodeMethodContent() {
+    return (content, s, w) -> {
       final Writer writerStartPrinted = w.println("return Objects.hash(");
 
-      return pojo.getMembersOrEmpty()
+      final PList<String> additionalPropertiesArgument =
+          PList.fromOptional(
+                  content
+                      .getAdditionalProperties()
+                      .map(ignore -> JavaAdditionalProperties.getPropertyName()))
+              .map(JavaIdentifier::asString);
+
+      return content
+          .getMembers()
           .map(HashCodeMember::new)
           .flatMap(HashCodeMember::toHashCodeMethodArguments)
+          .concat(additionalPropertiesArgument)
           .reverse()
           .zipWithIndex()
           .map(allExceptFirst(arg -> arg.concat(",")))
@@ -58,15 +61,23 @@ public class HashCodeGenerator {
     };
   }
 
-  private static <T extends JavaPojo> Generator<T, PojoSettings> arraysRefGenerator() {
-    return Generator.<T, PojoSettings>emptyGen()
+  private static Generator<HashCodeContent, PojoSettings> arraysRefGenerator() {
+    return Generator.<HashCodeContent, PojoSettings>emptyGen()
         .appendConditionally(
-            HashCodeGenerator::hasArrayMemberType,
+            HashCodeContent::hasArrayProperty,
             Generator.ofWriterFunction(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAYS)));
   }
 
-  private static <T extends JavaPojo> boolean hasArrayMemberType(T p) {
-    return p.getMembersOrEmpty().exists(m -> m.getJavaType().isJavaArray());
+  /** Content for the generation of the hashCode method. */
+  @PojoBuilder(builderName = "HashCodeContentBuilder")
+  @Value
+  public static class HashCodeContent {
+    PList<JavaPojoMember> members;
+    Optional<JavaAdditionalProperties> additionalProperties;
+
+    private boolean hasArrayProperty() {
+      return members.exists(m -> m.getJavaType().isJavaArray());
+    }
   }
 
   @Value

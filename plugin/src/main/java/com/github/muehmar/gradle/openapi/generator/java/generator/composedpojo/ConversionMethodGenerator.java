@@ -1,11 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
@@ -37,7 +42,41 @@ public class ConversionMethodGenerator {
                 pojo.getMembersOrEmpty()
                     .map(m -> new PojoAndMember(pojo, m))
                     .flatMap(PojoAndMember::asConstructorArguments))
+        .appendOptional(
+            additionalPropertiesArgument().indent(1),
+            pojo -> WrappedPojo.fromPojo(pojo).getAdditionalProperties())
+        .appendOptional(
+            additionalPropertiesArgumentWithCasting().indent(1),
+            pojo -> WrappedPojo.fromPojo(pojo).getAdditionalProperties())
         .append(w -> w.println(");"));
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings>
+      additionalPropertiesArgumentWithCasting() {
+    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+        .append(
+            (props, s, w) ->
+                w.println("%s.entrySet().stream()", JavaAdditionalProperties.getPropertyName()))
+        .append(
+            (props, s, w) ->
+                w.println(
+                    ".filter(e -> e.getValue() instanceof %s)", props.getType().getFullClassName()),
+            1)
+        .append(
+            (props, s, w) ->
+                w.println(
+                    ".collect(Collectors.toMap(Map.Entry::getKey, e -> (%s)e.getValue()))",
+                    props.getType().getFullClassName()),
+            1)
+        .filter(props -> not(props.getType().equals(JavaAnyType.create())))
+        .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_MAP))
+        .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTORS));
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertiesArgument() {
+    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+        .append((props, s, w) -> w.println("%s", JavaAdditionalProperties.getPropertyName()))
+        .filter(props -> props.getType().equals(JavaAnyType.create()));
   }
 
   @Value
@@ -45,12 +84,8 @@ public class ConversionMethodGenerator {
     JavaPojo pojo;
     JavaPojoMember member;
 
-    private boolean isLast() {
-      return pojo.getMembersOrEmpty().reverse().headOption().equals(Optional.of(member));
-    }
-
     private String commaOrNothing() {
-      return isLast() ? "" : ",";
+      return WrappedPojo.fromPojo(pojo).getAdditionalProperties().isPresent() ? "," : "";
     }
 
     private PList<ConstructorArgument> asConstructorArguments() {
@@ -66,6 +101,23 @@ public class ConversionMethodGenerator {
             new ConstructorArgument(member.getNameAsIdentifier(), ","),
             new ConstructorArgument(member.getIsNullFlagName(), commaOrNothing()));
       }
+    }
+  }
+
+  @Value
+  private static class WrappedPojo {
+    JavaPojo pojo;
+
+    public static WrappedPojo fromPojo(JavaPojo pojo) {
+      return new WrappedPojo(pojo);
+    }
+
+    Optional<JavaAdditionalProperties> getAdditionalProperties() {
+      return pojo.fold(
+          javaArrayPojo -> Optional.empty(),
+          enumPojo -> Optional.empty(),
+          objectPojo -> Optional.of(objectPojo.getAdditionalProperties()),
+          composedPojo -> Optional.of(JavaAdditionalProperties.anyTypeAllowed()));
     }
   }
 

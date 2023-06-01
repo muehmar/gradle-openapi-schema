@@ -1,0 +1,3 @@
+arrayType=[
+List<@Min(value = 5) @Max(value = 10) String>
+]

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import lombok.Value;
@@ -29,6 +30,21 @@ public class PojoMember {
     this.propertyScope = propertyScope;
     this.necessity = necessity;
     this.nullability = nullability;
+  }
+
+  public static PojoMember additionalPropertyForName(Name name) {
+    return additionalPropertyForNameAndType(name, AnyType.create());
+  }
+
+  public static PojoMember additionalPropertyForNameAndType(Name name, Type type) {
+    final String description = String.format("Additional Property '%s'", name);
+    return new PojoMember(
+        name,
+        description,
+        type,
+        PropertyScope.DEFAULT,
+        Necessity.REQUIRED,
+        Nullability.NOT_NULLABLE);
   }
 
   public PojoMember addObjectTypeDescription(PojoName objectTypeName, String description) {

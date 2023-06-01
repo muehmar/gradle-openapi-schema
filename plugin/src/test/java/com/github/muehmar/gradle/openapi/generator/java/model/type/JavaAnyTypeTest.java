@@ -8,10 +8,10 @@ import java.util.Comparator;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 
-class JavaNoTypeTest {
+class JavaAnyTypeTest {
   @Test
   void create_when_created_then_correctType() {
-    final JavaNoType javaType = JavaNoType.create();
+    final JavaAnyType javaType = JavaAnyType.create();
 
     assertEquals("Object", javaType.getFullClassName().asString());
     assertEquals("Object", javaType.getClassName().asString());

@@ -8,8 +8,9 @@ import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
@@ -30,15 +31,33 @@ class WitherGeneratorTest {
   @Test
   @SnapshotName("allNullabilityAndNecessityVariants")
   void generate_when_calledWithNullabilityAndNecessityVariants_then_correctOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = WitherGenerator.generator();
+    final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
+        WitherGenerator.generator();
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            JavaPojos.allNecessityAndNullabilityVariants().getWitherContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
     assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("noAdditionalProperties")
+  void generate_when_noAdditionalProperties_then_correctOutput() {
+    final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
+        WitherGenerator.generator();
+    final Writer writer =
+        generator.generate(
+            WitherContentBuilder.create()
+                .className(JavaIdentifier.fromString("ObjectDto"))
+                .members(PList.single(JavaPojoMembers.requiredString()))
+                .build(),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
+
     expect.toMatchSnapshot(writer.asString());
   }
 
@@ -64,9 +83,11 @@ class WitherGeneratorTest {
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.of(surnameMember, nameMember));
 
-    final Generator<JavaPojo, PojoSettings> generator = WitherGenerator.generator();
+    final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
+        WitherGenerator.generator();
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(
+            pojo.getWitherContent(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
     expect.toMatchSnapshot(writer.asString());
   }

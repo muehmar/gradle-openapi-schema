@@ -1,11 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator.ConstructorContent;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -21,11 +20,13 @@ class PojoConstructorGeneratorTest {
   @Test
   @SnapshotName("objectPojo")
   void generator_when_objectPojo_then_correctOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = PojoConstructorGenerator.generator();
+    final Generator<ConstructorContent, PojoSettings> generator =
+        PojoConstructorGenerator.generator();
 
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants())
+                .getConstructorContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -35,11 +36,13 @@ class PojoConstructorGeneratorTest {
   @Test
   @SnapshotName("necessityAndNullabilityObjectPojo")
   void generator_when_necessityAndNullabilityObjectPojo_then_correctOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = PojoConstructorGenerator.generator();
+    final Generator<ConstructorContent, PojoSettings> generator =
+        PojoConstructorGenerator.generator();
 
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants())
+                .getConstructorContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -49,23 +52,15 @@ class PojoConstructorGeneratorTest {
   @Test
   @SnapshotName("arrayPojo")
   void generator_when_arrayPojo_then_correctOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = PojoConstructorGenerator.generator();
+    final Generator<ConstructorContent, PojoSettings> generator =
+        PojoConstructorGenerator.generator();
 
     final Writer writer =
         generator.generate(
-            JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+            JavaPojos.arrayPojo().getConstructorContent(),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
 
     expect.toMatchSnapshot(writer.asString());
-  }
-
-  @Test
-  void generator_when_enumPojo_then_noOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = PojoConstructorGenerator.generator();
-
-    final Writer writer =
-        generator.generate(
-            JavaPojos.enumPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
-
-    assertEquals("", writer.asString());
   }
 }

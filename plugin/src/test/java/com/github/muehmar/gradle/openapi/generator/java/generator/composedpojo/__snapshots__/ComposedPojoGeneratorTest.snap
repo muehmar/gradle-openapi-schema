@@ -1,6 +1,7 @@
 ComposedPojoGenerator[ANY_OF,null]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,10 +11,14 @@ import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 
@@ -30,6 +35,7 @@ public class ComposedAnyofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedAnyofDto(
       String username,
@@ -39,7 +45,8 @@ public class ComposedAnyofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -49,6 +56,7 @@ public class ComposedAnyofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -63,7 +71,8 @@ public class ComposedAnyofDto {
       false,
       null,
       null,
-      false
+      false,
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -80,7 +89,8 @@ public class ComposedAnyofDto {
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -98,7 +108,9 @@ public class ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      dto.getAdditionalProperties().entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
     );
   }
 
@@ -116,7 +128,9 @@ public class ComposedAnyofDto {
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      dto.getAdditionalProperties().entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
     );
   }
 
@@ -219,7 +233,8 @@ public class ComposedAnyofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -230,7 +245,8 @@ public class ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -244,7 +260,8 @@ public class ComposedAnyofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -260,7 +277,8 @@ public class ComposedAnyofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -273,7 +291,8 @@ public class ComposedAnyofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -291,6 +310,7 @@ public class ComposedAnyofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
@@ -374,8 +394,19 @@ public class ComposedAnyofDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ComposedAnyofDto build() {
-      return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+      return new ComposedAnyofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 }
@@ -385,6 +416,7 @@ public class ComposedAnyofDto {
 ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional({UserValue->User, NNVariantsValue->NecessityAndNullability}))]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -393,10 +425,14 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
@@ -414,6 +450,7 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedOneofDto(
       String username,
@@ -423,7 +460,8 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -433,6 +471,7 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -447,7 +486,8 @@ public class ComposedOneofDto {
       false,
       null,
       null,
-      false
+      false,
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -464,7 +504,8 @@ public class ComposedOneofDto {
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -606,7 +647,8 @@ public class ComposedOneofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -617,7 +659,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -631,7 +674,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -647,7 +691,8 @@ public class ComposedOneofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -660,7 +705,8 @@ public class ComposedOneofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -678,6 +724,7 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
@@ -761,8 +808,19 @@ public class ComposedOneofDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ComposedOneofDto build() {
-      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 }
@@ -772,6 +830,7 @@ public class ComposedOneofDto {
 ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapping->Optional.empty)]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -780,10 +839,14 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
@@ -801,6 +864,7 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedOneofDto(
       String username,
@@ -810,7 +874,8 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -820,6 +885,7 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -834,7 +900,8 @@ public class ComposedOneofDto {
       false,
       null,
       null,
-      false
+      false,
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -851,7 +918,8 @@ public class ComposedOneofDto {
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -993,7 +1061,8 @@ public class ComposedOneofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -1004,7 +1073,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1018,7 +1088,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1034,7 +1105,8 @@ public class ComposedOneofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1047,7 +1119,8 @@ public class ComposedOneofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1065,6 +1138,7 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
@@ -1148,8 +1222,19 @@ public class ComposedOneofDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ComposedOneofDto build() {
-      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 }
@@ -1159,6 +1244,7 @@ public class ComposedOneofDto {
 ComposedPojoGenerator[ONE_OF,null]=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -1167,10 +1253,14 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 
@@ -1187,6 +1277,7 @@ public class ComposedOneofDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedOneofDto(
       String username,
@@ -1196,7 +1287,8 @@ public class ComposedOneofDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.username = username;
     this.birthdate = birthdate;
@@ -1206,6 +1298,7 @@ public class ComposedOneofDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1220,7 +1313,8 @@ public class ComposedOneofDto {
       false,
       null,
       null,
-      false
+      false,
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -1237,7 +1331,8 @@ public class ComposedOneofDto {
       true,
       dto.getOptionalStringValOr(null),
       dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)
+      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -1366,7 +1461,8 @@ public class ComposedOneofDto {
   private UserDto asUserDto() {
     return new UserDto(
       username,
-      birthdate
+      birthdate,
+      additionalProperties
     );
   }
 
@@ -1377,7 +1473,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1391,7 +1488,8 @@ public class ComposedOneofDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1407,7 +1505,8 @@ public class ComposedOneofDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1420,7 +1519,8 @@ public class ComposedOneofDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1438,6 +1538,7 @@ public class ComposedOneofDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Username
@@ -1521,8 +1622,19 @@ public class ComposedOneofDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ComposedOneofDto build() {
-      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+      return new ComposedOneofDto(username, birthdate, requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 }
@@ -1532,15 +1644,20 @@ public class ComposedOneofDto {
 composedPojoWithEnumInSubPojos=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 
@@ -1549,15 +1666,18 @@ public class ComposedPojoDto {
   private final String stringVal;
   private final ObjectPojo1Dto.Color color;
   private final Integer intVal;
+  private final Map<String, Object> additionalProperties;
 
   public ComposedPojoDto(
       String stringVal,
       ObjectPojo1Dto.Color color,
-      Integer intVal
+      Integer intVal,
+      Map<String, Object> additionalProperties
     ) {
     this.stringVal = stringVal;
     this.color = color;
     this.intVal = intVal;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1567,7 +1687,8 @@ public class ComposedPojoDto {
     return new ComposedPojoDto(
       dto.getStringVal(),
       null,
-      null
+      null,
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -1578,7 +1699,8 @@ public class ComposedPojoDto {
     return new ComposedPojoDto(
       null,
       dto.getColor(),
-      dto.getIntVal()
+      dto.getIntVal(),
+      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
     );
   }
 
@@ -1591,7 +1713,9 @@ public class ComposedPojoDto {
     return new ComposedPojoDto(
       dto.getStringVal(),
       color,
-      intVal
+      intVal,
+      dto.getAdditionalProperties().entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
     );
   }
 
@@ -1604,7 +1728,9 @@ public class ComposedPojoDto {
     return new ComposedPojoDto(
       stringVal,
       dto.getColor(),
-      dto.getIntVal()
+      dto.getIntVal(),
+      dto.getAdditionalProperties().entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
     );
   }
 
@@ -1688,14 +1814,16 @@ public class ComposedPojoDto {
 
   private ObjectPojo1Dto asObjectPojo1Dto() {
     return new ObjectPojo1Dto(
-      stringVal
+      stringVal,
+      additionalProperties
     );
   }
 
   private ObjectPojo1Dto asObjectPojo1Dto() {
     return new ObjectPojo1Dto(
       color,
-      intVal
+      intVal,
+      additionalProperties
     );
   }
 
@@ -1704,7 +1832,8 @@ public class ComposedPojoDto {
     return Objects.hash(
       stringVal,
       color,
-      intVal
+      intVal,
+      additionalProperties
     );
   }
 
@@ -1715,7 +1844,8 @@ public class ComposedPojoDto {
     final ComposedPojoDto other = (ComposedPojoDto) obj;
     return Objects.deepEquals(this.stringVal, other.stringVal)
         && Objects.deepEquals(this.color, other.color)
-        && Objects.deepEquals(this.intVal, other.intVal);
+        && Objects.deepEquals(this.intVal, other.intVal)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1723,7 +1853,8 @@ public class ComposedPojoDto {
     return "ComposedPojoDto{" +
       "stringVal=" + stringVal + ", " +
       "color=" + color + ", " +
-      "intVal=" + intVal +
+      "intVal=" + intVal + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1736,6 +1867,7 @@ public class ComposedPojoDto {
     private String stringVal;
     private ObjectPojo1Dto.Color color;
     private Integer intVal;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * stringVal
@@ -1764,8 +1896,19 @@ public class ComposedPojoDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ComposedPojoDto build() {
-      return new ComposedPojoDto(stringVal, color, intVal);
+      return new ComposedPojoDto(stringVal, color, intVal, additionalProperties);
     }
   }
 }

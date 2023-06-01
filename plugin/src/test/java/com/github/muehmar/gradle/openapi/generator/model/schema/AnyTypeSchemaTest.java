@@ -10,18 +10,18 @@ import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
-import com.github.muehmar.gradle.openapi.generator.model.type.NoType;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import io.swagger.v3.oas.models.media.Schema;
 import org.junit.jupiter.api.Test;
 
-class NoTypeSchemaTest {
+class AnyTypeSchemaTest {
 
   @Test
   void mapToMemberType_when_schemaHasNoTypeAndFormat_then_notTypeReturned() {
     final Schema<Object> schema = new Schema<>();
 
     final MemberSchemaMapResult result = mapToMemberType(schema);
-    assertEquals(NoType.create(), result.getType());
+    assertEquals(AnyType.create(), result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
@@ -42,6 +42,6 @@ class NoTypeSchemaTest {
     final PojoMemberReference memberReference =
         unresolvedMapResult.getPojoMemberReferences().apply(0);
     assertEquals(
-        new PojoMemberReference(pojoSchema.getPojoName(), "", NoType.create()), memberReference);
+        new PojoMemberReference(pojoSchema.getPojoName(), "", AnyType.create()), memberReference);
   }
 }

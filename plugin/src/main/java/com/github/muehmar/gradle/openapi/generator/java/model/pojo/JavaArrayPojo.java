@@ -1,5 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
@@ -91,13 +104,52 @@ public class JavaArrayPojo implements JavaPojo {
     return arrayPojoMember;
   }
 
+  public MemberGenerator.MemberContent getMemberContent() {
+    return MemberContentBuilder.create()
+        .isArrayPojo(true)
+        .members(PList.single(getArrayPojoMember()))
+        .build();
+  }
+
+  public HashCodeGenerator.HashCodeContent getHashCodeContent() {
+    return HashCodeContentBuilder.create().members(PList.single(getArrayPojoMember())).build();
+  }
+
+  public EqualsGenerator.EqualsContent getEqualsContent() {
+    return EqualsContentBuilder.create()
+        .className(getClassName())
+        .members(PList.single(getArrayPojoMember()))
+        .build();
+  }
+
+  public ToStringGenerator.ToStringContent getToStringContent() {
+    return ToStringContentBuilder.create()
+        .className(getClassName())
+        .members(PList.single(getArrayPojoMember()))
+        .build();
+  }
+
+  public PojoConstructorGenerator.ConstructorContent getConstructorContent() {
+    return ConstructorContentBuilder.create()
+        .isArray(true)
+        .className(getClassName())
+        .members(PList.single(getArrayPojoMember()))
+        .build();
+  }
+
+  public WitherGenerator.WitherContent getWitherContent() {
+    return WitherContentBuilder.create()
+        .className(getClassName())
+        .members(PList.single(getArrayPojoMember()))
+        .build();
+  }
+
   @Override
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
       Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo,
-      Function<JavaMapPojo, T> onFreeFormPojo) {
+      Function<JavaComposedPojo, T> onComposedPojo) {
     return onArrayPojo.apply(this);
   }
 

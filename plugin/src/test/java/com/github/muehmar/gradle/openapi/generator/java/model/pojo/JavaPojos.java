@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredBirthdate;
@@ -8,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
@@ -22,6 +24,7 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.HashMap;
@@ -30,31 +33,44 @@ import java.util.Optional;
 public class JavaPojos {
   private JavaPojos() {}
 
-  public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
+  public static JavaObjectPojo objectPojo(
+      PList<JavaPojoMember> members, JavaAdditionalProperties additionalProperties) {
     return JavaObjectPojo.from(
         PojoName.ofNameAndSuffix("ObjectPojo1", "Dto"),
         "",
         members,
         PojoType.DEFAULT,
+        additionalProperties,
         Constraints.empty());
   }
 
-  public static JavaPojo allNecessityAndNullabilityVariants(Constraints constraints) {
-    return JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
-        .head();
+  public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
+    return objectPojo(members, JavaAdditionalProperties.anyTypeAllowed());
   }
 
-  public static JavaPojo allNecessityAndNullabilityVariants() {
+  public static JavaObjectPojo allNecessityAndNullabilityVariants(Constraints constraints) {
+    return (JavaObjectPojo)
+        JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
+            .head();
+  }
+
+  public static JavaObjectPojo allNecessityAndNullabilityVariants() {
     return allNecessityAndNullabilityVariants(Constraints.empty());
   }
 
   private static ObjectPojo allNecessityAndNullabilityVariantsPojo(Constraints constraints) {
-    return ObjectPojo.of(
-        PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"),
-        "NecessityAndNullability",
-        PList.of(
-            requiredString(), requiredNullableString(), optionalString(), optionalNullableString()),
-        constraints);
+    return ObjectPojoBuilder.create()
+        .name(PojoName.ofNameAndSuffix(Name.ofString("NecessityAndNullability"), "Dto"))
+        .description("NecessityAndNullability")
+        .members(
+            PList.of(
+                requiredString(),
+                requiredNullableString(),
+                optionalString(),
+                optionalNullableString()))
+        .constraints(constraints)
+        .additionalProperties(anyTypeAllowed())
+        .build();
   }
 
   public static JavaArrayPojo arrayPojo(Constraints constraints) {
@@ -111,11 +127,13 @@ public class JavaPojos {
   private static JavaComposedPojo composedPojo(
       ComposedPojo.CompositionType type, Optional<Discriminator> discriminator) {
     final ObjectPojo userObjectPojo =
-        ObjectPojo.of(
-            PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"),
-            "User",
-            PList.of(requiredUsername(), requiredBirthdate()),
-            Constraints.empty());
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"))
+            .description("User")
+            .members(PList.of(requiredUsername(), requiredBirthdate()))
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .build();
     final Name typeName =
         Name.ofString(type.name().toLowerCase().replace("_", "")).startUpperCase();
     final UnresolvedComposedPojo unresolvedComposedPojo =

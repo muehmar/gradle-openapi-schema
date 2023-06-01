@@ -7,19 +7,23 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Optional;
+import lombok.Value;
 
 public class WitherGenerator {
   private WitherGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> generator() {
-    return Generator.<JavaPojo, PojoSettings>emptyGen()
+  public static Generator<WitherContent, PojoSettings> generator() {
+    return Generator.<WitherContent, PojoSettings>emptyGen()
         .appendList(method(), WitherMethod::fromPojo, newLine());
   }
 
@@ -45,17 +49,18 @@ public class WitherGenerator {
   }
 
   private abstract static class WitherMethod {
-    protected final JavaPojo pojo;
+    protected final WitherContent witherContent;
     protected final JavaPojoMember pojoMember;
 
-    public static PList<WitherMethod> fromPojo(JavaPojo pojo) {
-      return pojo.getMembersOrEmpty()
+    public static PList<WitherMethod> fromPojo(WitherContent witherContent) {
+      return witherContent
+          .getMembers()
           .flatMap(
               member ->
                   PList.of(
-                      new NormalWitherMethod(pojo, member),
-                      new OptionalWitherMethod(pojo, member),
-                      new TristateWitherMethod(pojo, member)))
+                      new NormalWitherMethod(witherContent, member),
+                      new OptionalWitherMethod(witherContent, member),
+                      new TristateWitherMethod(witherContent, member)))
           .filter(WitherMethod::shouldBeUsed);
     }
 
@@ -65,13 +70,13 @@ public class WitherGenerator {
       return pojoMember.getDescription();
     }
 
-    public WitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
-      this.pojo = pojo;
+    public WitherMethod(WitherContent witherContent, JavaPojoMember pojoMember) {
+      this.witherContent = witherContent;
       this.pojoMember = pojoMember;
     }
 
     String className() {
-      return pojo.getClassName().asString();
+      return witherContent.getClassName().asString();
     }
 
     String witherName() {
@@ -91,9 +96,13 @@ public class WitherGenerator {
     String constructorCall() {
       final String constructorCall =
           String.format(
-              "new %s(%s)",
-              pojo.getClassName(),
-              pojo.getMembersOrEmpty().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+              "new %s(%s%s)",
+              witherContent.getClassName(),
+              witherContent.getMembers().flatMap(JavaPojoMember::createFieldNames).mkString(", "),
+              witherContent
+                  .getAdditionalProperties()
+                  .map(props -> String.format(", %s", JavaAdditionalProperties.getPropertyName()))
+                  .orElse(""));
       return replacePropertiesInConstructorCall(constructorCall);
     }
 
@@ -103,8 +112,8 @@ public class WitherGenerator {
   }
 
   private static class NormalWitherMethod extends WitherMethod {
-    public NormalWitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
-      super(pojo, pojoMember);
+    public NormalWitherMethod(WitherContent witherContent, JavaPojoMember pojoMember) {
+      super(witherContent, pojoMember);
     }
 
     @Override
@@ -135,8 +144,8 @@ public class WitherGenerator {
   }
 
   private static class OptionalWitherMethod extends WitherMethod {
-    public OptionalWitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
-      super(pojo, pojoMember);
+    public OptionalWitherMethod(WitherContent witherContent, JavaPojoMember pojoMember) {
+      super(witherContent, pojoMember);
     }
 
     @Override
@@ -177,8 +186,8 @@ public class WitherGenerator {
   }
 
   private static class TristateWitherMethod extends WitherMethod {
-    public TristateWitherMethod(JavaPojo pojo, JavaPojoMember pojoMember) {
-      super(pojo, pojoMember);
+    public TristateWitherMethod(WitherContent witherContent, JavaPojoMember pojoMember) {
+      super(witherContent, pojoMember);
     }
 
     @Override
@@ -211,5 +220,13 @@ public class WitherGenerator {
     Writer addRefs(Writer writer) {
       return writer.ref(OpenApiUtilRefs.TRISTATE);
     }
+  }
+
+  @Value
+  @PojoBuilder(builderName = "WitherContentBuilder")
+  public static class WitherContent {
+    JavaIdentifier className;
+    PList<JavaPojoMember> members;
+    Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

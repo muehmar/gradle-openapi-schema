@@ -5,31 +5,29 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGen;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
 import io.github.muehmar.codegenerator.java.ConstructorGen;
 import io.github.muehmar.codegenerator.java.ConstructorGenBuilder;
-import io.github.muehmar.codegenerator.java.JavaModifiers;
-import io.github.muehmar.codegenerator.java.MethodGen;
-import io.github.muehmar.codegenerator.java.MethodGenBuilder;
-import io.github.muehmar.codegenerator.writer.Writer;
-import java.util.function.BiFunction;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Optional;
+import lombok.Value;
 
-public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
-  private final Generator<JavaObjectPojo, PojoSettings> delegate;
+public class NormalBuilderGenerator {
 
-  public NormalBuilderGenerator() {
-    final ClassGen<JavaObjectPojo, PojoSettings> classGen =
-        ClassGenBuilder.<JavaObjectPojo, PojoSettings>create()
+  private NormalBuilderGenerator() {}
+
+  public static Generator<NormalBuilderContent, PojoSettings> generator() {
+    final ClassGen<NormalBuilderContent, PojoSettings> classGen =
+        ClassGenBuilder.<NormalBuilderContent, PojoSettings>create()
             .clazz()
             .nested()
             .packageGen(new PackageGenerator<>())
@@ -41,18 +39,12 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             .noInterfaces()
             .content(content())
             .build();
-    this.delegate =
-        this.<JavaObjectPojo>factoryMethod()
-            .append(JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set"))
-            .append(classGen);
+    return NormalBuilderGenerator.<NormalBuilderContent>factoryMethod()
+        .append(JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set"))
+        .append(classGen);
   }
 
-  @Override
-  public Writer generate(JavaObjectPojo data, PojoSettings settings, Writer writer) {
-    return delegate.generate(data, settings, writer);
-  }
-
-  private <A> Generator<A, PojoSettings> factoryMethod() {
+  private static <A> Generator<A, PojoSettings> factoryMethod() {
     return Generator.<A, PojoSettings>constant("public static Builder newBuilder() {")
         .append(Generator.constant("return new Builder();"), 1)
         .append(Generator.constant("}"))
@@ -60,17 +52,20 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
         .filter((data, settings) -> settings.isDisableSafeBuilder());
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> content() {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendNewLine()
+  private static Generator<NormalBuilderContent, PojoSettings> content() {
+    return Generator.<NormalBuilderContent, PojoSettings>emptyGen()
+        .appendSingleBlankLine()
         .append(constructor())
-        .appendList(memberDeclaration(), JavaObjectPojo::getMembers)
-        .appendNewLine()
-        .appendList(setter(), JavaObjectPojo::getMembers)
-        .append(buildMethod());
+        .append(MemberDeclarationGenerator.generator())
+        .appendSingleBlankLine()
+        .append(SetterGenerator.generator())
+        .appendSingleBlankLine()
+        .append(AdditionalPropertiesSetterGenerator.generator())
+        .appendSingleBlankLine()
+        .append(BuildMethodGenerator.generator());
   }
 
-  private <A> Generator<A, PojoSettings> constructor() {
+  private static <A> Generator<A, PojoSettings> constructor() {
     final ConstructorGen<A, PojoSettings> constructor =
         ConstructorGenBuilder.<A, PojoSettings>create()
             .modifiers(PRIVATE)
@@ -81,205 +76,11 @@ public class NormalBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
     return constructor.appendNewLine().filter((data, settings) -> settings.isEnableSafeBuilder());
   }
 
-  private <B> Generator<JavaPojoMember, B> memberDeclaration() {
-    return this.<B>normalMember().append(memberIsPresentFlag()).append(memberIsNullFlag());
-  }
-
-  private <B> Generator<JavaPojoMember, B> normalMember() {
-    return ((member, settings, writer) ->
-        writer.println(
-            "private %s %s;",
-            member.getJavaType().getFullClassName(), member.getNameAsIdentifier()));
-  }
-
-  private <B> Generator<JavaPojoMember, B> memberIsPresentFlag() {
-    final Generator<JavaPojoMember, B> generator =
-        (member, settings, writer) ->
-            writer.println("private boolean %s = false;", member.getIsPresentFlagName());
-    return generator.filter(JavaPojoMember::isRequiredAndNullable);
-  }
-
-  private <B> Generator<JavaPojoMember, B> memberIsNullFlag() {
-    final Generator<JavaPojoMember, B> generator =
-        (member, settings, writer) ->
-            writer.println("private boolean %s = false;", member.getIsNullFlagName());
-    return generator.filter(JavaPojoMember::isOptionalAndNullable);
-  }
-
-  private Generator<JavaPojoMember, PojoSettings> setter() {
-    return standardSetter()
-        .appendNewLine()
-        .append(requiredNullableSetter())
-        .append(optionalSetter())
-        .append(optionalNullableSetter());
-  }
-
-  private Generator<JavaPojoMember, PojoSettings> standardSetter() {
-    final BiFunction<JavaPojoMember, PojoSettings, JavaModifiers> modifiers =
-        (member, settings) ->
-            settings.isEnableSafeBuilder() && member.isRequired()
-                ? JavaModifiers.of(PRIVATE)
-                : JavaModifiers.of(PUBLIC);
-    final MethodGen<JavaPojoMember, PojoSettings> method =
-        MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
-            .modifiers(modifiers)
-            .noGenericTypes()
-            .returnType("Builder")
-            .methodName(
-                (member, settings) ->
-                    member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
-            .singleArgument(
-                member ->
-                    String.format(
-                        "%s %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
-            .content(setterMethodContent())
-            .build();
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(JavaDocGenerator.javaDoc(), JavaPojoMember::getDescription)
-        .append(JacksonAnnotationGenerator.jsonProperty())
-        .append(method);
-  }
-
-  private static Generator<JavaPojoMember, PojoSettings> setterMethodContent() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(
-            (member, settings, writer) ->
-                writer.println(
-                    "this.%s = %s;", member.getNameAsIdentifier(), member.getNameAsIdentifier()))
-        .appendConditionally(
-            JavaPojoMember::isRequiredAndNullable,
-            (member, settings, writer) ->
-                writer.println("this.%s = true;", member.getIsPresentFlagName()))
-        .appendConditionally(
-            JavaPojoMember::isOptionalAndNullable,
-            (member, settings, writer) ->
-                writer.println(
-                    "this.%s = %s == null;",
-                    member.getIsNullFlagName(), member.getNameAsIdentifier()))
-        .append(w -> w.println("return this;"));
-  }
-
-  private Generator<JavaPojoMember, PojoSettings> requiredNullableSetter() {
-    final BiFunction<JavaPojoMember, PojoSettings, JavaModifiers> modifiers =
-        (member, settings) ->
-            settings.isEnableSafeBuilder() ? JavaModifiers.of(PRIVATE) : JavaModifiers.of(PUBLIC);
-    final Generator<JavaPojoMember, PojoSettings> method =
-        MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
-            .modifiers(modifiers)
-            .noGenericTypes()
-            .returnType("Builder")
-            .methodName(
-                (member, settings) ->
-                    member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
-            .singleArgument(
-                member ->
-                    String.format(
-                        "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
-            .content(
-                (member, settings, writer) ->
-                    writer
-                        .println(
-                            "this.%s = %s.orElse(null);",
-                            member.getNameAsIdentifier(), member.getNameAsIdentifier())
-                        .println("this.%s = true;", member.getIsPresentFlagName())
-                        .println("return this;")
-                        .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
-            .build();
-
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(JavaDocGenerator.javaDoc(), JavaPojoMember::getDescription)
-        .append(method)
-        .appendNewLine()
-        .filter(JavaPojoMember::isRequiredAndNullable);
-  }
-
-  private Generator<JavaPojoMember, PojoSettings> optionalSetter() {
-    final MethodGen<JavaPojoMember, PojoSettings> method =
-        MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
-            .modifiers(PUBLIC)
-            .noGenericTypes()
-            .returnType("Builder")
-            .methodName(
-                (member, settings) ->
-                    member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
-            .singleArgument(
-                member ->
-                    String.format(
-                        "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
-            .content(
-                (member, settings, writer) ->
-                    writer
-                        .println(
-                            "this.%s = %s.orElse(null);",
-                            member.getNameAsIdentifier(), member.getNameAsIdentifier())
-                        .println("return this;")
-                        .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
-            .build();
-
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(JavaDocGenerator.javaDoc(), JavaPojoMember::getDescription)
-        .append(method)
-        .appendNewLine()
-        .filter(JavaPojoMember::isOptionalAndNotNullable);
-  }
-
-  private Generator<JavaPojoMember, PojoSettings> optionalNullableSetter() {
-    final MethodGen<JavaPojoMember, PojoSettings> method =
-        MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
-            .modifiers(PUBLIC)
-            .noGenericTypes()
-            .returnType("Builder")
-            .methodName(
-                (member, settings) ->
-                    member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
-            .singleArgument(
-                member ->
-                    String.format(
-                        "Tristate<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
-            .content(
-                (member, settings, writer) ->
-                    writer
-                        .println(
-                            "this.%s = %s.%s;",
-                            member.getNameAsIdentifier(),
-                            member.getNameAsIdentifier(),
-                            member.tristateToProperty())
-                        .println(
-                            "this.%s = %s.%s;",
-                            member.getIsNullFlagName(),
-                            member.getNameAsIdentifier(),
-                            member.tristateToIsNullFlag())
-                        .println("return this;")
-                        .ref(OpenApiUtilRefs.TRISTATE))
-            .build();
-
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(JavaDocGenerator.javaDoc(), JavaPojoMember::getDescription)
-        .append(method)
-        .appendNewLine()
-        .filter(JavaPojoMember::isOptionalAndNullable);
-  }
-
-  private Generator<JavaObjectPojo, PojoSettings> buildMethod() {
-    return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnTypeName(JavaObjectPojo::getClassName)
-        .methodName("build")
-        .noArguments()
-        .content(buildMethodContent())
-        .build();
-  }
-
-  private Generator<JavaObjectPojo, PojoSettings> buildMethodContent() {
-    return (pojo, settings, writer) ->
-        writer.print(
-            "return new %s(%s);",
-            pojo.getClassName(),
-            pojo.getMembers().flatMap(JavaPojoMember::createFieldNames).mkString(", "));
+  @Value
+  @PojoBuilder(builderName = "NormalBuilderContentBuilder")
+  public static class NormalBuilderContent {
+    JavaIdentifier className;
+    PList<JavaPojoMember> members;
+    Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

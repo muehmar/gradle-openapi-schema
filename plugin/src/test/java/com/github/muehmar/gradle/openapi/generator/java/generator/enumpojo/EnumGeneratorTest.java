@@ -36,7 +36,9 @@ class EnumGeneratorTest {
             .withEnableValidation(true);
 
     final String content =
-        generator.generate(GENDER_ENUM_POJO, pojoSettings, Writer.createDefault()).asString();
+        generator
+            .generate(GENDER_ENUM_POJO.asEnumContent(), pojoSettings, Writer.createDefault())
+            .asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -49,7 +51,9 @@ class EnumGeneratorTest {
         TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(true);
 
     final String content =
-        generator.generate(GENDER_ENUM_POJO, pojoSettings, Writer.createDefault()).asString();
+        generator
+            .generate(GENDER_ENUM_POJO.asEnumContent(), pojoSettings, Writer.createDefault())
+            .asString();
 
     expect.toMatchSnapshot(content);
   }

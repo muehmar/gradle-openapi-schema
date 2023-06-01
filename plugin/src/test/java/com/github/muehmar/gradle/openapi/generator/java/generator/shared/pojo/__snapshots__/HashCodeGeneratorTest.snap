@@ -7,7 +7,8 @@ public int hashCode() {
     isRequiredNullableStringValPresent,
     optionalStringVal,
     optionalNullableStringVal,
-    isOptionalNullableStringValNull
+    isOptionalNullableStringValNull,
+    additionalProperties
   );
 }
 ]

@@ -1,6 +1,148 @@
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_enableValidation_then_correctPojoGenerated[jakarta-2]=[
+anyTypeMap=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final Map<String, Object> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, Object> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+enableValidation[jakarta-2]=[
+package com.github.muehmar;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -28,6 +170,7 @@ public class UserDto {
   private final String uppercase;
   private final Long multipleOfValue;
   private final AnotherPojo anotherPojo;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
@@ -39,7 +182,8 @@ public class UserDto {
       Long level,
       String uppercase,
       Long multipleOfValue,
-      AnotherPojo anotherPojo
+      AnotherPojo anotherPojo,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
@@ -51,6 +195,7 @@ public class UserDto {
     this.uppercase = uppercase;
     this.multipleOfValue = multipleOfValue;
     this.anotherPojo = anotherPojo;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -183,102 +328,114 @@ public class UserDto {
     return anotherPojo;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null));
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
   /**
@@ -297,7 +454,8 @@ public class UserDto {
       (level != null ? 1 : 0) +
       (uppercase != null ? 1 : 0) +
       (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0);
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -314,7 +472,8 @@ public class UserDto {
         && Objects.deepEquals(this.level, other.level)
         && Objects.deepEquals(this.uppercase, other.uppercase)
         && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
-        && Objects.deepEquals(this.anotherPojo, other.anotherPojo);
+        && Objects.deepEquals(this.anotherPojo, other.anotherPojo)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -329,7 +488,8 @@ public class UserDto {
       level,
       uppercase,
       multipleOfValue,
-      anotherPojo
+      anotherPojo,
+      additionalProperties
     );
   }
 
@@ -345,7 +505,8 @@ public class UserDto {
       "level=" + level + ", " +
       "uppercase=" + uppercase + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
-      "anotherPojo=" + anotherPojo +
+      "anotherPojo=" + anotherPojo + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -370,6 +531,7 @@ public class UserDto {
     private String uppercase;
     private Long multipleOfValue;
     private AnotherPojo anotherPojo;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * ID of this user
@@ -483,8 +645,18 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
     }
   }
 
@@ -492,7 +664,7 @@ public class UserDto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_enableValidation_then_correctPojoGenerated[jakarta-3]=[
+enableValidation[jakarta-3]=[
 package com.github.muehmar;
 
 import jakarta.validation.Valid;
@@ -505,6 +677,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -522,6 +697,7 @@ public class UserDto {
   private final String uppercase;
   private final Long multipleOfValue;
   private final AnotherPojo anotherPojo;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
@@ -533,7 +709,8 @@ public class UserDto {
       Long level,
       String uppercase,
       Long multipleOfValue,
-      AnotherPojo anotherPojo
+      AnotherPojo anotherPojo,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
@@ -545,6 +722,7 @@ public class UserDto {
     this.uppercase = uppercase;
     this.multipleOfValue = multipleOfValue;
     this.anotherPojo = anotherPojo;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -677,102 +855,114 @@ public class UserDto {
     return anotherPojo;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null));
+    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
   /**
@@ -791,7 +981,8 @@ public class UserDto {
       (level != null ? 1 : 0) +
       (uppercase != null ? 1 : 0) +
       (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0);
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -808,7 +999,8 @@ public class UserDto {
         && Objects.deepEquals(this.level, other.level)
         && Objects.deepEquals(this.uppercase, other.uppercase)
         && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
-        && Objects.deepEquals(this.anotherPojo, other.anotherPojo);
+        && Objects.deepEquals(this.anotherPojo, other.anotherPojo)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -823,7 +1015,8 @@ public class UserDto {
       level,
       uppercase,
       multipleOfValue,
-      anotherPojo
+      anotherPojo,
+      additionalProperties
     );
   }
 
@@ -839,7 +1032,8 @@ public class UserDto {
       "level=" + level + ", " +
       "uppercase=" + uppercase + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
-      "anotherPojo=" + anotherPojo +
+      "anotherPojo=" + anotherPojo + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -864,6 +1058,7 @@ public class UserDto {
     private String uppercase;
     private Long multipleOfValue;
     private AnotherPojo anotherPojo;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * ID of this user
@@ -977,8 +1172,18 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo);
+      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
     }
   }
 
@@ -986,9 +1191,12 @@ public class UserDto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_enabledSafeBuilder_then_correctPojoGenerated=[
+enabledSafeBuilder=[
 package com.github.muehmar;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -1002,15 +1210,18 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1082,32 +1293,44 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null));
+    return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
   /**
@@ -1117,7 +1340,8 @@ public class UserDto {
     return
       1 +
       1 +
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -1127,7 +1351,8 @@ public class UserDto {
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.language, other.language);
+        && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1135,7 +1360,8 @@ public class UserDto {
     return Objects.hash(
       id,
       name,
-      language
+      language,
+      additionalProperties
     );
   }
 
@@ -1144,7 +1370,8 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + name + ", " +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1156,6 +1383,7 @@ public class UserDto {
     private Long id;
     private String name;
     private LanguageEnum language;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * ID of this user
@@ -1189,8 +1417,18 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
-      return new UserDto(id, name, language);
+      return new UserDto(id, name, language, additionalProperties);
     }
   }
 
@@ -1280,6 +1518,14 @@ public class UserDto {
       this.builder = builder;
     }
 
+    public OptBuilder1 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder1(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder1(builder.setAdditionalProperties(additionalProperties));
+    }
+
     public UserDto build(){
       return builder.build();
     }
@@ -1288,9 +1534,337 @@ public class UserDto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_jsonSupportJackson_then_correctPojoGenerated=[
+inlinedEnumMapObject=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final Map<String, ColorEnum> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, ColorEnum> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * Additional property enum
+   */
+  public enum ColorEnum {
+    GREEN("green", ""),
+    YELLOW("yellow", ""),
+    RED("red", "");
+
+    private final String value;
+    private final String description;
+
+    ColorEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @JsonCreator
+    public static ColorEnum fromValue(String value) {
+      for (ColorEnum e: ColorEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(ColorEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for ColorEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  @JsonAnyGetter
+  public Map<String, ColorEnum> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<ColorEnum> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, ColorEnum> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, ColorEnum value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, ColorEnum value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+integerMap=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final Map<String, Integer> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, Integer> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  @JsonAnyGetter
+  public Map<String, Integer> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Integer> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, Integer> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Integer value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Integer> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, Integer value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Integer> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+jsonSupportJackson=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -1298,6 +1872,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -1312,15 +1889,18 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1402,32 +1982,45 @@ public class UserDto {
     return language;
   }
 
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null));
+    return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
   /**
@@ -1438,7 +2031,8 @@ public class UserDto {
     return
       1 +
       1 +
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -1448,7 +2042,8 @@ public class UserDto {
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.language, other.language);
+        && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1456,7 +2051,8 @@ public class UserDto {
     return Objects.hash(
       id,
       name,
-      language
+      language,
+      additionalProperties
     );
   }
 
@@ -1465,7 +2061,8 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + name + ", " +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1479,6 +2076,7 @@ public class UserDto {
     private Long id;
     private String name;
     private LanguageEnum language;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * ID of this user
@@ -1515,8 +2113,19 @@ public class UserDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
-      return new UserDto(id, name, language);
+      return new UserDto(id, name, language, additionalProperties);
     }
   }
 
@@ -1524,9 +2133,12 @@ public class UserDto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_minimalPojoSetting_then_correctPojoGenerated=[
+minimalPojoSetting=[
 package com.github.muehmar;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -1540,15 +2152,18 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1620,32 +2235,44 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language);
+    return new UserDto(id, name, language, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null));
+    return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
   /**
@@ -1655,7 +2282,8 @@ public class UserDto {
     return
       1 +
       1 +
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -1665,7 +2293,8 @@ public class UserDto {
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.language, other.language);
+        && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1673,7 +2302,8 @@ public class UserDto {
     return Objects.hash(
       id,
       name,
-      language
+      language,
+      additionalProperties
     );
   }
 
@@ -1682,7 +2312,8 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + name + ", " +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1695,6 +2326,7 @@ public class UserDto {
     private Long id;
     private String name;
     private LanguageEnum language;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * ID of this user
@@ -1728,8 +2360,18 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public UserDto build() {
-      return new UserDto(id, name, language);
+      return new UserDto(id, name, language, additionalProperties);
     }
   }
 
@@ -1737,9 +2379,11 @@ public class UserDto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_necessityAndNullabilityVariants_then_correctPojoGenerated=[
+necessityAndNullabilityVariants=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -1747,6 +2391,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.constraints.AssertTrue;
@@ -1764,6 +2411,7 @@ public class NecessityAndNullabilityDto {
   private final String optionalStringVal;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final Map<String, Object> additionalProperties;
 
   public NecessityAndNullabilityDto(
       String requiredStringVal,
@@ -1771,7 +2419,8 @@ public class NecessityAndNullabilityDto {
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
       String optionalNullableStringVal,
-      boolean isOptionalNullableStringValNull
+      boolean isOptionalNullableStringValNull,
+      Map<String, Object> additionalProperties
     ) {
     this.requiredStringVal = requiredStringVal;
     this.requiredNullableStringVal = requiredNullableStringVal;
@@ -1779,6 +2428,7 @@ public class NecessityAndNullabilityDto {
     this.optionalStringVal = optionalStringVal;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1859,53 +2509,66 @@ public class NecessityAndNullabilityDto {
     return optionalNullableStringVal;
   }
 
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), optionalNullableStringVal, isOptionalNullableStringValNull);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, false);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, false, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false));
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
   }
 
   /**
@@ -1917,7 +2580,8 @@ public class NecessityAndNullabilityDto {
       1 +
       (isRequiredNullableStringValPresent ? 1 : 0) +
       (optionalStringVal != null ? 1 : 0) +
-      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0);
+      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -1930,7 +2594,8 @@ public class NecessityAndNullabilityDto {
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
-        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull);
+        && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
@@ -1941,7 +2606,8 @@ public class NecessityAndNullabilityDto {
       isRequiredNullableStringValPresent,
       optionalStringVal,
       optionalNullableStringVal,
-      isOptionalNullableStringValNull
+      isOptionalNullableStringValNull,
+      additionalProperties
     );
   }
 
@@ -1953,7 +2619,8 @@ public class NecessityAndNullabilityDto {
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + optionalStringVal + ", " +
       "optionalNullableStringVal=" + optionalNullableStringVal + ", " +
-      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull +
+      "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -1969,6 +2636,7 @@ public class NecessityAndNullabilityDto {
     private String optionalStringVal;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * RequiredStringVal
@@ -2034,8 +2702,19 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public NecessityAndNullabilityDto build() {
-      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull);
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 
@@ -2155,6 +2834,14 @@ public class NecessityAndNullabilityDto {
       this.builder = builder;
     }
 
+    public OptBuilder2 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder2(builder.setAdditionalProperties(additionalProperties));
+    }
+
     public NecessityAndNullabilityDto build(){
       return builder.build();
     }
@@ -2163,27 +2850,562 @@ public class NecessityAndNullabilityDto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_objectWithArrayWithUniqueItems_then_correctPojoGenerated=[
+noAdditionalPropertiesAllowed=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import javax.validation.constraints.AssertTrue;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final Map<String, Object> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, Object> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @AssertTrue(message = "No additional properties allowed")
+  private boolean hasNoAdditionalProperties() {
+    return additionalProperties.size() == 0;
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    private Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+objectMap=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final Map<String, HelloDto> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, HelloDto> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  @JsonAnyGetter
+  public Map<String, @Valid HelloDto> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<HelloDto> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, HelloDto> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, HelloDto value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, HelloDto value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+objectMapDisabledValidation=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final Map<String, HelloDto> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, HelloDto> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  @JsonAnyGetter
+  public Map<String, HelloDto> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<HelloDto> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, HelloDto> additionalProperties = new HashMap<>();
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, HelloDto value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, HelloDto value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+objectMapNoJsonSupport=[
+package com.github.muehmar;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+
+public class ObjectPojo1Dto {
+  private final Map<String, HelloDto> additionalProperties;
+
+  public ObjectPojo1Dto(
+      Map<String, HelloDto> additionalProperties
+    ) {
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  public Map<String, @Valid HelloDto> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<HelloDto> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private Map<String, HelloDto> additionalProperties = new HashMap<>();
+
+    public Builder addAdditionalProperty(String key, HelloDto value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, HelloDto value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+objectWithArrayWithUniqueItems=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
   private final List<String> listVal;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
-      List<String> listVal
+      List<String> listVal,
+      Map<String, Object> additionalProperties
     ) {
     this.listVal = listVal;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2194,11 +3416,24 @@ public class ObjectPojo1Dto {
     return listVal;
   }
 
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * List
    */
   public ObjectPojo1Dto withListVal(List<String> listVal) {
-    return new ObjectPojo1Dto(listVal);
+    return new ObjectPojo1Dto(listVal, additionalProperties);
   }
 
   /**
@@ -2207,7 +3442,8 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   public int getPropertyCount() {
     return
-      1;
+      1 +
+      additionalProperties.size();
   }
 
   @Override
@@ -2215,20 +3451,23 @@ public class ObjectPojo1Dto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
-    return Objects.deepEquals(this.listVal, other.listVal);
+    return Objects.deepEquals(this.listVal, other.listVal)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      listVal
+      listVal,
+      additionalProperties
     );
   }
 
   @Override
   public String toString() {
     return "ObjectPojo1Dto{" +
-      "listVal=" + listVal +
+      "listVal=" + listVal + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2244,6 +3483,7 @@ public class ObjectPojo1Dto {
     }
 
     private List<String> listVal;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * List
@@ -2254,8 +3494,19 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ObjectPojo1Dto build() {
-      return new ObjectPojo1Dto(listVal);
+      return new ObjectPojo1Dto(listVal, additionalProperties);
     }
   }
 
@@ -2306,6 +3557,14 @@ public class ObjectPojo1Dto {
       this.builder = builder;
     }
 
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
     public ObjectPojo1Dto build(){
       return builder.build();
     }
@@ -2314,15 +3573,20 @@ public class ObjectPojo1Dto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_objectWithMapMember_then_correctPojoGenerated=[
+objectWithMapMember=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -2330,11 +3594,14 @@ import javax.validation.constraints.Size;
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
   private final Map<String, UUID> mapVal;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
-      Map<String, UUID> mapVal
+      Map<String, UUID> mapVal,
+      Map<String, Object> additionalProperties
     ) {
     this.mapVal = mapVal;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2346,11 +3613,24 @@ public class ObjectPojo1Dto {
     return mapVal;
   }
 
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * Map
    */
   public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
-    return new ObjectPojo1Dto(mapVal);
+    return new ObjectPojo1Dto(mapVal, additionalProperties);
   }
 
   /**
@@ -2359,7 +3639,8 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   public int getPropertyCount() {
     return
-      1;
+      1 +
+      additionalProperties.size();
   }
 
   @Override
@@ -2367,20 +3648,23 @@ public class ObjectPojo1Dto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
-    return Objects.deepEquals(this.mapVal, other.mapVal);
+    return Objects.deepEquals(this.mapVal, other.mapVal)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      mapVal
+      mapVal,
+      additionalProperties
     );
   }
 
   @Override
   public String toString() {
     return "ObjectPojo1Dto{" +
-      "mapVal=" + mapVal +
+      "mapVal=" + mapVal + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2391,6 +3675,7 @@ public class ObjectPojo1Dto {
     }
 
     private Map<String, UUID> mapVal;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Map
@@ -2401,8 +3686,19 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
     public ObjectPojo1Dto build() {
-      return new ObjectPojo1Dto(mapVal);
+      return new ObjectPojo1Dto(mapVal, additionalProperties);
     }
   }
 
@@ -2453,6 +3749,14 @@ public class ObjectPojo1Dto {
       this.builder = builder;
     }
 
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
     public ObjectPojo1Dto build(){
       return builder.build();
     }
@@ -2461,9 +3765,218 @@ public class ObjectPojo1Dto {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescriptionAndJacksonSupport_then_correctPojoGenerated=[
+pojoWithEnumAndEnumDescription=[
 package com.github.muehmar;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * User of the Application
+ */
+public class UserDto {
+  private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
+
+  public UserDto(
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
+    ) {
+    this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public enum LanguageEnum {
+    GERMAN("GERMAN", "German language"),
+    ENGLISH("ENGLISH", "English language");
+
+    private final String value;
+    private final String description;
+
+    LanguageEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e: LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return this.language == null ? defaultValue : this.language;
+  }
+
+  private LanguageEnum getLanguageRaw() {
+    return language;
+  }
+
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return new UserDto(language, additionalProperties);
+  }
+
+  /**
+   * Preferred language of this user
+   * * `GERMAN`: German language
+   * * `ENGLISH`: English language
+   */
+  public UserDto withLanguage(Optional<LanguageEnum> language) {
+    return new UserDto(language.orElse(null), additionalProperties);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      language,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+
+    private LanguageEnum language;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    /**
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
+     */
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     * * `GERMAN`: German language
+     * * `ENGLISH`: English language
+     */
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public UserDto build() {
+      return new UserDto(language, additionalProperties);
+    }
+  }
+
+}
+]
+
+
+pojoWithEnumAndEnumDescriptionAndJacksonSupport=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -2471,6 +3984,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -2482,11 +3998,14 @@ import java.util.stream.Stream;
 @JsonDeserialize(builder = UserDto.Builder.class)
 public class UserDto {
   private final LanguageEnum language;
+  private final Map<String, Object> additionalProperties;
 
   public UserDto(
-      LanguageEnum language
+      LanguageEnum language,
+      Map<String, Object> additionalProperties
     ) {
     this.language = language;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2565,13 +4084,26 @@ public class UserDto {
     return language;
   }
 
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
   /**
    * Preferred language of this user
    * * `GERMAN`: German language
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language);
+    return new UserDto(language, additionalProperties);
   }
 
   /**
@@ -2580,7 +4112,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null));
+    return new UserDto(language.orElse(null), additionalProperties);
   }
 
   /**
@@ -2589,7 +4121,8 @@ public class UserDto {
   @JsonIgnore
   public int getPropertyCount() {
     return
-      (language != null ? 1 : 0);
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
   }
 
   @Override
@@ -2597,20 +4130,23 @@ public class UserDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
-    return Objects.deepEquals(this.language, other.language);
+    return Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      language
+      language,
+      additionalProperties
     );
   }
 
   @Override
   public String toString() {
     return "UserDto{" +
-      "language=" + language +
+      "language=" + language + ", " +
+      "additionalProperties=" + additionalProperties +
       "}";
   }
 
@@ -2622,6 +4158,7 @@ public class UserDto {
   public static final class Builder {
 
     private LanguageEnum language;
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * Preferred language of this user
@@ -2644,182 +4181,19 @@ public class UserDto {
       return this;
     }
 
-    public UserDto build() {
-      return new UserDto(language);
-    }
-  }
-
-}
-]
-
-
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGeneratorTest.generatePojo_when_pojoWithEnumAndEnumDescription_then_correctPojoGenerated=[
-package com.github.muehmar;
-
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-/**
- * User of the Application
- */
-public class UserDto {
-  private final LanguageEnum language;
-
-  public UserDto(
-      LanguageEnum language
-    ) {
-    this.language = language;
-  }
-
-  /**
-   * Preferred language of this user
-   * * `GERMAN`: German language
-   * * `ENGLISH`: English language
-   */
-  public enum LanguageEnum {
-    GERMAN("GERMAN", "German language"),
-    ENGLISH("ENGLISH", "English language");
-
-    private final String value;
-    private final String description;
-
-    LanguageEnum(String value, String description) {
-      this.value = value;
-      this.description = description;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    public String getDescription() {
-      return description;
-    }
-
-    @Override
-    public String toString() {
-      return value;
-    }
-
-    public static LanguageEnum fromValue(String value) {
-      for (LanguageEnum e: LanguageEnum.values()) {
-        if (e.value.equals(value)) {
-          return e;
-        }
-      }
-      final String possibleValues =
-        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
-      throw new IllegalArgumentException(
-        "Unexpected value '"
-          + value
-          + "' for LanguageEnum, possible values are ["
-          + possibleValues
-          + "]");
-    }
-  }
-
-  /**
-   * Preferred language of this user
-   * * `GERMAN`: German language
-   * * `ENGLISH`: English language
-   */
-  public Optional<LanguageEnum> getLanguage() {
-    return Optional.ofNullable(language);
-  }
-
-  /**
-   * Preferred language of this user
-   * * `GERMAN`: German language
-   * * `ENGLISH`: English language
-   */
-  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return this.language == null ? defaultValue : this.language;
-  }
-
-  private LanguageEnum getLanguageRaw() {
-    return language;
-  }
-
-  /**
-   * Preferred language of this user
-   * * `GERMAN`: German language
-   * * `ENGLISH`: English language
-   */
-  public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language);
-  }
-
-  /**
-   * Preferred language of this user
-   * * `GERMAN`: German language
-   * * `ENGLISH`: English language
-   */
-  public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null));
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  public int getPropertyCount() {
-    return
-      (language != null ? 1 : 0);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || this.getClass() != obj.getClass()) return false;
-    final UserDto other = (UserDto) obj;
-    return Objects.deepEquals(this.language, other.language);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-      language
-    );
-  }
-
-  @Override
-  public String toString() {
-    return "UserDto{" +
-      "language=" + language +
-      "}";
-  }
-
-  public static Builder newBuilder() {
-    return new Builder();
-  }
-
-  public static final class Builder {
-
-    private LanguageEnum language;
-
-    /**
-     * Preferred language of this user
-     * * `GERMAN`: German language
-     * * `ENGLISH`: English language
-     */
-    public Builder setLanguage(LanguageEnum language) {
-      this.language = language;
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
       return this;
     }
 
-    /**
-     * Preferred language of this user
-     * * `GERMAN`: German language
-     * * `ENGLISH`: English language
-     */
-    public Builder setLanguage(Optional<LanguageEnum> language) {
-      this.language = language.orElse(null);
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
     }
 
     public UserDto build() {
-      return new UserDto(language);
+      return new UserDto(language, additionalProperties);
     }
   }
 

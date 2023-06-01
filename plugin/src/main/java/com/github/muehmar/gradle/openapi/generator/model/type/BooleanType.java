@@ -31,7 +31,7 @@ public class BooleanType implements Type {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
-      Function<NoType, T> onNoType) {
+      Function<AnyType, T> onAnyType) {
     return onBooleanType.apply(this);
   }
 }

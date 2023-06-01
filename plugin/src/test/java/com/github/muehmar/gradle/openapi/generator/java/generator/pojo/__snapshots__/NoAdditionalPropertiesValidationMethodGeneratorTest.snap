@@ -1,0 +1,6 @@
+noAdditionalPropertiesAllowed=[
+@AssertTrue(message = "No additional properties allowed")
+private boolean hasNoAdditionalProperties() {
+  return additionalProperties.size() == 0;
+}
+]

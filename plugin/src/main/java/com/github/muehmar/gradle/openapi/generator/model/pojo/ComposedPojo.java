@@ -116,8 +116,7 @@ public class ComposedPojo implements Pojo {
       Function<ObjectPojo, T> onObjectPojo,
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo,
-      Function<ComposedPojo, T> onComposedPojo,
-      Function<MapPojo, T> onMapPojo) {
+      Function<ComposedPojo, T> onComposedPojo) {
     return onComposedPojo.apply(this);
   }
 }

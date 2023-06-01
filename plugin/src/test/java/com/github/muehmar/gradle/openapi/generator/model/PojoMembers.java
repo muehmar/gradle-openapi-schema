@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 
@@ -81,5 +82,15 @@ public class PojoMembers {
         PropertyScope.DEFAULT,
         OPTIONAL,
         NULLABLE);
+  }
+
+  public static PojoMember ofType(Type type) {
+    return new PojoMember(
+        Name.ofString("member"),
+        "description",
+        type,
+        PropertyScope.DEFAULT,
+        REQUIRED,
+        NOT_NULLABLE);
   }
 }

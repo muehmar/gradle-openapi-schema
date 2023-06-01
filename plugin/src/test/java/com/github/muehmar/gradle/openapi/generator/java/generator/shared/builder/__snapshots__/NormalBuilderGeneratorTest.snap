@@ -1,0 +1,284 @@
+allNecessityAndNullabilityVariants=[
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private String requiredStringVal;
+  private String requiredNullableStringVal;
+  private boolean isRequiredNullableStringValPresent = false;
+  private String optionalStringVal;
+  private String optionalNullableStringVal;
+  private boolean isOptionalNullableStringValNull = false;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonProperty("requiredStringVal")
+  private Builder setRequiredStringVal(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonProperty("requiredNullableStringVal")
+  private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonProperty("optionalStringVal")
+  public Builder setOptionalStringVal(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+    this.optionalStringVal = optionalStringVal.orElse(null);
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonProperty("optionalNullableStringVal")
+  public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public NecessityAndNullabilityDto build() {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariantsDisabledJackson=[
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private String requiredStringVal;
+  private String requiredNullableStringVal;
+  private boolean isRequiredNullableStringValPresent = false;
+  private String optionalStringVal;
+  private String optionalNullableStringVal;
+  private boolean isOptionalNullableStringValNull = false;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * RequiredStringVal
+   */
+  private Builder setRequiredStringVal(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+    this.optionalStringVal = optionalStringVal.orElse(null);
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public NecessityAndNullabilityDto build() {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariantsDisabledSafeBuilder=[
+public static Builder newBuilder() {
+  return new Builder();
+}
+
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private String requiredStringVal;
+  private String requiredNullableStringVal;
+  private boolean isRequiredNullableStringValPresent = false;
+  private String optionalStringVal;
+  private String optionalNullableStringVal;
+  private boolean isOptionalNullableStringValNull = false;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonProperty("requiredStringVal")
+  public Builder setRequiredStringVal(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonProperty("requiredNullableStringVal")
+  public Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonProperty("optionalStringVal")
+  public Builder setOptionalStringVal(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+    this.optionalStringVal = optionalStringVal.orElse(null);
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonProperty("optionalNullableStringVal")
+  public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public NecessityAndNullabilityDto build() {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+  }
+}
+]

@@ -8,10 +8,10 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class NoType implements Type {
+public class AnyType implements Type {
 
-  public static NoType create() {
-    return new NoType();
+  public static AnyType create() {
+    return new AnyType();
   }
 
   @Override
@@ -29,7 +29,7 @@ public class NoType implements Type {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
-      Function<NoType, T> onNoType) {
-    return onNoType.apply(this);
+      Function<AnyType, T> onAnyType) {
+    return onAnyType.apply(this);
   }
 }
