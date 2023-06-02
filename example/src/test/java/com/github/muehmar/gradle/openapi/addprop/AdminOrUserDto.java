@@ -8,9 +8,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
-
-import javax.validation.Valid;
-import javax.validation.constraints.AssertFalse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,9 +17,13 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = AdminOrUserDto.Builder.class)
 public class AdminOrUserDto {
+  private final String name;
   private final String id;
   private final String adminname;
   private final Long level;
@@ -34,6 +35,7 @@ public class AdminOrUserDto {
   private final Map<String, Object> additionalProperties;
 
   public AdminOrUserDto(
+      String name,
       String id,
       String adminname,
       Long level,
@@ -42,8 +44,8 @@ public class AdminOrUserDto {
       Integer age,
       String email,
       boolean isEmailNull,
-      Map<String, Object> additionalProperties
-    ) {
+      Map<String, Object> additionalProperties) {
+    this.name = name;
     this.id = id;
     this.adminname = adminname;
     this.level = level;
@@ -54,79 +56,9 @@ public class AdminOrUserDto {
     this.isEmailNull = isEmailNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
-
-  /**
-   * Creates an instance of {@link AdminOrUserDto} from a {@link AdminDto}.
-   */
-  public static AdminOrUserDto fromAdmin(AdminDto dto) {
-    return new AdminOrUserDto(
-      dto.getId(),
-      dto.getAdminname(),
-      dto.getLevelOr(null),
-      dto.getColorOr(null),
-      null,
-      null,
-      null,
-      false,
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Creates an instance of {@link AdminOrUserDto} from a {@link UserDto}.
-   */
-  public static AdminOrUserDto fromUser(UserDto dto) {
-    return new AdminOrUserDto(
-      dto.getId(),
-      null,
-      null,
-      null,
-      dto.getUsername(),
-      dto.getAgeOr(null),
-      dto.getEmailTristate().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getEmailTristate().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Returns a new instance adding the supplied {@link AdminDto}. This will
-   * overwrite any shared properties with other schemas to the value of the
-   * properties in the supplied {@link AdminDto}.
-   */
-  public AdminOrUserDto withAdmin(AdminDto dto) {
-    return new AdminOrUserDto(
-      dto.getId(),
-      dto.getAdminname(),
-      dto.getLevelOr(null),
-      dto.getColorOr(null),
-      username,
-      age,
-      email,
-      isEmailNull,
-      dto.getAdditionalProperties().entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
-    );
-  }
-
-  /**
-   * Returns a new instance adding the supplied {@link UserDto}. This will overwrite
-   * any shared properties with other schemas to the value of the properties in the
-   * supplied {@link UserDto}.
-   */
-  public AdminOrUserDto withUser(UserDto dto) {
-    return new AdminOrUserDto(
-      dto.getId(),
-      adminname,
-      level,
-      color,
-      dto.getUsername(),
-      dto.getAgeOr(null),
-      dto.getEmailTristate().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getEmailTristate().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      dto.getAdditionalProperties().entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
-    );
+  @NotNull
+  private String getName() {
+    return name;
   }
 
   @JsonProperty("id")
@@ -181,21 +113,15 @@ public class AdminOrUserDto {
   }
 
   private int getValidCount() {
-    return
-      (isValidAgainstAdminDto() ? 1 : 0) +
-      (isValidAgainstUserDto() ? 1 : 0);
+    return (isValidAgainstAdminDto() ? 1 : 0) + (isValidAgainstUserDto() ? 1 : 0);
   }
 
   private boolean isValidAgainstAdminDto() {
-    return
-      id != null &&
-      adminname != null;
+    return id != null && adminname != null;
   }
 
   private boolean isValidAgainstUserDto() {
-    return
-      id != null &&
-      username != null;
+    return id != null && username != null;
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [Admin, User]")
@@ -205,20 +131,19 @@ public class AdminOrUserDto {
   }
 
   /**
-   * Folds this instance using the given mapping functions for the DTO's. All
-   * mapping functions gets executed with its corresponding DTO as input if this
-   * instance is valid against the corresponding schema and the results are returned
-   * in a list. The order of the elements in the returned list is deterministic: The
-   * order corresponds to the order of the mapping function arguments, i.e. the
-   * result of the first mapping function will always be at the first position in
-   * the list (if the function gets executed).<br><br>
-   * 
-   * I.e. if the JSON was valid against the schema 'Admin', the mapping method
-   * {@code onAdminDto} gets executed with the {@link AdminDto} as argument.<br><br>
-   * 
-   * This method assumes this instance is either manually or automatically
-   * validated, i.e. the JSON is valid against at least one of the schemas. If it is
-   * valid against no schema, it will simply return an empty list.
+   * Folds this instance using the given mapping functions for the DTO's. All mapping functions gets
+   * executed with its corresponding DTO as input if this instance is valid against the
+   * corresponding schema and the results are returned in a list. The order of the elements in the
+   * returned list is deterministic: The order corresponds to the order of the mapping function
+   * arguments, i.e. the result of the first mapping function will always be at the first position
+   * in the list (if the function gets executed).<br>
+   * <br>
+   * I.e. if the JSON was valid against the schema 'Admin', the mapping method {@code onAdminDto}
+   * gets executed with the {@link AdminDto} as argument.<br>
+   * <br>
+   * This method assumes this instance is either manually or automatically validated, i.e. the JSON
+   * is valid against at least one of the schemas. If it is valid against no schema, it will simply
+   * return an empty list.
    */
   public <T> List<T> fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto) {
     final List<T> result = new ArrayList<>();
@@ -232,39 +157,17 @@ public class AdminOrUserDto {
   }
 
   private AdminDto asAdminDto() {
-    return new AdminDto(
-      id,
-      adminname,
-      level,
-      color,
-      additionalProperties
-    );
+    return new AdminDto(id, adminname, level, color, additionalProperties);
   }
 
   private UserDto asUserDto() {
-    return new UserDto(
-      id,
-      username,
-      age,
-      email,
-      isEmailNull,
-      additionalProperties
-    );
+    return new UserDto(id, username, age, email, isEmailNull, additionalProperties);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      id,
-      adminname,
-      level,
-      color,
-      username,
-      age,
-      email,
-      isEmailNull,
-      additionalProperties
-    );
+        id, adminname, level, color, username, age, email, isEmailNull, additionalProperties);
   }
 
   @Override
@@ -285,25 +188,50 @@ public class AdminOrUserDto {
 
   @Override
   public String toString() {
-    return "AdminOrUserDto{" +
-      "id=" + "'" + id + "'" + ", " +
-      "adminname=" + "'" + adminname + "'" + ", " +
-      "level=" + level + ", " +
-      "color=" + color + ", " +
-      "username=" + "'" + username + "'" + ", " +
-      "age=" + age + ", " +
-      "email=" + "'" + email + "'" + ", " +
-      "isEmailNull=" + isEmailNull + ", " +
-      "additionalProperties=" + additionalProperties +
-      "}";
+    return "AdminOrUserDto{"
+        + "id="
+        + "'"
+        + id
+        + "'"
+        + ", "
+        + "adminname="
+        + "'"
+        + adminname
+        + "'"
+        + ", "
+        + "level="
+        + level
+        + ", "
+        + "color="
+        + color
+        + ", "
+        + "username="
+        + "'"
+        + username
+        + "'"
+        + ", "
+        + "age="
+        + age
+        + ", "
+        + "email="
+        + "'"
+        + email
+        + "'"
+        + ", "
+        + "isEmailNull="
+        + isEmailNull
+        + ", "
+        + "additionalProperties="
+        + additionalProperties
+        + "}";
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
-    private Builder() {
-    }
+    private Builder() {}
 
+    private String name;
     private String id;
     private String adminname;
     private Long level;
@@ -313,6 +241,12 @@ public class AdminOrUserDto {
     private String email;
     private boolean isEmailNull = false;
     private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
 
     @JsonProperty("id")
     private Builder setId(String id) {
@@ -327,23 +261,23 @@ public class AdminOrUserDto {
     }
 
     @JsonProperty("level")
-    public Builder setLevel(Long level) {
+    private Builder setLevel(Long level) {
       this.level = level;
       return this;
     }
 
-    public Builder setLevel(Optional<Long> level) {
+    private Builder setLevel(Optional<Long> level) {
       this.level = level.orElse(null);
       return this;
     }
 
     @JsonProperty("color")
-    public Builder setColor(AdminDto.ColorEnum color) {
+    private Builder setColor(AdminDto.ColorEnum color) {
       this.color = color;
       return this;
     }
 
-    public Builder setColor(Optional<AdminDto.ColorEnum> color) {
+    private Builder setColor(Optional<AdminDto.ColorEnum> color) {
       this.color = color.orElse(null);
       return this;
     }
@@ -355,42 +289,156 @@ public class AdminOrUserDto {
     }
 
     @JsonProperty("age")
-    public Builder setAge(Integer age) {
+    private Builder setAge(Integer age) {
       this.age = age;
       return this;
     }
 
-    public Builder setAge(Optional<Integer> age) {
+    private Builder setAge(Optional<Integer> age) {
       this.age = age.orElse(null);
       return this;
     }
 
     @JsonProperty("email")
-    public Builder setEmail(String email) {
+    private Builder setEmail(String email) {
       this.email = email;
       this.isEmailNull = email == null;
       return this;
     }
 
-    public Builder setEmail(Tristate<String> email) {
+    private Builder setEmail(Tristate<String> email) {
       this.email = email.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isEmailNull = email.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
 
     @JsonAnySetter
-    public Builder addAdditionalProperty(String key, Object value) {
+    private Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
       return this;
     }
 
-    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    private Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
     }
 
     public AdminOrUserDto build() {
-      return new AdminOrUserDto(id, adminname, level, color, username, age, email, isEmailNull, additionalProperties);
+      return new AdminOrUserDto(
+          name,
+          id,
+          adminname,
+          level,
+          color,
+          username,
+          age,
+          email,
+          isEmailNull,
+          additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public Builder1 setName(String name) {
+      return new Builder1(builder.setName(name));
+    }
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public Builder2 setAdminDto(AdminDto adminDto) {
+      adminDto.getAdditionalProperties().forEach(builder::addAdditionalProperty);
+      return new Builder2(
+          builder
+              .setId(adminDto.getId())
+              .setAdminname(adminDto.getAdminname())
+              .setLevel(adminDto.getLevelOpt())
+              .setColor(adminDto.getColorOpt()));
+    }
+
+    public Builder2 setUserDto(UserDto userDto) {
+      userDto.getAdditionalProperties().forEach(builder::addAdditionalProperty);
+      return new Builder2(
+          builder
+              .setId(userDto.getId())
+              .setUsername(userDto.getUsername())
+              .setAge(userDto.getAgeOpt())
+              .setEmail(userDto.getEmailTristate()));
+    }
+  }
+
+  public static final class Builder2 {
+    private final Builder builder;
+
+    private Builder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    public Builder2 setAdminDto(AdminDto adminDto) {
+      adminDto.getAdditionalProperties().forEach(builder::addAdditionalProperty);
+      return new Builder2(
+          builder
+              .setId(adminDto.getId())
+              .setAdminname(adminDto.getAdminname())
+              .setLevel(adminDto.getLevelOpt())
+              .setColor(adminDto.getColorOpt()));
+    }
+
+    public Builder2 setUserDto(UserDto userDto) {
+      userDto.getAdditionalProperties().forEach(builder::addAdditionalProperty);
+      return new Builder2(
+          builder
+              .setId(userDto.getId())
+              .setUsername(userDto.getUsername())
+              .setAge(userDto.getAgeOpt())
+              .setEmail(userDto.getEmailTristate()));
+    }
+
+    public OptBuilder0 andAllOptionals() {
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals() {
+      return builder;
+    }
+
+    public AdminOrUserDto build() {
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public AdminOrUserDto build() {
+      return builder.build();
     }
   }
 }

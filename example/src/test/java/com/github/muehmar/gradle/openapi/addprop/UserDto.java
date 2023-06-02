@@ -9,16 +9,15 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @JsonDeserialize(builder = UserDto.Builder.class)
 public class UserDto {
@@ -35,8 +34,7 @@ public class UserDto {
       Integer age,
       String email,
       boolean isEmailNull,
-      Map<String, Object> additionalProperties
-    ) {
+      Map<String, Object> additionalProperties) {
     this.id = id;
     this.username = username;
     this.age = age;
@@ -95,8 +93,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in and {@link Optional} if present,
+   * {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -123,20 +121,23 @@ public class UserDto {
   }
 
   public UserDto withEmail(Tristate<String> email) {
-    return new UserDto(id, username, age, email.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), email.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+    return new UserDto(
+        id,
+        username,
+        age,
+        email.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        email.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
+  /** Returns the number of present properties of this object. */
   @JsonIgnore
   public int getPropertyCount() {
-    return
-      1 +
-      1 +
-      (age != null ? 1 : 0) +
-      ((isEmailNull || email != null) ? 1 : 0) +
-      additionalProperties.size();
+    return 1
+        + 1
+        + (age != null ? 1 : 0)
+        + ((isEmailNull || email != null) ? 1 : 0)
+        + additionalProperties.size();
   }
 
   @Override
@@ -154,33 +155,42 @@ public class UserDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-      id,
-      username,
-      age,
-      email,
-      isEmailNull,
-      additionalProperties
-    );
+    return Objects.hash(id, username, age, email, isEmailNull, additionalProperties);
   }
 
   @Override
   public String toString() {
-    return "UserDto{" +
-      "id=" + "'" + id + "'" + ", " +
-      "username=" + "'" + username + "'" + ", " +
-      "age=" + age + ", " +
-      "email=" + "'" + email + "'" + ", " +
-      "isEmailNull=" + isEmailNull + ", " +
-      "additionalProperties=" + additionalProperties +
-      "}";
+    return "UserDto{"
+        + "id="
+        + "'"
+        + id
+        + "'"
+        + ", "
+        + "username="
+        + "'"
+        + username
+        + "'"
+        + ", "
+        + "age="
+        + age
+        + ", "
+        + "email="
+        + "'"
+        + email
+        + "'"
+        + ", "
+        + "isEmailNull="
+        + isEmailNull
+        + ", "
+        + "additionalProperties="
+        + additionalProperties
+        + "}";
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
-    private Builder() {
-    }
+    private Builder() {}
 
     private String id;
     private String username;
@@ -255,7 +265,6 @@ public class UserDto {
     public Builder1 setId(String id) {
       return new Builder1(builder.setId(id));
     }
-
   }
 
   public static final class Builder1 {
@@ -268,7 +277,6 @@ public class UserDto {
     public Builder2 setUsername(String username) {
       return new Builder2(builder.setUsername(username));
     }
-
   }
 
   public static final class Builder2 {
@@ -278,15 +286,15 @@ public class UserDto {
       this.builder = builder;
     }
 
-    public OptBuilder0 andAllOptionals(){
+    public OptBuilder0 andAllOptionals() {
       return new OptBuilder0(builder);
     }
 
-    public Builder andOptionals(){
+    public Builder andOptionals() {
       return builder;
     }
 
-    public UserDto build(){
+    public UserDto build() {
       return builder.build();
     }
   }
@@ -305,7 +313,6 @@ public class UserDto {
     public OptBuilder1 setAge(Optional<Integer> age) {
       return new OptBuilder1(builder.setAge(age));
     }
-
   }
 
   public static final class OptBuilder1 {
@@ -322,7 +329,6 @@ public class UserDto {
     public OptBuilder2 setEmail(Tristate<String> email) {
       return new OptBuilder2(builder.setEmail(email));
     }
-
   }
 
   public static final class OptBuilder2 {
@@ -340,7 +346,7 @@ public class UserDto {
       return new OptBuilder2(builder.setAdditionalProperties(additionalProperties));
     }
 
-    public UserDto build(){
+    public UserDto build() {
       return builder.build();
     }
   }

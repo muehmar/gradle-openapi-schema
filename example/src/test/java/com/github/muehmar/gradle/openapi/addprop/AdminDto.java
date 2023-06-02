@@ -9,10 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +16,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @JsonDeserialize(builder = AdminDto.Builder.class)
 public class AdminDto {
@@ -34,8 +33,7 @@ public class AdminDto {
       String adminname,
       Long level,
       ColorEnum color,
-      Map<String, Object> additionalProperties
-    ) {
+      Map<String, Object> additionalProperties) {
     this.id = id;
     this.adminname = adminname;
     this.level = level;
@@ -73,19 +71,19 @@ public class AdminDto {
 
     @JsonCreator
     public static ColorEnum fromValue(String value) {
-      for (ColorEnum e: ColorEnum.values()) {
+      for (ColorEnum e : ColorEnum.values()) {
         if (e.value.equals(value)) {
           return e;
         }
       }
       final String possibleValues =
-        Stream.of(values()).map(ColorEnum::getValue).collect(Collectors.joining(", "));
+          Stream.of(values()).map(ColorEnum::getValue).collect(Collectors.joining(", "));
       throw new IllegalArgumentException(
-        "Unexpected value '"
-          + value
-          + "' for ColorEnum, possible values are ["
-          + possibleValues
-          + "]");
+          "Unexpected value '"
+              + value
+              + "' for ColorEnum, possible values are ["
+              + possibleValues
+              + "]");
     }
   }
 
@@ -139,8 +137,8 @@ public class AdminDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in and {@link Optional} if present,
+   * {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -170,17 +168,10 @@ public class AdminDto {
     return new AdminDto(id, adminname, level, color.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
+  /** Returns the number of present properties of this object. */
   @JsonIgnore
   public int getPropertyCount() {
-    return
-      1 +
-      1 +
-      (level != null ? 1 : 0) +
-      (color != null ? 1 : 0) +
-      additionalProperties.size();
+    return 1 + 1 + (level != null ? 1 : 0) + (color != null ? 1 : 0) + additionalProperties.size();
   }
 
   @Override
@@ -197,31 +188,37 @@ public class AdminDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-      id,
-      adminname,
-      level,
-      color,
-      additionalProperties
-    );
+    return Objects.hash(id, adminname, level, color, additionalProperties);
   }
 
   @Override
   public String toString() {
-    return "AdminDto{" +
-      "id=" + "'" + id + "'" + ", " +
-      "adminname=" + "'" + adminname + "'" + ", " +
-      "level=" + level + ", " +
-      "color=" + color + ", " +
-      "additionalProperties=" + additionalProperties +
-      "}";
+    return "AdminDto{"
+        + "id="
+        + "'"
+        + id
+        + "'"
+        + ", "
+        + "adminname="
+        + "'"
+        + adminname
+        + "'"
+        + ", "
+        + "level="
+        + level
+        + ", "
+        + "color="
+        + color
+        + ", "
+        + "additionalProperties="
+        + additionalProperties
+        + "}";
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
-    private Builder() {
-    }
+    private Builder() {}
 
     private String id;
     private String adminname;
@@ -293,7 +290,6 @@ public class AdminDto {
     public Builder1 setId(String id) {
       return new Builder1(builder.setId(id));
     }
-
   }
 
   public static final class Builder1 {
@@ -306,7 +302,6 @@ public class AdminDto {
     public Builder2 setAdminname(String adminname) {
       return new Builder2(builder.setAdminname(adminname));
     }
-
   }
 
   public static final class Builder2 {
@@ -316,15 +311,15 @@ public class AdminDto {
       this.builder = builder;
     }
 
-    public OptBuilder0 andAllOptionals(){
+    public OptBuilder0 andAllOptionals() {
       return new OptBuilder0(builder);
     }
 
-    public Builder andOptionals(){
+    public Builder andOptionals() {
       return builder;
     }
 
-    public AdminDto build(){
+    public AdminDto build() {
       return builder.build();
     }
   }
@@ -343,7 +338,6 @@ public class AdminDto {
     public OptBuilder1 setLevel(Optional<Long> level) {
       return new OptBuilder1(builder.setLevel(level));
     }
-
   }
 
   public static final class OptBuilder1 {
@@ -360,7 +354,6 @@ public class AdminDto {
     public OptBuilder2 setColor(Optional<ColorEnum> color) {
       return new OptBuilder2(builder.setColor(color));
     }
-
   }
 
   public static final class OptBuilder2 {
@@ -378,7 +371,7 @@ public class AdminDto {
       return new OptBuilder2(builder.setAdditionalProperties(additionalProperties));
     }
 
-    public AdminDto build(){
+    public AdminDto build() {
       return builder.build();
     }
   }
