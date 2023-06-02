@@ -79,6 +79,9 @@ public class UnresolvedComposedPojoResolver {
             .additionalProperties(
                 new AdditionalProperties(allowsAdditionalProperties, AnyType.create()))
             .andAllOptionals()
+            .allOfComposition(Optional.empty())
+            .oneOfComposition(Optional.empty())
+            .anyOfComposition(Optional.empty())
             .build();
     return context.successfullyResolved(objectPojo);
   }

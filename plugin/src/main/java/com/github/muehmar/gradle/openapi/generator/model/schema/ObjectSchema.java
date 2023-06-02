@@ -90,6 +90,9 @@ public class ObjectSchema implements OpenApiSchema {
             .constraints(constraints)
             .additionalProperties(additionalPropertiesSchema.asAdditionalProperties(pojoName))
             .andAllOptionals()
+            .allOfComposition(Optional.empty())
+            .oneOfComposition(Optional.empty())
+            .anyOfComposition(Optional.empty())
             .build();
 
     final UnmappedItems unmappedItems =

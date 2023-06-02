@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
@@ -56,6 +55,7 @@ public class AdminOrUserDto {
     this.isEmailNull = isEmailNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
+
   @NotNull
   private String getName() {
     return name;
