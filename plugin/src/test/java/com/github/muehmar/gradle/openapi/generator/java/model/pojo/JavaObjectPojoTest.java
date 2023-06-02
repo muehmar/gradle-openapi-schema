@@ -33,7 +33,9 @@ class JavaObjectPojoTest {
             .build();
 
     final NonEmptyList<JavaObjectPojo> javaObjectPojos =
-        JavaObjectPojo.wrap(objectPojo, TypeMappings.empty());
+        JavaObjectPojo.wrap(objectPojo, TypeMappings.empty())
+            .asList()
+            .map(JavaObjectPojo.class::cast);
 
     assertEquals(1, javaObjectPojos.size());
     assertEquals(PojoType.DEFAULT, javaObjectPojos.head().getType());
@@ -55,7 +57,9 @@ class JavaObjectPojoTest {
             .build();
 
     final NonEmptyList<JavaObjectPojo> javaObjectPojos =
-        JavaObjectPojo.wrap(objectPojo, TypeMappings.empty());
+        JavaObjectPojo.wrap(objectPojo, TypeMappings.empty())
+            .asList()
+            .map(JavaObjectPojo.class::cast);
 
     assertEquals(3, javaObjectPojos.size());
 

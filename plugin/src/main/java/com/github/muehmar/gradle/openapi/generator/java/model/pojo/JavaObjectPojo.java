@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
@@ -19,7 +18,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.To
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
@@ -78,15 +76,17 @@ public class JavaObjectPojo implements JavaPojo {
         JavaPojoName.wrap(name), description, members, type, additionalProperties, constraints);
   }
 
-  public static NonEmptyList<JavaObjectPojo> wrap(
-      ObjectPojo objectPojo, TypeMappings typeMappings) {
+  public static JavaPojoWrapResult wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
     if (objectPojo.containsNoneDefaultPropertyScope()) {
-      return NonEmptyList.of(
-          createForType(objectPojo, typeMappings, PojoType.DEFAULT),
-          createForType(objectPojo, typeMappings, PojoType.REQUEST),
-          createForType(objectPojo, typeMappings, PojoType.RESPONSE));
+      return JavaPojoWrapResultBuilder.create()
+          .defaultPojo(createForType(objectPojo, typeMappings, PojoType.DEFAULT))
+          .andAllOptionals()
+          .requestPojo(createForType(objectPojo, typeMappings, PojoType.REQUEST))
+          .responsePojo(createForType(objectPojo, typeMappings, PojoType.RESPONSE))
+          .build();
     } else {
-      return NonEmptyList.single(createForType(objectPojo, typeMappings, PojoType.DEFAULT));
+      return JavaPojoWrapResult.ofDefaultPojo(
+          createForType(objectPojo, typeMappings, PojoType.DEFAULT));
     }
   }
 

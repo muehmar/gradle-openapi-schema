@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;

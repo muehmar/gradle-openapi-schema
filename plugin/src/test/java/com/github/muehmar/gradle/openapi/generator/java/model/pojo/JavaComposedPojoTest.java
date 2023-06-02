@@ -1,12 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
@@ -76,12 +76,12 @@ class JavaComposedPojoTest {
     final ComposedPojo composedPojo =
         ComposedPojo.resolvedOneOf(PList.of(objectPojo), unresolvedComposedPojo);
 
-    final NonEmptyList<JavaComposedPojo> pojos =
-        JavaComposedPojo.wrap(composedPojo, TypeMappings.empty());
+    final JavaPojoWrapResult result = JavaComposedPojo.wrap(composedPojo, TypeMappings.empty());
 
-    assertEquals(1, pojos.size());
-    assertEquals("ComposedDto", pojos.head().getClassName().asString());
-    assertEquals(PojoType.DEFAULT, pojos.head().getType());
+    assertFalse(result.getResponsePojo().isPresent());
+    assertFalse(result.getRequestPojo().isPresent());
+    assertEquals("ComposedDto", result.getDefaultPojo().getClassName().asString());
+    assertEquals(PojoType.DEFAULT, result.getDefaultPojo().getType());
   }
 
   @Test
@@ -94,7 +94,9 @@ class JavaComposedPojoTest {
     final ComposedPojo composedPojo = Pojos.composedAnyOf(PList.single(objectPojo));
 
     final NonEmptyList<JavaComposedPojo> pojos =
-        JavaComposedPojo.wrap(composedPojo, TypeMappings.empty());
+        JavaComposedPojo.wrap(composedPojo, TypeMappings.empty())
+            .asList()
+            .map(JavaComposedPojo.class::cast);
 
     assertEquals(3, pojos.size());
 

@@ -1,13 +1,12 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
-import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
@@ -16,11 +15,11 @@ import java.util.function.Predicate;
 
 public interface JavaPojo {
 
-  static NonEmptyList<? extends JavaPojo> wrap(Pojo pojo, TypeMappings typeMappings) {
+  static JavaPojoWrapResult wrap(Pojo pojo, TypeMappings typeMappings) {
     return pojo.fold(
         objectPojo -> JavaObjectPojo.wrap(objectPojo, typeMappings),
-        arrayPojo -> NonEmptyList.single(JavaArrayPojo.wrap(arrayPojo, typeMappings)),
-        enumPojo -> NonEmptyList.single(JavaEnumPojo.wrap(enumPojo)),
+        arrayPojo -> JavaPojoWrapResult.ofDefaultPojo(JavaArrayPojo.wrap(arrayPojo, typeMappings)),
+        enumPojo -> JavaPojoWrapResult.ofDefaultPojo(JavaEnumPojo.wrap(enumPojo)),
         composedPojo -> JavaComposedPojo.wrap(composedPojo, typeMappings));
   }
 

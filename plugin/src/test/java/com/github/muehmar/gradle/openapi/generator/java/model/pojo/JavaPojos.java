@@ -10,7 +10,6 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
@@ -51,7 +50,7 @@ public class JavaPojos {
   public static JavaObjectPojo allNecessityAndNullabilityVariants(Constraints constraints) {
     return (JavaObjectPojo)
         JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
-            .head();
+            .getDefaultPojo();
   }
 
   public static JavaObjectPojo allNecessityAndNullabilityVariants() {
@@ -150,7 +149,7 @@ public class JavaPojos {
         type.equals(ComposedPojo.CompositionType.ANY_OF)
             ? ComposedPojo.resolvedAnyOf(pojos, unresolvedComposedPojo)
             : ComposedPojo.resolvedOneOf(pojos, unresolvedComposedPojo);
-    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty()).head();
+    return (JavaComposedPojo) JavaPojo.wrap(composedPojo, TypeMappings.empty()).getDefaultPojo();
   }
 
   public static JavaComposedPojo composedPojo(

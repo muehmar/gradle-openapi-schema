@@ -7,11 +7,11 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.C
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaFileName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
@@ -21,9 +21,9 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   @Override
   public NonEmptyList<GeneratedFile> generatePojo(Pojo pojo, PojoSettings pojoSettings) {
-    final NonEmptyList<? extends JavaPojo> javaPojos =
-        JavaPojo.wrap(pojo, pojoSettings.getTypeMappings());
-    return javaPojos.map(javaPojo -> generatePojo(javaPojo, pojoSettings));
+    return JavaPojo.wrap(pojo, pojoSettings.getTypeMappings())
+        .asList()
+        .map(javaPojo -> generatePojo(javaPojo, pojoSettings));
   }
 
   public GeneratedFile generatePojo(JavaPojo pojo, PojoSettings pojoSettings) {

@@ -15,7 +15,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.To
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;

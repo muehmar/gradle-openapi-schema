@@ -6,8 +6,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;

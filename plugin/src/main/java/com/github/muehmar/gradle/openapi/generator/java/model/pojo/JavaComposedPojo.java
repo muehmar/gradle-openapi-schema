@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPoj
 import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ONE_OF;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
-import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
@@ -21,7 +20,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.To
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
@@ -85,8 +83,7 @@ public class JavaComposedPojo implements JavaPojo {
     return m1.getName().equals(m2.getName()) && not(m1.equals(m2));
   }
 
-  public static NonEmptyList<JavaComposedPojo> wrap(
-      ComposedPojo composedPojo, TypeMappings typeMappings) {
+  public static JavaPojoWrapResult wrap(ComposedPojo composedPojo, TypeMappings typeMappings) {
     final JavaComposedPojo defaultComposedPojo =
         createForType(composedPojo, typeMappings, PojoType.DEFAULT);
     final JavaComposedPojo requestComposedPojo =
@@ -96,9 +93,14 @@ public class JavaComposedPojo implements JavaPojo {
 
     if (defaultComposedPojo.getJavaPojos().equals(requestComposedPojo.getJavaPojos())
         && defaultComposedPojo.getJavaPojos().equals(responseComposedPojo.getJavaPojos())) {
-      return NonEmptyList.single(defaultComposedPojo);
+      return JavaPojoWrapResult.ofDefaultPojo(defaultComposedPojo);
     } else {
-      return NonEmptyList.of(defaultComposedPojo, requestComposedPojo, responseComposedPojo);
+      return JavaPojoWrapResultBuilder.create()
+          .defaultPojo(defaultComposedPojo)
+          .andAllOptionals()
+          .requestPojo(requestComposedPojo)
+          .responsePojo(responseComposedPojo)
+          .build();
     }
   }
 
@@ -107,8 +109,8 @@ public class JavaComposedPojo implements JavaPojo {
     final PList<JavaPojo> javaPojos =
         composedPojo
             .getPojos()
-            .<NonEmptyList<JavaPojo>>map(pojo -> JavaPojo.wrap(pojo, typeMappings).map(p -> p))
-            .map(pojos -> pojos.toPList().find(p -> p.getType().equals(type)).orElse(pojos.head()));
+            .map(pojo -> JavaPojo.wrap(pojo, typeMappings))
+            .map(wrapResult -> wrapResult.getTypeOrDefault(type));
     return new JavaComposedPojo(
         JavaPojoName.wrap(type.mapName(composedPojo.getName())),
         composedPojo.getDescription(),
