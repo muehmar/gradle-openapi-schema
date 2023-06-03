@@ -38,6 +38,9 @@ public class JavaPojos {
         PojoName.ofNameAndSuffix("ObjectPojo1", "Dto"),
         "",
         members,
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
         PojoType.DEFAULT,
         additionalProperties,
         Constraints.empty());
