@@ -6,7 +6,6 @@ import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
 import java.util.Optional;
 
@@ -19,8 +18,6 @@ public class MapResultResolverImpl implements MapResultResolver {
   @Override
   public MapResult resolve(UnresolvedMapResult unresolvedMapResult) {
     final PList<Pojo> pojos = unresolvedMapResult.getPojos();
-    final PList<UnresolvedComposedPojo> composedPojos =
-        unresolvedMapResult.getUnresolvedComposedPojos();
     final PList<PojoMemberReference> pojoMemberReferences =
         unresolvedMapResult.getPojoMemberReferences();
     final PList<UnresolvedObjectPojo> unresolvedObjectPojos =
@@ -29,7 +26,6 @@ public class MapResultResolverImpl implements MapResultResolver {
     final PList<Pojo> resolvedPojos =
         Optional.of(pojos)
             .map(p -> UnresolvedObjectPojoResolver.resolve(unresolvedObjectPojos, p))
-            .map(p -> UnresolvedComposedPojoResolver.resolve(composedPojos, p))
             .map(p -> inlineMemberReferences(p, pojoMemberReferences))
             .map(this::addEnumDescription)
             .orElse(PList.empty());

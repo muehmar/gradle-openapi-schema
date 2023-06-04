@@ -127,7 +127,6 @@ class ArraySchemaTest {
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final ArrayPojo expectedPojo =

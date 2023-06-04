@@ -223,7 +223,6 @@ class StringSchemaTest {
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(0, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(1, unresolvedMapResult.getPojoMemberReferences().size());
 
     final PojoMemberReference expectedPojoMemberReference =

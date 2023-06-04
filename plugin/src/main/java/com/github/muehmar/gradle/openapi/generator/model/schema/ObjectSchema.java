@@ -53,13 +53,9 @@ public class ObjectSchema implements OpenApiSchema {
   }
 
   public static Optional<ObjectSchema> wrap(Schema<?> schema) {
-    final Map<String, Schema> propertiesNullable = schema.getProperties();
-    final Object additionalPropertiesNullable = schema.getAdditionalProperties();
-    if (propertiesNullable != null
-        || additionalPropertiesNullable != null
-        || SchemaType.OBJECT.matchesType(schema)) {
+    if (isObjectSchema(schema)) {
       final Map<String, Schema> properties =
-          Optional.ofNullable(propertiesNullable).orElseGet(Collections::emptyMap);
+          Optional.ofNullable(schema.getProperties()).orElseGet(Collections::emptyMap);
 
       final RequiredProperties requiredProperties =
           RequiredPropertiesBuilder.create()
@@ -68,13 +64,32 @@ public class ObjectSchema implements OpenApiSchema {
               .build();
 
       final AdditionalPropertiesSchema additionalPropertiesSchema =
-          AdditionalPropertiesSchema.wrapNullable(additionalPropertiesNullable);
+          AdditionalPropertiesSchema.wrapNullable(schema.getAdditionalProperties());
 
       final ObjectSchema objectSchema =
           new ObjectSchema(schema, properties, requiredProperties, additionalPropertiesSchema);
       return Optional.of(objectSchema);
     }
     return Optional.empty();
+  }
+
+  private static boolean isObjectSchema(Schema<?> schema) {
+    if (schema.getProperties() != null) {
+      return true;
+    }
+    if (schema.getAdditionalProperties() != null) {
+      return true;
+    }
+    if (schema.getAllOf() != null) {
+      return true;
+    }
+    if (schema.getOneOf() != null) {
+      return true;
+    }
+    if (schema.getAnyOf() != null) {
+      return true;
+    }
+    return SchemaType.OBJECT.matchesType(schema);
   }
 
   @Override

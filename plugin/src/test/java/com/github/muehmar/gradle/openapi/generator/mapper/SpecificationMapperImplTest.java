@@ -21,6 +21,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
@@ -476,7 +477,7 @@ class SpecificationMapperImplTest {
 
     assertEquals(2, pojos.size());
 
-    assertEquals(
+    final ObjectPojo expectedAllOfPojo =
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("ComposedPojoNameAllOf", "Dto"))
             .description("")
@@ -498,31 +499,19 @@ class SpecificationMapperImplTest {
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
-            .build(),
-        pojos.apply(0));
+            .build();
+
+    assertEquals(expectedAllOfPojo, pojos.apply(0));
 
     assertEquals(
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"))
             .description("")
-            .members(
-                PList.of(
-                    new PojoMember(
-                        Name.ofString("user"),
-                        "",
-                        StringType.noFormat(),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("key"),
-                        "",
-                        IntegerType.formatInteger(),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+            .members(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
+            .andOptionals()
+            .allOfComposition(AllOfComposition.fromPojos(PList.of(expectedAllOfPojo)))
             .build(),
         pojos.apply(1));
   }
@@ -568,7 +557,7 @@ class SpecificationMapperImplTest {
 
     assertEquals(4, pojos.size());
 
-    assertEquals(
+    final ObjectPojo expectedAllOf0Pojo =
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("ComposedPojoNameAllOf0", "Dto"))
             .description("")
@@ -590,10 +579,10 @@ class SpecificationMapperImplTest {
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
-            .build(),
-        pojos.apply(0));
+            .build();
+    assertEquals(expectedAllOf0Pojo, pojos.apply(0));
 
-    assertEquals(
+    final ObjectPojo expectedAllOf1Pojo =
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("ComposedPojoNameAllOf1", "Dto"))
             .description("")
@@ -615,63 +604,10 @@ class SpecificationMapperImplTest {
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
-            .build(),
-        pojos.apply(1));
+            .build();
+    assertEquals(expectedAllOf1Pojo, pojos.apply(1));
 
-    assertEquals(
-        ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"))
-            .description("")
-            .members(
-                PList.of(
-                    new PojoMember(
-                        Name.ofString("color"),
-                        "",
-                        StringType.noFormat(),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("group"),
-                        "",
-                        IntegerType.formatInteger(),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("user"),
-                        "",
-                        StringType.noFormat(),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("key"),
-                        "",
-                        IntegerType.formatInteger(),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("registerDate"),
-                        "",
-                        StringType.ofFormat(DATE),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
-                    new PojoMember(
-                        Name.ofString("languages"),
-                        "",
-                        ArrayType.ofItemType(StringType.noFormat()),
-                        PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
-            .constraints(Constraints.empty())
-            .additionalProperties(anyTypeAllowed())
-            .build(),
-        pojos.apply(2));
-
-    assertEquals(
+    final ObjectPojo expectedReferencePojo =
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("ReferenceSchema", "Dto"))
             .description("")
@@ -693,8 +629,22 @@ class SpecificationMapperImplTest {
                         NOT_NULLABLE)))
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
+            .build();
+    assertEquals(
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"))
+            .description("")
+            .members(PList.empty())
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .andOptionals()
+            .allOfComposition(
+                AllOfComposition.fromPojos(
+                    PList.of(expectedReferencePojo, expectedAllOf0Pojo, expectedAllOf1Pojo)))
             .build(),
-        pojos.apply(3));
+        pojos.apply(2));
+
+    assertEquals(expectedReferencePojo, pojos.apply(3));
   }
 
   @Test

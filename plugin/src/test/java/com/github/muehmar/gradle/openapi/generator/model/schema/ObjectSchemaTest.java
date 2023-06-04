@@ -92,7 +92,6 @@ class ObjectSchemaTest {
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(0, unresolvedMapResult.getPojos().size());
     assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final ObjectPojo objectPojo =
@@ -158,7 +157,6 @@ class ObjectSchemaTest {
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(0, unresolvedMapResult.getPojos().size());
     assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final ObjectPojo objectPojo =
@@ -213,7 +211,6 @@ class ObjectSchemaTest {
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(0, unresolvedMapResult.getPojos().size());
     assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final ObjectPojo objectPojo =
@@ -267,7 +264,6 @@ class ObjectSchemaTest {
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(0, unresolvedMapResult.getPojos().size());
     assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final ObjectPojo objectPojo =
@@ -315,7 +311,6 @@ class ObjectSchemaTest {
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
     assertEquals(0, unresolvedMapResult.getPojos().size());
     assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final ObjectPojo objectPojo =
