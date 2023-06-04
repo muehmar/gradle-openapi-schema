@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import java.util.function.BiFunction;
 import lombok.EqualsAndHashCode;
@@ -39,6 +40,11 @@ public class MapContext {
 
   public static MapContext ofPojo(Pojo pojo) {
     return new MapContext(UnmappedItems.empty(), UnresolvedMapResult.ofPojo(pojo));
+  }
+
+  public static MapContext ofUnresolvedObjectPojo(UnresolvedObjectPojo unresolvedObjectPojo) {
+    return new MapContext(
+        UnmappedItems.empty(), UnresolvedMapResult.ofUnresolvedObjectPojo(unresolvedObjectPojo));
   }
 
   public static MapContext ofPojoMemberReference(PojoMemberReference pojoMemberReference) {

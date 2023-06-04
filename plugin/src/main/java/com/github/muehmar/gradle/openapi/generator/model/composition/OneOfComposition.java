@@ -13,7 +13,7 @@ public class OneOfComposition {
   private final PList<Pojo> pojos;
   private final Optional<Discriminator> discriminator;
 
-  private OneOfComposition(PList<Pojo> pojos, Optional<Discriminator> discriminator) {
+  OneOfComposition(PList<Pojo> pojos, Optional<Discriminator> discriminator) {
     this.pojos = pojos;
     this.discriminator = discriminator;
   }
