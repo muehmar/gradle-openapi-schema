@@ -176,6 +176,21 @@ public class JavaObjectPojo implements JavaPojo {
     return members;
   }
 
+  private PList<JavaPojoMember> getCompositionMembers() {
+    final PList<JavaObjectPojo> allOfPojos =
+        allOfComposition.map(JavaAllOfComposition::getPojos).orElseGet(PList::empty);
+    final PList<JavaObjectPojo> oneOfPojos =
+        oneOfComposition.map(JavaOneOfComposition::getPojos).orElseGet(PList::empty);
+    final PList<JavaObjectPojo> anyOfPojos =
+        anyOfComposition.map(JavaAnyOfComposition::getPojos).orElseGet(PList::empty);
+    return allOfPojos.concat(oneOfPojos).concat(anyOfPojos).flatMap(JavaObjectPojo::getMembers);
+  }
+
+  public PList<JavaPojoMember> getAllMembers() {
+    final PList<JavaPojoMember> compositionMembers = getCompositionMembers();
+    return members.concat(compositionMembers);
+  }
+
   public Optional<JavaAllOfComposition> getAllOfComposition() {
     return allOfComposition;
   }
@@ -199,7 +214,7 @@ public class JavaObjectPojo implements JavaPojo {
   public MemberGenerator.MemberContent getMemberContent() {
     return MemberContentBuilder.create()
         .isArrayPojo(false)
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -207,7 +222,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return HashCodeContentBuilder.create()
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -216,7 +231,7 @@ public class JavaObjectPojo implements JavaPojo {
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return EqualsContentBuilder.create()
         .className(getClassName())
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -225,7 +240,7 @@ public class JavaObjectPojo implements JavaPojo {
   public ToStringGenerator.ToStringContent getToStringContent() {
     return ToStringContentBuilder.create()
         .className(getClassName())
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -235,7 +250,7 @@ public class JavaObjectPojo implements JavaPojo {
     return ConstructorContentBuilder.create()
         .isArray(false)
         .className(getClassName())
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -244,7 +259,7 @@ public class JavaObjectPojo implements JavaPojo {
   public NormalBuilderGenerator.NormalBuilderContent getNormalBuilderContent() {
     return NormalBuilderContentBuilder.create()
         .className(getClassName())
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();

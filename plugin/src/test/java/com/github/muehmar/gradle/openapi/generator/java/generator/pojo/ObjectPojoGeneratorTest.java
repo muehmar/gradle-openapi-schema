@@ -19,9 +19,14 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
+import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
@@ -31,6 +36,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
@@ -45,6 +51,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.function.BiFunction;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -529,5 +536,89 @@ class ObjectPojoGeneratorTest {
             .asString();
 
     expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("allOfComposition")
+  void generate_when_allOfComposition_then_correctOutput() {
+    final JavaObjectPojo javaPojo =
+        createCompositionPojo(
+            (builder, pojos) -> builder.allOfComposition(AllOfComposition.fromPojos(pojos)));
+
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer =
+        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("oneOfComposition")
+  void generate_when_oneOfComposition_then_correctOutput() {
+    final JavaObjectPojo javaPojo =
+        createCompositionPojo(
+            (builder, pojos) -> builder.oneOfComposition(OneOfComposition.fromPojos(pojos)));
+
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer =
+        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("anyOfComposition")
+  void generate_when_anyOfComposition_then_correctOutput() {
+    final JavaObjectPojo javaPojo =
+        createCompositionPojo(
+            (builder, pojos) -> builder.anyOfComposition(AnyOfComposition.fromPojos(pojos)));
+
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer =
+        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  private static JavaObjectPojo createCompositionPojo(
+      BiFunction<ObjectPojoBuilder.Builder, PList<Pojo>, ObjectPojoBuilder.Builder>
+          addCompositions) {
+
+    final PojoMember requiredString = PojoMembers.requiredString();
+    final PojoMember requiredBirthdate = PojoMembers.requiredBirthdate();
+    final PojoMember requiredUsername = PojoMembers.requiredUsername();
+
+    final ObjectPojo userPojo =
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .description("user")
+            .members(PList.of(requiredUsername))
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .build();
+    final ObjectPojo adminPojo =
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("Admin", "Dto"))
+            .description("admin")
+            .members(PList.of(requiredBirthdate))
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .build();
+    final ObjectPojoBuilder.Builder builder =
+        ObjectPojoBuilder.create()
+            .name(PojoName.ofNameAndSuffix("Person", "Dto"))
+            .description("person")
+            .members(PList.of(requiredString))
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .andOptionals();
+
+    final ObjectPojo objectPojo =
+        addCompositions.apply(builder, PList.of(adminPojo, userPojo)).build();
+
+    return (JavaObjectPojo) JavaObjectPojo.wrap(objectPojo, TypeMappings.empty()).getDefaultPojo();
   }
 }

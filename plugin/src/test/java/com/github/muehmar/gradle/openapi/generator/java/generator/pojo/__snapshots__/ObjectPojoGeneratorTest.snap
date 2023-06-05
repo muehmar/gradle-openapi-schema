@@ -1,3 +1,457 @@
+allOfComposition=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+/**
+ * person
+ */
+@JsonDeserialize(builder = PersonDto.Builder.class)
+public class PersonDto {
+  private final String requiredStringVal;
+  private final LocalDate birthdate;
+  private final String username;
+  private final Map<String, Object> additionalProperties;
+
+  public PersonDto(
+      String requiredStringVal,
+      LocalDate birthdate,
+      String username,
+      Map<String, Object> additionalProperties
+    ) {
+    this.requiredStringVal = requiredStringVal;
+    this.birthdate = birthdate;
+    this.username = username;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @NotNull
+  @Pattern(regexp="Hello")
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, additionalProperties);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      1 +
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final PersonDto other = (PersonDto) obj;
+    return Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.username, other.username)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      requiredStringVal,
+      birthdate,
+      username,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "PersonDto{" +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "birthdate=" + birthdate + ", " +
+      "username=" + "'" + username + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String requiredStringVal;
+    private LocalDate birthdate;
+    private String username;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public PersonDto build() {
+      return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    public Builder1 setRequiredStringVal(String requiredStringVal) {
+      return new Builder1(builder.setRequiredStringVal(requiredStringVal));
+    }
+
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public PersonDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public PersonDto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+anyOfComposition=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+/**
+ * person
+ */
+@JsonDeserialize(builder = PersonDto.Builder.class)
+public class PersonDto {
+  private final String requiredStringVal;
+  private final LocalDate birthdate;
+  private final String username;
+  private final Map<String, Object> additionalProperties;
+
+  public PersonDto(
+      String requiredStringVal,
+      LocalDate birthdate,
+      String username,
+      Map<String, Object> additionalProperties
+    ) {
+    this.requiredStringVal = requiredStringVal;
+    this.birthdate = birthdate;
+    this.username = username;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @NotNull
+  @Pattern(regexp="Hello")
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, additionalProperties);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      1 +
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final PersonDto other = (PersonDto) obj;
+    return Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.username, other.username)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      requiredStringVal,
+      birthdate,
+      username,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "PersonDto{" +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "birthdate=" + birthdate + ", " +
+      "username=" + "'" + username + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String requiredStringVal;
+    private LocalDate birthdate;
+    private String username;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public PersonDto build() {
+      return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    public Builder1 setRequiredStringVal(String requiredStringVal) {
+      return new Builder1(builder.setRequiredStringVal(requiredStringVal));
+    }
+
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public PersonDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public PersonDto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
 anyTypeMap=[
 package com.github.muehmar;
 
@@ -3758,6 +4212,233 @@ public class ObjectPojo1Dto {
     }
 
     public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
+oneOfComposition=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+/**
+ * person
+ */
+@JsonDeserialize(builder = PersonDto.Builder.class)
+public class PersonDto {
+  private final String requiredStringVal;
+  private final LocalDate birthdate;
+  private final String username;
+  private final Map<String, Object> additionalProperties;
+
+  public PersonDto(
+      String requiredStringVal,
+      LocalDate birthdate,
+      String username,
+      Map<String, Object> additionalProperties
+    ) {
+    this.requiredStringVal = requiredStringVal;
+    this.birthdate = birthdate;
+    this.username = username;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @NotNull
+  @Pattern(regexp="Hello")
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in and {@link
+   * Optional} if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, additionalProperties);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      1 +
+      additionalProperties.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final PersonDto other = (PersonDto) obj;
+    return Objects.deepEquals(this.requiredStringVal, other.requiredStringVal)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.username, other.username)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      requiredStringVal,
+      birthdate,
+      username,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "PersonDto{" +
+      "requiredStringVal=" + "'" + requiredStringVal + "'" + ", " +
+      "birthdate=" + birthdate + ", " +
+      "username=" + "'" + username + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String requiredStringVal;
+    private LocalDate birthdate;
+    private String username;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    /**
+     * RequiredStringVal
+     */
+    @JsonProperty("requiredStringVal")
+    private Builder setRequiredStringVal(String requiredStringVal) {
+      this.requiredStringVal = requiredStringVal;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * Username
+     */
+    @JsonProperty("username")
+    private Builder setUsername(String username) {
+      this.username = username;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public PersonDto build() {
+      return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    }
+  }
+
+  public static Builder0 newBuilder() {
+    return new Builder0(new Builder());
+  }
+
+  public static final class Builder0 {
+    private final Builder builder;
+
+    private Builder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    public Builder1 setRequiredStringVal(String requiredStringVal) {
+      return new Builder1(builder.setRequiredStringVal(requiredStringVal));
+    }
+
+  }
+
+  public static final class Builder1 {
+    private final Builder builder;
+
+    private Builder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 andAllOptionals(){
+      return new OptBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public PersonDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptBuilder0 {
+    private final Builder builder;
+
+    private OptBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public PersonDto build(){
       return builder.build();
     }
   }
