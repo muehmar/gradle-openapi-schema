@@ -1,7 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.Assertion.assertAllObjectPojos;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
@@ -13,11 +16,11 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaOneOfComposition {
-  private final PList<JavaPojo> pojos;
+  private final PList<JavaObjectPojo> pojos;
   private final Optional<Discriminator> discriminator;
 
   private JavaOneOfComposition(PList<JavaPojo> pojos, Optional<Discriminator> discriminator) {
-    this.pojos = pojos;
+    this.pojos = assertAllObjectPojos(pojos);
     this.discriminator = discriminator;
   }
 
@@ -40,7 +43,7 @@ public class JavaOneOfComposition {
     return new JavaOneOfComposition(pojos, Optional.of(discriminator));
   }
 
-  public PList<JavaPojo> getPojos() {
+  public PList<JavaObjectPojo> getPojos() {
     return pojos;
   }
 }
