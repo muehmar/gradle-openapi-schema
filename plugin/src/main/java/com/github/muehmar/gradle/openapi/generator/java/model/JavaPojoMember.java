@@ -5,7 +5,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumC
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator.EnumContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -13,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -20,39 +20,33 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
+@PojoBuilder
 public class JavaPojoMember {
   private final JavaMemberName name;
   private final String description;
   private final JavaType javaType;
   private final Necessity necessity;
   private final Nullability nullability;
+  private final MemberType type;
 
   private static final String TRISTATE_TO_PROPERTY =
       "onValue(val -> val).onNull(() -> null).onAbsent(() -> null)";
   private static final String TRISTATE_TO_ISNULL_FLAG =
       "onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)";
 
-  private JavaPojoMember(
+  JavaPojoMember(
       JavaMemberName name,
       String description,
       JavaType javaType,
       Necessity necessity,
-      Nullability nullability) {
+      Nullability nullability,
+      MemberType type) {
     this.javaType = javaType;
     this.name = name;
     this.description = description;
     this.necessity = necessity;
     this.nullability = nullability;
-  }
-
-  public static JavaPojoMember of(
-      Name name,
-      String description,
-      JavaType javaType,
-      Necessity necessity,
-      Nullability nullability) {
-    return new JavaPojoMember(
-        JavaMemberName.wrap(name), description, javaType, necessity, nullability);
+    this.type = type;
   }
 
   public static JavaPojoMember wrap(PojoMember pojoMember, TypeMappings typeMappings) {
@@ -62,7 +56,8 @@ public class JavaPojoMember {
         pojoMember.getDescription(),
         javaType,
         pojoMember.getNecessity(),
-        pojoMember.getNullability());
+        pojoMember.getNullability(),
+        MemberType.OBJECT_MEMBER);
   }
 
   public JavaMemberName getName() {
@@ -87,6 +82,46 @@ public class JavaPojoMember {
 
   public JavaType getJavaType() {
     return javaType;
+  }
+
+  public MemberType getType() {
+    return type;
+  }
+
+  public JavaPojoMember asAllOfMember() {
+    return JavaPojoMemberBuilder.create()
+        .name(name)
+        .description(description)
+        .javaType(javaType)
+        .necessity(necessity)
+        .nullability(nullability)
+        .type(MemberType.ALL_OF_MEMBER)
+        .andAllOptionals()
+        .build();
+  }
+
+  public JavaPojoMember asOneOfMember() {
+    return JavaPojoMemberBuilder.create()
+        .name(name)
+        .description(description)
+        .javaType(javaType)
+        .necessity(necessity)
+        .nullability(nullability)
+        .type(MemberType.ONE_OF_MEMBER)
+        .andAllOptionals()
+        .build();
+  }
+
+  public JavaPojoMember asAnyOfMember() {
+    return JavaPojoMemberBuilder.create()
+        .name(name)
+        .description(description)
+        .javaType(javaType)
+        .necessity(necessity)
+        .nullability(nullability)
+        .type(MemberType.ANY_OF_MEMBER)
+        .andAllOptionals()
+        .build();
   }
 
   public boolean isOptional() {
@@ -192,12 +227,13 @@ public class JavaPojoMember {
   /** Creates {@link EnumContent} for this member in case its type is an {@link EnumType}. */
   public Optional<EnumContent> asEnumContent() {
     final Function<JavaEnumType, Optional<EnumContent>> toEnumPojo =
-        type ->
+        enumType ->
             Optional.of(
                 EnumContentBuilder.create()
-                    .className(JavaIdentifier.fromName(type.getQualifiedClassName().getClassName()))
+                    .className(
+                        JavaIdentifier.fromName(enumType.getQualifiedClassName().getClassName()))
                     .description(getDescription())
-                    .members(type.getMembers())
+                    .members(enumType.getMembers())
                     .build());
     return javaType.fold(
         ignore -> Optional.empty(),
@@ -227,6 +263,14 @@ public class JavaPojoMember {
             integerType -> integerType,
             objectType -> objectType,
             stringType -> stringType);
-    return new JavaPojoMember(name, description, newType, necessity, nullability);
+    return new JavaPojoMember(name, description, newType, necessity, nullability, type);
+  }
+
+  public enum MemberType {
+    OBJECT_MEMBER,
+    ALL_OF_MEMBER,
+    ONE_OF_MEMBER,
+    ANY_OF_MEMBER,
+    ARRAY_VALUE
   }
 }

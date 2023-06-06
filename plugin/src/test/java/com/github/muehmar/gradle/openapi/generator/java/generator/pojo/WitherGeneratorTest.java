@@ -9,7 +9,9 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -66,20 +68,24 @@ class WitherGeneratorTest {
   void
       generate_when_pojoContainsPropertyNameWhichMatchesSubstringOfOtherProperty_then_correctOutput() {
     final JavaPojoMember surnameMember =
-        JavaPojoMember.of(
-            Name.ofString("surname"),
-            "desc",
-            JavaTypes.STRING,
-            Necessity.REQUIRED,
-            Nullability.NULLABLE);
+        JavaPojoMemberBuilder.create()
+            .name(JavaMemberName.wrap(Name.ofString("surname")))
+            .description("desc")
+            .javaType(JavaTypes.STRING)
+            .necessity(Necessity.REQUIRED)
+            .nullability(Nullability.NULLABLE)
+            .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+            .build();
 
     final JavaPojoMember nameMember =
-        JavaPojoMember.of(
-            Name.ofString("name"),
-            "desc",
-            JavaTypes.STRING,
-            Necessity.OPTIONAL,
-            Nullability.NULLABLE);
+        JavaPojoMemberBuilder.create()
+            .name(JavaMemberName.wrap(Name.ofString("name")))
+            .description("desc")
+            .javaType(JavaTypes.STRING)
+            .necessity(Necessity.OPTIONAL)
+            .nullability(Nullability.NULLABLE)
+            .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+            .build();
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.of(surnameMember, nameMember));
 

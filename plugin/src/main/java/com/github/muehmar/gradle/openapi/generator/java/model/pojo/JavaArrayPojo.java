@@ -14,8 +14,10 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.Po
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -71,12 +73,15 @@ public class JavaArrayPojo implements JavaPojo {
         ArrayType.ofItemType(arrayPojo.getItemType()).withConstraints(arrayPojo.getConstraints());
     final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, typeMappings);
     final Name name = Name.ofString("value");
-    return JavaPojoMember.of(
-        name,
-        arrayPojo.getDescription(),
-        javaArrayType,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+    return JavaPojoMemberBuilder.create()
+        .name(JavaMemberName.wrap(name))
+        .description(arrayPojo.getDescription())
+        .javaType(javaArrayType)
+        .necessity(Necessity.REQUIRED)
+        .nullability(Nullability.NOT_NULLABLE)
+        .type(JavaPojoMember.MemberType.ARRAY_VALUE)
+        .andAllOptionals()
+        .build();
   }
 
   @Override

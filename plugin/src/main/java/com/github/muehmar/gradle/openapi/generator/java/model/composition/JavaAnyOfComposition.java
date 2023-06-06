@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.Assertion.assertAllObjectPojos;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
@@ -35,5 +36,9 @@ public class JavaAnyOfComposition {
 
   public PList<JavaObjectPojo> getPojos() {
     return pojos;
+  }
+
+  public PList<JavaPojoMember> getMembers() {
+    return pojos.flatMap(JavaObjectPojo::getAllMembers).map(JavaPojoMember::asAnyOfMember);
   }
 }
