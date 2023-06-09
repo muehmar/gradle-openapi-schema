@@ -5,8 +5,8 @@ public Map<String, List<String>> getAdditionalProperties() {
 }
 
 /**
- * Returns the additional property with {@code key} wrapped in and {@link
- * Optional} if present, {@link Optional#empty()} otherwise
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
  */
 public Optional<List<String>> getAdditionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key));
@@ -21,8 +21,8 @@ public Map<String, @Valid ObjectDto> getAdditionalProperties() {
 }
 
 /**
- * Returns the additional property with {@code key} wrapped in and {@link
- * Optional} if present, {@link Optional#empty()} otherwise
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
  */
 public Optional<ObjectDto> getAdditionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key));
@@ -37,8 +37,8 @@ public Map<String, @Min(value = 3) @Max(value = 5) String> getAdditionalProperti
 }
 
 /**
- * Returns the additional property with {@code key} wrapped in and {@link
- * Optional} if present, {@link Optional#empty()} otherwise
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
  */
 public Optional<String> getAdditionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key));

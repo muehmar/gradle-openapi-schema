@@ -47,14 +47,30 @@ public class PersonDto {
     return requiredStringVal;
   }
 
+  /**
+   * Birthdate
+   */
+  @NotNull
+  public LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  /**
+   * Username
+   */
+  @NotNull
+  public String getUsername() {
+    return username;
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -274,14 +290,22 @@ public class PersonDto {
     return requiredStringVal;
   }
 
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  private String getUsername() {
+    return username;
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -482,8 +506,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -787,8 +811,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -1314,8 +1338,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -1752,8 +1776,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -2066,8 +2090,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<ColorEnum> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -2205,8 +2229,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Integer> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -2442,8 +2466,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -2694,8 +2718,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -2969,8 +2993,8 @@ public class NecessityAndNullabilityDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -3452,8 +3476,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<HelloDto> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -3591,8 +3615,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<HelloDto> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -3724,8 +3748,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<HelloDto> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -3876,8 +3900,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -4073,8 +4097,8 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -4268,14 +4292,22 @@ public class PersonDto {
     return requiredStringVal;
   }
 
+  private LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  private String getUsername() {
+    return username;
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -4546,8 +4578,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
@@ -4771,8 +4803,8 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in and {@link
-   * Optional} if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Object> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));

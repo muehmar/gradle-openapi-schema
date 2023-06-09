@@ -23,7 +23,7 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class AdditionalPropertiesGetter {
   private static final String SINGLE_PROP_GETTER_JAVA_DOC =
       "Returns the additional property with {@code key} wrapped "
-          + "in and {@link Optional} if present, {@link Optional#empty()} otherwise";
+          + "in an {@link Optional} if present, {@link Optional#empty()} otherwise";
 
   private AdditionalPropertiesGetter() {}
 

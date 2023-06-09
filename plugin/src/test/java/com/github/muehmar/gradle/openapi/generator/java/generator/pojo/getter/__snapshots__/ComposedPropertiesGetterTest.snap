@@ -1,0 +1,58 @@
+optionalAnyOfMember=[
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
+optionalNullableAnyOfMember=[
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getBirthdate() {
+  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+}
+]
+
+
+optionalNullableOneOfMember=[
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getBirthdate() {
+  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+}
+]
+
+
+optionalOneOfMember=[
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
+requiredAnyOfMember=[
+private LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
+requiredNullableAnyOfMember=[
+private LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
+requiredNullableOneOfMember=[
+private LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
+requiredOneOfMember=[
+private LocalDate getBirthdate() {
+  return birthdate;
+}
+]

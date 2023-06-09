@@ -64,6 +64,14 @@ public class JavaPojoMembers {
     return birthdate(REQUIRED, NULLABLE);
   }
 
+  public static JavaPojoMember optionalBirthdate() {
+    return birthdate(OPTIONAL, NOT_NULLABLE);
+  }
+
+  public static JavaPojoMember optionalNullableBirthdate() {
+    return birthdate(OPTIONAL, NULLABLE);
+  }
+
   public static JavaPojoMember requiredReference() {
     return reference(REQUIRED, NOT_NULLABLE);
   }

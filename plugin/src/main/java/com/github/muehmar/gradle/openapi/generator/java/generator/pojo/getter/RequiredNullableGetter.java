@@ -18,7 +18,7 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import java.util.function.BiPredicate;
 
-public class RequiredNullableGetter {
+class RequiredNullableGetter {
   private RequiredNullableGetter() {}
 
   public static Generator<JavaPojoMember, PojoSettings> getter() {

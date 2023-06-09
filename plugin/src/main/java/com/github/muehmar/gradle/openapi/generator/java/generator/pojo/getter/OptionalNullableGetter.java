@@ -20,7 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 
-public class OptionalNullableGetter {
+class OptionalNullableGetter {
   private OptionalNullableGetter() {}
 
   public static Generator<JavaPojoMember, PojoSettings> getter() {

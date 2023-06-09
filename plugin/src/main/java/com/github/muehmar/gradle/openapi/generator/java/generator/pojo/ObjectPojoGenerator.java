@@ -63,7 +63,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendOptional(
             EnumGenerator.nested(), pojo -> pojo.getAdditionalProperties().asEnumContent())
         .appendSingleBlankLine()
-        .appendList(GetterGenerator.generator(), JavaObjectPojo::getMembers, newLine())
+        .appendList(GetterGenerator.generator(), JavaObjectPojo::getAllMembers, newLine())
         .appendSingleBlankLine()
         .append(AdditionalPropertiesGetter.getter())
         .appendSingleBlankLine()
