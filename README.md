@@ -717,7 +717,7 @@ files, it must be registered as task-input to properly support incremental build
 The plugin parses by default the given main specification and resolves any referenced remote specifications and register
 them as task inputs. This is done before the actual task is executed. This can be disabled (see
 the [Configuration](#configuration) section) if needed to avoid parsing the specifications to determine the task inputs.
-In case incremental build should still work properly, one has to options:
+In case incremental build should still work properly, one has two options:
 
 * In case of no remote reference in the main specification: The main specification is still registered as input,
   therefore incremental build will still work properly.
