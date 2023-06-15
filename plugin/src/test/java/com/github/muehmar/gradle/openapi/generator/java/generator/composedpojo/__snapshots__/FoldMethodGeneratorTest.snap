@@ -1,28 +1,29 @@
 AnyOf=[
 
 /**
- * Folds this instance using the given mapping functions for the DTO's. All
- * mapping functions gets executed with its corresponding DTO as input if this
- * instance is valid against the corresponding schema and the results are returned
- * in a list. The order of the elements in the returned list is deterministic: The
- * order corresponds to the order of the mapping function arguments, i.e. the
- * result of the first mapping function will always be at the first position in
- * the list (if the function gets executed).<br><br>
+ * Folds the anyOf part of this instance using the given mapping functions for the
+ * DTO's. All mapping functions gets executed with its corresponding DTO as input
+ * if this instance is valid against the corresponding schema and the results are
+ * returned in a list. The order of the elements in the returned list is
+ * deterministic: The order corresponds to the order of the mapping function
+ * arguments, i.e. the result of the first mapping function will always be at the
+ * first position in the list (if the function gets executed).<br><br>
  * 
- * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
- * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
+ * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
+ * SampleObjectPojo1Dto} as argument.<br><br>
  * 
  * This method assumes this instance is either manually or automatically
- * validated, i.e. the JSON is valid against at least one of the schemas. If it is
- * valid against no schema, it will simply return an empty list.
+ * validated, i.e. the JSON is valid against at least one of the anyOf schemas. If
+ * it is valid against no schema, it will simply return an empty list.
  */
-public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+public <T> List<T> foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   final List<T> result = new ArrayList<>();
-  if (isValidAgainstUserDto()) {
-    result.add(onUserDto.apply(asUserDto()));
+  if (isValidAgainstSampleObjectPojo1Dto()) {
+    result.add(onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto()));
   }
-  if (isValidAgainstNecessityAndNullabilityDto()) {
-    result.add(onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto()));
+  if (isValidAgainstSampleObjectPojo2Dto()) {
+    result.add(onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto()));
   }
   return result;
 }
@@ -31,24 +32,26 @@ public <T> List<T> fold(Function<UserDto, T> onUserDto, Function<NecessityAndNul
 
 OneOfDiscriminatorWithMapping=[
 /**
- * Folds this instance using the given mapping functions for the DTO's. If this
- * instance is valid against exactly one of the specified schemas, its
- * corresponding mapping function gets executed with the DTO as input and its
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br><br>
  * 
- * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
- * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
+ * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
+ * SampleObjectPojo1Dto} as argument.<br><br>
  * 
- * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+ * Unlike {@link OneOfPojo1Dto#foldOneOf(Function, Function)}, this method accepts
  * as last parameter a {@link Supplier} which gets called in case this instance is
- * not valid against exactly one of the defined schemas and its value is returned.
+ * not valid against exactly one of the defined oneOf schemas and its value is
+ * returned.
  */
-public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if ("UserValue".equals(requiredStringVal) && isValidAgainstUserDto()) {
-    return onUserDto.apply(asUserDto());
+public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
+  if ("obj1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+    return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if ("NNVariantsValue".equals(requiredStringVal) && isValidAgainstNecessityAndNullabilityDto()) {
-    return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
+  else if ("obj2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+    return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
     return onInvalid.get();
@@ -56,49 +59,53 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 }
 
 /**
- * Folds this instance using the given mapping functions for the DTO's. If this
- * instance is valid against exactly one of the specified schemas, its
- * corresponding mapping function gets executed with the DTO as input and its
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br><br>
  * 
- * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
- * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
+ * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
+ * SampleObjectPojo1Dto} as argument.<br><br>
  * 
  * This method assumes this instance is either manually or automatically
- * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
- * either valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * validated, i.e. the JSON is valid against exactly one of the oneOf schemas. If
+ * it is either valid against no schema or multiple schemas, it will throw an
+ * {@link IllegalStateException}.
  */
-public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   return fold(
-    onUserDto,
-    onNecessityAndNullabilityDto,
-    () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
+    onSampleObjectPojo1Dto,
+    onSampleObjectPojo2Dto,
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
   );
 }
+
 ]
 
 
 OneOfDiscriminatorWithoutMapping=[
 /**
- * Folds this instance using the given mapping functions for the DTO's. If this
- * instance is valid against exactly one of the specified schemas, its
- * corresponding mapping function gets executed with the DTO as input and its
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br><br>
  * 
- * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
- * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
+ * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
+ * SampleObjectPojo1Dto} as argument.<br><br>
  * 
- * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+ * Unlike {@link OneOfPojo1Dto#foldOneOf(Function, Function)}, this method accepts
  * as last parameter a {@link Supplier} which gets called in case this instance is
- * not valid against exactly one of the defined schemas and its value is returned.
+ * not valid against exactly one of the defined oneOf schemas and its value is
+ * returned.
  */
-public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if ("User".equals(requiredStringVal) && isValidAgainstUserDto()) {
-    return onUserDto.apply(asUserDto());
+public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
+  if ("SampleObjectPojo1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+    return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if ("NecessityAndNullability".equals(requiredStringVal) && isValidAgainstNecessityAndNullabilityDto()) {
-    return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
+  else if ("SampleObjectPojo2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+    return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
     return onInvalid.get();
@@ -106,49 +113,53 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 }
 
 /**
- * Folds this instance using the given mapping functions for the DTO's. If this
- * instance is valid against exactly one of the specified schemas, its
- * corresponding mapping function gets executed with the DTO as input and its
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br><br>
  * 
- * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
- * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
+ * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
+ * SampleObjectPojo1Dto} as argument.<br><br>
  * 
  * This method assumes this instance is either manually or automatically
- * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
- * either valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * validated, i.e. the JSON is valid against exactly one of the oneOf schemas. If
+ * it is either valid against no schema or multiple schemas, it will throw an
+ * {@link IllegalStateException}.
  */
-public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   return fold(
-    onUserDto,
-    onNecessityAndNullabilityDto,
-    () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
+    onSampleObjectPojo1Dto,
+    onSampleObjectPojo2Dto,
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
   );
 }
+
 ]
 
 
 OneOfNoDiscriminator=[
 /**
- * Folds this instance using the given mapping functions for the DTO's. If this
- * instance is valid against exactly one of the specified schemas, its
- * corresponding mapping function gets executed with the DTO as input and its
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br><br>
  * 
- * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
- * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
+ * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
+ * SampleObjectPojo1Dto} as argument.<br><br>
  * 
- * Unlike {@link ComposedOneofDto#fold(Function, Function)}, this method accepts
+ * Unlike {@link OneOfPojo1Dto#foldOneOf(Function, Function)}, this method accepts
  * as last parameter a {@link Supplier} which gets called in case this instance is
- * not valid against exactly one of the defined schemas and its value is returned.
+ * not valid against exactly one of the defined oneOf schemas and its value is
+ * returned.
  */
-public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto, Supplier<T> onInvalid) {
-  if (isValidAgainstUserDto()) {
-    return onUserDto.apply(asUserDto());
+public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
+  if (isValidAgainstSampleObjectPojo1Dto()) {
+    return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if (isValidAgainstNecessityAndNullabilityDto()) {
-    return onNecessityAndNullabilityDto.apply(asNecessityAndNullabilityDto());
+  else if (isValidAgainstSampleObjectPojo2Dto()) {
+    return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
     return onInvalid.get();
@@ -156,24 +167,26 @@ public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabili
 }
 
 /**
- * Folds this instance using the given mapping functions for the DTO's. If this
- * instance is valid against exactly one of the specified schemas, its
- * corresponding mapping function gets executed with the DTO as input and its
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br><br>
  * 
- * I.e. if the JSON was valid against the schema 'User', the mapping method {@code
- * onUserDto} gets executed with the {@link UserDto} as argument.<br><br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
+ * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
+ * SampleObjectPojo1Dto} as argument.<br><br>
  * 
  * This method assumes this instance is either manually or automatically
- * validated, i.e. the JSON is valid against exactly one of the schemas. If it is
- * either valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * validated, i.e. the JSON is valid against exactly one of the oneOf schemas. If
+ * it is either valid against no schema or multiple schemas, it will throw an
+ * {@link IllegalStateException}.
  */
-public <T> T fold(Function<UserDto, T> onUserDto, Function<NecessityAndNullabilityDto, T> onNecessityAndNullabilityDto) {
+public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   return fold(
-    onUserDto,
-    onNecessityAndNullabilityDto,
-    () -> {throw new IllegalStateException("Unable to fold ComposedOneofDto: Not valid against one of the schemas [UserDto, NecessityAndNullabilityDto].");}
+    onSampleObjectPojo1Dto,
+    onSampleObjectPojo2Dto,
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
   );
 }
+
 ]

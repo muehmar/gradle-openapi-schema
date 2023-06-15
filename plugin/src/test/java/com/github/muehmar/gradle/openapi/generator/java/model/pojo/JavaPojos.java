@@ -9,10 +9,9 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
-import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.*;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -32,6 +31,38 @@ import java.util.Optional;
 public class JavaPojos {
   private JavaPojos() {}
 
+  public static JavaObjectPojo sampleObjectPojo1() {
+    return JavaObjectPojo.from(
+        PojoName.ofNameAndSuffix("SampleObjectPojo1", "Dto"),
+        "",
+        PList.of(
+            JavaPojoMembers.requiredString(),
+            JavaPojoMembers.requiredInteger(),
+            JavaPojoMembers.requiredDouble()),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        PojoType.DEFAULT,
+        JavaAdditionalProperties.anyTypeAllowed(),
+        Constraints.empty());
+  }
+
+  public static JavaObjectPojo sampleObjectPojo2() {
+    return JavaObjectPojo.from(
+        PojoName.ofNameAndSuffix("SampleObjectPojo2", "Dto"),
+        "",
+        PList.of(
+            JavaPojoMembers.requiredString(),
+            JavaPojoMembers.requiredBirthdate(),
+            JavaPojoMembers.requiredEmail()),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        PojoType.DEFAULT,
+        JavaAdditionalProperties.anyTypeAllowed(),
+        Constraints.empty());
+  }
+
   public static JavaObjectPojo objectPojo(
       PList<JavaPojoMember> members, JavaAdditionalProperties additionalProperties) {
     return JavaObjectPojo.from(
@@ -44,6 +75,44 @@ public class JavaPojos {
         PojoType.DEFAULT,
         additionalProperties,
         Constraints.empty());
+  }
+
+  public static JavaObjectPojo oneOfPojo(JavaOneOfComposition javaOneOfComposition) {
+    return JavaObjectPojo.from(
+        PojoName.ofNameAndSuffix("OneOfPojo1", "Dto"),
+        "",
+        PList.empty(),
+        Optional.empty(),
+        Optional.of(javaOneOfComposition),
+        Optional.empty(),
+        PojoType.DEFAULT,
+        JavaAdditionalProperties.anyTypeAllowed(),
+        Constraints.empty());
+  }
+
+  public static JavaObjectPojo oneOfPojo(PList<JavaPojo> oneOfPojos) {
+    return oneOfPojo(JavaOneOfComposition.fromPojos(oneOfPojos));
+  }
+
+  public static JavaObjectPojo oneOfPojo(JavaPojo... oneOfPojos) {
+    return oneOfPojo(PList.fromArray(oneOfPojos));
+  }
+
+  public static JavaObjectPojo anyOfPojo(PList<JavaPojo> oneOfPojos) {
+    return JavaObjectPojo.from(
+        PojoName.ofNameAndSuffix("AnyOfPojo1", "Dto"),
+        "",
+        PList.empty(),
+        Optional.empty(),
+        Optional.empty(),
+        Optional.of(JavaAnyOfComposition.fromPojos(oneOfPojos)),
+        PojoType.DEFAULT,
+        JavaAdditionalProperties.anyTypeAllowed(),
+        Constraints.empty());
+  }
+
+  public static JavaObjectPojo anyOfPojo(JavaPojo... anyOfPojos) {
+    return anyOfPojo(PList.fromArray(anyOfPojos));
   }
 
   public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {

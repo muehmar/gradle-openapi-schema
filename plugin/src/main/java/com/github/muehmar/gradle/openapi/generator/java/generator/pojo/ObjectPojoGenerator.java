@@ -4,6 +4,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.FoldMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AdditionalPropertiesGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
@@ -70,6 +71,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .append(WitherGenerator.generator(), JavaObjectPojo::getWitherContent)
         .appendSingleBlankLine()
         .append(PojoPropertyCountMethod.propertyCountMethod())
+        .appendSingleBlankLine()
+        .append(FoldMethodGenerator.generator())
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaObjectPojo::getEqualsContent)
         .appendSingleBlankLine()

@@ -51,4 +51,8 @@ public class JavaOneOfComposition {
   public PList<JavaPojoMember> getMembers() {
     return pojos.flatMap(JavaObjectPojo::getAllMembers).map(JavaPojoMember::asOneOfMember);
   }
+
+  public Optional<Discriminator> getDiscriminator() {
+    return discriminator;
+  }
 }
