@@ -1,0 +1,44 @@
+anyOf=[
+
+private boolean isValidAgainstSampleObjectPojo1Dto() {
+  return
+    stringVal != null &&
+    intVal != null &&
+    doubleVal != null;
+}
+
+private boolean isValidAgainstSampleObjectPojo2Dto() {
+  return
+    stringVal != null &&
+    birthdate != null &&
+    email != null;
+}
+
+private boolean isValidAgainstObjectPojo1Dto() {
+  return
+    isBirthdatePresent;
+}
+]
+
+
+oneOf=[
+private boolean isValidAgainstSampleObjectPojo1Dto() {
+  return
+    stringVal != null &&
+    intVal != null &&
+    doubleVal != null;
+}
+
+private boolean isValidAgainstSampleObjectPojo2Dto() {
+  return
+    stringVal != null &&
+    birthdate != null &&
+    email != null;
+}
+
+private boolean isValidAgainstObjectPojo1Dto() {
+  return
+    isBirthdatePresent;
+}
+
+]

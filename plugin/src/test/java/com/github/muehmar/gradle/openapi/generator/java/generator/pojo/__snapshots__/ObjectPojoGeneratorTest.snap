@@ -373,6 +373,16 @@ public class PersonDto {
     );
   }
 
+  private boolean isValidAgainstAdminDto() {
+    return
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstUserDto() {
+    return
+      username != null;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -4438,6 +4448,16 @@ public class PersonDto {
       username,
       additionalProperties
     );
+  }
+
+  private boolean isValidAgainstAdminDto() {
+    return
+      birthdate != null;
+  }
+
+  private boolean isValidAgainstUserDto() {
+    return
+      username != null;
   }
 
   @Override

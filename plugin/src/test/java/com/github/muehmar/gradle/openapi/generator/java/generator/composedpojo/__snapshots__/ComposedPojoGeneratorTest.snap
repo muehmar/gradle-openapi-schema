@@ -182,18 +182,6 @@ public class ComposedAnyofDto {
       (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
-  private boolean isValidAgainstUserDto() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullabilityDto() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
-  }
-
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
   @JsonIgnore
   private boolean isValidAgainstNoSchema() {
@@ -506,18 +494,6 @@ public class ComposedOneofDto {
     return
       (isValidAgainstUserDto() ? 1 : 0) +
       (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
-  }
-
-  private boolean isValidAgainstUserDto() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullabilityDto() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
   }
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
@@ -853,18 +829,6 @@ public class ComposedOneofDto {
       (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
-  private boolean isValidAgainstUserDto() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullabilityDto() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
-  }
-
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
   @JsonIgnore
   private boolean isValidAgainstTheCorrectSchema() {
@@ -1197,18 +1161,6 @@ public class ComposedOneofDto {
       (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
-  private boolean isValidAgainstUserDto() {
-    return
-      username != null &&
-      birthdate != null;
-  }
-
-  private boolean isValidAgainstNecessityAndNullabilityDto() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent;
-  }
-
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
   @JsonIgnore
   private boolean isValidAgainstNoSchema() {
@@ -1505,17 +1457,6 @@ public class ComposedPojoDto {
     return
       (isValidAgainstObjectPojo1Dto() ? 1 : 0) +
       (isValidAgainstObjectPojo1Dto() ? 1 : 0);
-  }
-
-  private boolean isValidAgainstObjectPojo1Dto() {
-    return
-      stringVal != null;
-  }
-
-  private boolean isValidAgainstObjectPojo1Dto() {
-    return
-      color != null &&
-      intVal != null;
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [ObjectPojo1, ObjectPojo1]")

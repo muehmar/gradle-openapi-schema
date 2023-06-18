@@ -1,21 +1,37 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
+import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import java.util.Optional;
+import java.util.function.Function;
 import lombok.Value;
 
 public class ValidationMethodGenerator {
   private ValidationMethodGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> isValidAgainstMethod() {
-    return MethodGenBuilder.<JavaPojo, PojoSettings>create()
+  public static Generator<JavaObjectPojo, PojoSettings> isValidAgainstMethods() {
+    final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getOneOfPojosMembers =
+        p -> p.getOneOfComposition().map(JavaOneOfComposition::getPojos).orElseGet(PList::empty);
+    final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getAnyOfPojoMembers =
+        p -> p.getAnyOfComposition().map(JavaAnyOfComposition::getPojos).orElseGet(PList::empty);
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendList(isValidAgainstMethodForPojo(), getOneOfPojosMembers, newLine())
+        .appendSingleBlankLine()
+        .appendList(isValidAgainstMethodForPojo(), getAnyOfPojoMembers, newLine());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> isValidAgainstMethodForPojo() {
+    return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("boolean")
@@ -26,16 +42,16 @@ public class ValidationMethodGenerator {
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Generator<JavaPojo, PojoSettings> isValidAgainstMethodContent() {
-    final Generator<JavaPojo, PojoSettings> nonEmptyPojo =
-        Generator.<JavaPojo, PojoSettings>ofWriterFunction(w -> w.println("return"))
+  private static Generator<JavaObjectPojo, PojoSettings> isValidAgainstMethodContent() {
+    final Generator<JavaObjectPojo, PojoSettings> nonEmptyPojo =
+        Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(w -> w.println("return"))
             .appendList(
                 javaPojoMemberGen(),
-                pojo -> pojo.getMembersOrEmpty().map(member -> new JavaPojoAndMember(pojo, member)))
-            .filter(pojo -> pojo.getMembersOrEmpty().nonEmpty());
-    final Generator<JavaPojo, PojoSettings> emptyPojo =
-        Generator.<JavaPojo, PojoSettings>ofWriterFunction(w -> w.println("return true;"))
-            .filter(pojo -> pojo.getMembersOrEmpty().isEmpty());
+                pojo -> pojo.getMembers().map(member -> new JavaPojoAndMember(pojo, member)))
+            .filter(pojo -> pojo.getMembers().nonEmpty());
+    final Generator<JavaObjectPojo, PojoSettings> emptyPojo =
+        Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(w -> w.println("return true;"))
+            .filter(pojo -> pojo.getMembers().isEmpty());
     return nonEmptyPojo.append(emptyPojo);
   }
 
@@ -54,12 +70,8 @@ public class ValidationMethodGenerator {
 
   @Value
   private static class JavaPojoAndMember {
-    JavaPojo pojo;
+    JavaObjectPojo pojo;
     JavaPojoMember member;
-
-    boolean isRequired() {
-      return member.isRequired();
-    }
 
     boolean isRequiredAndNotNullable() {
       return member.isRequiredAndNotNullable();
@@ -70,7 +82,7 @@ public class ValidationMethodGenerator {
     }
 
     boolean isLast() {
-      return pojo.getMembersOrEmpty()
+      return pojo.getMembers()
           .filter(JavaPojoMember::isRequired)
           .reverse()
           .headOption()
