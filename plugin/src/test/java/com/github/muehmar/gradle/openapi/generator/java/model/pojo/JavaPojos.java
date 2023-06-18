@@ -98,14 +98,14 @@ public class JavaPojos {
     return oneOfPojo(PList.fromArray(oneOfPojos));
   }
 
-  public static JavaObjectPojo anyOfPojo(PList<JavaPojo> oneOfPojos) {
+  public static JavaObjectPojo anyOfPojo(PList<JavaPojo> anyOfPojos) {
     return JavaObjectPojo.from(
         PojoName.ofNameAndSuffix("AnyOfPojo1", "Dto"),
         "",
         PList.empty(),
         Optional.empty(),
         Optional.empty(),
-        Optional.of(JavaAnyOfComposition.fromPojos(oneOfPojos)),
+        Optional.of(JavaAnyOfComposition.fromPojos(anyOfPojos)),
         PojoType.DEFAULT,
         JavaAdditionalProperties.anyTypeAllowed(),
         Constraints.empty());

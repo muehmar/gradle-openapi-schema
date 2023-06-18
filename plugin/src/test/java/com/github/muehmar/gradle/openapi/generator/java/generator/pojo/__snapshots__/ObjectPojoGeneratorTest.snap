@@ -259,6 +259,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -356,6 +357,20 @@ public class PersonDto {
       result.add(onUserDto.apply(asUserDto()));
     }
     return result;
+  }
+
+  private AdminDto asAdminDto() {
+    return new AdminDto(
+      birthdate,
+      additionalProperties
+    );
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      additionalProperties
+    );
   }
 
   @Override
@@ -4290,6 +4305,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -4407,6 +4423,20 @@ public class PersonDto {
       onAdminDto,
       onUserDto,
       () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto].");}
+    );
+  }
+
+  private AdminDto asAdminDto() {
+    return new AdminDto(
+      birthdate,
+      additionalProperties
+    );
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      additionalProperties
     );
   }
 

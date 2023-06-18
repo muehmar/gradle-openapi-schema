@@ -1,14 +1,13 @@
-objectPojoWithAnyTypeAdditionalProperties=[
-private ObjectPojo1Dto asObjectPojo1Dto() {
-  return new ObjectPojo1Dto(
-    birthdate,
+composedPojo[anyOf]=[
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
     additionalProperties
   );
 }
-]
 
-
-objectPojoWithSpecificAdditionalPropertiesType=[
 private ObjectPojo1Dto asObjectPojo1Dto() {
   return new ObjectPojo1Dto(
     birthdate,
@@ -20,10 +19,22 @@ private ObjectPojo1Dto asObjectPojo1Dto() {
 ]
 
 
-pojoWithoutAdditionalProperties=[
-private PosologyDto asPosologyDto() {
-  return new PosologyDto(
-    value
+composedPojo[oneOf]=[
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    additionalProperties
+  );
+}
+
+private ObjectPojo1Dto asObjectPojo1Dto() {
+  return new ObjectPojo1Dto(
+    birthdate,
+    additionalProperties.entrySet().stream()
+      .filter(e -> e.getValue() instanceof String)
+      .collect(Collectors.toMap(Map.Entry::getKey, e -> (String)e.getValue()))
   );
 }
 ]

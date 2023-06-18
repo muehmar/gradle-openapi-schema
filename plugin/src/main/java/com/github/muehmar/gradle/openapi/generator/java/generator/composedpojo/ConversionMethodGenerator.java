@@ -9,19 +9,35 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGener
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
-import java.util.Optional;
+import java.util.function.Function;
 import lombok.Value;
 
 public class ConversionMethodGenerator {
   private ConversionMethodGenerator() {}
 
-  public static Generator<JavaPojo, PojoSettings> asDtoMethod() {
-    return MethodGenBuilder.<JavaPojo, PojoSettings>create()
+  public static Generator<JavaObjectPojo, PojoSettings> composedAsDtoMethods() {
+    final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getComposePojoMembers =
+        p ->
+            p.getAnyOfComposition()
+                .map(JavaAnyOfComposition::getPojos)
+                .orElseGet(PList::empty)
+                .concat(
+                    p.getOneOfComposition()
+                        .map(JavaOneOfComposition::getPojos)
+                        .orElseGet(PList::empty));
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendList(asSingleDtoMethod(), getComposePojoMembers, Generator.newLine());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> asSingleDtoMethod() {
+    return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType(pojo -> pojo.getClassName().asString())
@@ -31,23 +47,21 @@ public class ConversionMethodGenerator {
         .build();
   }
 
-  private static Generator<JavaPojo, PojoSettings> asDtoMethodContent() {
-    final Generator<ConstructorArgument, PojoSettings> memberGen =
-        (a, s, w) -> w.println("%s%s", a.getArgumentName(), a.getCommaOrNothing());
-    return Generator.<JavaPojo, PojoSettings>emptyGen()
+  private static Generator<JavaObjectPojo, PojoSettings> asDtoMethodContent() {
+    final Generator<JavaIdentifier, PojoSettings> memberGen =
+        (identifier, s, w) -> w.println("%s,", identifier);
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("return new %s(", p.getClassName()))
         .appendList(
             memberGen.indent(1),
             pojo ->
-                pojo.getMembersOrEmpty()
+                pojo.getMembers()
                     .map(m -> new PojoAndMember(pojo, m))
-                    .flatMap(PojoAndMember::asConstructorArguments))
-        .appendOptional(
-            additionalPropertiesArgument().indent(1),
-            pojo -> WrappedPojo.fromPojo(pojo).getAdditionalProperties())
-        .appendOptional(
+                    .flatMap(PojoAndMember::getFieldNameIdentifiers))
+        .append(additionalPropertiesArgument().indent(1), JavaObjectPojo::getAdditionalProperties)
+        .append(
             additionalPropertiesArgumentWithCasting().indent(1),
-            pojo -> WrappedPojo.fromPojo(pojo).getAdditionalProperties())
+            JavaObjectPojo::getAdditionalProperties)
         .append(w -> w.println(");"));
   }
 
@@ -80,50 +94,23 @@ public class ConversionMethodGenerator {
   }
 
   @Value
+  private static class ComposedPojo {
+    JavaObjectPojo composedPojo;
+  }
+
+  @Value
   private static class PojoAndMember {
-    JavaPojo pojo;
+    JavaObjectPojo pojo;
     JavaPojoMember member;
 
-    private String commaOrNothing() {
-      return WrappedPojo.fromPojo(pojo).getAdditionalProperties().isPresent() ? "," : "";
-    }
-
-    private PList<ConstructorArgument> asConstructorArguments() {
+    private PList<JavaIdentifier> getFieldNameIdentifiers() {
       if (member.isRequiredAndNotNullable() || member.isOptionalAndNotNullable()) {
-        return PList.single(
-            new ConstructorArgument(member.getNameAsIdentifier(), commaOrNothing()));
+        return PList.single(member.getNameAsIdentifier());
       } else if (member.isRequiredAndNullable()) {
-        return PList.of(
-            new ConstructorArgument(member.getNameAsIdentifier(), ","),
-            new ConstructorArgument(member.getIsPresentFlagName(), commaOrNothing()));
+        return PList.of(member.getNameAsIdentifier(), member.getIsPresentFlagName());
       } else {
-        return PList.of(
-            new ConstructorArgument(member.getNameAsIdentifier(), ","),
-            new ConstructorArgument(member.getIsNullFlagName(), commaOrNothing()));
+        return PList.of(member.getNameAsIdentifier(), member.getIsNullFlagName());
       }
     }
-  }
-
-  @Value
-  private static class WrappedPojo {
-    JavaPojo pojo;
-
-    public static WrappedPojo fromPojo(JavaPojo pojo) {
-      return new WrappedPojo(pojo);
-    }
-
-    Optional<JavaAdditionalProperties> getAdditionalProperties() {
-      return pojo.fold(
-          javaArrayPojo -> Optional.empty(),
-          enumPojo -> Optional.empty(),
-          objectPojo -> Optional.of(objectPojo.getAdditionalProperties()),
-          composedPojo -> Optional.of(JavaAdditionalProperties.anyTypeAllowed()));
-    }
-  }
-
-  @Value
-  private static class ConstructorArgument {
-    JavaIdentifier argumentName;
-    String commaOrNothing;
   }
 }

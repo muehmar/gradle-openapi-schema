@@ -200,26 +200,6 @@ public class ComposedAnyofDto {
     return getValidCount() == 0;
   }
 
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate,
-      additionalProperties
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      additionalProperties
-    );
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(
@@ -563,26 +543,6 @@ public class ComposedOneofDto {
   @JsonIgnore
   private boolean isValidAgainstMoreThanOneSchema() {
     return getValidCount() > 1;
-  }
-
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate,
-      additionalProperties
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      additionalProperties
-    );
   }
 
   @Override
@@ -930,26 +890,6 @@ public class ComposedOneofDto {
     return getValidCount() > 1;
   }
 
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate,
-      additionalProperties
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      additionalProperties
-    );
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(
@@ -1281,26 +1221,6 @@ public class ComposedOneofDto {
     return getValidCount() > 1;
   }
 
-  private UserDto asUserDto() {
-    return new UserDto(
-      username,
-      birthdate,
-      additionalProperties
-    );
-  }
-
-  private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
-    return new NecessityAndNullabilityDto(
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      additionalProperties
-    );
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(
@@ -1602,21 +1522,6 @@ public class ComposedPojoDto {
   @JsonIgnore
   private boolean isValidAgainstNoSchema() {
     return getValidCount() == 0;
-  }
-
-  private ObjectPojo1Dto asObjectPojo1Dto() {
-    return new ObjectPojo1Dto(
-      stringVal,
-      additionalProperties
-    );
-  }
-
-  private ObjectPojo1Dto asObjectPojo1Dto() {
-    return new ObjectPojo1Dto(
-      color,
-      intVal,
-      additionalProperties
-    );
   }
 
   @Override
