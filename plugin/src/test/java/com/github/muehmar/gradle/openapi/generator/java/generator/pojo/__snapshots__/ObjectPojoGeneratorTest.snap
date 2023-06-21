@@ -260,6 +260,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -387,6 +388,12 @@ public class PersonDto {
     return
       (isValidAgainstAdminDto() ? 1 : 0) +
       (isValidAgainstUserDto() ? 1 : 0);
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [Admin, User]")
+  @JsonIgnore
+  private boolean isValidAgainstNoAnyOfSchema() {
+    return getAnyOfValidCount() == 0;
   }
 
   @Override
@@ -4322,6 +4329,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -4470,6 +4478,18 @@ public class PersonDto {
     return
       (isValidAgainstAdminDto() ? 1 : 0) +
       (isValidAgainstUserDto() ? 1 : 0);
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [Admin, User]")
+  @JsonIgnore
+  private boolean isValidAgainstNoOneOfSchema() {
+    return getOneOfValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [Admin, User]")
+  @JsonIgnore
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getOneOfValidCount() > 1;
   }
 
   @Override

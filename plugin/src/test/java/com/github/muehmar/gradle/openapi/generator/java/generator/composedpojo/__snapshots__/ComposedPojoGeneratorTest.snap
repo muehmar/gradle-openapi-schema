@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -174,12 +173,6 @@ public class ComposedAnyofDto {
       return null;
     }
     return fold(dto -> dto, dto -> dto);
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  @JsonIgnore
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
   }
 
   @Override
@@ -364,7 +357,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -495,18 +487,6 @@ public class ComposedOneofDto {
       case "NNVariantsValue": return isValidAgainstNecessityAndNullabilityDto();
     }
     return false;
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  @JsonIgnore
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
-  }
-
-  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
-  @JsonIgnore
-  private boolean isValidAgainstMoreThanOneSchema() {
-    return getValidCount() > 1;
   }
 
   @Override
@@ -691,7 +671,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -822,18 +801,6 @@ public class ComposedOneofDto {
       case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
     }
     return false;
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  @JsonIgnore
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
-  }
-
-  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
-  @JsonIgnore
-  private boolean isValidAgainstMoreThanOneSchema() {
-    return getValidCount() > 1;
   }
 
   @Override
@@ -1018,7 +985,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertFalse;
 
 /**
  * Composition Description
@@ -1135,18 +1101,6 @@ public class ComposedOneofDto {
       return null;
     }
     return fold(dto -> dto, dto -> dto, () -> null);
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
-  @JsonIgnore
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
-  }
-
-  @AssertFalse(message = "Is valid against more than one of the schemas [User, NecessityAndNullability]")
-  @JsonIgnore
-  private boolean isValidAgainstMoreThanOneSchema() {
-    return getValidCount() > 1;
   }
 
   @Override
@@ -1327,7 +1281,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertFalse;
 
 @JsonDeserialize(builder = ComposedPojoDto.Builder.class)
 public class ComposedPojoDto {
@@ -1427,12 +1380,6 @@ public class ComposedPojoDto {
       return null;
     }
     return fold(dto -> dto, dto -> dto);
-  }
-
-  @AssertFalse(message = "Is not valid against one of the schemas [ObjectPojo1, ObjectPojo1]")
-  @JsonIgnore
-  private boolean isValidAgainstNoSchema() {
-    return getValidCount() == 0;
   }
 
   @Override

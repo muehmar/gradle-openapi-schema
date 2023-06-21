@@ -4,10 +4,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ConversionMethodGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.FoldMethodGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidCountMethodGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidationMethodGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.*;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AdditionalPropertiesGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
@@ -82,6 +79,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .append(ValidationMethodGenerator.isValidAgainstMethods())
         .appendSingleBlankLine()
         .append(ValidCountMethodGenerator.validCountMethod())
+        .appendSingleBlankLine()
+        .append(ValidCountValidationMethod.generator())
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaObjectPojo::getEqualsContent)
         .appendSingleBlankLine()
