@@ -3,12 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.java;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.array.ArrayPojoGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ComposedPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ObjectPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaFileName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
@@ -33,18 +31,11 @@ public class JavaPojoGenerator implements PojoGenerator {
         pojo.fold(
                 arrayPojo -> generateArrayPojo(arrayPojo, writer, pojoSettings),
                 enumPojo -> generateEnumPojo(enumPojo, writer, pojoSettings),
-                objectPojo -> generateObjectPojo(objectPojo, writer, pojoSettings),
-                composedPojo -> generateComposedPojo(composedPojo, writer, pojoSettings))
+                objectPojo -> generateObjectPojo(objectPojo, writer, pojoSettings))
             .asString();
 
     final JavaFileName javaFileName = JavaFileName.fromSettingsAndPojo(pojoSettings, pojo);
     return new GeneratedFile(javaFileName.asPath(), content);
-  }
-
-  private Writer generateComposedPojo(
-      JavaComposedPojo composedPojo, Writer writer, PojoSettings pojoSettings) {
-    final ComposedPojoGenerator generator = new ComposedPojoGenerator();
-    return generator.generate(composedPojo, pojoSettings, writer);
   }
 
   private Writer generateObjectPojo(JavaObjectPojo pojo, Writer writer, PojoSettings pojoSettings) {

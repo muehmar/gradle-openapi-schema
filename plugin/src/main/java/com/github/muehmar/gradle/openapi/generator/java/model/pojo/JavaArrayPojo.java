@@ -152,8 +152,7 @@ public class JavaArrayPojo implements JavaPojo {
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
-      Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo) {
+      Function<JavaObjectPojo, T> onObjectPojo) {
     return onArrayPojo.apply(this);
   }
 
