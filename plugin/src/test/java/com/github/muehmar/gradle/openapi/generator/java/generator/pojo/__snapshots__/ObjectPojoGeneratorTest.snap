@@ -260,6 +260,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -394,6 +395,15 @@ public class PersonDto {
   @JsonIgnore
   private boolean isValidAgainstNoAnyOfSchema() {
     return getAnyOfValidCount() == 0;
+  }
+
+  @Valid
+  @JsonIgnore
+  private List<Object> getAnyOf() {
+    if (getValidCount() == 0) {
+      return null;
+    }
+    return fold(dto -> dto, dto -> dto);
   }
 
   @Override

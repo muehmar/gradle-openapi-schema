@@ -2,7 +2,6 @@ ComposedPojoGenerator[ANY_OF,null]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 
 /**
  * Composition Description
@@ -164,15 +162,6 @@ public class ComposedAnyofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @Valid
-  @JsonIgnore
-  private List<Object> getAnyOf() {
-    if (getValidCount() == 0) {
-      return null;
-    }
-    return fold(dto -> dto, dto -> dto);
   }
 
   @Override
@@ -1239,7 +1228,6 @@ composedPojoWithEnumInSubPojos=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -1249,7 +1237,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 
 @JsonDeserialize(builder = ComposedPojoDto.Builder.class)
 public class ComposedPojoDto {
@@ -1340,15 +1327,6 @@ public class ComposedPojoDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getIntVal() {
     return intVal;
-  }
-
-  @Valid
-  @JsonIgnore
-  private List<Object> getAnyOf() {
-    if (getValidCount() == 0) {
-      return null;
-    }
-    return fold(dto -> dto, dto -> dto);
   }
 
   @Override

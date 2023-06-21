@@ -1,13 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
-import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ANY_OF;
-import static com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo.CompositionType.ONE_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static org.junit.jupiter.api.Assertions.*;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -24,11 +24,11 @@ class AnyOfFoldValidationGeneratorTest {
   @Test
   @SnapshotName("AnyOf")
   void generate_when_anyOf_then_correctOutput() {
-    final Generator<JavaComposedPojo, PojoSettings> generator =
+    final Generator<JavaObjectPojo, PojoSettings> generator =
         AnyOfFoldValidationGenerator.generator();
     final Writer writer =
         generator.generate(
-            JavaPojos.composedPojo(ANY_OF),
+            JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -38,11 +38,11 @@ class AnyOfFoldValidationGeneratorTest {
   @Test
   @SnapshotName("AnyOfProtectedAndDeprecatedSettings")
   void generate_when_anyOfProtectedAndDeprecatedSettings_then_correctOutput() {
-    final Generator<JavaComposedPojo, PojoSettings> generator =
+    final Generator<JavaObjectPojo, PojoSettings> generator =
         AnyOfFoldValidationGenerator.generator();
     final Writer writer =
         generator.generate(
-            JavaPojos.composedPojo(ANY_OF),
+            JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             TestPojoSettings.defaultSettings()
                 .withValidationMethods(
                     TestPojoSettings.defaultValidationMethods()
@@ -55,11 +55,11 @@ class AnyOfFoldValidationGeneratorTest {
 
   @Test
   void generate_when_oneOf_then_noOutput() {
-    final Generator<JavaComposedPojo, PojoSettings> generator =
+    final Generator<JavaObjectPojo, PojoSettings> generator =
         AnyOfFoldValidationGenerator.generator();
     final Writer writer =
         generator.generate(
-            JavaPojos.composedPojo(ONE_OF),
+            JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
