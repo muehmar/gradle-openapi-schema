@@ -4329,6 +4329,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -4490,6 +4491,15 @@ public class PersonDto {
   @JsonIgnore
   private boolean isValidAgainstMoreThanOneSchema() {
     return getOneOfValidCount() > 1;
+  }
+
+  @Valid
+  @JsonIgnore
+  private Object getOneOf() {
+    if (getValidCount() != 1) {
+      return null;
+    }
+    return fold(dto -> dto, dto -> dto, () -> null);
   }
 
   @Override

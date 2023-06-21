@@ -356,7 +356,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -465,15 +464,6 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @Valid
-  @JsonIgnore
-  private Object getOneOf() {
-    if (getValidCount() != 1) {
-      return null;
-    }
-    return fold(dto -> dto, dto -> dto, () -> null);
   }
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
@@ -670,7 +660,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -779,15 +768,6 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @Valid
-  @JsonIgnore
-  private Object getOneOf() {
-    if (getValidCount() != 1) {
-      return null;
-    }
-    return fold(dto -> dto, dto -> dto, () -> null);
   }
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
@@ -970,7 +950,6 @@ ComposedPojoGenerator[ONE_OF,null]=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -984,7 +963,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 
 /**
  * Composition Description
@@ -1092,15 +1070,6 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @Valid
-  @JsonIgnore
-  private Object getOneOf() {
-    if (getValidCount() != 1) {
-      return null;
-    }
-    return fold(dto -> dto, dto -> dto, () -> null);
   }
 
   @Override
