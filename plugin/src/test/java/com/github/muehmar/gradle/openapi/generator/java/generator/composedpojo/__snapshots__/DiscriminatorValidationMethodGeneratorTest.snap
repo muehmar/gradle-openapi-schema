@@ -1,29 +1,29 @@
-DiscriminatorWithMapping[ANY_OF]=[
+DiscriminatorWithMapping=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 @JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
-  if (requiredStringVal == null) {
+  if (stringVal == null) {
     return false;
   }
-  switch(requiredStringVal) {
-    case "UserValue": return isValidAgainstUserDto();
-    case "NNVariantsValue": return isValidAgainstNecessityAndNullabilityDto();
+  switch(stringVal) {
+    case "obj1": return isValidAgainstSampleObjectPojo1Dto();
+    case "obj2": return isValidAgainstSampleObjectPojo2Dto();
   }
   return false;
 }
 ]
 
 
-DiscriminatorWithMapping[ONE_OF]=[
+DiscriminatorWithoutMapping=[
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 @JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
-  if (requiredStringVal == null) {
+  if (stringVal == null) {
     return false;
   }
-  switch(requiredStringVal) {
-    case "UserValue": return isValidAgainstUserDto();
-    case "NNVariantsValue": return isValidAgainstNecessityAndNullabilityDto();
+  switch(stringVal) {
+    case "SampleObjectPojo1": return isValidAgainstSampleObjectPojo1Dto();
+    case "SampleObjectPojo2": return isValidAgainstSampleObjectPojo2Dto();
   }
   return false;
 }
@@ -39,55 +39,18 @@ DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings=[
 @Deprecated
 @JsonIgnore
 protected boolean isValidAgainstTheCorrectSchema() {
-  if (requiredStringVal == null) {
+  if (stringVal == null) {
     return false;
   }
-  switch(requiredStringVal) {
-    case "User": return isValidAgainstUserDto();
-    case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
+  switch(stringVal) {
+    case "obj1": return isValidAgainstSampleObjectPojo1Dto();
+    case "obj2": return isValidAgainstSampleObjectPojo2Dto();
   }
   return false;
 }
 ]
 
 
-DiscriminatorWithoutMapping[ANY_OF]=[
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
-@JsonIgnore
-private boolean isValidAgainstTheCorrectSchema() {
-  if (requiredStringVal == null) {
-    return false;
-  }
-  switch(requiredStringVal) {
-    case "User": return isValidAgainstUserDto();
-    case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
-  }
-  return false;
-}
-]
-
-
-DiscriminatorWithoutMapping[ONE_OF]=[
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
-@JsonIgnore
-private boolean isValidAgainstTheCorrectSchema() {
-  if (requiredStringVal == null) {
-    return false;
-  }
-  switch(requiredStringVal) {
-    case "User": return isValidAgainstUserDto();
-    case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
-  }
-  return false;
-}
-]
-
-
-NoDiscriminator[ANY_OF]=[
-
-]
-
-
-NoDiscriminator[ONE_OF]=[
+NoDiscriminator=[
 
 ]

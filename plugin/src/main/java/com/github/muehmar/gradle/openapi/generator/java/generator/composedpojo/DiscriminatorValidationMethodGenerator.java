@@ -9,7 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGe
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -23,7 +23,7 @@ import lombok.Value;
 public class DiscriminatorValidationMethodGenerator {
   private DiscriminatorValidationMethodGenerator() {}
 
-  public static Generator<JavaComposedPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> generator() {
     final Generator<PojoAndDiscriminator, PojoSettings> annotation =
         ValidationGenerator.assertTrue(
             pojo -> "Not valid against the schema described by the discriminator");
@@ -44,7 +44,7 @@ public class DiscriminatorValidationMethodGenerator {
             .append(JacksonAnnotationGenerator.jsonIgnore())
             .append(method);
 
-    return Generator.<JavaComposedPojo, PojoSettings>emptyGen()
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(completeMethodGen, PojoAndDiscriminator::fromPojo);
   }
 
@@ -69,15 +69,20 @@ public class DiscriminatorValidationMethodGenerator {
 
   @Value
   private static class PojoAndDiscriminator {
-    JavaComposedPojo pojo;
+    JavaObjectPojo pojo;
+    PList<JavaObjectPojo> memberPojos;
     Discriminator discriminator;
 
-    static Optional<PojoAndDiscriminator> fromPojo(JavaComposedPojo pojo) {
-      return pojo.getDiscriminator().map(d -> new PojoAndDiscriminator(pojo, d));
+    static Optional<PojoAndDiscriminator> fromPojo(JavaObjectPojo pojo) {
+      return pojo.getOneOfComposition()
+          .flatMap(
+              comp ->
+                  comp.getDiscriminator()
+                      .map(d -> new PojoAndDiscriminator(pojo, comp.getPojos(), d)));
     }
 
     PList<SinglePojoAndDiscriminator> getPojos() {
-      return pojo.getJavaPojos().map(p -> new SinglePojoAndDiscriminator(p, discriminator));
+      return memberPojos.map(p -> new SinglePojoAndDiscriminator(p, discriminator));
     }
   }
 

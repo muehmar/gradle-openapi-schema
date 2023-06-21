@@ -331,7 +331,6 @@ ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapp
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -345,7 +344,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.constraints.AssertTrue;
 
 /**
  * Composition Description
@@ -453,19 +451,6 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @AssertTrue(message = "Not valid against the schema described by the discriminator")
-  @JsonIgnore
-  private boolean isValidAgainstTheCorrectSchema() {
-    if (requiredStringVal == null) {
-      return false;
-    }
-    switch(requiredStringVal) {
-      case "UserValue": return isValidAgainstUserDto();
-      case "NNVariantsValue": return isValidAgainstNecessityAndNullabilityDto();
-    }
-    return false;
   }
 
   @Override
@@ -635,7 +620,6 @@ ComposedPojoGenerator[ONE_OF,Discriminator(propertyName->requiredStringVal, mapp
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -649,7 +633,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.constraints.AssertTrue;
 
 /**
  * Composition Description
@@ -757,19 +740,6 @@ public class ComposedOneofDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getOptionalNullableStringVal() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
-  }
-
-  @AssertTrue(message = "Not valid against the schema described by the discriminator")
-  @JsonIgnore
-  private boolean isValidAgainstTheCorrectSchema() {
-    if (requiredStringVal == null) {
-      return false;
-    }
-    switch(requiredStringVal) {
-      case "User": return isValidAgainstUserDto();
-      case "NecessityAndNullability": return isValidAgainstNecessityAndNullabilityDto();
-    }
-    return false;
   }
 
   @Override

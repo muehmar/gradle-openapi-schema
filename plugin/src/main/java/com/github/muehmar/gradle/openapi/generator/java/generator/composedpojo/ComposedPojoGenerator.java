@@ -61,8 +61,6 @@ public class ComposedPojoGenerator implements Generator<JavaComposedPojo, PojoSe
         .appendSingleBlankLine()
         .appendList(memberGetter(), JavaComposedPojo::getMembers, newLine())
         .appendSingleBlankLine()
-        .append(DiscriminatorValidationMethodGenerator.generator())
-        .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaComposedPojo::getHashCodeContent)
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaComposedPojo::getEqualsContent)

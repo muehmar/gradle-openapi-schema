@@ -86,6 +86,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .append(AnyOfFoldValidationGenerator.generator())
         .appendSingleBlankLine()
+        .append(DiscriminatorValidationMethodGenerator.generator())
+        .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaObjectPojo::getEqualsContent)
         .appendSingleBlankLine()
         .append(HashCodeGenerator.hashCodeMethod(), JavaObjectPojo::getHashCodeContent)
