@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Composition Description
@@ -51,81 +50,6 @@ public class ComposedAnyofDto {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
-  }
-
-  /**
-   * Creates an instance of {@link ComposedAnyofDto} from a {@link UserDto}.
-   */
-  public static ComposedAnyofDto fromUser(UserDto dto) {
-    return new ComposedAnyofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false,
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Creates an instance of {@link ComposedAnyofDto} from a {@link
-   * NecessityAndNullabilityDto}.
-   */
-  public static ComposedAnyofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedAnyofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Returns a new instance adding the supplied {@link UserDto}. This will overwrite
-   * any shared properties with other schemas to the value of the properties in the
-   * supplied {@link UserDto}.
-   */
-  public ComposedAnyofDto withUser(UserDto dto) {
-    return new ComposedAnyofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      requiredStringVal,
-      requiredNullableStringVal,
-      isRequiredNullableStringValPresent,
-      optionalStringVal,
-      optionalNullableStringVal,
-      isOptionalNullableStringValNull,
-      dto.getAdditionalProperties().entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
-    );
-  }
-
-  /**
-   * Returns a new instance adding the supplied {@link NecessityAndNullabilityDto}.
-   * This will overwrite any shared properties with other schemas to the value of
-   * the properties in the supplied {@link NecessityAndNullabilityDto}.
-   */
-  public ComposedAnyofDto withNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedAnyofDto(
-      username,
-      birthdate,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      dto.getAdditionalProperties().entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
-    );
   }
 
   @JsonProperty("username")
@@ -343,7 +267,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Composition Description
@@ -380,41 +303,6 @@ public class ComposedOneofDto {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
-  }
-
-  /**
-   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
-   */
-  public static ComposedOneofDto fromUser(UserDto dto) {
-    return new ComposedOneofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      "UserValue",
-      null,
-      false,
-      null,
-      null,
-      false,
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Creates an instance of {@link ComposedOneofDto} from a {@link
-   * NecessityAndNullabilityDto}.
-   */
-  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedOneofDto(
-      null,
-      null,
-      "NNVariantsValue",
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
   }
 
   @JsonProperty("username")
@@ -632,7 +520,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Composition Description
@@ -669,41 +556,6 @@ public class ComposedOneofDto {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
-  }
-
-  /**
-   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
-   */
-  public static ComposedOneofDto fromUser(UserDto dto) {
-    return new ComposedOneofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      "User",
-      null,
-      false,
-      null,
-      null,
-      false,
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Creates an instance of {@link ComposedOneofDto} from a {@link
-   * NecessityAndNullabilityDto}.
-   */
-  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedOneofDto(
-      null,
-      null,
-      "NecessityAndNullability",
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
   }
 
   @JsonProperty("username")
@@ -921,7 +773,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Composition Description
@@ -958,41 +809,6 @@ public class ComposedOneofDto {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
-  }
-
-  /**
-   * Creates an instance of {@link ComposedOneofDto} from a {@link UserDto}.
-   */
-  public static ComposedOneofDto fromUser(UserDto dto) {
-    return new ComposedOneofDto(
-      dto.getUsername(),
-      dto.getBirthdate(),
-      null,
-      null,
-      false,
-      null,
-      null,
-      false,
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Creates an instance of {@link ComposedOneofDto} from a {@link
-   * NecessityAndNullabilityDto}.
-   */
-  public static ComposedOneofDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-    return new ComposedOneofDto(
-      null,
-      null,
-      dto.getRequiredStringVal(),
-      dto.getRequiredNullableStringValOr(null),
-      true,
-      dto.getOptionalStringValOr(null),
-      dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-      dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
   }
 
   @JsonProperty("username")
@@ -1206,7 +1022,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @JsonDeserialize(builder = ComposedPojoDto.Builder.class)
 public class ComposedPojoDto {
@@ -1225,60 +1040,6 @@ public class ComposedPojoDto {
     this.color = color;
     this.intVal = intVal;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
-  }
-
-  /**
-   * Creates an instance of {@link ComposedPojoDto} from a {@link ObjectPojo1Dto}.
-   */
-  public static ComposedPojoDto fromObjectPojo1(ObjectPojo1Dto dto) {
-    return new ComposedPojoDto(
-      dto.getStringVal(),
-      null,
-      null,
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Creates an instance of {@link ComposedPojoDto} from a {@link ObjectPojo1Dto}.
-   */
-  public static ComposedPojoDto fromObjectPojo1(ObjectPojo1Dto dto) {
-    return new ComposedPojoDto(
-      null,
-      dto.getColor(),
-      dto.getIntVal(),
-      dto.getAdditionalProperties().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-    );
-  }
-
-  /**
-   * Returns a new instance adding the supplied {@link ObjectPojo1Dto}. This will
-   * overwrite any shared properties with other schemas to the value of the
-   * properties in the supplied {@link ObjectPojo1Dto}.
-   */
-  public ComposedPojoDto withObjectPojo1(ObjectPojo1Dto dto) {
-    return new ComposedPojoDto(
-      dto.getStringVal(),
-      color,
-      intVal,
-      dto.getAdditionalProperties().entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
-    );
-  }
-
-  /**
-   * Returns a new instance adding the supplied {@link ObjectPojo1Dto}. This will
-   * overwrite any shared properties with other schemas to the value of the
-   * properties in the supplied {@link ObjectPojo1Dto}.
-   */
-  public ComposedPojoDto withObjectPojo1(ObjectPojo1Dto dto) {
-    return new ComposedPojoDto(
-      stringVal,
-      dto.getColor(),
-      dto.getIntVal(),
-      dto.getAdditionalProperties().entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (p1, p2) -> p1, () -> new HashMap<>(additionalProperties)))
-    );
   }
 
   @JsonProperty("stringVal")
