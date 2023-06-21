@@ -6,6 +6,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ConversionMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.FoldMethodGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidCountMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidationMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AdditionalPropertiesGetter;
@@ -79,6 +80,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .append(ConversionMethodGenerator.composedAsDtoMethods())
         .appendSingleBlankLine()
         .append(ValidationMethodGenerator.isValidAgainstMethods())
+        .appendSingleBlankLine()
+        .append(ValidCountMethodGenerator.validCountMethod())
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaObjectPojo::getEqualsContent)
         .appendSingleBlankLine()

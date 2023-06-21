@@ -1,0 +1,18 @@
+anyOf=[
+
+private int getAnyOfValidCount() {
+  return
+    (isValidAgainstSampleObjectPojo1Dto() ? 1 : 0) +
+    (isValidAgainstSampleObjectPojo2Dto() ? 1 : 0);
+}
+]
+
+
+oneOf=[
+private int getOneOfValidCount() {
+  return
+    (isValidAgainstSampleObjectPojo1Dto() ? 1 : 0) +
+    (isValidAgainstSampleObjectPojo2Dto() ? 1 : 0);
+}
+
+]

@@ -176,12 +176,6 @@ public class ComposedAnyofDto {
     return fold(dto -> dto, dto -> dto);
   }
 
-  private int getValidCount() {
-    return
-      (isValidAgainstUserDto() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
-  }
-
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
   @JsonIgnore
   private boolean isValidAgainstNoSchema() {
@@ -488,12 +482,6 @@ public class ComposedOneofDto {
       return null;
     }
     return fold(dto -> dto, dto -> dto, () -> null);
-  }
-
-  private int getValidCount() {
-    return
-      (isValidAgainstUserDto() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
   }
 
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
@@ -823,12 +811,6 @@ public class ComposedOneofDto {
     return fold(dto -> dto, dto -> dto, () -> null);
   }
 
-  private int getValidCount() {
-    return
-      (isValidAgainstUserDto() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
-  }
-
   @AssertTrue(message = "Not valid against the schema described by the discriminator")
   @JsonIgnore
   private boolean isValidAgainstTheCorrectSchema() {
@@ -1155,12 +1137,6 @@ public class ComposedOneofDto {
     return fold(dto -> dto, dto -> dto, () -> null);
   }
 
-  private int getValidCount() {
-    return
-      (isValidAgainstUserDto() ? 1 : 0) +
-      (isValidAgainstNecessityAndNullabilityDto() ? 1 : 0);
-  }
-
   @AssertFalse(message = "Is not valid against one of the schemas [User, NecessityAndNullability]")
   @JsonIgnore
   private boolean isValidAgainstNoSchema() {
@@ -1451,12 +1427,6 @@ public class ComposedPojoDto {
       return null;
     }
     return fold(dto -> dto, dto -> dto);
-  }
-
-  private int getValidCount() {
-    return
-      (isValidAgainstObjectPojo1Dto() ? 1 : 0) +
-      (isValidAgainstObjectPojo1Dto() ? 1 : 0);
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [ObjectPojo1, ObjectPojo1]")

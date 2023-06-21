@@ -383,6 +383,12 @@ public class PersonDto {
       username != null;
   }
 
+  private int getAnyOfValidCount() {
+    return
+      (isValidAgainstAdminDto() ? 1 : 0) +
+      (isValidAgainstUserDto() ? 1 : 0);
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -4458,6 +4464,12 @@ public class PersonDto {
   private boolean isValidAgainstUserDto() {
     return
       username != null;
+  }
+
+  private int getOneOfValidCount() {
+    return
+      (isValidAgainstAdminDto() ? 1 : 0) +
+      (isValidAgainstUserDto() ? 1 : 0);
   }
 
   @Override
