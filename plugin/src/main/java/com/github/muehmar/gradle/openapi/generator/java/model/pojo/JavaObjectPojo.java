@@ -1,6 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
@@ -24,15 +27,17 @@ import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+@PojoBuilder(packagePrivateBuilder = true)
 @EqualsAndHashCode
 @ToString
 public class JavaObjectPojo implements JavaPojo {
@@ -46,7 +51,7 @@ public class JavaObjectPojo implements JavaPojo {
   private final JavaAdditionalProperties additionalProperties;
   private final Constraints constraints;
 
-  private JavaObjectPojo(
+  JavaObjectPojo(
       JavaPojoName name,
       String description,
       PList<JavaPojoMember> members,
@@ -65,50 +70,42 @@ public class JavaObjectPojo implements JavaPojo {
     this.type = type;
     this.additionalProperties = additionalProperties;
     this.constraints = constraints;
+    assertPropertiesHaveNotSameNameAndDifferentAttributes(
+        name, members, allOfComposition, oneOfComposition, anyOfComposition);
   }
 
-  public static JavaObjectPojo from(
+  private static void assertPropertiesHaveNotSameNameAndDifferentAttributes(
       JavaPojoName name,
-      String description,
       PList<JavaPojoMember> members,
       Optional<JavaAllOfComposition> allOfComposition,
       Optional<JavaOneOfComposition> oneOfComposition,
-      Optional<JavaAnyOfComposition> anyOfComposition,
-      PojoType type,
-      JavaAdditionalProperties additionalProperties,
-      Constraints constraints) {
-    return new JavaObjectPojo(
-        name,
-        description,
-        members,
-        allOfComposition,
-        oneOfComposition,
-        anyOfComposition,
-        type,
-        additionalProperties,
-        constraints);
+      Optional<JavaAnyOfComposition> anyOfComposition) {
+    final PList<JavaPojoMember> allMembers =
+        members
+            .concat(allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty))
+            .concat(oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty))
+            .concat(anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty));
+
+    final PList<JavaPojoMember> invalidMembers =
+        allMembers
+            .filter(
+                member1 ->
+                    allMembers.exists(member2 -> sameNameButDifferentAttributes(member1, member2)))
+            .duplicates(Comparator.comparing(m -> m.getName().asString()));
+
+    if (invalidMembers.nonEmpty()) {
+      throw new OpenApiGeneratorException(
+          String.format(
+              "Cannot create DTO %s: Two or more properties (defined either in properties or in one of the schemas used "
+                  + "for a composition (allOf, oneOf or anyOf) have the same name but different attributes (e.g. type, "
+                  + "constraints)! Invalid properties: [%s].",
+              name, invalidMembers.map(JavaPojoMember::getName).mkString(", ")));
+    }
   }
 
-  public static JavaObjectPojo from(
-      PojoName name,
-      String description,
-      PList<JavaPojoMember> members,
-      Optional<JavaAllOfComposition> allOfComposition,
-      Optional<JavaOneOfComposition> oneOfComposition,
-      Optional<JavaAnyOfComposition> anyOfComposition,
-      PojoType type,
-      JavaAdditionalProperties additionalProperties,
-      Constraints constraints) {
-    return from(
-        JavaPojoName.wrap(name),
-        description,
-        members,
-        allOfComposition,
-        oneOfComposition,
-        anyOfComposition,
-        type,
-        additionalProperties,
-        constraints);
+  private static boolean sameNameButDifferentAttributes(JavaPojoMember m1, JavaPojoMember m2) {
+    return m1.getName().equals(m2.getName())
+        && not(m1.asObjectMember().equals(m2.asObjectMember()));
   }
 
   public static JavaPojoWrapResult wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
@@ -176,19 +173,18 @@ public class JavaObjectPojo implements JavaPojo {
     return members;
   }
 
-  private PList<JavaPojoMember> getCompositionMembers() {
+  public PList<JavaPojoMember> getAllMembers() {
     final PList<JavaPojoMember> allOfMembers =
         allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> oneOfMembers =
         oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> anyOfMembers =
         anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
-    return allOfMembers.concat(oneOfMembers).concat(anyOfMembers);
-  }
-
-  public PList<JavaPojoMember> getAllMembers() {
-    final PList<JavaPojoMember> compositionMembers = getCompositionMembers();
-    return members.concat(compositionMembers);
+    return members
+        .concat(allOfMembers)
+        .concat(oneOfMembers)
+        .concat(anyOfMembers)
+        .distinct(Function.identity());
   }
 
   public Optional<JavaAllOfComposition> getAllOfComposition() {

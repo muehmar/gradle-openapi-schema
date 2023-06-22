@@ -88,6 +88,18 @@ public class JavaPojoMember {
     return type;
   }
 
+  public JavaPojoMember asObjectMember() {
+    return JavaPojoMemberBuilder.create()
+        .name(name)
+        .description(description)
+        .javaType(javaType)
+        .necessity(necessity)
+        .nullability(nullability)
+        .type(MemberType.OBJECT_MEMBER)
+        .andAllOptionals()
+        .build();
+  }
+
   public JavaPojoMember asAllOfMember() {
     return JavaPojoMemberBuilder.create()
         .name(name)

@@ -19,68 +19,63 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
-import java.util.Optional;
 
 public class JavaPojos {
   private JavaPojos() {}
 
   public static JavaObjectPojo sampleObjectPojo1() {
-    return JavaObjectPojo.from(
-        PojoName.ofNameAndSuffix("SampleObjectPojo1", "Dto"),
-        "",
-        PList.of(
-            JavaPojoMembers.requiredString(),
-            JavaPojoMembers.requiredInteger(),
-            JavaPojoMembers.requiredDouble()),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        PojoType.DEFAULT,
-        JavaAdditionalProperties.anyTypeAllowed(),
-        Constraints.empty());
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("SampleObjectPojo1", "Dto")))
+        .description("")
+        .members(
+            PList.of(
+                JavaPojoMembers.requiredString(),
+                JavaPojoMembers.requiredInteger(),
+                JavaPojoMembers.requiredDouble()))
+        .type(PojoType.DEFAULT)
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .constraints(Constraints.empty())
+        .build();
   }
 
   public static JavaObjectPojo sampleObjectPojo2() {
-    return JavaObjectPojo.from(
-        PojoName.ofNameAndSuffix("SampleObjectPojo2", "Dto"),
-        "",
-        PList.of(
-            JavaPojoMembers.requiredString(),
-            JavaPojoMembers.requiredBirthdate(),
-            JavaPojoMembers.requiredEmail()),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        PojoType.DEFAULT,
-        JavaAdditionalProperties.anyTypeAllowed(),
-        Constraints.empty());
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("SampleObjectPojo2", "Dto")))
+        .description("")
+        .members(
+            PList.of(
+                JavaPojoMembers.requiredString(),
+                JavaPojoMembers.requiredBirthdate(),
+                JavaPojoMembers.requiredEmail()))
+        .type(PojoType.DEFAULT)
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .constraints(Constraints.empty())
+        .build();
   }
 
   public static JavaObjectPojo objectPojo(
       PList<JavaPojoMember> members, JavaAdditionalProperties additionalProperties) {
-    return JavaObjectPojo.from(
-        PojoName.ofNameAndSuffix("ObjectPojo1", "Dto"),
-        "",
-        members,
-        Optional.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        PojoType.DEFAULT,
-        additionalProperties,
-        Constraints.empty());
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("ObjectPojo1", "Dto")))
+        .description("")
+        .members(members)
+        .type(PojoType.DEFAULT)
+        .additionalProperties(additionalProperties)
+        .constraints(Constraints.empty())
+        .build();
   }
 
   public static JavaObjectPojo oneOfPojo(JavaOneOfComposition javaOneOfComposition) {
-    return JavaObjectPojo.from(
-        PojoName.ofNameAndSuffix("OneOfPojo1", "Dto"),
-        "",
-        PList.empty(),
-        Optional.empty(),
-        Optional.of(javaOneOfComposition),
-        Optional.empty(),
-        PojoType.DEFAULT,
-        JavaAdditionalProperties.anyTypeAllowed(),
-        Constraints.empty());
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("OneOfPojo1", "Dto")))
+        .description("")
+        .members(PList.empty())
+        .type(PojoType.DEFAULT)
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .constraints(Constraints.empty())
+        .andOptionals()
+        .oneOfComposition(javaOneOfComposition)
+        .build();
   }
 
   public static JavaObjectPojo oneOfPojo(PList<JavaPojo> oneOfPojos) {
@@ -92,16 +87,16 @@ public class JavaPojos {
   }
 
   public static JavaObjectPojo anyOfPojo(PList<JavaPojo> anyOfPojos) {
-    return JavaObjectPojo.from(
-        PojoName.ofNameAndSuffix("AnyOfPojo1", "Dto"),
-        "",
-        PList.empty(),
-        Optional.empty(),
-        Optional.empty(),
-        Optional.of(JavaAnyOfComposition.fromPojos(anyOfPojos)),
-        PojoType.DEFAULT,
-        JavaAdditionalProperties.anyTypeAllowed(),
-        Constraints.empty());
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("AnyOfPojo1", "Dto")))
+        .description("")
+        .members(PList.empty())
+        .type(PojoType.DEFAULT)
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .constraints(Constraints.empty())
+        .andOptionals()
+        .anyOfComposition(JavaAnyOfComposition.fromPojos(anyOfPojos))
+        .build();
   }
 
   public static JavaObjectPojo anyOfPojo(JavaPojo... anyOfPojos) {

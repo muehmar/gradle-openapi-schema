@@ -31,7 +31,7 @@ class ValidationMethodGeneratorTest {
             JavaPojos.oneOfPojo(
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
-                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableBirthdate()))),
+                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -48,7 +48,7 @@ class ValidationMethodGeneratorTest {
             JavaPojos.anyOfPojo(
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
-                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableBirthdate()))),
+                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 

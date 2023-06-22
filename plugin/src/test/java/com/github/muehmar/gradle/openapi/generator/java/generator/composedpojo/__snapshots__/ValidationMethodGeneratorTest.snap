@@ -16,7 +16,7 @@ private boolean isValidAgainstSampleObjectPojo2Dto() {
 
 private boolean isValidAgainstObjectPojo1Dto() {
   return
-    isBirthdatePresent;
+    isRequiredNullableStringValPresent;
 }
 ]
 
@@ -38,7 +38,7 @@ private boolean isValidAgainstSampleObjectPojo2Dto() {
 
 private boolean isValidAgainstObjectPojo1Dto() {
   return
-    isBirthdatePresent;
+    isRequiredNullableStringValPresent;
 }
 
 ]
