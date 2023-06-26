@@ -1,0 +1,18 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.DtoSetterGeneratorTest.generator_when_calledWithComposedPojo_then_correctOutput=[
+
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal(dto.getStringVal());
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  return this;
+}
+
+private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
+  setRequiredStringVal(dto.getRequiredStringVal());
+  setRequiredNullableStringVal(dto.getRequiredNullableStringValOpt1());
+  setOptionalStringVal(dto.getOptionalStringValOpt2());
+  setOptionalNullableStringVal(dto.getOptionalNullableStringValTristate());
+  return this;
+}
+
+]
