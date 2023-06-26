@@ -37,7 +37,7 @@ class ConversionMethodGeneratorTest {
   void generate_when_composedPojo_then_correctOutput(
       Function<PList<JavaPojo>, JavaObjectPojo> createComposedPojo, String name) {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        ConversionMethodGenerator.composedAsDtoMethods();
+        ConversionMethodGenerator.conversionMethodGenerator();
 
     final JavaObjectPojo pojo1 = JavaPojos.sampleObjectPojo1();
 
@@ -65,7 +65,7 @@ class ConversionMethodGeneratorTest {
   @Test
   void generate_when_nonComposedPojo_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        ConversionMethodGenerator.composedAsDtoMethods();
+        ConversionMethodGenerator.conversionMethodGenerator();
 
     final JavaObjectPojo composedPojo = JavaPojos.sampleObjectPojo1();
 

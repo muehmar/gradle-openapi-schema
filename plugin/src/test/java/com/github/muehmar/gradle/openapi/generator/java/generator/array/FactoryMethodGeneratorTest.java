@@ -19,7 +19,8 @@ class FactoryMethodGeneratorTest {
   @Test
   @SnapshotName("arrayPojo")
   void generate_when_arrayPojo_then_correctOutput() {
-    final Generator<JavaArrayPojo, PojoSettings> generator = FactoryMethodGenerator.generator();
+    final Generator<JavaArrayPojo, PojoSettings> generator =
+        FactoryMethodGenerator.factoryMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());

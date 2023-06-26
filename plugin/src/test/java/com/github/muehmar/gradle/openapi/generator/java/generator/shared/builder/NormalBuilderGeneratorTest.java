@@ -30,7 +30,7 @@ class NormalBuilderGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctOutput() {
     final Generator<NormalBuilderContent, PojoSettings> generator =
-        NormalBuilderGenerator.generator();
+        NormalBuilderGenerator.normalBuilderGenerator();
 
     final Writer writer =
         generator.generate(
@@ -50,7 +50,7 @@ class NormalBuilderGeneratorTest {
   @Test
   void generate_when_additionalPropertyTypeIsList_then_containsListInRefs() {
     final Generator<NormalBuilderContent, PojoSettings> generator =
-        NormalBuilderGenerator.generator();
+        NormalBuilderGenerator.normalBuilderGenerator();
 
     final Writer writer =
         generator.generate(
@@ -67,7 +67,7 @@ class NormalBuilderGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariantsDisabledJackson")
   void generate_when_allNecessityAndNullabilityVariantsDisabledJackson_then_correctOutput() {
     final Generator<NormalBuilderContent, PojoSettings> generator =
-        NormalBuilderGenerator.generator();
+        NormalBuilderGenerator.normalBuilderGenerator();
 
     final Writer writer =
         generator.generate(
@@ -86,7 +86,7 @@ class NormalBuilderGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariantsDisabledSafeBuilder")
   void generate_when_allNecessityAndNullabilityVariantsDisabledSafeBuilder_then_correctOutput() {
     final Generator<NormalBuilderContent, PojoSettings> generator =
-        NormalBuilderGenerator.generator();
+        NormalBuilderGenerator.normalBuilderGenerator();
 
     final Writer writer =
         generator.generate(

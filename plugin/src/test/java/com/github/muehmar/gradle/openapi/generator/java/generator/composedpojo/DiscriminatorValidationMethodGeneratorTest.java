@@ -30,7 +30,7 @@ class DiscriminatorValidationMethodGeneratorTest {
   @SnapshotName("NoDiscriminator")
   void generate_when_calledWithoutDiscriminator_then_noContent() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.generator();
+        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
@@ -44,7 +44,7 @@ class DiscriminatorValidationMethodGeneratorTest {
   @SnapshotName("DiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.generator();
+        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
 
     final Discriminator noMappingDiscriminator =
         Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
@@ -64,7 +64,7 @@ class DiscriminatorValidationMethodGeneratorTest {
   @SnapshotName("DiscriminatorWithMapping")
   void generate_when_calledWithDiscriminatorAndMapping_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.generator();
+        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
 
     final HashMap<String, Name> mapping = new HashMap<>();
     mapping.put("obj1", sampleObjectPojo1().getSchemaName().asName());
@@ -89,7 +89,7 @@ class DiscriminatorValidationMethodGeneratorTest {
   @SnapshotName("DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings")
   void generate_when_protectedAndDeprecatedValidationSettings_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.generator();
+        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
 
     final HashMap<String, Name> mapping = new HashMap<>();
     mapping.put("obj1", sampleObjectPojo1().getSchemaName().asName());

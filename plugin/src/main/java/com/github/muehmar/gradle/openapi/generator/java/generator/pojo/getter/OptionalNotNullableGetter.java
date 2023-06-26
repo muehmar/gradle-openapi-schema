@@ -19,7 +19,7 @@ import io.github.muehmar.codegenerator.Generator;
 class OptionalNotNullableGetter {
   private OptionalNotNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> getter() {
+  public static Generator<JavaPojoMember, PojoSettings> optionalNotNullableGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
         .append(alternateGetter())

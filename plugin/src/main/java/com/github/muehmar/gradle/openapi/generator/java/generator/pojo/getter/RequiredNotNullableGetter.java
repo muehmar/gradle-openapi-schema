@@ -15,7 +15,7 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 class RequiredNotNullableGetter {
   private RequiredNotNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> getter() {
+  public static Generator<JavaPojoMember, PojoSettings> requiredNotNullableGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(validationAnnotationsForMember())

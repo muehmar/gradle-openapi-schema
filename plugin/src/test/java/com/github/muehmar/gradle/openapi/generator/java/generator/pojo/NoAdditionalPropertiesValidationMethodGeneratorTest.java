@@ -21,7 +21,8 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
   @SnapshotName("noAdditionalPropertiesAllowed")
   void generate_when_noAdditionalPropertiesAllowed_then_correctOutput() {
     final Generator<JavaAdditionalProperties, PojoSettings> generator =
-        NoAdditionalPropertiesValidationMethodGenerator.generator();
+        NoAdditionalPropertiesValidationMethodGenerator
+            .noAdditionalPropertiesValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -35,7 +36,8 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
   @Test
   void generate_when_additionalPropertiesAllowed_then_noOutput() {
     final Generator<JavaAdditionalProperties, PojoSettings> generator =
-        NoAdditionalPropertiesValidationMethodGenerator.generator();
+        NoAdditionalPropertiesValidationMethodGenerator
+            .noAdditionalPropertiesValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -49,7 +51,8 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
   @Test
   void generate_when_validationDisabled_then_notOutput() {
     final Generator<JavaAdditionalProperties, PojoSettings> generator =
-        NoAdditionalPropertiesValidationMethodGenerator.generator();
+        NoAdditionalPropertiesValidationMethodGenerator
+            .noAdditionalPropertiesValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(

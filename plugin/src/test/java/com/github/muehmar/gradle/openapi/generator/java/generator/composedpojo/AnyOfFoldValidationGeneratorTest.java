@@ -25,7 +25,7 @@ class AnyOfFoldValidationGeneratorTest {
   @SnapshotName("AnyOf")
   void generate_when_anyOf_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        AnyOfFoldValidationGenerator.generator();
+        AnyOfFoldValidationGenerator.anyOfFoldValidationGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
@@ -39,7 +39,7 @@ class AnyOfFoldValidationGeneratorTest {
   @SnapshotName("AnyOfProtectedAndDeprecatedSettings")
   void generate_when_anyOfProtectedAndDeprecatedSettings_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        AnyOfFoldValidationGenerator.generator();
+        AnyOfFoldValidationGenerator.anyOfFoldValidationGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
@@ -56,7 +56,7 @@ class AnyOfFoldValidationGeneratorTest {
   @Test
   void generate_when_oneOf_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        AnyOfFoldValidationGenerator.generator();
+        AnyOfFoldValidationGenerator.anyOfFoldValidationGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),

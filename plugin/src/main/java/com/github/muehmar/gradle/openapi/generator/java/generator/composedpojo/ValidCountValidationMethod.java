@@ -21,7 +21,7 @@ import java.util.function.Function;
 public class ValidCountValidationMethod {
   private ValidCountValidationMethod() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> validCountValidationMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(
             isValidAgainstNoSchemaMethod("OneOf"), ValidCountValidationMethod::getOneOfPojos)

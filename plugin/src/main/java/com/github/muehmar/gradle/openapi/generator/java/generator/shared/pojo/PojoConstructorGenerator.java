@@ -22,7 +22,7 @@ import lombok.Value;
 public class PojoConstructorGenerator {
   private PojoConstructorGenerator() {}
 
-  public static Generator<ConstructorContent, PojoSettings> generator() {
+  public static Generator<ConstructorContent, PojoSettings> pojoConstructorGenerator() {
     final Generator<ConstructorContent, PojoSettings> method =
         ConstructorGeneratorBuilder.<ConstructorContent, PojoSettings>create()
             .modifiers(PUBLIC)

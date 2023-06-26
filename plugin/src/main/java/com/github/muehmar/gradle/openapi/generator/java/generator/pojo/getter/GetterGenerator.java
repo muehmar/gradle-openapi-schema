@@ -11,13 +11,13 @@ import io.github.muehmar.codegenerator.Generator;
 public class GetterGenerator {
   private GetterGenerator() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> generator() {
-    return RequiredNotNullableGetter.getter()
-        .append(RequiredNullableGetter.getter())
-        .append(OptionalNotNullableGetter.getter())
-        .append(OptionalNullableGetter.getter())
+  public static Generator<JavaPojoMember, PojoSettings> getterGenerator() {
+    return RequiredNotNullableGetter.requiredNotNullableGetterGenerator()
+        .append(RequiredNullableGetter.requiredNullableGetterGenerator())
+        .append(OptionalNotNullableGetter.optionalNotNullableGetterGenerator())
+        .append(OptionalNullableGetter.optionalNullableGetterGenerator())
         .filter(GetterGenerator::isNotAnyOfOrOneOfMember)
-        .append(ComposedPropertiesGetter.generator());
+        .append(ComposedPropertiesGetter.composedPropertiesGetterGenerator());
   }
 
   private static boolean isAnyOfOrOneOfMember(JavaPojoMember member) {

@@ -31,7 +31,7 @@ class PojoPropertyCountMethodTest {
     final Constraints constraints =
         Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 2));
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        PojoPropertyCountMethod.propertyCountMethod();
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
 
     final Writer writer =
         gen.generate(
@@ -50,7 +50,7 @@ class PojoPropertyCountMethodTest {
   @SnapshotName("pojoPropertyCountMethodWithValidationDisabled")
   void generate_when_validationDisabled_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        PojoPropertyCountMethod.propertyCountMethod();
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
 
     final Constraints constraints =
         Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 2));
@@ -72,7 +72,7 @@ class PojoPropertyCountMethodTest {
   @SnapshotName("pojoPropertyCountMethodWithNoJsonSupport")
   void generate_when_jsonSupportDisabled_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        PojoPropertyCountMethod.propertyCountMethod();
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
 
     final Constraints constraints =
         Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 2));

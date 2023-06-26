@@ -11,7 +11,7 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class FactoryMethodGenerator {
   private FactoryMethodGenerator() {}
 
-  public static Generator<JavaArrayPojo, PojoSettings> generator() {
+  public static Generator<JavaArrayPojo, PojoSettings> factoryMethodGenerator() {
     return Generator.<JavaArrayPojo, PojoSettings>emptyGen().append(itemsFactoryMethod());
   }
 

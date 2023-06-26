@@ -36,7 +36,8 @@ class AdditionalPropertiesGetterTest {
   @Test
   @SnapshotName("additionalPropertiesTypeIsObject")
   void generate_when_additionalPropertiesTypeIsObject_then_validAnnotation() {
-    final Generator<JavaPojo, PojoSettings> generator = AdditionalPropertiesGetter.getter();
+    final Generator<JavaPojo, PojoSettings> generator =
+        AdditionalPropertiesGetter.additionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
@@ -55,7 +56,8 @@ class AdditionalPropertiesGetterTest {
   @Test
   @SnapshotName("additionalPropertiesTypeIsStringWithConstraints")
   void generate_when_additionalPropertiesTypeIsStringWithConstraints_then_correctOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = AdditionalPropertiesGetter.getter();
+    final Generator<JavaPojo, PojoSettings> generator =
+        AdditionalPropertiesGetter.additionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
@@ -77,7 +79,8 @@ class AdditionalPropertiesGetterTest {
   @Test
   @SnapshotName("additionalPropertiesTypeIsList")
   void generate_when_additionalPropertiesTypeIsList_then_correctOutputAndRefs() {
-    final Generator<JavaPojo, PojoSettings> generator = AdditionalPropertiesGetter.getter();
+    final Generator<JavaPojo, PojoSettings> generator =
+        AdditionalPropertiesGetter.additionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(JavaTypes.STRING_LIST);
@@ -96,7 +99,8 @@ class AdditionalPropertiesGetterTest {
 
   @Test
   void generate_when_noAdditionalPropertiesAllowed_then_noOutput() {
-    final Generator<JavaPojo, PojoSettings> generator = AdditionalPropertiesGetter.getter();
+    final Generator<JavaPojo, PojoSettings> generator =
+        AdditionalPropertiesGetter.additionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties = JavaAdditionalProperties.notAllowed();
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
@@ -109,7 +113,8 @@ class AdditionalPropertiesGetterTest {
 
   @Test
   void generate_when_standardObject_then_correctRefs() {
-    final Generator<JavaPojo, PojoSettings> generator = AdditionalPropertiesGetter.getter();
+    final Generator<JavaPojo, PojoSettings> generator =
+        AdditionalPropertiesGetter.additionalPropertiesGetterGenerator();
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty());
 

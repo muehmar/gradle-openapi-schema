@@ -14,7 +14,8 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class NoAdditionalPropertiesValidationMethodGenerator {
   private NoAdditionalPropertiesValidationMethodGenerator() {}
 
-  public static Generator<JavaAdditionalProperties, PojoSettings> generator() {
+  public static Generator<JavaAdditionalProperties, PojoSettings>
+      noAdditionalPropertiesValidationMethodGenerator() {
     return ValidationGenerator.<JavaAdditionalProperties>assertTrue(
             ignore -> "No additional properties allowed")
         .append(method())

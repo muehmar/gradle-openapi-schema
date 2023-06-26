@@ -17,7 +17,7 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 class ComposedPropertiesGetter {
   private ComposedPropertiesGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> generator() {
+  public static Generator<JavaPojoMember, PojoSettings> composedPropertiesGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(notNullAnnotation())
         .append(method())

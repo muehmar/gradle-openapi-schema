@@ -19,7 +19,7 @@ import lombok.Value;
 public class ValidationMethodGenerator {
   private ValidationMethodGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> isValidAgainstMethods() {
+  public static Generator<JavaObjectPojo, PojoSettings> validationMethodGenerator() {
     final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getOneOfPojosMembers =
         p -> p.getOneOfComposition().map(JavaOneOfComposition::getPojos).orElseGet(PList::empty);
     final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getAnyOfPojoMembers =

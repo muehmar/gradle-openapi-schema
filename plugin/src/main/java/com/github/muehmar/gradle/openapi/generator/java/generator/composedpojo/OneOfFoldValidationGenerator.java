@@ -18,7 +18,7 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class OneOfFoldValidationGenerator {
   private OneOfFoldValidationGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> oneOfFoldValidationGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(
             annotatedMethod(),

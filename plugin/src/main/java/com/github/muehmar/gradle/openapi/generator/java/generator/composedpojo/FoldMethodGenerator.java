@@ -53,7 +53,7 @@ public class FoldMethodGenerator {
 
   private FoldMethodGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> foldMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(oneOfFoldMethods(), OneOfPojo::fromObjectPojo)
         .appendSingleBlankLine()

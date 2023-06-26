@@ -21,7 +21,7 @@ class PojoConstructorGeneratorTest {
   @SnapshotName("objectPojo")
   void generator_when_objectPojo_then_correctOutput() {
     final Generator<ConstructorContent, PojoSettings> generator =
-        PojoConstructorGenerator.generator();
+        PojoConstructorGenerator.pojoConstructorGenerator();
 
     final Writer writer =
         generator.generate(
@@ -37,7 +37,7 @@ class PojoConstructorGeneratorTest {
   @SnapshotName("necessityAndNullabilityObjectPojo")
   void generator_when_necessityAndNullabilityObjectPojo_then_correctOutput() {
     final Generator<ConstructorContent, PojoSettings> generator =
-        PojoConstructorGenerator.generator();
+        PojoConstructorGenerator.pojoConstructorGenerator();
 
     final Writer writer =
         generator.generate(
@@ -53,7 +53,7 @@ class PojoConstructorGeneratorTest {
   @SnapshotName("arrayPojo")
   void generator_when_arrayPojo_then_correctOutput() {
     final Generator<ConstructorContent, PojoSettings> generator =
-        PojoConstructorGenerator.generator();
+        PojoConstructorGenerator.pojoConstructorGenerator();
 
     final Writer writer =
         generator.generate(

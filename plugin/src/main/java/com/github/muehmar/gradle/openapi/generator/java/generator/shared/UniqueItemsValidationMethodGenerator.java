@@ -10,7 +10,7 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class UniqueItemsValidationMethodGenerator {
   private UniqueItemsValidationMethodGenerator() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> generator() {
+  public static Generator<JavaPojoMember, PojoSettings> uniqueItemsValidationMethodGenerator() {
     final MethodGen<JavaPojoMember, PojoSettings> method =
         MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)

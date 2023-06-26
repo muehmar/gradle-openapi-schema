@@ -22,7 +22,7 @@ import lombok.Value;
 public class ConversionMethodGenerator {
   private ConversionMethodGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> composedAsDtoMethods() {
+  public static Generator<JavaObjectPojo, PojoSettings> conversionMethodGenerator() {
     final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getComposePojoMembers =
         p ->
             p.getAnyOfComposition()

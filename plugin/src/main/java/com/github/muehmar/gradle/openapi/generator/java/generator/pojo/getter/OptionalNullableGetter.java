@@ -23,7 +23,7 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 class OptionalNullableGetter {
   private OptionalNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> getter() {
+  public static Generator<JavaPojoMember, PojoSettings> optionalNullableGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(jsonIgnore())

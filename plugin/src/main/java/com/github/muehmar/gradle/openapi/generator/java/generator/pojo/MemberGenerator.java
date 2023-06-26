@@ -15,7 +15,7 @@ import lombok.Value;
 public class MemberGenerator {
   private MemberGenerator() {}
 
-  public static Generator<MemberContent, PojoSettings> generator() {
+  public static Generator<MemberContent, PojoSettings> memberGenerator() {
     return Generator.<MemberContent, PojoSettings>emptyGen()
         .append(jsonValueAnnotation())
         .appendList(singleMember(), MemberContent::getMembers)

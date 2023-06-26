@@ -31,7 +31,8 @@ class RequiredNotNullableGetterTest {
   @Test
   @SnapshotName("requiredAndNotNullableField")
   void generator_when_requiredAndNotNullableField_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
@@ -47,7 +48,8 @@ class RequiredNotNullableGetterTest {
   @Test
   @SnapshotName("validationDisabled")
   void generator_when_validationDisabled_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
@@ -65,7 +67,8 @@ class RequiredNotNullableGetterTest {
   @Test
   @SnapshotName("requiredSuffix")
   void generator_when_requiredSuffix_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
@@ -93,7 +96,8 @@ class RequiredNotNullableGetterTest {
   @Test
   @SnapshotName("valueTypeOfArrayHasConstraints")
   void generator_when_valueTypeOfArrayHasConstraints_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNotNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
 
     final IntegerType itemType =
         IntegerType.formatInteger()

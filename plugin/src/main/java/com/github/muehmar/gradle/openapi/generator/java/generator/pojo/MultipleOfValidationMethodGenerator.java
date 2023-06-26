@@ -17,7 +17,7 @@ import lombok.Value;
 public class MultipleOfValidationMethodGenerator {
   private MultipleOfValidationMethodGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> multipleOfValidationMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(memberGenerator().appendSingleBlankLine(), MemberAndConstraint::fromPojo)
         .filter(Filters.isValidationEnabled());

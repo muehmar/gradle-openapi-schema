@@ -23,7 +23,7 @@ import lombok.Value;
 public class DiscriminatorValidationMethodGenerator {
   private DiscriminatorValidationMethodGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> discriminatorValidationMethodGenerator() {
     final Generator<PojoAndDiscriminator, PojoSettings> annotation =
         ValidationGenerator.assertTrue(
             pojo -> "Not valid against the schema described by the discriminator");

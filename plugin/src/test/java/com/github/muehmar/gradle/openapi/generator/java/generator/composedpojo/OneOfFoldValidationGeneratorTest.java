@@ -25,7 +25,7 @@ class OneOfFoldValidationGeneratorTest {
   @SnapshotName("oneOf")
   void generate_when_oneOfPojo_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        OneOfFoldValidationGenerator.generator();
+        OneOfFoldValidationGenerator.oneOfFoldValidationGenerator();
 
     final Writer writer =
         generator.generate(
@@ -40,7 +40,7 @@ class OneOfFoldValidationGeneratorTest {
   @SnapshotName("oneOfProtectedAndDeprecatedSettings")
   void generate_when_protectedAndDeprecatedSettings_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        OneOfFoldValidationGenerator.generator();
+        OneOfFoldValidationGenerator.oneOfFoldValidationGenerator();
 
     final Writer writer =
         generator.generate(
@@ -59,7 +59,7 @@ class OneOfFoldValidationGeneratorTest {
   @SnapshotName("anyOf")
   void generate_when_anyOfPojo_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        OneOfFoldValidationGenerator.generator();
+        OneOfFoldValidationGenerator.oneOfFoldValidationGenerator();
 
     final Writer writer =
         generator.generate(

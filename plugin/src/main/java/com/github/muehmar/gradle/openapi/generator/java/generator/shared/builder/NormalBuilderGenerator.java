@@ -25,7 +25,7 @@ public class NormalBuilderGenerator {
 
   private NormalBuilderGenerator() {}
 
-  public static Generator<NormalBuilderContent, PojoSettings> generator() {
+  public static Generator<NormalBuilderContent, PojoSettings> normalBuilderGenerator() {
     final ClassGen<NormalBuilderContent, PojoSettings> classGen =
         ClassGenBuilder.<NormalBuilderContent, PojoSettings>create()
             .clazz()

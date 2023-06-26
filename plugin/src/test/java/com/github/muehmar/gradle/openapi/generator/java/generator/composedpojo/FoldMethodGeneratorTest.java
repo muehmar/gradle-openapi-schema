@@ -32,7 +32,8 @@ class FoldMethodGeneratorTest {
   @Test
   @SnapshotName("OneOfNoDiscriminator")
   void generate_when_calledWithoutDiscriminator_then_correctContent() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = FoldMethodGenerator.generator();
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        FoldMethodGenerator.foldMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
@@ -48,7 +49,8 @@ class FoldMethodGeneratorTest {
   @Test
   @SnapshotName("OneOfDiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctContent() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = FoldMethodGenerator.generator();
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        FoldMethodGenerator.foldMethodGenerator();
     final Discriminator discriminator =
         Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
     final JavaOneOfComposition javaOneOfComposition =
@@ -70,7 +72,8 @@ class FoldMethodGeneratorTest {
   @Test
   @SnapshotName("OneOfDiscriminatorWithMapping")
   void generate_when_calledWithDiscriminatorAndMapping_then_correctContent() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = FoldMethodGenerator.generator();
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        FoldMethodGenerator.foldMethodGenerator();
     final JavaObjectPojo sampleObjectPojo1 = sampleObjectPojo1();
     final JavaObjectPojo sampleObjectPojo2 = sampleObjectPojo2();
 
@@ -100,7 +103,8 @@ class FoldMethodGeneratorTest {
   @Test
   @SnapshotName("AnyOf")
   void generate_when_anyOf_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = FoldMethodGenerator.generator();
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        FoldMethodGenerator.foldMethodGenerator();
 
     final Writer writer =
         generator.generate(

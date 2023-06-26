@@ -24,7 +24,7 @@ class ValidCountMethodGeneratorTest {
   @SnapshotName("oneOf")
   void generate_when_oneOfPojo_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidCountMethodGenerator.validCountMethod();
+        ValidCountMethodGenerator.validCountMethodGenerator();
     final JavaObjectPojo pojo = JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
 
     final Writer writer =
@@ -37,7 +37,7 @@ class ValidCountMethodGeneratorTest {
   @SnapshotName("anyOf")
   void generate_when_anyOfPojo_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidCountMethodGenerator.validCountMethod();
+        ValidCountMethodGenerator.validCountMethodGenerator();
     final JavaObjectPojo pojo = JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
 
     final Writer writer =
@@ -49,7 +49,7 @@ class ValidCountMethodGeneratorTest {
   @Test
   void generate_when_nonComposedPojo_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidCountMethodGenerator.validCountMethod();
+        ValidCountMethodGenerator.validCountMethodGenerator();
     final JavaObjectPojo pojo = JavaPojos.sampleObjectPojo1();
 
     final Writer writer =

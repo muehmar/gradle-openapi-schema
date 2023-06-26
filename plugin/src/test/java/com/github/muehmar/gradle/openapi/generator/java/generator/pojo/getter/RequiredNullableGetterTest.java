@@ -33,7 +33,8 @@ class RequiredNullableGetterTest {
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
@@ -52,7 +53,8 @@ class RequiredNullableGetterTest {
 
   @Test
   void generator_when_disabledJackson_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(
             Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern")),
@@ -76,7 +78,8 @@ class RequiredNullableGetterTest {
 
   @Test
   void generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
@@ -97,7 +100,8 @@ class RequiredNullableGetterTest {
 
   @Test
   void generator_when_requiredNullableSuffix_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
@@ -127,7 +131,8 @@ class RequiredNullableGetterTest {
 
   @Test
   void generator_when_deprecatedAnnotation_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 

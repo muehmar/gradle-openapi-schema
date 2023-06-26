@@ -19,7 +19,7 @@ public class AnyOfFoldValidationGenerator {
 
   private AnyOfFoldValidationGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> anyOfFoldValidationGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(
             annotatedMethod(), p -> p.getAnyOfComposition().map(JavaAnyOfComposition::getPojos));

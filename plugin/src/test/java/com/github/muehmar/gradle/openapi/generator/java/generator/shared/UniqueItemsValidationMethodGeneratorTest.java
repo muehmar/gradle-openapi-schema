@@ -28,7 +28,7 @@ class UniqueItemsValidationMethodGeneratorTest {
   @Test
   void generate_when_notArrayType_then_noOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.generator();
+        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -42,7 +42,7 @@ class UniqueItemsValidationMethodGeneratorTest {
   @Test
   void generate_when_noUniqueItemsConstraint_then_noOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.generator();
+        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -56,7 +56,7 @@ class UniqueItemsValidationMethodGeneratorTest {
   @Test
   void generate_when_validationDisabled_then_noOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.generator();
+        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojoMembers.list(
@@ -74,7 +74,7 @@ class UniqueItemsValidationMethodGeneratorTest {
   @SnapshotName("uniqueItemsConstraint")
   void generate_when_uniqueItemsConstraint_then_correctOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.generator();
+        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojoMembers.list(

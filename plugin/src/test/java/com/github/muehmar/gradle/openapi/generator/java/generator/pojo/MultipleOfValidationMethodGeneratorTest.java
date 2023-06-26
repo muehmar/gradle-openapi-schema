@@ -102,7 +102,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @Test
   void generate_when_integerAndDoubleWithoutMultipleOfConstraint_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -117,7 +117,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @Test
   void generate_when_validationDisabled_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -132,7 +132,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @SnapshotName("integerMember")
   void generate_when_integer_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -147,7 +147,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @SnapshotName("longMember")
   void generate_when_long_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -162,7 +162,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @SnapshotName("floatMember")
   void generate_when_float_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -178,7 +178,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @SnapshotName("doubleMember")
   void generate_when_double_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(

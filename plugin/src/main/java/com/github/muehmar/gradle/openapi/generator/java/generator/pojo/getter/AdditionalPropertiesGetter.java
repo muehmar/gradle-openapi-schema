@@ -27,7 +27,8 @@ public class AdditionalPropertiesGetter {
 
   private AdditionalPropertiesGetter() {}
 
-  public static <T extends JavaPojo> Generator<T, PojoSettings> getter() {
+  public static <T extends JavaPojo>
+      Generator<T, PojoSettings> additionalPropertiesGetterGenerator() {
     final Generator<JavaObjectPojo, PojoSettings> tPojoSettingsGenerator =
         standardGetter()
             .appendSingleBlankLine()

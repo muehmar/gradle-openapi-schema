@@ -18,7 +18,7 @@ import lombok.Value;
 public class ValidCountMethodGenerator {
   private ValidCountMethodGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> validCountMethod() {
+  public static Generator<JavaObjectPojo, PojoSettings> validCountMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(validOneOfCountMethod(), SingleMemberPojo::fromOneOf)
         .appendSingleBlankLine()

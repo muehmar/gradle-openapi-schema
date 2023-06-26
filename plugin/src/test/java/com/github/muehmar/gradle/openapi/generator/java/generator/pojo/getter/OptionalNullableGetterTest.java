@@ -34,7 +34,8 @@ class OptionalNullableGetterTest {
 
   @Test
   void generator_when_enabledJacksonAndDisabledValidation_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = OptionalNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        OptionalNullableGetter.optionalNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NULLABLE);
 
@@ -60,7 +61,8 @@ class OptionalNullableGetterTest {
 
   @Test
   void generator_when_disabledJacksonAndEnabledValidation_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = OptionalNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        OptionalNullableGetter.optionalNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(
             Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern")),
@@ -81,7 +83,8 @@ class OptionalNullableGetterTest {
 
   @Test
   void generator_when_optionalNullableSuffix_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = OptionalNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        OptionalNullableGetter.optionalNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(
             Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern")),
@@ -113,7 +116,8 @@ class OptionalNullableGetterTest {
 
   @Test
   void generator_when_deprecatedAnnotation_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = OptionalNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        OptionalNullableGetter.optionalNullableGetterGenerator();
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NULLABLE);
 

@@ -19,7 +19,7 @@ public class PojoPropertyCountMethod {
 
   private static final String JAVA_DOC = "Returns the number of present properties of this object.";
 
-  public static Generator<JavaObjectPojo, PojoSettings> propertyCountMethod() {
+  public static Generator<JavaObjectPojo, PojoSettings> pojoPropertyCountMethoGenerator() {
     final MethodGen<JavaObjectPojo, PojoSettings> method =
         MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
             .modifiers(PUBLIC)

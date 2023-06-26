@@ -22,7 +22,7 @@ import lombok.Value;
 public class WitherGenerator {
   private WitherGenerator() {}
 
-  public static Generator<WitherContent, PojoSettings> generator() {
+  public static Generator<WitherContent, PojoSettings> witherGenerator() {
     return Generator.<WitherContent, PojoSettings>emptyGen()
         .appendList(method(), WitherMethod::fromPojo, newLine());
   }

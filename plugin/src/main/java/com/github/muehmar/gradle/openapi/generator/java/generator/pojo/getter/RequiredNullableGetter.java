@@ -21,7 +21,7 @@ import java.util.function.BiPredicate;
 class RequiredNullableGetter {
   private RequiredNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> getter() {
+  public static Generator<JavaPojoMember, PojoSettings> requiredNullableGetterGenerator() {
     final BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation =
         Filters.<JavaPojoMember>isJacksonJson().or(Filters.isValidationEnabled());
 

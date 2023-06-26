@@ -25,7 +25,7 @@ class ValidationMethodGeneratorTest {
   @SnapshotName("oneOf")
   void generate_when_oneOf_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidationMethodGenerator.isValidAgainstMethods();
+        ValidationMethodGenerator.validationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(
@@ -42,7 +42,7 @@ class ValidationMethodGeneratorTest {
   @SnapshotName("anyOf")
   void generate_when_anyOf_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidationMethodGenerator.isValidAgainstMethods();
+        ValidationMethodGenerator.validationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(

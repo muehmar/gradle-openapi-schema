@@ -47,19 +47,23 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
 
   private Generator<JavaArrayPojo, PojoSettings> content() {
     return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
-        .append(MemberGenerator.generator(), JavaArrayPojo::getMemberContent)
+        .append(MemberGenerator.memberGenerator(), JavaArrayPojo::getMemberContent)
         .appendSingleBlankLine()
-        .append(PojoConstructorGenerator.generator(), JavaArrayPojo::getConstructorContent)
+        .append(
+            PojoConstructorGenerator.pojoConstructorGenerator(),
+            JavaArrayPojo::getConstructorContent)
         .appendSingleBlankLine()
-        .append(FactoryMethodGenerator.generator())
+        .append(FactoryMethodGenerator.factoryMethodGenerator())
         .appendSingleBlankLine()
         .appendOptional(EnumGenerator.nested(), pojo -> pojo.getArrayPojoMember().asEnumContent())
         .appendSingleBlankLine()
-        .append(GetterGenerator.generator(), JavaArrayPojo::getArrayPojoMember)
+        .append(GetterGenerator.getterGenerator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
-        .append(WitherGenerator.generator(), JavaArrayPojo::getWitherContent)
+        .append(WitherGenerator.witherGenerator(), JavaArrayPojo::getWitherContent)
         .appendSingleBlankLine()
-        .append(UniqueItemsValidationMethodGenerator.generator(), JavaArrayPojo::getArrayPojoMember)
+        .append(
+            UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator(),
+            JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
         .append(EqualsGenerator.equalsMethod(), JavaArrayPojo::getEqualsContent)
         .appendSingleBlankLine()

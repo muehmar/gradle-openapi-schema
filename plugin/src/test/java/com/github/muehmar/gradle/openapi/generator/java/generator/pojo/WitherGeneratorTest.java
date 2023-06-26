@@ -34,7 +34,7 @@ class WitherGeneratorTest {
   @SnapshotName("allNullabilityAndNecessityVariants")
   void generate_when_calledWithNullabilityAndNecessityVariants_then_correctOutput() {
     final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
-        WitherGenerator.generator();
+        WitherGenerator.witherGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getWitherContent(),
@@ -50,7 +50,7 @@ class WitherGeneratorTest {
   @SnapshotName("noAdditionalProperties")
   void generate_when_noAdditionalProperties_then_correctOutput() {
     final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
-        WitherGenerator.generator();
+        WitherGenerator.witherGenerator();
     final Writer writer =
         generator.generate(
             WitherContentBuilder.create()
@@ -90,7 +90,7 @@ class WitherGeneratorTest {
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.of(surnameMember, nameMember));
 
     final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
-        WitherGenerator.generator();
+        WitherGenerator.witherGenerator();
     final Writer writer =
         generator.generate(
             pojo.getWitherContent(), TestPojoSettings.defaultSettings(), Writer.createDefault());
