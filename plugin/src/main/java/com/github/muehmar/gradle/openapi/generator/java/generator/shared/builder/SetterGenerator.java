@@ -6,9 +6,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator.NormalBuilderContent;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
@@ -19,9 +19,9 @@ import java.util.function.BiFunction;
 class SetterGenerator {
   private SetterGenerator() {}
 
-  public static Generator<NormalBuilderContent, PojoSettings> generator() {
-    return Generator.<NormalBuilderContent, PojoSettings>emptyGen()
-        .appendList(setter(), NormalBuilderContent::getMembers);
+  public static Generator<JavaObjectPojo, PojoSettings> setterGenerator() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendList(setter(), JavaObjectPojo::getAllMembers);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> setter() {

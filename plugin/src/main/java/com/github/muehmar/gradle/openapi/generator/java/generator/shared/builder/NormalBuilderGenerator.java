@@ -1,33 +1,32 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.AdditionalPropertiesSetterGenerator.additionalPropertiesSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.BuildMethodGenerator.buildMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.DtoSetterGenerator.dtoSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.MemberDeclarationGenerator.memberDeclarationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.SetterGenerator.setterGenerator;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGen;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
 import io.github.muehmar.codegenerator.java.ConstructorGen;
 import io.github.muehmar.codegenerator.java.ConstructorGenBuilder;
-import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
-import java.util.Optional;
-import lombok.Value;
 
 public class NormalBuilderGenerator {
 
   private NormalBuilderGenerator() {}
 
-  public static Generator<NormalBuilderContent, PojoSettings> normalBuilderGenerator() {
-    final ClassGen<NormalBuilderContent, PojoSettings> classGen =
-        ClassGenBuilder.<NormalBuilderContent, PojoSettings>create()
+  public static Generator<JavaObjectPojo, PojoSettings> normalBuilderGenerator() {
+    final ClassGen<JavaObjectPojo, PojoSettings> classGen =
+        ClassGenBuilder.<JavaObjectPojo, PojoSettings>create()
             .clazz()
             .nested()
             .packageGen(new PackageGenerator<>())
@@ -39,7 +38,7 @@ public class NormalBuilderGenerator {
             .noInterfaces()
             .content(content())
             .build();
-    return NormalBuilderGenerator.<NormalBuilderContent>factoryMethod()
+    return NormalBuilderGenerator.<JavaObjectPojo>factoryMethod()
         .append(JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set"))
         .append(classGen);
   }
@@ -52,17 +51,19 @@ public class NormalBuilderGenerator {
         .filter((data, settings) -> settings.isDisableSafeBuilder());
   }
 
-  private static Generator<NormalBuilderContent, PojoSettings> content() {
-    return Generator.<NormalBuilderContent, PojoSettings>emptyGen()
+  private static Generator<JavaObjectPojo, PojoSettings> content() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendSingleBlankLine()
         .append(constructor())
-        .append(MemberDeclarationGenerator.generator())
+        .append(memberDeclarationGenerator())
         .appendSingleBlankLine()
-        .append(SetterGenerator.generator())
+        .append(setterGenerator())
         .appendSingleBlankLine()
-        .append(AdditionalPropertiesSetterGenerator.generator())
+        .append(dtoSetterGenerator())
         .appendSingleBlankLine()
-        .append(BuildMethodGenerator.generator());
+        .append(additionalPropertiesSetterGenerator())
+        .appendSingleBlankLine()
+        .append(buildMethodGenerator());
   }
 
   private static <A> Generator<A, PojoSettings> constructor() {
@@ -74,13 +75,5 @@ public class NormalBuilderGenerator {
             .noContent()
             .build();
     return constructor.appendNewLine().filter((data, settings) -> settings.isEnableSafeBuilder());
-  }
-
-  @Value
-  @PojoBuilder(builderName = "NormalBuilderContentBuilder")
-  public static class NormalBuilderContent {
-    JavaIdentifier className;
-    PList<JavaPojoMember> members;
-    Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

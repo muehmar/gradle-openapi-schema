@@ -4,19 +4,18 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator.NormalBuilderContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import io.github.muehmar.codegenerator.Generator;
 
 class MemberDeclarationGenerator {
   private MemberDeclarationGenerator() {}
 
-  public static <B> Generator<NormalBuilderContent, B> generator() {
-    return Generator.<NormalBuilderContent, B>emptyGen()
-        .appendList(memberDeclaration(), NormalBuilderContent::getMembers)
-        .appendOptional(
-            additionalPropertiesDeclaration(), NormalBuilderContent::getAdditionalProperties);
+  public static <B> Generator<JavaObjectPojo, B> memberDeclarationGenerator() {
+    return Generator.<JavaObjectPojo, B>emptyGen()
+        .appendList(memberDeclaration(), JavaObjectPojo::getAllMembers)
+        .append(additionalPropertiesDeclaration(), JavaObjectPojo::getAdditionalProperties);
   }
 
   private static <B> Generator<JavaPojoMember, B> memberDeclaration() {

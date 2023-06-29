@@ -8,8 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberCon
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
@@ -245,15 +243,6 @@ public class JavaObjectPojo implements JavaPojo {
   public PojoConstructorGenerator.ConstructorContent getConstructorContent() {
     return ConstructorContentBuilder.create()
         .isArray(false)
-        .className(getClassName())
-        .members(getAllMembers())
-        .andAllOptionals()
-        .additionalProperties(additionalProperties)
-        .build();
-  }
-
-  public NormalBuilderGenerator.NormalBuilderContent getNormalBuilderContent() {
-    return NormalBuilderContentBuilder.create()
         .className(getClassName())
         .members(getAllMembers())
         .andAllOptionals()

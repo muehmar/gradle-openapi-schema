@@ -115,7 +115,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendList(
             uniqueItemsValidationMethodGenerator().appendSingleBlankLine(),
             JavaObjectPojo::getMembers)
-        .append(normalBuilderGenerator(), JavaObjectPojo::getNormalBuilderContent)
+        .append(normalBuilderGenerator())
         .appendSingleBlankLine()
         .append(new SafeBuilderGenerator());
   }

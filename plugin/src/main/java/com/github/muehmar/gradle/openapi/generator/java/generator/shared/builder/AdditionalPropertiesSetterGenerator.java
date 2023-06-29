@@ -7,9 +7,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator.NormalBuilderContent;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
@@ -18,10 +18,9 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 class AdditionalPropertiesSetterGenerator {
   private AdditionalPropertiesSetterGenerator() {}
 
-  public static Generator<NormalBuilderContent, PojoSettings> generator() {
-    return Generator.<NormalBuilderContent, PojoSettings>emptyGen()
-        .appendOptional(
-            additionalPropertiesSetters(), NormalBuilderContent::getAdditionalProperties);
+  public static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesSetterGenerator() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(additionalPropertiesSetters(), JavaObjectPojo::getAdditionalProperties);
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertiesSetters() {
