@@ -21,7 +21,7 @@ class MemberDeclarationGenerator {
   private static <B> Generator<JavaPojoMember, B> memberDeclaration() {
     return MemberDeclarationGenerator.<B>normalMemberDeclaration()
         .append(memberIsPresentFlagDeclaration())
-        .append(memberIsNullFlagDeclaratino());
+        .append(memberIsNullFlagDeclaration());
   }
 
   private static <B> Generator<JavaPojoMember, B> normalMemberDeclaration() {
@@ -38,7 +38,7 @@ class MemberDeclarationGenerator {
     return generator.filter(JavaPojoMember::isRequiredAndNullable);
   }
 
-  private static <B> Generator<JavaPojoMember, B> memberIsNullFlagDeclaratino() {
+  private static <B> Generator<JavaPojoMember, B> memberIsNullFlagDeclaration() {
     final Generator<JavaPojoMember, B> generator =
         (member, settings, writer) ->
             writer.println("private boolean %s = false;", member.getIsNullFlagName());
