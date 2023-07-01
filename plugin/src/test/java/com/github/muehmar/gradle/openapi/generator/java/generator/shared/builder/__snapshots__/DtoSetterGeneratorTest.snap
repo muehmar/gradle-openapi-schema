@@ -4,6 +4,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
   return this;
 }
 
@@ -12,6 +13,7 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringValOpt1());
   setOptionalStringVal(dto.getOptionalStringValOpt2());
   setOptionalNullableStringVal(dto.getOptionalNullableStringValTristate());
+  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
   return this;
 }
 

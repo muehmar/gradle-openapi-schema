@@ -49,6 +49,7 @@ public class DtoSetterGenerator {
   private static Generator<JavaObjectPojo, PojoSettings> dtoSetterContent() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(setSingleMember(), JavaObjectPojo::getAllMembers)
+        .append(setAdditionalProperties())
         .append(constant("return this;"));
   }
 
@@ -61,5 +62,10 @@ public class DtoSetterGenerator {
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
         .append(fieldRefs());
+  }
+
+  private static <A, B> Generator<A, B> setAdditionalProperties() {
+    return Generator.constant(
+        "dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));");
   }
 }

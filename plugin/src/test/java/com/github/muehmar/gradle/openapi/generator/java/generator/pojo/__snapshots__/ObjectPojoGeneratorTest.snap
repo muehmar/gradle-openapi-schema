@@ -164,11 +164,13 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
+      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
+      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
       return this;
     }
 
@@ -487,11 +489,13 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
+      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
+      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
       return this;
     }
 
@@ -4603,11 +4607,13 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
+      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
+      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
       return this;
     }
 
