@@ -2,8 +2,10 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.builde
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.DtoSetterGenerator.dtoSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 
 import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -21,6 +23,7 @@ class DtoSetterGeneratorTest {
   private Expect expect;
 
   @Test
+  @SnapshotName("oneOfPojo")
   void generator_when_calledWithComposedPojo_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
 
@@ -36,6 +39,20 @@ class DtoSetterGeneratorTest {
             JavaPojos.oneOfPojo(
                 sampleObjectPojo1(), JavaPojos.allNecessityAndNullabilityVariants()),
             TestPojoSettings.defaultSettings().withGetterSuffixes(getterSuffixes),
+            Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("noBuilderSetMethodPrefix")
+  void generator_when_noBuilderSetMethodPrefix_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            TestPojoSettings.defaultSettings().withBuilderMethodPrefix(""),
             Writer.createDefault());
 
     expect.toMatchSnapshot(writer.asString());

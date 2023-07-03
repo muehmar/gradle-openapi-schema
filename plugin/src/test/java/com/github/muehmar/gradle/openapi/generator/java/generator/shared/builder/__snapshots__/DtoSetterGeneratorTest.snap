@@ -1,4 +1,25 @@
-com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.DtoSetterGeneratorTest.generator_when_calledWithComposedPojo_then_correctOutput=[
+noBuilderSetMethodPrefix=[
+
+private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  stringVal(dto.getStringVal());
+  intVal(dto.getIntVal());
+  doubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  return this;
+}
+
+private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+  stringVal(dto.getStringVal());
+  birthdate(dto.getBirthdate());
+  email(dto.getEmail());
+  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  return this;
+}
+
+]
+
+
+oneOfPojo=[
 
 private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());

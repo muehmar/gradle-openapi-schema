@@ -54,6 +54,10 @@ public class Name {
     return map(s -> s.substring(0, 1).toUpperCase() + s.substring(1));
   }
 
+  public Name startLowerCase() {
+    return map(s -> s.substring(0, 1).toLowerCase() + s.substring(1));
+  }
+
   public boolean contains(CharSequence s) {
     return value.contains(s);
   }

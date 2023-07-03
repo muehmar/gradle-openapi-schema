@@ -157,6 +157,14 @@ public class JavaObjectPojo implements JavaPojo {
     return name.asJavaName().asIdentifier();
   }
 
+  public JavaIdentifier prefixedClassNameForMethod(String prefix) {
+    if (prefix.isEmpty()) {
+      return name.asJavaName().startLowerCase().asIdentifier();
+    } else {
+      return name.asJavaName().startUpperCase().prefix(prefix).asIdentifier();
+    }
+  }
+
   @Override
   public String getDescription() {
     return description;

@@ -40,7 +40,9 @@ public class DtoSetterGenerator {
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("Builder")
-        .methodName(pojo -> String.format("set%s", pojo.getClassName()))
+        .methodName(
+            (pojo, settings) ->
+                pojo.prefixedClassNameForMethod(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(pojo -> String.format("%s dto", pojo.getClassName()))
         .content(dtoSetterContent())
         .build();
