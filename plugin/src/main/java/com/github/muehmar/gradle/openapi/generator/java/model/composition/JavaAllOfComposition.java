@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.Assertion.assertAllObjectPojos;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
@@ -15,9 +16,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaAllOfComposition {
-  private final PList<JavaObjectPojo> pojos;
+  private final NonEmptyList<JavaObjectPojo> pojos;
 
-  private JavaAllOfComposition(PList<JavaPojo> pojos) {
+  private JavaAllOfComposition(NonEmptyList<JavaPojo> pojos) {
     this.pojos = assertAllObjectPojos(pojos);
   }
 
@@ -30,15 +31,18 @@ public class JavaAllOfComposition {
             .map(result -> result.getTypeOrDefault(type)));
   }
 
-  public static JavaAllOfComposition fromPojos(PList<JavaPojo> pojos) {
+  public static JavaAllOfComposition fromPojos(NonEmptyList<JavaPojo> pojos) {
     return new JavaAllOfComposition(pojos);
   }
 
-  public PList<JavaObjectPojo> getPojos() {
+  public NonEmptyList<JavaObjectPojo> getPojos() {
     return pojos;
   }
 
   public PList<JavaPojoMember> getMembers() {
-    return pojos.flatMap(JavaObjectPojo::getAllMembers).map(JavaPojoMember::asAllOfMember);
+    return pojos
+        .toPList()
+        .flatMap(JavaObjectPojo::getAllMembers)
+        .map(JavaPojoMember::asAllOfMember);
   }
 }

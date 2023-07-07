@@ -38,7 +38,7 @@ class JavaObjectPojoTest {
             .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
             .constraints(Constraints.empty())
             .andOptionals()
-            .anyOfComposition(JavaAnyOfComposition.fromPojos(PList.of(pojo1, pojo2)));
+            .anyOfComposition(JavaAnyOfComposition.fromPojos(NonEmptyList.of(pojo1, pojo2)));
 
     assertThrows(OpenApiGeneratorException.class, builder::build);
   }

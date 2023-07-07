@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
@@ -8,7 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 class Assertion {
   private Assertion() {}
 
-  static PList<JavaObjectPojo> assertAllObjectPojos(PList<JavaPojo> pojos) {
+  static NonEmptyList<JavaObjectPojo> assertAllObjectPojos(NonEmptyList<JavaPojo> pojos) {
     return pojos.map(
         pojo -> {
           if (pojo instanceof JavaObjectPojo) {

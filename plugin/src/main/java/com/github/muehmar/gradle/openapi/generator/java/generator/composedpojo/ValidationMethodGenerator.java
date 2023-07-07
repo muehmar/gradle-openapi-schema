@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -21,9 +22,17 @@ public class ValidationMethodGenerator {
 
   public static Generator<JavaObjectPojo, PojoSettings> validationMethodGenerator() {
     final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getOneOfPojosMembers =
-        p -> p.getOneOfComposition().map(JavaOneOfComposition::getPojos).orElseGet(PList::empty);
+        p ->
+            p.getOneOfComposition()
+                .map(JavaOneOfComposition::getPojos)
+                .map(NonEmptyList::toPList)
+                .orElseGet(PList::empty);
     final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getAnyOfPojoMembers =
-        p -> p.getAnyOfComposition().map(JavaAnyOfComposition::getPojos).orElseGet(PList::empty);
+        p ->
+            p.getAnyOfComposition()
+                .map(JavaAnyOfComposition::getPojos)
+                .map(NonEmptyList::toPList)
+                .orElseGet(PList::empty);
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(isValidAgainstMethodForPojo(), getOneOfPojosMembers, newLine())
         .appendSingleBlankLine()

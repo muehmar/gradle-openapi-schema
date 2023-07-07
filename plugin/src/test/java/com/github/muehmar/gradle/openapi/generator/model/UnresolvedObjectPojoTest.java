@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
@@ -50,12 +51,13 @@ class UnresolvedObjectPojoTest {
   }
 
   private static Stream<Arguments> compositionsAndResolverCombinations() {
+    final NonEmptyList<Pojo> pojos = NonEmptyList.single(Pojos.objectPojo(PList.empty()));
     final Function<UnresolvedAllOfComposition, Optional<AllOfComposition>> allOfResolver =
-        ignore -> Optional.of(AllOfComposition.fromPojos(PList.empty()));
+        ignore -> Optional.of(AllOfComposition.fromPojos(pojos));
     final Function<UnresolvedOneOfComposition, Optional<OneOfComposition>> oneOfResolver =
-        ignore -> Optional.of(OneOfComposition.fromPojos(PList.empty()));
+        ignore -> Optional.of(OneOfComposition.fromPojos(pojos));
     final Function<UnresolvedAnyOfComposition, Optional<AnyOfComposition>> anyOfResolver =
-        ignore -> Optional.of(AnyOfComposition.fromPojos(PList.empty()));
+        ignore -> Optional.of(AnyOfComposition.fromPojos(pojos));
 
     final UnresolvedAllOfComposition unresolvedAllOf =
         UnresolvedAllOfComposition.fromPojoNames(

@@ -4,7 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
@@ -92,17 +92,13 @@ public class FoldMethodGenerator {
                 + getJavaDocFullFoldString(p));
   }
 
-  private static String getJavaDocExample(PList<JavaObjectPojo> pojos) {
-    return pojos
-        .headOption()
-        .map(
-            ep ->
-                String.format(
-                    JAVA_DOC_EXAMPLE,
-                    ep.getSchemaName(),
-                    CompositionNames.dtoMappingArgumentName(ep),
-                    ep.getClassName()))
-        .orElse("");
+  private static String getJavaDocExample(NonEmptyList<JavaObjectPojo> pojos) {
+    final JavaObjectPojo ep = pojos.head();
+    return String.format(
+        JAVA_DOC_EXAMPLE,
+        ep.getSchemaName(),
+        CompositionNames.dtoMappingArgumentName(ep),
+        ep.getClassName());
   }
 
   private static String getJavaDocFullFoldString(OneOfPojo oneOf) {
@@ -110,7 +106,7 @@ public class FoldMethodGenerator {
         String.format(
             "{@link %s#foldOneOf(%s)}",
             oneOf.getPojo().getClassName(),
-            oneOf.getMemberPojos().map(ignore -> "Function").mkString(", "));
+            oneOf.getMemberPojos().map(ignore -> "Function").toPList().mkString(", "));
     return String.format(JAVA_DOC_ONE_OF_FULL_FOLD, unsafeFoldRef);
   }
 
@@ -120,7 +116,7 @@ public class FoldMethodGenerator {
         .genericTypes("T")
         .returnType("T")
         .methodName("foldOneOf")
-        .arguments(p -> fullFoldMethodArguments(p.getComposition().getPojos()))
+        .arguments(p -> fullFoldMethodArguments(p.getComposition().getPojos()).toPList())
         .content(fullFoldMethodContent())
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_FUNCTION))
@@ -133,7 +129,7 @@ public class FoldMethodGenerator {
         .genericTypes("T")
         .returnType("T")
         .methodName("foldOneOf")
-        .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()))
+        .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
         .content(standardOneOfFoldMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_FUNCTION));
@@ -145,7 +141,7 @@ public class FoldMethodGenerator {
         .genericTypes("T")
         .returnType("List<T>")
         .methodName("foldAnyOf")
-        .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()))
+        .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
         .content(standardAnyOfFoldMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_FUNCTION))
@@ -187,7 +183,7 @@ public class FoldMethodGenerator {
     return String.format(
         "Unable to fold the oneOf part of %s: Not valid against one of the schemas [%s].",
         oneOfPojo.getPojo().getClassName(),
-        oneOfPojo.getComposition().getPojos().map(JavaPojo::getClassName).mkString(", "));
+        oneOfPojo.getComposition().getPojos().map(JavaPojo::getClassName).toPList().mkString(", "));
   }
 
   private static Generator<AnyOfMemberPojo, PojoSettings> singleAnyOfFold() {
@@ -220,11 +216,12 @@ public class FoldMethodGenerator {
         .append(constant("}"));
   }
 
-  private static PList<String> fullFoldMethodArguments(PList<JavaObjectPojo> pojos) {
+  private static NonEmptyList<String> fullFoldMethodArguments(NonEmptyList<JavaObjectPojo> pojos) {
     return standardFoldMethodArguments(pojos).add("Supplier<T> onInvalid");
   }
 
-  private static PList<String> standardFoldMethodArguments(PList<JavaObjectPojo> pojos) {
+  private static NonEmptyList<String> standardFoldMethodArguments(
+      NonEmptyList<JavaObjectPojo> pojos) {
     return pojos.map(
         pojo ->
             String.format(
@@ -241,11 +238,11 @@ public class FoldMethodGenerator {
       return pojo.getOneOfComposition().map(composition -> new OneOfPojo(pojo, composition));
     }
 
-    private PList<JavaObjectPojo> getMemberPojos() {
+    private NonEmptyList<JavaObjectPojo> getMemberPojos() {
       return composition.getPojos();
     }
 
-    private PList<OneOfMemberPojo> getOneOfMembers() {
+    private NonEmptyList<OneOfMemberPojo> getOneOfMembers() {
       return composition.getPojos().map(member -> new OneOfMemberPojo(this, member));
     }
   }
@@ -269,13 +266,7 @@ public class FoldMethodGenerator {
     }
 
     private String ifOrElseIf() {
-      return oneOfPojo
-          .getComposition()
-          .getPojos()
-          .headOption()
-          .filter(memberPojo::equals)
-          .map(ignore -> "if")
-          .orElse("else if");
+      return oneOfPojo.getComposition().getPojos().head().equals(memberPojo) ? "if" : "else if";
     }
 
     private Name isValidAgainstMethodName() {
@@ -300,11 +291,11 @@ public class FoldMethodGenerator {
       return pojo.getAnyOfComposition().map(composition -> new AnyOfPojo(pojo, composition));
     }
 
-    private PList<JavaObjectPojo> getMemberPojos() {
+    private NonEmptyList<JavaObjectPojo> getMemberPojos() {
       return composition.getPojos();
     }
 
-    private PList<AnyOfMemberPojo> getAnyOfMembers() {
+    private NonEmptyList<AnyOfMemberPojo> getAnyOfMembers() {
       return composition.getPojos().map(member -> new AnyOfMemberPojo(this, member));
     }
   }

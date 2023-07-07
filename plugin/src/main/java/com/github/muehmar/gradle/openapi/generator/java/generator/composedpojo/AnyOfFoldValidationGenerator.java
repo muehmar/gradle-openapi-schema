@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static io.github.muehmar.codegenerator.Generator.constant;
 
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
@@ -25,9 +25,9 @@ public class AnyOfFoldValidationGenerator {
             annotatedMethod(), p -> p.getAnyOfComposition().map(JavaAnyOfComposition::getPojos));
   }
 
-  private static Generator<PList<JavaObjectPojo>, PojoSettings> annotatedMethod() {
-    final MethodGen<PList<JavaObjectPojo>, PojoSettings> method =
-        MethodGenBuilder.<PList<JavaObjectPojo>, PojoSettings>create()
+  private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> annotatedMethod() {
+    final MethodGen<NonEmptyList<JavaObjectPojo>, PojoSettings> method =
+        MethodGenBuilder.<NonEmptyList<JavaObjectPojo>, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("List<Object>")
@@ -36,20 +36,21 @@ public class AnyOfFoldValidationGenerator {
             .content(methodContent())
             .build();
 
-    return JavaDocGenerators.<PList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
+    return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(ValidationGenerator.validAnnotation())
         .append(AnnotationGenerator.deprecatedValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
 
-  private static Generator<PList<JavaObjectPojo>, PojoSettings> methodContent() {
-    return Generator.<PList<JavaObjectPojo>, PojoSettings>emptyGen()
+  private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> methodContent() {
+    return Generator.<NonEmptyList<JavaObjectPojo>, PojoSettings>emptyGen()
         .append(constant("if (getValidCount() == 0) {"))
         .append(constant("return null;"), 1)
         .append(constant("}"))
         .append(
             (pojos, s, w) ->
-                w.println("return fold(%s);", pojos.map(name -> "dto -> dto").mkString(", ")));
+                w.println(
+                    "return fold(%s);", pojos.map(name -> "dto -> dto").toPList().mkString(", ")));
   }
 }

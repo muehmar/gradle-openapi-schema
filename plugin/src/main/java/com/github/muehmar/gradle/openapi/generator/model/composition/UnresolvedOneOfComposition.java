@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.composition;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -28,7 +29,10 @@ public class UnresolvedOneOfComposition {
 
   public Optional<OneOfComposition> resolve(
       Function<PList<PojoName>, Optional<PList<Pojo>>> resolve) {
-    return resolve.apply(pojoNames).map(pojos -> new OneOfComposition(pojos, discriminator));
+    return resolve
+        .apply(pojoNames)
+        .flatMap(NonEmptyList::fromIter)
+        .map(pojos -> new OneOfComposition(pojos, discriminator));
   }
 
   public Optional<Discriminator> getDiscriminator() {

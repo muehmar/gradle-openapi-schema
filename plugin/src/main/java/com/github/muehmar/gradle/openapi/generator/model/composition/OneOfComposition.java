@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.composition;
 
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import java.util.Optional;
@@ -10,24 +10,24 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class OneOfComposition {
-  private final PList<Pojo> pojos;
+  private final NonEmptyList<Pojo> pojos;
   private final Optional<Discriminator> discriminator;
 
-  OneOfComposition(PList<Pojo> pojos, Optional<Discriminator> discriminator) {
+  OneOfComposition(NonEmptyList<Pojo> pojos, Optional<Discriminator> discriminator) {
     this.pojos = pojos;
     this.discriminator = discriminator;
   }
 
-  public static OneOfComposition fromPojos(PList<Pojo> pojos) {
+  public static OneOfComposition fromPojos(NonEmptyList<Pojo> pojos) {
     return new OneOfComposition(pojos, Optional.empty());
   }
 
   public static OneOfComposition fromPojosAndDiscriminator(
-      PList<Pojo> pojos, Discriminator discriminator) {
+      NonEmptyList<Pojo> pojos, Discriminator discriminator) {
     return new OneOfComposition(pojos, Optional.of(discriminator));
   }
 
-  public PList<Pojo> getPojos() {
+  public NonEmptyList<Pojo> getPojos() {
     return pojos;
   }
 

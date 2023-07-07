@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.EMAIL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolverImpl;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -511,7 +512,7 @@ class SpecificationMapperImplTest {
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .andOptionals()
-            .allOfComposition(AllOfComposition.fromPojos(PList.of(expectedAllOfPojo)))
+            .allOfComposition(AllOfComposition.fromPojos(NonEmptyList.of(expectedAllOfPojo)))
             .build(),
         pojos.apply(1));
   }
@@ -640,7 +641,7 @@ class SpecificationMapperImplTest {
             .andOptionals()
             .allOfComposition(
                 AllOfComposition.fromPojos(
-                    PList.of(expectedReferencePojo, expectedAllOf0Pojo, expectedAllOf1Pojo)))
+                    NonEmptyList.of(expectedReferencePojo, expectedAllOf0Pojo, expectedAllOf1Pojo)))
             .build(),
         pojos.apply(2));
 

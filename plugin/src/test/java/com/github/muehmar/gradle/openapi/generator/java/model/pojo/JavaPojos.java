@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.opti
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.*;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
@@ -78,15 +79,15 @@ public class JavaPojos {
         .build();
   }
 
-  public static JavaObjectPojo oneOfPojo(PList<JavaPojo> oneOfPojos) {
+  public static JavaObjectPojo oneOfPojo(NonEmptyList<JavaPojo> oneOfPojos) {
     return oneOfPojo(JavaOneOfComposition.fromPojos(oneOfPojos));
   }
 
-  public static JavaObjectPojo oneOfPojo(JavaPojo... oneOfPojos) {
-    return oneOfPojo(PList.fromArray(oneOfPojos));
+  public static JavaObjectPojo oneOfPojo(JavaPojo oneOfPojo, JavaPojo... oneOfPojos) {
+    return oneOfPojo(NonEmptyList.single(oneOfPojo).concat(PList.fromArray(oneOfPojos)));
   }
 
-  public static JavaObjectPojo anyOfPojo(PList<JavaPojo> anyOfPojos) {
+  public static JavaObjectPojo anyOfPojo(NonEmptyList<JavaPojo> anyOfPojos) {
     return JavaObjectPojoBuilder.create()
         .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("AnyOfPojo1", "Dto")))
         .description("")
@@ -99,8 +100,8 @@ public class JavaPojos {
         .build();
   }
 
-  public static JavaObjectPojo anyOfPojo(JavaPojo... anyOfPojos) {
-    return anyOfPojo(PList.fromArray(anyOfPojos));
+  public static JavaObjectPojo anyOfPojo(JavaPojo anyOfPojo, JavaPojo... anyOfPojos) {
+    return anyOfPojo(NonEmptyList.single(anyOfPojo).concat(PList.fromArray(anyOfPojos)));
   }
 
   public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {

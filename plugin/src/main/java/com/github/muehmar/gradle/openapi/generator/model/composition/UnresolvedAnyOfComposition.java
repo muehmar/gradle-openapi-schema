@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.composition;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -23,6 +24,9 @@ public class UnresolvedAnyOfComposition {
 
   public Optional<AnyOfComposition> resolve(
       Function<PList<PojoName>, Optional<PList<Pojo>>> resolve) {
-    return resolve.apply(pojoNames).map(AnyOfComposition::fromPojos);
+    return resolve
+        .apply(pojoNames)
+        .flatMap(NonEmptyList::fromIter)
+        .map(AnyOfComposition::fromPojos);
   }
 }

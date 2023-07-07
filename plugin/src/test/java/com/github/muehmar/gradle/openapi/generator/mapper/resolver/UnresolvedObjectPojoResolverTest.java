@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -52,7 +53,7 @@ class UnresolvedObjectPojoResolverTest {
     assertTrue(resolved.apply(0) instanceof ObjectPojo);
     final ObjectPojo resolvedObjectPojo = (ObjectPojo) resolved.apply(0);
     assertEquals(
-        Optional.of(AllOfComposition.fromPojos(PList.single(pojo1))),
+        Optional.of(AllOfComposition.fromPojos(NonEmptyList.single(pojo1))),
         resolvedObjectPojo.getAllOfComposition());
     assertEquals(Optional.empty(), resolvedObjectPojo.getOneOfComposition());
     assertEquals(Optional.empty(), resolvedObjectPojo.getAnyOfComposition());
@@ -88,7 +89,7 @@ class UnresolvedObjectPojoResolverTest {
     assertTrue(resolved.apply(0) instanceof ObjectPojo);
     final ObjectPojo resolvedObjectPojo = (ObjectPojo) resolved.apply(0);
     assertEquals(
-        Optional.of(OneOfComposition.fromPojos(PList.single(pojo1))),
+        Optional.of(OneOfComposition.fromPojos(NonEmptyList.single(pojo1))),
         resolvedObjectPojo.getOneOfComposition());
     assertEquals(Optional.empty(), resolvedObjectPojo.getAllOfComposition());
     assertEquals(Optional.empty(), resolvedObjectPojo.getAnyOfComposition());
@@ -122,7 +123,7 @@ class UnresolvedObjectPojoResolverTest {
     assertTrue(resolved.apply(0) instanceof ObjectPojo);
     final ObjectPojo resolvedObjectPojo = (ObjectPojo) resolved.apply(0);
     assertEquals(
-        Optional.of(AnyOfComposition.fromPojos(PList.single(pojo1))),
+        Optional.of(AnyOfComposition.fromPojos(NonEmptyList.single(pojo1))),
         resolvedObjectPojo.getAnyOfComposition());
     assertEquals(Optional.empty(), resolvedObjectPojo.getAllOfComposition());
     assertEquals(Optional.empty(), resolvedObjectPojo.getOneOfComposition());

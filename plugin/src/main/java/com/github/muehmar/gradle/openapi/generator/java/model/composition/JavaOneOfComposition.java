@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.Assertion.assertAllObjectPojos;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
@@ -17,10 +18,11 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaOneOfComposition {
-  private final PList<JavaObjectPojo> pojos;
+  private final NonEmptyList<JavaObjectPojo> pojos;
   private final Optional<Discriminator> discriminator;
 
-  private JavaOneOfComposition(PList<JavaPojo> pojos, Optional<Discriminator> discriminator) {
+  private JavaOneOfComposition(
+      NonEmptyList<JavaPojo> pojos, Optional<Discriminator> discriminator) {
     this.pojos = assertAllObjectPojos(pojos);
     this.discriminator = discriminator;
   }
@@ -35,21 +37,24 @@ public class JavaOneOfComposition {
         oneOfComposition.getDiscriminator());
   }
 
-  public static JavaOneOfComposition fromPojos(PList<JavaPojo> pojos) {
+  public static JavaOneOfComposition fromPojos(NonEmptyList<JavaPojo> pojos) {
     return new JavaOneOfComposition(pojos, Optional.empty());
   }
 
   public static JavaOneOfComposition fromPojosAndDiscriminator(
-      PList<JavaPojo> pojos, Discriminator discriminator) {
+      NonEmptyList<JavaPojo> pojos, Discriminator discriminator) {
     return new JavaOneOfComposition(pojos, Optional.of(discriminator));
   }
 
-  public PList<JavaObjectPojo> getPojos() {
+  public NonEmptyList<JavaObjectPojo> getPojos() {
     return pojos;
   }
 
   public PList<JavaPojoMember> getMembers() {
-    return pojos.flatMap(JavaObjectPojo::getAllMembers).map(JavaPojoMember::asOneOfMember);
+    return pojos
+        .toPList()
+        .flatMap(JavaObjectPojo::getAllMembers)
+        .map(JavaPojoMember::asOneOfMember);
   }
 
   public Optional<Discriminator> getDiscriminator() {

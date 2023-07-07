@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
@@ -55,7 +55,7 @@ class FoldMethodGeneratorTest {
         Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfComposition.fromPojosAndDiscriminator(
-            PList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
 
     final Writer writer =
         generator.generate(
@@ -86,7 +86,7 @@ class FoldMethodGeneratorTest {
 
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfComposition.fromPojosAndDiscriminator(
-            PList.of(sampleObjectPojo1, sampleObjectPojo2), discriminator);
+            NonEmptyList.of(sampleObjectPojo1, sampleObjectPojo2), discriminator);
 
     final Writer writer =
         generator.generate(

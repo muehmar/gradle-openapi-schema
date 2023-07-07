@@ -5,7 +5,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
@@ -30,8 +30,8 @@ public class DtoSetterGenerator {
             dtoSetters(), pojo -> pojo.getAnyOfComposition().map(JavaAnyOfComposition::getPojos));
   }
 
-  private static Generator<PList<JavaObjectPojo>, PojoSettings> dtoSetters() {
-    return Generator.<PList<JavaObjectPojo>, PojoSettings>emptyGen()
+  private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> dtoSetters() {
+    return Generator.<NonEmptyList<JavaObjectPojo>, PojoSettings>emptyGen()
         .appendList(singleDtoSetter(), p -> p, newLine());
   }
 

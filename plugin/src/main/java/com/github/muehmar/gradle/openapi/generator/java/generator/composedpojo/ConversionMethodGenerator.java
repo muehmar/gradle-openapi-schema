@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
@@ -27,10 +28,12 @@ public class ConversionMethodGenerator {
         p ->
             p.getAnyOfComposition()
                 .map(JavaAnyOfComposition::getPojos)
+                .map(NonEmptyList::toPList)
                 .orElseGet(PList::empty)
                 .concat(
                     p.getOneOfComposition()
                         .map(JavaOneOfComposition::getPojos)
+                        .map(NonEmptyList::toPList)
                         .orElseGet(PList::empty));
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(asSingleDtoMethod(), getComposePojoMembers, Generator.newLine());

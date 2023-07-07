@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -72,7 +71,7 @@ public class ValidCountMethodGenerator {
 
     private static Optional<NonEmptyList<SingleMemberPojo>> from(
         JavaObjectPojo javaObjectPojo,
-        Function<JavaObjectPojo, Optional<PList<JavaObjectPojo>>> getMembers) {
+        Function<JavaObjectPojo, Optional<NonEmptyList<JavaObjectPojo>>> getMembers) {
       return getMembers
           .apply(javaObjectPojo)
           .map(

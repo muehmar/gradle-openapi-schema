@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.ofWriterFunction;
 
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
@@ -70,7 +70,7 @@ public class DiscriminatorValidationMethodGenerator {
   @Value
   private static class PojoAndDiscriminator {
     JavaObjectPojo pojo;
-    PList<JavaObjectPojo> memberPojos;
+    NonEmptyList<JavaObjectPojo> memberPojos;
     Discriminator discriminator;
 
     static Optional<PojoAndDiscriminator> fromPojo(JavaObjectPojo pojo) {
@@ -81,7 +81,7 @@ public class DiscriminatorValidationMethodGenerator {
                       .map(d -> new PojoAndDiscriminator(pojo, comp.getPojos(), d)));
     }
 
-    PList<SinglePojoAndDiscriminator> getPojos() {
+    NonEmptyList<SinglePojoAndDiscriminator> getPojos() {
       return memberPojos.map(p -> new SinglePojoAndDiscriminator(p, discriminator));
     }
   }

@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
@@ -32,25 +32,25 @@ public class ValidCountValidationMethod {
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Optional<PList<JavaObjectPojo>> getOneOfPojos(JavaObjectPojo pojo) {
+  private static Optional<NonEmptyList<JavaObjectPojo>> getOneOfPojos(JavaObjectPojo pojo) {
     return pojo.getOneOfComposition().map(JavaOneOfComposition::getPojos);
   }
 
-  private static Optional<PList<JavaObjectPojo>> getAnyOfPojos(JavaObjectPojo pojo) {
+  private static Optional<NonEmptyList<JavaObjectPojo>> getAnyOfPojos(JavaObjectPojo pojo) {
     return pojo.getAnyOfComposition().map(JavaAnyOfComposition::getPojos);
   }
 
-  private static Generator<PList<JavaObjectPojo>, PojoSettings> isValidAgainstNoSchemaMethod(
+  private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> isValidAgainstNoSchemaMethod(
       String oneOfOrAnyOf) {
-    final Function<PList<JavaObjectPojo>, String> message =
+    final Function<NonEmptyList<JavaObjectPojo>, String> message =
         pojos ->
             String.format(
                 "Is not valid against one of the schemas [%s]",
-                pojos.map(JavaObjectPojo::getSchemaName).mkString(", "));
-    final Generator<PList<JavaObjectPojo>, PojoSettings> annotation =
+                pojos.map(JavaObjectPojo::getSchemaName).toPList().mkString(", "));
+    final Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> annotation =
         ValidationGenerator.assertFalse(message);
-    final MethodGen<PList<JavaObjectPojo>, PojoSettings> method =
-        MethodGenBuilder.<PList<JavaObjectPojo>, PojoSettings>create()
+    final MethodGen<NonEmptyList<JavaObjectPojo>, PojoSettings> method =
+        MethodGenBuilder.<NonEmptyList<JavaObjectPojo>, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
@@ -58,23 +58,24 @@ public class ValidCountValidationMethod {
             .noArguments()
             .content(String.format("return get%sValidCount() == 0;", oneOfOrAnyOf))
             .build();
-    return JavaDocGenerators.<PList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
+    return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(annotation)
         .append(AnnotationGenerator.deprecatedValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
 
-  private static Generator<PList<JavaObjectPojo>, PojoSettings> isValidAgainstMoreThanOneSchema() {
-    final Function<PList<JavaObjectPojo>, String> message =
+  private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings>
+      isValidAgainstMoreThanOneSchema() {
+    final Function<NonEmptyList<JavaObjectPojo>, String> message =
         pojos ->
             String.format(
                 "Is valid against more than one of the schemas [%s]",
-                pojos.map(JavaPojo::getSchemaName).mkString(", "));
-    final Generator<PList<JavaObjectPojo>, PojoSettings> annotation =
+                pojos.map(JavaPojo::getSchemaName).toPList().mkString(", "));
+    final Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> annotation =
         ValidationGenerator.assertFalse(message);
-    final MethodGen<PList<JavaObjectPojo>, PojoSettings> method =
-        MethodGenBuilder.<PList<JavaObjectPojo>, PojoSettings>create()
+    final MethodGen<NonEmptyList<JavaObjectPojo>, PojoSettings> method =
+        MethodGenBuilder.<NonEmptyList<JavaObjectPojo>, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
@@ -82,7 +83,7 @@ public class ValidCountValidationMethod {
             .noArguments()
             .content("return getOneOfValidCount() > 1;")
             .build();
-    return JavaDocGenerators.<PList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
+    return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(annotation)
         .append(AnnotationGenerator.deprecatedValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())

@@ -6,7 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import ch.bluecare.commons.data.PList;
+import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -52,7 +52,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
             JavaOneOfComposition.fromPojosAndDiscriminator(
-                PList.of(sampleObjectPojo1(), sampleObjectPojo2()), noMappingDiscriminator));
+                NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), noMappingDiscriminator));
 
     final Writer writer =
         generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
@@ -77,7 +77,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
             JavaOneOfComposition.fromPojosAndDiscriminator(
-                PList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator));
+                NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator));
 
     final Writer writer =
         generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
@@ -102,7 +102,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
             JavaOneOfComposition.fromPojosAndDiscriminator(
-                PList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator));
+                NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator));
 
     final Writer writer =
         generator.generate(

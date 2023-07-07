@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -584,7 +585,7 @@ class ObjectPojoGeneratorTest {
   }
 
   private static JavaObjectPojo createCompositionPojo(
-      BiFunction<ObjectPojoBuilder.Builder, PList<Pojo>, ObjectPojoBuilder.Builder>
+      BiFunction<ObjectPojoBuilder.Builder, NonEmptyList<Pojo>, ObjectPojoBuilder.Builder>
           addCompositions) {
 
     final PojoMember requiredString = PojoMembers.requiredString();
@@ -617,7 +618,7 @@ class ObjectPojoGeneratorTest {
             .andOptionals();
 
     final ObjectPojo objectPojo =
-        addCompositions.apply(builder, PList.of(adminPojo, userPojo)).build();
+        addCompositions.apply(builder, NonEmptyList.of(adminPojo, userPojo)).build();
 
     return (JavaObjectPojo) JavaObjectPojo.wrap(objectPojo, TypeMappings.empty()).getDefaultPojo();
   }
