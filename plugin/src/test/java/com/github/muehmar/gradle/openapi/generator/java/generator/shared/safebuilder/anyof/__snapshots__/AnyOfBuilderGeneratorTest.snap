@@ -1,0 +1,33 @@
+anyOfPojo=[
+public static final class AnyOfBuilder0 {
+  private final Builder builder;
+
+  private AnyOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+}
+
+public static final class AnyOfBuilder1 {
+  private final Builder builder;
+
+  private AnyOfBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+}
+]

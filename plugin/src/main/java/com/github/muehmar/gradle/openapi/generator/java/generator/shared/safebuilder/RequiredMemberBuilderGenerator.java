@@ -1,66 +1,47 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleBuilderClassGenerator.singleBuilderClassGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.writer.Writer;
 import lombok.Value;
 
 class RequiredMemberBuilderGenerator {
 
-  private static final SingleMemberBuilderGenerator.Setter<RequiredMember> NORMAL_SETTER =
-      new SingleMemberBuilderGenerator.Setter<RequiredMember>() {
-
-        @Override
-        public boolean includeInBuilder(RequiredMember member) {
-          return true;
-        }
-
-        @Override
-        public String argumentFormat() {
-          return "%s %s";
-        }
-
-        @Override
-        public Writer addRefs(Writer writer) {
-          return writer;
-        }
-      };
-  private static final SingleMemberBuilderGenerator.Setter<RequiredMember> OPTIONAL_SETTER =
-      new SingleMemberBuilderGenerator.Setter<RequiredMember>() {
-
-        @Override
-        public boolean includeInBuilder(RequiredMember member) {
-          return member.isNullable();
-        }
-
-        @Override
-        public String argumentFormat() {
-          return "Optional<%s> %s";
-        }
-
-        @Override
-        public Writer addRefs(Writer writer) {
-          return writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL);
-        }
-      };
+  private static final SingleMemberSetterGenerator.Setter<RequiredMember> NORMAL_SETTER =
+      SetterBuilder.<RequiredMember>create()
+          .includeInBuilder(ignore -> true)
+          .argumentFormat("%s %s")
+          .addRefs(writer -> writer)
+          .build();
+  private static final SingleMemberSetterGenerator.Setter<RequiredMember> OPTIONAL_SETTER =
+      SetterBuilder.<RequiredMember>create()
+          .includeInBuilder(RequiredMember::isNullable)
+          .argumentFormat("Optional<%s> %s")
+          .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
+          .build();
 
   private RequiredMemberBuilderGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> generator() {
-    final PList<SingleMemberBuilderGenerator.Setter<RequiredMember>> setters =
+    final PList<SingleMemberSetterGenerator.Setter<RequiredMember>> setters =
         PList.of(NORMAL_SETTER, OPTIONAL_SETTER);
-    final Generator<RequiredMember, PojoSettings> singleMemberGenerator =
-        SingleMemberBuilderGenerator.generator(setters);
+    final Generator<RequiredMember, PojoSettings> singleMemberSetterGenerator =
+        singleMemberSetterGenerator(setters);
+    final Generator<RequiredMember, PojoSettings> singleBuilderClassGenerator =
+        singleBuilderClassGenerator(RequiredMember::builderClassName, singleMemberSetterGenerator);
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(singleMemberGenerator, RequiredMember::fromObjectPojo, Generator.newLine());
+        .appendList(
+            singleBuilderClassGenerator, RequiredMember::fromObjectPojo, Generator.newLine());
   }
 
   @Value
-  private static class RequiredMember implements SingleMemberBuilderGenerator.Member {
+  private static class RequiredMember implements SingleMemberSetterGenerator.Member {
     JavaPojoMember member;
     int idx;
 
@@ -71,10 +52,12 @@ class RequiredMemberBuilderGenerator {
           .map(p -> new RequiredMember(p.first(), p.second()));
     }
 
+    @Override
     public String builderClassName() {
       return String.format("Builder%d", idx);
     }
 
+    @Override
     public String nextBuilderClassName() {
       return String.format("Builder%d", idx + 1);
     }

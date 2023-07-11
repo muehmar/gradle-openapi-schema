@@ -35,6 +35,5 @@ public static final class Builder1 {
   public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
-
 }
 ]

@@ -42,6 +42,5 @@ public static final class OptBuilder1 {
   public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
-
 }
 ]

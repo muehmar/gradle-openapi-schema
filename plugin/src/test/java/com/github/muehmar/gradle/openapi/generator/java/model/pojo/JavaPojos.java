@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.*;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
@@ -64,6 +65,27 @@ public class JavaPojos {
         .additionalProperties(additionalProperties)
         .constraints(Constraints.empty())
         .build();
+  }
+
+  public static JavaObjectPojo allOfPojo(JavaAllOfComposition javaAllOfComposition) {
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("OneOfPojo1", "Dto")))
+        .description("")
+        .members(PList.empty())
+        .type(PojoType.DEFAULT)
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .constraints(Constraints.empty())
+        .andOptionals()
+        .allOfComposition(javaAllOfComposition)
+        .build();
+  }
+
+  public static JavaObjectPojo allOfPojo(NonEmptyList<JavaPojo> allOfPojos) {
+    return allOfPojo(JavaAllOfComposition.fromPojos(allOfPojos));
+  }
+
+  public static JavaObjectPojo allOfPojo(JavaPojo allOfPojo, JavaPojo... allOfPojos) {
+    return allOfPojo(NonEmptyList.single(allOfPojo).concat(PList.fromArray(allOfPojos)));
   }
 
   public static JavaObjectPojo oneOfPojo(JavaOneOfComposition javaOneOfComposition) {

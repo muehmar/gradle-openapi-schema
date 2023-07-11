@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleBuilderClassGenerator.singleBuilderClassGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
@@ -7,79 +10,45 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.writer.Writer;
 import lombok.Value;
 
 class OptionalMemberBuilderGenerator {
 
-  private static final SingleMemberBuilderGenerator.Setter<OptionalMember> NORMAL_SETTER =
-      new SingleMemberBuilderGenerator.Setter<OptionalMember>() {
-
-        @Override
-        public boolean includeInBuilder(OptionalMember member) {
-          return true;
-        }
-
-        @Override
-        public String argumentFormat() {
-          return "%s %s";
-        }
-
-        @Override
-        public Writer addRefs(Writer writer) {
-          return writer;
-        }
-      };
-  private static final SingleMemberBuilderGenerator.Setter<OptionalMember> OPTIONAL_SETTER =
-      new SingleMemberBuilderGenerator.Setter<OptionalMember>() {
-
-        @Override
-        public boolean includeInBuilder(OptionalMember member) {
-          return member.isNotNullable();
-        }
-
-        @Override
-        public String argumentFormat() {
-          return "Optional<%s> %s";
-        }
-
-        @Override
-        public Writer addRefs(Writer writer) {
-          return writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL);
-        }
-      };
-  private static final SingleMemberBuilderGenerator.Setter<OptionalMember> TRISTATE_SETTER =
-      new SingleMemberBuilderGenerator.Setter<OptionalMember>() {
-
-        @Override
-        public boolean includeInBuilder(OptionalMember member) {
-          return member.isNullable();
-        }
-
-        @Override
-        public String argumentFormat() {
-          return "Tristate<%s> %s";
-        }
-
-        @Override
-        public Writer addRefs(Writer writer) {
-          return writer.ref(OpenApiUtilRefs.TRISTATE);
-        }
-      };
+  private static final SingleMemberSetterGenerator.Setter<OptionalMember> NORMAL_SETTER =
+      SetterBuilder.<OptionalMember>create()
+          .includeInBuilder(ignore -> true)
+          .argumentFormat("%s %s")
+          .addRefs(writer -> writer)
+          .build();
+  private static final SingleMemberSetterGenerator.Setter<OptionalMember> OPTIONAL_SETTER =
+      SetterBuilder.<OptionalMember>create()
+          .includeInBuilder(OptionalMember::isNotNullable)
+          .argumentFormat("Optional<%s> %s")
+          .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
+          .build();
+  private static final SingleMemberSetterGenerator.Setter<OptionalMember> TRISTATE_SETTER =
+      SetterBuilder.<OptionalMember>create()
+          .includeInBuilder(OptionalMember::isNullable)
+          .argumentFormat("Tristate<%s> %s")
+          .addRefs(writer -> writer.ref(OpenApiUtilRefs.TRISTATE))
+          .build();
 
   private OptionalMemberBuilderGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> generator() {
-    final PList<SingleMemberBuilderGenerator.Setter<OptionalMember>> setters =
+    final PList<SingleMemberSetterGenerator.Setter<OptionalMember>> setters =
         PList.of(NORMAL_SETTER, OPTIONAL_SETTER, TRISTATE_SETTER);
-    final Generator<OptionalMember, PojoSettings> singelMemberGenerator =
-        SingleMemberBuilderGenerator.generator(setters);
+    final Generator<OptionalMember, PojoSettings> singleMemberSetterGenerator =
+        singleMemberSetterGenerator(setters);
+    final Generator<OptionalMember, PojoSettings> singleBuilderClassGenerator =
+        singleBuilderClassGenerator(OptionalMember::builderClassName, singleMemberSetterGenerator);
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(singelMemberGenerator, OptionalMember::fromObjectPojo, Generator.newLine());
+        .appendList(
+            singleBuilderClassGenerator, OptionalMember::fromObjectPojo, Generator.newLine());
   }
 
   @Value
-  private static class OptionalMember implements SingleMemberBuilderGenerator.Member {
+  private static class OptionalMember implements SingleMemberSetterGenerator.Member {
     JavaPojoMember member;
     int idx;
 
@@ -90,10 +59,12 @@ class OptionalMemberBuilderGenerator {
           .map(p -> new OptionalMember(p.first(), p.second()));
     }
 
+    @Override
     public String builderClassName() {
       return String.format("OptBuilder%d", idx);
     }
 
+    @Override
     public String nextBuilderClassName() {
       return String.format("OptBuilder%d", idx + 1);
     }
