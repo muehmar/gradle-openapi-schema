@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property;
 
 import static io.github.muehmar.codegenerator.Generator.constant;
 
@@ -7,22 +7,19 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 
-class FinalRequiredMemberBuilderGenerator {
+public class FinalRequiredMemberBuilderGenerator {
   private FinalRequiredMemberBuilderGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> generator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) -> w.println("public static final class Builder%d {", requiredMemberCount(p)))
+        .append((p, s, w) -> w.println("public static final class %s {", builderName(p)))
         .append(constant("private final Builder builder;"), 1)
         .appendNewLine()
-        .append(
-            (p, s, w) -> w.println("private Builder%d(Builder builder) {", requiredMemberCount(p)),
-            1)
+        .append((p, s, w) -> w.println("private %s(Builder builder) {", builderName(p)), 1)
         .append(constant("this.builder = builder;"), 2)
         .append(constant("}"), 1)
         .appendNewLine()
-        .append(constant("public OptBuilder0 andAllOptionals(){"), 1)
+        .append((p, s, w) -> w.println("public %s andAllOptionals(){", nextBuilderName(p)), 1)
         .append(constant("return new OptBuilder0(builder);"), 2)
         .append(constant("}"), 1)
         .appendNewLine()
@@ -36,7 +33,13 @@ class FinalRequiredMemberBuilderGenerator {
         .append(constant("}"));
   }
 
-  private static int requiredMemberCount(JavaObjectPojo pojo) {
-    return pojo.getMembers().filter(JavaPojoMember::isRequired).size();
+  private static String builderName(JavaObjectPojo pojo) {
+    return RequiredPropertyBuilderName.from(
+            pojo, pojo.getMembers().filter(JavaPojoMember::isRequired).size())
+        .currentName();
+  }
+
+  private static String nextBuilderName(JavaObjectPojo pojo) {
+    return OptionalPropertyBuilderName.initial(pojo).currentName();
   }
 }

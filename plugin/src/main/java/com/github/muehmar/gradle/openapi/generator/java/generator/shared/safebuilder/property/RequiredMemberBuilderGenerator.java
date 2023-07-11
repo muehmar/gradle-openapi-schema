@@ -1,17 +1,19 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleBuilderClassGenerator.singleBuilderClassGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SetterBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleMemberSetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import lombok.Value;
 
-class RequiredMemberBuilderGenerator {
+public class RequiredMemberBuilderGenerator {
 
   private static final SingleMemberSetterGenerator.Setter<RequiredMember> NORMAL_SETTER =
       SetterBuilder.<RequiredMember>create()
@@ -42,6 +44,7 @@ class RequiredMemberBuilderGenerator {
 
   @Value
   private static class RequiredMember implements SingleMemberSetterGenerator.Member {
+    RequiredPropertyBuilderName builderName;
     JavaPojoMember member;
     int idx;
 
@@ -49,17 +52,20 @@ class RequiredMemberBuilderGenerator {
       return pojo.getMembers()
           .filter(JavaPojoMember::isRequired)
           .zipWithIndex()
-          .map(p -> new RequiredMember(p.first(), p.second()));
+          .map(
+              p ->
+                  new RequiredMember(
+                      RequiredPropertyBuilderName.from(pojo, p.second()), p.first(), p.second()));
     }
 
     @Override
     public String builderClassName() {
-      return String.format("Builder%d", idx);
+      return builderName.currentName();
     }
 
     @Override
     public String nextBuilderClassName() {
-      return String.format("Builder%d", idx + 1);
+      return builderName.incrementIndex().currentName();
     }
 
     public boolean isNullable() {

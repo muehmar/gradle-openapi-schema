@@ -3,6 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebu
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.FinalOptionalMemberBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.FinalRequiredMemberBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.OptionalMemberBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.RequiredMemberBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;

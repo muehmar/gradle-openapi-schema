@@ -3,52 +3,52 @@ public static Builder0 newBuilder() {
   return new Builder0(new Builder());
 }
 
-public static final class Builder0 {
+public static final class PropertyBuilder0 {
   private final Builder builder;
 
-  private Builder0(Builder builder) {
+  private PropertyBuilder0(Builder builder) {
     this.builder = builder;
   }
 
   /**
    * RequiredStringVal
    */
-  public Builder1 setRequiredStringVal(String requiredStringVal) {
-    return new Builder1(builder.setRequiredStringVal(requiredStringVal));
+  public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+    return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
   }
 
 }
 
-public static final class Builder1 {
+public static final class PropertyBuilder1 {
   private final Builder builder;
 
-  private Builder1(Builder builder) {
+  private PropertyBuilder1(Builder builder) {
     this.builder = builder;
   }
 
   /**
    * RequiredNullableStringVal
    */
-  public Builder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  public PropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
 
   /**
    * RequiredNullableStringVal
    */
-  public Builder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new Builder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
 }
 
-public static final class Builder2 {
+public static final class PropertyBuilder2 {
   private final Builder builder;
 
-  private Builder2(Builder builder) {
+  private PropertyBuilder2(Builder builder) {
     this.builder = builder;
   }
 
-  public OptBuilder0 andAllOptionals(){
+  public OptPropertyBuilder0 andAllOptionals(){
     return new OptBuilder0(builder);
   }
 
@@ -61,64 +61,64 @@ public static final class Builder2 {
   }
 }
 
-public static final class OptBuilder0 {
+public static final class OptPropertyBuilder0 {
   private final Builder builder;
 
-  private OptBuilder0(Builder builder) {
+  private OptPropertyBuilder0(Builder builder) {
     this.builder = builder;
   }
 
   /**
    * OptionalStringVal
    */
-  public OptBuilder1 setOptionalStringVal(String optionalStringVal) {
-    return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  public OptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
+    return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
   }
 
   /**
    * OptionalStringVal
    */
-  public OptBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
-    return new OptBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  public OptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
+    return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
   }
 
 }
 
-public static final class OptBuilder1 {
+public static final class OptPropertyBuilder1 {
   private final Builder builder;
 
-  private OptBuilder1(Builder builder) {
+  private OptPropertyBuilder1(Builder builder) {
     this.builder = builder;
   }
 
   /**
    * OptionalNullableStringVal
    */
-  public OptBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
-    return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  public OptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
+    return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
 
   /**
    * OptionalNullableStringVal
    */
-  public OptBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-    return new OptBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
 }
 
-public static final class OptBuilder2 {
+public static final class OptPropertyBuilder2 {
   private final Builder builder;
 
-  private OptBuilder2(Builder builder) {
+  private OptPropertyBuilder2(Builder builder) {
     this.builder = builder;
   }
 
-  public OptBuilder2 addAdditionalProperty(String key, Object value) {
-    return new OptBuilder2(builder.addAdditionalProperty(key, value));
+  public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+    return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
   }
 
-  public OptBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-    return new OptBuilder2(builder.setAdditionalProperties(additionalProperties));
+  public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
   }
 
   public NecessityAndNullabilityDto build(){

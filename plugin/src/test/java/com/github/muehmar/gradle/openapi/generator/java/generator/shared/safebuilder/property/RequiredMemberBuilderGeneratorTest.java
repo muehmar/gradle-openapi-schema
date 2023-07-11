@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -13,13 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(SnapshotExtension.class)
-class OptionalMemberBuilderGeneratorTest {
+class RequiredMemberBuilderGeneratorTest {
   private Expect expect;
 
   @Test
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> gen = OptionalMemberBuilderGenerator.generator();
+    final Generator<JavaObjectPojo, PojoSettings> gen = RequiredMemberBuilderGenerator.generator();
 
     final Writer writer =
         gen.generate(

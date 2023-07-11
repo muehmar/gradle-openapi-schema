@@ -1,12 +1,12 @@
 allNecessityAndNullabilityVariants=[
-public static final class Builder2 {
+public static final class PropertyBuilder2 {
   private final Builder builder;
 
-  private Builder2(Builder builder) {
+  private PropertyBuilder2(Builder builder) {
     this.builder = builder;
   }
 
-  public OptBuilder0 andAllOptionals(){
+  public OptPropertyBuilder0 andAllOptionals(){
     return new OptBuilder0(builder);
   }
 

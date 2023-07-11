@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.anyof;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.name.BuilderName;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.name.PropertyBuilderName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.RequiredPropertyBuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 
 public class AnyOfBuilderName implements BuilderName {
@@ -17,7 +17,7 @@ public class AnyOfBuilderName implements BuilderName {
     return parentPojo
         .getAnyOfComposition()
         .<BuilderName>map(anyOfComposition -> first(parentPojo))
-        .orElse(PropertyBuilderName.initial(parentPojo));
+        .orElse(RequiredPropertyBuilderName.initial(parentPojo));
   }
 
   public static AnyOfBuilderName first(JavaObjectPojo parentPojo) {

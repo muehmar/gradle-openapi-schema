@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static io.github.muehmar.codegenerator.Generator.constant;
@@ -14,7 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
-class FinalOptionalMemberBuilderGenerator {
+public class FinalOptionalMemberBuilderGenerator {
   private FinalOptionalMemberBuilderGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> generator() {
@@ -84,7 +84,8 @@ class FinalOptionalMemberBuilderGenerator {
   }
 
   private static String builderName(JavaObjectPojo pojo) {
-    return String.format(
-        "OptBuilder%d", pojo.getMembers().filter(JavaPojoMember::isOptional).size());
+    return OptionalPropertyBuilderName.from(
+            pojo, pojo.getMembers().filter(JavaPojoMember::isOptional).size())
+        .currentName();
   }
 }

@@ -1,0 +1,36 @@
+allNecessityAndNullabilityVariants=[
+public static final class OptPropertyBuilder2 {
+  private final Builder builder;
+
+  private OptPropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+    return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+  }
+
+  public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public NecessityAndNullabilityDto build(){
+    return builder.build();
+  }
+}
+]
+
+
+noAdditionalPropertiesAllowed=[
+public static final class OptPropertyBuilder0 {
+  private final Builder builder;
+
+  private OptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public ObjectPojo1Dto build(){
+    return builder.build();
+  }
+}
+]

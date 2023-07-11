@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleBuilderClassGenerator.singleBuilderClassGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
@@ -6,13 +6,15 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SetterBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleMemberSetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import lombok.Value;
 
-class OptionalMemberBuilderGenerator {
+public class OptionalMemberBuilderGenerator {
 
   private static final SingleMemberSetterGenerator.Setter<OptionalMember> NORMAL_SETTER =
       SetterBuilder.<OptionalMember>create()
@@ -49,6 +51,7 @@ class OptionalMemberBuilderGenerator {
 
   @Value
   private static class OptionalMember implements SingleMemberSetterGenerator.Member {
+    OptionalPropertyBuilderName builderName;
     JavaPojoMember member;
     int idx;
 
@@ -56,17 +59,20 @@ class OptionalMemberBuilderGenerator {
       return pojo.getMembers()
           .filter(JavaPojoMember::isOptional)
           .zipWithIndex()
-          .map(p -> new OptionalMember(p.first(), p.second()));
+          .map(
+              p ->
+                  new OptionalMember(
+                      OptionalPropertyBuilderName.from(pojo, p.second()), p.first(), p.second()));
     }
 
     @Override
     public String builderClassName() {
-      return String.format("OptBuilder%d", idx);
+      return builderName.currentName();
     }
 
     @Override
     public String nextBuilderClassName() {
-      return String.format("OptBuilder%d", idx + 1);
+      return builderName.incrementIndex().currentName();
     }
 
     public boolean isNullable() {
