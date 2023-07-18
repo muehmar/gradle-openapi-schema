@@ -82,7 +82,7 @@ public static final class AnyOfBuilder1 {
   }
 
   public OptPropertyBuilder0 andAllOptionals(){
-    return new OptBuilder0(builder);
+    return new OptPropertyBuilder0(builder);
   }
 
   public Builder andOptionals(){

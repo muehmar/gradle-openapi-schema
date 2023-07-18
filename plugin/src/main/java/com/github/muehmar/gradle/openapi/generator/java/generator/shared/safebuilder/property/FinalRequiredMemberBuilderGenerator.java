@@ -26,7 +26,7 @@ public class FinalRequiredMemberBuilderGenerator {
   public static Generator<JavaObjectPojo, PojoSettings> builderMethods() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("public %s andAllOptionals(){", nextBuilderName(p)))
-        .append(constant("return new OptBuilder0(builder);"), 1)
+        .append((p, s, w) -> w.println("return new %s(builder);", nextBuilderName(p)), 1)
         .append(constant("}"))
         .appendNewLine()
         .append(constant("public Builder andOptionals(){"))
