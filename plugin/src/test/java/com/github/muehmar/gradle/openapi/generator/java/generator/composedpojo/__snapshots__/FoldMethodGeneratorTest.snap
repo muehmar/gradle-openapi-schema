@@ -74,7 +74,7 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
  * {@link IllegalStateException}.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
-  return fold(
+  return foldOneOf(
     onSampleObjectPojo1Dto,
     onSampleObjectPojo2Dto,
     () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
@@ -128,7 +128,7 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
  * {@link IllegalStateException}.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
-  return fold(
+  return foldOneOf(
     onSampleObjectPojo1Dto,
     onSampleObjectPojo2Dto,
     () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
@@ -182,7 +182,7 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
  * {@link IllegalStateException}.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
-  return fold(
+  return foldOneOf(
     onSampleObjectPojo1Dto,
     onSampleObjectPojo2Dto,
     () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}

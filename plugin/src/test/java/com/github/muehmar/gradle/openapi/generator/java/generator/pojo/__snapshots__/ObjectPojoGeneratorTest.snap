@@ -4555,7 +4555,7 @@ public class PersonDto {
    * {@link IllegalStateException}.
    */
   public <T> T foldOneOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto) {
-    return fold(
+    return foldOneOf(
       onAdminDto,
       onUserDto,
       () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto].");}

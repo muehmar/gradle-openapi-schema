@@ -158,7 +158,7 @@ public class FoldMethodGenerator {
 
   private static Generator<OneOfPojo, PojoSettings> standardOneOfFoldMethodContent() {
     return Generator.<OneOfPojo, PojoSettings>emptyGen()
-        .append(constant("return fold("))
+        .append(constant("return foldOneOf("))
         .appendList(
             (p, s, w) -> w.tab(1).println("%s,", p.dtoMappingArgument()),
             OneOfPojo::getOneOfMembers)
