@@ -1,8 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withMembers;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withName;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -122,5 +126,34 @@ class JavaObjectPojoTest {
     assertEquals("ObjectDto", defaultPojo.get().getClassName().asString());
     assertEquals("ObjectResponseDto", responsePojo.get().getClassName().asString());
     assertEquals("ObjectRequestDto", requestPojo.get().getClassName().asString());
+  }
+
+  @Test
+  void getComposedMembers_when_anyOfPojosHaveSameProperties_then_propertiesOnlyOnceReturned() {
+    final JavaObjectPojo anyOfPojo = JavaPojos.anyOfPojo(sampleObjectPojo2(), sampleObjectPojo2());
+
+    final PList<JavaPojoMember> composedMembers = anyOfPojo.getComposedMembers();
+
+    assertEquals(sampleObjectPojo2().getAllMembers().size(), composedMembers.size());
+  }
+
+  @Test
+  void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsed() {
+    final JavaObjectPojo oneOfPojoWithEnum =
+        oneOfPojo(
+            withName(
+                objectPojo(JavaPojoMembers.requiredColorEnum()),
+                PojoName.ofNameAndSuffix("ColorPojo", "Dto")));
+
+    final JavaObjectPojo pojo =
+        withMembers(
+            JavaPojos.anyOfPojo(oneOfPojoWithEnum), JavaPojoMembers.requiredDirectionEnum());
+
+    final PList<JavaPojoMember> members = pojo.getAllMembers();
+
+    assertEquals(2, members.size());
+    assertEquals(
+        PList.of("Direction", "ColorPojoDto.Color"),
+        members.map(m -> m.getJavaType().getFullClassName().asString()));
   }
 }

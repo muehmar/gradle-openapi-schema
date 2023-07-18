@@ -117,7 +117,7 @@ class JavaPojoMemberTest {
 
   @Test
   void asInnerEnumOf_when_calledForEnumMember_then_classNameReferencedWithOuterClass() {
-    final JavaPojoMember member = JavaPojoMembers.requiredEnum();
+    final JavaPojoMember member = JavaPojoMembers.requiredColorEnum();
     final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaIdentifier.fromString("AdminDto"));
     assertEquals(
         "AdminDto.Color",

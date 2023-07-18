@@ -198,4 +198,23 @@ public class JavaPojos {
         .anyOfComposition(objectPojo.getAnyOfComposition())
         .build();
   }
+
+  public static JavaObjectPojo withMembers(JavaObjectPojo objectPojo, JavaPojoMember... members) {
+    return withMembers(objectPojo, PList.of(members));
+  }
+
+  public static JavaObjectPojo withName(JavaObjectPojo objectPojo, PojoName pojoName) {
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.wrap(pojoName))
+        .description(objectPojo.getDescription())
+        .members(objectPojo.getMembers())
+        .type(objectPojo.getType())
+        .additionalProperties(objectPojo.getAdditionalProperties())
+        .constraints(objectPojo.getConstraints())
+        .andAllOptionals()
+        .allOfComposition(objectPojo.getAllOfComposition())
+        .oneOfComposition(objectPojo.getOneOfComposition())
+        .anyOfComposition(objectPojo.getAnyOfComposition())
+        .build();
+  }
 }

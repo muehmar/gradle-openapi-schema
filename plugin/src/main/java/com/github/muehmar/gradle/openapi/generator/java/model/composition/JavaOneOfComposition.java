@@ -53,7 +53,7 @@ public class JavaOneOfComposition {
   public PList<JavaPojoMember> getMembers() {
     return pojos
         .toPList()
-        .flatMap(JavaObjectPojo::getAllMembers)
+        .flatMap(JavaObjectPojo::getAllMembersForComposition)
         .map(JavaPojoMember::asOneOfMember);
   }
 

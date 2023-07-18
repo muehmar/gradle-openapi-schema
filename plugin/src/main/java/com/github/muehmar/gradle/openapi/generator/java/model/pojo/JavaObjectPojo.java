@@ -187,18 +187,24 @@ public class JavaObjectPojo implements JavaPojo {
     return members;
   }
 
-  public PList<JavaPojoMember> getAllMembers() {
+  public PList<JavaPojoMember> getAllMembersForComposition() {
+    return getMembers()
+        .map(member -> member.asInnerEnumOf(getClassName()))
+        .concat(getComposedMembers());
+  }
+
+  public PList<JavaPojoMember> getComposedMembers() {
     final PList<JavaPojoMember> allOfMembers =
         allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> oneOfMembers =
         oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> anyOfMembers =
         anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
-    return members
-        .concat(allOfMembers)
-        .concat(oneOfMembers)
-        .concat(anyOfMembers)
-        .distinct(Function.identity());
+    return allOfMembers.concat(oneOfMembers).concat(anyOfMembers).distinct(Function.identity());
+  }
+
+  public PList<JavaPojoMember> getAllMembers() {
+    return members.concat(getComposedMembers());
   }
 
   public Optional<JavaAllOfComposition> getAllOfComposition() {

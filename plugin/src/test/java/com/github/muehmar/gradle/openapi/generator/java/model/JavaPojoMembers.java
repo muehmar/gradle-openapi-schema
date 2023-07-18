@@ -250,7 +250,7 @@ public class JavaPojoMembers {
         .build();
   }
 
-  public static JavaPojoMember requiredEnum() {
+  public static JavaPojoMember requiredColorEnum() {
     return JavaPojoMemberBuilder.create()
         .name(JavaMemberName.wrap(Name.ofString("color")))
         .description("Color")
@@ -258,6 +258,21 @@ public class JavaPojoMembers {
             JavaType.wrap(
                 EnumType.ofNameAndMembers(
                     Name.ofString("Color"), PList.of("yellow", "orange", "red")),
+                TypeMappings.empty()))
+        .necessity(REQUIRED)
+        .nullability(NOT_NULLABLE)
+        .type(OBJECT_MEMBER)
+        .build();
+  }
+
+  public static JavaPojoMember requiredDirectionEnum() {
+    return JavaPojoMemberBuilder.create()
+        .name(JavaMemberName.wrap(Name.ofString("direction")))
+        .description("Direction")
+        .javaType(
+            JavaType.wrap(
+                EnumType.ofNameAndMembers(
+                    Name.ofString("Direction"), PList.of("north", "east", "south", "west")),
                 TypeMappings.empty()))
         .necessity(REQUIRED)
         .nullability(NOT_NULLABLE)
