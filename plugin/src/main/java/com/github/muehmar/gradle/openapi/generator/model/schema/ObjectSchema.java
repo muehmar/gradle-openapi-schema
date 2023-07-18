@@ -136,7 +136,7 @@ public class ObjectSchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
-    if (properties.isEmpty() && requiredProperties.getRequiredAdditionalPropertyNames().isEmpty()) {
+    if (isMapSchema()) {
       final MemberSchemaMapResult additionalPropertiesMapResult =
           additionalPropertiesSchema.getAdditionalPropertiesMapResult(pojoName, memberName);
       final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
@@ -151,6 +151,14 @@ public class ObjectSchema implements OpenApiSchema {
       final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, this);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(objectType, pojoSchema);
     }
+  }
+
+  private boolean isMapSchema() {
+    return properties.isEmpty()
+        && requiredProperties.getRequiredAdditionalPropertyNames().isEmpty()
+        && delegate.getAllOf() == null
+        && delegate.getOneOf() == null
+        && delegate.getAnyOf() == null;
   }
 
   @Override

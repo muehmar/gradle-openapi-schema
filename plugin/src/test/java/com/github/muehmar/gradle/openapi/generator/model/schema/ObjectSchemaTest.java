@@ -30,6 +30,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
@@ -454,6 +455,27 @@ class ObjectSchemaTest {
 
     assertEquals(expectedType, result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @Test
+  void mapToMemberType_when_anyOfSchema_then_correctTypeAndUnmappedItem() {
+    final ComposedSchema composedSchema = new ComposedSchema();
+    composedSchema.setAllOf(
+        Collections.singletonList(new Schema<>().$ref("#/components/schemas/ReferenceSchema1")));
+
+    final MemberSchemaMapResult result =
+        mapToMemberType(
+            PojoName.ofNameAndSuffix("ComposedPojo", "Dto"),
+            Name.ofString("Member"),
+            composedSchema);
+
+    final PojoName expectedPojoName = PojoName.ofNameAndSuffix("ComposedPojoMember", "Dto");
+    final ObjectType expectedType = ObjectType.ofName(expectedPojoName);
+
+    assertEquals(expectedType, result.getType());
+    assertEquals(
+        UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, composedSchema)),
+        result.getUnmappedItems());
   }
 
   @ParameterizedTest
