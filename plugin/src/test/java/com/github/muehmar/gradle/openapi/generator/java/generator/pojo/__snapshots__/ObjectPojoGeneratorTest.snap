@@ -190,8 +190,46 @@ public class PersonDto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static AllOfBuilderAdmin0 newBuilder() {
+    return new AllOfBuilderAdmin0(new Builder());
+  }
+
+  public static final class AllOfBuilderAdmin0 {
+    private final Builder builder;
+
+    private AllOfBuilderAdmin0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Birthdate
+     */
+    public AllOfBuilderUser0 setBirthdate(LocalDate birthdate) {
+      return new AllOfBuilderUser0(builder.setBirthdate(birthdate));
+    }
+
+    public AllOfBuilderUser0 setAdminDto(AdminDto dto) {
+      return new AllOfBuilderUser0(builder.setAdminDto(dto));
+    }
+  }
+
+  public static final class AllOfBuilderUser0 {
+    private final Builder builder;
+
+    private AllOfBuilderUser0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Username
+     */
+    public PropertyBuilder0 setUsername(String username) {
+      return new PropertyBuilder0(builder.setUsername(username));
+    }
+
+    public PropertyBuilder0 setUserDto(UserDto dto) {
+      return new PropertyBuilder0(builder.setUserDto(dto));
+    }
   }
 
   public static final class PropertyBuilder0 {
@@ -515,8 +553,49 @@ public class PersonDto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static AnyOfBuilder0 newBuilder() {
+    return new AnyOfBuilder0(new Builder());
+  }
+
+  public static final class AnyOfBuilder0 {
+    private final Builder builder;
+
+    private AnyOfBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public AnyOfBuilder1 setAdminDto(AdminDto dto) {
+      return new AnyOfBuilder1(builder.setAdminDto(dto));
+    }
+
+    public AnyOfBuilder1 setUserDto(UserDto dto) {
+      return new AnyOfBuilder1(builder.setUserDto(dto));
+    }
+
+  }
+
+  public static final class AnyOfBuilder1 {
+    private final Builder builder;
+
+    private AnyOfBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public AnyOfBuilder1 setAdminDto(AdminDto dto) {
+      return new AnyOfBuilder1(builder.setAdminDto(dto));
+    }
+
+    public AnyOfBuilder1 setUserDto(UserDto dto) {
+      return new AnyOfBuilder1(builder.setUserDto(dto));
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+    }
+
   }
 
   public static final class PropertyBuilder0 {
@@ -670,8 +749,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -2012,8 +2091,8 @@ public class UserDto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -2254,8 +2333,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -2393,8 +2472,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3298,8 +3377,8 @@ public class NecessityAndNullabilityDto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3506,8 +3585,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3638,8 +3717,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3777,8 +3856,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3907,8 +3986,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -4088,8 +4167,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -4280,8 +4359,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -4631,8 +4710,24 @@ public class PersonDto {
     }
   }
 
-  public static Builder0 newBuilder() {
-    return new Builder0(new Builder());
+  public static OneOfBuilder0 newBuilder() {
+    return new OneOfBuilder0(new Builder());
+  }
+
+  public static final class OneOfBuilder0 {
+    private final Builder builder;
+
+    private OneOfBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public PropertyBuilder0 setAdminDto(AdminDto dto) {
+      return new PropertyBuilder0(builder.setAdminDto(dto));
+    }
+
+    public PropertyBuilder0 setUserDto(UserDto dto) {
+      return new PropertyBuilder0(builder.setUserDto(dto));
+    }
   }
 
   public static final class PropertyBuilder0 {

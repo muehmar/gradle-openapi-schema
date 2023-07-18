@@ -17,7 +17,7 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class FinalOptionalMemberBuilderGenerator {
   private FinalOptionalMemberBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> finalOptionalMemberBuilderGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("public static final class %s {", builderName(p)))
         .append(constant("private final Builder builder;"), 1)

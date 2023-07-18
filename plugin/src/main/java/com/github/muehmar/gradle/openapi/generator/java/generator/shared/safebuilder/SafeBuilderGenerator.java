@@ -1,12 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.allof.AllOfBuilderGenerator.allOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.anyof.AnyOfBuilderGenerator.anyOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.oneof.OneOfBuilderGenerator.oneOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.FinalOptionalMemberBuilderGenerator.finalOptionalMemberBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.FinalRequiredMemberBuilderGenerator.finalRequiredMemberBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.OptionalMemberBuilderGenerator.optionalMemberBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.FinalOptionalMemberBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.FinalRequiredMemberBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.OptionalMemberBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.name.BuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -17,15 +21,21 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
 
   public SafeBuilderGenerator() {
     this.delegate =
-        this.<JavaObjectPojo>factoryMethod()
-            .appendNewLine()
+        factoryMethod()
+            .appendSingleBlankLine()
+            .append(allOfBuilderGenerator())
+            .appendSingleBlankLine()
+            .append(oneOfBuilderGenerator())
+            .appendSingleBlankLine()
+            .append(anyOfBuilderGenerator())
+            .appendSingleBlankLine()
             .append(requiredMemberBuilderGenerator())
             .appendSingleBlankLine()
-            .append(FinalRequiredMemberBuilderGenerator.generator())
+            .append(finalRequiredMemberBuilderGenerator())
             .appendSingleBlankLine()
-            .append(OptionalMemberBuilderGenerator.generator())
+            .append(optionalMemberBuilderGenerator())
             .appendSingleBlankLine()
-            .append(FinalOptionalMemberBuilderGenerator.generator())
+            .append(finalOptionalMemberBuilderGenerator())
             .filter(Filters.isSafeBuilder());
   }
 
@@ -34,9 +44,16 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
     return delegate.generate(data, settings, writer);
   }
 
-  private <A> Generator<A, PojoSettings> factoryMethod() {
-    return Generator.<A, PojoSettings>constant("public static Builder0 newBuilder() {")
-        .append(constant("return new Builder0(new Builder());"), 1)
+  private Generator<JavaObjectPojo, PojoSettings> factoryMethod() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(
+            (pojo, s, w) ->
+                w.println(
+                    "public static %s newBuilder() {", BuilderName.initial(pojo).currentName()))
+        .append(
+            (pojo, s, w) ->
+                w.println("return new %s(new Builder());", BuilderName.initial(pojo).currentName()),
+            1)
         .append(constant("}"));
   }
 }

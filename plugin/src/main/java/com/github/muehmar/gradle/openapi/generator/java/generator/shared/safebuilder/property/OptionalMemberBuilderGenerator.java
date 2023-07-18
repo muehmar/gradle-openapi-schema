@@ -37,7 +37,7 @@ public class OptionalMemberBuilderGenerator {
 
   private OptionalMemberBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> optionalMemberBuilderGenerator() {
     final PList<SingleMemberSetterGenerator.Setter<OptionalMember>> setters =
         PList.of(NORMAL_SETTER, OPTIONAL_SETTER, TRISTATE_SETTER);
     final Generator<OptionalMember, PojoSettings> singleMemberSetterGenerator =

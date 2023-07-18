@@ -20,7 +20,7 @@ class FinalRequiredMemberBuilderGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        FinalRequiredMemberBuilderGenerator.generator();
+        FinalRequiredMemberBuilderGenerator.finalRequiredMemberBuilderGenerator();
 
     final Writer writer =
         gen.generate(

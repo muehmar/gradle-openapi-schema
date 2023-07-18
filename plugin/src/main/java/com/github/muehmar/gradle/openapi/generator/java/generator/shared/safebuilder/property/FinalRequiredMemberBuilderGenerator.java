@@ -10,7 +10,7 @@ import io.github.muehmar.codegenerator.Generator;
 public class FinalRequiredMemberBuilderGenerator {
   private FinalRequiredMemberBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> finalRequiredMemberBuilderGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("public static final class %s {", builderName(p)))
         .append(constant("private final Builder builder;"), 1)

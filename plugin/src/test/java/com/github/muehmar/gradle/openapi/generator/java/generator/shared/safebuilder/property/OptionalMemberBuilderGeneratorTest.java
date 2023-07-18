@@ -19,7 +19,8 @@ class OptionalMemberBuilderGeneratorTest {
   @Test
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> gen = OptionalMemberBuilderGenerator.generator();
+    final Generator<JavaObjectPojo, PojoSettings> gen =
+        OptionalMemberBuilderGenerator.optionalMemberBuilderGenerator();
 
     final Writer writer =
         gen.generate(

@@ -1,6 +1,6 @@
 enabledSafeBuilder=[
-public static Builder0 newBuilder() {
-  return new Builder0(new Builder());
+public static PropertyBuilder0 newBuilder() {
+  return new PropertyBuilder0(new Builder());
 }
 
 public static final class PropertyBuilder0 {

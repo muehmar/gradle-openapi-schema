@@ -26,7 +26,7 @@ class FinalOptionalMemberBuilderGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        FinalOptionalMemberBuilderGenerator.generator();
+        FinalOptionalMemberBuilderGenerator.finalOptionalMemberBuilderGenerator();
 
     final Writer writer =
         gen.generate(
@@ -44,7 +44,7 @@ class FinalOptionalMemberBuilderGeneratorTest {
   @SnapshotName("noAdditionalPropertiesAllowed")
   void generate_when_noAdditionalPropertiesAllowed_then_noAdditionalPropertiesSetter() {
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        FinalOptionalMemberBuilderGenerator.generator();
+        FinalOptionalMemberBuilderGenerator.finalOptionalMemberBuilderGenerator();
 
     final Writer writer =
         gen.generate(
