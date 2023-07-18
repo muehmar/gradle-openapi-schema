@@ -19,17 +19,22 @@ public class FinalRequiredMemberBuilderGenerator {
         .append(constant("this.builder = builder;"), 2)
         .append(constant("}"), 1)
         .appendNewLine()
-        .append((p, s, w) -> w.println("public %s andAllOptionals(){", nextBuilderName(p)), 1)
-        .append(constant("return new OptBuilder0(builder);"), 2)
-        .append(constant("}"), 1)
+        .append(builderMethods(), 1)
+        .append(constant("}"));
+  }
+
+  public static Generator<JavaObjectPojo, PojoSettings> builderMethods() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append((p, s, w) -> w.println("public %s andAllOptionals(){", nextBuilderName(p)))
+        .append(constant("return new OptBuilder0(builder);"), 1)
+        .append(constant("}"))
         .appendNewLine()
-        .append(constant("public Builder andOptionals(){"), 1)
-        .append(constant("return builder;"), 2)
-        .append(constant("}"), 1)
+        .append(constant("public Builder andOptionals(){"))
+        .append(constant("return builder;"), 1)
+        .append(constant("}"))
         .appendNewLine()
-        .append((p, s, w) -> w.println("public %s build(){", p.getClassName()), 1)
-        .append(constant("return builder.build();"), 2)
-        .append(constant("}"), 1)
+        .append((p, s, w) -> w.println("public %s build(){", p.getClassName()))
+        .append(constant("return builder.build();"), 1)
         .append(constant("}"));
   }
 

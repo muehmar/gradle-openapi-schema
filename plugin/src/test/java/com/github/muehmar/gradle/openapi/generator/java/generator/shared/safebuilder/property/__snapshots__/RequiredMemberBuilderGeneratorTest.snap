@@ -37,3 +37,20 @@ public static final class PropertyBuilder1 {
   }
 }
 ]
+
+
+builderMethodsOfFirstRequiredMemberGeneratorWithRequiredProperty=[
+/**
+ * Birthdate
+ */
+public PropertyBuilder1 setBirthdate(LocalDate birthdate) {
+  return new PropertyBuilder1(builder.setBirthdate(birthdate));
+}
+
+/**
+ * Birthdate
+ */
+public PropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
+  return new PropertyBuilder1(builder.setBirthdate(birthdate));
+}
+]

@@ -130,6 +130,10 @@ public class JavaPojos {
     return objectPojo(members, JavaAdditionalProperties.anyTypeAllowed());
   }
 
+  public static JavaObjectPojo objectPojo(JavaPojoMember... members) {
+    return objectPojo(PList.of(members), JavaAdditionalProperties.anyTypeAllowed());
+  }
+
   public static JavaObjectPojo allNecessityAndNullabilityVariants(Constraints constraints) {
     return (JavaObjectPojo)
         JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())
@@ -176,5 +180,22 @@ public class JavaPojos {
             "Gender of person",
             PList.of("male", "female", "divers", "other"));
     return JavaEnumPojo.wrap(enumPojo);
+  }
+
+  public static JavaObjectPojo withMembers(
+      JavaObjectPojo objectPojo, PList<JavaPojoMember> members) {
+    return JavaObjectPojoBuilder.create()
+        .name(
+            JavaPojoName.wrap(PojoName.ofName(Name.ofString(objectPojo.getClassName().asString()))))
+        .description(objectPojo.getDescription())
+        .members(members)
+        .type(objectPojo.getType())
+        .additionalProperties(objectPojo.getAdditionalProperties())
+        .constraints(objectPojo.getConstraints())
+        .andAllOptionals()
+        .allOfComposition(objectPojo.getAllOfComposition())
+        .oneOfComposition(objectPojo.getOneOfComposition())
+        .anyOfComposition(objectPojo.getAnyOfComposition())
+        .build();
   }
 }

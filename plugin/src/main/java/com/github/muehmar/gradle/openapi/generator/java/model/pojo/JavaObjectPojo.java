@@ -175,6 +175,14 @@ public class JavaObjectPojo implements JavaPojo {
     return type;
   }
 
+  public boolean hasRequiredMembers() {
+    return members.exists(JavaPojoMember::isRequired);
+  }
+
+  public boolean hasNotRequiredMembers() {
+    return not(hasRequiredMembers());
+  }
+
   public PList<JavaPojoMember> getMembers() {
     return members;
   }

@@ -5,6 +5,8 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.SingleBuilderClassGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.FinalRequiredMemberBuilderGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.RequiredMemberBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -27,7 +29,9 @@ public class AnyOfBuilderGenerator {
 
   private static Generator<AnyOfBuilderClass, PojoSettings> dtoSetters() {
     return Generator.<AnyOfBuilderClass, PojoSettings>emptyGen()
-        .appendList(singleAnyOfDtoSetter(), AnyOfBuilderClass::getNameAndPojos, newLine());
+        .appendList(singleAnyOfDtoSetter(), AnyOfBuilderClass::getNameAndPojos, newLine())
+        .appendSingleBlankLine()
+        .append(firstPropertySetters());
   }
 
   private static Generator<AnyOfPojoAndBuilderName, PojoSettings> singleAnyOfDtoSetter() {
@@ -49,6 +53,18 @@ public class AnyOfBuilderGenerator {
                     m.nextBuilderClassName(),
                     m.anyOfPojo.prefixedClassNameForMethod(s.getBuilderMethodPrefix())))
         .build();
+  }
+
+  private static Generator<AnyOfBuilderClass, PojoSettings> firstPropertySetters() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(
+            RequiredMemberBuilderGenerator.builderMethodsOfFirstRequiredMemberGenerator()
+                .filter(JavaObjectPojo::hasRequiredMembers))
+        .append(
+            FinalRequiredMemberBuilderGenerator.builderMethods()
+                .filter(JavaObjectPojo::hasNotRequiredMembers))
+        .contraMap(AnyOfBuilderClass::getPojo)
+        .filter(AnyOfBuilderClass::isRemainingBuilder);
   }
 
   @Value
@@ -80,6 +96,16 @@ public class AnyOfBuilderGenerator {
 
     public String builderClassName() {
       return anyOfBuilderName.currentName();
+    }
+
+    public JavaObjectPojo getPojo() {
+      return pojo;
+    }
+
+    public boolean isRemainingBuilder() {
+      return anyOfBuilderName
+          .getBuilderType()
+          .equals(AnyOfBuilderName.BuilderType.REMAINING_BUILDER);
     }
   }
 

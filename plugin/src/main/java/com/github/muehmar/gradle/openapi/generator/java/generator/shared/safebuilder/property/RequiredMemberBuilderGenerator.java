@@ -30,16 +30,26 @@ public class RequiredMemberBuilderGenerator {
 
   private RequiredMemberBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> generator() {
+  public static Generator<JavaObjectPojo, PojoSettings> requiredMemberBuilderGenerator() {
+    final Generator<RequiredMember, PojoSettings> singleMemberSetterMethods =
+        singleMemberSetterMethods();
+    final Generator<RequiredMember, PojoSettings> singleBuilderClass =
+        singleBuilderClassGenerator(RequiredMember::builderClassName, singleMemberSetterMethods);
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendList(singleBuilderClass, RequiredMember::fromObjectPojo, Generator.newLine());
+  }
+
+  public static Generator<JavaObjectPojo, PojoSettings>
+      builderMethodsOfFirstRequiredMemberGenerator() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendOptional(
+            singleMemberSetterMethods(), pojo -> RequiredMember.fromObjectPojo(pojo).headOption());
+  }
+
+  private static Generator<RequiredMember, PojoSettings> singleMemberSetterMethods() {
     final PList<SingleMemberSetterGenerator.Setter<RequiredMember>> setters =
         PList.of(NORMAL_SETTER, OPTIONAL_SETTER);
-    final Generator<RequiredMember, PojoSettings> singleMemberSetterGenerator =
-        singleMemberSetterGenerator(setters);
-    final Generator<RequiredMember, PojoSettings> singleBuilderClassGenerator =
-        singleBuilderClassGenerator(RequiredMember::builderClassName, singleMemberSetterGenerator);
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(
-            singleBuilderClassGenerator, RequiredMember::fromObjectPojo, Generator.newLine());
+    return singleMemberSetterGenerator(setters);
   }
 
   @Value

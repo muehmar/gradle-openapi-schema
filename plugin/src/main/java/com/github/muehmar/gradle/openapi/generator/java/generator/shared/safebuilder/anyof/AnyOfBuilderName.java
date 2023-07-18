@@ -28,6 +28,10 @@ public class AnyOfBuilderName implements BuilderName {
     return new AnyOfBuilderName(parentPojo, BuilderType.REMAINING_BUILDER);
   }
 
+  public BuilderType getBuilderType() {
+    return builderType;
+  }
+
   @Override
   public String currentName() {
     return String.format("AnyOfBuilder%d", builderType.equals(BuilderType.FIRST_BUILDER) ? 0 : 1);
@@ -37,7 +41,7 @@ public class AnyOfBuilderName implements BuilderName {
     return new AnyOfBuilderName(parentPojo, BuilderType.REMAINING_BUILDER);
   }
 
-  private enum BuilderType {
+  public enum BuilderType {
     FIRST_BUILDER,
     REMAINING_BUILDER
   }
