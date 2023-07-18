@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
@@ -137,6 +138,17 @@ public class ObjectPojo implements Pojo {
   }
 
   public boolean containsNoneDefaultPropertyScope() {
-    return members.exists(member -> not(member.isDefaultScope()));
+    return members.exists(member -> not(member.isDefaultScope()))
+        || containsNonDefaultPropertyScope(allOfComposition.map(AllOfComposition::getPojos))
+        || containsNonDefaultPropertyScope(oneOfComposition.map(OneOfComposition::getPojos))
+        || containsNonDefaultPropertyScope(anyOfComposition.map(AnyOfComposition::getPojos));
+  }
+
+  private static boolean containsNonDefaultPropertyScope(Optional<NonEmptyList<Pojo>> pojos) {
+    return pojos
+        .map(NonEmptyList::toPList)
+        .orElseGet(PList::empty)
+        .flatMapOptional(Pojo::asObjectPojo)
+        .exists(ObjectPojo::containsNoneDefaultPropertyScope);
   }
 }
