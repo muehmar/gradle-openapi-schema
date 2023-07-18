@@ -45,13 +45,13 @@ public class OneOfFoldValidationGenerator {
 
   private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> methodContent() {
     return Generator.<NonEmptyList<JavaObjectPojo>, PojoSettings>emptyGen()
-        .append(constant("if (getValidCount() != 1) {"))
+        .append(constant("if (getOneOfValidCount() != 1) {"))
         .append(constant("return null;"), 1)
         .append(constant("}"))
         .append(
             (pojos, s, w) ->
                 w.println(
-                    "return fold(%s, () -> null);",
+                    "return foldOneOf(%s, () -> null);",
                     pojos.map(name -> "dto -> dto").toPList().mkString(", ")));
   }
 }

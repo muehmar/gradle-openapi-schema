@@ -2,10 +2,10 @@ oneOf=[
 @Valid
 @JsonIgnore
 private Object getOneOf() {
-  if (getValidCount() != 1) {
+  if (getOneOfValidCount() != 1) {
     return null;
   }
-  return fold(dto -> dto, dto -> dto, () -> null);
+  return foldOneOf(dto -> dto, dto -> dto, () -> null);
 }
 ]
 
@@ -19,9 +19,9 @@ oneOfProtectedAndDeprecatedSettings=[
 @Deprecated
 @JsonIgnore
 protected Object getOneOf() {
-  if (getValidCount() != 1) {
+  if (getOneOfValidCount() != 1) {
     return null;
   }
-  return fold(dto -> dto, dto -> dto, () -> null);
+  return foldOneOf(dto -> dto, dto -> dto, () -> null);
 }
 ]

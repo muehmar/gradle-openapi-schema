@@ -45,12 +45,13 @@ public class AnyOfFoldValidationGenerator {
 
   private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> methodContent() {
     return Generator.<NonEmptyList<JavaObjectPojo>, PojoSettings>emptyGen()
-        .append(constant("if (getValidCount() == 0) {"))
+        .append(constant("if (getAnyOfValidCount() == 0) {"))
         .append(constant("return null;"), 1)
         .append(constant("}"))
         .append(
             (pojos, s, w) ->
                 w.println(
-                    "return fold(%s);", pojos.map(name -> "dto -> dto").toPList().mkString(", ")));
+                    "return foldAnyOf(%s);",
+                    pojos.map(name -> "dto -> dto").toPList().mkString(", ")));
   }
 }

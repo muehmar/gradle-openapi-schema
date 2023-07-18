@@ -2,10 +2,10 @@ AnyOf=[
 @Valid
 @JsonIgnore
 private List<Object> getAnyOf() {
-  if (getValidCount() == 0) {
+  if (getAnyOfValidCount() == 0) {
     return null;
   }
-  return fold(dto -> dto, dto -> dto);
+  return foldAnyOf(dto -> dto, dto -> dto);
 }
 ]
 
@@ -19,9 +19,9 @@ AnyOfProtectedAndDeprecatedSettings=[
 @Deprecated
 @JsonIgnore
 protected List<Object> getAnyOf() {
-  if (getValidCount() == 0) {
+  if (getAnyOfValidCount() == 0) {
     return null;
   }
-  return fold(dto -> dto, dto -> dto);
+  return foldAnyOf(dto -> dto, dto -> dto);
 }
 ]
