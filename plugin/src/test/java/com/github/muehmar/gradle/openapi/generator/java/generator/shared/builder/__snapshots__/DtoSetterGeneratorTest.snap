@@ -39,3 +39,24 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
 }
 
 ]
+
+
+oneOfPojoWithDiscriminator=[
+
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal("SampleObjectPojo1");
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  return this;
+}
+
+private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+  setStringVal("SampleObjectPojo2");
+  setBirthdate(dto.getBirthdate());
+  setEmail(dto.getEmail());
+  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  return this;
+}
+
+]
