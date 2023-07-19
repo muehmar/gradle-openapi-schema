@@ -1,4 +1,5 @@
 optionalAnyOfMember=[
+@JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private LocalDate getBirthdate() {
   return birthdate;
@@ -7,6 +8,7 @@ private LocalDate getBirthdate() {
 
 
 optionalNullableAnyOfMember=[
+@JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getBirthdate() {
   return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
@@ -15,6 +17,7 @@ private Object getBirthdate() {
 
 
 optionalNullableOneOfMember=[
+@JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getBirthdate() {
   return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
@@ -23,6 +26,7 @@ private Object getBirthdate() {
 
 
 optionalOneOfMember=[
+@JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private LocalDate getBirthdate() {
   return birthdate;
@@ -31,6 +35,8 @@ private LocalDate getBirthdate() {
 
 
 requiredAnyOfMember=[
+@JsonProperty("birthdate")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 private LocalDate getBirthdate() {
   return birthdate;
 }
@@ -38,20 +44,26 @@ private LocalDate getBirthdate() {
 
 
 requiredNullableAnyOfMember=[
-private LocalDate getBirthdate() {
-  return birthdate;
+@JsonProperty("birthdate")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getBirthdate() {
+  return isBirthdatePresent ? new JacksonNullContainer<>(birthdate) : null;
 }
 ]
 
 
 requiredNullableOneOfMember=[
-private LocalDate getBirthdate() {
-  return birthdate;
+@JsonProperty("birthdate")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getBirthdate() {
+  return isBirthdatePresent ? new JacksonNullContainer<>(birthdate) : null;
 }
 ]
 
 
 requiredOneOfMember=[
+@JsonProperty("birthdate")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 private LocalDate getBirthdate() {
   return birthdate;
 }
