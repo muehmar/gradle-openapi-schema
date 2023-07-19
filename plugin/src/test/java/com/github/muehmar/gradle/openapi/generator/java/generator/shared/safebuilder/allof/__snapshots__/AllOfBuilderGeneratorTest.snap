@@ -64,8 +64,8 @@ public static final class AllOfBuilderSampleObjectPojo20 {
     return new AllOfBuilderSampleObjectPojo21(builder.setStringVal(stringVal));
   }
 
-  public PropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
-    return new PropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
+  public AllOfBuilderObjectPojo10 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AllOfBuilderObjectPojo10(builder.setSampleObjectPojo2Dto(dto));
   }
 }
 
@@ -95,9 +95,28 @@ public static final class AllOfBuilderSampleObjectPojo22 {
   /**
    * email
    */
-  public PropertyBuilder0 setEmail(String email) {
-    return new PropertyBuilder0(builder.setEmail(email));
+  public AllOfBuilderObjectPojo10 setEmail(String email) {
+    return new AllOfBuilderObjectPojo10(builder.setEmail(email));
   }
 
+}
+
+public static final class AllOfBuilderObjectPojo10 {
+  private final Builder builder;
+
+  private AllOfBuilderObjectPojo10(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Direction
+   */
+  public PropertyBuilder0 setDirection(ObjectPojo1Dto.Direction direction) {
+    return new PropertyBuilder0(builder.setDirection(direction));
+  }
+
+  public PropertyBuilder0 setObjectPojo1Dto(ObjectPojo1Dto dto) {
+    return new PropertyBuilder0(builder.setObjectPojo1Dto(dto));
+  }
 }
 ]

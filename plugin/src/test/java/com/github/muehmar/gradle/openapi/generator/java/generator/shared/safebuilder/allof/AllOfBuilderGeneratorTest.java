@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -27,7 +28,10 @@ class AllOfBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            JavaPojos.allOfPojo(
+                sampleObjectPojo1(),
+                sampleObjectPojo2(),
+                JavaPojos.objectPojo(JavaPojoMembers.requiredDirectionEnum())),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 

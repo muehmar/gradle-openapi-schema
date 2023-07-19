@@ -118,7 +118,7 @@ public class AllOfBuilderGenerator {
                   new AllOfMember(
                       AllOfBuilderName.of(pojo, allOfComposition, allOfPojo, p.second()),
                       allOfPojo,
-                      p.first(),
+                      p.first().asInnerEnumOf(allOfPojo.getClassName()),
                       p.second()));
     }
 
