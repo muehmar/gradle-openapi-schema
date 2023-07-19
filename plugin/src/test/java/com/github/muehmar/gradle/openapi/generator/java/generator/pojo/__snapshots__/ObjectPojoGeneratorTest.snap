@@ -80,7 +80,7 @@ public class PersonDto {
    * RequiredStringVal
    */
   public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, additionalProperties);
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   /**
@@ -376,7 +376,7 @@ public class PersonDto {
    * RequiredStringVal
    */
   public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, additionalProperties);
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   /**
@@ -4511,7 +4511,7 @@ public class PersonDto {
    * RequiredStringVal
    */
   public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, additionalProperties);
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   /**

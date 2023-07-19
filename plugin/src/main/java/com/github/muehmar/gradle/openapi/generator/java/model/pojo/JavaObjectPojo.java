@@ -275,7 +275,8 @@ public class JavaObjectPojo implements JavaPojo {
   public WitherGenerator.WitherContent getWitherContent() {
     return WitherContentBuilder.create()
         .className(getClassName())
-        .members(members)
+        .membersForWithers(getMembers())
+        .membersForConstructorCall(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();

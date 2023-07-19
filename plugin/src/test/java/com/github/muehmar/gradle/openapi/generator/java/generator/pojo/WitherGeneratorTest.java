@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
 import static org.junit.jupiter.api.Assertions.*;
 
 import au.com.origin.snapshots.Expect;
@@ -12,7 +14,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
@@ -55,7 +56,8 @@ class WitherGeneratorTest {
         generator.generate(
             WitherContentBuilder.create()
                 .className(JavaIdentifier.fromString("ObjectDto"))
-                .members(PList.single(JavaPojoMembers.requiredString()))
+                .membersForWithers(PList.single(requiredString()))
+                .membersForConstructorCall(PList.of(requiredString(), requiredBirthdate()))
                 .build(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());

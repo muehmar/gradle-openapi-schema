@@ -54,7 +54,7 @@ public class WitherGenerator {
 
     public static PList<WitherMethod> fromPojo(WitherContent witherContent) {
       return witherContent
-          .getMembers()
+          .getMembersForWithers()
           .flatMap(
               member ->
                   PList.of(
@@ -98,7 +98,10 @@ public class WitherGenerator {
           String.format(
               "new %s(%s%s)",
               witherContent.getClassName(),
-              witherContent.getMembers().flatMap(JavaPojoMember::createFieldNames).mkString(", "),
+              witherContent
+                  .getMembersForConstructorCall()
+                  .flatMap(JavaPojoMember::createFieldNames)
+                  .mkString(", "),
               witherContent
                   .getAdditionalProperties()
                   .map(props -> String.format(", %s", JavaAdditionalProperties.getPropertyName()))
@@ -226,7 +229,8 @@ public class WitherGenerator {
   @PojoBuilder(builderName = "WitherContentBuilder")
   public static class WitherContent {
     JavaIdentifier className;
-    PList<JavaPojoMember> members;
+    PList<JavaPojoMember> membersForWithers;
+    PList<JavaPojoMember> membersForConstructorCall;
     Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

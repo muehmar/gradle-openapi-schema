@@ -144,7 +144,8 @@ public class JavaArrayPojo implements JavaPojo {
   public WitherGenerator.WitherContent getWitherContent() {
     return WitherContentBuilder.create()
         .className(getClassName())
-        .members(PList.single(getArrayPojoMember()))
+        .membersForWithers(PList.single(getArrayPojoMember()))
+        .membersForConstructorCall(PList.single(getArrayPojoMember()))
         .build();
   }
 
