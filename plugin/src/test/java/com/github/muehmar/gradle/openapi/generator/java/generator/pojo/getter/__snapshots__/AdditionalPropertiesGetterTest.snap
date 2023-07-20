@@ -1,7 +1,10 @@
 additionalPropertiesTypeIsList=[
 @JsonAnyGetter
 public Map<String, List<String>> getAdditionalProperties() {
-  return additionalProperties;
+  final Map<String, List<String>> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
 }
 
 /**
@@ -9,7 +12,16 @@ public Map<String, List<String>> getAdditionalProperties() {
  * if present, {@link Optional#empty()} otherwise
  */
 public Optional<List<String>> getAdditionalProperty(String key) {
-  return Optional.ofNullable(additionalProperties.get(key));
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+
+private Optional<List<String>> castAdditionalProperty(Object property) {
+  try {
+    return Optional.of((List<String>) property);
+  } catch (ClassCastException e) {
+    return Optional.empty();
+  }
 }
 ]
 
@@ -17,7 +29,10 @@ public Optional<List<String>> getAdditionalProperty(String key) {
 additionalPropertiesTypeIsObject=[
 @JsonAnyGetter
 public Map<String, @Valid ObjectDto> getAdditionalProperties() {
-  return additionalProperties;
+  final Map<String, ObjectDto> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
 }
 
 /**
@@ -25,7 +40,16 @@ public Map<String, @Valid ObjectDto> getAdditionalProperties() {
  * if present, {@link Optional#empty()} otherwise
  */
 public Optional<ObjectDto> getAdditionalProperty(String key) {
-  return Optional.ofNullable(additionalProperties.get(key));
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+
+private Optional<ObjectDto> castAdditionalProperty(Object property) {
+  try {
+    return Optional.of((ObjectDto) property);
+  } catch (ClassCastException e) {
+    return Optional.empty();
+  }
 }
 ]
 
@@ -33,7 +57,10 @@ public Optional<ObjectDto> getAdditionalProperty(String key) {
 additionalPropertiesTypeIsStringWithConstraints=[
 @JsonAnyGetter
 public Map<String, @Min(value = 3) @Max(value = 5) String> getAdditionalProperties() {
-  return additionalProperties;
+  final Map<String, String> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
 }
 
 /**
@@ -41,6 +68,15 @@ public Map<String, @Min(value = 3) @Max(value = 5) String> getAdditionalProperti
  * if present, {@link Optional#empty()} otherwise
  */
 public Optional<String> getAdditionalProperty(String key) {
-  return Optional.ofNullable(additionalProperties.get(key));
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+
+private Optional<String> castAdditionalProperty(Object property) {
+  try {
+    return Optional.of((String) property);
+  } catch (ClassCastException e) {
+    return Optional.empty();
+  }
 }
 ]

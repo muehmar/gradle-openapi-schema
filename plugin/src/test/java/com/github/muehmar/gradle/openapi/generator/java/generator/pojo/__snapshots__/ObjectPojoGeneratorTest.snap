@@ -2272,7 +2272,10 @@ public class ObjectPojo1Dto {
 
   @JsonAnyGetter
   public Map<String, ColorEnum> getAdditionalProperties() {
-    return additionalProperties;
+    final Map<String, ColorEnum> props = new HashMap<>();
+    additionalProperties.forEach(
+        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+    return props;
   }
 
   /**
@@ -2280,7 +2283,16 @@ public class ObjectPojo1Dto {
    * if present, {@link Optional#empty()} otherwise
    */
   public Optional<ColorEnum> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+    return Optional.ofNullable(additionalProperties.get(key))
+        .flatMap(this::castAdditionalProperty);
+  }
+
+  private Optional<ColorEnum> castAdditionalProperty(Object property) {
+    try {
+      return Optional.of((ColorEnum) property);
+    } catch (ClassCastException e) {
+      return Optional.empty();
+    }
   }
 
   /**
@@ -2411,7 +2423,10 @@ public class ObjectPojo1Dto {
 
   @JsonAnyGetter
   public Map<String, Integer> getAdditionalProperties() {
-    return additionalProperties;
+    final Map<String, Integer> props = new HashMap<>();
+    additionalProperties.forEach(
+        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+    return props;
   }
 
   /**
@@ -2419,7 +2434,16 @@ public class ObjectPojo1Dto {
    * if present, {@link Optional#empty()} otherwise
    */
   public Optional<Integer> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+    return Optional.ofNullable(additionalProperties.get(key))
+        .flatMap(this::castAdditionalProperty);
+  }
+
+  private Optional<Integer> castAdditionalProperty(Object property) {
+    try {
+      return Optional.of((Integer) property);
+    } catch (ClassCastException e) {
+      return Optional.empty();
+    }
   }
 
   /**
@@ -3656,7 +3680,10 @@ public class ObjectPojo1Dto {
 
   @JsonAnyGetter
   public Map<String, @Valid HelloDto> getAdditionalProperties() {
-    return additionalProperties;
+    final Map<String, HelloDto> props = new HashMap<>();
+    additionalProperties.forEach(
+        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+    return props;
   }
 
   /**
@@ -3664,7 +3691,16 @@ public class ObjectPojo1Dto {
    * if present, {@link Optional#empty()} otherwise
    */
   public Optional<HelloDto> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+    return Optional.ofNullable(additionalProperties.get(key))
+        .flatMap(this::castAdditionalProperty);
+  }
+
+  private Optional<HelloDto> castAdditionalProperty(Object property) {
+    try {
+      return Optional.of((HelloDto) property);
+    } catch (ClassCastException e) {
+      return Optional.empty();
+    }
   }
 
   /**
@@ -3795,7 +3831,10 @@ public class ObjectPojo1Dto {
 
   @JsonAnyGetter
   public Map<String, HelloDto> getAdditionalProperties() {
-    return additionalProperties;
+    final Map<String, HelloDto> props = new HashMap<>();
+    additionalProperties.forEach(
+        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+    return props;
   }
 
   /**
@@ -3803,7 +3842,16 @@ public class ObjectPojo1Dto {
    * if present, {@link Optional#empty()} otherwise
    */
   public Optional<HelloDto> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+    return Optional.ofNullable(additionalProperties.get(key))
+        .flatMap(this::castAdditionalProperty);
+  }
+
+  private Optional<HelloDto> castAdditionalProperty(Object property) {
+    try {
+      return Optional.of((HelloDto) property);
+    } catch (ClassCastException e) {
+      return Optional.empty();
+    }
   }
 
   /**
@@ -3928,7 +3976,10 @@ public class ObjectPojo1Dto {
   }
 
   public Map<String, @Valid HelloDto> getAdditionalProperties() {
-    return additionalProperties;
+    final Map<String, HelloDto> props = new HashMap<>();
+    additionalProperties.forEach(
+        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+    return props;
   }
 
   /**
@@ -3936,7 +3987,16 @@ public class ObjectPojo1Dto {
    * if present, {@link Optional#empty()} otherwise
    */
   public Optional<HelloDto> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+    return Optional.ofNullable(additionalProperties.get(key))
+        .flatMap(this::castAdditionalProperty);
+  }
+
+  private Optional<HelloDto> castAdditionalProperty(Object property) {
+    try {
+      return Optional.of((HelloDto) property);
+    } catch (ClassCastException e) {
+      return Optional.empty();
+    }
   }
 
   /**
