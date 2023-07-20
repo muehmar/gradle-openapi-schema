@@ -11,9 +11,7 @@ private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
 private ObjectPojo1Dto asObjectPojo1Dto() {
   return new ObjectPojo1Dto(
     birthdate,
-    additionalProperties.entrySet().stream()
-      .filter(e -> e.getValue() instanceof String)
-      .collect(Collectors.toMap(Map.Entry::getKey, e -> (String)e.getValue()))
+    additionalProperties
   );
 }
 ]
@@ -32,9 +30,7 @@ private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
 private ObjectPojo1Dto asObjectPojo1Dto() {
   return new ObjectPojo1Dto(
     birthdate,
-    additionalProperties.entrySet().stream()
-      .filter(e -> e.getValue() instanceof String)
-      .collect(Collectors.toMap(Map.Entry::getKey, e -> (String)e.getValue()))
+    additionalProperties
   );
 }
 ]
