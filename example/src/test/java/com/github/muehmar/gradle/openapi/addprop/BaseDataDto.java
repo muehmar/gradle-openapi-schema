@@ -2,8 +2,10 @@ package com.github.muehmar.gradle.openapi.addprop;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.Collections;
@@ -11,28 +13,69 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.validation.constraints.NotNull;
 
-@JsonDeserialize(builder = UserDto.Builder.class)
-public class UserDto {
-  private final String type;
-  private final String username;
+@JsonDeserialize(builder = BaseDataDto.Builder.class)
+public class BaseDataDto {
+  private final ColorEnum color;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(String type, String username, Map<String, Object> additionalProperties) {
-    this.type = type;
-    this.username = username;
+  public BaseDataDto(ColorEnum color, Map<String, Object> additionalProperties) {
+    this.color = color;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
-  @NotNull
-  public String getType() {
-    return type;
+  public enum ColorEnum {
+    GREEN("green", ""),
+    YELLOW("yellow", ""),
+    RED("red", "");
+
+    private final String value;
+    private final String description;
+
+    ColorEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @JsonIgnore
+    public String getDescription() {
+      return description;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @JsonCreator
+    public static ColorEnum fromValue(String value) {
+      for (ColorEnum e : ColorEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+          Stream.of(values()).map(ColorEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+          "Unexpected value '"
+              + value
+              + "' for ColorEnum, possible values are ["
+              + possibleValues
+              + "]");
+    }
   }
 
   @NotNull
-  public String getUsername() {
-    return username;
+  public ColorEnum getColor() {
+    return color;
   }
 
   @JsonAnyGetter
@@ -48,47 +91,35 @@ public class UserDto {
     return Optional.ofNullable(additionalProperties.get(key));
   }
 
-  public UserDto withType(String type) {
-    return new UserDto(type, username, additionalProperties);
-  }
-
-  public UserDto withUsername(String username) {
-    return new UserDto(type, username, additionalProperties);
+  public BaseDataDto withColor(ColorEnum color) {
+    return new BaseDataDto(color, additionalProperties);
   }
 
   /** Returns the number of present properties of this object. */
   @JsonIgnore
   public int getPropertyCount() {
-    return 1 + 1 + additionalProperties.size();
+    return 1 + additionalProperties.size();
   }
 
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
-    final UserDto other = (UserDto) obj;
-    return Objects.deepEquals(this.type, other.type)
-        && Objects.deepEquals(this.username, other.username)
+    final BaseDataDto other = (BaseDataDto) obj;
+    return Objects.deepEquals(this.color, other.color)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, username, additionalProperties);
+    return Objects.hash(color, additionalProperties);
   }
 
   @Override
   public String toString() {
-    return "UserDto{"
-        + "type="
-        + "'"
-        + type
-        + "'"
-        + ", "
-        + "username="
-        + "'"
-        + username
-        + "'"
+    return "BaseDataDto{"
+        + "color="
+        + color
         + ", "
         + "additionalProperties="
         + additionalProperties
@@ -100,19 +131,12 @@ public class UserDto {
 
     private Builder() {}
 
-    private String type;
-    private String username;
+    private ColorEnum color;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    @JsonProperty("type")
-    private Builder setType(String type) {
-      this.type = type;
-      return this;
-    }
-
-    @JsonProperty("username")
-    private Builder setUsername(String username) {
-      this.username = username;
+    @JsonProperty("color")
+    private Builder setColor(ColorEnum color) {
+      this.color = color;
       return this;
     }
 
@@ -127,8 +151,8 @@ public class UserDto {
       return this;
     }
 
-    public UserDto build() {
-      return new UserDto(type, username, additionalProperties);
+    public BaseDataDto build() {
+      return new BaseDataDto(color, additionalProperties);
     }
   }
 
@@ -143,8 +167,8 @@ public class UserDto {
       this.builder = builder;
     }
 
-    public PropertyBuilder1 setType(String type) {
-      return new PropertyBuilder1(builder.setType(type));
+    public PropertyBuilder1 setColor(ColorEnum color) {
+      return new PropertyBuilder1(builder.setColor(color));
     }
   }
 
@@ -152,18 +176,6 @@ public class UserDto {
     private final Builder builder;
 
     private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    public PropertyBuilder2 setUsername(String username) {
-      return new PropertyBuilder2(builder.setUsername(username));
-    }
-  }
-
-  public static final class PropertyBuilder2 {
-    private final Builder builder;
-
-    private PropertyBuilder2(Builder builder) {
       this.builder = builder;
     }
 
@@ -175,7 +187,7 @@ public class UserDto {
       return builder;
     }
 
-    public UserDto build() {
+    public BaseDataDto build() {
       return builder.build();
     }
   }
@@ -195,7 +207,7 @@ public class UserDto {
       return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
     }
 
-    public UserDto build() {
+    public BaseDataDto build() {
       return builder.build();
     }
   }
