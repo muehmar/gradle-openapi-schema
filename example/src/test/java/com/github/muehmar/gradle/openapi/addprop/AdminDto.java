@@ -12,15 +12,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = AdminDto.Builder.class)
 public class AdminDto {
   private final String type;
   private final String adminname;
-  private final Map<String, BaseDataDto> additionalProperties;
+  private final Map<String, Object> additionalProperties;
 
-  public AdminDto(String type, String adminname, Map<String, BaseDataDto> additionalProperties) {
+  public AdminDto(String type, String adminname, Map<String, Object> additionalProperties) {
     this.type = type;
     this.adminname = adminname;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -38,7 +39,15 @@ public class AdminDto {
 
   @JsonAnyGetter
   public Map<String, @Valid BaseDataDto> getAdditionalProperties() {
-    return additionalProperties;
+    final HashMap<String, BaseDataDto> props = new HashMap<>();
+    additionalProperties.forEach(
+        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+    return props;
+  }
+
+  @AssertTrue(message = "Not all additional properties have the correct type xyz")
+  private boolean allAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   /**
@@ -46,7 +55,16 @@ public class AdminDto {
    * {@link Optional#empty()} otherwise
    */
   public Optional<BaseDataDto> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+    return Optional.ofNullable(additionalProperties.get(key))
+        .flatMap(this::castAdditionalProperty);
+  }
+
+  private Optional<BaseDataDto> castAdditionalProperty(Object property) {
+    try {
+      return Optional.of((BaseDataDto) property);
+    } catch (ClassCastException e) {
+      return Optional.empty();
+    }
   }
 
   public AdminDto withType(String type) {
@@ -103,7 +121,7 @@ public class AdminDto {
 
     private String type;
     private String adminname;
-    private Map<String, BaseDataDto> additionalProperties = new HashMap<>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("type")
     private Builder setType(String type) {

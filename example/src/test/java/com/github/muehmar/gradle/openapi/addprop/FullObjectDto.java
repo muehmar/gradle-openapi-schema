@@ -14,7 +14,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
@@ -84,16 +83,25 @@ public class FullObjectDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
+  public Map<String, Integer> getAdditionalProperties() {
+    final HashMap<String, Integer> props = new HashMap<>();
+    additionalProperties.forEach(
+        (key, value) -> {
+          if (value instanceof Integer) {
+            props.put(key, (Integer) value);
+          }
+        });
+    return props;
   }
 
   /**
    * Returns the additional property with {@code key} wrapped in an {@link Optional} if present,
    * {@link Optional#empty()} otherwise
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Optional<Integer> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key))
+        .filter(value -> value instanceof Integer)
+        .map(value -> (Integer) value);
   }
 
   public FullObjectDto withMessage(String message) {
@@ -157,12 +165,7 @@ public class FullObjectDto {
   }
 
   private AdminDto asAdminDto() {
-    return new AdminDto(
-        type,
-        adminname,
-        additionalProperties.entrySet().stream()
-            .filter(e -> e.getValue() instanceof BaseDataDto)
-            .collect(Collectors.toMap(Map.Entry::getKey, e -> (BaseDataDto) e.getValue())));
+    return new AdminDto(type, adminname, additionalProperties);
   }
 
   private UserDto asUserDto() {
@@ -333,13 +336,18 @@ public class FullObjectDto {
       return this;
     }
 
-    @JsonAnySetter
-    public Builder addAdditionalProperty(String key, Object value) {
+    private Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
       return this;
     }
 
-    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Integer value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Integer> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
     }
@@ -428,11 +436,11 @@ public class FullObjectDto {
       this.builder = builder;
     }
 
-    public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+    public OptPropertyBuilder1 addAdditionalProperty(String key, Integer value) {
       return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
     }
 
-    public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    public OptPropertyBuilder1 setAdditionalProperties(Map<String, Integer> additionalProperties) {
       return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
     }
 
