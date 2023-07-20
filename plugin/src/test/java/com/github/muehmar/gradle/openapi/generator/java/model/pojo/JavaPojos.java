@@ -217,4 +217,21 @@ public class JavaPojos {
         .anyOfComposition(objectPojo.getAnyOfComposition())
         .build();
   }
+
+  public static JavaObjectPojo withAdditionalProperties(
+      JavaObjectPojo objectPojo, JavaAdditionalProperties additionalProperties) {
+    return JavaObjectPojoBuilder.create()
+        .name(
+            JavaPojoName.wrap(PojoName.ofName(Name.ofString(objectPojo.getClassName().asString()))))
+        .description(objectPojo.getDescription())
+        .members(objectPojo.getMembers())
+        .type(objectPojo.getType())
+        .additionalProperties(additionalProperties)
+        .constraints(objectPojo.getConstraints())
+        .andAllOptionals()
+        .allOfComposition(objectPojo.getAllOfComposition())
+        .oneOfComposition(objectPojo.getOneOfComposition())
+        .anyOfComposition(objectPojo.getAnyOfComposition())
+        .build();
+  }
 }

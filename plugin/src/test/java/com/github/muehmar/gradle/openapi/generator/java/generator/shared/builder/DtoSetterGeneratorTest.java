@@ -3,11 +3,13 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.builde
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.DtoSetterGenerator.dtoSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withAdditionalProperties;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.NonEmptyList;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -76,6 +78,23 @@ class DtoSetterGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            TestPojoSettings.defaultSettings().withBuilderMethodPrefix(""),
+            Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("composedPojoHasNoAdditionalPropertiesAllowed")
+  void generator_when_composedPojoHasNoAdditionalPropertiesAllowed_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    final JavaObjectPojo samplePojo1 =
+        withAdditionalProperties(sampleObjectPojo1(), JavaAdditionalProperties.notAllowed());
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojo(samplePojo1, sampleObjectPojo2()),
             TestPojoSettings.defaultSettings().withBuilderMethodPrefix(""),
             Writer.createDefault());
 

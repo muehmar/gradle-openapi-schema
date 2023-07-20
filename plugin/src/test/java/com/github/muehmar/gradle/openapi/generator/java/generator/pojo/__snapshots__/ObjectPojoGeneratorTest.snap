@@ -164,13 +164,13 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -531,13 +531,13 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -4777,13 +4777,13 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
       return this;
     }
 

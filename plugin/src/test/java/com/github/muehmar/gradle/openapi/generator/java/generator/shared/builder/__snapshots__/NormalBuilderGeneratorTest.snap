@@ -347,7 +347,7 @@ public static final class Builder {
     setStringVal(dto.getStringVal());
     setIntVal(dto.getIntVal());
     setDoubleVal(dto.getDoubleVal());
-    dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+    dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
     return this;
   }
 
@@ -355,7 +355,7 @@ public static final class Builder {
     setStringVal(dto.getStringVal());
     setBirthdate(dto.getBirthdate());
     setEmail(dto.getEmail());
-    dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+    dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
     return this;
   }
 

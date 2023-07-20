@@ -1,10 +1,9 @@
-noBuilderSetMethodPrefix=[
+composedPojoHasNoAdditionalPropertiesAllowed=[
 
 private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
   intVal(dto.getIntVal());
   doubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
   return this;
 }
 
@@ -12,7 +11,28 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   stringVal(dto.getStringVal());
   birthdate(dto.getBirthdate());
   email(dto.getEmail());
-  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+
+]
+
+
+noBuilderSetMethodPrefix=[
+
+private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  stringVal(dto.getStringVal());
+  intVal(dto.getIntVal());
+  doubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+
+private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+  stringVal(dto.getStringVal());
+  birthdate(dto.getBirthdate());
+  email(dto.getEmail());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
 
@@ -25,7 +45,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
 
@@ -34,7 +54,7 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringValOpt1());
   setOptionalStringVal(dto.getOptionalStringValOpt2());
   setOptionalNullableStringVal(dto.getOptionalNullableStringValTristate());
-  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
 
@@ -47,7 +67,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal("SampleObjectPojo1");
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
 
@@ -55,7 +75,7 @@ private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   setStringVal("SampleObjectPojo2");
   setBirthdate(dto.getBirthdate());
   setEmail(dto.getEmail());
-  dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
 

@@ -81,9 +81,10 @@ public class DtoSetterGenerator {
         .filter(PojosAndMember::isDiscriminatorMember);
   }
 
-  private static <A, B> Generator<A, B> setAdditionalProperties() {
-    return Generator.constant(
-        "dto.getAdditionalProperties().forEach((key, value) -> addAdditionalProperty(key, value));");
+  private static <B> Generator<ParentPojoAndComposedPojo, B> setAdditionalProperties() {
+    return Generator.<ParentPojoAndComposedPojo, B>constant(
+            "dto.getAdditionalProperties().forEach(this::addAdditionalProperty);")
+        .filter(ppcp -> ppcp.getComposedPojo().getAdditionalProperties().isAllowed());
   }
 
   @Value
