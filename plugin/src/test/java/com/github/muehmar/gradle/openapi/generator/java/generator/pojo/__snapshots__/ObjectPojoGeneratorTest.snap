@@ -2333,6 +2333,11 @@ public class ObjectPojo1Dto {
 
     private Map<String, Object> additionalProperties = new HashMap<>();
 
+    private Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, ColorEnum value) {
       this.additionalProperties.put(key, value);
@@ -2483,6 +2488,11 @@ public class ObjectPojo1Dto {
     }
 
     private Map<String, Object> additionalProperties = new HashMap<>();
+
+    private Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Integer value) {
@@ -3741,6 +3751,11 @@ public class ObjectPojo1Dto {
 
     private Map<String, Object> additionalProperties = new HashMap<>();
 
+    private Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, HelloDto value) {
       this.additionalProperties.put(key, value);
@@ -3892,6 +3907,11 @@ public class ObjectPojo1Dto {
 
     private Map<String, Object> additionalProperties = new HashMap<>();
 
+    private Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, HelloDto value) {
       this.additionalProperties.put(key, value);
@@ -4034,6 +4054,11 @@ public class ObjectPojo1Dto {
     }
 
     private Map<String, Object> additionalProperties = new HashMap<>();
+
+    private Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
 
     public Builder addAdditionalProperty(String key, HelloDto value) {
       this.additionalProperties.put(key, value);

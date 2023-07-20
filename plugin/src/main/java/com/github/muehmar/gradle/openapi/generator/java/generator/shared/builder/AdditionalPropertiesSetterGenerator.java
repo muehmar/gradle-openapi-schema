@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -24,16 +25,20 @@ class AdditionalPropertiesSetterGenerator {
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertiesSetters() {
-    return singleAdditionalPropertiesSetter()
+    return singleAdditionalPropertiesSetter(true)
+        .filter(JavaAdditionalProperties::isNotValueAnyType)
+        .appendSingleBlankLine()
+        .append(singleAdditionalPropertiesSetter(false))
         .appendSingleBlankLine()
         .append(allAdditionalPropertiesSetter());
   }
 
-  private static Generator<JavaAdditionalProperties, PojoSettings>
-      singleAdditionalPropertiesSetter() {
+  private static Generator<JavaAdditionalProperties, PojoSettings> singleAdditionalPropertiesSetter(
+      boolean forObjectType) {
     final Generator<JavaAdditionalProperties, PojoSettings> method =
         MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-            .modifiers(props -> JavaModifiers.of(props.isAllowed() ? PUBLIC : PRIVATE))
+            .modifiers(
+                props -> createModifiersForSingleAdditionalPropertiesSetter(props, forObjectType))
             .noGenericTypes()
             .returnType("Builder")
             .methodName("addAdditionalProperty")
@@ -41,7 +46,9 @@ class AdditionalPropertiesSetterGenerator {
                 props ->
                     PList.of(
                         "String key",
-                        String.format("%s value", props.getType().getFullClassName())))
+                        String.format(
+                            "%s value",
+                            forObjectType ? "Object" : props.getType().getFullClassName())))
             .content(
                 (props, s, w) ->
                     w.println(
@@ -49,7 +56,15 @@ class AdditionalPropertiesSetterGenerator {
                         .println("return this;"))
             .build()
             .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType);
-    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonAnySetter().append(method);
+    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonAnySetter()
+        .filter(ignore -> not(forObjectType))
+        .append(method);
+  }
+
+  private static JavaModifiers createModifiersForSingleAdditionalPropertiesSetter(
+      JavaAdditionalProperties props, boolean forObjectType) {
+    final boolean privateMethod = forObjectType || not(props.isAllowed());
+    return JavaModifiers.of(privateMethod ? PRIVATE : PUBLIC);
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> allAdditionalPropertiesSetter() {
