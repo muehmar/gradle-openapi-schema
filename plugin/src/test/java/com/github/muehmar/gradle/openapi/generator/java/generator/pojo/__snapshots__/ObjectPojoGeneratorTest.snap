@@ -2218,10 +2218,10 @@ import java.util.stream.Stream;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
-  private final Map<String, ColorEnum> additionalProperties;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
-      Map<String, ColorEnum> additionalProperties
+      Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -2320,7 +2320,7 @@ public class ObjectPojo1Dto {
     private Builder() {
     }
 
-    private Map<String, ColorEnum> additionalProperties = new HashMap<>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, ColorEnum value) {
@@ -2401,10 +2401,10 @@ import java.util.Optional;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
-  private final Map<String, Integer> additionalProperties;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
-      Map<String, Integer> additionalProperties
+      Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -2459,7 +2459,7 @@ public class ObjectPojo1Dto {
     private Builder() {
     }
 
-    private Map<String, Integer> additionalProperties = new HashMap<>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Integer value) {
@@ -3646,10 +3646,10 @@ import javax.validation.Valid;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
-  private final Map<String, HelloDto> additionalProperties;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
-      Map<String, HelloDto> additionalProperties
+      Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -3704,7 +3704,7 @@ public class ObjectPojo1Dto {
     private Builder() {
     }
 
-    private Map<String, HelloDto> additionalProperties = new HashMap<>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, HelloDto value) {
@@ -3785,10 +3785,10 @@ import java.util.Optional;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
-  private final Map<String, HelloDto> additionalProperties;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
-      Map<String, HelloDto> additionalProperties
+      Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -3843,7 +3843,7 @@ public class ObjectPojo1Dto {
     private Builder() {
     }
 
-    private Map<String, HelloDto> additionalProperties = new HashMap<>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, HelloDto value) {
@@ -3919,10 +3919,10 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 public class ObjectPojo1Dto {
-  private final Map<String, HelloDto> additionalProperties;
+  private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
-      Map<String, HelloDto> additionalProperties
+      Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -3974,7 +3974,7 @@ public class ObjectPojo1Dto {
     private Builder() {
     }
 
-    private Map<String, HelloDto> additionalProperties = new HashMap<>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     public Builder addAdditionalProperty(String key, HelloDto value) {
       this.additionalProperties.put(key, value);

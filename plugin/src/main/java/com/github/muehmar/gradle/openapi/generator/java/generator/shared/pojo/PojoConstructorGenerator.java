@@ -75,9 +75,7 @@ public class PojoConstructorGenerator {
         .map(
             props ->
                 String.format(
-                    "Map<String, %s> %s",
-                    props.getType().getFullClassName(),
-                    JavaAdditionalProperties.getPropertyName()));
+                    "Map<String, Object> %s", JavaAdditionalProperties.getPropertyName()));
   }
 
   private static Generator<ConstructorContent, PojoSettings> constructorContent() {

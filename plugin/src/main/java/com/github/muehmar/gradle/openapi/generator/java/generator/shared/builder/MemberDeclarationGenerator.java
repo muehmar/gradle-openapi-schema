@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.builde
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -50,9 +49,8 @@ class MemberDeclarationGenerator {
         .append(
             (props, settings, writer) ->
                 writer.println(
-                    "private Map<String, %s> %s = new HashMap<>();",
-                    props.getType().getFullClassName(), JavaAdditionalProperties.getPropertyName()))
-        .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
+                    "private Map<String, Object> %s = new HashMap<>();",
+                    JavaAdditionalProperties.getPropertyName()))
         .append(ref(JavaRefs.JAVA_UTIL_MAP))
         .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
   }

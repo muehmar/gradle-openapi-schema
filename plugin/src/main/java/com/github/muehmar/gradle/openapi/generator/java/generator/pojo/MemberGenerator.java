@@ -47,9 +47,8 @@ public class MemberGenerator {
         .append(
             (props, s, w) ->
                 w.println(
-                    "private final Map<String, %s> %s;",
-                    props.getType().getFullClassName(), JavaAdditionalProperties.getPropertyName()))
-        .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
+                    "private final Map<String, Object> %s;",
+                    JavaAdditionalProperties.getPropertyName()))
         .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_MAP));
   }
 
