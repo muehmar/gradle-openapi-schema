@@ -757,8 +757,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static OptPropertyBuilder0 newBuilder() {
+    return new OptPropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -2362,8 +2362,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static OptPropertyBuilder0 newBuilder() {
+    return new OptPropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -2522,8 +2522,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static OptPropertyBuilder0 newBuilder() {
+    return new OptPropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3635,8 +3635,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static OptPropertyBuilder0 newBuilder() {
+    return new OptPropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3788,8 +3788,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static OptPropertyBuilder0 newBuilder() {
+    return new OptPropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -3948,8 +3948,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static OptPropertyBuilder0 newBuilder() {
+    return new OptPropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {
@@ -4099,8 +4099,8 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static OptPropertyBuilder0 newBuilder() {
+    return new OptPropertyBuilder0(new Builder());
   }
 
   public static final class PropertyBuilder0 {

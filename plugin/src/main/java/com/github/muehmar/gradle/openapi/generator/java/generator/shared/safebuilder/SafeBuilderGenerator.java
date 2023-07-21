@@ -11,6 +11,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.name.BuilderName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.safebuilder.property.OptionalPropertyBuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -49,11 +50,21 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
         .append(
             (pojo, s, w) ->
                 w.println(
-                    "public static %s newBuilder() {", BuilderName.initial(pojo).currentName()))
+                    "public static %s newBuilder() {",
+                    createInitialBuilderName(pojo).currentName()))
         .append(
             (pojo, s, w) ->
-                w.println("return new %s(new Builder());", BuilderName.initial(pojo).currentName()),
+                w.println(
+                    "return new %s(new Builder());", createInitialBuilderName(pojo).currentName()),
             1)
         .append(constant("}"));
+  }
+
+  private static BuilderName createInitialBuilderName(JavaObjectPojo pojo) {
+    if (pojo.isSimpleMapPojo()) {
+      return OptionalPropertyBuilderName.initial(pojo);
+    } else {
+      return BuilderName.initial(pojo);
+    }
   }
 }
