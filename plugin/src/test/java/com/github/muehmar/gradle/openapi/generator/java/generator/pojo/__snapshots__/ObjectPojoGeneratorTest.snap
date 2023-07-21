@@ -685,6 +685,10 @@ public class ObjectPojo1Dto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
+  public static ObjectPojo1Dto fromProperties(Map<String, Object> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -2225,6 +2229,10 @@ public class ObjectPojo1Dto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
+  public static ObjectPojo1Dto fromProperties(Map<String, ColorEnum> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
+  }
+
   /**
    * Additional property enum
    */
@@ -2423,6 +2431,10 @@ public class ObjectPojo1Dto {
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  public static ObjectPojo1Dto fromProperties(Map<String, Integer> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
   @JsonAnyGetter
@@ -3687,6 +3699,10 @@ public class ObjectPojo1Dto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
+  public static ObjectPojo1Dto fromProperties(Map<String, HelloDto> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
+  }
+
   @JsonAnyGetter
   public Map<String, @Valid HelloDto> getAdditionalProperties() {
     final Map<String, HelloDto> props = new HashMap<>();
@@ -3843,6 +3859,10 @@ public class ObjectPojo1Dto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
+  public static ObjectPojo1Dto fromProperties(Map<String, HelloDto> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
+  }
+
   @JsonAnyGetter
   public Map<String, HelloDto> getAdditionalProperties() {
     final Map<String, HelloDto> props = new HashMap<>();
@@ -3992,6 +4012,10 @@ public class ObjectPojo1Dto {
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  public static ObjectPojo1Dto fromProperties(Map<String, HelloDto> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
   public Map<String, @Valid HelloDto> getAdditionalProperties() {

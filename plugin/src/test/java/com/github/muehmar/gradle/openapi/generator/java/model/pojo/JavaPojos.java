@@ -134,6 +134,10 @@ public class JavaPojos {
     return objectPojo(PList.of(members), JavaAdditionalProperties.anyTypeAllowed());
   }
 
+  public static JavaObjectPojo simpleMapPojo(JavaAdditionalProperties additionalProperties) {
+    return withAdditionalProperties(objectPojo(), additionalProperties);
+  }
+
   public static JavaObjectPojo allNecessityAndNullabilityVariants(Constraints constraints) {
     return (JavaObjectPojo)
         JavaPojo.wrap(allNecessityAndNullabilityVariantsPojo(constraints), TypeMappings.empty())

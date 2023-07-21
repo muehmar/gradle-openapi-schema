@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.compose
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidCountMethodGenerator.validCountMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidCountValidationMethod.validCountValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo.ValidationMethodGenerator.validationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.map.MapFactoryMethodeGenerator.mapFactoryMethodeGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.NoAdditionalPropertiesValidationMethodGenerator.noAdditionalPropertiesValidationMethodGenerator;
@@ -72,6 +73,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
             EnumGenerator.nested(),
             pojo -> pojo.getMembers().flatMapOptional(JavaPojoMember::asEnumContent),
             newLine())
+        .appendSingleBlankLine()
+        .append(mapFactoryMethodeGenerator())
         .appendSingleBlankLine()
         .appendOptional(
             EnumGenerator.nested(), pojo -> pojo.getAdditionalProperties().asEnumContent())

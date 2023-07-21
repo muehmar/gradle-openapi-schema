@@ -175,6 +175,13 @@ public class JavaObjectPojo implements JavaPojo {
     return type;
   }
 
+  public boolean isSimpleMapPojo() {
+    return members.isEmpty()
+        && not(allOfComposition.isPresent())
+        && not(oneOfComposition.isPresent())
+        && not(anyOfComposition.isPresent());
+  }
+
   public boolean hasRequiredMembers() {
     return members.exists(JavaPojoMember::isRequired);
   }
