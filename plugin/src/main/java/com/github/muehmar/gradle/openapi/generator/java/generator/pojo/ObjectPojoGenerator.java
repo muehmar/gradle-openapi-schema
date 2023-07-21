@@ -15,6 +15,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.No
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.PojoPropertyCountMethod.pojoPropertyCountMethoGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator.witherGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AdditionalPropertiesGetter.additionalPropertiesGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ComposedDtoGetterGenerator.composedDtoGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator.normalBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator.equalsMethod;
@@ -26,7 +28,6 @@ import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVE
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
@@ -79,7 +80,9 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendOptional(
             EnumGenerator.nested(), pojo -> pojo.getAdditionalProperties().asEnumContent())
         .appendSingleBlankLine()
-        .appendList(GetterGenerator.getterGenerator(), JavaObjectPojo::getAllMembers, newLine())
+        .appendList(getterGenerator(), JavaObjectPojo::getAllMembers, newLine())
+        .appendSingleBlankLine()
+        .append(composedDtoGetterGenerator())
         .appendSingleBlankLine()
         .append(additionalPropertiesGetterGenerator())
         .appendSingleBlankLine()

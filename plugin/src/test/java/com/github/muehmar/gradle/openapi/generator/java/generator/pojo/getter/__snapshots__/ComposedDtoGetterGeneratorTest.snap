@@ -1,0 +1,13 @@
+allOfPojo=[
+@JsonIgnore
+@Valid
+public SampleObjectPojo1Dto getSampleObjectPojo1Dto() {
+  return asSampleObjectPojo1Dto();
+}
+
+@JsonIgnore
+@Valid
+public SampleObjectPojo2Dto getSampleObjectPojo2Dto() {
+  return asSampleObjectPojo2Dto();
+}
+]
