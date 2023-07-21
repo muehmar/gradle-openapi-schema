@@ -9,6 +9,16 @@ public LocalDate getBirthdate() {
 ]
 
 
+requiredAndNotNullableFieldNoValidationOption=[
+/**
+ * Birthdate
+ */
+public LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
 requiredSuffix=[
 /**
  * Birthdate

@@ -279,10 +279,20 @@ public class JavaPojoMember {
   }
 
   public enum MemberType {
-    OBJECT_MEMBER,
-    ALL_OF_MEMBER,
-    ONE_OF_MEMBER,
-    ANY_OF_MEMBER,
-    ARRAY_VALUE
+    OBJECT_MEMBER(false),
+    ALL_OF_MEMBER(true),
+    ONE_OF_MEMBER(true),
+    ANY_OF_MEMBER(true),
+    ARRAY_VALUE(false);
+
+    private final boolean isComposedMember;
+
+    MemberType(boolean isComposedMember) {
+      this.isComposedMember = isComposedMember;
+    }
+
+    public boolean isComposedMember() {
+      return isComposedMember;
+    }
   }
 }

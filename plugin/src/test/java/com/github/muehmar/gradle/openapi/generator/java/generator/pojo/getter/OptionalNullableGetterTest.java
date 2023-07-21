@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,7 +36,7 @@ class OptionalNullableGetterTest {
   @Test
   void generator_when_enabledJacksonAndDisabledValidation_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNullableGetter.optionalNullableGetterGenerator();
+        OptionalNullableGetter.optionalNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NULLABLE);
 
@@ -62,7 +63,7 @@ class OptionalNullableGetterTest {
   @Test
   void generator_when_disabledJacksonAndEnabledValidation_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNullableGetter.optionalNullableGetterGenerator();
+        OptionalNullableGetter.optionalNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(
             Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern")),
@@ -84,7 +85,7 @@ class OptionalNullableGetterTest {
   @Test
   void generator_when_optionalNullableSuffix_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNullableGetter.optionalNullableGetterGenerator();
+        OptionalNullableGetter.optionalNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(
             Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern")),
@@ -117,7 +118,7 @@ class OptionalNullableGetterTest {
   @Test
   void generator_when_deprecatedAnnotation_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNullableGetter.optionalNullableGetterGenerator();
+        OptionalNullableGetter.optionalNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NULLABLE);
 

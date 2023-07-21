@@ -194,6 +194,18 @@ public class JavaObjectPojo implements JavaPojo {
     return members;
   }
 
+  public PList<JavaPojoMember> getAllOfMembers() {
+    return allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
+  }
+
+  public PList<JavaPojoMember> getOneOfMembers() {
+    return oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
+  }
+
+  public PList<JavaPojoMember> getAnyOfMembers() {
+    return anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
+  }
+
   public PList<JavaPojoMember> getAllMembersForComposition() {
     return getMembers()
         .map(member -> member.asInnerEnumOf(getClassName()))
@@ -201,17 +213,14 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public PList<JavaPojoMember> getComposedMembers() {
-    final PList<JavaPojoMember> allOfMembers =
-        allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
-    final PList<JavaPojoMember> oneOfMembers =
-        oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
-    final PList<JavaPojoMember> anyOfMembers =
-        anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
-    return allOfMembers.concat(oneOfMembers).concat(anyOfMembers).distinct(Function.identity());
+    return getAllOfMembers()
+        .concat(getOneOfMembers())
+        .concat(getAnyOfMembers())
+        .distinct(Function.identity());
   }
 
   public PList<JavaPojoMember> getAllMembers() {
-    return members.concat(getComposedMembers());
+    return members.concat(getComposedMembers()).distinct(Function.identity());
   }
 
   public Optional<JavaAllOfComposition> getAllOfComposition() {

@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.NO_VALIDATION;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -32,7 +34,7 @@ class RequiredNotNullableGetterTest {
   @SnapshotName("requiredAndNotNullableField")
   void generator_when_requiredAndNotNullableField_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
@@ -46,10 +48,26 @@ class RequiredNotNullableGetterTest {
   }
 
   @Test
+  @SnapshotName("requiredAndNotNullableFieldNoValidationOption")
+  void generator_when_requiredAndNotNullableFieldNoValidationOption_then_correctOutputAndRefs() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator(NO_VALIDATION);
+    final JavaPojoMember pojoMember =
+        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
+
+    final Writer writer =
+        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
   @SnapshotName("validationDisabled")
   void generator_when_validationDisabled_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
@@ -68,7 +86,7 @@ class RequiredNotNullableGetterTest {
   @SnapshotName("requiredSuffix")
   void generator_when_requiredSuffix_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
@@ -97,7 +115,7 @@ class RequiredNotNullableGetterTest {
   @SnapshotName("valueTypeOfArrayHasConstraints")
   void generator_when_valueTypeOfArrayHasConstraints_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        RequiredNotNullableGetter.requiredNotNullableGetterGenerator();
+        RequiredNotNullableGetter.requiredNotNullableGetterGenerator(STANDARD);
 
     final IntegerType itemType =
         IntegerType.formatInteger()

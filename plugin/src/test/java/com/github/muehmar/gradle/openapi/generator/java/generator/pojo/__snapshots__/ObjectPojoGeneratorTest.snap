@@ -50,7 +50,6 @@ public class PersonDto {
   /**
    * Birthdate
    */
-  @NotNull
   public LocalDate getBirthdate() {
     return birthdate;
   }
@@ -58,7 +57,6 @@ public class PersonDto {
   /**
    * Username
    */
-  @NotNull
   public String getUsername() {
     return username;
   }
