@@ -60,6 +60,8 @@ class ConversionMethodGeneratorTest {
   public static Stream<Arguments> composedPojoArguments() {
     return Stream.of(
         arguments(
+            (Function<NonEmptyList<JavaPojo>, JavaObjectPojo>) (JavaPojos::allOfPojo), "allOf"),
+        arguments(
             (Function<NonEmptyList<JavaPojo>, JavaObjectPojo>) (JavaPojos::anyOfPojo), "anyOf"),
         arguments(
             (Function<NonEmptyList<JavaPojo>, JavaObjectPojo>) (JavaPojos::oneOfPojo), "oneOf"));

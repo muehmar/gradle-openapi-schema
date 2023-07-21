@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.composedpojo;
 
 import static io.github.muehmar.codegenerator.Generator.constant;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -8,6 +9,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -21,19 +23,16 @@ public class ConversionMethodGenerator {
   private ConversionMethodGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> conversionMethodGenerator() {
-    final Function<JavaObjectPojo, Iterable<JavaObjectPojo>> getComposePojoMembers =
-        p ->
-            p.getAnyOfComposition()
-                .map(JavaAnyOfComposition::getPojos)
-                .map(NonEmptyList::toPList)
-                .orElseGet(PList::empty)
-                .concat(
-                    p.getOneOfComposition()
-                        .map(JavaOneOfComposition::getPojos)
-                        .map(NonEmptyList::toPList)
-                        .orElseGet(PList::empty));
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(asSingleDtoMethod(), getComposePojoMembers, Generator.newLine());
+        .appendList(asSingleDtoMethod(), ConversionMethodGenerator::getComposedPojos, newLine());
+  }
+
+  private static Iterable<JavaObjectPojo> getComposedPojos(JavaObjectPojo pojo) {
+    return PList.of(pojo.getAllOfComposition().map(JavaAllOfComposition::getPojos))
+        .add(pojo.getOneOfComposition().map(JavaOneOfComposition::getPojos))
+        .add(pojo.getAnyOfComposition().map(JavaAnyOfComposition::getPojos))
+        .flatMapOptional(Function.identity())
+        .flatMap(NonEmptyList::toPList);
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> asSingleDtoMethod() {

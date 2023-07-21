@@ -1,3 +1,22 @@
+composedPojo[allOf]=[
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    additionalProperties
+  );
+}
+
+private ObjectPojo1Dto asObjectPojo1Dto() {
+  return new ObjectPojo1Dto(
+    birthdate,
+    additionalProperties
+  );
+}
+]
+
+
 composedPojo[anyOf]=[
 private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
   return new SampleObjectPojo1Dto(

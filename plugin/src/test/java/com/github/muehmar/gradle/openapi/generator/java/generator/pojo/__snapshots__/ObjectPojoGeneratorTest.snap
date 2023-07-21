@@ -93,6 +93,20 @@ public class PersonDto {
       additionalProperties.size();
   }
 
+  private AdminDto asAdminDto() {
+    return new AdminDto(
+      birthdate,
+      additionalProperties
+    );
+  }
+
+  private UserDto asUserDto() {
+    return new UserDto(
+      username,
+      additionalProperties
+    );
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
