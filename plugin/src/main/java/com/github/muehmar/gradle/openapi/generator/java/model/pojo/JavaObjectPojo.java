@@ -46,6 +46,7 @@ public class JavaObjectPojo implements JavaPojo {
   private final Optional<JavaOneOfComposition> oneOfComposition;
   private final Optional<JavaAnyOfComposition> anyOfComposition;
   private final PojoType type;
+  private final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties;
   private final JavaAdditionalProperties additionalProperties;
   private final Constraints constraints;
 
@@ -57,6 +58,7 @@ public class JavaObjectPojo implements JavaPojo {
       Optional<JavaOneOfComposition> oneOfComposition,
       Optional<JavaAnyOfComposition> anyOfComposition,
       PojoType type,
+      PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties,
       JavaAdditionalProperties additionalProperties,
       Constraints constraints) {
     this.name = name;
@@ -66,6 +68,7 @@ public class JavaObjectPojo implements JavaPojo {
     this.oneOfComposition = oneOfComposition;
     this.anyOfComposition = anyOfComposition;
     this.type = type;
+    this.requiredAdditionalProperties = requiredAdditionalProperties;
     this.additionalProperties = additionalProperties;
     this.constraints = constraints;
     assertPropertiesHaveNotSameNameAndDifferentAttributes(
@@ -143,6 +146,12 @@ public class JavaObjectPojo implements JavaPojo {
             .getAnyOfComposition()
             .map(comp -> JavaAnyOfComposition.wrap(comp, type, typeMappings)),
         type,
+        objectPojo
+            .getRequiredAdditionalProperties()
+            .map(
+                propName ->
+                    JavaRequiredAdditionalProperty.fromNameAndType(
+                        propName, javaAdditionalProperties.getType())),
         javaAdditionalProperties,
         objectPojo.getConstraints());
   }
@@ -194,15 +203,15 @@ public class JavaObjectPojo implements JavaPojo {
     return members;
   }
 
-  public PList<JavaPojoMember> getAllOfMembers() {
+  private PList<JavaPojoMember> getAllOfMembers() {
     return allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
   }
 
-  public PList<JavaPojoMember> getOneOfMembers() {
+  private PList<JavaPojoMember> getOneOfMembers() {
     return oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
   }
 
-  public PList<JavaPojoMember> getAnyOfMembers() {
+  private PList<JavaPojoMember> getAnyOfMembers() {
     return anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
   }
 
@@ -233,6 +242,10 @@ public class JavaObjectPojo implements JavaPojo {
 
   public Optional<JavaAnyOfComposition> getAnyOfComposition() {
     return anyOfComposition;
+  }
+
+  public PList<JavaRequiredAdditionalProperty> getRequiredAdditionalProperties() {
+    return requiredAdditionalProperties;
   }
 
   public JavaAdditionalProperties getAdditionalProperties() {

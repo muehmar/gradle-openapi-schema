@@ -39,6 +39,7 @@ class JavaObjectPojoTest {
             .description("")
             .members(PList.of(requiredEmail()))
             .type(PojoType.DEFAULT)
+            .requiredAdditionalProperties(PList.empty())
             .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
             .constraints(Constraints.empty())
             .andOptionals()

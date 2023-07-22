@@ -35,6 +35,7 @@ public class JavaPojos {
                 JavaPojoMembers.requiredInteger(),
                 JavaPojoMembers.requiredDouble()))
         .type(PojoType.DEFAULT)
+        .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .build();
@@ -50,6 +51,7 @@ public class JavaPojos {
                 JavaPojoMembers.requiredBirthdate(),
                 JavaPojoMembers.requiredEmail()))
         .type(PojoType.DEFAULT)
+        .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .build();
@@ -62,6 +64,7 @@ public class JavaPojos {
         .description("")
         .members(members)
         .type(PojoType.DEFAULT)
+        .requiredAdditionalProperties(PList.empty())
         .additionalProperties(additionalProperties)
         .constraints(Constraints.empty())
         .build();
@@ -73,6 +76,7 @@ public class JavaPojos {
         .description("")
         .members(PList.empty())
         .type(PojoType.DEFAULT)
+        .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .andOptionals()
@@ -94,6 +98,7 @@ public class JavaPojos {
         .description("")
         .members(PList.empty())
         .type(PojoType.DEFAULT)
+        .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .andOptionals()
@@ -115,6 +120,7 @@ public class JavaPojos {
         .description("")
         .members(PList.empty())
         .type(PojoType.DEFAULT)
+        .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .andOptionals()
@@ -195,6 +201,7 @@ public class JavaPojos {
         .description(objectPojo.getDescription())
         .members(members)
         .type(objectPojo.getType())
+        .requiredAdditionalProperties(objectPojo.getRequiredAdditionalProperties())
         .additionalProperties(objectPojo.getAdditionalProperties())
         .constraints(objectPojo.getConstraints())
         .andAllOptionals()
@@ -214,6 +221,7 @@ public class JavaPojos {
         .description(objectPojo.getDescription())
         .members(objectPojo.getMembers())
         .type(objectPojo.getType())
+        .requiredAdditionalProperties(objectPojo.getRequiredAdditionalProperties())
         .additionalProperties(objectPojo.getAdditionalProperties())
         .constraints(objectPojo.getConstraints())
         .andAllOptionals()
@@ -231,6 +239,7 @@ public class JavaPojos {
         .description(objectPojo.getDescription())
         .members(objectPojo.getMembers())
         .type(objectPojo.getType())
+        .requiredAdditionalProperties(objectPojo.getRequiredAdditionalProperties())
         .additionalProperties(additionalProperties)
         .constraints(objectPojo.getConstraints())
         .andAllOptionals()
