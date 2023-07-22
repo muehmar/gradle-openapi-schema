@@ -159,6 +159,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -201,6 +202,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         REQUIRED,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -328,6 +330,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -363,6 +366,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3)))
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -388,6 +392,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -413,6 +418,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -446,6 +452,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -498,6 +505,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -509,6 +517,7 @@ class SpecificationMapperImplTest {
             .name(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"))
             .description("")
             .members(PList.empty())
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .andOptionals()
@@ -578,6 +587,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -603,6 +613,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -628,6 +639,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -636,6 +648,7 @@ class SpecificationMapperImplTest {
             .name(PojoName.ofNameAndSuffix("ComposedPojoName", "Dto"))
             .description("")
             .members(PList.empty())
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .andOptionals()
@@ -683,6 +696,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -725,6 +739,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -767,6 +782,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -809,6 +825,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),
@@ -860,6 +877,7 @@ class SpecificationMapperImplTest {
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build(),

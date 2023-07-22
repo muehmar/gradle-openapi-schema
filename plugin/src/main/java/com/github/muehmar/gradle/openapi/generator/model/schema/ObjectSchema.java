@@ -97,8 +97,8 @@ public class ObjectSchema implements OpenApiSchema {
     final PojoMemberMapResults pojoMemberMapResults = extractMembers(pojoName);
     final AdditionalPropertiesMapResult additionalPropertiesMapResult =
         extractAdditionalPropertyMembers(pojoName);
-    final PList<PojoMember> members =
-        pojoMemberMapResults.getMembers().concat(additionalPropertiesMapResult.getMembers());
+    final PList<Name> requiredAdditionalProperties =
+        additionalPropertiesMapResult.getRequiredAdditionalProperties();
     final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
     final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(delegate);
 
@@ -113,7 +113,8 @@ public class ObjectSchema implements OpenApiSchema {
         UnresolvedObjectPojoBuilder.create()
             .name(pojoName)
             .description(getDescription())
-            .members(members)
+            .members(pojoMemberMapResults.getMembers())
+            .requiredAdditionalProperties(requiredAdditionalProperties)
             .constraints(constraints)
             .additionalProperties(additionalPropertiesSchema.asAdditionalProperties(pojoName))
             .andAllOptionals()
@@ -177,16 +178,10 @@ public class ObjectSchema implements OpenApiSchema {
   private AdditionalPropertiesMapResult extractAdditionalPropertyMembers(PojoName pojoName) {
     final MemberSchemaMapResult additionalPropertiesMapResult =
         additionalPropertiesSchema.getAdditionalPropertiesMapResult(pojoName);
-    final PList<PojoMember> additionalPropertyMembers =
-        requiredProperties
-            .getRequiredAdditionalPropertyNames()
-            .map(Name::ofString)
-            .map(
-                name ->
-                    PojoMember.additionalPropertyForNameAndType(
-                        name, additionalPropertiesMapResult.getType()));
+    final PList<Name> requiredAdditionalProperties =
+        requiredProperties.getRequiredAdditionalPropertyNames().map(Name::ofString);
     return new AdditionalPropertiesMapResult(
-        additionalPropertyMembers, additionalPropertiesMapResult.getUnmappedItems());
+        requiredAdditionalProperties, additionalPropertiesMapResult.getUnmappedItems());
   }
 
   private PojoMemberMapResult mapToPojoMember(MemberSchema memberSchema, PojoName pojoName) {
@@ -240,7 +235,7 @@ public class ObjectSchema implements OpenApiSchema {
 
   @Value
   private static class AdditionalPropertiesMapResult {
-    PList<PojoMember> members;
+    PList<Name> requiredAdditionalProperties;
     UnmappedItems unmappedItems;
   }
 }

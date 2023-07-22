@@ -29,6 +29,7 @@ class JavaPojoWrapResultTest {
             .name(PojoName.ofNameAndSuffix("Object", "Dto"))
             .description("Description")
             .members(PList.single(pojoMember1))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();

@@ -94,6 +94,7 @@ class ObjectPojoGeneratorTest {
                                   PropertyScope.DEFAULT,
                                   OPTIONAL,
                                   NOT_NULLABLE)))
+                      .requiredAdditionalProperties(PList.empty())
                       .constraints(
                           Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(2, 10)))
                       .additionalProperties(anyTypeAllowed())
@@ -255,6 +256,7 @@ class ObjectPojoGeneratorTest {
                                     PropertyScope.DEFAULT,
                                     OPTIONAL,
                                     NOT_NULLABLE)))
+                        .requiredAdditionalProperties(PList.empty())
                         .constraints(
                             Constraints.ofPropertiesCount(
                                 PropertyCount.ofMinAndMaxProperties(5, 15)))
@@ -299,6 +301,7 @@ class ObjectPojoGeneratorTest {
                                     PropertyScope.DEFAULT,
                                     OPTIONAL,
                                     NOT_NULLABLE)))
+                        .requiredAdditionalProperties(PList.empty())
                         .constraints(Constraints.empty())
                         .additionalProperties(anyTypeAllowed())
                         .build(),
@@ -341,6 +344,7 @@ class ObjectPojoGeneratorTest {
                                     PropertyScope.DEFAULT,
                                     OPTIONAL,
                                     NOT_NULLABLE)))
+                        .requiredAdditionalProperties(PList.empty())
                         .constraints(Constraints.empty())
                         .additionalProperties(anyTypeAllowed())
                         .build(),
@@ -597,6 +601,7 @@ class ObjectPojoGeneratorTest {
             .name(PojoName.ofNameAndSuffix("User", "Dto"))
             .description("user")
             .members(PList.of(requiredUsername))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -605,6 +610,7 @@ class ObjectPojoGeneratorTest {
             .name(PojoName.ofNameAndSuffix("Admin", "Dto"))
             .description("admin")
             .members(PList.of(requiredBirthdate))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -613,6 +619,7 @@ class ObjectPojoGeneratorTest {
             .name(PojoName.ofNameAndSuffix("Person", "Dto"))
             .description("person")
             .members(PList.of(requiredString))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .andOptionals();

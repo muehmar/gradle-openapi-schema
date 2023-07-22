@@ -25,6 +25,7 @@ public class UnresolvedObjectPojo {
   private final PojoName name;
   private final String description;
   private final PList<PojoMember> members;
+  private final PList<Name> requiredAdditionalProperties;
   private final Optional<UnresolvedAllOfComposition> allOfComposition;
   private final Optional<UnresolvedOneOfComposition> oneOfComposition;
   private final Optional<UnresolvedAnyOfComposition> anyOfComposition;
@@ -35,6 +36,7 @@ public class UnresolvedObjectPojo {
       PojoName name,
       String description,
       PList<PojoMember> members,
+      PList<Name> requiredAdditionalProperties,
       Optional<UnresolvedAllOfComposition> allOfComposition,
       Optional<UnresolvedOneOfComposition> oneOfComposition,
       Optional<UnresolvedAnyOfComposition> anyOfComposition,
@@ -43,6 +45,7 @@ public class UnresolvedObjectPojo {
     this.name = name;
     this.description = description;
     this.members = members;
+    this.requiredAdditionalProperties = requiredAdditionalProperties;
     this.allOfComposition = allOfComposition;
     this.oneOfComposition = oneOfComposition;
     this.anyOfComposition = anyOfComposition;
@@ -69,6 +72,7 @@ public class UnresolvedObjectPojo {
           .name(name)
           .description(description)
           .members(members)
+          .requiredAdditionalProperties(requiredAdditionalProperties)
           .constraints(constraints)
           .additionalProperties(additionalProperties)
           .andAllOptionals()

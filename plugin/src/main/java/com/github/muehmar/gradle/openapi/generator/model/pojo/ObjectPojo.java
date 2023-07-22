@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -27,6 +28,7 @@ public class ObjectPojo implements Pojo {
   private final PojoName name;
   private final String description;
   private final PList<PojoMember> members;
+  private final PList<Name> requiredAdditionalProperties;
   private final Optional<AllOfComposition> allOfComposition;
   private final Optional<OneOfComposition> oneOfComposition;
   private final Optional<AnyOfComposition> anyOfComposition;
@@ -37,6 +39,7 @@ public class ObjectPojo implements Pojo {
       PojoName name,
       String description,
       PList<PojoMember> members,
+      PList<Name> requiredAdditionalProperties,
       Optional<AllOfComposition> allOfComposition,
       Optional<OneOfComposition> oneOfComposition,
       Optional<AnyOfComposition> anyOfComposition,
@@ -45,6 +48,7 @@ public class ObjectPojo implements Pojo {
     this.name = name;
     this.description = description;
     this.members = members;
+    this.requiredAdditionalProperties = requiredAdditionalProperties;
     this.allOfComposition = allOfComposition;
     this.oneOfComposition = oneOfComposition;
     this.anyOfComposition = anyOfComposition;
@@ -68,6 +72,10 @@ public class ObjectPojo implements Pojo {
 
   public Constraints getConstraints() {
     return constraints;
+  }
+
+  public PList<Name> getRequiredAdditionalProperties() {
+    return requiredAdditionalProperties;
   }
 
   public AdditionalProperties getAdditionalProperties() {
@@ -110,6 +118,7 @@ public class ObjectPojo implements Pojo {
         name,
         description,
         members.map(map),
+        requiredAdditionalProperties,
         allOfComposition,
         oneOfComposition,
         anyOfComposition,
@@ -122,6 +131,7 @@ public class ObjectPojo implements Pojo {
         name,
         description,
         members,
+        requiredAdditionalProperties,
         allOfComposition,
         oneOfComposition,
         anyOfComposition,

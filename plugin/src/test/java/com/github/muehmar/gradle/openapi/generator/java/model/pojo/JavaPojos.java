@@ -158,6 +158,7 @@ public class JavaPojos {
                 requiredNullableString(),
                 optionalString(),
                 optionalNullableString()))
+        .requiredAdditionalProperties(PList.empty())
         .constraints(constraints)
         .additionalProperties(anyTypeAllowed())
         .build();

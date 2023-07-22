@@ -71,6 +71,7 @@ class JavaObjectPojoTest {
             .name(PojoName.ofNameAndSuffix("Object", "Dto"))
             .description("Description")
             .members(PList.single(pojoMember))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -95,6 +96,7 @@ class JavaObjectPojoTest {
             .name(PojoName.ofNameAndSuffix("Object", "Dto"))
             .description("Description")
             .members(PList.of(pojoMember1, pojoMember2))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();

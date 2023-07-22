@@ -22,6 +22,7 @@ public class Pojos {
         .name(PojoName.ofNameAndSuffix("ObjectPojo", "Dto"))
         .description("Object pojo")
         .members(members)
+        .requiredAdditionalProperties(PList.empty())
         .constraints(Constraints.empty())
         .additionalProperties(additionalProperties)
         .build();
@@ -32,6 +33,7 @@ public class Pojos {
         .name(PojoName.ofNameAndSuffix("ObjectPojo", "Dto"))
         .description("Object pojo")
         .members(PList.empty())
+        .requiredAdditionalProperties(PList.empty())
         .constraints(Constraints.empty())
         .additionalProperties(anyTypeAllowed())
         .andOptionals()

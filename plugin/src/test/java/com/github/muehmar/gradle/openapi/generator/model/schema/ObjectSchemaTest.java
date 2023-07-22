@@ -127,6 +127,7 @@ class ObjectSchemaTest {
                         PropertyScope.DEFAULT,
                         Necessity.OPTIONAL,
                         Nullability.NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
@@ -273,13 +274,6 @@ class ObjectSchemaTest {
     final PList<PojoMember> expectedMembers =
         PList.of(
             new PojoMember(
-                Name.ofString("otherVal"),
-                "Additional Property 'otherVal'",
-                AnyType.create(),
-                PropertyScope.DEFAULT,
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE),
-            new PojoMember(
                 Name.ofString("stringVal"),
                 "",
                 StringType.noFormat(),
@@ -289,6 +283,8 @@ class ObjectSchemaTest {
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
+    assertEquals(
+        PList.single(Name.ofString("otherVal")), objectPojo.getRequiredAdditionalProperties());
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }
 
@@ -318,18 +314,9 @@ class ObjectSchemaTest {
         resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
     final PojoName additionalPropertiesPojoName = PojoName.ofNameAndSuffix("ObjectProperty", "Dto");
-    final PList<PojoMember> expectedMembers =
-        PList.of(
-            new PojoMember(
-                Name.ofString("gender"),
-                "Additional Property 'gender'",
-                ObjectType.ofName(additionalPropertiesPojoName),
-                PropertyScope.DEFAULT,
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE));
+
     assertEquals(
-        expectedMembers,
-        objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
+        PList.single(Name.ofString("gender")), objectPojo.getRequiredAdditionalProperties());
 
     final UnmappedItems expectedUnmappedItems =
         UnmappedItems.ofPojoSchema(
@@ -372,6 +359,7 @@ class ObjectSchemaTest {
                 .name(pojoName)
                 .description("")
                 .members(PList.empty())
+                .requiredAdditionalProperties(PList.empty())
                 .constraints(
                     Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(4, 7)))
                 .additionalProperties(
@@ -431,6 +419,7 @@ class ObjectSchemaTest {
                     .name(pojoName)
                     .description("")
                     .members(PList.empty())
+                    .requiredAdditionalProperties(PList.empty())
                     .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(12)))
                     .additionalProperties(
                         AdditionalProperties.allowed(ObjectType.ofName(objectPojoName)))
@@ -516,6 +505,7 @@ class ObjectSchemaTest {
                 .name(pojoName)
                 .description("")
                 .members(PList.empty())
+                .requiredAdditionalProperties(PList.empty())
                 .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(2)))
                 .additionalProperties(AdditionalProperties.anyTypeAllowed())
                 .build());

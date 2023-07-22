@@ -36,6 +36,7 @@ class UnresolvedObjectPojoTest {
             .name(PojoName.ofNameAndSuffix("Object", "Dto"))
             .description("description")
             .members(PList.empty())
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(AdditionalProperties.notAllowed())
             .andAllOptionals()
