@@ -38,7 +38,7 @@ public class ValidationGenerator {
 
   public static Generator<JavaPojoMember, PojoSettings> validationAnnotationsForMember() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(notNullAnnotation())
+        .append(notNullAnnotationForMember())
         .append(validationAnnotationsForType(), JavaPojoMember::getJavaType)
         .filter(Filters.isValidationEnabled());
   }
@@ -55,6 +55,10 @@ public class ValidationGenerator {
         .append(sizeAnnotationForPropertyCount())
         .append(patternAnnotation())
         .filter(Filters.isValidationEnabled());
+  }
+
+  public static <T> Generator<T, PojoSettings> validAnnotation(Class<T> clazz) {
+    return validAnnotation();
   }
 
   public static <T> Generator<T, PojoSettings> validAnnotation() {
@@ -81,11 +85,19 @@ public class ValidationGenerator {
     return false;
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> notNullAnnotation() {
-    return Generator.<JavaPojoMember, PojoSettings>ofWriterFunction(w -> w.println("@NotNull"))
+  public static Generator<JavaPojoMember, PojoSettings> notNullAnnotationForMember() {
+    return notNullAnnotation(JavaPojoMember.class).filter(JavaPojoMember::isRequiredAndNotNullable);
+  }
+
+  public static <T> Generator<T, PojoSettings> notNullAnnotation(Class<T> clazz) {
+    return notNullAnnotation();
+  }
+
+  public static <T> Generator<T, PojoSettings> notNullAnnotation() {
+    return Generator.<T, PojoSettings>ofWriterFunction(w -> w.println("@NotNull"))
         .append(jakarta2Ref(Jakarta2ValidationRefs.NOT_NULL))
         .append(jakarta3Ref(Jakarta3ValidationRefs.NOT_NULL))
-        .filter(JavaPojoMember::isRequiredAndNotNullable);
+        .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<JavaType, PojoSettings> emailAnnotation() {
