@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
@@ -27,38 +28,102 @@ public class ConversionMethodGenerator {
         .appendList(asSingleDtoMethod(), ConversionMethodGenerator::getComposedPojos, newLine());
   }
 
-  private static Iterable<JavaObjectPojo> getComposedPojos(JavaObjectPojo pojo) {
+  private static Iterable<ParentAndComposedPojo> getComposedPojos(JavaObjectPojo pojo) {
     return PList.of(pojo.getAllOfComposition().map(JavaAllOfComposition::getPojos))
         .add(pojo.getOneOfComposition().map(JavaOneOfComposition::getPojos))
         .add(pojo.getAnyOfComposition().map(JavaAnyOfComposition::getPojos))
         .flatMapOptional(Function.identity())
-        .flatMap(NonEmptyList::toPList);
+        .flatMap(NonEmptyList::toPList)
+        .map(composedPojo -> new ParentAndComposedPojo(pojo, composedPojo));
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> asSingleDtoMethod() {
-    return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
+  private static Generator<ParentAndComposedPojo, PojoSettings> asSingleDtoMethod() {
+    return MethodGenBuilder.<ParentAndComposedPojo, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
-        .returnType(pojo -> pojo.getClassName().asString())
-        .methodName(pojo -> CompositionNames.asConversionMethodName(pojo).asString())
+        .returnType(pc -> pc.getComposedPojo().getClassName().asString())
+        .methodName(pc -> CompositionNames.asConversionMethodName(pc.getComposedPojo()).asString())
         .noArguments()
         .content(asDtoMethodContent())
         .build();
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> asDtoMethodContent() {
+  private static Generator<ParentAndComposedPojo, PojoSettings> asDtoMethodContent() {
     final Generator<JavaIdentifier, PojoSettings> memberGen =
         (identifier, s, w) -> w.println("%s,", identifier);
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("return new %s(", p.getClassName()))
+    return Generator.<ParentAndComposedPojo, PojoSettings>emptyGen()
+        .append(
+            constant(
+                String.format(
+                    "Map<String, Object> props = new HashMap<>(%s);",
+                    JavaAdditionalProperties.getPropertyName())))
+        .appendList(addPropertyToMap(), ParentAndComposedPojo::getAdditionalPropertiesMembers)
+        .append((pc, s, w) -> w.println("return new %s(", pc.getComposedPojo().getClassName()))
         .appendList(
             memberGen.indent(1),
             pojo ->
-                pojo.getMembers()
-                    .map(m -> new PojoAndMember(pojo, m))
-                    .flatMap(PojoAndMember::getFieldNameIdentifiers))
-        .append(constant(JavaAdditionalProperties.getPropertyName().asString()), 1)
+                pojo.getComposedPojoAndMembers().flatMap(PojoAndMember::getFieldNameIdentifiers))
+        .append(constant("props"), 1)
         .append(w -> w.println(");"));
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> addPropertyToMap() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(addPropertyToMapCondition())
+        .append(
+            (m, s, w) -> w.println("props.put(\"%s\", %s);", m.getName(), m.getNameAsIdentifier()),
+            1)
+        .append(constant("}"));
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> addPropertyToMapCondition() {
+    return addPropertyToMapNotNullableCondition()
+        .append(addPropertyToMapRequiredNullableCondition())
+        .append(addPropertyToMapOptionalNullableCondition());
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> addPropertyToMapNotNullableCondition() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append((m, s, w) -> w.println("if (%s != null) {", m.getNameAsIdentifier()))
+        .filter(JavaPojoMember::isNotNullable);
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings>
+      addPropertyToMapRequiredNullableCondition() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append((m, s, w) -> w.println("if (%s) {", m.getIsPresentFlagName()))
+        .filter(JavaPojoMember::isRequiredAndNullable);
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings>
+      addPropertyToMapOptionalNullableCondition() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(
+            (m, s, w) ->
+                w.println(
+                    "if (%s != null || %s) {", m.getNameAsIdentifier(), m.getIsNullFlagName()))
+        .filter(JavaPojoMember::isOptionalAndNullable);
+  }
+
+  @Value
+  private static class ParentAndComposedPojo {
+    JavaObjectPojo parentPojo;
+    JavaObjectPojo composedPojo;
+
+    PList<JavaPojoMember> getAdditionalPropertiesMembers() {
+      return parentPojo
+          .getAllMembers()
+          .filter(
+              m1 ->
+                  not(
+                      composedPojo
+                          .getAllMembers()
+                          .exists(m2 -> m1.getName().equals(m2.getName()))));
+    }
+
+    PList<PojoAndMember> getComposedPojoAndMembers() {
+      return composedPojo.getMembers().map(m -> new PojoAndMember(composedPojo, m));
+    }
   }
 
   @Value

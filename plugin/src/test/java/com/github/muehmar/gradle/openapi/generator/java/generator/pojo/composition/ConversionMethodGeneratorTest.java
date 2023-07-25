@@ -80,4 +80,23 @@ class ConversionMethodGeneratorTest {
 
     assertEquals("", writer.asString());
   }
+
+  @Test
+  @SnapshotName("composedPojoWithNullabilityAndNecessityVariants")
+  void generate_when_composedPojoWithNullabilityAndNecessityVariants_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        ConversionMethodGenerator.conversionMethodGenerator();
+
+    final JavaObjectPojo pojo1 = JavaPojos.sampleObjectPojo1();
+
+    final JavaObjectPojo pojo2 = JavaPojos.allNecessityAndNullabilityVariants();
+
+    final JavaObjectPojo composedPojo = JavaPojos.oneOfPojo(pojo1, pojo2);
+
+    final Writer writer =
+        generator.generate(
+            composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
 }

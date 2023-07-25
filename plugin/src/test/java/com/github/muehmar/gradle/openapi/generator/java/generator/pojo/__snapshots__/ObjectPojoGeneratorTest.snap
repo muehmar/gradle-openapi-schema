@@ -105,16 +105,30 @@ public class PersonDto {
   }
 
   private AdminDto asAdminDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (requiredStringVal != null) {
+      props.put("requiredStringVal", requiredStringVal);
+    }
+    if (username != null) {
+      props.put("username", username);
+    }
     return new AdminDto(
       birthdate,
-      additionalProperties
+      props
     );
   }
 
   private UserDto asUserDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (requiredStringVal != null) {
+      props.put("requiredStringVal", requiredStringVal);
+    }
+    if (birthdate != null) {
+      props.put("birthdate", birthdate);
+    }
     return new UserDto(
       username,
-      additionalProperties
+      props
     );
   }
 
@@ -441,16 +455,30 @@ public class PersonDto {
   }
 
   private AdminDto asAdminDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (requiredStringVal != null) {
+      props.put("requiredStringVal", requiredStringVal);
+    }
+    if (username != null) {
+      props.put("username", username);
+    }
     return new AdminDto(
       birthdate,
-      additionalProperties
+      props
     );
   }
 
   private UserDto asUserDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (requiredStringVal != null) {
+      props.put("requiredStringVal", requiredStringVal);
+    }
+    if (birthdate != null) {
+      props.put("birthdate", birthdate);
+    }
     return new UserDto(
       username,
-      additionalProperties
+      props
     );
   }
 
@@ -4705,16 +4733,30 @@ public class PersonDto {
   }
 
   private AdminDto asAdminDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (requiredStringVal != null) {
+      props.put("requiredStringVal", requiredStringVal);
+    }
+    if (username != null) {
+      props.put("username", username);
+    }
     return new AdminDto(
       birthdate,
-      additionalProperties
+      props
     );
   }
 
   private UserDto asUserDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (requiredStringVal != null) {
+      props.put("requiredStringVal", requiredStringVal);
+    }
+    if (birthdate != null) {
+      props.put("birthdate", birthdate);
+    }
     return new UserDto(
       username,
-      additionalProperties
+      props
     );
   }
 
