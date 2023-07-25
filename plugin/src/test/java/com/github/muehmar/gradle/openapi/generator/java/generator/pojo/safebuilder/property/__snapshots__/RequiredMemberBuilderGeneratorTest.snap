@@ -39,6 +39,63 @@ public static final class PropertyBuilder1 {
 ]
 
 
+allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties=[
+public static final class PropertyBuilder0 {
+  private final Builder builder;
+
+  private PropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+    return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+}
+
+public static final class PropertyBuilder1 {
+  private final Builder builder;
+
+  private PropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+}
+
+public static final class PropertyBuilder2 {
+  private final Builder builder;
+
+  private PropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Additional Property 'prop1'
+   */
+  public PropertyBuilder3 setProp1(Object prop1) {
+    return new PropertyBuilder3(builder.setProp1(prop1));
+  }
+
+}
+]
+
+
 builderMethodsOfFirstRequiredMemberGeneratorWithRequiredProperty=[
 /**
  * Birthdate

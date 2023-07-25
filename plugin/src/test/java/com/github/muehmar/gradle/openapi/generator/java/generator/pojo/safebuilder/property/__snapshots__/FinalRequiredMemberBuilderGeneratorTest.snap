@@ -1,8 +1,8 @@
 allNecessityAndNullabilityVariants=[
-public static final class PropertyBuilder2 {
+public static final class PropertyBuilder3 {
   private final Builder builder;
 
-  private PropertyBuilder2(Builder builder) {
+  private PropertyBuilder3(Builder builder) {
     this.builder = builder;
   }
 

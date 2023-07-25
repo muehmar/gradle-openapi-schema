@@ -39,9 +39,10 @@ public class FinalRequiredMemberBuilderGenerator {
   }
 
   private static String builderName(JavaObjectPojo pojo) {
-    return RequiredPropertyBuilderName.from(
-            pojo, pojo.getMembers().filter(JavaPojoMember::isRequired).size())
-        .currentName();
+    final int size =
+        pojo.getMembers().filter(JavaPojoMember::isRequired).size()
+            + pojo.getRequiredAdditionalProperties().size();
+    return RequiredPropertyBuilderName.from(pojo, size).currentName();
   }
 
   private static String nextBuilderName(JavaObjectPojo pojo) {

@@ -1,14 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -28,6 +32,25 @@ class RequiredMemberBuilderGeneratorTest {
     final Writer writer =
         gen.generate(
             JavaPojos.allNecessityAndNullabilityVariants(),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties")
+  void
+      generate_when_allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> gen = requiredMemberBuilderGenerator();
+    final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
+        PList.single(
+            JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), javaAnyType()));
+
+    final Writer writer =
+        gen.generate(
+            JavaPojos.withRequiredAdditionalProperties(
+                JavaPojos.allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
