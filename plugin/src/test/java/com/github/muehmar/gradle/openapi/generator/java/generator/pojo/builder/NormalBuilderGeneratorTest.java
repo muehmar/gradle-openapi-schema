@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -14,7 +16,9 @@ import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -33,9 +37,14 @@ class NormalBuilderGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         NormalBuilderGenerator.normalBuilderGenerator();
 
+    final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
+        PList.single(
+            JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), javaAnyType()));
+
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            JavaPojos.withRequiredAdditionalProperties(
+                allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -72,7 +81,7 @@ class NormalBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
@@ -91,7 +100,7 @@ class NormalBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants(),
+            allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings().withEnableSafeBuilder(false),
             Writer.createDefault());
 

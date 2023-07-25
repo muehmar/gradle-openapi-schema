@@ -88,6 +88,10 @@ public static final class Builder {
     return this;
   }
 
+  private Builder setProp1(Object prop1) {
+    return addAdditionalProperty("prop1", prop1);
+  }
+
   public NecessityAndNullabilityDto build() {
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
