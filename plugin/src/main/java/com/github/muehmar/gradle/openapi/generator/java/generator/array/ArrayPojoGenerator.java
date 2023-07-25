@@ -10,10 +10,10 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.Ge
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
