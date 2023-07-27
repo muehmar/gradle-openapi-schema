@@ -52,7 +52,9 @@ public class PojoPropertyCountMethod {
 
   private static Generator<PojoAndMember, PojoSettings> requiredNotNullablePropertyCount() {
     return Generator.<PojoAndMember, PojoSettings>emptyGen()
-        .append((pam, s, w) -> w.println("1 +"))
+        .append(
+            (pam, s, w) ->
+                w.println("(%s != null ? 1 : 0) +", pam.getMember().getNameAsIdentifier()))
         .filter(pam -> pam.getMember().isRequiredAndNotNullable());
   }
 
@@ -91,7 +93,7 @@ public class PojoPropertyCountMethod {
     JavaPojoMember member;
 
     private static PList<PojoAndMember> fromPojo(JavaObjectPojo pojo) {
-      return pojo.getMembers().map(member -> new PojoAndMember(pojo, member));
+      return pojo.getAllMembers().map(member -> new PojoAndMember(pojo, member));
     }
   }
 }

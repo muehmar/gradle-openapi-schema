@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,7 +37,7 @@ class PojoPropertyCountMethodTest {
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(constraints),
+            allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
@@ -57,7 +59,7 @@ class PojoPropertyCountMethodTest {
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(constraints),
+            allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings().withEnableValidation(false),
             Writer.createDefault());
 
@@ -79,7 +81,7 @@ class PojoPropertyCountMethodTest {
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(constraints),
+            allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
@@ -88,5 +90,22 @@ class PojoPropertyCountMethodTest {
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
     assertFalse(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
+  }
+
+  @Test
+  @SnapshotName("oneOfPojo")
+  void generate_when_oneOfPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> gen =
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
+
+    final Writer writer =
+        gen.generate(
+            JavaPojos.oneOfPojo(allNecessityAndNullabilityVariants(), sampleObjectPojo1()),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
   }
 }
