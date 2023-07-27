@@ -2,7 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -16,7 +17,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -73,7 +73,7 @@ class WitherGeneratorTest {
         JavaPojoMemberBuilder.create()
             .name(JavaMemberName.wrap(Name.ofString("surname")))
             .description("desc")
-            .javaType(JavaTypes.STRING)
+            .javaType(stringType())
             .necessity(Necessity.REQUIRED)
             .nullability(Nullability.NULLABLE)
             .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
@@ -83,7 +83,7 @@ class WitherGeneratorTest {
         JavaPojoMemberBuilder.create()
             .name(JavaMemberName.wrap(Name.ofString("name")))
             .description("desc")
-            .javaType(JavaTypes.STRING)
+            .javaType(stringType())
             .necessity(Necessity.OPTIONAL)
             .nullability(Nullability.NULLABLE)
             .type(JavaPojoMember.MemberType.OBJECT_MEMBER)

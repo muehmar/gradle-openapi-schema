@@ -2271,6 +2271,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.constraints.AssertTrue;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -2386,6 +2387,12 @@ public class ObjectPojo1Dto {
       "}";
   }
 
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
+  }
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -2475,6 +2482,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.AssertTrue;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -2544,6 +2552,12 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
+  }
+
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of Integer")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -3741,6 +3755,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -3810,6 +3825,12 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
+  }
+
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -4057,6 +4078,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
@@ -4123,6 +4145,11 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
+  }
+
+  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   public static final class Builder {

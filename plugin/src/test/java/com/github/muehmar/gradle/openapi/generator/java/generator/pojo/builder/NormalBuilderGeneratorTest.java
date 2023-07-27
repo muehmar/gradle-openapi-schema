@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -17,7 +18,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -65,7 +65,7 @@ class NormalBuilderGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.objectPojo(
-                PList.empty(), JavaAdditionalProperties.allowedFor(JavaTypes.STRING_LIST)),
+                PList.empty(), JavaAdditionalProperties.allowedFor(stringListType())),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 

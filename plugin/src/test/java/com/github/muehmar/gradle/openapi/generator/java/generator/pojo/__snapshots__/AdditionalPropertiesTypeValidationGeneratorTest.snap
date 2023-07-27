@@ -1,0 +1,7 @@
+sampleObjectPojo1WithNonObjectValueType=[
+@JsonIgnore
+@AssertTrue(message = "Not all additional properties are instances of String")
+private boolean isAllAdditionalPropertiesHaveCorrectType() {
+  return getAdditionalProperties().size() == additionalProperties.size();
+}
+]
