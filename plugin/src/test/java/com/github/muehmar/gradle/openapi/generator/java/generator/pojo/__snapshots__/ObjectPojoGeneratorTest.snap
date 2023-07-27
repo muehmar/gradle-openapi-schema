@@ -732,7 +732,7 @@ import java.util.Optional;
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -2277,7 +2277,7 @@ import javax.validation.constraints.AssertTrue;
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -2488,7 +2488,7 @@ import javax.validation.constraints.AssertTrue;
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -3641,7 +3641,7 @@ import javax.validation.constraints.AssertTrue;
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -3761,7 +3761,7 @@ import javax.validation.constraints.AssertTrue;
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -3927,7 +3927,7 @@ import java.util.Optional;
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -4083,7 +4083,7 @@ import javax.validation.constraints.AssertTrue;
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);

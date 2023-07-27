@@ -28,6 +28,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOn
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Comparator;
 import java.util.Optional;
@@ -297,6 +298,7 @@ public class JavaObjectPojo implements JavaPojo {
         .className(getClassName())
         .members(getAllMembers())
         .andAllOptionals()
+        .modifier(Optional.of(JavaModifier.PUBLIC).filter(ignore -> not(isSimpleMapPojo())))
         .additionalProperties(additionalProperties)
         .build();
   }

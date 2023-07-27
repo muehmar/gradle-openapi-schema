@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
@@ -14,6 +13,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class PojoConstructorGenerator {
   public static Generator<ConstructorContent, PojoSettings> pojoConstructorGenerator() {
     final Generator<ConstructorContent, PojoSettings> method =
         ConstructorGeneratorBuilder.<ConstructorContent, PojoSettings>create()
-            .modifiers(PUBLIC)
+            .modifiers(ConstructorContent::getModifiers)
             .javaClassName(ConstructorContent::getClassName)
             .arguments(constructorArguments())
             .content(constructorContent())
@@ -118,9 +119,14 @@ public class PojoConstructorGenerator {
   @Value
   @PojoBuilder(builderName = "ConstructorContentBuilder")
   public static class ConstructorContent {
+    Optional<JavaModifier> modifier;
     boolean isArray;
     JavaIdentifier className;
     PList<JavaPojoMember> members;
     Optional<JavaAdditionalProperties> additionalProperties;
+
+    JavaModifiers getModifiers() {
+      return JavaModifiers.of(PList.fromOptional(modifier));
+    }
   }
 }

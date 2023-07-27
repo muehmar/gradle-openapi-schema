@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
@@ -138,6 +140,8 @@ public class JavaArrayPojo implements JavaPojo {
         .isArray(true)
         .className(getClassName())
         .members(PList.single(getArrayPojoMember()))
+        .andOptionals()
+        .modifier(PUBLIC)
         .build();
   }
 
