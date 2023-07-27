@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
@@ -47,10 +49,8 @@ class MemberDeclarationGenerator {
   private static <B> Generator<JavaAdditionalProperties, B> additionalPropertiesDeclaration() {
     return Generator.<JavaAdditionalProperties, B>emptyGen()
         .append(
-            (props, settings, writer) ->
-                writer.println(
-                    "private Map<String, Object> %s = new HashMap<>();",
-                    JavaAdditionalProperties.getPropertyName()))
+            constant(
+                "private Map<String, Object> %s = new HashMap<>();", additionalPropertiesName()))
         .append(ref(JavaRefs.JAVA_UTIL_MAP))
         .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
   }

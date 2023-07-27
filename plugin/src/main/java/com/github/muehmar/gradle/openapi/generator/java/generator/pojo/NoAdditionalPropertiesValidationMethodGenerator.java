@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
@@ -30,8 +32,7 @@ public class NoAdditionalPropertiesValidationMethodGenerator {
         .returnType("boolean")
         .methodName("hasNoAdditionalProperties")
         .noArguments()
-        .content(
-            String.format("return %s.size() == 0;", JavaAdditionalProperties.getPropertyName()))
+        .content(constant("return %s.size() == 0;", additionalPropertiesName()))
         .build();
   }
 }

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
@@ -7,7 +8,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
@@ -53,10 +53,7 @@ public class ConversionMethodGenerator {
         (identifier, s, w) -> w.println("%s,", identifier);
     return Generator.<ParentAndComposedPojo, PojoSettings>emptyGen()
         .append(
-            constant(
-                String.format(
-                    "Map<String, Object> props = new HashMap<>(%s);",
-                    JavaAdditionalProperties.getPropertyName())))
+            constant("Map<String, Object> props = new HashMap<>(%s);", additionalPropertiesName()))
         .appendList(addPropertyToMap(), ParentAndComposedPojo::getAdditionalPropertiesMembers)
         .append((pc, s, w) -> w.println("return new %s(", pc.getComposedPojo().getClassName()))
         .appendList(

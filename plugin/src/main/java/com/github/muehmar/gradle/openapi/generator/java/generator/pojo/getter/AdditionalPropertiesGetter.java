@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedFullClassName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
@@ -67,7 +68,7 @@ public class AdditionalPropertiesGetter {
 
   private static Generator<JavaAdditionalProperties, PojoSettings> standardGetterContent() {
     return Generator.<JavaAdditionalProperties, PojoSettings>constant(
-            String.format("return %s;", JavaAdditionalProperties.getPropertyName()))
+            "return %s;", additionalPropertiesName())
         .filter(AdditionalPropertiesGetter::isObjectAdditionalPropertiesType)
         .append(standardGetterContentForNonObjectValueType());
   }
@@ -80,7 +81,7 @@ public class AdditionalPropertiesGetter {
                 w.println(
                     "final Map<String, %s> props = new HashMap<>();",
                     p.getType().getFullClassName()))
-        .append((p, s, w) -> w.println("%s.forEach(", JavaAdditionalProperties.getPropertyName()))
+        .append(constant("%s.forEach(", additionalPropertiesName()))
         .append(
             constant(
                 String.format(
@@ -126,9 +127,7 @@ public class AdditionalPropertiesGetter {
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
         .append(
             (p, s, w) ->
-                w.print(
-                    "return Optional.ofNullable(%s.get(key))",
-                    JavaAdditionalProperties.getPropertyName()))
+                w.print("return Optional.ofNullable(%s.get(key))", additionalPropertiesName()))
         .append(flatMapCastProperty)
         .append((p, s, w) -> w.println(";"));
   }

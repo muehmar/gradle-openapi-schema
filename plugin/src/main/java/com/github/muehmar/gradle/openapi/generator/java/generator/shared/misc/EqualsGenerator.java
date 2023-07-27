@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
@@ -57,9 +58,7 @@ public class EqualsGenerator {
     return (content, s, w) -> {
       final PList<JavaIdentifier> additionalPropertiesFieldName =
           PList.fromOptional(
-              content
-                  .getAdditionalProperties()
-                  .map(ignore -> JavaAdditionalProperties.getPropertyName()));
+              content.getAdditionalProperties().map(ignore -> additionalPropertiesName()));
       final PList<String> fieldNames =
           content
               .getMembers()

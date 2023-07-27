@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -104,7 +105,7 @@ public class WitherGenerator {
                   .mkString(", "),
               witherContent
                   .getAdditionalProperties()
-                  .map(props -> String.format(", %s", JavaAdditionalProperties.getPropertyName()))
+                  .map(props -> String.format(", %s", additionalPropertiesName()))
                   .orElse(""));
       return replacePropertiesInConstructorCall(constructorCall);
     }

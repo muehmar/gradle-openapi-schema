@@ -1,13 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -74,12 +74,12 @@ public class FinalOptionalMemberBuilderGenerator {
                 String.format(
                     "Map<String, %s> %s",
                     p.getAdditionalProperties().getType().getFullClassName(),
-                    JavaAdditionalProperties.getPropertyName()))
+                    additionalPropertiesName()))
         .content(
             p ->
                 String.format(
                     "return new %s(builder.setAdditionalProperties(%s));",
-                    builderName(p), JavaAdditionalProperties.getPropertyName()))
+                    builderName(p), additionalPropertiesName()))
         .build();
   }
 

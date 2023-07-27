@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
@@ -80,9 +82,7 @@ public class PojoPropertyCountMethod {
 
   private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesCount() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            (pojo, s, w) ->
-                w.println("%s.size();", pojo.getAdditionalProperties().getPropertyName()));
+        .append(constant("%s.size();", additionalPropertiesName()));
   }
 
   @Value

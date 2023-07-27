@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
@@ -72,10 +73,7 @@ public class PojoConstructorGenerator {
 
   private static PList<String> createAdditionalPropertyArgument(ConstructorContent content) {
     return PList.fromOptional(content.getAdditionalProperties())
-        .map(
-            props ->
-                String.format(
-                    "Map<String, Object> %s", JavaAdditionalProperties.getPropertyName()));
+        .map(props -> String.format("Map<String, Object> %s", additionalPropertiesName()));
   }
 
   private static Generator<ConstructorContent, PojoSettings> constructorContent() {
@@ -114,8 +112,7 @@ public class PojoConstructorGenerator {
             props ->
                 String.format(
                     "this.%s = Collections.unmodifiableMap(%s);",
-                    JavaAdditionalProperties.getPropertyName(),
-                    JavaAdditionalProperties.getPropertyName()));
+                    additionalPropertiesName(), additionalPropertiesName()));
   }
 
   @Value

@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.assertTrue;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
@@ -46,7 +47,7 @@ public class AdditionalPropertiesTypeValidationGenerator {
             constant(
                 String.format(
                     "return getAdditionalProperties().size() == %s.size();",
-                    JavaAdditionalProperties.getPropertyName())))
+                    additionalPropertiesName())))
         .build();
   }
 }

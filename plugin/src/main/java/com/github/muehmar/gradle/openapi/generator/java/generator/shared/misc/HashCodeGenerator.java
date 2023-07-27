@@ -43,7 +43,7 @@ public class HashCodeGenerator {
           PList.fromOptional(
                   content
                       .getAdditionalProperties()
-                      .map(ignore -> JavaAdditionalProperties.getPropertyName()))
+                      .map(ignore -> JavaAdditionalProperties.additionalPropertiesName()))
               .map(JavaIdentifier::asString);
 
       return content

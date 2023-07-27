@@ -39,7 +39,7 @@ public class JavaAdditionalProperties {
     return new JavaAdditionalProperties(false, javaAnyType());
   }
 
-  public static JavaIdentifier getPropertyName() {
+  public static JavaIdentifier additionalPropertiesName() {
     return MAP_PROPERTY_NAME;
   }
 

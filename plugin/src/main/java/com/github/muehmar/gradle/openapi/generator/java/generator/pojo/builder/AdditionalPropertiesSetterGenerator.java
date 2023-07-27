@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -51,8 +52,7 @@ class AdditionalPropertiesSetterGenerator {
                             forObjectType ? "Object" : props.getType().getFullClassName())))
             .content(
                 (props, s, w) ->
-                    w.println(
-                            "this.%s.put(key, value);", JavaAdditionalProperties.getPropertyName())
+                    w.println("this.%s.put(key, value);", additionalPropertiesName())
                         .println("return this;"))
             .build()
             .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType);
@@ -77,13 +77,12 @@ class AdditionalPropertiesSetterGenerator {
             props ->
                 String.format(
                     "Map<String, %s> %s",
-                    props.getType().getFullClassName(), JavaAdditionalProperties.getPropertyName()))
+                    props.getType().getFullClassName(), additionalPropertiesName()))
         .content(
             (props, s, w) ->
                 w.println(
                         "this.%s = new HashMap<>(%s);",
-                        JavaAdditionalProperties.getPropertyName(),
-                        JavaAdditionalProperties.getPropertyName())
+                        additionalPropertiesName(), additionalPropertiesName())
                     .println("return this;"))
         .build()
         .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)

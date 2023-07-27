@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.*;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -10,7 +11,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGe
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -58,9 +58,7 @@ public class RequiredAdditionalPropertiesGetter {
     return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
         .append(
             (prop, s, w) ->
-                w.println(
-                    "return %s.get(\"%s\");",
-                    JavaAdditionalProperties.getPropertyName(), prop.getName()))
+                w.println("return %s.get(\"%s\");", additionalPropertiesName(), prop.getName()))
         .filter(JavaRequiredAdditionalProperty::isAnyType);
   }
 
@@ -73,7 +71,7 @@ public class RequiredAdditionalPropertiesGetter {
                 w.println(
                     "return (%s) %s.get(\"%s\");",
                     prop.getJavaType().getFullClassName(),
-                    JavaAdditionalProperties.getPropertyName(),
+                    additionalPropertiesName(),
                     prop.getName()),
             1)
         .append(constant("}"))
@@ -98,8 +96,7 @@ public class RequiredAdditionalPropertiesGetter {
                 .content(
                     (prop, s, w) ->
                         w.println(
-                            "return %s.get(\"%s\");",
-                            JavaAdditionalProperties.getPropertyName(), prop.getName()))
+                            "return %s.get(\"%s\");", additionalPropertiesName(), prop.getName()))
                 .build())
         .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType)
         .filter(JavaRequiredAdditionalProperty::isNotAnyType)
@@ -130,7 +127,7 @@ public class RequiredAdditionalPropertiesGetter {
                             (prop, s, w) ->
                                 w.println(
                                     "Object value = %s.get(\"%s\");",
-                                    JavaAdditionalProperties.getPropertyName(), prop.getName()))
+                                    additionalPropertiesName(), prop.getName()))
                         .append(
                             (prop, s, w) ->
                                 w.println(

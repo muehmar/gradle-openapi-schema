@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static io.github.muehmar.codegenerator.Generator.constant;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
@@ -44,11 +47,7 @@ public class MemberGenerator {
 
   private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertiesMember() {
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
-        .append(
-            (props, s, w) ->
-                w.println(
-                    "private final Map<String, Object> %s;",
-                    JavaAdditionalProperties.getPropertyName()))
+        .append(constant("private final Map<String, Object> %s;", additionalPropertiesName()))
         .append(RefsGenerator.ref(JavaRefs.JAVA_UTIL_MAP));
   }
 

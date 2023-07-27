@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.util.Functions.allExceptFirst;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -109,7 +110,7 @@ public class ToStringGenerator {
     private PList<String> toStringLines() {
       return PList.fromOptional(
           additionalProperties
-              .map(ignore -> JavaAdditionalProperties.getPropertyName())
+              .map(ignore -> additionalPropertiesName())
               .map(name -> String.format(SINGLE_PROPERTY_FORMAT, name, name)));
     }
   }
