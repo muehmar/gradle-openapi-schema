@@ -1,7 +1,7 @@
 optionalAnyOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private LocalDate getBirthdate() {
+LocalDate getBirthdate() {
   return birthdate;
 }
 ]
@@ -10,7 +10,7 @@ private LocalDate getBirthdate() {
 optionalNullableAnyOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getBirthdate() {
+Object getBirthdate() {
   return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
 }
 ]
@@ -19,7 +19,7 @@ private Object getBirthdate() {
 optionalNullableOneOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getBirthdate() {
+Object getBirthdate() {
   return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
 }
 ]
@@ -28,7 +28,7 @@ private Object getBirthdate() {
 optionalOneOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private LocalDate getBirthdate() {
+LocalDate getBirthdate() {
   return birthdate;
 }
 ]
@@ -37,7 +37,7 @@ private LocalDate getBirthdate() {
 requiredAnyOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private LocalDate getBirthdate() {
+LocalDate getBirthdate() {
   return birthdate;
 }
 ]
@@ -46,7 +46,7 @@ private LocalDate getBirthdate() {
 requiredNullableAnyOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getBirthdate() {
+Object getBirthdate() {
   return isBirthdatePresent ? new JacksonNullContainer<>(birthdate) : null;
 }
 ]
@@ -55,7 +55,7 @@ private Object getBirthdate() {
 requiredNullableOneOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getBirthdate() {
+Object getBirthdate() {
   return isBirthdatePresent ? new JacksonNullContainer<>(birthdate) : null;
 }
 ]
@@ -64,7 +64,7 @@ private Object getBirthdate() {
 requiredOneOfMember=[
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private LocalDate getBirthdate() {
+LocalDate getBirthdate() {
   return birthdate;
 }
 ]

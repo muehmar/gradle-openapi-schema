@@ -389,13 +389,13 @@ public class PersonDto {
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  LocalDate getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  String getUsername() {
     return username;
   }
 
@@ -4675,13 +4675,13 @@ public class PersonDto {
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDate getBirthdate() {
+  LocalDate getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsername() {
+  String getUsername() {
     return username;
   }
 

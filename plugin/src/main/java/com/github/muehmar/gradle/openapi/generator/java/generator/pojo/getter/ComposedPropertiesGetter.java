@@ -11,7 +11,6 @@ import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 class ComposedPropertiesGetter {
@@ -34,7 +33,7 @@ class ComposedPropertiesGetter {
 
   private static Generator<JavaPojoMember, PojoSettings> method() {
     return MethodGenBuilder.<JavaPojoMember, PojoSettings>create()
-        .modifiers(JavaModifier.PRIVATE)
+        .modifiers()
         .noGenericTypes()
         .returnType(ComposedPropertiesGetter::returnType)
         .methodName(m -> m.getGetterName().asString())
