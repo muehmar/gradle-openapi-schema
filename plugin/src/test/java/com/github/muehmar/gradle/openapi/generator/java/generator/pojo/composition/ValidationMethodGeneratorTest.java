@@ -54,4 +54,34 @@ class ValidationMethodGeneratorTest {
 
     expect.toMatchSnapshot(writer.asString());
   }
+
+  @Test
+  @SnapshotName("nestedOneOf")
+  void generate_when_nestedOneOf_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        ValidationMethodGenerator.validationMethodGenerator();
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojo(
+                JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("composedPojoHasNoRequiredMembers")
+  void generate_when_composedPojoHasNoRequiredMembers_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        ValidationMethodGenerator.validationMethodGenerator();
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojo(JavaPojos.objectPojo(JavaPojoMembers.optionalBirthdate())),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
 }
