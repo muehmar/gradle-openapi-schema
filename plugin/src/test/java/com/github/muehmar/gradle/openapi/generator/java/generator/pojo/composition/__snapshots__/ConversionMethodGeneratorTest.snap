@@ -142,3 +142,18 @@ private ObjectPojo1Dto asObjectPojo1Dto() {
   );
 }
 ]
+
+
+nestedOneOf=[
+private OneOfPojo1Dto asOneOfPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  return new OneOfPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    birthdate,
+    email,
+    props
+  );
+}
+]

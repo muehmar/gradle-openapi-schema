@@ -119,7 +119,7 @@ public class ConversionMethodGenerator {
     }
 
     PList<PojoAndMember> getComposedPojoAndMembers() {
-      return composedPojo.getMembers().map(m -> new PojoAndMember(composedPojo, m));
+      return composedPojo.getAllMembers().map(m -> new PojoAndMember(composedPojo, m));
     }
   }
 

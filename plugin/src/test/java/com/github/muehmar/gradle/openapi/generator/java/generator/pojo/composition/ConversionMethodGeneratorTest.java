@@ -99,4 +99,21 @@ class ConversionMethodGeneratorTest {
 
     expect.toMatchSnapshot(writer.asString());
   }
+
+  @Test
+  @SnapshotName("nestedOneOf")
+  void generate_when_nestedOneOf_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        ConversionMethodGenerator.conversionMethodGenerator();
+
+    final JavaObjectPojo composedPojo =
+        JavaPojos.oneOfPojo(
+            JavaPojos.oneOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2()));
+
+    final Writer writer =
+        generator.generate(
+            composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
 }
