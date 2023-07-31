@@ -27,7 +27,7 @@ class TestSerialisation {
   void writeValueAsString_when_user2DtoInAnyOf_then_correctJson() throws JsonProcessingException {
     final User2 dto2 =
         User2.newBuilder().setPublic("public").andAllOptionals().setNull(Tristate.ofNull()).build();
-    final User1OrUser2 dto = User1OrUser2.fromUser2(dto2);
+    final User1OrUser2 dto = User1OrUser2.newBuilder().setUser2(dto2).build();
 
     assertEquals("{\"public\":\"public\",\"null\":null}", MAPPER.writeValueAsString(dto));
   }
@@ -54,7 +54,7 @@ class TestSerialisation {
         MAPPER.readValue("{\"public\":\"public\",\"null\":null}", User1OrUser2.class);
     final User2 dto2 =
         User2.newBuilder().setPublic("public").andAllOptionals().setNull(Tristate.ofNull()).build();
-    final User1OrUser2 expectedDto = User1OrUser2.fromUser2(dto2);
+    final User1OrUser2 expectedDto = User1OrUser2.newBuilder().setUser2(dto2).build();
     assertEquals(expectedDto, dto);
   }
 

@@ -23,7 +23,8 @@ class TestDiscriminatorSerialisation {
             .setType("type")
             .setLevel(5L)
             .build();
-    final AdminOrUserDiscriminatorDto dto = AdminOrUserDiscriminatorDto.fromAdmin(adminDto);
+    final AdminOrUserDiscriminatorDto dto =
+        AdminOrUserDiscriminatorDto.newBuilder().setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"id\":\"admin-id\",\"type\":\"Admin\",\"adminname\":\"admin-name\",\"level\":5}",
@@ -41,7 +42,8 @@ class TestDiscriminatorSerialisation {
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();
-    final AdminOrUserDiscriminatorDto dto = AdminOrUserDiscriminatorDto.fromUser(userDto);
+    final AdminOrUserDiscriminatorDto dto =
+        AdminOrUserDiscriminatorDto.newBuilder().setUserDto(userDto).build();
 
     assertEquals(
         "{\"id\":\"user-id\",\"type\":\"User\",\"username\":\"user-name\",\"age\":25,\"email\":null}",

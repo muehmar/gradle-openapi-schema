@@ -26,7 +26,7 @@ class TestSerialisation {
             .setLevel(5L)
             .setColor(Optional.empty())
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.fromAdmin(adminDto);
+    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5}",
@@ -46,7 +46,7 @@ class TestSerialisation {
             .build();
     final InlinedAnyOfDto dto =
         InlinedAnyOfDto.newBuilder()
-            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.fromAdmin(adminDto))
+            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.newBuilder().setAdminDto(adminDto).build())
             .build();
 
     assertEquals(
@@ -64,7 +64,7 @@ class TestSerialisation {
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.fromUser(userDto);
+    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setUserDto(userDto).build();
 
     assertEquals(
         "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
@@ -85,7 +85,7 @@ class TestSerialisation {
 
     final InlinedAnyOfDto dto =
         InlinedAnyOfDto.newBuilder()
-            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.fromUser(userDto))
+            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.newBuilder().setUserDto(userDto).build())
             .build();
 
     assertEquals(
@@ -112,7 +112,8 @@ class TestSerialisation {
             .setColor(Optional.empty())
             .build();
 
-    final AdminOrUserDto dto = AdminOrUserDto.fromUser(userDto).withAdmin(adminDto);
+    final AdminOrUserDto dto =
+        AdminOrUserDto.newBuilder().setUserDto(userDto).setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"id\":\"id\",\"adminname\":\"admin-name\",\"level\":5,\"username\":\"user-name\",\"age\":25,\"email\":null}",
@@ -141,7 +142,11 @@ class TestSerialisation {
 
     final InlinedAnyOfDto dto =
         InlinedAnyOfDto.newBuilder()
-            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.fromAdmin(adminDto).withUser(userDto))
+            .setAdminOrUser(
+                InlinedAnyOfAdminOrUserDto.newBuilder()
+                    .setAdminDto(adminDto)
+                    .setUserDto(userDto)
+                    .build())
             .build();
 
     assertEquals(

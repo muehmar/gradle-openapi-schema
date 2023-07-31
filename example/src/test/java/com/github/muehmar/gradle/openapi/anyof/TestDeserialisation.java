@@ -25,7 +25,7 @@ class TestDeserialisation {
             "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"color\":\"yellow\"}",
             AdminOrUserDto.class);
 
-    final List<Object> result = adminOrUserDto.fold(admin -> admin, user -> user);
+    final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
         AdminDto.newBuilder()
@@ -46,7 +46,7 @@ class TestDeserialisation {
             "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5}}",
             InlinedAnyOfDto.class);
 
-    final List<Object> result = inlinedDto.getAdminOrUser().fold(admin -> admin, user -> user);
+    final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
         AdminDto.newBuilder()
@@ -67,7 +67,7 @@ class TestDeserialisation {
             "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
             AdminOrUserDto.class);
 
-    final List<Object> result = adminOrUserDto.fold(admin -> admin, user -> user);
+    final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
         UserDto.newBuilder()
@@ -87,7 +87,7 @@ class TestDeserialisation {
             "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}}",
             InlinedAnyOfDto.class);
 
-    final List<Object> result = inlinedDto.getAdminOrUser().fold(admin -> admin, user -> user);
+    final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
         UserDto.newBuilder()
@@ -108,7 +108,7 @@ class TestDeserialisation {
             "{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5}",
             AdminOrUserDto.class);
 
-    final List<Object> result = adminOrUserDto.fold(admin -> admin, user -> user);
+    final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
         UserDto.newBuilder()
@@ -117,6 +117,8 @@ class TestDeserialisation {
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
+            .addAdditionalProperty("adminname", "admin-name")
+            .addAdditionalProperty("level", 5L)
             .build();
 
     final AdminDto adminDto =
@@ -126,6 +128,9 @@ class TestDeserialisation {
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
+            .addAdditionalProperty("username", "user-name")
+            .addAdditionalProperty("age", 25)
+            .addAdditionalProperty("email", null)
             .build();
 
     final List<Object> expected = new ArrayList<>();
@@ -143,7 +148,7 @@ class TestDeserialisation {
             "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5}}",
             InlinedAnyOfDto.class);
 
-    final List<Object> result = inlinedDto.getAdminOrUser().fold(admin -> admin, user -> user);
+    final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
         UserDto.newBuilder()
@@ -152,6 +157,8 @@ class TestDeserialisation {
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
+            .addAdditionalProperty("adminname", "admin-name")
+            .addAdditionalProperty("level", 5L)
             .build();
 
     final AdminDto adminDto =
@@ -161,6 +168,9 @@ class TestDeserialisation {
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
+            .addAdditionalProperty("username", "user-name")
+            .addAdditionalProperty("age", 25)
+            .addAdditionalProperty("email", null)
             .build();
 
     final List<Object> expected = new ArrayList<>();

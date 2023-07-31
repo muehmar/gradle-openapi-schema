@@ -16,7 +16,7 @@ class MapValidationTest {
   void validate_when_stringMapWithCorrectValue_then_noViolations() {
     final HashMap<String, String> map = new HashMap<>();
     map.put("Hello", "World");
-    final StringMapDto dto = new StringMapDto(map);
+    final StringMapDto dto = StringMapDto.fromProperties(map);
 
     final Set<ConstraintViolation<StringMapDto>> violations = validate(dto);
 
@@ -27,7 +27,7 @@ class MapValidationTest {
   void validate_when_stringMapWithValueNotMatchingThePattern_then_violation() {
     final HashMap<String, String> map = new HashMap<>();
     map.put("Hello", "World!");
-    final StringMapDto dto = new StringMapDto(map);
+    final StringMapDto dto = StringMapDto.fromProperties(map);
 
     final Set<ConstraintViolation<StringMapDto>> violations = validate(dto);
 
@@ -39,7 +39,7 @@ class MapValidationTest {
   void validate_when_objectMapWithCorrectValue_then_noViolations() {
     final HashMap<String, AllValueObjectDto> map = new HashMap<>();
     map.put("Hello", AllValueObjectDto.newBuilder().build());
-    final ObjectMapDto dto = new ObjectMapDto(map);
+    final ObjectMapDto dto = ObjectMapDto.fromProperties(map);
 
     final Set<ConstraintViolation<ObjectMapDto>> violations = validate(dto);
 
@@ -50,7 +50,7 @@ class MapValidationTest {
   void validate_when_objectMapWithInvalidValue_then_violations() {
     final HashMap<String, AllValueObjectDto> map = new HashMap<>();
     map.put("Hello", AllValueObjectDto.newBuilder().andOptionals().setIntValue(35).build());
-    final ObjectMapDto dto = new ObjectMapDto(map);
+    final ObjectMapDto dto = ObjectMapDto.fromProperties(map);
 
     final Set<ConstraintViolation<ObjectMapDto>> violations = validate(dto);
 

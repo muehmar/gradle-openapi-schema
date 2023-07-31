@@ -1,9 +1,11 @@
 package com.github.muehmar.gradle.openapi.anyof;
 
+import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -82,9 +84,14 @@ class TestValidation {
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<AdminOrUserDto> violation = violations.iterator().next();
-    assertEquals("validAgainstNoSchema", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "invalidCompositionDtos[0].adminname -> must not be null",
+            "invalidCompositionDtos[0].id -> must not be null",
+            "invalidCompositionDtos[1].id -> must not be null",
+            "invalidCompositionDtos[1].username -> must not be null",
+            "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+        formatViolations(violations));
   }
 
   @Test
@@ -94,9 +101,14 @@ class TestValidation {
 
     final Set<ConstraintViolation<InlinedAnyOfDto>> violations = VALIDATOR.validate(inlinedDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<InlinedAnyOfDto> violation = violations.iterator().next();
-    assertEquals("adminOrUser.validAgainstNoSchema", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "adminOrUser.invalidCompositionDtos[0].adminname -> must not be null",
+            "adminOrUser.invalidCompositionDtos[0].id -> must not be null",
+            "adminOrUser.invalidCompositionDtos[1].id -> must not be null",
+            "adminOrUser.invalidCompositionDtos[1].username -> must not be null",
+            "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+        formatViolations(violations));
   }
 
   @Test

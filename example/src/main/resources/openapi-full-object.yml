@@ -1,0 +1,83 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    FullObject:
+      required:
+        - route
+      allOf:
+        - $ref: '#/components/schemas/BaseData'
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+      properties:
+        message:
+          type: string
+          maxLength: 10
+      discriminator:
+        propertyName: type
+
+    NestedFullObject:
+      required:
+        - amount
+      anyOf:
+        - $ref: '#/components/schemas/FullObject'
+        - $ref: '#/components/schemas/Member'
+      properties:
+        amount:
+          type: integer
+        code:
+          type: string
+
+    User:
+      required:
+        - type
+        - username
+      properties:
+        type:
+          type: string
+        username:
+          type: string
+          maxLength: 9
+      maxProperties: 7
+
+    Admin:
+      required:
+        - type
+        - adminname
+      properties:
+        type:
+          type: string
+        adminname:
+          type: string
+          maxLength: 9
+      additionalProperties:
+        type: string
+
+    BaseData:
+      required:
+        - color
+      properties:
+        color:
+          type: string
+          enum:
+            - green
+            - yellow
+            - red
+
+    Member:
+      required:
+        - type
+        - membername
+      properties:
+        type:
+          type: string
+        membername:
+          type: string
+        days:
+          type: integer
+

@@ -23,7 +23,7 @@ class TestSerialisation {
             .setType("type")
             .setLevel(5L)
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.fromAdmin(adminDto);
+    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"id\":\"admin-id\",\"type\":\"type\",\"adminname\":\"admin-name\",\"level\":5}",
@@ -41,7 +41,7 @@ class TestSerialisation {
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.fromUser(userDto);
+    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setUserDto(userDto).build();
 
     assertEquals(
         "{\"id\":\"user-id\",\"type\":\"type\",\"username\":\"user-name\",\"age\":25,\"email\":null}",

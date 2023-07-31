@@ -2,14 +2,14 @@ package com.github.muehmar.gradle.openapi.v1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import OpenApiSchema.example.api.v1.model.InlinedMapSchemaDto;
+import OpenApiSchema.example.api.v1.model.InlinedMapSchemaMapDto;
+import OpenApiSchema.example.api.v1.model.RootMapSchemaDto;
+import OpenApiSchema.example.api.v1.model.RootMapSchemaPropertyDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
-import openapischema.example.api.v1.model.InlinedMapSchemaDto;
-import openapischema.example.api.v1.model.InlinedMapSchemaMapDto;
-import openapischema.example.api.v1.model.RootMapSchemaDto;
-import openapischema.example.api.v1.model.RootMapSchemaObjectDto;
 import org.junit.jupiter.api.Test;
 
 class MapTest {
@@ -23,16 +23,16 @@ class MapTest {
   private static final InlinedMapSchemaDto INLINE_MAP_DTO;
 
   static {
-    final HashMap<String, RootMapSchemaObjectDto> map = new HashMap<>();
-    map.put("prop1", RootMapSchemaObjectDto.newBuilder().setName("name1").build());
+    final HashMap<String, RootMapSchemaPropertyDto> map = new HashMap<>();
+    map.put("prop1", RootMapSchemaPropertyDto.newBuilder().setName("name1").build());
     map.put(
         "prop2",
-        RootMapSchemaObjectDto.newBuilder()
+        RootMapSchemaPropertyDto.newBuilder()
             .setName("name2")
             .andAllOptionals()
             .setDescription("description2")
             .build());
-    ROOT_MAP_DTO = new RootMapSchemaDto(map);
+    ROOT_MAP_DTO = RootMapSchemaDto.fromProperties(map);
   }
 
   static {

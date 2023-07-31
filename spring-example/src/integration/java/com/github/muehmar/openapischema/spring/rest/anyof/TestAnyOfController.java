@@ -35,13 +35,14 @@ public class TestAnyOfController extends ControllerUnitTest {
     final AdminDto admin =
         AdminDto.newBuilder()
             .setId("admin-id")
+            .setType("admin")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("admin")
             .setLevel(5L)
             .build();
 
-    final AdminAndOrUserDto adminAndOrUserDto = AdminAndOrUserDto.fromAdmin(admin);
+    final AdminAndOrUserDto adminAndOrUserDto =
+        AdminAndOrUserDto.newBuilder().setAdminDto(admin).build();
     when(anyOfInterface.get()).thenReturn(adminAndOrUserDto);
 
     final MvcResult mvcResult =
@@ -68,23 +69,24 @@ public class TestAnyOfController extends ControllerUnitTest {
     final AdminDto admin =
         AdminDto.newBuilder()
             .setId("id-123")
+            .setType("admin-and-user")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("admin-and-user")
             .setLevel(5L)
             .build();
 
     final UserDto user =
         UserDto.newBuilder()
             .setId("id-123")
+            .setType("admin-and-user")
             .setUsername("user-name")
             .andAllOptionals()
-            .setType("admin-and-user")
             .setAge(39)
             .setEmail(Tristate.ofNull())
             .build();
 
-    final AdminAndOrUserDto adminAndOrUserDto = AdminAndOrUserDto.fromAdmin(admin).withUser(user);
+    final AdminAndOrUserDto adminAndOrUserDto =
+        AdminAndOrUserDto.newBuilder().setAdminDto(admin).setUserDto(user).build();
 
     verify(anyOfInterface).post(adminAndOrUserDto);
   }

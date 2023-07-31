@@ -1,9 +1,11 @@
 package com.github.muehmar.gradle.openapi.oneof;
 
+import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -52,22 +54,28 @@ class TestValidation {
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<AdminOrUserDto> violation = violations.iterator().next();
-    assertEquals("validAgainstNoSchema", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "invalidCompositionDtos[0].adminname -> must not be null",
+            "invalidCompositionDtos[0].id -> must not be null",
+            "invalidCompositionDtos[1].id -> must not be null",
+            "invalidCompositionDtos[1].username -> must not be null",
+            "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+        formatViolations(violations));
   }
 
   @Test
   void validate_when_doesMatchBothSchemas_then_violation() throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"id\",\"type\":\"type\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}",
+            "{\"id\":\"id-123\",\"type\":\"type\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}",
             AdminOrUserDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<AdminOrUserDto> violation = violations.iterator().next();
-    assertEquals("validAgainstMoreThanOneSchema", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "validAgainstMoreThanOneSchema -> Is valid against more than one of the schemas [Admin, User]"),
+        formatViolations(violations));
   }
 }

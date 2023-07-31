@@ -20,7 +20,7 @@ class TestDeserialisation {
             "{\"id\":\"admin-id\",\"type\":\"type\",\"adminname\":\"admin-name\",\"level\":5.5}",
             AdminOrUserDto.class);
 
-    final Object obj = adminOrUserDto.fold(admin -> admin, user -> user);
+    final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
         AdminDto.newBuilder()
@@ -40,7 +40,7 @@ class TestDeserialisation {
             "{\"id\":\"user-id\",\"type\":\"type\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
             AdminOrUserDto.class);
 
-    final Object obj = adminOrUserDto.fold(admin -> admin, user -> user);
+    final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final UserDto userDto =
         UserDto.newBuilder()

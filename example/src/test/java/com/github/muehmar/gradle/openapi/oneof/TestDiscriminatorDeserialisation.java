@@ -21,7 +21,7 @@ class TestDiscriminatorDeserialisation {
             "{\"id\":\"admin-id\",\"type\":\"Admin\",\"adminname\":\"admin-name\",\"level\":5.5}",
             AdminOrUserDiscriminatorDto.class);
 
-    final Object obj = adminOrUserDto.fold(admin -> admin, user -> user);
+    final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
         AdminDto.newBuilder()
@@ -41,7 +41,7 @@ class TestDiscriminatorDeserialisation {
             "{\"id\":\"user-id\",\"type\":\"User\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
             AdminOrUserDiscriminatorDto.class);
 
-    final Object obj = adminOrUserDto.fold(admin -> admin, user -> user);
+    final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final UserDto userDto =
         UserDto.newBuilder()
@@ -63,7 +63,7 @@ class TestDiscriminatorDeserialisation {
             AdminOrUserDiscriminatorDto.class);
 
     assertThrows(
-        IllegalStateException.class, () -> adminOrUserDto.fold(admin -> admin, user -> user));
+        IllegalStateException.class, () -> adminOrUserDto.foldOneOf(admin -> admin, user -> user));
   }
 
   @Test
@@ -73,7 +73,7 @@ class TestDiscriminatorDeserialisation {
             "{\"id\":\"admin-id\",\"type\":\"invalid\",\"adminname\":\"admin-name\",\"level\":5.5}",
             AdminOrUserDiscriminatorDto.class);
 
-    final Object obj = adminOrUserDto.fold(admin -> admin, user -> user, () -> "invalid");
+    final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user, () -> "invalid");
 
     assertEquals("invalid", obj);
   }

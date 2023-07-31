@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import openapischema.example.api.allof.model.BaseOrderDto;
 import openapischema.example.api.allof.model.InvoiceAllOfDto;
 import openapischema.example.api.allof.model.InvoiceDto;
@@ -16,9 +17,10 @@ class AllOfDtoFieldTest {
   @Test
   void getDeclaredFields_when_invoiceHasAllFieldsFromBaseOrderAndInvoiceAllOf() {
     final ArrayList<Field> allFields = new ArrayList<>();
-    allFields.addAll(Arrays.asList(InvoiceAllOfDto.class.getDeclaredFields()));
-    allFields.addAll(Arrays.asList(BaseOrderDto.class.getDeclaredFields()));
-    final List<Field> invoiceFields = Arrays.asList(InvoiceDto.class.getDeclaredFields());
+    allFields.addAll(removeAdditionalPropertiesField(InvoiceAllOfDto.class.getDeclaredFields()));
+    allFields.addAll(removeAdditionalPropertiesField(BaseOrderDto.class.getDeclaredFields()));
+    final List<Field> invoiceFields =
+        removeAdditionalPropertiesField(InvoiceDto.class.getDeclaredFields());
 
     assertEquals(allFields.size(), invoiceFields.size());
 
@@ -28,6 +30,12 @@ class AllOfDtoFieldTest {
             .count();
 
     assertEquals(0, missingFields);
+  }
+
+  private static List<Field> removeAdditionalPropertiesField(Field[] fields) {
+    return Arrays.stream(fields)
+        .filter(f -> !f.getName().equals("additionalProperties"))
+        .collect(Collectors.toList());
   }
 
   private static Predicate<Field> areSame(Field field) {

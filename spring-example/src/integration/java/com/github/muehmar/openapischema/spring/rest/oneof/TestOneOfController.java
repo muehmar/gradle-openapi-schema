@@ -33,13 +33,14 @@ public class TestOneOfController extends ControllerUnitTest {
     final AdminDto admin =
         AdminDto.newBuilder()
             .setId("admin-id")
+            .setType("type")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("type")
             .setLevel(5L)
             .build();
 
-    final AdminOrUserDiscriminatorDto adminOrUserDto = AdminOrUserDiscriminatorDto.fromAdmin(admin);
+    final AdminOrUserDiscriminatorDto adminOrUserDto =
+        AdminOrUserDiscriminatorDto.newBuilder().setAdminDto(admin).build();
     when(oneOfInterface.get()).thenReturn(adminOrUserDto);
 
     final MvcResult mvcResult =
@@ -65,13 +66,14 @@ public class TestOneOfController extends ControllerUnitTest {
     final AdminDto admin =
         AdminDto.newBuilder()
             .setId("admin-id")
+            .setType("type")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("type")
             .setLevel(5L)
             .build();
 
-    final AdminOrUserDiscriminatorDto adminOrUserDto = AdminOrUserDiscriminatorDto.fromAdmin(admin);
+    final AdminOrUserDiscriminatorDto adminOrUserDto =
+        AdminOrUserDiscriminatorDto.newBuilder().setAdminDto(admin).build();
 
     verify(oneOfInterface).post(adminOrUserDto);
   }
