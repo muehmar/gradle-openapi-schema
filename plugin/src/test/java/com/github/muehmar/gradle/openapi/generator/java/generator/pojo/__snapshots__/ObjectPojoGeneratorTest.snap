@@ -498,13 +498,11 @@ public class PersonDto {
   }
 
   private boolean isValidAgainstAdminDto() {
-    return
-      birthdate != null;
+    return asAdminDto().validateBasic();
   }
 
   private boolean isValidAgainstUserDto() {
-    return
-      username != null;
+    return asUserDto().validateBasic();
   }
 
   private int getAnyOfValidCount() {
@@ -4995,13 +4993,11 @@ public class PersonDto {
   }
 
   private boolean isValidAgainstAdminDto() {
-    return
-      birthdate != null;
+    return asAdminDto().validateBasic();
   }
 
   private boolean isValidAgainstUserDto() {
-    return
-      username != null;
+    return asUserDto().validateBasic();
   }
 
   private int getOneOfValidCount() {

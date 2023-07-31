@@ -1,29 +1,22 @@
 anyOf=[
 
 private boolean isValidAgainstSampleObjectPojo1Dto() {
-  return
-    stringVal != null &&
-    intVal != null &&
-    doubleVal != null;
+  return asSampleObjectPojo1Dto().validateBasic();
 }
 
 private boolean isValidAgainstSampleObjectPojo2Dto() {
-  return
-    stringVal != null &&
-    birthdate != null &&
-    email != null;
+  return asSampleObjectPojo2Dto().validateBasic();
 }
 
 private boolean isValidAgainstObjectPojo1Dto() {
-  return
-    isRequiredNullableStringValPresent;
+  return asObjectPojo1Dto().validateBasic();
 }
 ]
 
 
 composedPojoHasNoRequiredMembers=[
 private boolean isValidAgainstObjectPojo1Dto() {
-  return true;
+  return asObjectPojo1Dto().validateBasic();
 }
 
 ]
@@ -31,17 +24,11 @@ private boolean isValidAgainstObjectPojo1Dto() {
 
 nestedOneOf=[
 private boolean isValidAgainstOneOfPojo1Dto() {
-  return
-    stringVal != null &&
-    intVal != null &&
-    doubleVal != null &&
-    birthdate != null &&
-    email != null;
+  return asOneOfPojo1Dto().validateBasic();
 }
 
 private boolean isValidAgainstObjectPojo1Dto() {
-  return
-    isRequiredNullableStringValPresent;
+  return asObjectPojo1Dto().validateBasic();
 }
 
 ]
@@ -49,22 +36,15 @@ private boolean isValidAgainstObjectPojo1Dto() {
 
 oneOf=[
 private boolean isValidAgainstSampleObjectPojo1Dto() {
-  return
-    stringVal != null &&
-    intVal != null &&
-    doubleVal != null;
+  return asSampleObjectPojo1Dto().validateBasic();
 }
 
 private boolean isValidAgainstSampleObjectPojo2Dto() {
-  return
-    stringVal != null &&
-    birthdate != null &&
-    email != null;
+  return asSampleObjectPojo2Dto().validateBasic();
 }
 
 private boolean isValidAgainstObjectPojo1Dto() {
-  return
-    isRequiredNullableStringValPresent;
+  return asObjectPojo1Dto().validateBasic();
 }
 
 ]
