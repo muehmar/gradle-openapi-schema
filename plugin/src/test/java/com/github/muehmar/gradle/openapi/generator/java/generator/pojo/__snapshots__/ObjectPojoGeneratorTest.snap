@@ -134,6 +134,17 @@ public class PersonDto {
     );
   }
 
+  boolean validateBasic() {
+    return
+      requiredStringVal != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -517,6 +528,17 @@ public class PersonDto {
     return foldAnyOf(dto -> dto, dto -> dto);
   }
 
+  boolean validateBasic() {
+    return
+      requiredStringVal != null &&
+      true &&
+      true &&
+      getAnyOfValidCount() >= 1 &&
+      true &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -766,6 +788,17 @@ public class ObjectPojo1Dto {
   public int getPropertyCount() {
     return
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
   }
 
   @Override
@@ -1180,6 +1213,22 @@ public class UserDto {
       (multipleOfValue != null ? 1 : 0) +
       (anotherPojo != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      id != null &&
+      name != null &&
+      lastName != null &&
+      nickName != null &&
+      email != null &&
+      height != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      5 <= getPropertyCount() &&
+      getPropertyCount() <= 15;
   }
 
   @Override
@@ -1709,6 +1758,22 @@ public class UserDto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      id != null &&
+      name != null &&
+      lastName != null &&
+      nickName != null &&
+      email != null &&
+      height != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      5 <= getPropertyCount() &&
+      getPropertyCount() <= 15;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -2068,6 +2133,18 @@ public class UserDto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      id != null &&
+      name != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      2 <= getPropertyCount() &&
+      getPropertyCount() <= 10;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -2369,6 +2446,17 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      isAllAdditionalPropertiesHaveCorrectType() &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -2534,6 +2622,17 @@ public class ObjectPojo1Dto {
   public int getPropertyCount() {
     return
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      isAllAdditionalPropertiesHaveCorrectType() &&
+      true &&
+      true;
   }
 
   @Override
@@ -2815,6 +2914,18 @@ public class UserDto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      id != null &&
+      name != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      2 <= getPropertyCount() &&
+      getPropertyCount() <= 10;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -3064,6 +3175,18 @@ public class UserDto {
       (name != null ? 1 : 0) +
       (language != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      id != null &&
+      name != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      2 <= getPropertyCount() &&
+      getPropertyCount() <= 10;
   }
 
   @Override
@@ -3364,6 +3487,18 @@ public class NecessityAndNullabilityDto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      requiredStringVal != null &&
+      isRequiredNullableStringValPresent &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -3660,6 +3795,17 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -3807,6 +3953,17 @@ public class ObjectPojo1Dto {
   public int getPropertyCount() {
     return
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      isAllAdditionalPropertiesHaveCorrectType() &&
+      true &&
+      true;
   }
 
   @Override
@@ -3975,6 +4132,17 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      isAllAdditionalPropertiesHaveCorrectType() &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -4127,6 +4295,17 @@ public class ObjectPojo1Dto {
   public int getPropertyCount() {
     return
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      isAllAdditionalPropertiesHaveCorrectType() &&
+      true &&
+      true;
   }
 
   @Override
@@ -4298,6 +4477,17 @@ public class ObjectPojo1Dto {
     return
       (listVal != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      listVal != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
   }
 
   @Override
@@ -4495,6 +4685,17 @@ public class ObjectPojo1Dto {
     return
       (mapVal != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      mapVal != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
   }
 
   @Override
@@ -4830,6 +5031,17 @@ public class PersonDto {
     return foldOneOf(dto -> dto, dto -> dto, () -> null);
   }
 
+  boolean validateBasic() {
+    return
+      requiredStringVal != null &&
+      getOneOfValidCount() == 1 &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -5140,6 +5352,17 @@ public class UserDto {
       additionalProperties.size();
   }
 
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -5364,6 +5587,17 @@ public class UserDto {
     return
       (language != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
   }
 
   @Override

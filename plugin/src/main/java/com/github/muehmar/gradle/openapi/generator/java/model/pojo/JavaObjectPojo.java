@@ -232,8 +232,24 @@ public class JavaObjectPojo implements JavaPojo {
     return oneOfComposition;
   }
 
+  public boolean hasOneOfComposition() {
+    return oneOfComposition.isPresent();
+  }
+
+  public boolean hasNoOneOfComposition() {
+    return not(hasOneOfComposition());
+  }
+
   public Optional<JavaAnyOfComposition> getAnyOfComposition() {
     return anyOfComposition;
+  }
+
+  public boolean hasAnyOfComposition() {
+    return anyOfComposition.isPresent();
+  }
+
+  public boolean hasNoAnyOfComposition() {
+    return not(hasAnyOfComposition());
   }
 
   public PList<JavaRequiredAdditionalProperty> getRequiredAdditionalProperties() {
