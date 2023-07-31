@@ -1,0 +1,32 @@
+anyOfPojo=[
+java.util.ArrayList
+java.util.List
+javax.validation.Valid
+
+@Valid
+private List<Object> getInvalidCompositionDtos() {
+  final List<Object> dtos = new ArrayList<>();
+  if(getAnyOfValidCount() == 0) {
+    dtos.add(asSampleObjectPojo1Dto());
+    dtos.add(asSampleObjectPojo2Dto());
+  }
+  return dtos;
+}
+]
+
+
+oneOfPojo=[
+java.util.ArrayList
+java.util.List
+javax.validation.Valid
+
+@Valid
+private List<Object> getInvalidCompositionDtos() {
+  final List<Object> dtos = new ArrayList<>();
+  if(getOneOfValidCount() != 1) {
+    dtos.add(asSampleObjectPojo1Dto());
+    dtos.add(asSampleObjectPojo2Dto());
+  }
+  return dtos;
+}
+]

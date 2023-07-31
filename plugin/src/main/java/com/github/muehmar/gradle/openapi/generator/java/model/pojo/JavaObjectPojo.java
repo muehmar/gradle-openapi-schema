@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
@@ -232,24 +233,30 @@ public class JavaObjectPojo implements JavaPojo {
     return oneOfComposition;
   }
 
-  public boolean hasOneOfComposition() {
-    return oneOfComposition.isPresent();
+  public PList<JavaObjectPojo> getOneOfPojos() {
+    return oneOfComposition
+        .map(JavaOneOfComposition::getPojos)
+        .map(NonEmptyList::toPList)
+        .orElseGet(PList::empty);
   }
 
-  public boolean hasNoOneOfComposition() {
-    return not(hasOneOfComposition());
+  public boolean hasOneOfComposition() {
+    return oneOfComposition.isPresent();
   }
 
   public Optional<JavaAnyOfComposition> getAnyOfComposition() {
     return anyOfComposition;
   }
 
-  public boolean hasAnyOfComposition() {
-    return anyOfComposition.isPresent();
+  public PList<JavaObjectPojo> getAnyOfPojos() {
+    return anyOfComposition
+        .map(JavaAnyOfComposition::getPojos)
+        .map(NonEmptyList::toPList)
+        .orElseGet(PList::empty);
   }
 
-  public boolean hasNoAnyOfComposition() {
-    return not(hasAnyOfComposition());
+  public boolean hasAnyOfComposition() {
+    return anyOfComposition.isPresent();
   }
 
   public PList<JavaRequiredAdditionalProperty> getRequiredAdditionalProperties() {
