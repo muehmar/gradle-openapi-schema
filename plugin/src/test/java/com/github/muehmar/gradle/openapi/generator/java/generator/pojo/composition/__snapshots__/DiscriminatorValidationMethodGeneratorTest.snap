@@ -1,0 +1,67 @@
+DiscriminatorWithMapping=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (stringVal == null) {
+    return false;
+  }
+  switch(stringVal) {
+    case "obj1": return isValidAgainstSampleObjectPojo1Dto();
+    case "obj2": return isValidAgainstSampleObjectPojo2Dto();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithoutMapping=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (stringVal == null) {
+    return false;
+  }
+  switch(stringVal) {
+    case "SampleObjectPojo1": return isValidAgainstSampleObjectPojo1Dto();
+    case "SampleObjectPojo2": return isValidAgainstSampleObjectPojo2Dto();
+  }
+  return false;
+}
+]
+
+
+DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@Deprecated
+@JsonIgnore
+protected boolean isValidAgainstTheCorrectSchema() {
+  if (stringVal == null) {
+    return false;
+  }
+  switch(stringVal) {
+    case "obj1": return isValidAgainstSampleObjectPojo1Dto();
+    case "obj2": return isValidAgainstSampleObjectPojo2Dto();
+  }
+  return false;
+}
+]
+
+
+NoDiscriminator=[
+.
+.
+
+]

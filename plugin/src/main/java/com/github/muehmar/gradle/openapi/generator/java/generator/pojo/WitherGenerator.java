@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -22,7 +23,7 @@ import lombok.Value;
 public class WitherGenerator {
   private WitherGenerator() {}
 
-  public static Generator<WitherContent, PojoSettings> generator() {
+  public static Generator<WitherContent, PojoSettings> witherGenerator() {
     return Generator.<WitherContent, PojoSettings>emptyGen()
         .appendList(method(), WitherMethod::fromPojo, newLine());
   }
@@ -54,7 +55,7 @@ public class WitherGenerator {
 
     public static PList<WitherMethod> fromPojo(WitherContent witherContent) {
       return witherContent
-          .getMembers()
+          .getMembersForWithers()
           .flatMap(
               member ->
                   PList.of(
@@ -98,10 +99,13 @@ public class WitherGenerator {
           String.format(
               "new %s(%s%s)",
               witherContent.getClassName(),
-              witherContent.getMembers().flatMap(JavaPojoMember::createFieldNames).mkString(", "),
+              witherContent
+                  .getMembersForConstructorCall()
+                  .flatMap(JavaPojoMember::createFieldNames)
+                  .mkString(", "),
               witherContent
                   .getAdditionalProperties()
-                  .map(props -> String.format(", %s", JavaAdditionalProperties.getPropertyName()))
+                  .map(props -> String.format(", %s", additionalPropertiesName()))
                   .orElse(""));
       return replacePropertiesInConstructorCall(constructorCall);
     }
@@ -226,7 +230,8 @@ public class WitherGenerator {
   @PojoBuilder(builderName = "WitherContentBuilder")
   public static class WitherContent {
     JavaIdentifier className;
-    PList<JavaPojoMember> members;
+    PList<JavaPojoMember> membersForWithers;
+    PList<JavaPojoMember> membersForConstructorCall;
     Optional<JavaAdditionalProperties> additionalProperties;
   }
 }

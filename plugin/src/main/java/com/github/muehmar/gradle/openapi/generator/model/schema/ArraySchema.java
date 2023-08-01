@@ -53,7 +53,7 @@ public class ArraySchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
-    if (getItemSchema() instanceof ObjectSchema || getItemSchema() instanceof ComposedSchema) {
+    if (getItemSchema() instanceof ObjectSchema) {
       final PojoName openApiPojoName = PojoName.deriveOpenApiPojoName(pojoName, memberName);
       final ObjectType itemType = ObjectType.ofName(openApiPojoName);
       final ArrayType arrayType =

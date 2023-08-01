@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.parameter.JavaParameter;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import java.io.File;
 import java.nio.file.Path;

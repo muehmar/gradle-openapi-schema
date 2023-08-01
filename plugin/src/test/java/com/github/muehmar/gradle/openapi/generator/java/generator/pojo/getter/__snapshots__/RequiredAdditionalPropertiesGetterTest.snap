@@ -1,0 +1,101 @@
+requiredAdditionalAnyTypeProperties=[
+javax.validation.constraints.NotNull
+
+@NotNull
+public Object getProp1() {
+  return additionalProperties.get("prop1");
+}
+
+]
+
+
+requiredAdditionalObjectProperties=[
+javax.validation.Valid
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.NotNull
+
+@Valid
+public AdminDto getProp1() {
+  try {
+    return (AdminDto) additionalProperties.get("prop1");
+  }
+  catch (ClassCastException e) {
+    return null;
+  }
+}
+
+@NotNull
+private Object getProp1AsObject() {
+  return additionalProperties.get("prop1");
+}
+
+@AssertTrue(message = "Value is not an instance of AdminDto")
+private boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || AdminDto.isInstance(value);
+}
+]
+
+
+requiredAdditionalObjectPropertiesWithDeprecatedValidationMethod=[
+javax.validation.Valid
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.NotNull
+
+@Valid
+public AdminDto getProp1() {
+  try {
+    return (AdminDto) additionalProperties.get("prop1");
+  }
+  catch (ClassCastException e) {
+    return null;
+  }
+}
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@Deprecated
+@NotNull
+Object getProp1AsObject() {
+  return additionalProperties.get("prop1");
+}
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@Deprecated
+@AssertTrue(message = "Value is not an instance of AdminDto")
+boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || AdminDto.isInstance(value);
+}
+]
+
+
+requiredAdditionalStringProperties=[
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.NotNull
+
+public String getProp1() {
+  try {
+    return (String) additionalProperties.get("prop1");
+  }
+  catch (ClassCastException e) {
+    return null;
+  }
+}
+
+@NotNull
+private Object getProp1AsObject() {
+  return additionalProperties.get("prop1");
+}
+
+@AssertTrue(message = "Value is not an instance of String")
+private boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || String.isInstance(value);
+}
+]

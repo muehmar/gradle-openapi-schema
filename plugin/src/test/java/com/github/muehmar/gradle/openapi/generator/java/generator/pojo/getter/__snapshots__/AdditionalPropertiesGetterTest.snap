@@ -1,46 +1,101 @@
 additionalPropertiesTypeIsList=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.List
+java.util.Map
+java.util.Optional
+
 @JsonAnyGetter
 public Map<String, List<String>> getAdditionalProperties() {
-  return additionalProperties;
+  final Map<String, List<String>> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
 }
 
 /**
- * Returns the additional property with {@code key} wrapped in and {@link
- * Optional} if present, {@link Optional#empty()} otherwise
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
  */
 public Optional<List<String>> getAdditionalProperty(String key) {
-  return Optional.ofNullable(additionalProperties.get(key));
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+
+private Optional<List<String>> castAdditionalProperty(Object property) {
+  try {
+    return Optional.of((List<String>) property);
+  } catch (ClassCastException e) {
+    return Optional.empty();
+  }
 }
 ]
 
 
 additionalPropertiesTypeIsObject=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+java.util.Optional
+javax.validation.Valid
+
 @JsonAnyGetter
 public Map<String, @Valid ObjectDto> getAdditionalProperties() {
-  return additionalProperties;
+  final Map<String, ObjectDto> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
 }
 
 /**
- * Returns the additional property with {@code key} wrapped in and {@link
- * Optional} if present, {@link Optional#empty()} otherwise
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
  */
 public Optional<ObjectDto> getAdditionalProperty(String key) {
-  return Optional.ofNullable(additionalProperties.get(key));
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+
+private Optional<ObjectDto> castAdditionalProperty(Object property) {
+  try {
+    return Optional.of((ObjectDto) property);
+  } catch (ClassCastException e) {
+    return Optional.empty();
+  }
 }
 ]
 
 
 additionalPropertiesTypeIsStringWithConstraints=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+java.util.Optional
+javax.validation.constraints.Max
+javax.validation.constraints.Min
+
 @JsonAnyGetter
 public Map<String, @Min(value = 3) @Max(value = 5) String> getAdditionalProperties() {
-  return additionalProperties;
+  final Map<String, String> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
 }
 
 /**
- * Returns the additional property with {@code key} wrapped in and {@link
- * Optional} if present, {@link Optional#empty()} otherwise
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
  */
 public Optional<String> getAdditionalProperty(String key) {
-  return Optional.ofNullable(additionalProperties.get(key));
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+
+private Optional<String> castAdditionalProperty(Object property) {
+  try {
+    return Optional.of((String) property);
+  } catch (ClassCastException e) {
+    return Optional.empty();
+  }
 }
 ]

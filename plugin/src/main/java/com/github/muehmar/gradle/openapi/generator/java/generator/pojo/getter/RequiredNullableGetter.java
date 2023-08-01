@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator.deprecatedValidationMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.assertTrue;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotationsForMember;
@@ -10,6 +10,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -18,17 +19,18 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import java.util.function.BiPredicate;
 
-public class RequiredNullableGetter {
+class RequiredNullableGetter {
   private RequiredNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> getter() {
+  public static Generator<JavaPojoMember, PojoSettings> requiredNullableGetterGenerator(
+      GeneratorOption option) {
     final BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation =
         Filters.<JavaPojoMember>isJacksonJson().or(Filters.isValidationEnabled());
 
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
         .append(alternateGetter())
-        .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation))
+        .append(nullableGetterMethodWithAnnotations(isJacksonJsonOrValidation, option))
         .append(requiredValidationMethodWithAnnotation())
         .append(RefsGenerator.fieldRefs())
         .filter(JavaPojoMember::isRequiredAndNullable);
@@ -50,11 +52,11 @@ public class RequiredNullableGetter {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> nullableGetterMethodWithAnnotations(
-      BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation) {
+      BiPredicate<JavaPojoMember, PojoSettings> isJacksonJsonOrValidation, GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
-        .append(validationAnnotationsForMember())
+        .append(validationAnnotationsForMember().filter(option.validationFilter()))
         .append(jsonProperty())
         .append(deprecatedValidationMethod())
         .append(CommonGetter.rawGetterMethod())

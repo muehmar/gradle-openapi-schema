@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -8,7 +9,9 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -35,50 +38,64 @@ class MultipleOfValidationMethodGeneratorTest {
   private Expect expect;
 
   private static final JavaPojoMember INTEGER_MEMBER =
-      JavaPojoMember.of(
-          Name.ofString("intVal"),
-          "Description",
-          JavaIntegerType.wrap(
-              IntegerType.formatInteger()
-                  .withConstraints(Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("50")))),
-              TypeMappings.empty()),
-          Necessity.REQUIRED,
-          Nullability.NOT_NULLABLE);
+      JavaPojoMemberBuilder.create()
+          .name(JavaMemberName.wrap(Name.ofString("intVal")))
+          .description("Description")
+          .javaType(
+              JavaIntegerType.wrap(
+                  IntegerType.formatInteger()
+                      .withConstraints(
+                          Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("50")))),
+                  TypeMappings.empty()))
+          .necessity(Necessity.REQUIRED)
+          .nullability(Nullability.NOT_NULLABLE)
+          .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .build();
 
   private static final JavaPojoMember LONG_MEMBER =
-      JavaPojoMember.of(
-          Name.ofString("longVal"),
-          "Description",
-          JavaIntegerType.wrap(
-              IntegerType.formatLong()
-                  .withConstraints(Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("12")))),
-              TypeMappings.empty()),
-          Necessity.REQUIRED,
-          Nullability.NOT_NULLABLE);
+      JavaPojoMemberBuilder.create()
+          .name(JavaMemberName.wrap(Name.ofString("longVal")))
+          .description("Description")
+          .javaType(
+              JavaIntegerType.wrap(
+                  IntegerType.formatLong()
+                      .withConstraints(
+                          Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("12")))),
+                  TypeMappings.empty()))
+          .necessity(Necessity.REQUIRED)
+          .nullability(Nullability.NOT_NULLABLE)
+          .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .build();
 
   private static final JavaPojoMember FLOAT_MEMBER =
-      JavaPojoMember.of(
-          Name.ofString("floatVal"),
-          "Description",
-          JavaNumericType.wrap(
-              NumericType.formatFloat()
-                  .withConstraints(
-                      Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("50.5")))),
-              TypeMappings.empty()),
-          Necessity.REQUIRED,
-          Nullability.NOT_NULLABLE);
+      JavaPojoMemberBuilder.create()
+          .name(JavaMemberName.wrap(Name.ofString("floatVal")))
+          .description("Description")
+          .javaType(
+              JavaNumericType.wrap(
+                  NumericType.formatFloat()
+                      .withConstraints(
+                          Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("50.5")))),
+                  TypeMappings.empty()))
+          .necessity(Necessity.REQUIRED)
+          .nullability(Nullability.NOT_NULLABLE)
+          .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .build();
 
   private static final JavaPojoMember DOUBLE_MEMBER =
-      JavaPojoMember.of(
-          Name.ofString("doubleVal"),
-          "Description",
-          JavaNumericType.wrap(
-              NumericType.formatDouble()
-                  .withConstraints(
-                      Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("12.25")))),
-              TypeMappings.empty()),
-          Necessity.REQUIRED,
-          Nullability.NOT_NULLABLE);
+      JavaPojoMemberBuilder.create()
+          .name(JavaMemberName.wrap(Name.ofString("doubleVal")))
+          .description("Description")
+          .javaType(
+              JavaNumericType.wrap(
+                  NumericType.formatDouble()
+                      .withConstraints(
+                          Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("12.25")))),
+                  TypeMappings.empty()))
+          .necessity(Necessity.REQUIRED)
+          .nullability(Nullability.NOT_NULLABLE)
+          .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .build();
 
   private static final JavaObjectPojo POJO =
       JavaPojos.objectPojo(PList.of(INTEGER_MEMBER, LONG_MEMBER, FLOAT_MEMBER, DOUBLE_MEMBER));
@@ -86,7 +103,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @Test
   void generate_when_integerAndDoubleWithoutMultipleOfConstraint_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -101,7 +118,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @Test
   void generate_when_validationDisabled_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -116,7 +133,7 @@ class MultipleOfValidationMethodGeneratorTest {
   @SnapshotName("integerMember")
   void generate_when_integer_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -124,14 +141,14 @@ class MultipleOfValidationMethodGeneratorTest {
             TestPojoSettings.defaultSettings().withEnableValidation(true),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("longMember")
   void generate_when_long_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -139,14 +156,14 @@ class MultipleOfValidationMethodGeneratorTest {
             TestPojoSettings.defaultSettings().withEnableValidation(true),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("floatMember")
   void generate_when_float_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -155,14 +172,14 @@ class MultipleOfValidationMethodGeneratorTest {
             Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_MATH_BIG_DECIMAL::equals));
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("doubleMember")
   void generate_when_double_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.generator();
+        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -171,6 +188,6 @@ class MultipleOfValidationMethodGeneratorTest {
             Writer.createDefault());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_MATH_BIG_DECIMAL::equals));
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

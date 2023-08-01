@@ -21,6 +21,10 @@ public class JavaAnyType extends NonGenericJavaType {
     return new JavaAnyType();
   }
 
+  public static JavaAnyType javaAnyType() {
+    return new JavaAnyType();
+  }
+
   @Override
   public boolean isJavaArray() {
     return false;

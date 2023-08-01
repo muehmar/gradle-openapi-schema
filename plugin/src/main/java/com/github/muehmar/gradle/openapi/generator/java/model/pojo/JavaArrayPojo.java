@@ -1,22 +1,25 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -72,12 +75,15 @@ public class JavaArrayPojo implements JavaPojo {
         ArrayType.ofItemType(arrayPojo.getItemType()).withConstraints(arrayPojo.getConstraints());
     final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, typeMappings);
     final Name name = Name.ofString("value");
-    return JavaPojoMember.of(
-        name,
-        arrayPojo.getDescription(),
-        javaArrayType,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+    return JavaPojoMemberBuilder.create()
+        .name(JavaMemberName.wrap(name))
+        .description(arrayPojo.getDescription())
+        .javaType(javaArrayType)
+        .necessity(Necessity.REQUIRED)
+        .nullability(Nullability.NOT_NULLABLE)
+        .type(JavaPojoMember.MemberType.ARRAY_VALUE)
+        .andAllOptionals()
+        .build();
   }
 
   @Override
@@ -134,13 +140,16 @@ public class JavaArrayPojo implements JavaPojo {
         .isArray(true)
         .className(getClassName())
         .members(PList.single(getArrayPojoMember()))
+        .andOptionals()
+        .modifier(PUBLIC)
         .build();
   }
 
   public WitherGenerator.WitherContent getWitherContent() {
     return WitherContentBuilder.create()
         .className(getClassName())
-        .members(PList.single(getArrayPojoMember()))
+        .membersForWithers(PList.single(getArrayPojoMember()))
+        .membersForConstructorCall(PList.single(getArrayPojoMember()))
         .build();
   }
 
@@ -148,8 +157,7 @@ public class JavaArrayPojo implements JavaPojo {
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
-      Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo) {
+      Function<JavaObjectPojo, T> onObjectPojo) {
     return onArrayPojo.apply(this);
   }
 

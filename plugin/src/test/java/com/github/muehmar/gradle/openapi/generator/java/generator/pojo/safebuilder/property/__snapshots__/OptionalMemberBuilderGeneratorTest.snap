@@ -1,0 +1,49 @@
+allNecessityAndNullabilityVariants=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+
+public static final class OptPropertyBuilder0 {
+  private final Builder builder;
+
+  private OptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public OptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
+    return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public OptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
+    return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+}
+
+public static final class OptPropertyBuilder1 {
+  private final Builder builder;
+
+  private OptPropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public OptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
+    return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+}
+]

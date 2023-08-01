@@ -1,0 +1,33 @@
+oneOf=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+@Valid
+@JsonIgnore
+private Object getOneOf() {
+  if (getOneOfValidCount() != 1) {
+    return null;
+  }
+  return foldOneOf(dto -> dto, dto -> dto, () -> null);
+}
+]
+
+
+oneOfProtectedAndDeprecatedSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@Valid
+@Deprecated
+@JsonIgnore
+protected Object getOneOf() {
+  if (getOneOfValidCount() != 1) {
+    return null;
+  }
+  return foldOneOf(dto -> dto, dto -> dto, () -> null);
+}
+]

@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -11,7 +12,7 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class FactoryMethodGenerator {
   private FactoryMethodGenerator() {}
 
-  public static Generator<JavaArrayPojo, PojoSettings> generator() {
+  public static Generator<JavaArrayPojo, PojoSettings> factoryMethodGenerator() {
     return Generator.<JavaArrayPojo, PojoSettings>emptyGen().append(itemsFactoryMethod());
   }
 
@@ -24,6 +25,7 @@ public class FactoryMethodGenerator {
         .singleArgument(
             p -> String.format("%s items", p.getArrayPojoMember().getJavaType().getFullClassName()))
         .content(p -> String.format("return new %s(items);", p.getClassName()))
-        .build();
+        .build()
+        .append(RefsGenerator.fieldRefs(), JavaArrayPojo::getArrayPojoMember);
   }
 }

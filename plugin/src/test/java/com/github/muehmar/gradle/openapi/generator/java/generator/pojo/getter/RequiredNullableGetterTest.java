@@ -1,13 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -33,26 +30,21 @@ class RequiredNullableGetterTest {
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
     final Writer writer =
         generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    assertEquals(5, writer.getRefs().toHashSet().size());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.ASSERT_TRUE::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   void generator_when_disabledJackson_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(
             Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern")),
@@ -65,18 +57,13 @@ class RequiredNullableGetterTest {
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
-    assertEquals(4, writer.getRefs().toHashSet().size());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.ASSERT_TRUE::equals));
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.PATTERN::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   void generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
@@ -88,16 +75,13 @@ class RequiredNullableGetterTest {
                 .withEnableValidation(false),
             Writer.createDefault());
 
-    assertEquals(2, writer.getRefs().toHashSet().size());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   void generator_when_requiredNullableSuffix_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
@@ -118,16 +102,13 @@ class RequiredNullableGetterTest {
                 .withGetterSuffixes(getterSuffixes),
             Writer.createDefault());
 
-    assertEquals(2, writer.getRefs().toHashSet().size());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   void generator_when_deprecatedAnnotation_then_correctOutputAndRefs() {
-    final Generator<JavaPojoMember, PojoSettings> generator = RequiredNullableGetter.getter();
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        RequiredNullableGetter.requiredNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
@@ -144,6 +125,6 @@ class RequiredNullableGetterTest {
                 .withValidationMethods(validationMethods),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

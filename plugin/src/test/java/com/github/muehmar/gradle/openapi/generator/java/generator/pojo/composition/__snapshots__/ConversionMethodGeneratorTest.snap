@@ -1,0 +1,165 @@
+composedPojoWithNullabilityAndNecessityVariants=[
+java.util.HashMap
+java.util.Map
+
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (requiredStringVal != null) {
+    props.put("requiredStringVal", requiredStringVal);
+  }
+  if (isRequiredNullableStringValPresent) {
+    props.put("requiredNullableStringVal", requiredNullableStringVal);
+  }
+  if (optionalStringVal != null) {
+    props.put("optionalStringVal", optionalStringVal);
+  }
+  if (optionalNullableStringVal != null || isOptionalNullableStringValNull) {
+    props.put("optionalNullableStringVal", optionalNullableStringVal);
+  }
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    props
+  );
+}
+
+private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (stringVal != null) {
+    props.put("stringVal", stringVal);
+  }
+  if (intVal != null) {
+    props.put("intVal", intVal);
+  }
+  if (doubleVal != null) {
+    props.put("doubleVal", doubleVal);
+  }
+  return new NecessityAndNullabilityDto(
+    requiredStringVal,
+    requiredNullableStringVal,
+    isRequiredNullableStringValPresent,
+    optionalStringVal,
+    optionalNullableStringVal,
+    isOptionalNullableStringValNull,
+    props
+  );
+}
+]
+
+
+composedPojo[allOf]=[
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (birthdate != null) {
+    props.put("birthdate", birthdate);
+  }
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    props
+  );
+}
+
+private ObjectPojo1Dto asObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (stringVal != null) {
+    props.put("stringVal", stringVal);
+  }
+  if (intVal != null) {
+    props.put("intVal", intVal);
+  }
+  if (doubleVal != null) {
+    props.put("doubleVal", doubleVal);
+  }
+  return new ObjectPojo1Dto(
+    birthdate,
+    props
+  );
+}
+]
+
+
+composedPojo[anyOf]=[
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (birthdate != null) {
+    props.put("birthdate", birthdate);
+  }
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    props
+  );
+}
+
+private ObjectPojo1Dto asObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (stringVal != null) {
+    props.put("stringVal", stringVal);
+  }
+  if (intVal != null) {
+    props.put("intVal", intVal);
+  }
+  if (doubleVal != null) {
+    props.put("doubleVal", doubleVal);
+  }
+  return new ObjectPojo1Dto(
+    birthdate,
+    props
+  );
+}
+]
+
+
+composedPojo[oneOf]=[
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (birthdate != null) {
+    props.put("birthdate", birthdate);
+  }
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    props
+  );
+}
+
+private ObjectPojo1Dto asObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (stringVal != null) {
+    props.put("stringVal", stringVal);
+  }
+  if (intVal != null) {
+    props.put("intVal", intVal);
+  }
+  if (doubleVal != null) {
+    props.put("doubleVal", doubleVal);
+  }
+  return new ObjectPojo1Dto(
+    birthdate,
+    props
+  );
+}
+]
+
+
+nestedOneOf=[
+java.util.HashMap
+java.util.Map
+
+private OneOfPojo1Dto asOneOfPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  return new OneOfPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    birthdate,
+    email,
+    props
+  );
+}
+]

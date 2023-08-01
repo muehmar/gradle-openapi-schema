@@ -10,7 +10,7 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import java.util.function.BiFunction;
 
-public class CommonGetter {
+class CommonGetter {
   private CommonGetter() {}
 
   public static Generator<JavaPojoMember, PojoSettings> wrapNullableInOptionalGetterMethod() {

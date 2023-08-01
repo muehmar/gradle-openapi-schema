@@ -1,0 +1,19 @@
+oneOfPojo=[
+.
+.
+public static final class OneOfBuilder0 {
+  private final Builder builder;
+
+  private OneOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public PropertyBuilder0 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new PropertyBuilder0(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public PropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new PropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
+  }
+}
+]

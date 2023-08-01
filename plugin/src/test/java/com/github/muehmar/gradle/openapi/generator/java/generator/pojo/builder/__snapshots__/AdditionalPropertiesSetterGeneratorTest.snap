@@ -1,0 +1,40 @@
+objectPojoAnyTypeAdditionalProperties=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+java.util.HashMap
+java.util.Map
+.
+.
+@JsonAnySetter
+public Builder addAdditionalProperty(String key, Object value) {
+  this.additionalProperties.put(key, value);
+  return this;
+}
+
+public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+  this.additionalProperties = new HashMap<>(additionalProperties);
+  return this;
+}
+]
+
+
+objectPojoSpecificTypeAdditionalProperties=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+java.util.HashMap
+java.util.Map
+
+private Builder addAdditionalProperty(String key, Object value) {
+  this.additionalProperties.put(key, value);
+  return this;
+}
+
+@JsonAnySetter
+public Builder addAdditionalProperty(String key, UserDto value) {
+  this.additionalProperties.put(key, value);
+  return this;
+}
+
+public Builder setAdditionalProperties(Map<String, UserDto> additionalProperties) {
+  this.additionalProperties = new HashMap<>(additionalProperties);
+  return this;
+}
+]

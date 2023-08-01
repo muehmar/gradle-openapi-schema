@@ -1,0 +1,28 @@
+anyOf=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertFalse
+
+@AssertFalse(message = "Is not valid against one of the schemas [SampleObjectPojo1, SampleObjectPojo2]")
+@JsonIgnore
+private boolean isValidAgainstNoAnyOfSchema() {
+  return getAnyOfValidCount() == 0;
+}
+]
+
+
+oneOf=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertFalse
+
+@AssertFalse(message = "Is not valid against one of the schemas [SampleObjectPojo1, SampleObjectPojo2]")
+@JsonIgnore
+private boolean isValidAgainstNoOneOfSchema() {
+  return getOneOfValidCount() == 0;
+}
+
+@AssertFalse(message = "Is valid against more than one of the schemas [SampleObjectPojo1, SampleObjectPojo2]")
+@JsonIgnore
+private boolean isValidAgainstMoreThanOneSchema() {
+  return getOneOfValidCount() > 1;
+}
+]

@@ -21,6 +21,18 @@ class NameTest {
     assertEquals(field, field.startUpperCase());
   }
 
+  @Test
+  void startLowerCase_when_startsLowercase_then_isEquals() {
+    final Name field = Name.ofString("field");
+    assertEquals(field, field.startLowerCase());
+  }
+
+  @Test
+  void startLowerCase_when_startsUppercase_then_startsLowercase() {
+    final Name field = Name.ofString("Field").startLowerCase();
+    assertEquals("field", field.asString());
+  }
+
   @ParameterizedTest
   @CsvSource({"java.lang.String,String", "GenderDto,String"})
   void contains_when_called_then_resultIsEqualsToDirectStringOperation(

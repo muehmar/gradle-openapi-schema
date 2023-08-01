@@ -1,13 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -31,62 +30,65 @@ class PojoPropertyCountMethodTest {
     final Constraints constraints =
         Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 2));
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        PojoPropertyCountMethod.propertyCountMethod();
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(constraints),
+            allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("pojoPropertyCountMethodWithValidationDisabled")
   void generate_when_validationDisabled_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        PojoPropertyCountMethod.propertyCountMethod();
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
 
     final Constraints constraints =
         Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 2));
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(constraints),
+            allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings().withEnableValidation(false),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertFalse(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
-    assertFalse(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("pojoPropertyCountMethodWithNoJsonSupport")
   void generate_when_jsonSupportDisabled_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> gen =
-        PojoPropertyCountMethod.propertyCountMethod();
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
 
     final Constraints constraints =
         Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 2));
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(constraints),
+            allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
-    assertFalse(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
+  @Test
+  @SnapshotName("oneOfPojo")
+  void generate_when_oneOfPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> gen =
+        PojoPropertyCountMethod.pojoPropertyCountMethoGenerator();
+
+    final Writer writer =
+        gen.generate(
+            JavaPojos.oneOfPojo(allNecessityAndNullabilityVariants(), sampleObjectPojo1()),
+            TestPojoSettings.defaultSettings(),
+            Writer.createDefault());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

@@ -1,4 +1,7 @@
 requiredAndNotNullableField=[
+java.time.LocalDate
+javax.validation.constraints.NotNull
+
 /**
  * Birthdate
  */
@@ -9,7 +12,21 @@ public LocalDate getBirthdate() {
 ]
 
 
+requiredAndNotNullableFieldNoValidationOption=[
+java.time.LocalDate
+
+/**
+ * Birthdate
+ */
+public LocalDate getBirthdate() {
+  return birthdate;
+}
+]
+
+
 requiredSuffix=[
+java.time.LocalDate
+
 /**
  * Birthdate
  */
@@ -20,6 +37,8 @@ public LocalDate getBirthdateReq() {
 
 
 validationDisabled=[
+java.time.LocalDate
+
 /**
  * Birthdate
  */
@@ -30,6 +49,11 @@ public LocalDate getBirthdate() {
 
 
 valueTypeOfArrayHasConstraints=[
+java.util.List
+javax.validation.constraints.Max
+javax.validation.constraints.Min
+javax.validation.constraints.NotNull
+
 /**
  * List
  */

@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
@@ -17,6 +18,8 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -27,6 +30,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
@@ -37,6 +41,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
@@ -86,9 +91,12 @@ class ObjectSchemaTest {
     final MapContext mapContext = pojoSchema.mapToPojo();
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
-    assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+
+    final ObjectPojo objectPojo =
+        resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
     final PojoName memberObjectPojoName = PojoName.ofNameAndSuffix("ObjectObjectVal", "Dto");
 
@@ -119,10 +127,12 @@ class ObjectSchemaTest {
                         PropertyScope.DEFAULT,
                         Necessity.OPTIONAL,
                         Nullability.NOT_NULLABLE)))
+            .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
             .build();
-    assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
+
+    assertEquals(expectedPojo, objectPojo);
     assertEquals(
         UnmappedItems.ofPojoSchema(new PojoSchema(memberObjectPojoName, objectSchemaProp)),
         mapContext.getUnmappedItems());
@@ -147,9 +157,12 @@ class ObjectSchemaTest {
     final MapContext mapContext = pojoSchema.mapToPojo();
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
-    assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+
+    final ObjectPojo objectPojo =
+        resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
     final PList<PojoMember> expectedMembers =
         PList.of(
@@ -176,13 +189,7 @@ class ObjectSchemaTest {
                 Nullability.NOT_NULLABLE));
     assertEquals(
         expectedMembers,
-        unresolvedMapResult
-            .getPojos()
-            .apply(0)
-            .asObjectPojo()
-            .map(ObjectPojo::getMembers)
-            .orElse(PList.empty())
-            .sort(Comparator.comparing(member -> member.getName().asString())));
+        objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }
 
@@ -204,9 +211,12 @@ class ObjectSchemaTest {
     final MapContext mapContext = pojoSchema.mapToPojo();
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
-    assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+
+    final ObjectPojo objectPojo =
+        resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
     final PList<PojoMember> expectedMembers =
         PList.of(
@@ -233,13 +243,7 @@ class ObjectSchemaTest {
                 Nullability.NOT_NULLABLE));
     assertEquals(
         expectedMembers,
-        unresolvedMapResult
-            .getPojos()
-            .apply(0)
-            .asObjectPojo()
-            .map(ObjectPojo::getMembers)
-            .orElse(PList.empty())
-            .sort(Comparator.comparing(member -> member.getName().asString())));
+        objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }
 
@@ -260,19 +264,15 @@ class ObjectSchemaTest {
     final MapContext mapContext = pojoSchema.mapToPojo();
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
-    assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+
+    final ObjectPojo objectPojo =
+        resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
     final PList<PojoMember> expectedMembers =
         PList.of(
-            new PojoMember(
-                Name.ofString("otherVal"),
-                "Additional Property 'otherVal'",
-                AnyType.create(),
-                PropertyScope.DEFAULT,
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE),
             new PojoMember(
                 Name.ofString("stringVal"),
                 "",
@@ -282,13 +282,9 @@ class ObjectSchemaTest {
                 Nullability.NOT_NULLABLE));
     assertEquals(
         expectedMembers,
-        unresolvedMapResult
-            .getPojos()
-            .apply(0)
-            .asObjectPojo()
-            .map(ObjectPojo::getMembers)
-            .orElse(PList.empty())
-            .sort(Comparator.comparing(member -> member.getName().asString())));
+        objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
+    assertEquals(
+        PList.single(Name.ofString("otherVal")), objectPojo.getRequiredAdditionalProperties());
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }
 
@@ -310,29 +306,17 @@ class ObjectSchemaTest {
     final MapContext mapContext = pojoSchema.mapToPojo();
 
     final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
-    assertEquals(1, unresolvedMapResult.getPojos().size());
-    assertEquals(0, unresolvedMapResult.getUnresolvedComposedPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
+    final ObjectPojo objectPojo =
+        resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
+
     final PojoName additionalPropertiesPojoName = PojoName.ofNameAndSuffix("ObjectProperty", "Dto");
-    final PList<PojoMember> expectedMembers =
-        PList.of(
-            new PojoMember(
-                Name.ofString("gender"),
-                "Additional Property 'gender'",
-                ObjectType.ofName(additionalPropertiesPojoName),
-                PropertyScope.DEFAULT,
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE));
+
     assertEquals(
-        expectedMembers,
-        unresolvedMapResult
-            .getPojos()
-            .apply(0)
-            .asObjectPojo()
-            .map(ObjectPojo::getMembers)
-            .orElse(PList.empty())
-            .sort(Comparator.comparing(member -> member.getName().asString())));
+        PList.single(Name.ofString("gender")), objectPojo.getRequiredAdditionalProperties());
 
     final UnmappedItems expectedUnmappedItems =
         UnmappedItems.ofPojoSchema(
@@ -370,11 +354,12 @@ class ObjectSchemaTest {
     final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(pojoName);
 
     final MapContext expectedContext =
-        MapContext.ofPojo(
-            ObjectPojoBuilder.create()
+        MapContext.ofUnresolvedObjectPojo(
+            UnresolvedObjectPojoBuilder.create()
                 .name(pojoName)
                 .description("")
                 .members(PList.empty())
+                .requiredAdditionalProperties(PList.empty())
                 .constraints(
                     Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(4, 7)))
                 .additionalProperties(
@@ -429,11 +414,12 @@ class ObjectSchemaTest {
     final PojoSchema pojoSchema = new PojoSchema(objectPojoName, objectSchema);
 
     final MapContext expectedContext =
-        MapContext.ofPojo(
-                ObjectPojoBuilder.create()
+        MapContext.ofUnresolvedObjectPojo(
+                UnresolvedObjectPojoBuilder.create()
                     .name(pojoName)
                     .description("")
                     .members(PList.empty())
+                    .requiredAdditionalProperties(PList.empty())
                     .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(12)))
                     .additionalProperties(
                         AdditionalProperties.allowed(ObjectType.ofName(objectPojoName)))
@@ -458,6 +444,27 @@ class ObjectSchemaTest {
 
     assertEquals(expectedType, result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @Test
+  void mapToMemberType_when_anyOfSchema_then_correctTypeAndUnmappedItem() {
+    final ComposedSchema composedSchema = new ComposedSchema();
+    composedSchema.setAllOf(
+        Collections.singletonList(new Schema<>().$ref("#/components/schemas/ReferenceSchema1")));
+
+    final MemberSchemaMapResult result =
+        mapToMemberType(
+            PojoName.ofNameAndSuffix("ComposedPojo", "Dto"),
+            Name.ofString("Member"),
+            composedSchema);
+
+    final PojoName expectedPojoName = PojoName.ofNameAndSuffix("ComposedPojoMember", "Dto");
+    final ObjectType expectedType = ObjectType.ofName(expectedPojoName);
+
+    assertEquals(expectedType, result.getType());
+    assertEquals(
+        UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, composedSchema)),
+        result.getUnmappedItems());
   }
 
   @ParameterizedTest
@@ -493,15 +500,24 @@ class ObjectSchemaTest {
     final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(pojoName);
 
     final MapContext expectedContext =
-        MapContext.ofPojo(
-            ObjectPojoBuilder.create()
+        MapContext.ofUnresolvedObjectPojo(
+            UnresolvedObjectPojoBuilder.create()
                 .name(pojoName)
                 .description("")
                 .members(PList.empty())
+                .requiredAdditionalProperties(PList.empty())
                 .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(2)))
                 .additionalProperties(AdditionalProperties.anyTypeAllowed())
                 .build());
 
     assertEquals(expectedContext, mapContext);
+  }
+
+  private static ObjectPojo resolveUncomposedObjectPojo(UnresolvedObjectPojo unresolvedObjectPojo) {
+    final Optional<ObjectPojo> result =
+        unresolvedObjectPojo.resolve(
+            ignore -> Optional.empty(), ignore -> Optional.empty(), ignore -> Optional.empty());
+    assertTrue(result.isPresent());
+    return result.get();
   }
 }

@@ -1,8 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
@@ -26,7 +28,7 @@ public class JavaAdditionalProperties {
   }
 
   public static JavaAdditionalProperties anyTypeAllowed() {
-    return new JavaAdditionalProperties(true, JavaAnyType.create());
+    return new JavaAdditionalProperties(true, javaAnyType());
   }
 
   public static JavaAdditionalProperties allowedFor(JavaType type) {
@@ -34,11 +36,19 @@ public class JavaAdditionalProperties {
   }
 
   public static JavaAdditionalProperties notAllowed() {
-    return new JavaAdditionalProperties(false, JavaAnyType.create());
+    return new JavaAdditionalProperties(false, javaAnyType());
   }
 
-  public static JavaIdentifier getPropertyName() {
+  public static JavaIdentifier additionalPropertiesName() {
     return MAP_PROPERTY_NAME;
+  }
+
+  public boolean isValueAnyType() {
+    return type.equals(javaAnyType());
+  }
+
+  public boolean isNotValueAnyType() {
+    return not(type.equals(javaAnyType()));
   }
 
   public Optional<EnumGenerator.EnumContent> asEnumContent() {

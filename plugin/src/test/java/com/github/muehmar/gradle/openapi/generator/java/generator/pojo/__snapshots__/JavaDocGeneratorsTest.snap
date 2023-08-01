@@ -1,4 +1,6 @@
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGeneratorsTest.generate_when_enabledDeprecationWarning_then_correctOutput=[
+.
+.
 /**
  * @deprecated This method is intended to be used only by frameworks for
  * validation or serialisation.

@@ -5,7 +5,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;

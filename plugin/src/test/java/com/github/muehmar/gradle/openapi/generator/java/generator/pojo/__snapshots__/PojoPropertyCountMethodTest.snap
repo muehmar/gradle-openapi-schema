@@ -1,4 +1,29 @@
+oneOfPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+/**
+ * Returns the number of present properties of this object.
+ */
+@JsonIgnore
+public int getPropertyCount() {
+  return
+    (requiredStringVal != null ? 1 : 0) +
+    (isRequiredNullableStringValPresent ? 1 : 0) +
+    (optionalStringVal != null ? 1 : 0) +
+    ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    (stringVal != null ? 1 : 0) +
+    (intVal != null ? 1 : 0) +
+    (doubleVal != null ? 1 : 0) +
+    additionalProperties.size();
+}
+]
+
+
 pojoPropertyCountMethodDefaultSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.Max
+javax.validation.constraints.Min
+
 /**
  * Returns the number of present properties of this object.
  */
@@ -7,7 +32,7 @@ pojoPropertyCountMethodDefaultSettings=[
 @JsonIgnore
 public int getPropertyCount() {
   return
-    1 +
+    (requiredStringVal != null ? 1 : 0) +
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
     ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
@@ -17,6 +42,9 @@ public int getPropertyCount() {
 
 
 pojoPropertyCountMethodWithNoJsonSupport=[
+javax.validation.constraints.Max
+javax.validation.constraints.Min
+
 /**
  * Returns the number of present properties of this object.
  */
@@ -24,7 +52,7 @@ pojoPropertyCountMethodWithNoJsonSupport=[
 @Max(2)
 public int getPropertyCount() {
   return
-    1 +
+    (requiredStringVal != null ? 1 : 0) +
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
     ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
@@ -34,13 +62,15 @@ public int getPropertyCount() {
 
 
 pojoPropertyCountMethodWithValidationDisabled=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
 /**
  * Returns the number of present properties of this object.
  */
 @JsonIgnore
 public int getPropertyCount() {
   return
-    1 +
+    (requiredStringVal != null ? 1 : 0) +
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
     ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +

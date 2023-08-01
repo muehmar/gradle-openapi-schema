@@ -3,13 +3,16 @@ package com.github.muehmar.gradle.openapi.generator.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.ComposedPojo;
+import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,11 +54,15 @@ class ResourceComposedPojoMapperTest {
     assertTrue(pojos.apply(2) instanceof ObjectPojo);
     final ObjectPojo extendedColorDto = ((ObjectPojo) pojos.apply(2));
 
-    final PList<PojoMember> extendedColorDtoMembers = extendedColorDto.getMembers();
-    assertEquals(4, extendedColorDtoMembers.size());
+    final Optional<AllOfComposition> allOfComposition = extendedColorDto.getAllOfComposition();
+    assertTrue(allOfComposition.isPresent());
     assertEquals(
-        PList.of("colorKey", "colorName", "description", "transparency"),
-        extendedColorDtoMembers.map(PojoMember::getName).map(Name::asString));
+        PList.of(colorDto, extendedColorAllOfDto),
+        extendedColorDto
+            .getAllOfComposition()
+            .map(AllOfComposition::getPojos)
+            .map(NonEmptyList::toPList)
+            .orElseGet(PList::empty));
   }
 
   @Test
@@ -77,14 +84,17 @@ class ResourceComposedPojoMapperTest {
     final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
 
     // PersonDto
-    assertTrue(pojos.apply(1) instanceof ComposedPojo);
-    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+    assertTrue(pojos.apply(1) instanceof ObjectPojo);
+    final ObjectPojo personDto = ((ObjectPojo) pojos.apply(1));
 
-    final PList<Pojo> personPojos = personDto.getPojos();
+    final PList<Pojo> personPojos =
+        personDto
+            .getOneOfComposition()
+            .map(OneOfComposition::getPojos)
+            .map(NonEmptyList::toPList)
+            .orElseGet(PList::empty);
     assertEquals(2, personPojos.size());
     assertEquals(PList.of(adminDto, userDto), personPojos);
-    assertEquals(ComposedPojo.CompositionType.ONE_OF, personDto.getCompositionType());
-    assertEquals(Optional.empty(), personDto.getDiscriminator());
   }
 
   @Test
@@ -106,17 +116,23 @@ class ResourceComposedPojoMapperTest {
     final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
 
     // PersonDto
-    assertTrue(pojos.apply(1) instanceof ComposedPojo);
-    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+    assertTrue(pojos.apply(1) instanceof ObjectPojo);
+    final ObjectPojo personDto = ((ObjectPojo) pojos.apply(1));
 
-    final PList<Pojo> personPojos = personDto.getPojos();
+    final PList<Pojo> personPojos =
+        personDto
+            .getOneOfComposition()
+            .map(OneOfComposition::getPojos)
+            .map(NonEmptyList::toPList)
+            .orElseGet(PList::empty);
     assertEquals(2, personPojos.size());
-    assertEquals(ComposedPojo.CompositionType.ONE_OF, personDto.getCompositionType());
     assertEquals(PList.of(adminDto, userDto), personPojos);
 
     final Discriminator expectedDiscriminator =
         Discriminator.fromPropertyName(Name.ofString("personType"));
-    assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
+    assertEquals(
+        Optional.of(expectedDiscriminator),
+        personDto.getOneOfComposition().flatMap(OneOfComposition::getDiscriminator));
   }
 
   @Test
@@ -139,12 +155,16 @@ class ResourceComposedPojoMapperTest {
     final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
 
     // PersonDto
-    assertTrue(pojos.apply(1) instanceof ComposedPojo);
-    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+    assertTrue(pojos.apply(1) instanceof ObjectPojo);
+    final ObjectPojo personDto = ((ObjectPojo) pojos.apply(1));
 
-    final PList<Pojo> personPojos = personDto.getPojos();
+    final PList<Pojo> personPojos =
+        personDto
+            .getOneOfComposition()
+            .map(OneOfComposition::getPojos)
+            .map(NonEmptyList::toPList)
+            .orElseGet(PList::empty);
     assertEquals(2, personPojos.size());
-    assertEquals(ComposedPojo.CompositionType.ONE_OF, personDto.getCompositionType());
     assertEquals(PList.of(adminDto, userDto), personPojos);
 
     final Map<String, Name> mapping = new HashMap<>();
@@ -152,7 +172,9 @@ class ResourceComposedPojoMapperTest {
     mapping.put("adm", Name.ofString("Admin"));
     final Discriminator expectedDiscriminator =
         Discriminator.fromPropertyNameAndMapping(Name.ofString("personType"), mapping);
-    assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
+    assertEquals(
+        Optional.of(expectedDiscriminator),
+        personDto.getOneOfComposition().flatMap(OneOfComposition::getDiscriminator));
   }
 
   @Test
@@ -174,13 +196,16 @@ class ResourceComposedPojoMapperTest {
     final ObjectPojo userDto = ((ObjectPojo) pojos.apply(2));
 
     // PersonDto
-    assertTrue(pojos.apply(1) instanceof ComposedPojo);
-    final ComposedPojo personDto = ((ComposedPojo) pojos.apply(1));
+    assertTrue(pojos.apply(1) instanceof ObjectPojo);
+    final ObjectPojo personDto = ((ObjectPojo) pojos.apply(1));
 
-    final PList<Pojo> personPojos = personDto.getPojos();
+    final PList<Pojo> personPojos =
+        personDto
+            .getAnyOfComposition()
+            .map(AnyOfComposition::getPojos)
+            .map(NonEmptyList::toPList)
+            .orElseGet(PList::empty);
     assertEquals(2, personPojos.size());
     assertEquals(PList.of(adminDto, userDto), personPojos);
-    assertEquals(ComposedPojo.CompositionType.ANY_OF, personDto.getCompositionType());
-    assertEquals(Optional.empty(), personDto.getDiscriminator());
   }
 }

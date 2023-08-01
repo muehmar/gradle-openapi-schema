@@ -1,0 +1,446 @@
+allNecessityAndNullabilityVariants=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+com.github.muehmar.openapi.util.Tristate
+java.util.HashMap
+java.util.Map
+java.util.Optional
+
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private String requiredStringVal;
+  private String requiredNullableStringVal;
+  private boolean isRequiredNullableStringValPresent = false;
+  private String optionalStringVal;
+  private String optionalNullableStringVal;
+  private boolean isOptionalNullableStringValNull = false;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonProperty("requiredStringVal")
+  private Builder setRequiredStringVal(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonProperty("requiredNullableStringVal")
+  private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonProperty("optionalStringVal")
+  public Builder setOptionalStringVal(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+    this.optionalStringVal = optionalStringVal.orElse(null);
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonProperty("optionalNullableStringVal")
+  public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  private Builder setProp1(Object prop1) {
+    return addAdditionalProperty("prop1", prop1);
+  }
+
+  public NecessityAndNullabilityDto build() {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariantsDisabledJackson=[
+com.github.muehmar.openapi.util.Tristate
+java.util.HashMap
+java.util.Map
+java.util.Optional
+
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private String requiredStringVal;
+  private String requiredNullableStringVal;
+  private boolean isRequiredNullableStringValPresent = false;
+  private String optionalStringVal;
+  private String optionalNullableStringVal;
+  private boolean isOptionalNullableStringValNull = false;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * RequiredStringVal
+   */
+  private Builder setRequiredStringVal(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+    this.optionalStringVal = optionalStringVal.orElse(null);
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public NecessityAndNullabilityDto build() {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariantsDisabledSafeBuilder=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+com.github.muehmar.openapi.util.Tristate
+java.util.HashMap
+java.util.Map
+java.util.Optional
+
+public static Builder newBuilder() {
+  return new Builder();
+}
+
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private String requiredStringVal;
+  private String requiredNullableStringVal;
+  private boolean isRequiredNullableStringValPresent = false;
+  private String optionalStringVal;
+  private String optionalNullableStringVal;
+  private boolean isOptionalNullableStringValNull = false;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonProperty("requiredStringVal")
+  public Builder setRequiredStringVal(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonProperty("requiredNullableStringVal")
+  public Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonProperty("optionalStringVal")
+  public Builder setOptionalStringVal(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+    this.optionalStringVal = optionalStringVal.orElse(null);
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonProperty("optionalNullableStringVal")
+  public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public NecessityAndNullabilityDto build() {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+  }
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGeneratorTest.generate_when_additionalPropertyTypeIsList_then_containsListInRefs=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+java.util.HashMap
+java.util.List
+java.util.Map
+
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  private Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, List<String> value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, List<String>> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public ObjectPojo1Dto build() {
+    return new ObjectPojo1Dto(additionalProperties);
+  }
+}
+]
+
+
+oneOfPojo=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+java.util.HashMap
+java.util.Map
+
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private String stringVal;
+  private Integer intVal;
+  private Double doubleVal;
+  private LocalDate birthdate;
+  private String email;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * stringVal
+   */
+  @JsonProperty("stringVal")
+  private Builder setStringVal(String stringVal) {
+    this.stringVal = stringVal;
+    return this;
+  }
+
+  /**
+   * intVal
+   */
+  @JsonProperty("intVal")
+  private Builder setIntVal(Integer intVal) {
+    this.intVal = intVal;
+    return this;
+  }
+
+  /**
+   * doubleVal
+   */
+  @JsonProperty("doubleVal")
+  private Builder setDoubleVal(Double doubleVal) {
+    this.doubleVal = doubleVal;
+    return this;
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonProperty("birthdate")
+  private Builder setBirthdate(LocalDate birthdate) {
+    this.birthdate = birthdate;
+    return this;
+  }
+
+  /**
+   * email
+   */
+  @JsonProperty("email")
+  private Builder setEmail(String email) {
+    this.email = email;
+    return this;
+  }
+
+  private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    setStringVal(dto.getStringVal());
+    setIntVal(dto.getIntVal());
+    setDoubleVal(dto.getDoubleVal());
+    dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+    return this;
+  }
+
+  private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    setStringVal(dto.getStringVal());
+    setBirthdate(dto.getBirthdate());
+    setEmail(dto.getEmail());
+    dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public OneOfPojo1Dto build() {
+    return new OneOfPojo1Dto(stringVal, intVal, doubleVal, birthdate, email, additionalProperties);
+  }
+}
+]

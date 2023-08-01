@@ -28,6 +28,18 @@ class ObjectPojoTest {
     assertEquals(expectedFlag, objectPojo.containsNoneDefaultPropertyScope());
   }
 
+  @ParameterizedTest
+  @CsvSource({"DEFAULT, false", "READ_ONLY, true", "WRITE_ONLY, true"})
+  void containsNoneDefaultPropertyScope_when_allPropertyScopesInCompositionPojo_then_expectedFlag(
+      PropertyScope scope, boolean expectedFlag) {
+    final PojoMember requiredString = PojoMembers.requiredString(PropertyScope.DEFAULT);
+    final PojoMember requiredBirthdate = PojoMembers.requiredBirthdate(scope);
+    final ObjectPojo objectPojo = Pojos.objectPojo(PList.of(requiredBirthdate, requiredString));
+    final ObjectPojo anyOfPojo = Pojos.anyOfPojo(objectPojo);
+
+    assertEquals(expectedFlag, anyOfPojo.containsNoneDefaultPropertyScope());
+  }
+
   @Test
   void inlineObjectReference_when_referenceTypeMatches_then_referenceTypeUsed() {
     final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");

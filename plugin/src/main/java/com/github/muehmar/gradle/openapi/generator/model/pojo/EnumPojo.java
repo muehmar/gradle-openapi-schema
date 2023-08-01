@@ -50,8 +50,7 @@ public class EnumPojo implements Pojo {
   public <T> T fold(
       Function<ObjectPojo, T> onObjectPojo,
       Function<ArrayPojo, T> onArrayType,
-      Function<EnumPojo, T> onEnumPojo,
-      Function<ComposedPojo, T> onComposedPojo) {
+      Function<EnumPojo, T> onEnumPojo) {
     return onEnumPojo.apply(this);
   }
 

@@ -1,0 +1,7 @@
+pojoWithRequiredProperties=[
+.
+.
+private Builder setProp1(Object prop1) {
+  return addAdditionalProperty("prop1", prop1);
+}
+]

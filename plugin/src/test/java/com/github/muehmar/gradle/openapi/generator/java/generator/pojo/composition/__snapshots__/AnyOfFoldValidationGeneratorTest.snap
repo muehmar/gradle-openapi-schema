@@ -1,0 +1,33 @@
+AnyOf=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+@Valid
+@JsonIgnore
+private List<Object> getAnyOf() {
+  if (getAnyOfValidCount() == 0) {
+    return null;
+  }
+  return foldAnyOf(dto -> dto, dto -> dto);
+}
+]
+
+
+AnyOfProtectedAndDeprecatedSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for
+ * validation or serialisation.
+ */
+@Valid
+@Deprecated
+@JsonIgnore
+protected List<Object> getAnyOf() {
+  if (getAnyOfValidCount() == 0) {
+    return null;
+  }
+  return foldAnyOf(dto -> dto, dto -> dto);
+}
+]

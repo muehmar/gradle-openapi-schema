@@ -1,0 +1,100 @@
+anyOfPojoWithRequiredProperties=[
+java.util.Optional
+
+public static final class AnyOfBuilder0 {
+  private final Builder builder;
+
+  private AnyOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+}
+
+public static final class AnyOfBuilder1 {
+  private final Builder builder;
+
+  private AnyOfBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder1 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new PropertyBuilder1(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder1 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new PropertyBuilder1(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+}
+]
+
+
+anyOfPojoWithoutRequiredProperties=[
+.
+.
+public static final class AnyOfBuilder0 {
+  private final Builder builder;
+
+  private AnyOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+}
+
+public static final class AnyOfBuilder1 {
+  private final Builder builder;
+
+  private AnyOfBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  public OptPropertyBuilder0 andAllOptionals(){
+    return new OptPropertyBuilder0(builder);
+  }
+
+  public Builder andOptionals(){
+    return builder;
+  }
+
+  public AnyOfPojo1Dto build(){
+    return builder.build();
+  }
+}
+]

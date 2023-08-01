@@ -31,6 +31,10 @@ public class JavaName {
     return new JavaName(name.startUpperCase());
   }
 
+  public JavaName startLowerCase() {
+    return new JavaName(name.startLowerCase());
+  }
+
   public JavaIdentifier asIdentifier() {
     return JavaIdentifier.fromName(name);
   }

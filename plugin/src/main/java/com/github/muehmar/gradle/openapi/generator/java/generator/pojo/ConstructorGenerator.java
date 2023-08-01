@@ -71,6 +71,10 @@ public class ConstructorGenerator<A, B> implements Generator<A, B> {
       return (d, s) -> JavaModifiers.of(modifier);
     }
 
+    static <A, B> BiFunction<A, B, JavaModifiers> modifiers(Function<A, JavaModifiers> modifier) {
+      return (d, s) -> modifier.apply(d);
+    }
+
     static <A, B> BiFunction<A, B, JavaModifiers> modifiers(JavaModifier m1, JavaModifier m2) {
       return (d, s) -> JavaModifiers.of(m1, m2);
     }

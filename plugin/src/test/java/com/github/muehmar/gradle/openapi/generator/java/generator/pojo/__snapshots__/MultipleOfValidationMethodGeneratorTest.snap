@@ -1,4 +1,7 @@
 doubleMember=[
+java.math.BigDecimal
+javax.validation.constraints.AssertTrue
+
 @AssertTrue(message = "doubleVal is not a multiple of 12.25")
 private boolean isDoubleValMultipleOfValid() {
   return doubleVal == null || BigDecimal.valueOf(doubleVal).divideAndRemainder(new BigDecimal("12.25"))[1].signum() == 0;
@@ -8,6 +11,9 @@ private boolean isDoubleValMultipleOfValid() {
 
 
 floatMember=[
+java.math.BigDecimal
+javax.validation.constraints.AssertTrue
+
 @AssertTrue(message = "floatVal is not a multiple of 50.5")
 private boolean isFloatValMultipleOfValid() {
   return floatVal == null || BigDecimal.valueOf(floatVal).divideAndRemainder(new BigDecimal("50.5"))[1].signum() == 0;
@@ -17,6 +23,8 @@ private boolean isFloatValMultipleOfValid() {
 
 
 integerMember=[
+javax.validation.constraints.AssertTrue
+
 @AssertTrue(message = "intVal is not a multiple of 50")
 private boolean isIntValMultipleOfValid() {
   return intVal == null || intVal % 50L == 0;
@@ -26,6 +34,8 @@ private boolean isIntValMultipleOfValid() {
 
 
 longMember=[
+javax.validation.constraints.AssertTrue
+
 @AssertTrue(message = "longVal is not a multiple of 12")
 private boolean isLongValMultipleOfValid() {
   return longVal == null || longVal % 12L == 0;

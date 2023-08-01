@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
@@ -19,7 +21,7 @@ public class PojoPropertyCountMethod {
 
   private static final String JAVA_DOC = "Returns the number of present properties of this object.";
 
-  public static Generator<JavaObjectPojo, PojoSettings> propertyCountMethod() {
+  public static Generator<JavaObjectPojo, PojoSettings> pojoPropertyCountMethoGenerator() {
     final MethodGen<JavaObjectPojo, PojoSettings> method =
         MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
             .modifiers(PUBLIC)
@@ -50,7 +52,9 @@ public class PojoPropertyCountMethod {
 
   private static Generator<PojoAndMember, PojoSettings> requiredNotNullablePropertyCount() {
     return Generator.<PojoAndMember, PojoSettings>emptyGen()
-        .append((pam, s, w) -> w.println("1 +"))
+        .append(
+            (pam, s, w) ->
+                w.println("(%s != null ? 1 : 0) +", pam.getMember().getNameAsIdentifier()))
         .filter(pam -> pam.getMember().isRequiredAndNotNullable());
   }
 
@@ -80,9 +84,7 @@ public class PojoPropertyCountMethod {
 
   private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesCount() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            (pojo, s, w) ->
-                w.println("%s.size();", pojo.getAdditionalProperties().getPropertyName()));
+        .append(constant("%s.size();", additionalPropertiesName()));
   }
 
   @Value
@@ -91,7 +93,7 @@ public class PojoPropertyCountMethod {
     JavaPojoMember member;
 
     private static PList<PojoAndMember> fromPojo(JavaObjectPojo pojo) {
-      return pojo.getMembers().map(member -> new PojoAndMember(pojo, member));
+      return pojo.getAllMembers().map(member -> new PojoAndMember(pojo, member));
     }
   }
 }

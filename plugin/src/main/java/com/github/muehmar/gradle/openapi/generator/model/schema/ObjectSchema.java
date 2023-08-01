@@ -10,14 +10,18 @@ import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.schema.SchemaCompositions.CompositionMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -49,13 +53,9 @@ public class ObjectSchema implements OpenApiSchema {
   }
 
   public static Optional<ObjectSchema> wrap(Schema<?> schema) {
-    final Map<String, Schema> propertiesNullable = schema.getProperties();
-    final Object additionalPropertiesNullable = schema.getAdditionalProperties();
-    if (propertiesNullable != null
-        || additionalPropertiesNullable != null
-        || SchemaType.OBJECT.matchesType(schema)) {
+    if (isObjectSchema(schema)) {
       final Map<String, Schema> properties =
-          Optional.ofNullable(propertiesNullable).orElseGet(Collections::emptyMap);
+          Optional.ofNullable(schema.getProperties()).orElseGet(Collections::emptyMap);
 
       final RequiredProperties requiredProperties =
           RequiredPropertiesBuilder.create()
@@ -64,7 +64,7 @@ public class ObjectSchema implements OpenApiSchema {
               .build();
 
       final AdditionalPropertiesSchema additionalPropertiesSchema =
-          AdditionalPropertiesSchema.wrapNullable(additionalPropertiesNullable);
+          AdditionalPropertiesSchema.wrapNullable(schema.getAdditionalProperties());
 
       final ObjectSchema objectSchema =
           new ObjectSchema(schema, properties, requiredProperties, additionalPropertiesSchema);
@@ -73,37 +73,71 @@ public class ObjectSchema implements OpenApiSchema {
     return Optional.empty();
   }
 
+  private static boolean isObjectSchema(Schema<?> schema) {
+    if (schema.getProperties() != null) {
+      return true;
+    }
+    if (schema.getAdditionalProperties() != null) {
+      return true;
+    }
+    if (schema.getAllOf() != null) {
+      return true;
+    }
+    if (schema.getOneOf() != null) {
+      return true;
+    }
+    if (schema.getAnyOf() != null) {
+      return true;
+    }
+    return SchemaType.OBJECT.matchesType(schema);
+  }
+
   @Override
   public MapContext mapToPojo(PojoName pojoName) {
     final PojoMemberMapResults pojoMemberMapResults = extractMembers(pojoName);
     final AdditionalPropertiesMapResult additionalPropertiesMapResult =
         extractAdditionalPropertyMembers(pojoName);
-    final PList<PojoMember> members =
-        pojoMemberMapResults.getMembers().concat(additionalPropertiesMapResult.getMembers());
+    final PList<Name> requiredAdditionalProperties =
+        additionalPropertiesMapResult.getRequiredAdditionalProperties();
     final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
+    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(delegate);
 
-    final Pojo objectPojo =
-        ObjectPojoBuilder.create()
+    final CompositionMapResult<UnresolvedAllOfComposition> allOfResult =
+        schemaCompositions.getAllOf(pojoName);
+    final CompositionMapResult<UnresolvedOneOfComposition> oneOfResult =
+        schemaCompositions.getOneOf(pojoName);
+    final CompositionMapResult<UnresolvedAnyOfComposition> anyOfResult =
+        schemaCompositions.getAnyOf(pojoName);
+
+    final UnresolvedObjectPojo unresolvedObjectPojo =
+        UnresolvedObjectPojoBuilder.create()
             .name(pojoName)
             .description(getDescription())
-            .members(members)
+            .members(pojoMemberMapResults.getMembers())
+            .requiredAdditionalProperties(requiredAdditionalProperties)
             .constraints(constraints)
             .additionalProperties(additionalPropertiesSchema.asAdditionalProperties(pojoName))
             .andAllOptionals()
+            .allOfComposition(allOfResult.getComposition())
+            .oneOfComposition(oneOfResult.getComposition())
+            .anyOfComposition(anyOfResult.getComposition())
             .build();
 
     final UnmappedItems unmappedItems =
         pojoMemberMapResults
             .getUnmappedItems()
-            .merge(additionalPropertiesMapResult.getUnmappedItems());
+            .merge(additionalPropertiesMapResult.getUnmappedItems())
+            .merge(allOfResult.getUnmappedItems())
+            .merge(oneOfResult.getUnmappedItems())
+            .merge(anyOfResult.getUnmappedItems());
 
     return MapContext.fromUnmappedItemsAndResult(
-        unmappedItems, UnresolvedMapResult.ofPojo(objectPojo));
+        unmappedItems, UnresolvedMapResult.ofUnresolvedObjectPojo(unresolvedObjectPojo));
   }
 
   @Override
   public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
-    if (properties.isEmpty() && requiredProperties.getRequiredAdditionalPropertyNames().isEmpty()) {
+    if (isMapSchema()) {
       final MemberSchemaMapResult additionalPropertiesMapResult =
           additionalPropertiesSchema.getAdditionalPropertiesMapResult(pojoName, memberName);
       final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
@@ -118,6 +152,14 @@ public class ObjectSchema implements OpenApiSchema {
       final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, this);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(objectType, pojoSchema);
     }
+  }
+
+  private boolean isMapSchema() {
+    return properties.isEmpty()
+        && requiredProperties.getRequiredAdditionalPropertyNames().isEmpty()
+        && delegate.getAllOf() == null
+        && delegate.getOneOf() == null
+        && delegate.getAnyOf() == null;
   }
 
   @Override
@@ -136,16 +178,10 @@ public class ObjectSchema implements OpenApiSchema {
   private AdditionalPropertiesMapResult extractAdditionalPropertyMembers(PojoName pojoName) {
     final MemberSchemaMapResult additionalPropertiesMapResult =
         additionalPropertiesSchema.getAdditionalPropertiesMapResult(pojoName);
-    final PList<PojoMember> additionalPropertyMembers =
-        requiredProperties
-            .getRequiredAdditionalPropertyNames()
-            .map(Name::ofString)
-            .map(
-                name ->
-                    PojoMember.additionalPropertyForNameAndType(
-                        name, additionalPropertiesMapResult.getType()));
+    final PList<Name> requiredAdditionalProperties =
+        requiredProperties.getRequiredAdditionalPropertyNames().map(Name::ofString);
     return new AdditionalPropertiesMapResult(
-        additionalPropertyMembers, additionalPropertiesMapResult.getUnmappedItems());
+        requiredAdditionalProperties, additionalPropertiesMapResult.getUnmappedItems());
   }
 
   private PojoMemberMapResult mapToPojoMember(MemberSchema memberSchema, PojoName pojoName) {
@@ -199,7 +235,7 @@ public class ObjectSchema implements OpenApiSchema {
 
   @Value
   private static class AdditionalPropertiesMapResult {
-    PList<PojoMember> members;
+    PList<Name> requiredAdditionalProperties;
     UnmappedItems unmappedItems;
   }
 }

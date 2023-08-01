@@ -1,92 +1,127 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.builder.NormalBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ConstructorContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.EqualsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.HashCodeGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.PojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.pojo.ToStringGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+@PojoBuilder(packagePrivateBuilder = true)
 @EqualsAndHashCode
 @ToString
 public class JavaObjectPojo implements JavaPojo {
   private final JavaPojoName name;
   private final String description;
   private final PList<JavaPojoMember> members;
+  private final Optional<JavaAllOfComposition> allOfComposition;
+  private final Optional<JavaOneOfComposition> oneOfComposition;
+  private final Optional<JavaAnyOfComposition> anyOfComposition;
   private final PojoType type;
+  private final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties;
   private final JavaAdditionalProperties additionalProperties;
   private final Constraints constraints;
 
-  private JavaObjectPojo(
+  JavaObjectPojo(
       JavaPojoName name,
       String description,
       PList<JavaPojoMember> members,
+      Optional<JavaAllOfComposition> allOfComposition,
+      Optional<JavaOneOfComposition> oneOfComposition,
+      Optional<JavaAnyOfComposition> anyOfComposition,
       PojoType type,
+      PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties,
       JavaAdditionalProperties additionalProperties,
       Constraints constraints) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.members = members;
+    this.allOfComposition = allOfComposition;
+    this.oneOfComposition = oneOfComposition;
+    this.anyOfComposition = anyOfComposition;
     this.type = type;
+    this.requiredAdditionalProperties = requiredAdditionalProperties;
     this.additionalProperties = additionalProperties;
     this.constraints = constraints;
+    assertPropertiesHaveNotSameNameAndDifferentAttributes(
+        name, members, allOfComposition, oneOfComposition, anyOfComposition);
   }
 
-  public static JavaObjectPojo from(
+  private static void assertPropertiesHaveNotSameNameAndDifferentAttributes(
       JavaPojoName name,
-      String description,
       PList<JavaPojoMember> members,
-      PojoType type,
-      JavaAdditionalProperties additionalProperties,
-      Constraints constraints) {
-    return new JavaObjectPojo(name, description, members, type, additionalProperties, constraints);
+      Optional<JavaAllOfComposition> allOfComposition,
+      Optional<JavaOneOfComposition> oneOfComposition,
+      Optional<JavaAnyOfComposition> anyOfComposition) {
+    final PList<JavaPojoMember> allMembers =
+        members
+            .concat(allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty))
+            .concat(oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty))
+            .concat(anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty));
+
+    final PList<JavaPojoMember> invalidMembers =
+        allMembers
+            .filter(
+                member1 ->
+                    allMembers.exists(member2 -> sameNameButDifferentAttributes(member1, member2)))
+            .duplicates(Comparator.comparing(m -> m.getName().asString()));
+
+    if (invalidMembers.nonEmpty()) {
+      throw new OpenApiGeneratorException(
+          String.format(
+              "Cannot create DTO %s: Two or more properties (defined either in properties or in one of the schemas used "
+                  + "for a composition (allOf, oneOf or anyOf) have the same name but different attributes (e.g. type, "
+                  + "constraints)! Invalid properties: [%s].",
+              name, invalidMembers.map(JavaPojoMember::getName).mkString(", ")));
+    }
   }
 
-  public static JavaObjectPojo from(
-      PojoName name,
-      String description,
-      PList<JavaPojoMember> members,
-      PojoType type,
-      JavaAdditionalProperties additionalProperties,
-      Constraints constraints) {
-    return from(
-        JavaPojoName.wrap(name), description, members, type, additionalProperties, constraints);
+  private static boolean sameNameButDifferentAttributes(JavaPojoMember m1, JavaPojoMember m2) {
+    return m1.getName().equals(m2.getName())
+        && not(m1.asObjectMember().equals(m2.asObjectMember()));
   }
 
-  public static NonEmptyList<JavaObjectPojo> wrap(
-      ObjectPojo objectPojo, TypeMappings typeMappings) {
+  public static JavaPojoWrapResult wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
     if (objectPojo.containsNoneDefaultPropertyScope()) {
-      return NonEmptyList.of(
-          createForType(objectPojo, typeMappings, PojoType.DEFAULT),
-          createForType(objectPojo, typeMappings, PojoType.REQUEST),
-          createForType(objectPojo, typeMappings, PojoType.RESPONSE));
+      return JavaPojoWrapResultBuilder.create()
+          .defaultPojo(createForType(objectPojo, typeMappings, PojoType.DEFAULT))
+          .andAllOptionals()
+          .requestPojo(createForType(objectPojo, typeMappings, PojoType.REQUEST))
+          .responsePojo(createForType(objectPojo, typeMappings, PojoType.RESPONSE))
+          .build();
     } else {
-      return NonEmptyList.single(createForType(objectPojo, typeMappings, PojoType.DEFAULT));
+      return JavaPojoWrapResult.ofDefaultPojo(
+          createForType(objectPojo, typeMappings, PojoType.DEFAULT));
     }
   }
 
@@ -103,7 +138,22 @@ public class JavaObjectPojo implements JavaPojo {
         JavaPojoName.wrap(type.mapName(objectPojo.getName())),
         objectPojo.getDescription(),
         members,
+        objectPojo
+            .getAllOfComposition()
+            .map(comp -> JavaAllOfComposition.wrap(comp, type, typeMappings)),
+        objectPojo
+            .getOneOfComposition()
+            .map(comp -> JavaOneOfComposition.wrap(comp, type, typeMappings)),
+        objectPojo
+            .getAnyOfComposition()
+            .map(comp -> JavaAnyOfComposition.wrap(comp, type, typeMappings)),
         type,
+        objectPojo
+            .getRequiredAdditionalProperties()
+            .map(
+                propName ->
+                    JavaRequiredAdditionalProperty.fromNameAndType(
+                        propName, javaAdditionalProperties.getType())),
         javaAdditionalProperties,
         objectPojo.getConstraints());
   }
@@ -118,6 +168,14 @@ public class JavaObjectPojo implements JavaPojo {
     return name.asJavaName().asIdentifier();
   }
 
+  public JavaIdentifier prefixedClassNameForMethod(String prefix) {
+    if (prefix.isEmpty()) {
+      return name.asJavaName().startLowerCase().asIdentifier();
+    } else {
+      return name.asJavaName().startUpperCase().prefix(prefix).asIdentifier();
+    }
+  }
+
   @Override
   public String getDescription() {
     return description;
@@ -128,8 +186,81 @@ public class JavaObjectPojo implements JavaPojo {
     return type;
   }
 
+  public boolean isSimpleMapPojo() {
+    return members.isEmpty()
+        && not(allOfComposition.isPresent())
+        && not(oneOfComposition.isPresent())
+        && not(anyOfComposition.isPresent());
+  }
+
+  public boolean hasRequiredMembers() {
+    return members.exists(JavaPojoMember::isRequired);
+  }
+
+  public boolean hasNotRequiredMembers() {
+    return not(hasRequiredMembers());
+  }
+
   public PList<JavaPojoMember> getMembers() {
     return members;
+  }
+
+  public PList<JavaPojoMember> getAllMembersForComposition() {
+    return getMembers()
+        .map(member -> member.asInnerEnumOf(getClassName()))
+        .concat(getComposedMembers());
+  }
+
+  public PList<JavaPojoMember> getComposedMembers() {
+    final PList<JavaPojoMember> allOfMembers =
+        allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
+    final PList<JavaPojoMember> oneOfMembers =
+        oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
+    final PList<JavaPojoMember> anyOfMembers =
+        anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
+    return allOfMembers.concat(oneOfMembers).concat(anyOfMembers).distinct(Function.identity());
+  }
+
+  public PList<JavaPojoMember> getAllMembers() {
+    return members.concat(getComposedMembers()).distinct(Function.identity());
+  }
+
+  public Optional<JavaAllOfComposition> getAllOfComposition() {
+    return allOfComposition;
+  }
+
+  public Optional<JavaOneOfComposition> getOneOfComposition() {
+    return oneOfComposition;
+  }
+
+  public PList<JavaObjectPojo> getOneOfPojos() {
+    return oneOfComposition
+        .map(JavaOneOfComposition::getPojos)
+        .map(NonEmptyList::toPList)
+        .orElseGet(PList::empty);
+  }
+
+  public boolean hasOneOfComposition() {
+    return oneOfComposition.isPresent();
+  }
+
+  public Optional<JavaAnyOfComposition> getAnyOfComposition() {
+    return anyOfComposition;
+  }
+
+  public PList<JavaObjectPojo> getAnyOfPojos() {
+    return anyOfComposition
+        .map(JavaAnyOfComposition::getPojos)
+        .map(NonEmptyList::toPList)
+        .orElseGet(PList::empty);
+  }
+
+  public boolean hasAnyOfComposition() {
+    return anyOfComposition.isPresent();
+  }
+
+  public PList<JavaRequiredAdditionalProperty> getRequiredAdditionalProperties() {
+    return requiredAdditionalProperties;
   }
 
   public JavaAdditionalProperties getAdditionalProperties() {
@@ -143,7 +274,7 @@ public class JavaObjectPojo implements JavaPojo {
   public MemberGenerator.MemberContent getMemberContent() {
     return MemberContentBuilder.create()
         .isArrayPojo(false)
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -151,7 +282,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return HashCodeContentBuilder.create()
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -160,7 +291,7 @@ public class JavaObjectPojo implements JavaPojo {
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return EqualsContentBuilder.create()
         .className(getClassName())
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -169,7 +300,7 @@ public class JavaObjectPojo implements JavaPojo {
   public ToStringGenerator.ToStringContent getToStringContent() {
     return ToStringContentBuilder.create()
         .className(getClassName())
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -179,17 +310,9 @@ public class JavaObjectPojo implements JavaPojo {
     return ConstructorContentBuilder.create()
         .isArray(false)
         .className(getClassName())
-        .members(members)
+        .members(getAllMembers())
         .andAllOptionals()
-        .additionalProperties(additionalProperties)
-        .build();
-  }
-
-  public NormalBuilderGenerator.NormalBuilderContent getNormalBuilderContent() {
-    return NormalBuilderContentBuilder.create()
-        .className(getClassName())
-        .members(members)
-        .andAllOptionals()
+        .modifier(Optional.of(JavaModifier.PUBLIC).filter(ignore -> not(isSimpleMapPojo())))
         .additionalProperties(additionalProperties)
         .build();
   }
@@ -197,7 +320,8 @@ public class JavaObjectPojo implements JavaPojo {
   public WitherGenerator.WitherContent getWitherContent() {
     return WitherContentBuilder.create()
         .className(getClassName())
-        .members(members)
+        .membersForWithers(getMembers())
+        .membersForConstructorCall(getAllMembers())
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
@@ -207,8 +331,7 @@ public class JavaObjectPojo implements JavaPojo {
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
-      Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo) {
+      Function<JavaObjectPojo, T> onObjectPojo) {
     return onObjectPojo.apply(this);
   }
 }

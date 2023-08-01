@@ -6,7 +6,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumG
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
@@ -77,8 +76,7 @@ public class JavaEnumPojo implements JavaPojo {
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,
       Function<JavaEnumPojo, T> onEnumPojo,
-      Function<JavaObjectPojo, T> onObjectPojo,
-      Function<JavaComposedPojo, T> onComposedPojo) {
+      Function<JavaObjectPojo, T> onObjectPojo) {
     return onEnumPojo.apply(this);
   }
 }

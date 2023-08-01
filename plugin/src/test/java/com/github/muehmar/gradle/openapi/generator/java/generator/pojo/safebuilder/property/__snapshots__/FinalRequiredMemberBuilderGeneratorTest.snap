@@ -1,0 +1,23 @@
+allNecessityAndNullabilityVariants=[
+.
+.
+public static final class PropertyBuilder3 {
+  private final Builder builder;
+
+  private PropertyBuilder3(Builder builder) {
+    this.builder = builder;
+  }
+
+  public OptPropertyBuilder0 andAllOptionals(){
+    return new OptPropertyBuilder0(builder);
+  }
+
+  public Builder andOptionals(){
+    return builder;
+  }
+
+  public NecessityAndNullabilityDto build(){
+    return builder.build();
+  }
+}
+]

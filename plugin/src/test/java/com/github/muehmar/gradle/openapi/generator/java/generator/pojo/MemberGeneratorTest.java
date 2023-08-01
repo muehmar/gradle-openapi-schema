@@ -25,7 +25,7 @@ class MemberGeneratorTest {
   @Test
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_samplePojo_then_correctOutputAndRef() {
-    final Generator<MemberContent, PojoSettings> gen = MemberGenerator.generator();
+    final Generator<MemberContent, PojoSettings> gen = MemberGenerator.memberGenerator();
 
     final Writer writer =
         gen.generate(
@@ -41,7 +41,7 @@ class MemberGeneratorTest {
 
   @Test
   void generate_when_arrayPojo_then_correctOutputAndRef() {
-    final Generator<MemberContent, PojoSettings> gen = MemberGenerator.generator();
+    final Generator<MemberContent, PojoSettings> gen = MemberGenerator.memberGenerator();
 
     final Writer writer =
         gen.generate(

@@ -1,4 +1,6 @@
 arrayPojo=[
+java.util.List
+
 public static PosologyDto fromItems(List<Double> items) {
   return new PosologyDto(items);
 }
