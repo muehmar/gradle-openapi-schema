@@ -1,19 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -48,13 +45,7 @@ class NormalBuilderGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_POJO_BUILDER::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -69,8 +60,7 @@ class NormalBuilderGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -85,11 +75,7 @@ class NormalBuilderGeneratorTest {
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
             Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -104,11 +90,7 @@ class NormalBuilderGeneratorTest {
             TestPojoSettings.defaultSettings().withEnableSafeBuilder(false),
             Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
-    assertTrue(writer.getRefs().exists(OpenApiUtilRefs.TRISTATE::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -123,8 +105,6 @@ class NormalBuilderGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

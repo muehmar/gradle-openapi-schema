@@ -1,13 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -30,14 +29,11 @@ class FinalOptionalMemberBuilderGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
+            JavaPojos.allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_HASH_MAP::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -54,6 +50,6 @@ class FinalOptionalMemberBuilderGeneratorTest {
 
     assertEquals(0, writer.getRefs().size());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

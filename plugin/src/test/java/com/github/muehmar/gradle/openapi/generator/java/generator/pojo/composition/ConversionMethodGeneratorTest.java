@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -97,7 +98,7 @@ class ConversionMethodGeneratorTest {
         generator.generate(
             composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -114,6 +115,6 @@ class ConversionMethodGeneratorTest {
         generator.generate(
             composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

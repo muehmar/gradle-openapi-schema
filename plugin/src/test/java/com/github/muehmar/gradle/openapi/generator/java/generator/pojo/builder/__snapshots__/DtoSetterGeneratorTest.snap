@@ -1,4 +1,6 @@
 composedPojoHasNoAdditionalPropertiesAllowed=[
+.
+.
 
 private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
@@ -19,6 +21,8 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
 
 
 noBuilderSetMethodPrefix=[
+.
+.
 
 private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
@@ -40,6 +44,8 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
 
 
 oneOfPojo=[
+.
+.
 
 private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
@@ -62,6 +68,8 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
 
 
 oneOfPojoWithDiscriminator=[
+.
+.
 
 private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal("SampleObjectPojo1");

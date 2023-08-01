@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
@@ -31,7 +33,7 @@ class AnyOfBuilderGeneratorTest {
         generator.generate(
             anyOfPojoWithMembers, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -45,6 +47,6 @@ class AnyOfBuilderGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

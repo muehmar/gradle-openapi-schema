@@ -1,4 +1,6 @@
 anyOf=[
+.
+.
 
 private boolean isValidAgainstSampleObjectPojo1Dto() {
   return asSampleObjectPojo1Dto().validateBasic();
@@ -15,6 +17,8 @@ private boolean isValidAgainstObjectPojo1Dto() {
 
 
 composedPojoHasNoRequiredMembers=[
+.
+.
 private boolean isValidAgainstObjectPojo1Dto() {
   return asObjectPojo1Dto().validateBasic();
 }
@@ -23,6 +27,8 @@ private boolean isValidAgainstObjectPojo1Dto() {
 
 
 nestedOneOf=[
+.
+.
 private boolean isValidAgainstOneOfPojo1Dto() {
   return asOneOfPojo1Dto().validateBasic();
 }
@@ -35,6 +41,8 @@ private boolean isValidAgainstObjectPojo1Dto() {
 
 
 oneOf=[
+.
+.
 private boolean isValidAgainstSampleObjectPojo1Dto() {
   return asSampleObjectPojo1Dto().validateBasic();
 }

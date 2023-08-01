@@ -1,4 +1,12 @@
 allNecessityAndNullabilityVariants=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+com.github.muehmar.openapi.util.Tristate
+java.util.HashMap
+java.util.Map
+java.util.Optional
+
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {
 
@@ -100,6 +108,11 @@ public static final class Builder {
 
 
 allNecessityAndNullabilityVariantsDisabledJackson=[
+com.github.muehmar.openapi.util.Tristate
+java.util.HashMap
+java.util.Map
+java.util.Optional
+
 public static final class Builder {
 
   private Builder() {
@@ -191,6 +204,14 @@ public static final class Builder {
 
 
 allNecessityAndNullabilityVariantsDisabledSafeBuilder=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+com.github.muehmar.openapi.util.Tristate
+java.util.HashMap
+java.util.Map
+java.util.Optional
+
 public static Builder newBuilder() {
   return new Builder();
 }
@@ -288,7 +309,51 @@ public static final class Builder {
 ]
 
 
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGeneratorTest.generate_when_additionalPropertyTypeIsList_then_containsListInRefs=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+java.util.HashMap
+java.util.List
+java.util.Map
+
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  private Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, List<String> value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, List<String>> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  public ObjectPojo1Dto build() {
+    return new ObjectPojo1Dto(additionalProperties);
+  }
+}
+]
+
+
 oneOfPojo=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+java.util.HashMap
+java.util.Map
+
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {
 

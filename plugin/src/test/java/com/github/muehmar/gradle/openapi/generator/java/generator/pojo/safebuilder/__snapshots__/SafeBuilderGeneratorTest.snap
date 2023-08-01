@@ -1,4 +1,8 @@
 enabledSafeBuilder=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Map
+java.util.Optional
+
 public static PropertyBuilder0 newBuilder() {
   return new PropertyBuilder0(new Builder());
 }

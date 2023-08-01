@@ -1,4 +1,7 @@
 DiscriminatorWithMapping=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 @JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
@@ -15,6 +18,9 @@ private boolean isValidAgainstTheCorrectSchema() {
 
 
 DiscriminatorWithoutMapping=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 @JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
@@ -31,6 +37,9 @@ private boolean isValidAgainstTheCorrectSchema() {
 
 
 DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
 /**
  * @deprecated This method is intended to be used only by frameworks for
  * validation or serialisation.
@@ -52,5 +61,7 @@ protected boolean isValidAgainstTheCorrectSchema() {
 
 
 NoDiscriminator=[
+.
+.
 
 ]

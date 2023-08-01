@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,7 +51,7 @@ class AdditionalPropertiesGetterTest {
             TestPojoSettings.defaultSettings().withEnableValidation(true),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -73,7 +74,7 @@ class AdditionalPropertiesGetterTest {
             TestPojoSettings.defaultSettings().withEnableValidation(true),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -94,7 +95,7 @@ class AdditionalPropertiesGetterTest {
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test

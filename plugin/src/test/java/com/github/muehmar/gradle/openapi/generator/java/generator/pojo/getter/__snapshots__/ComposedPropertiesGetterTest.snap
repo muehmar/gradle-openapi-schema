@@ -1,4 +1,8 @@
 optionalAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 LocalDate getBirthdate() {
@@ -8,6 +12,11 @@ LocalDate getBirthdate() {
 
 
 optionalNullableAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 Object getBirthdate() {
@@ -17,6 +26,11 @@ Object getBirthdate() {
 
 
 optionalNullableOneOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 Object getBirthdate() {
@@ -26,6 +40,10 @@ Object getBirthdate() {
 
 
 optionalOneOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 LocalDate getBirthdate() {
@@ -35,6 +53,10 @@ LocalDate getBirthdate() {
 
 
 requiredAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 LocalDate getBirthdate() {
@@ -44,6 +66,11 @@ LocalDate getBirthdate() {
 
 
 requiredNullableAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 Object getBirthdate() {
@@ -53,6 +80,11 @@ Object getBirthdate() {
 
 
 requiredNullableOneOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 Object getBirthdate() {
@@ -62,6 +94,10 @@ Object getBirthdate() {
 
 
 requiredOneOfMember=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.time.LocalDate
+
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 LocalDate getBirthdate() {

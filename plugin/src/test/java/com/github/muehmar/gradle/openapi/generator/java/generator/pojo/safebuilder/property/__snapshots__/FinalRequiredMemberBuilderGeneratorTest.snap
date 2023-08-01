@@ -1,4 +1,6 @@
 allNecessityAndNullabilityVariants=[
+.
+.
 public static final class PropertyBuilder3 {
   private final Builder builder;
 

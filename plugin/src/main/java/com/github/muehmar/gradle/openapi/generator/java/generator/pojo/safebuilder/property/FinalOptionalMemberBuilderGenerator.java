@@ -39,8 +39,6 @@ public class FinalOptionalMemberBuilderGenerator {
         .appendSingleBlankLine()
         .append(allAdditionalPropertiesSetter())
         .append(RefsGenerator.javaTypeRefs(), p -> p.getAdditionalProperties().getType())
-        .append(ref(JavaRefs.JAVA_UTIL_MAP))
-        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
         .filter(p -> p.getAdditionalProperties().isAllowed());
   }
 
@@ -80,7 +78,8 @@ public class FinalOptionalMemberBuilderGenerator {
                 String.format(
                     "return new %s(builder.setAdditionalProperties(%s));",
                     builderName(p), additionalPropertiesName()))
-        .build();
+        .build()
+        .append(ref(JavaRefs.JAVA_UTIL_MAP));
   }
 
   private static String builderName(JavaObjectPojo pojo) {

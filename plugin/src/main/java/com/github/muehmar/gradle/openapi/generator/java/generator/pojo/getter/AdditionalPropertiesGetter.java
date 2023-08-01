@@ -89,6 +89,8 @@ public class AdditionalPropertiesGetter {
                     CAST_ADDITIONAL_PROPERTY_METHOD_NAME)),
             2)
         .append(constant("return props;"))
+        .append(ref(JavaRefs.JAVA_UTIL_MAP))
+        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
         .filter(AdditionalPropertiesGetter::isNotObjectAdditionalPropertiesType);
   }
 
@@ -129,7 +131,8 @@ public class AdditionalPropertiesGetter {
             (p, s, w) ->
                 w.print("return Optional.ofNullable(%s.get(key))", additionalPropertiesName()))
         .append(flatMapCastProperty)
-        .append((p, s, w) -> w.println(";"));
+        .append((p, s, w) -> w.println(";"))
+        .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertyCastMethod() {
@@ -141,6 +144,7 @@ public class AdditionalPropertiesGetter {
         .singleArgument(p -> "Object property")
         .content(additionalPropertyCastMethodContent())
         .build()
+        .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL))
         .filter(AdditionalPropertiesGetter::isNotObjectAdditionalPropertiesType);
   }
 
@@ -154,7 +158,8 @@ public class AdditionalPropertiesGetter {
             1)
         .append(constant("} catch (ClassCastException e) {"))
         .append(constant("return Optional.empty();"), 1)
-        .append(constant("}"));
+        .append(constant("}"))
+        .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
 
   private static boolean isObjectAdditionalPropertiesType(

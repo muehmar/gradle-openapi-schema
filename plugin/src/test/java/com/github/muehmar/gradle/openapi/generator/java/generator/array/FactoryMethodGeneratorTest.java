@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
@@ -25,6 +27,6 @@ class FactoryMethodGeneratorTest {
         generator.generate(
             JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

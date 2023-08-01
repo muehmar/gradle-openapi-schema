@@ -1,4 +1,6 @@
 allNecessityAndNullabilityVariants=[
+java.util.Optional
+
 public static final class PropertyBuilder0 {
   private final Builder builder;
 
@@ -40,6 +42,8 @@ public static final class PropertyBuilder1 {
 
 
 allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties=[
+java.util.Optional
+
 public static final class PropertyBuilder0 {
   private final Builder builder;
 
@@ -97,6 +101,9 @@ public static final class PropertyBuilder2 {
 
 
 builderMethodsOfFirstRequiredMemberGeneratorWithRequiredProperty=[
+java.time.LocalDate
+java.util.Optional
+
 /**
  * Birthdate
  */

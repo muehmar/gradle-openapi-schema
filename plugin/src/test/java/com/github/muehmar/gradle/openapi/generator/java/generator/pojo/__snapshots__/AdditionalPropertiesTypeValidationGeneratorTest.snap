@@ -1,4 +1,7 @@
 sampleObjectPojo1WithNonObjectValueType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
 @JsonIgnore
 @AssertTrue(message = "Not all additional properties are instances of String")
 private boolean isAllAdditionalPropertiesHaveCorrectType() {

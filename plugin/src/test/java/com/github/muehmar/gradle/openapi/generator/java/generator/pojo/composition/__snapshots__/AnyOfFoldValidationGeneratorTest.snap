@@ -1,4 +1,7 @@
 AnyOf=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
 @Valid
 @JsonIgnore
 private List<Object> getAnyOf() {
@@ -11,6 +14,9 @@ private List<Object> getAnyOf() {
 
 
 AnyOfProtectedAndDeprecatedSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
 /**
  * @deprecated This method is intended to be used only by frameworks for
  * validation or serialisation.

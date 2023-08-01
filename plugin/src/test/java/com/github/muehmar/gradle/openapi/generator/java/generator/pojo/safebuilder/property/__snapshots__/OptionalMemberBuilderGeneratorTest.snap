@@ -1,4 +1,7 @@
 allNecessityAndNullabilityVariants=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+
 public static final class OptPropertyBuilder0 {
   private final Builder builder;
 

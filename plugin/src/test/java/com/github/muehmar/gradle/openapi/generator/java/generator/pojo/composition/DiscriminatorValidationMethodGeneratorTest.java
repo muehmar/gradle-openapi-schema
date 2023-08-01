@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 
@@ -37,7 +38,7 @@ class DiscriminatorValidationMethodGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -57,7 +58,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -82,7 +83,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -114,6 +115,6 @@ class DiscriminatorValidationMethodGeneratorTest {
                         .withDeprecatedAnnotation(true)),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

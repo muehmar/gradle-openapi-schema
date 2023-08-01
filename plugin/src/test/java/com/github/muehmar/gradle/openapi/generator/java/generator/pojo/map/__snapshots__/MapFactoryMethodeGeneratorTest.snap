@@ -1,4 +1,7 @@
 simpleMapPojo=[
+java.util.HashMap
+java.util.Map
+
 public static ObjectPojo1Dto fromProperties(Map<String, Object> properties) {
   return new ObjectPojo1Dto(new HashMap<>(properties));
 }

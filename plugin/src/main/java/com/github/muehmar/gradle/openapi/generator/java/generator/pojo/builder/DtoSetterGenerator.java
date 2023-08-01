@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.fieldRefs;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
@@ -65,7 +64,6 @@ public class DtoSetterGenerator {
                     "%s(dto.%s());",
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
-        .append(fieldRefs(), PojosAndMember::getMember)
         .filter(PojosAndMember::isNotDiscriminatorMember);
   }
 
@@ -77,7 +75,6 @@ public class DtoSetterGenerator {
                     "%s(\"%s\");",
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getDiscriminatorValue()))
-        .append(fieldRefs(), PojosAndMember::getMember)
         .filter(PojosAndMember::isDiscriminatorMember);
   }
 

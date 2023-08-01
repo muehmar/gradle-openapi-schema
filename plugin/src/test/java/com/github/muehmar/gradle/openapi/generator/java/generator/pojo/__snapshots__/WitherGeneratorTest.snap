@@ -1,4 +1,7 @@
 allNullabilityAndNecessityVariants=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+
 /**
  * RequiredStringVal
  */
@@ -51,6 +54,8 @@ public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String>
 
 
 noAdditionalProperties=[
+.
+.
 /**
  * stringVal
  */
@@ -61,6 +66,9 @@ public ObjectDto withStringVal(String stringVal) {
 
 
 propertyNameMatchesSubstringOfOtherProperty=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+
 /**
  * desc
  */

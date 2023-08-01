@@ -1,4 +1,6 @@
 allOfPojo=[
+java.time.LocalDate
+
 public static final class AllOfBuilderSampleObjectPojo10 {
   private final Builder builder;
 

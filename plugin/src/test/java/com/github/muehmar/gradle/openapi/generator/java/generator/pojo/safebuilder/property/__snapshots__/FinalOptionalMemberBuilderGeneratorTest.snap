@@ -1,4 +1,6 @@
 allNecessityAndNullabilityVariants=[
+java.util.Map
+
 public static final class OptPropertyBuilder2 {
   private final Builder builder;
 
@@ -22,6 +24,8 @@ public static final class OptPropertyBuilder2 {
 
 
 noAdditionalPropertiesAllowed=[
+.
+.
 public static final class OptPropertyBuilder0 {
   private final Builder builder;
 

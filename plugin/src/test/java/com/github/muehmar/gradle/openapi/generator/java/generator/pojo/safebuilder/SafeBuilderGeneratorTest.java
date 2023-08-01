@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -23,11 +23,11 @@ class SafeBuilderGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
+            JavaPojos.allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings().withEnableSafeBuilder(true),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -37,7 +37,7 @@ class SafeBuilderGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
+            JavaPojos.allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings().withEnableSafeBuilder(false),
             Writer.createDefault());
 

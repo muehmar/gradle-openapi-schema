@@ -1,15 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -21,7 +19,6 @@ import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.HashMap;
-import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -40,10 +37,7 @@ class FoldMethodGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_FUNCTION::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_SUPPLIER::equals));
-    assertEquals(2, writer.getRefs().distinct(Function.identity()).size());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -63,10 +57,7 @@ class FoldMethodGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_FUNCTION::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_SUPPLIER::equals));
-    assertEquals(2, writer.getRefs().distinct(Function.identity()).size());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -94,10 +85,7 @@ class FoldMethodGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_FUNCTION::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_SUPPLIER::equals));
-    assertEquals(2, writer.getRefs().distinct(Function.identity()).size());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -112,10 +100,6 @@ class FoldMethodGeneratorTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAY_LIST::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_FUNCTION::equals));
-    assertEquals(3, writer.getRefs().distinct(Function.identity()).size());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

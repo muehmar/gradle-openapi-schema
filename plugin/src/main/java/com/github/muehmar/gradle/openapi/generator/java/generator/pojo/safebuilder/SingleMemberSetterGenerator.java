@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.fieldRefs;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
@@ -55,7 +56,8 @@ public class SingleMemberSetterGenerator {
                         m.nextBuilderClassName(),
                         m.getMember().prefixedMethodName(s.getBuilderMethodPrefix()),
                         m.getMember().getNameAsIdentifier()))
-            .build();
+            .build()
+            .append(fieldRefs(), Member::getMember);
     return JavaDocGenerator.<PojoSettings>javaDoc()
         .<T>contraMap(m -> m.getMember().getDescription())
         .append(method);

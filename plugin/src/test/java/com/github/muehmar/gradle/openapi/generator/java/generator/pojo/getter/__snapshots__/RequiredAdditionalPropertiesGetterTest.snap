@@ -1,4 +1,6 @@
 requiredAdditionalAnyTypeProperties=[
+javax.validation.constraints.NotNull
+
 @NotNull
 public Object getProp1() {
   return additionalProperties.get("prop1");
@@ -8,6 +10,10 @@ public Object getProp1() {
 
 
 requiredAdditionalObjectProperties=[
+javax.validation.Valid
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.NotNull
+
 @Valid
 public AdminDto getProp1() {
   try {
@@ -32,6 +38,10 @@ private boolean isProp1CorrectType() {
 
 
 requiredAdditionalObjectPropertiesWithDeprecatedValidationMethod=[
+javax.validation.Valid
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.NotNull
+
 @Valid
 public AdminDto getProp1() {
   try {
@@ -66,6 +76,9 @@ boolean isProp1CorrectType() {
 
 
 requiredAdditionalStringProperties=[
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.NotNull
+
 public String getProp1() {
   try {
     return (String) additionalProperties.get("prop1");

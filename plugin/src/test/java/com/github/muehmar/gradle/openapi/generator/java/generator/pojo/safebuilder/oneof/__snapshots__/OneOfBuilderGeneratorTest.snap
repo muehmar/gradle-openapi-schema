@@ -1,4 +1,6 @@
 oneOfPojo=[
+.
+.
 public static final class OneOfBuilder0 {
   private final Builder builder;
 

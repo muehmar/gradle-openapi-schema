@@ -1,8 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.map;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
+import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -24,6 +26,7 @@ public class MapFactoryMethodeGenerator {
                     pojo.getAdditionalProperties().getType().getFullClassName()))
         .content(methodContent())
         .build()
+        .append(ref(JavaRefs.JAVA_UTIL_MAP))
         .filter(JavaObjectPojo::isSimpleMapPojo)
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
@@ -31,6 +34,7 @@ public class MapFactoryMethodeGenerator {
   private static Generator<JavaObjectPojo, PojoSettings> methodContent() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
-            (p, s, w) -> w.println("return new %s(new HashMap<>(properties));", p.getClassName()));
+            (p, s, w) -> w.println("return new %s(new HashMap<>(properties));", p.getClassName()))
+        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
   }
 }

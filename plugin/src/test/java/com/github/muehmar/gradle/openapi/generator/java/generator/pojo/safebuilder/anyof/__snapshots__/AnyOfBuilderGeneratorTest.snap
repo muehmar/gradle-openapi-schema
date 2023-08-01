@@ -1,4 +1,6 @@
 anyOfPojoWithRequiredProperties=[
+java.util.Optional
+
 public static final class AnyOfBuilder0 {
   private final Builder builder;
 
@@ -49,6 +51,8 @@ public static final class AnyOfBuilder1 {
 
 
 anyOfPojoWithoutRequiredProperties=[
+.
+.
 public static final class AnyOfBuilder0 {
   private final Builder builder;
 

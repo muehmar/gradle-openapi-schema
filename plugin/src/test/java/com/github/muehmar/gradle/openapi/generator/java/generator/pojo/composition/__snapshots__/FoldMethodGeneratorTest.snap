@@ -1,5 +1,9 @@
 AnyOf=[
-
+java.util.ArrayList
+java.util.List
+java.util.function.Function
+.
+.
 /**
  * Folds the anyOf part of this instance using the given mapping functions for the
  * DTO's. All mapping functions gets executed with its corresponding DTO as input
@@ -31,6 +35,9 @@ public <T> List<T> foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPoj
 
 
 OneOfDiscriminatorWithMapping=[
+java.util.function.Function
+java.util.function.Supplier
+
 /**
  * Folds the oneOf part of this instance using the given mapping functions for the
  * DTO's. If this instance is valid against exactly one of the specified schemas,
@@ -85,6 +92,9 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
 
 
 OneOfDiscriminatorWithoutMapping=[
+java.util.function.Function
+java.util.function.Supplier
+
 /**
  * Folds the oneOf part of this instance using the given mapping functions for the
  * DTO's. If this instance is valid against exactly one of the specified schemas,
@@ -139,6 +149,9 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
 
 
 OneOfNoDiscriminator=[
+java.util.function.Function
+java.util.function.Supplier
+
 /**
  * Folds the oneOf part of this instance using the given mapping functions for the
  * DTO's. If this instance is valid against exactly one of the specified schemas,

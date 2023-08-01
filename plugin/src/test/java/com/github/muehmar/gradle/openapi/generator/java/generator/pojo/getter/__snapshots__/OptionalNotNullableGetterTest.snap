@@ -1,4 +1,10 @@
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_deprecatedAnnotation_then_correctOutputAndRefs=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.time.LocalDate
+java.util.Optional
+
 /**
  * Birthdate
  */
@@ -29,6 +35,10 @@ public LocalDate getBirthdateRaw() {
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_disabledJacksonAndEnabledValidation_then_correctOutputAndRefs=[
+java.time.LocalDate
+java.util.Optional
+javax.validation.constraints.Pattern
+
 /**
  * Birthdate
  */
@@ -51,6 +61,9 @@ private LocalDate getBirthdateRaw() {
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs=[
+java.time.LocalDate
+java.util.Optional
+
 /**
  * Birthdate
  */
@@ -68,6 +81,12 @@ public LocalDate getBirthdateOr(LocalDate defaultValue) {
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_enabledJackson_then_correctOutputAndRefs=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.time.LocalDate
+java.util.Optional
+
 /**
  * Birthdate
  */
@@ -93,6 +112,9 @@ private LocalDate getBirthdateRaw() {
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_suffixForOptionalNotNullable_then_correctOutputAndRefs=[
+java.time.LocalDate
+java.util.Optional
+
 /**
  * Birthdate
  */

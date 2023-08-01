@@ -1,4 +1,7 @@
 composedPojoWithNullabilityAndNecessityVariants=[
+java.util.HashMap
+java.util.Map
+
 private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
   Map<String, Object> props = new HashMap<>(additionalProperties);
   if (requiredStringVal != null) {
@@ -145,6 +148,9 @@ private ObjectPojo1Dto asObjectPojo1Dto() {
 
 
 nestedOneOf=[
+java.util.HashMap
+java.util.Map
+
 private OneOfPojo1Dto asOneOfPojo1Dto() {
   Map<String, Object> props = new HashMap<>(additionalProperties);
   return new OneOfPojo1Dto(

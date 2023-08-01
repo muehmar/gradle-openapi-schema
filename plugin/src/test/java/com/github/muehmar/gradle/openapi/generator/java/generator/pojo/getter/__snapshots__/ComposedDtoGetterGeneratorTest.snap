@@ -1,4 +1,7 @@
 allOfPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
 @JsonIgnore
 @Valid
 public SampleObjectPojo1Dto getSampleObjectPojo1Dto() {

@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
@@ -24,10 +26,10 @@ class OptionalMemberBuilderGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
+            JavaPojos.allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

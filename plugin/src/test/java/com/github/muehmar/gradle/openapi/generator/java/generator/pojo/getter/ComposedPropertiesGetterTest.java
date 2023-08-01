@@ -1,14 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
-import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
@@ -77,9 +74,7 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -94,9 +89,7 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -111,9 +104,7 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -128,9 +119,7 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -145,10 +134,7 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -163,10 +149,7 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -181,11 +164,7 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
-    assertTrue(writer.getRefs().exists(OpenApiUtilRefs.JACKSON_NULL_CONTAINER::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -200,10 +179,6 @@ class ComposedPropertiesGetterTest {
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_TIME_LOCAL_DATE::equals));
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
-    assertTrue(writer.getRefs().exists(OpenApiUtilRefs.JACKSON_NULL_CONTAINER::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }
