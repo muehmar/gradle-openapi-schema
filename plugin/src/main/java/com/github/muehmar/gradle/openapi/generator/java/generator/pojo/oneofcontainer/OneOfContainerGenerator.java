@@ -1,0 +1,33 @@
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer;
+
+import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.ClassGenBuilder;
+
+public class OneOfContainerGenerator {
+  private OneOfContainerGenerator() {}
+
+  public static Generator<OneOfContainer, PojoSettings> oneOfContainerGenerator() {
+    return ClassGenBuilder.<OneOfContainer, PojoSettings>create()
+        .clazz()
+        .topLevel()
+        .packageGen(new PackageGenerator<>())
+        .javaDoc(JavaDocGenerator.javaDoc((container, settings) -> "TODO"))
+        .noAnnotations()
+        .modifiers(PUBLIC)
+        .className(container -> container.getContainerName().asString())
+        .noSuperClass()
+        .noInterfaces()
+        .content(content())
+        .build();
+  }
+
+  private static Generator<OneOfContainer, PojoSettings> content() {
+    return Generator.emptyGen();
+  }
+}

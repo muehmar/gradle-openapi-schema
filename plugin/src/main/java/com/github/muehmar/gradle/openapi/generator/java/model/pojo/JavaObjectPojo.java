@@ -26,6 +26,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -165,7 +166,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   @Override
   public JavaIdentifier getClassName() {
-    return name.asJavaName().asIdentifier();
+    return name.asIdentifier();
   }
 
   public JavaIdentifier prefixedClassNameForMethod(String prefix) {
@@ -325,6 +326,10 @@ public class JavaObjectPojo implements JavaPojo {
         .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
+  }
+
+  public Optional<OneOfContainer> getOneOfContainer() {
+    return oneOfComposition.map(composition -> new OneOfContainer(name, composition));
   }
 
   @Override

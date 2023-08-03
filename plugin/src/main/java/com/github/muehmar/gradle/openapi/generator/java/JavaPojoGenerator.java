@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.OneOfContainerGenerator.oneOfContainerGenerator;
+
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
@@ -11,10 +13,12 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
 
 public class JavaPojoGenerator implements PojoGenerator {
 
@@ -56,6 +60,21 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private PList<GeneratedFile> generateAuxiliaryPojoFiles(JavaPojo pojo, PojoSettings settings) {
-    return PList.empty();
+    final Optional<GeneratedFile> oneOfContainerFile =
+        pojo.asObjectPojo()
+            .flatMap(JavaObjectPojo::getOneOfContainer)
+            .map(container -> createOneOfContainerFile(container, settings));
+    return PList.fromOptional(oneOfContainerFile);
+  }
+
+  private static GeneratedFile createOneOfContainerFile(
+      OneOfContainer container, PojoSettings settings) {
+    final Writer writer =
+        oneOfContainerGenerator().generate(container, settings, Writer.createDefault());
+    final String content = writer.asString();
+    final JavaFileName javaFileName =
+        JavaFileName.fromSettingsAndClassname(
+            settings, container.getContainerName().asIdentifier());
+    return new GeneratedFile(javaFileName.asPath(), content);
   }
 }

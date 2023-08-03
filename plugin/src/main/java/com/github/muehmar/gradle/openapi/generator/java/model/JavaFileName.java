@@ -23,13 +23,18 @@ public class JavaFileName {
   }
 
   public static JavaFileName fromSettingsAndPojo(PojoSettings settings, JavaPojo pojo) {
+    return fromSettingsAndClassname(settings, pojo.getClassName());
+  }
+
+  public static JavaFileName fromSettingsAndClassname(
+      PojoSettings settings, JavaIdentifier className) {
     final String packagePath =
         settings
             .getPackageName()
             .replace(".", File.separator)
             .replaceFirst("^" + File.separator, "");
     final String fileNameString =
-        String.format("%s%s%s.java", packagePath, File.separator, pojo.getClassName());
+        String.format("%s%s%s.java", packagePath, File.separator, className);
     return new JavaFileName(Paths.get(fileNameString));
   }
 

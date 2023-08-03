@@ -93,7 +93,7 @@ public class JavaArrayPojo implements JavaPojo {
 
   @Override
   public JavaIdentifier getClassName() {
-    return name.asJavaName().asIdentifier();
+    return name.asIdentifier();
   }
 
   @Override

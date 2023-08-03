@@ -20,6 +20,10 @@ public class JavaPojoName {
     return pojoName.getName();
   }
 
+  public JavaPojoName appendToName(String append) {
+    return new JavaPojoName(pojoName.appendToName(append));
+  }
+
   public JavaName asJavaName() {
     return JavaName.fromName(Name.ofString(asString()));
   }
