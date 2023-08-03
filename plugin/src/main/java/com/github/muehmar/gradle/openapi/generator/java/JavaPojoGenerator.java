@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
 import ch.bluecare.commons.data.NonEmptyList;
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.PojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.array.ArrayPojoGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
@@ -21,10 +22,10 @@ public class JavaPojoGenerator implements PojoGenerator {
   public NonEmptyList<GeneratedFile> generatePojo(Pojo pojo, PojoSettings pojoSettings) {
     return JavaPojo.wrap(pojo, pojoSettings.getTypeMappings())
         .asList()
-        .map(javaPojo -> generatePojo(javaPojo, pojoSettings));
+        .flatMap(javaPojo -> generatePojo(javaPojo, pojoSettings));
   }
 
-  public GeneratedFile generatePojo(JavaPojo pojo, PojoSettings pojoSettings) {
+  public NonEmptyList<GeneratedFile> generatePojo(JavaPojo pojo, PojoSettings pojoSettings) {
     final Writer writer = Writer.createDefault();
 
     final String content =
@@ -35,7 +36,8 @@ public class JavaPojoGenerator implements PojoGenerator {
             .asString();
 
     final JavaFileName javaFileName = JavaFileName.fromSettingsAndPojo(pojoSettings, pojo);
-    return new GeneratedFile(javaFileName.asPath(), content);
+    final GeneratedFile mainFile = new GeneratedFile(javaFileName.asPath(), content);
+    return NonEmptyList.of(mainFile).concat(generateAuxiliaryPojoFiles(pojo, pojoSettings));
   }
 
   private Writer generateObjectPojo(JavaObjectPojo pojo, Writer writer, PojoSettings pojoSettings) {
@@ -51,5 +53,9 @@ public class JavaPojoGenerator implements PojoGenerator {
   private Writer generateArrayPojo(JavaArrayPojo pojo, Writer writer, PojoSettings pojoSettings) {
     final ArrayPojoGenerator arrayPojoGenerator = new ArrayPojoGenerator();
     return arrayPojoGenerator.generate(pojo, pojoSettings, writer);
+  }
+
+  private PList<GeneratedFile> generateAuxiliaryPojoFiles(JavaPojo pojo, PojoSettings settings) {
+    return PList.empty();
   }
 }
