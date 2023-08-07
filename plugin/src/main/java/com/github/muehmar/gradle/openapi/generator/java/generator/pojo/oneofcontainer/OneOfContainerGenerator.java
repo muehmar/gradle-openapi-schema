@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Me
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.pojoConstructorGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator.toStringMethod;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
@@ -39,6 +40,8 @@ public class OneOfContainerGenerator {
         .appendSingleBlankLine()
         .append(equalsMethod(), OneOfContainer::getEqualsContent)
         .appendSingleBlankLine()
-        .append(hashCodeMethod(), OneOfContainer::getHashCodeContent);
+        .append(hashCodeMethod(), OneOfContainer::getHashCodeContent)
+        .appendSingleBlankLine()
+        .append(toStringMethod(), OneOfContainer::getToStringContent);
   }
 }

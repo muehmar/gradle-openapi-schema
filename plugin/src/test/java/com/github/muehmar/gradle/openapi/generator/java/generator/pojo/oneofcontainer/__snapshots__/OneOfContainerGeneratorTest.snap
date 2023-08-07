@@ -57,5 +57,17 @@ public class InvoiceOneOfContainerDto {
       additionalProperties
     );
   }
+
+  @Override
+  public String toString() {
+    return "InvoiceDto{" +
+      "stringVal=" + "'" + stringVal + "'" + ", " +
+      "intVal=" + intVal + ", " +
+      "doubleVal=" + doubleVal + ", " +
+      "birthdate=" + birthdate + ", " +
+      "email=" + "'" + email + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
 }
 ]
