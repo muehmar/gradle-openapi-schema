@@ -2,6 +2,7 @@ oneOfComposition=[
 package com.github.muehmar;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -14,5 +15,21 @@ public class InvoiceOneOfContainerDto {
   private final LocalDate birthdate;
   private final String email;
   private final Map<String, Object> additionalProperties;
+
+  private InvoiceDto(
+      String stringVal,
+      Integer intVal,
+      Double doubleVal,
+      LocalDate birthdate,
+      String email,
+      Map<String, Object> additionalProperties
+    ) {
+    this.stringVal = stringVal;
+    this.intVal = intVal;
+    this.doubleVal = doubleVal;
+    this.birthdate = birthdate;
+    this.email = email;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
 }
 ]
