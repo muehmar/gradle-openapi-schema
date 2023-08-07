@@ -4,6 +4,7 @@ package com.github.muehmar;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * TODO
@@ -30,6 +31,31 @@ public class InvoiceOneOfContainerDto {
     this.birthdate = birthdate;
     this.email = email;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final InvoiceDto other = (InvoiceDto) obj;
+    return Objects.deepEquals(this.stringVal, other.stringVal)
+        && Objects.deepEquals(this.intVal, other.intVal)
+        && Objects.deepEquals(this.doubleVal, other.doubleVal)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.email, other.email)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      stringVal,
+      intVal,
+      doubleVal,
+      birthdate,
+      email,
+      additionalProperties
+    );
   }
 }
 ]
