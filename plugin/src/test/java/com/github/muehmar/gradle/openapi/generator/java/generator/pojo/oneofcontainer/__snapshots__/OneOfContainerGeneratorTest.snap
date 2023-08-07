@@ -1,10 +1,18 @@
 oneOfComposition=[
 package com.github.muehmar;
-.
-.
+
+import java.time.LocalDate;
+import java.util.Map;
+
 /**
  * TODO
  */
 public class InvoiceOneOfContainerDto {
+  private final String stringVal;
+  private final Integer intVal;
+  private final Double doubleVal;
+  private final LocalDate birthdate;
+  private final String email;
+  private final Map<String, Object> additionalProperties;
 }
 ]

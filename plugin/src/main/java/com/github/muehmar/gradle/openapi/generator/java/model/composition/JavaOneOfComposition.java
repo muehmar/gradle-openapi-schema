@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
+import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -54,7 +55,8 @@ public class JavaOneOfComposition {
     return pojos
         .toPList()
         .flatMap(JavaObjectPojo::getAllMembersForComposition)
-        .map(JavaPojoMember::asOneOfMember);
+        .map(JavaPojoMember::asOneOfMember)
+        .distinct(Function.identity());
   }
 
   public Optional<Discriminator> getDiscriminator() {

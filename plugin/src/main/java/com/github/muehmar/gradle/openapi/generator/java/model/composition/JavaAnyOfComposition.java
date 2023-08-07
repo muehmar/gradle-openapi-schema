@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -43,6 +44,7 @@ public class JavaAnyOfComposition {
     return pojos
         .toPList()
         .flatMap(JavaObjectPojo::getAllMembersForComposition)
-        .map(JavaPojoMember::asAnyOfMember);
+        .map(JavaPojoMember::asAnyOfMember)
+        .distinct(Function.identity());
   }
 }

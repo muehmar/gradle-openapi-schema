@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
@@ -28,6 +29,7 @@ public class OneOfContainerGenerator {
   }
 
   private static Generator<OneOfContainer, PojoSettings> content() {
-    return Generator.emptyGen();
+    return Generator.<OneOfContainer, PojoSettings>emptyGen()
+        .append(memberGenerator(), OneOfContainer::memberContent);
   }
 }
