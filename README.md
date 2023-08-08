@@ -29,7 +29,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '1.1.2'
+    id 'com.github.muehmar.openapischema' version '1.1.3'
 }
 ```
 
@@ -746,6 +746,7 @@ afterEvaluate {
   for version 2.0.0).
 
 ## Change Log
+* 1.1.3 - Fix format type mapping for enums (issue `#113`)
 * 1.1.2 - Fix validation of primitive data types of arrays and maps (issue `#103`)
 * 1.1.1 - Fix enum reference in composed pojos (issue `#101`)
 * 1.1.0
