@@ -121,3 +121,19 @@ components:
               description:
                 type: string
 
+    Medication:
+      type: object
+      required:
+        - name
+        - kind
+      properties:
+        name:
+          type: string
+        kind:
+          type: string
+          enum:
+            - NEW
+            - EXISTING
+            - DELETED
+          format: MedicationKind
+
