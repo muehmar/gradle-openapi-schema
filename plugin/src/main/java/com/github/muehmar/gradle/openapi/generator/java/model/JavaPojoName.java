@@ -16,6 +16,10 @@ public class JavaPojoName {
     return new JavaPojoName(pojoName);
   }
 
+  public static JavaPojoName fromNameAndSuffix(String name, String suffix) {
+    return new JavaPojoName(PojoName.ofNameAndSuffix(name, suffix));
+  }
+
   public Name getSchemaName() {
     return pojoName.getName();
   }

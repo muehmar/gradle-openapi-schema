@@ -33,6 +33,36 @@ public class InvoiceOneOfContainerDto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
+  /**
+   * Creates an instance of {@link InvoiceOneOfContainerDto} from a {@link
+   * SampleObjectPojo1Dto}.
+   */
+  public static InvoiceOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto dto) {
+    return new InvoiceOneOfContainerDto(
+      dto.getStringVal(),
+      dto.getIntVal(),
+      dto.getDoubleVal(),
+      null,
+      null,
+      dto.getAdditionalProperties()
+    );
+  }
+
+  /**
+   * Creates an instance of {@link InvoiceOneOfContainerDto} from a {@link
+   * SampleObjectPojo2Dto}.
+   */
+  public static InvoiceOneOfContainerDto fromSampleObjectPojo2(SampleObjectPojo2Dto dto) {
+    return new InvoiceOneOfContainerDto(
+      dto.getStringVal(),
+      null,
+      null,
+      dto.getBirthdate(),
+      dto.getEmail(),
+      dto.getAdditionalProperties()
+    );
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
