@@ -35,6 +35,22 @@ class EnumSchemaTest {
   }
 
   @Test
+  void mapToMemberType_when_enumStringSchemaWithFormat_then_correctType() {
+    final StringSchema enumSchema = new StringSchema();
+    enumSchema.setEnum(Arrays.asList("male", "female", "divers", "other"));
+    enumSchema.setDescription("Test description");
+    enumSchema.setFormat("Gender");
+
+    final MemberSchemaMapResult result = mapToMemberType(enumSchema);
+
+    assertEquals(
+        EnumType.ofNameAndMembersAndFormat(
+            Name.ofString("PojoMemberNameEnum"), PList.fromIter(enumSchema.getEnum()), "Gender"),
+        result.getType());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @Test
   void mapToPojo_when_enumStringSchema_then_correctPojoMapped() {
     final StringSchema enumSchema = new StringSchema();
     enumSchema.setEnum(Arrays.asList("male", "female", "divers", "other"));

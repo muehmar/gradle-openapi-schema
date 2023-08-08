@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -13,14 +14,26 @@ import lombok.ToString;
 public class EnumType implements Type {
   private final Name name;
   private final PList<String> members;
+  private final Optional<String> format;
 
-  private EnumType(Name name, PList<String> members) {
+  private EnumType(Name name, PList<String> members, Optional<String> format) {
     this.name = name;
     this.members = members;
+    this.format = format;
+  }
+
+  public static EnumType ofNameAndMembersAndFormat(
+      Name name, PList<String> members, String format) {
+    return new EnumType(name, members, Optional.of(format));
+  }
+
+  public static EnumType ofNameAndMembersAndFormat(
+      Name name, PList<String> members, Optional<String> format) {
+    return new EnumType(name, members, format);
   }
 
   public static EnumType ofNameAndMembers(Name name, PList<String> members) {
-    return new EnumType(name, members);
+    return new EnumType(name, members, Optional.empty());
   }
 
   public Name getName() {
@@ -29,6 +42,10 @@ public class EnumType implements Type {
 
   public PList<String> getMembers() {
     return members;
+  }
+
+  public Optional<String> getFormat() {
+    return format;
   }
 
   @Override

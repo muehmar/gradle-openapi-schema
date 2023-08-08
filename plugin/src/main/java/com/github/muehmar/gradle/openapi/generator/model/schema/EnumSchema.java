@@ -44,8 +44,10 @@ public class EnumSchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
+    final Optional<String> format = Optional.ofNullable(delegate.getFormat());
     final Type enumType =
-        EnumType.ofNameAndMembers(memberName.startUpperCase().append("Enum"), enums);
+        EnumType.ofNameAndMembersAndFormat(
+            memberName.startUpperCase().append("Enum"), enums, format);
 
     return MemberSchemaMapResult.ofType(enumType);
   }
