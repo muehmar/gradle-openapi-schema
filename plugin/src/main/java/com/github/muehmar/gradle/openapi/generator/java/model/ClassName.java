@@ -62,8 +62,7 @@ public class ClassName {
   public static Optional<ClassName> fromFormatTypeMapping(
       String formatString, PList<FormatTypeMapping> formatTypeMappings) {
     return formatTypeMappings
-        .filter(formatTypeMapping -> formatTypeMapping.getFormatType().equals(formatString))
-        .headOption()
+        .find(formatTypeMapping -> formatTypeMapping.getFormatType().equals(formatString))
         .map(ClassName::fromFormatTypeMapping);
   }
 

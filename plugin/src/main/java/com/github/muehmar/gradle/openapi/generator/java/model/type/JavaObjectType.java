@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.ClassName;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import java.util.function.Function;
@@ -15,6 +16,13 @@ public class JavaObjectType extends NonGenericJavaType {
   private JavaObjectType(ClassName className, Constraints constraints, ObjectType objectType) {
     super(className, objectType);
     this.constraints = constraints;
+  }
+
+  public static JavaObjectType fromClassName(ClassName className) {
+    return new JavaObjectType(
+        className,
+        Constraints.empty(),
+        ObjectType.ofName(PojoName.ofName(className.getClassName())));
   }
 
   public static JavaObjectType wrap(ObjectType objectType) {
