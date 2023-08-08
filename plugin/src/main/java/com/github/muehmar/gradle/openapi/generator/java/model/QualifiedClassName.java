@@ -62,8 +62,7 @@ public class QualifiedClassName {
   public static Optional<QualifiedClassName> fromFormatTypeMapping(
       String formatString, PList<FormatTypeMapping> formatTypeMappings) {
     return formatTypeMappings
-        .filter(formatTypeMapping -> formatTypeMapping.getFormatType().equals(formatString))
-        .headOption()
+        .find(formatTypeMapping -> formatTypeMapping.getFormatType().equals(formatString))
         .map(QualifiedClassName::fromFormatTypeMapping);
   }
 

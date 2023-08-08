@@ -72,7 +72,7 @@ public interface JavaType {
         arrayType -> JavaArrayType.wrap(arrayType, typeMappings),
         booleanType -> JavaBooleanType.wrap(typeMappings),
         JavaObjectType::wrap,
-        JavaEnumType::wrap,
+        enumType -> JavaEnumType.wrap(enumType, typeMappings),
         mapType -> JavaMapType.wrap(mapType, typeMappings),
         noType -> JavaAnyType.create());
   }

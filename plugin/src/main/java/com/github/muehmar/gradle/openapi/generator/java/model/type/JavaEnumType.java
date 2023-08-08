@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -25,6 +26,17 @@ public class JavaEnumType extends NonGenericJavaType {
     final QualifiedClassName className = QualifiedClassName.ofName(enumType.getName());
     return new JavaEnumType(
         className, enumType.getMembers().map(EnumConstantName::ofString), enumType);
+  }
+
+  public static JavaType wrap(EnumType enumType, TypeMappings typeMappings) {
+    return enumType
+        .getFormat()
+        .flatMap(
+            format ->
+                QualifiedClassName.fromFormatTypeMapping(
+                    format, typeMappings.getFormatTypeMappings()))
+        .<JavaType>map(JavaObjectType::fromClassName)
+        .orElse(JavaEnumType.wrap(enumType));
   }
 
   public JavaEnumType asInnerClassOf(JavaIdentifier outerClassName) {
