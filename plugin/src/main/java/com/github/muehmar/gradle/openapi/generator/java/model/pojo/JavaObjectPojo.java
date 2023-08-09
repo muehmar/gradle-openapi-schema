@@ -1,21 +1,21 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder.fullMemberContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder.fullWitherContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder.fullConstructorContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder.fullHashCodeContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder.fullToStringContentBuilder;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
@@ -23,6 +23,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
@@ -226,6 +227,12 @@ public class JavaObjectPojo implements JavaPojo {
     return members.concat(getComposedMembers()).distinct(Function.identity());
   }
 
+  public PList<TechnicalPojoMember> getTechnicalMembers() {
+    return getAllMembers()
+        .flatMap(JavaPojoMember::getTechnicalMembers)
+        .add(additionalProperties.asTechnicalPojoMember());
+  }
+
   public Optional<JavaAllOfComposition> getAllOfComposition() {
     return allOfComposition;
   }
@@ -273,58 +280,46 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public MemberGenerator.MemberContent getMemberContent() {
-    return MemberContentBuilder.create()
+    return fullMemberContentBuilder()
         .isArrayPojo(false)
         .members(getAllMembers())
-        .andAllOptionals()
         .additionalProperties(additionalProperties)
         .build();
   }
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
-    return HashCodeContentBuilder.create()
-        .members(getAllMembers())
-        .andAllOptionals()
-        .additionalProperties(additionalProperties)
-        .build();
+    return fullHashCodeContentBuilder().technicalPojoMembers(getTechnicalMembers()).build();
   }
 
   public EqualsGenerator.EqualsContent getEqualsContent() {
-    return EqualsContentBuilder.create()
+    return fullEqualsContentBuilder()
         .className(getClassName())
-        .members(getAllMembers())
-        .andAllOptionals()
-        .additionalProperties(additionalProperties)
+        .technicalPojoMembers(getTechnicalMembers())
         .build();
   }
 
   public ToStringGenerator.ToStringContent getToStringContent() {
-    return ToStringContentBuilder.create()
+    return fullToStringContentBuilder()
         .className(getClassName())
-        .members(getAllMembers())
-        .andAllOptionals()
-        .additionalProperties(additionalProperties)
+        .technicalPojoMembers(getTechnicalMembers())
         .build();
   }
 
   public PojoConstructorGenerator.ConstructorContent getConstructorContent() {
-    return ConstructorContentBuilder.create()
+    return fullConstructorContentBuilder()
         .isArray(false)
         .className(getClassName())
         .members(getAllMembers())
-        .andAllOptionals()
         .modifier(Optional.of(JavaModifier.PUBLIC).filter(ignore -> not(isSimpleMapPojo())))
         .additionalProperties(additionalProperties)
         .build();
   }
 
   public WitherGenerator.WitherContent getWitherContent() {
-    return WitherContentBuilder.create()
+    return fullWitherContentBuilder()
         .className(getClassName())
         .membersForWithers(getMembers())
-        .membersForConstructorCall(getAllMembers())
-        .andAllOptionals()
-        .additionalProperties(additionalProperties)
+        .technicalPojoMembers(getTechnicalMembers())
         .build();
   }
 

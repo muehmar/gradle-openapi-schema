@@ -48,23 +48,20 @@ public class OneOfContainer {
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return fullEqualsContentBuilder()
         .className(pojoName.asIdentifier())
-        .members(composition.getMembers())
-        .additionalProperties(anyTypeAllowed())
+        .technicalPojoMembers(composition.getTechnicalMembers())
         .build();
   }
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return fullHashCodeContentBuilder()
-        .members(composition.getMembers())
-        .additionalProperties(anyTypeAllowed())
+        .technicalPojoMembers(composition.getTechnicalMembers())
         .build();
   }
 
   public ToStringGenerator.ToStringContent getToStringContent() {
     return fullToStringContentBuilder()
         .className(pojoName.asIdentifier())
-        .members(composition.getMembers())
-        .additionalProperties(anyTypeAllowed())
+        .technicalPojoMembers(composition.getTechnicalMembers())
         .build();
   }
 }

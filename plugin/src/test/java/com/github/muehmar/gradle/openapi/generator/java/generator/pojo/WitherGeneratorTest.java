@@ -53,7 +53,9 @@ class WitherGeneratorTest {
             WitherContentBuilder.create()
                 .className(JavaIdentifier.fromString("ObjectDto"))
                 .membersForWithers(PList.single(requiredString()))
-                .membersForConstructorCall(PList.of(requiredString(), requiredBirthdate()))
+                .technicalPojoMembers(
+                    PList.of(requiredString(), requiredBirthdate())
+                        .flatMap(JavaPojoMember::getTechnicalMembers))
                 .build(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());

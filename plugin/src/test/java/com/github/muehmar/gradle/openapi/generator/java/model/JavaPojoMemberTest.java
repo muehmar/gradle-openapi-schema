@@ -90,14 +90,16 @@ class JavaPojoMemberTest {
   }
 
   @ParameterizedTest
-  @MethodSource("membersForCreatingFieldNames")
-  void createFieldNames_when_called_then_matchExpectedFieldNames(
+  @MethodSource("membersForCreatingTechnicalMembers")
+  void getTechnicalMembers_when_called_then_matchExpectedFieldNames(
       JavaPojoMember member, String expected) {
-    PList<JavaIdentifier> fieldNames = member.createFieldNames();
-    assertEquals(expected, fieldNames.mkString(","));
+
+    final PList<TechnicalPojoMember> technicalMembers = member.getTechnicalMembers();
+
+    assertEquals(expected, technicalMembers.map(TechnicalPojoMember::getName).mkString(","));
   }
 
-  public static Stream<Arguments> membersForCreatingFieldNames() {
+  public static Stream<Arguments> membersForCreatingTechnicalMembers() {
     return Stream.of(
         arguments(JavaPojoMembers.requiredBirthdate(), "birthdate"),
         arguments(JavaPojoMembers.optionalString(), "optionalStringVal"),

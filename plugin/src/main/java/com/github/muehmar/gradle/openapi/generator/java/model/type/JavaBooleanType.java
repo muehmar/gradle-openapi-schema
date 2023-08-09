@@ -27,6 +27,10 @@ public class JavaBooleanType extends NonGenericJavaType {
     return new JavaBooleanType(className, BooleanType.create());
   }
 
+  public static JavaBooleanType create() {
+    return new JavaBooleanType(JAVA_CLASS_NAME, BooleanType.create());
+  }
+
   @Override
   public boolean isJavaArray() {
     return false;

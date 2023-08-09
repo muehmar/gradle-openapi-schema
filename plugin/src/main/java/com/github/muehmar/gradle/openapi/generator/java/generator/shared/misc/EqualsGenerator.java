@@ -1,20 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
-import java.util.Optional;
 import java.util.function.UnaryOperator;
 import lombok.Value;
 
@@ -56,14 +53,10 @@ public class EqualsGenerator {
 
   private static Generator<EqualsContent, PojoSettings> equalsCompareFields() {
     return (content, s, w) -> {
-      final PList<JavaIdentifier> additionalPropertiesFieldName =
-          PList.fromOptional(
-              content.getAdditionalProperties().map(ignore -> additionalPropertiesName()));
       final PList<String> fieldNames =
           content
-              .getMembers()
-              .flatMap(JavaPojoMember::createFieldNames)
-              .concat(additionalPropertiesFieldName)
+              .getTechnicalPojoMembers()
+              .map(TechnicalPojoMember::getName)
               .map(JavaIdentifier::asString);
       final Writer writerAfterFirstField =
           fieldNames
@@ -90,7 +83,6 @@ public class EqualsGenerator {
   @Value
   public static class EqualsContent {
     JavaIdentifier className;
-    PList<JavaPojoMember> members;
-    Optional<JavaAdditionalProperties> additionalProperties;
+    PList<TechnicalPojoMember> technicalPojoMembers;
   }
 }

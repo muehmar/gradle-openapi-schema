@@ -18,6 +18,11 @@ import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ * This member corresponds to a property in the specification. To support all possible states af a
+ * member, a single {@link JavaPojoMember} may result in more than one {@link TechnicalPojoMember}
+ * in a pojo.
+ */
 @EqualsAndHashCode
 @ToString
 @PojoBuilder
@@ -217,14 +222,16 @@ public class JavaPojoMember {
     }
   }
 
-  public PList<JavaIdentifier> createFieldNames() {
-    final JavaIdentifier memberName = name.asIdentifier();
+  public PList<TechnicalPojoMember> getTechnicalMembers() {
+    final TechnicalPojoMember technicalPojoMember = TechnicalPojoMember.wrapPojoMember(this);
     if (isRequiredAndNullable()) {
-      return PList.of(memberName, getIsPresentFlagName());
+      return PList.of(
+          technicalPojoMember, TechnicalPojoMember.isPresentFlagMember(getIsPresentFlagName()));
     } else if (isOptionalAndNullable()) {
-      return PList.of(memberName, getIsNullFlagName());
+      return PList.of(
+          technicalPojoMember, TechnicalPojoMember.isNullFlagMember(getIsNullFlagName()));
     } else {
-      return PList.single(memberName);
+      return PList.single(technicalPojoMember);
     }
   }
 

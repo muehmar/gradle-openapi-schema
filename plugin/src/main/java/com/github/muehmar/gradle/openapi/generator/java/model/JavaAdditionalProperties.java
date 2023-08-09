@@ -51,6 +51,10 @@ public class JavaAdditionalProperties {
     return not(type.equals(javaAnyType()));
   }
 
+  public TechnicalPojoMember asTechnicalPojoMember() {
+    return TechnicalPojoMember.additionalProperties(type);
+  }
+
   public Optional<EnumGenerator.EnumContent> asEnumContent() {
     final Function<JavaEnumType, Optional<EnumGenerator.EnumContent>> createEnumContent =
         enumType ->
