@@ -1,0 +1,43 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.ContainerGetterTest.test=[
+.
+.
+String getStringVal() {
+  return stringVal;
+}
+
+Integer getIntVal() {
+  return intVal;
+}
+
+Double getDoubleVal() {
+  return doubleVal;
+}
+
+String getRequiredStringVal() {
+  return requiredStringVal;
+}
+
+String getRequiredNullableStringVal() {
+  return requiredNullableStringVal;
+}
+
+Boolean getIsRequiredNullableStringValPresent() {
+  return isRequiredNullableStringValPresent;
+}
+
+String getOptionalStringVal() {
+  return optionalStringVal;
+}
+
+String getOptionalNullableStringVal() {
+  return optionalNullableStringVal;
+}
+
+Boolean getIsOptionalNullableStringValNull() {
+  return isOptionalNullableStringValNull;
+}
+
+Map<String, Object> getAdditionalProperties() {
+  return additionalProperties;
+}
+]

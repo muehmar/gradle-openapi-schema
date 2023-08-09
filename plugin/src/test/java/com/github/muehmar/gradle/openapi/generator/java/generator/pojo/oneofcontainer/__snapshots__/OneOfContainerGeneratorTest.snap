@@ -63,6 +63,30 @@ public class InvoiceOneOfContainerDto {
     );
   }
 
+  String getStringVal() {
+    return stringVal;
+  }
+
+  Integer getIntVal() {
+    return intVal;
+  }
+
+  Double getDoubleVal() {
+    return doubleVal;
+  }
+
+  LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  String getEmail() {
+    return email;
+  }
+
+  Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
