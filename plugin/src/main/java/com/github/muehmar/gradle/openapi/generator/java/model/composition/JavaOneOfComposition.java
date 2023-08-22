@@ -67,6 +67,10 @@ public class JavaOneOfComposition {
         .add(TechnicalPojoMember.additionalProperties(javaAnyType()));
   }
 
+  public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
+    return pojos.toPList().map(TechnicalPojoMember::wrapJavaObjectPojo);
+  }
+
   public Optional<Discriminator> getDiscriminator() {
     return discriminator;
   }

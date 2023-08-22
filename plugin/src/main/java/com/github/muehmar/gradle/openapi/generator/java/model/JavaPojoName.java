@@ -20,6 +20,10 @@ public class JavaPojoName {
     return new JavaPojoName(PojoName.ofNameAndSuffix(name, suffix));
   }
 
+  public PojoName getPojoName() {
+    return pojoName;
+  }
+
   public Name getSchemaName() {
     return pojoName.getName();
   }

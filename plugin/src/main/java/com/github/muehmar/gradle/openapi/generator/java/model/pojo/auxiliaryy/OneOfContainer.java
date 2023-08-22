@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder.fullHashCodeContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder.fullToStringContentBuilder;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.anyTypeAllowed;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
@@ -15,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Po
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import java.util.Optional;
 import lombok.Value;
 
 @Value
@@ -30,8 +30,8 @@ public class OneOfContainer {
   public MemberGenerator.MemberContent memberContent() {
     return MemberContentBuilder.fullMemberContentBuilder()
         .isArrayPojo(false)
-        .members(composition.getMembers())
-        .additionalProperties(anyTypeAllowed())
+        .members(composition.getPojosAsTechnicalMembers())
+        .additionalProperties(Optional.empty())
         .build();
   }
 
@@ -39,29 +39,29 @@ public class OneOfContainer {
     return fullConstructorContentBuilder()
         .isArray(false)
         .className(pojoName.asIdentifier())
-        .members(composition.getMembers())
+        .members(composition.getPojosAsTechnicalMembers())
         .modifier(PRIVATE)
-        .additionalProperties(anyTypeAllowed())
+        .additionalProperties(Optional.empty())
         .build();
   }
 
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return fullEqualsContentBuilder()
         .className(pojoName.asIdentifier())
-        .technicalPojoMembers(composition.getTechnicalMembers())
+        .technicalPojoMembers(composition.getPojosAsTechnicalMembers())
         .build();
   }
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return fullHashCodeContentBuilder()
-        .technicalPojoMembers(composition.getTechnicalMembers())
+        .technicalPojoMembers(composition.getPojosAsTechnicalMembers())
         .build();
   }
 
   public ToStringGenerator.ToStringContent getToStringContent() {
     return fullToStringContentBuilder()
         .className(pojoName.asIdentifier())
-        .technicalPojoMembers(composition.getTechnicalMembers())
+        .technicalPojoMembers(composition.getPojosAsTechnicalMembers())
         .build();
   }
 }

@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
@@ -24,6 +25,13 @@ public class JavaObjectType extends NonGenericJavaType {
         className,
         Constraints.empty(),
         ObjectType.ofName(PojoName.ofName(className.getClassName())));
+  }
+
+  public static JavaObjectType fromObjectPojo(JavaObjectPojo javaObjectPojo) {
+    return new JavaObjectType(
+        QualifiedClassName.ofQualifiedClassName(javaObjectPojo.getClassName().asString()),
+        Constraints.empty(),
+        ObjectType.ofName(javaObjectPojo.getJavaPojoName().getPojoName()));
   }
 
   public static JavaObjectType wrap(ObjectType objectType) {

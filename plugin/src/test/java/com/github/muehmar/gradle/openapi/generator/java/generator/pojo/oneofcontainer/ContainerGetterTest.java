@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 
 import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.IntellijDiffSnapshotTestExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -22,7 +23,8 @@ class ContainerGetterTest {
   private Expect expect;
 
   @Test
-  void test() {
+  @SnapshotName("oneOfPojo")
+  void containerGetter_when_oneOfPojo_then_correctOutput() {
     final Generator<OneOfContainer, PojoSettings> generator = containerGetter();
 
     final OneOfContainer oneOfContainer =

@@ -16,6 +16,8 @@ import lombok.ToString;
 public class JavaBooleanType extends NonGenericJavaType {
   private static final QualifiedClassName JAVA_CLASS_NAME =
       QualifiedClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("Boolean"));
+  private static final QualifiedClassName JAVA_PRIMITIVE =
+      QualifiedClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("boolean"));
 
   private JavaBooleanType(QualifiedClassName className, Type type) {
     super(className, type);
@@ -29,6 +31,10 @@ public class JavaBooleanType extends NonGenericJavaType {
 
   public static JavaBooleanType create() {
     return new JavaBooleanType(JAVA_CLASS_NAME, BooleanType.create());
+  }
+
+  public static JavaBooleanType createPrimitive() {
+    return new JavaBooleanType(JAVA_PRIMITIVE, BooleanType.create());
   }
 
   @Override

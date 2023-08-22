@@ -113,7 +113,7 @@ public class JavaArrayPojo implements JavaPojo {
   public MemberGenerator.MemberContent getMemberContent() {
     return MemberContentBuilder.create()
         .isArrayPojo(true)
-        .members(PList.single(getArrayPojoMember()))
+        .members(getArrayPojoMember().getTechnicalMembers())
         .build();
   }
 
@@ -141,7 +141,7 @@ public class JavaArrayPojo implements JavaPojo {
     return fullConstructorContentBuilder()
         .isArray(true)
         .className(getClassName())
-        .members(PList.single(getArrayPojoMember()))
+        .members(getArrayPojoMember().getTechnicalMembers())
         .modifier(PUBLIC)
         .additionalProperties(Optional.empty())
         .build();

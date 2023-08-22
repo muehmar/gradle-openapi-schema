@@ -17,7 +17,7 @@ class ContainerGetter {
     return Generator.<OneOfContainer, PojoSettings>emptyGen()
         .appendList(
             technicalGetter(),
-            container -> container.getComposition().getTechnicalMembers(),
+            container -> container.getComposition().getPojosAsTechnicalMembers(),
             newLine());
   }
 

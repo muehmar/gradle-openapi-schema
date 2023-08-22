@@ -1,4 +1,4 @@
-allNecessityAndNullabilityVariantsPojo=[
+oneOfPojo=[
 .
 .
 /**
@@ -6,18 +6,7 @@ allNecessityAndNullabilityVariantsPojo=[
  * SampleObjectPojo1Dto}.
  */
 public static ObjectOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto dto) {
-  return new ObjectOneOfContainerDto(
-    dto.getStringVal(),
-    dto.getIntVal(),
-    dto.getDoubleVal(),
-    null,
-    null,
-    false,
-    null,
-    null,
-    false,
-    dto.getAdditionalProperties()
-  );
+  return new ObjectOneOfContainerDto(dto, null, null);
 }
 
 /**
@@ -25,38 +14,7 @@ public static ObjectOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto
  * NecessityAndNullabilityDto}.
  */
 public static ObjectOneOfContainerDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
-  return new ObjectOneOfContainerDto(
-    null,
-    null,
-    null,
-    dto.getRequiredStringVal(),
-    dto.getRequiredNullableStringValOr(null),
-    true,
-    dto.getOptionalStringValOr(null),
-    dto.getOptionalNullableStringVal().onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-    dto.getOptionalNullableStringVal().onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-    dto.getAdditionalProperties()
-  );
-}
-]
-
-
-discriminatorWithMapping=[
-.
-.
-/**
- * Creates an instance of {@link ObjectOneOfContainerDto} from a {@link
- * SampleObjectPojo1Dto}.
- */
-public static ObjectOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto dto) {
-  return new ObjectOneOfContainerDto(
-    "Custom1",
-    dto.getIntVal(),
-    dto.getDoubleVal(),
-    null,
-    null,
-    dto.getAdditionalProperties()
-  );
+  return new ObjectOneOfContainerDto(null, dto, null);
 }
 
 /**
@@ -64,48 +22,6 @@ public static ObjectOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto
  * SampleObjectPojo2Dto}.
  */
 public static ObjectOneOfContainerDto fromSampleObjectPojo2(SampleObjectPojo2Dto dto) {
-  return new ObjectOneOfContainerDto(
-    "Custom2",
-    null,
-    null,
-    dto.getBirthdate(),
-    dto.getEmail(),
-    dto.getAdditionalProperties()
-  );
-}
-]
-
-
-discriminatorWithoutMapping=[
-.
-.
-/**
- * Creates an instance of {@link ObjectOneOfContainerDto} from a {@link
- * SampleObjectPojo1Dto}.
- */
-public static ObjectOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto dto) {
-  return new ObjectOneOfContainerDto(
-    "SampleObjectPojo1",
-    dto.getIntVal(),
-    dto.getDoubleVal(),
-    null,
-    null,
-    dto.getAdditionalProperties()
-  );
-}
-
-/**
- * Creates an instance of {@link ObjectOneOfContainerDto} from a {@link
- * SampleObjectPojo2Dto}.
- */
-public static ObjectOneOfContainerDto fromSampleObjectPojo2(SampleObjectPojo2Dto dto) {
-  return new ObjectOneOfContainerDto(
-    "SampleObjectPojo2",
-    null,
-    null,
-    dto.getBirthdate(),
-    dto.getEmail(),
-    dto.getAdditionalProperties()
-  );
+  return new ObjectOneOfContainerDto(null, null, dto);
 }
 ]

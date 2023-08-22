@@ -1,43 +1,11 @@
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.ContainerGetterTest.test=[
+oneOfPojo=[
 .
 .
-String getStringVal() {
-  return stringVal;
+SampleObjectPojo1Dto getSampleObjectPojo1Dto() {
+  return sampleObjectPojo1Dto;
 }
 
-Integer getIntVal() {
-  return intVal;
-}
-
-Double getDoubleVal() {
-  return doubleVal;
-}
-
-String getRequiredStringVal() {
-  return requiredStringVal;
-}
-
-String getRequiredNullableStringVal() {
-  return requiredNullableStringVal;
-}
-
-Boolean getIsRequiredNullableStringValPresent() {
-  return isRequiredNullableStringValPresent;
-}
-
-String getOptionalStringVal() {
-  return optionalStringVal;
-}
-
-String getOptionalNullableStringVal() {
-  return optionalNullableStringVal;
-}
-
-Boolean getIsOptionalNullableStringValNull() {
-  return isOptionalNullableStringValNull;
-}
-
-Map<String, Object> getAdditionalProperties() {
-  return additionalProperties;
+NecessityAndNullabilityDto getNecessityAndNullabilityDto() {
+  return necessityAndNullabilityDto;
 }
 ]

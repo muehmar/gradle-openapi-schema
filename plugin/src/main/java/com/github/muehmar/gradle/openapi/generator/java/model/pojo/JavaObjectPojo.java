@@ -170,6 +170,10 @@ public class JavaObjectPojo implements JavaPojo {
     return name.asIdentifier();
   }
 
+  public JavaPojoName getJavaPojoName() {
+    return name;
+  }
+
   public JavaIdentifier prefixedClassNameForMethod(String prefix) {
     if (prefix.isEmpty()) {
       return name.asJavaName().startLowerCase().asIdentifier();
@@ -282,7 +286,7 @@ public class JavaObjectPojo implements JavaPojo {
   public MemberGenerator.MemberContent getMemberContent() {
     return fullMemberContentBuilder()
         .isArrayPojo(false)
-        .members(getAllMembers())
+        .members(getAllMembers().flatMap(JavaPojoMember::getTechnicalMembers))
         .additionalProperties(additionalProperties)
         .build();
   }
@@ -309,7 +313,7 @@ public class JavaObjectPojo implements JavaPojo {
     return fullConstructorContentBuilder()
         .isArray(false)
         .className(getClassName())
-        .members(getAllMembers())
+        .members(getAllMembers().flatMap(JavaPojoMember::getTechnicalMembers))
         .modifier(Optional.of(JavaModifier.PUBLIC).filter(ignore -> not(isSimpleMapPojo())))
         .additionalProperties(additionalProperties)
         .build();

@@ -1,36 +1,21 @@
 oneOfComposition=[
 package com.github.muehmar;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 
 /**
  * TODO
  */
 public class InvoiceOneOfContainerDto {
-  private final String stringVal;
-  private final Integer intVal;
-  private final Double doubleVal;
-  private final LocalDate birthdate;
-  private final String email;
-  private final Map<String, Object> additionalProperties;
+  private final SampleObjectPojo1Dto sampleObjectPojo1Dto;
+  private final SampleObjectPojo2Dto sampleObjectPojo2Dto;
 
   private InvoiceDto(
-      String stringVal,
-      Integer intVal,
-      Double doubleVal,
-      LocalDate birthdate,
-      String email,
-      Map<String, Object> additionalProperties
+      SampleObjectPojo1Dto sampleObjectPojo1Dto,
+      SampleObjectPojo2Dto sampleObjectPojo2Dto
     ) {
-    this.stringVal = stringVal;
-    this.intVal = intVal;
-    this.doubleVal = doubleVal;
-    this.birthdate = birthdate;
-    this.email = email;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.sampleObjectPojo1Dto = sampleObjectPojo1Dto;
+    this.sampleObjectPojo2Dto = sampleObjectPojo2Dto;
   }
 
   /**
@@ -38,14 +23,7 @@ public class InvoiceOneOfContainerDto {
    * SampleObjectPojo1Dto}.
    */
   public static InvoiceOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto dto) {
-    return new InvoiceOneOfContainerDto(
-      dto.getStringVal(),
-      dto.getIntVal(),
-      dto.getDoubleVal(),
-      null,
-      null,
-      dto.getAdditionalProperties()
-    );
+    return new InvoiceOneOfContainerDto(dto, null);
   }
 
   /**
@@ -53,38 +31,15 @@ public class InvoiceOneOfContainerDto {
    * SampleObjectPojo2Dto}.
    */
   public static InvoiceOneOfContainerDto fromSampleObjectPojo2(SampleObjectPojo2Dto dto) {
-    return new InvoiceOneOfContainerDto(
-      dto.getStringVal(),
-      null,
-      null,
-      dto.getBirthdate(),
-      dto.getEmail(),
-      dto.getAdditionalProperties()
-    );
+    return new InvoiceOneOfContainerDto(null, dto);
   }
 
-  String getStringVal() {
-    return stringVal;
+  SampleObjectPojo1Dto getSampleObjectPojo1Dto() {
+    return sampleObjectPojo1Dto;
   }
 
-  Integer getIntVal() {
-    return intVal;
-  }
-
-  Double getDoubleVal() {
-    return doubleVal;
-  }
-
-  LocalDate getBirthdate() {
-    return birthdate;
-  }
-
-  String getEmail() {
-    return email;
-  }
-
-  Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
+  SampleObjectPojo2Dto getSampleObjectPojo2Dto() {
+    return sampleObjectPojo2Dto;
   }
 
   @Override
@@ -92,35 +47,23 @@ public class InvoiceOneOfContainerDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final InvoiceDto other = (InvoiceDto) obj;
-    return Objects.deepEquals(this.stringVal, other.stringVal)
-        && Objects.deepEquals(this.intVal, other.intVal)
-        && Objects.deepEquals(this.doubleVal, other.doubleVal)
-        && Objects.deepEquals(this.birthdate, other.birthdate)
-        && Objects.deepEquals(this.email, other.email)
-        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+    return Objects.deepEquals(this.sampleObjectPojo1Dto, other.sampleObjectPojo1Dto)
+        && Objects.deepEquals(this.sampleObjectPojo2Dto, other.sampleObjectPojo2Dto);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      stringVal,
-      intVal,
-      doubleVal,
-      birthdate,
-      email,
-      additionalProperties
+      sampleObjectPojo1Dto,
+      sampleObjectPojo2Dto
     );
   }
 
   @Override
   public String toString() {
     return "InvoiceDto{" +
-      "stringVal=" + "'" + stringVal + "'" + ", " +
-      "intVal=" + intVal + ", " +
-      "doubleVal=" + doubleVal + ", " +
-      "birthdate=" + birthdate + ", " +
-      "email=" + "'" + email + "'" + ", " +
-      "additionalProperties=" + additionalProperties +
+      "sampleObjectPojo1Dto=" + sampleObjectPojo1Dto + ", " +
+      "sampleObjectPojo2Dto=" + sampleObjectPojo2Dto +
       "}";
   }
 }
