@@ -46,16 +46,17 @@ public class OneOfBuilderGenerator {
                 CONTAINER_NAME.prefixedMethodeName(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(
             pojo -> String.format("%s container", pojo.container.getContainerName().asString()))
-        .content(oneOfContainerSetterContent().contraMap(OneOfPojo::getContainer))
+        .content(oneOfContainerSetterContent())
         .build();
   }
 
-  private static Generator<OneOfContainer, PojoSettings> oneOfContainerSetterContent() {
-    return Generator.<OneOfContainer, PojoSettings>emptyGen()
+  private static Generator<OneOfPojo, PojoSettings> oneOfContainerSetterContent() {
+    return Generator.<OneOfPojo, PojoSettings>emptyGen()
         .appendList(
             singleContainerPropertySetter(),
-            container -> container.getComposition().getPojos(),
-            newLine());
+            oneOfPojo -> oneOfPojo.getContainer().getComposition().getPojos(),
+            newLine())
+        .append((p, s, w) -> w.println("return new %s(builder);", p.nextPojoBuilderClassName()));
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> singleContainerPropertySetter() {

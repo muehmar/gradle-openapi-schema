@@ -24,6 +24,7 @@ public static final class OneOfBuilder0 {
     if (container.getSampleObjectPojo2Dto() != null) {
       builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
     }
+    return new PropertyBuilder0(builder);
   }
 }
 ]

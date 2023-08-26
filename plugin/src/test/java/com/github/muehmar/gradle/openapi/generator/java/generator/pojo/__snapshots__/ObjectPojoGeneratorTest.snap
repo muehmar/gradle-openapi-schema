@@ -5184,6 +5184,7 @@ public class PersonDto {
       if (container.getUserDto() != null) {
         builder.setUserDto(container.getUserDto());
       }
+      return new PropertyBuilder0(builder);
     }
   }
 
