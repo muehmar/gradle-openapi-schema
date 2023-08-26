@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultSettings;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,7 +51,7 @@ class ValidationGeneratorTest {
   void assertTrue_when_settings_then_correctOutput(PojoSettings settings) {
     final Generator<String, PojoSettings> generator =
         ValidationGenerator.assertTrue(Function.identity());
-    final Writer writer = generator.generate("Message", settings, Writer.createDefault());
+    final Writer writer = generator.generate("Message", settings, javaWriter());
 
     final String scenario =
         PList.of(
@@ -69,7 +70,7 @@ class ValidationGeneratorTest {
   void assertFalse_when_settings_then_correctOutput(PojoSettings settings) {
     final Generator<String, PojoSettings> generator =
         ValidationGenerator.assertFalse(Function.identity());
-    final Writer writer = generator.generate("Message", settings, Writer.createDefault());
+    final Writer writer = generator.generate("Message", settings, javaWriter());
 
     final String scenario =
         PList.of(
@@ -89,8 +90,7 @@ class ValidationGeneratorTest {
         ValidationGenerator.validationAnnotationsForMember();
 
     final Writer writer =
-        generator.generate(
-            member, defaultSettings().withEnableValidation(false), Writer.createDefault());
+        generator.generate(member, defaultSettings().withEnableValidation(false), javaWriter());
 
     assertEquals(PList.empty(), writer.getRefs());
     assertEquals("", writer.asString());
@@ -102,7 +102,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.single(Jakarta2ValidationRefs.NOT_NULL), writer.getRefs());
     assertEquals("@NotNull", writer.asString());
@@ -114,7 +114,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.empty(), writer.getRefs());
     assertEquals("", writer.asString());
@@ -126,7 +126,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.single(Jakarta2ValidationRefs.VALID), writer.getRefs());
     assertEquals("@Valid", writer.asString());
@@ -139,7 +139,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.empty(), writer.getRefs());
     assertEquals("", writer.asString());
@@ -156,7 +156,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.single(Jakarta2ValidationRefs.VALID), writer.getRefs());
     assertEquals("@Valid", writer.asString());
@@ -170,7 +170,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.single(Jakarta2ValidationRefs.VALID), writer.getRefs());
     assertEquals("@Valid", writer.asString());
@@ -194,7 +194,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.empty(), writer.getRefs());
     assertEquals("", writer.asString());
@@ -216,7 +216,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.single(Jakarta2ValidationRefs.EMAIL), writer.getRefs());
     assertEquals("@Email", writer.asString());
@@ -228,7 +228,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
@@ -241,7 +241,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.DECIMAL_MIN::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.DECIMAL_MAX::equals));
@@ -259,7 +259,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.single(Jakarta2ValidationRefs.SIZE), writer.getRefs());
     assertEquals("@Size(min = 1, max = 50)", writer.asString());
@@ -271,7 +271,7 @@ class ValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
-    final Writer writer = generator.generate(member, defaultSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(member, defaultSettings(), javaWriter());
 
     assertEquals(PList.single(Jakarta2ValidationRefs.PATTERN), writer.getRefs());
     assertEquals("@Pattern(regexp=\"Hello\")", writer.asString());

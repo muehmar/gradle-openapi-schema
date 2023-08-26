@@ -1,10 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 class JavaDocGeneratorTest {
@@ -20,8 +20,7 @@ class JavaDocGeneratorTest {
             + "This is a very long line! This is a very long line! This is a very long line! "
             + "This is a very long line! This is a very long line! This is a very long line!";
 
-    final String output =
-        generator.generate(input, noSettings(), Writer.createDefault()).asString();
+    final String output = generator.generate(input, noSettings(), javaWriter()).asString();
 
     assertEquals(
         "/**\n"
@@ -40,7 +39,7 @@ class JavaDocGeneratorTest {
   void javaDoc_when_noJavaDocText_then_notOutput() {
     final Generator<String, Void> generator = JavaDocGenerator.javaDoc();
 
-    final String output = generator.generate("", noSettings(), Writer.createDefault()).asString();
+    final String output = generator.generate("", noSettings(), javaWriter()).asString();
 
     assertEquals("", output);
   }

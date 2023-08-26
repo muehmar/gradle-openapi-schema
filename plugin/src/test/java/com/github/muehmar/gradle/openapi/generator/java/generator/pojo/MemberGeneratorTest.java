@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,7 +32,7 @@ class MemberGeneratorTest {
         gen.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getMemberContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
 
@@ -47,7 +48,7 @@ class MemberGeneratorTest {
         gen.generate(
             JavaPojos.arrayPojo().getMemberContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_VALUE::equals));
 

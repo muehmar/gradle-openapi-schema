@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -38,7 +39,7 @@ class WitherGeneratorTest {
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getWitherContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -58,7 +59,7 @@ class WitherGeneratorTest {
                         .flatMap(JavaPojoMember::getTechnicalMembers))
                 .build(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -93,7 +94,7 @@ class WitherGeneratorTest {
         WitherGenerator.witherGenerator();
     final Writer writer =
         generator.generate(
-            pojo.getWitherContent(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+            pojo.getWitherContent(), TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

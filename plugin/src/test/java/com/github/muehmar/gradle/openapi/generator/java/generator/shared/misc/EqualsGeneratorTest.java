@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -29,7 +30,7 @@ class EqualsGeneratorTest {
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getEqualsContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -43,7 +44,7 @@ class EqualsGeneratorTest {
         generator.generate(
             JavaPojos.arrayPojo().getEqualsContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
 

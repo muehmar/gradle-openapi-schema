@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof.AllOfBuilderGenerator.allOfBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -34,7 +35,7 @@ class AllOfBuilderGeneratorTest {
                 sampleObjectPojo2(),
                 JavaPojos.objectPojo(JavaPojoMembers.requiredDirectionEnum())),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

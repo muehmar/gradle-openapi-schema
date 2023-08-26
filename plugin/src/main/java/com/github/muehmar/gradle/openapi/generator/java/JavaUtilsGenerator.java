@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.UtilsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.TristateGenerator;
@@ -17,7 +19,7 @@ public class JavaUtilsGenerator implements UtilsGenerator {
 
   private static GeneratedFile tristateClass() {
     final Generator<Void, Void> tristateGen = TristateGenerator.tristateClass();
-    final Writer writer = tristateGen.generate(noData(), noSettings(), Writer.createDefault());
+    final Writer writer = tristateGen.generate(noData(), noSettings(), javaWriter());
     final JavaFileName javaFileName = JavaFileName.fromRef(OpenApiUtilRefs.TRISTATE);
     return new GeneratedFile(javaFileName.asPath(), writer.asString());
   }
@@ -25,8 +27,7 @@ public class JavaUtilsGenerator implements UtilsGenerator {
   private static GeneratedFile jacksonContainerClass() {
     final Generator<Void, Void> jacksonContainerGen =
         JacksonNullContainerGenerator.containerClass();
-    final Writer writer =
-        jacksonContainerGen.generate(noData(), noSettings(), Writer.createDefault());
+    final Writer writer = jacksonContainerGen.generate(noData(), noSettings(), javaWriter());
     final JavaFileName javaFileName = JavaFileName.fromRef(OpenApiUtilRefs.JACKSON_NULL_CONTAINER);
     return new GeneratedFile(javaFileName.asPath(), writer.asString());
   }

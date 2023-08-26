@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.FactoryMethodGenerator.factoryMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -39,8 +40,7 @@ class FactoryMethodGeneratorTest {
     final OneOfContainer oneOfContainer =
         new OneOfContainer(JavaPojoName.fromNameAndSuffix("Object", "Dto"), javaOneOfComposition);
     final Writer writer =
-        generator.generate(
-            oneOfContainer, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(oneOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

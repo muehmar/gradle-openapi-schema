@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -12,7 +13,7 @@ class PackageGeneratorTest {
     final PackageGenerator<String> generator = new PackageGenerator<>();
 
     final Writer writer =
-        generator.generate("Hello", TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate("Hello", TestPojoSettings.defaultSettings(), javaWriter());
 
     assertEquals("package com.github.muehmar;", writer.asString());
   }

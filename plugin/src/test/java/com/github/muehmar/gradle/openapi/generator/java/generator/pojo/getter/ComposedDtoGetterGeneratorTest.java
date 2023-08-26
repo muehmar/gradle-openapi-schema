@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ComposedDtoGetterGenerator.composedDtoGetterGenerator;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -28,7 +29,7 @@ class ComposedDtoGetterGeneratorTest {
         generator.generate(
             JavaPojos.allOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -36,7 +37,7 @@ class JavaTypeGeneratorsTest {
     final JavaType javaType = JavaType.wrap(arrayType, TypeMappings.empty());
 
     final Writer writer =
-        generator.generate(javaType, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(javaType, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
 

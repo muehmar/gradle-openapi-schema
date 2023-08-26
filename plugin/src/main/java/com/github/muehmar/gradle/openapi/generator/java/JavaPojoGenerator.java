@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.OneOfContainerGenerator.oneOfContainerGenerator;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
@@ -30,7 +31,7 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   public NonEmptyList<GeneratedFile> generatePojo(JavaPojo pojo, PojoSettings pojoSettings) {
-    final Writer writer = Writer.createDefault();
+    final Writer writer = javaWriter();
 
     final String content =
         pojo.fold(
@@ -69,8 +70,7 @@ public class JavaPojoGenerator implements PojoGenerator {
 
   private static GeneratedFile createOneOfContainerFile(
       OneOfContainer container, PojoSettings settings) {
-    final Writer writer =
-        oneOfContainerGenerator().generate(container, settings, Writer.createDefault());
+    final Writer writer = oneOfContainerGenerator().generate(container, settings, javaWriter());
     final String content = writer.asString();
     final JavaFileName javaFileName =
         JavaFileName.fromSettingsAndClassname(settings, container.getContainerName());

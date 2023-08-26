@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -110,7 +111,7 @@ class MultipleOfValidationMethodGeneratorTest {
             JavaPojos.objectPojo(
                 PList.of(JavaPojoMembers.requiredDouble(), JavaPojoMembers.requiredInteger())),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -122,9 +123,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            POJO,
-            TestPojoSettings.defaultSettings().withEnableValidation(false),
-            Writer.createDefault());
+            POJO, TestPojoSettings.defaultSettings().withEnableValidation(false), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -139,7 +138,7 @@ class MultipleOfValidationMethodGeneratorTest {
         generator.generate(
             JavaPojos.objectPojo(PList.of(INTEGER_MEMBER)),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -154,7 +153,7 @@ class MultipleOfValidationMethodGeneratorTest {
         generator.generate(
             JavaPojos.objectPojo(PList.of(LONG_MEMBER)),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -169,7 +168,7 @@ class MultipleOfValidationMethodGeneratorTest {
         generator.generate(
             JavaPojos.objectPojo(PList.of(FLOAT_MEMBER)),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_MATH_BIG_DECIMAL::equals));
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -185,7 +184,7 @@ class MultipleOfValidationMethodGeneratorTest {
         generator.generate(
             JavaPojos.objectPojo(PList.of(DOUBLE_MEMBER)),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_MATH_BIG_DECIMAL::equals));
     expect.toMatchSnapshot(writerSnapshot(writer));

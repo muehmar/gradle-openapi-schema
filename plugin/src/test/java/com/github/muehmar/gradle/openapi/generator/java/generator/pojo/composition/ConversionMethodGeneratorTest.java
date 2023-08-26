@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -52,8 +53,7 @@ class ConversionMethodGeneratorTest {
     final JavaObjectPojo composedPojo = createComposedPojo.apply(NonEmptyList.of(pojo1, pojo2));
 
     final Writer writer =
-        generator.generate(
-            composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.scenario(name).toMatchSnapshot(writer.asString());
   }
@@ -76,8 +76,7 @@ class ConversionMethodGeneratorTest {
     final JavaObjectPojo composedPojo = JavaPojos.sampleObjectPojo1();
 
     final Writer writer =
-        generator.generate(
-            composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -95,8 +94,7 @@ class ConversionMethodGeneratorTest {
     final JavaObjectPojo composedPojo = JavaPojos.oneOfPojo(pojo1, pojo2);
 
     final Writer writer =
-        generator.generate(
-            composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -112,8 +110,7 @@ class ConversionMethodGeneratorTest {
             JavaPojos.oneOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2()));
 
     final Writer writer =
-        generator.generate(
-            composedPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

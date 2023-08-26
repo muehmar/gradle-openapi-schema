@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,7 +35,7 @@ class UniqueItemsValidationMethodGeneratorTest {
         generator.generate(
             JavaPojoMembers.requiredDouble(),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -48,7 +49,7 @@ class UniqueItemsValidationMethodGeneratorTest {
         generator.generate(
             JavaPojos.arrayPojo().getArrayPojoMember(),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -65,7 +66,7 @@ class UniqueItemsValidationMethodGeneratorTest {
                 Necessity.REQUIRED,
                 Nullability.NOT_NULLABLE),
             TestPojoSettings.defaultSettings().withEnableValidation(false),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -83,7 +84,7 @@ class UniqueItemsValidationMethodGeneratorTest {
                 Necessity.REQUIRED,
                 Nullability.NOT_NULLABLE),
             TestPojoSettings.defaultSettings().withEnableValidation(true),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_HASH_SET::equals));
     expect.toMatchSnapshot(writer.asString());

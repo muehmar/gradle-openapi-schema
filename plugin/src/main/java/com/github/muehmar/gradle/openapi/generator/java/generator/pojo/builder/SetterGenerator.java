@@ -66,15 +66,15 @@ class SetterGenerator {
                 writer.println(
                     "this.%s = %s;", member.getNameAsIdentifier(), member.getNameAsIdentifier()))
         .appendConditionally(
-            JavaPojoMember::isRequiredAndNullable,
             (member, settings, writer) ->
-                writer.println("this.%s = true;", member.getIsPresentFlagName()))
+                writer.println("this.%s = true;", member.getIsPresentFlagName()),
+            JavaPojoMember::isRequiredAndNullable)
         .appendConditionally(
-            JavaPojoMember::isOptionalAndNullable,
             (member, settings, writer) ->
                 writer.println(
                     "this.%s = %s == null;",
-                    member.getIsNullFlagName(), member.getNameAsIdentifier()))
+                    member.getIsNullFlagName(), member.getNameAsIdentifier()),
+            JavaPojoMember::isOptionalAndNullable)
         .append(w -> w.println("return this;"));
   }
 

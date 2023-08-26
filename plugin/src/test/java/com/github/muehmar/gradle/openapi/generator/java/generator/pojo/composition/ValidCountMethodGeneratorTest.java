@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
@@ -29,7 +30,7 @@ class ValidCountMethodGeneratorTest {
     final JavaObjectPojo pojo = JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
 
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -42,7 +43,7 @@ class ValidCountMethodGeneratorTest {
     final JavaObjectPojo pojo = JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
 
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -54,7 +55,7 @@ class ValidCountMethodGeneratorTest {
     final JavaObjectPojo pojo = JavaPojos.sampleObjectPojo1();
 
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }

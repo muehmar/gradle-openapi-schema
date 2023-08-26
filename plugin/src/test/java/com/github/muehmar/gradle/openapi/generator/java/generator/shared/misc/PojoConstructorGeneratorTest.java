@@ -1,10 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.ConstructorContent;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -25,10 +26,9 @@ class PojoConstructorGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants())
-                .getConstructorContent(),
+            JavaPojos.allNecessityAndNullabilityVariants().getConstructorContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -41,10 +41,9 @@ class PojoConstructorGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants())
-                .getConstructorContent(),
+            JavaPojos.allNecessityAndNullabilityVariants().getConstructorContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -59,7 +58,7 @@ class PojoConstructorGeneratorTest {
         generator.generate(
             JavaPojos.arrayPojo().getConstructorContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

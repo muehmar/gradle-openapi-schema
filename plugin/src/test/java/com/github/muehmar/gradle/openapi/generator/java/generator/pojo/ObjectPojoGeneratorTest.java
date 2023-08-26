@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProper
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -115,7 +116,7 @@ class ObjectPojoGeneratorTest {
             .withEnableValidation(false);
 
     final String content =
-        generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, Writer.createDefault()).asString();
+        generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -129,7 +130,7 @@ class ObjectPojoGeneratorTest {
         TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(false);
 
     final String content =
-        generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, Writer.createDefault()).asString();
+        generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -146,7 +147,7 @@ class ObjectPojoGeneratorTest {
             .withEnableValidation(false);
 
     final String content =
-        generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, Writer.createDefault()).asString();
+        generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -266,8 +267,7 @@ class ObjectPojoGeneratorTest {
                     TypeMappings.empty())
                 .getDefaultPojo();
 
-    final String content =
-        generator.generate(pojo, pojoSettings, Writer.createDefault()).asString();
+    final String content = generator.generate(pojo, pojoSettings, javaWriter()).asString();
 
     expect.scenario(validationApi.getValue()).toMatchSnapshot(content);
   }
@@ -309,8 +309,7 @@ class ObjectPojoGeneratorTest {
                     TypeMappings.empty())
                 .getDefaultPojo();
 
-    final String content =
-        generator.generate(pojo, pojoSettings, Writer.createDefault()).asString();
+    final String content = generator.generate(pojo, pojoSettings, javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -352,8 +351,7 @@ class ObjectPojoGeneratorTest {
                     TypeMappings.empty())
                 .getDefaultPojo();
 
-    final String content =
-        generator.generate(pojo, pojoSettings, Writer.createDefault()).asString();
+    final String content = generator.generate(pojo, pojoSettings, javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -368,7 +366,7 @@ class ObjectPojoGeneratorTest {
             .generate(
                 (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
                 TestPojoSettings.defaultSettings().withEnableSafeBuilder(true),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -388,7 +386,7 @@ class ObjectPojoGeneratorTest {
             .generate(
                 JavaPojos.objectPojo(PList.single(member)),
                 TestPojoSettings.defaultSettings(),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -412,7 +410,7 @@ class ObjectPojoGeneratorTest {
             .generate(
                 JavaPojos.objectPojo(PList.single(member)),
                 TestPojoSettings.defaultSettings(),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -427,7 +425,7 @@ class ObjectPojoGeneratorTest {
             .generate(
                 JavaPojos.objectPojo(PList.empty(), JavaAdditionalProperties.notAllowed()),
                 TestPojoSettings.defaultSettings(),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -447,7 +445,7 @@ class ObjectPojoGeneratorTest {
                             EnumType.ofNameAndMembers(
                                 Name.ofString("ColorEnum"), PList.of("green", "yellow", "red"))))),
                 TestPojoSettings.defaultSettings(),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -466,7 +464,7 @@ class ObjectPojoGeneratorTest {
                         JavaObjectType.wrap(
                             ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
                 TestPojoSettings.defaultSettings(),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -482,7 +480,7 @@ class ObjectPojoGeneratorTest {
                 JavaPojos.objectPojo(
                     PList.empty(), JavaAdditionalProperties.allowedFor(JavaAnyType.create())),
                 TestPojoSettings.defaultSettings(),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -500,7 +498,7 @@ class ObjectPojoGeneratorTest {
                     JavaAdditionalProperties.allowedFor(
                         JavaIntegerType.wrap(IntegerType.formatInteger(), TypeMappings.empty()))),
                 TestPojoSettings.defaultSettings(),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -519,7 +517,7 @@ class ObjectPojoGeneratorTest {
                         JavaObjectType.wrap(
                             ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
                 TestPojoSettings.defaultSettings().withEnableValidation(false),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -538,7 +536,7 @@ class ObjectPojoGeneratorTest {
                         JavaObjectType.wrap(
                             ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
                 TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-                Writer.createDefault())
+                javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -554,7 +552,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final Writer writer =
-        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -569,7 +567,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final Writer writer =
-        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -584,7 +582,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final Writer writer =
-        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

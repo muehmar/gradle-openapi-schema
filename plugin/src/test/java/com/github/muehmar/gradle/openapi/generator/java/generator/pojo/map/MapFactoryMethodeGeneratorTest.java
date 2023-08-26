@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.map;
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.simpleMapPojo;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
@@ -31,7 +32,7 @@ class MapFactoryMethodeGeneratorTest {
         generator.generate(
             simpleMapPojo(JavaAdditionalProperties.anyTypeAllowed()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -42,8 +43,7 @@ class MapFactoryMethodeGeneratorTest {
         MapFactoryMethodeGenerator.mapFactoryMethodeGenerator();
 
     final Writer writer =
-        generator.generate(
-            sampleObjectPojo1(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(sampleObjectPojo1(), TestPojoSettings.defaultSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -58,7 +58,7 @@ class MapFactoryMethodeGeneratorTest {
         generator.generate(
             simpleMapPojo(JavaAdditionalProperties.notAllowed()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }

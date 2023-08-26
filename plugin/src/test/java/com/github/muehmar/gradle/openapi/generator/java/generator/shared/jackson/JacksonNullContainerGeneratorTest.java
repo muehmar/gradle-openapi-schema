@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackso
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +15,7 @@ class JacksonNullContainerGeneratorTest {
   @Test
   void containerClass_when_called_then_outputAndRefsCorrect() {
     final Generator<Void, Void> generator = JacksonNullContainerGenerator.containerClass();
-    final Writer writer = generator.generate(noData(), noSettings(), Writer.createDefault());
+    final Writer writer = generator.generate(noData(), noSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_VALUE::equals));
     assertEquals(

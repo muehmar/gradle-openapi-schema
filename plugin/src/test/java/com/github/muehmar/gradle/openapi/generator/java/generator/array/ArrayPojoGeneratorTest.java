@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
@@ -22,7 +24,7 @@ class ArrayPojoGeneratorTest {
         arrayPojoGenerator.generate(
             JavaPojos.arrayPojo(Constraints.ofUniqueItems(true)),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

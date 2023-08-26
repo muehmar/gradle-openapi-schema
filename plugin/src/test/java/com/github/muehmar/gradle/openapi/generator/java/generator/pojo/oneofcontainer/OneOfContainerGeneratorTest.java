@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcon
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -34,8 +35,7 @@ class OneOfContainerGeneratorTest {
         new OneOfContainer(JavaPojoNames.invoiceName(), oneOfComposition);
 
     final Writer writer =
-        generator.generate(
-            oneOfContainer, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(oneOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

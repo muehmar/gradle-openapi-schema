@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
@@ -39,7 +40,7 @@ class OptionalNullableGetterTest {
         generator.generate(
             pojoMember,
             TestPojoSettings.defaultSettings().withEnableValidation(false),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -58,7 +59,7 @@ class OptionalNullableGetterTest {
         generator.generate(
             pojoMember,
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -88,7 +89,7 @@ class OptionalNullableGetterTest {
                 .withJsonSupport(JsonSupport.NONE)
                 .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -111,7 +112,7 @@ class OptionalNullableGetterTest {
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.JACKSON)
                 .withValidationMethods(validationMethods),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

@@ -5,12 +5,12 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.ofJavaDocString;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
-import io.github.muehmar.codegenerator.writer.Writer;
 
 public class TristateGenerator {
   private static final String ON_VALUE_JAVA_DOC =
@@ -192,7 +192,7 @@ public class TristateGenerator {
     return (a, b, writer) ->
         writer
             .println("public interface OnNull<R> {")
-            .append(1, javaDoc().generate(ON_NULL_JAVA_DOC, (Void) null, Writer.createDefault()))
+            .append(1, javaDoc().generate(ON_NULL_JAVA_DOC, (Void) null, javaWriter()))
             .tab(1)
             .println("OnAbsent<R> onNull(Supplier<R> onNull);")
             .println("}")
@@ -203,7 +203,7 @@ public class TristateGenerator {
     return (a, b, writer) ->
         writer
             .println("public interface OnAbsent<R> {")
-            .append(1, javaDoc().generate(ON_ABSENT_JAVA_DOC, (Void) null, Writer.createDefault()))
+            .append(1, javaDoc().generate(ON_ABSENT_JAVA_DOC, (Void) null, javaWriter()))
             .tab(1)
             .println("R onAbsent(Supplier<R> onAbsent);")
             .println("}")

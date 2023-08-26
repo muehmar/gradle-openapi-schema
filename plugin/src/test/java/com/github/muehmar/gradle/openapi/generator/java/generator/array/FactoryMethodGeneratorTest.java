@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -24,8 +25,7 @@ class FactoryMethodGeneratorTest {
     final Generator<JavaArrayPojo, PojoSettings> generator =
         FactoryMethodGenerator.factoryMethodGenerator();
     final Writer writer =
-        generator.generate(
-            JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

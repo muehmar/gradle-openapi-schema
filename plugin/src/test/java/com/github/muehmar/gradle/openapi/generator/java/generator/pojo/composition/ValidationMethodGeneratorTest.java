@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -34,7 +35,7 @@ class ValidationMethodGeneratorTest {
                 sampleObjectPojo2(),
                 JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -51,7 +52,7 @@ class ValidationMethodGeneratorTest {
                 sampleObjectPojo2(),
                 JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -67,7 +68,7 @@ class ValidationMethodGeneratorTest {
                 JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
                 JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -81,7 +82,7 @@ class ValidationMethodGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(JavaPojos.objectPojo(JavaPojoMembers.optionalBirthdate())),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

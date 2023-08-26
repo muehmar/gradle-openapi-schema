@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.InvalidCompositionDtoGetterGenerator.invalidCompositionDtoGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import au.com.origin.snapshots.Expect;
@@ -32,7 +33,7 @@ class InvalidCompositionDtoGetterGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -47,7 +48,7 @@ class InvalidCompositionDtoGetterGeneratorTest {
         generator.generate(
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -58,8 +59,7 @@ class InvalidCompositionDtoGetterGeneratorTest {
         invalidCompositionDtoGetterGenerator();
 
     final Writer writer =
-        generator.generate(
-            sampleObjectPojo1(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(sampleObjectPojo1(), TestPojoSettings.defaultSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -73,7 +73,7 @@ class InvalidCompositionDtoGetterGeneratorTest {
         generator.generate(
             sampleObjectPojo1(),
             TestPojoSettings.defaultSettings().withEnableValidation(false),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }

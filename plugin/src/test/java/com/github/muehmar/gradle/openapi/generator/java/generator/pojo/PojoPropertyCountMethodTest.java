@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -36,7 +37,7 @@ class PojoPropertyCountMethodTest {
         gen.generate(
             allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -54,7 +55,7 @@ class PojoPropertyCountMethodTest {
         gen.generate(
             allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings().withEnableValidation(false),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -72,7 +73,7 @@ class PojoPropertyCountMethodTest {
         gen.generate(
             allNecessityAndNullabilityVariants(constraints),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -87,7 +88,7 @@ class PojoPropertyCountMethodTest {
         gen.generate(
             JavaPojos.oneOfPojo(allNecessityAndNullabilityVariants(), sampleObjectPojo1()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

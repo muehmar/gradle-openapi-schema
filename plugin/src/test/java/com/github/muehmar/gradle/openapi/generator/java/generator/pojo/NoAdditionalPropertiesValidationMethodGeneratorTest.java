@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
@@ -29,7 +30,7 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
         generator.generate(
             JavaAdditionalProperties.notAllowed(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -44,7 +45,7 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
         generator.generate(
             JavaAdditionalProperties.anyTypeAllowed(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -59,7 +60,7 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
         generator.generate(
             JavaAdditionalProperties.notAllowed(),
             TestPojoSettings.defaultSettings().withEnableValidation(false),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }

@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
@@ -35,7 +36,7 @@ class OptionalNotNullableGetterTest {
     final JavaPojoMember pojoMember = JavaPojoMembers.birthdate(OPTIONAL, NOT_NULLABLE);
 
     final Writer writer =
-        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -54,7 +55,7 @@ class OptionalNotNullableGetterTest {
         generator.generate(
             pojoMember,
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -71,7 +72,7 @@ class OptionalNotNullableGetterTest {
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.NONE)
                 .withEnableValidation(false),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -97,7 +98,7 @@ class OptionalNotNullableGetterTest {
                 .withJsonSupport(JsonSupport.NONE)
                 .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -119,7 +120,7 @@ class OptionalNotNullableGetterTest {
             TestPojoSettings.defaultSettings()
                 .withJsonSupport(JsonSupport.JACKSON)
                 .withValidationMethods(validationMethods),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -29,9 +30,9 @@ class ToStringGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants()).getToStringContent(),
+            JavaPojos.allNecessityAndNullabilityVariants().getToStringContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
 
@@ -47,7 +48,7 @@ class ToStringGeneratorTest {
         generator.generate(
             JavaPojos.arrayPojo().getToStringContent(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
 
@@ -64,7 +65,7 @@ class ToStringGeneratorTest {
             PList.of(JavaPojoMembers.byteArrayMember(), JavaPojoMembers.requiredDouble()));
     final Writer writer =
         generator.generate(
-            pojo.getToStringContent(), TestPojoSettings.defaultSettings(), Writer.createDefault());
+            pojo.getToStringContent(), TestPojoSettings.defaultSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAYS::equals));
 

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -18,9 +19,7 @@ class CommonGetterTest {
     final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.optionalString(),
-            TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            JavaPojoMembers.optionalString(), TestPojoSettings.defaultSettings(), javaWriter());
 
     assertEquals(
         "private String getOptionalStringValRaw() {\n" + "  return optionalStringVal;\n" + "}",
@@ -38,7 +37,7 @@ class CommonGetterTest {
                     .withModifier(JavaModifier.PUBLIC)
                     .withGetterSuffix("CustomSuffix"));
     final Writer writer =
-        generator.generate(JavaPojoMembers.optionalString(), settings, Writer.createDefault());
+        generator.generate(JavaPojoMembers.optionalString(), settings, javaWriter());
 
     assertEquals(
         "public String getOptionalStringValCustomSuffix() {\n"

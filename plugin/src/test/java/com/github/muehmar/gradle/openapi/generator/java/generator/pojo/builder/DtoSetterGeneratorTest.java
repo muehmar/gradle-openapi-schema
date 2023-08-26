@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.bu
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withAdditionalProperties;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -46,7 +47,7 @@ class DtoSetterGeneratorTest {
             JavaPojos.oneOfPojo(
                 sampleObjectPojo1(), JavaPojos.allNecessityAndNullabilityVariants()),
             TestPojoSettings.defaultSettings().withGetterSuffixes(getterSuffixes),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -66,7 +67,7 @@ class DtoSetterGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(javaOneOfComposition),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -80,7 +81,7 @@ class DtoSetterGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             TestPojoSettings.defaultSettings().withBuilderMethodPrefix(""),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -97,7 +98,7 @@ class DtoSetterGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(samplePojo1, sampleObjectPojo2()),
             TestPojoSettings.defaultSettings().withBuilderMethodPrefix(""),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

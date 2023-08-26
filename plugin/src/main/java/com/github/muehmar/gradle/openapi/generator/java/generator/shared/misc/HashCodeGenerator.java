@@ -52,8 +52,8 @@ public class HashCodeGenerator {
   private static Generator<HashCodeContent, PojoSettings> arraysRefGenerator() {
     return Generator.<HashCodeContent, PojoSettings>emptyGen()
         .appendConditionally(
-            HashCodeContent::hasArrayProperty,
-            Generator.ofWriterFunction(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAYS)));
+            Generator.ofWriterFunction(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAYS)),
+            HashCodeContent::hasArrayProperty);
   }
 
   /** Content for the generation of the hashCode method. */

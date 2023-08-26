@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter.requiredAdditionalPropertiesGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -43,7 +44,7 @@ class RequiredAdditionalPropertiesGetterTest {
                         ObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto")))))));
 
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -73,7 +74,7 @@ class RequiredAdditionalPropertiesGetterTest {
                         .getterSuffix("suffix")
                         .deprecatedAnnotation(true)
                         .build()),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -92,7 +93,7 @@ class RequiredAdditionalPropertiesGetterTest {
                     JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))));
 
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -109,7 +110,7 @@ class RequiredAdditionalPropertiesGetterTest {
                 new JavaRequiredAdditionalProperty(Name.ofString("prop1"), javaAnyType())));
 
     final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

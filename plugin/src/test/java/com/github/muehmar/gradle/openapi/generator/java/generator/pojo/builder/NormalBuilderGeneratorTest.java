@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -43,7 +44,7 @@ class NormalBuilderGeneratorTest {
             JavaPojos.withRequiredAdditionalProperties(
                 allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -58,7 +59,7 @@ class NormalBuilderGeneratorTest {
             JavaPojos.objectPojo(
                 PList.empty(), JavaAdditionalProperties.allowedFor(stringListType())),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -73,7 +74,7 @@ class NormalBuilderGeneratorTest {
         generator.generate(
             allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -88,7 +89,7 @@ class NormalBuilderGeneratorTest {
         generator.generate(
             allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings().withEnableSafeBuilder(false),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -103,7 +104,7 @@ class NormalBuilderGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

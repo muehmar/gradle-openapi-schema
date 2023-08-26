@@ -39,8 +39,8 @@ public class ToStringGenerator {
   private static Generator<ToStringContent, PojoSettings> arraysRefGenerator() {
     return Generator.<ToStringContent, PojoSettings>emptyGen()
         .appendConditionally(
-            ToStringContent::hasArrayMemberType,
-            Generator.ofWriterFunction(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAYS)));
+            Generator.ofWriterFunction(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAYS)),
+            ToStringContent::hasArrayMemberType);
   }
 
   private static Generator<ToStringContent, PojoSettings> toStringMethodContent() {

@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withAdditionalProperties;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
@@ -32,7 +33,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
         generator.generate(
             withAdditionalProperties(sampleObjectPojo1(), JavaAdditionalProperties.notAllowed()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -46,7 +47,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
             withAdditionalProperties(
                 sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(javaAnyType())),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -62,7 +63,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
             withAdditionalProperties(
                 sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(stringType())),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -77,7 +78,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
             withAdditionalProperties(
                 sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(stringType())),
             TestPojoSettings.defaultSettings().withEnableValidation(false),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }

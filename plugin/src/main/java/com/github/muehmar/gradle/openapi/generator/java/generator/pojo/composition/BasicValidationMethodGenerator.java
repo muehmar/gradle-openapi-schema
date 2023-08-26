@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -7,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCou
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
-import io.github.muehmar.codegenerator.writer.Writer;
 import lombok.Value;
 
 public class BasicValidationMethodGenerator {
@@ -53,8 +54,8 @@ public class BasicValidationMethodGenerator {
     final Generator<JavaPojoAndMember, PojoSettings> requiredNullableGen =
         (pm, s, w) -> w.println("%s &&", pm.member.getIsPresentFlagName());
     return Generator.<JavaPojoAndMember, PojoSettings>emptyGen()
-        .appendConditionally(JavaPojoAndMember::isRequiredAndNotNullable, requiredNotNullableGen)
-        .appendConditionally(JavaPojoAndMember::isRequiredAndNullable, requiredNullableGen);
+        .appendConditionally(requiredNotNullableGen, JavaPojoAndMember::isRequiredAndNotNullable)
+        .appendConditionally(requiredNullableGen, JavaPojoAndMember::isRequiredAndNullable);
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> methodContentOneOfCondition() {
@@ -126,7 +127,7 @@ public class BasicValidationMethodGenerator {
   private static Generator<JavaObjectPojo, PojoSettings> singleCondition(
       Generator<JavaObjectPojo, PojoSettings> generator, String suffix) {
     return (p, s, w) ->
-        generator.generate(p, s, Writer.createDefault()).asString().isEmpty()
+        generator.generate(p, s, javaWriter()).asString().isEmpty()
             ? w.println("true%s", suffix)
             : generator.generate(p, s, w);
   }

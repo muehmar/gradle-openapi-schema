@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotationsForType;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.type.AnnotatedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.AnnotationsCreator;
@@ -30,7 +31,7 @@ public class JavaTypeGenerators {
   private static AnnotationsCreator annotationsCreatorForSettings(PojoSettings settings) {
     return valueType -> {
       final Writer annotationWriter =
-          validationAnnotationsForType().generate(valueType, settings, Writer.createDefault());
+          validationAnnotationsForType().generate(valueType, settings, javaWriter());
       return new AnnotationsCreator.Annotations(
           annotationWriter.asString().replaceAll("\\s+", " ").trim(), annotationWriter.getRefs());
     };

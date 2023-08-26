@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
@@ -17,7 +18,7 @@ class AnnotationGeneratorTest {
     final Generator<Void, PojoSettings> generator =
         AnnotationGenerator.deprecatedValidationMethod();
     final PojoSettings settings = TestPojoSettings.defaultSettings();
-    final Writer writer = generator.generate(noData(), settings, Writer.createDefault());
+    final Writer writer = generator.generate(noData(), settings, javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -31,7 +32,7 @@ class AnnotationGeneratorTest {
             .withValidationMethods(
                 TestPojoSettings.defaultValidationMethods().withDeprecatedAnnotation(true));
 
-    final Writer writer = generator.generate(noData(), settings, Writer.createDefault());
+    final Writer writer = generator.generate(noData(), settings, javaWriter());
 
     assertEquals("@Deprecated", writer.asString());
   }

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -20,7 +21,7 @@ class RefsGeneratorTest {
         JavaPojoMember.wrap(PojoMembers.requiredBirthdate(), TypeMappings.empty());
 
     final Writer writer =
-        gen.generate(javaPojoMember, TestPojoSettings.defaultSettings(), Writer.createDefault());
+        gen.generate(javaPojoMember, TestPojoSettings.defaultSettings(), javaWriter());
 
     assertEquals(PList.of("java.time.LocalDate"), writer.getRefs());
 

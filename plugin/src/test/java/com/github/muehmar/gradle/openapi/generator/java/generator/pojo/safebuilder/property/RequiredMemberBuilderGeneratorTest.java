@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuil
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
@@ -34,7 +35,7 @@ class RequiredMemberBuilderGeneratorTest {
         gen.generate(
             JavaPojos.allNecessityAndNullabilityVariants(),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -53,7 +54,7 @@ class RequiredMemberBuilderGeneratorTest {
             JavaPojos.withRequiredAdditionalProperties(
                 JavaPojos.allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -68,7 +69,7 @@ class RequiredMemberBuilderGeneratorTest {
         gen.generate(
             JavaPojos.objectPojo(JavaPojoMembers.requiredNullableBirthdate()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -82,7 +83,7 @@ class RequiredMemberBuilderGeneratorTest {
         gen.generate(
             JavaPojos.objectPojo(JavaPojoMembers.optionalBirthdate()),
             TestPojoSettings.defaultSettings(),
-            Writer.createDefault());
+            javaWriter());
 
     assertEquals("", writer.asString());
   }
