@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
+import com.github.muehmar.gradle.openapi.IntellijDiffSnapshotTestExtension;
 import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.MemberContent;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -18,7 +18,7 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith(SnapshotExtension.class)
+@ExtendWith({SnapshotExtension.class, IntellijDiffSnapshotTestExtension.class})
 class MemberGeneratorTest {
   private Expect expect;
 
@@ -29,7 +29,7 @@ class MemberGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            ((JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants()).getMemberContent(),
+            JavaPojos.allNecessityAndNullabilityVariants().getMemberContent(),
             TestPojoSettings.defaultSettings(),
             Writer.createDefault());
 

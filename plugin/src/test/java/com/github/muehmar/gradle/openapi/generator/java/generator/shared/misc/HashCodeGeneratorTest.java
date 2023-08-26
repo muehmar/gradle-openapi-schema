@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.byteArrayMember;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
@@ -8,7 +10,8 @@ import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.HashCodeContent;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -57,10 +60,10 @@ class HashCodeGeneratorTest {
   void generate_when_byteArrayMember_then_correctHashCodeMethod() {
     final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
 
+    final PList<TechnicalPojoMember> technicalMembers =
+        PList.of(byteArrayMember(), requiredDouble()).flatMap(JavaPojoMember::getTechnicalMembers);
     final HashCodeContent hashCodeContent =
-        HashCodeContentBuilder.create()
-            .members(PList.of(JavaPojoMembers.byteArrayMember(), JavaPojoMembers.requiredDouble()))
-            .build();
+        HashCodeContentBuilder.create().technicalPojoMembers(technicalMembers).build();
     final Writer writer =
         generator.generate(
             hashCodeContent, TestPojoSettings.defaultSettings(), Writer.createDefault());

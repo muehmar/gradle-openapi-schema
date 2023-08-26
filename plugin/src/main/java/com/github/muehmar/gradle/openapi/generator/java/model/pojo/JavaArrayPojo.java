@@ -1,19 +1,19 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder.fullWitherContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder.fullConstructorContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder.fullHashCodeContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder.fullToStringContentBuilder;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
@@ -93,7 +93,7 @@ public class JavaArrayPojo implements JavaPojo {
 
   @Override
   public JavaIdentifier getClassName() {
-    return name.asJavaName().asIdentifier();
+    return name.asIdentifier();
   }
 
   @Override
@@ -113,43 +113,45 @@ public class JavaArrayPojo implements JavaPojo {
   public MemberGenerator.MemberContent getMemberContent() {
     return MemberContentBuilder.create()
         .isArrayPojo(true)
-        .members(PList.single(getArrayPojoMember()))
+        .members(getArrayPojoMember().getTechnicalMembers())
         .build();
   }
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
-    return HashCodeContentBuilder.create().members(PList.single(getArrayPojoMember())).build();
+    return fullHashCodeContentBuilder()
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
+        .build();
   }
 
   public EqualsGenerator.EqualsContent getEqualsContent() {
-    return EqualsContentBuilder.create()
+    return fullEqualsContentBuilder()
         .className(getClassName())
-        .members(PList.single(getArrayPojoMember()))
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
         .build();
   }
 
   public ToStringGenerator.ToStringContent getToStringContent() {
-    return ToStringContentBuilder.create()
+    return fullToStringContentBuilder()
         .className(getClassName())
-        .members(PList.single(getArrayPojoMember()))
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
         .build();
   }
 
   public PojoConstructorGenerator.ConstructorContent getConstructorContent() {
-    return ConstructorContentBuilder.create()
+    return fullConstructorContentBuilder()
         .isArray(true)
         .className(getClassName())
-        .members(PList.single(getArrayPojoMember()))
-        .andOptionals()
+        .members(getArrayPojoMember().getTechnicalMembers())
         .modifier(PUBLIC)
+        .additionalProperties(Optional.empty())
         .build();
   }
 
   public WitherGenerator.WitherContent getWitherContent() {
-    return WitherContentBuilder.create()
+    return fullWitherContentBuilder()
         .className(getClassName())
         .membersForWithers(PList.single(getArrayPojoMember()))
-        .membersForConstructorCall(PList.single(getArrayPojoMember()))
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
         .build();
   }
 

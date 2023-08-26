@@ -3,6 +3,9 @@ build/
 
 .idea
 
+# Snapshot debug files
+*.snap.debug
+
 # Ignore Gradle GUI config
 gradle-app.setting
 

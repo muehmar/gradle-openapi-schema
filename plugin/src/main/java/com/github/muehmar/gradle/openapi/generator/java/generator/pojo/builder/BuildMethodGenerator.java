@@ -1,9 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -28,9 +27,6 @@ public class BuildMethodGenerator {
         writer.print(
             "return new %s(%s);",
             pojo.getClassName(),
-            pojo.getAllMembers()
-                .flatMap(JavaPojoMember::createFieldNames)
-                .add(additionalPropertiesName())
-                .mkString(", "));
+            pojo.getTechnicalMembers().map(TechnicalPojoMember::getName).mkString(", "));
   }
 }

@@ -1,0 +1,11 @@
+oneOfPojo=[
+.
+.
+SampleObjectPojo1Dto getSampleObjectPojo1Dto() {
+  return sampleObjectPojo1Dto;
+}
+
+NecessityAndNullabilityDto getNecessityAndNullabilityDto() {
+  return necessityAndNullabilityDto;
+}
+]

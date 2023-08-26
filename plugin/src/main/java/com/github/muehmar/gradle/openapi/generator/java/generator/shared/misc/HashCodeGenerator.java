@@ -6,15 +6,12 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
-import java.util.Optional;
 import lombok.Value;
 
 public class HashCodeGenerator {
@@ -39,18 +36,9 @@ public class HashCodeGenerator {
     return (content, s, w) -> {
       final Writer writerStartPrinted = w.println("return Objects.hash(");
 
-      final PList<String> additionalPropertiesArgument =
-          PList.fromOptional(
-                  content
-                      .getAdditionalProperties()
-                      .map(ignore -> JavaAdditionalProperties.additionalPropertiesName()))
-              .map(JavaIdentifier::asString);
-
       return content
-          .getMembers()
-          .map(HashCodeMember::new)
-          .flatMap(HashCodeMember::toHashCodeMethodArguments)
-          .concat(additionalPropertiesArgument)
+          .getTechnicalPojoMembers()
+          .map(HashCodeGenerator::mapToHashCodeArgument)
           .reverse()
           .zipWithIndex()
           .map(allExceptFirst(arg -> arg.concat(",")))
@@ -72,27 +60,16 @@ public class HashCodeGenerator {
   @PojoBuilder(builderName = "HashCodeContentBuilder")
   @Value
   public static class HashCodeContent {
-    PList<JavaPojoMember> members;
-    Optional<JavaAdditionalProperties> additionalProperties;
+    PList<TechnicalPojoMember> technicalPojoMembers;
 
     private boolean hasArrayProperty() {
-      return members.exists(m -> m.getJavaType().isJavaArray());
+      return technicalPojoMembers.exists(m -> m.getJavaType().isJavaArray());
     }
   }
 
-  @Value
-  private static class HashCodeMember {
-    JavaPojoMember member;
-
-    private PList<String> toHashCodeMethodArguments() {
-      return member.createFieldNames().map(JavaIdentifier::asString).map(this::mapArrayArguments);
-    }
-
-    private String mapArrayArguments(String argument) {
-      return member.getJavaType().isJavaArray()
-              && argument.equals(member.getName().asIdentifier().asString())
-          ? String.format("Arrays.hashCode(%s)", argument)
-          : argument;
-    }
+  private static String mapToHashCodeArgument(TechnicalPojoMember member) {
+    return member.getJavaType().isJavaArray()
+        ? String.format("Arrays.hashCode(%s)", member.getName())
+        : member.getName().asString();
   }
 }

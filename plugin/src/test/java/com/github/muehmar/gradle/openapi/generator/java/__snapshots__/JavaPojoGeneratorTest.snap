@@ -1,12 +1,10 @@
-com.github.muehmar.gradle.openapi.generator.java.JavaPojoGeneratorTest.generatePojo_when_arrayPojoWithUniqueItems_then_correctPojoGenerated=[
+arrayPojo=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -42,11 +40,6 @@ public class PosologyDto {
     return new PosologyDto(value);
   }
 
-  @AssertTrue(message = "value does not contain unique items")
-  private boolean hasValueUniqueItems() {
-    return new HashSet<>(value).size() == value.size();
-  }
-
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -67,6 +60,369 @@ public class PosologyDto {
     return "PosologyDto{" +
       "value=" + value +
       "}";
+  }
+}
+]
+
+
+enumPojo=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Gender of person
+ */
+public enum GenderDto {
+  MALE("male", ""),
+  FEMALE("female", ""),
+  DIVERS("divers", ""),
+  OTHER("other", "");
+
+  private final String value;
+  private final String description;
+
+  GenderDto(String value, String description) {
+    this.value = value;
+    this.description = description;
+  }
+
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+
+  @JsonCreator
+  public static GenderDto fromValue(String value) {
+    for (GenderDto e: GenderDto.values()) {
+      if (e.value.equals(value)) {
+        return e;
+      }
+    }
+    final String possibleValues =
+      Stream.of(values()).map(GenderDto::getValue).collect(Collectors.joining(", "));
+    throw new IllegalArgumentException(
+      "Unexpected value '"
+        + value
+        + "' for GenderDto, possible values are ["
+        + possibleValues
+        + "]");
+  }
+}
+]
+
+
+objectPojo=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+@JsonDeserialize(builder = SampleObjectPojo1Dto.Builder.class)
+public class SampleObjectPojo1Dto {
+  private final String stringVal;
+  private final Integer intVal;
+  private final Double doubleVal;
+  private final Map<String, Object> additionalProperties;
+
+  public SampleObjectPojo1Dto(
+      String stringVal,
+      Integer intVal,
+      Double doubleVal,
+      Map<String, Object> additionalProperties
+    ) {
+    this.stringVal = stringVal;
+    this.intVal = intVal;
+    this.doubleVal = doubleVal;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * stringVal
+   */
+  @NotNull
+  @Pattern(regexp="Hello")
+  public String getStringVal() {
+    return stringVal;
+  }
+
+  /**
+   * intVal
+   */
+  @NotNull
+  @Min(value = 10)
+  @Max(value = 50)
+  public Integer getIntVal() {
+    return intVal;
+  }
+
+  /**
+   * doubleVal
+   */
+  @NotNull
+  @DecimalMin(value = "12.5", inclusive = true)
+  @DecimalMax(value = "50.1", inclusive = false)
+  public Double getDoubleVal() {
+    return doubleVal;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * stringVal
+   */
+  public SampleObjectPojo1Dto withStringVal(String stringVal) {
+    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+  }
+
+  /**
+   * intVal
+   */
+  public SampleObjectPojo1Dto withIntVal(Integer intVal) {
+    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+  }
+
+  /**
+   * doubleVal
+   */
+  public SampleObjectPojo1Dto withDoubleVal(Double doubleVal) {
+    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (stringVal != null ? 1 : 0) +
+      (intVal != null ? 1 : 0) +
+      (doubleVal != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      stringVal != null &&
+      intVal != null &&
+      doubleVal != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final SampleObjectPojo1Dto other = (SampleObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.stringVal, other.stringVal)
+        && Objects.deepEquals(this.intVal, other.intVal)
+        && Objects.deepEquals(this.doubleVal, other.doubleVal)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      stringVal,
+      intVal,
+      doubleVal,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "SampleObjectPojo1Dto{" +
+      "stringVal=" + "'" + stringVal + "'" + ", " +
+      "intVal=" + intVal + ", " +
+      "doubleVal=" + doubleVal + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String stringVal;
+    private Integer intVal;
+    private Double doubleVal;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    /**
+     * stringVal
+     */
+    @JsonProperty("stringVal")
+    private Builder setStringVal(String stringVal) {
+      this.stringVal = stringVal;
+      return this;
+    }
+
+    /**
+     * intVal
+     */
+    @JsonProperty("intVal")
+    private Builder setIntVal(Integer intVal) {
+      this.intVal = intVal;
+      return this;
+    }
+
+    /**
+     * doubleVal
+     */
+    @JsonProperty("doubleVal")
+    private Builder setDoubleVal(Double doubleVal) {
+      this.doubleVal = doubleVal;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public SampleObjectPojo1Dto build() {
+      return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+    }
+  }
+
+  public static PropertyBuilder0 newBuilder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static final class PropertyBuilder0 {
+    private final Builder builder;
+
+    private PropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * stringVal
+     */
+    public PropertyBuilder1 setStringVal(String stringVal) {
+      return new PropertyBuilder1(builder.setStringVal(stringVal));
+    }
+
+  }
+
+  public static final class PropertyBuilder1 {
+    private final Builder builder;
+
+    private PropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * intVal
+     */
+    public PropertyBuilder2 setIntVal(Integer intVal) {
+      return new PropertyBuilder2(builder.setIntVal(intVal));
+    }
+
+  }
+
+  public static final class PropertyBuilder2 {
+    private final Builder builder;
+
+    private PropertyBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * doubleVal
+     */
+    public PropertyBuilder3 setDoubleVal(Double doubleVal) {
+      return new PropertyBuilder3(builder.setDoubleVal(doubleVal));
+    }
+
+  }
+
+  public static final class PropertyBuilder3 {
+    private final Builder builder;
+
+    private PropertyBuilder3(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder0 andAllOptionals(){
+      return new OptPropertyBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public SampleObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptPropertyBuilder0 {
+    private final Builder builder;
+
+    private OptPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public SampleObjectPojo1Dto build(){
+      return builder.build();
+    }
   }
 }
 ]

@@ -29,6 +29,10 @@ public class PojoName {
     return new PojoName(name, pojoName.getSuffix());
   }
 
+  public PojoName appendToName(String append) {
+    return new PojoName(name.append(append), suffix);
+  }
+
   public PojoName prependSuffix(String prependText) {
     return new PojoName(name, prependText + suffix);
   }

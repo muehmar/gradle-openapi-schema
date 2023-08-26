@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -8,16 +7,15 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
-import java.util.Optional;
 import lombok.Value;
 
 public class WitherGenerator {
@@ -97,16 +95,12 @@ public class WitherGenerator {
     String constructorCall() {
       final String constructorCall =
           String.format(
-              "new %s(%s%s)",
+              "new %s(%s)",
               witherContent.getClassName(),
               witherContent
-                  .getMembersForConstructorCall()
-                  .flatMap(JavaPojoMember::createFieldNames)
-                  .mkString(", "),
-              witherContent
-                  .getAdditionalProperties()
-                  .map(props -> String.format(", %s", additionalPropertiesName()))
-                  .orElse(""));
+                  .getTechnicalPojoMembers()
+                  .map(TechnicalPojoMember::getName)
+                  .mkString(", "));
       return replacePropertiesInConstructorCall(constructorCall);
     }
 
@@ -231,7 +225,6 @@ public class WitherGenerator {
   public static class WitherContent {
     JavaIdentifier className;
     PList<JavaPojoMember> membersForWithers;
-    PList<JavaPojoMember> membersForConstructorCall;
-    Optional<JavaAdditionalProperties> additionalProperties;
+    PList<TechnicalPojoMember> technicalPojoMembers;
   }
 }

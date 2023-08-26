@@ -1,17 +1,20 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.Assertion.assertAllObjectPojos;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
+import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -54,7 +57,18 @@ public class JavaOneOfComposition {
     return pojos
         .toPList()
         .flatMap(JavaObjectPojo::getAllMembersForComposition)
-        .map(JavaPojoMember::asOneOfMember);
+        .map(JavaPojoMember::asOneOfMember)
+        .distinct(Function.identity());
+  }
+
+  public PList<TechnicalPojoMember> getTechnicalMembers() {
+    return getMembers()
+        .flatMap(JavaPojoMember::getTechnicalMembers)
+        .add(TechnicalPojoMember.additionalProperties(javaAnyType()));
+  }
+
+  public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
+    return pojos.toPList().map(TechnicalPojoMember::wrapJavaObjectPojo);
   }
 
   public Optional<Discriminator> getDiscriminator() {

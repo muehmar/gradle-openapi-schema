@@ -9,7 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGener
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -53,23 +53,12 @@ public class PojoConstructorGenerator {
       constructorArguments() {
     return (pojo, pojoSettings) ->
         pojo.getMembers()
-            .flatMap(PojoConstructorGenerator::createArguments)
+            .map(PojoConstructorGenerator::createArgument)
             .concat(createAdditionalPropertyArgument(pojo));
   }
 
-  private static PList<String> createArguments(JavaPojoMember member) {
-    final String memberArgument =
-        String.format(
-            "%s %s", member.getJavaType().getFullClassName(), member.getNameAsIdentifier());
-    if (member.isRequired() && member.isNullable()) {
-      final String requiredPresentFlag = String.format("boolean %s", member.getIsPresentFlagName());
-      return PList.of(memberArgument, requiredPresentFlag);
-    } else if (member.isOptional() && member.isNullable()) {
-      final String optionalNullFlag = String.format("boolean %s", member.getIsNullFlagName());
-      return PList.of(memberArgument, optionalNullFlag);
-    } else {
-      return PList.single(memberArgument);
-    }
+  private static String createArgument(TechnicalPojoMember member) {
+    return String.format("%s %s", member.getJavaType().getFullClassName(), member.getName());
   }
 
   private static PList<String> createAdditionalPropertyArgument(ConstructorContent content) {
@@ -82,29 +71,14 @@ public class PojoConstructorGenerator {
       final PList<String> assignments =
           content
               .getMembers()
-              .flatMap(PojoConstructorGenerator::createMemberAssignment)
+              .map(PojoConstructorGenerator::createMemberAssignment)
               .concat(createAdditionalPropertiesAssignment(content));
       return assignments.foldLeft(writer, Writer::println);
     };
   }
 
-  private static PList<String> createMemberAssignment(JavaPojoMember member) {
-    final JavaIdentifier memberName = member.getNameAsIdentifier();
-    final String memberAssignmentFormat = "this.%s = %s;";
-    final String memberAssignment = String.format(memberAssignmentFormat, memberName, memberName);
-    if (member.isRequiredAndNullable()) {
-      final String requiredPresentFlagAssignment =
-          String.format(
-              memberAssignmentFormat, member.getIsPresentFlagName(), member.getIsPresentFlagName());
-      return PList.of(memberAssignment, requiredPresentFlagAssignment);
-    } else if (member.isOptionalAndNullable()) {
-      final String optionalNullFlagAssignment =
-          String.format(
-              memberAssignmentFormat, member.getIsNullFlagName(), member.getIsNullFlagName());
-      return PList.of(memberAssignment, optionalNullFlagAssignment);
-    } else {
-      return PList.single(memberAssignment);
-    }
+  private static String createMemberAssignment(TechnicalPojoMember member) {
+    return String.format("this.%s = %s;", member.getName(), member.getName());
   }
 
   private static PList<String> createAdditionalPropertiesAssignment(ConstructorContent content) {
@@ -122,7 +96,7 @@ public class PojoConstructorGenerator {
     Optional<JavaModifier> modifier;
     boolean isArray;
     JavaIdentifier className;
-    PList<JavaPojoMember> members;
+    PList<TechnicalPojoMember> members;
     Optional<JavaAdditionalProperties> additionalProperties;
 
     JavaModifiers getModifiers() {
