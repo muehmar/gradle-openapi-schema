@@ -73,8 +73,7 @@ public class JavaPojoGenerator implements PojoGenerator {
         oneOfContainerGenerator().generate(container, settings, Writer.createDefault());
     final String content = writer.asString();
     final JavaFileName javaFileName =
-        JavaFileName.fromSettingsAndClassname(
-            settings, container.getContainerName().asIdentifier());
+        JavaFileName.fromSettingsAndClassname(settings, container.getContainerName());
     return new GeneratedFile(javaFileName.asPath(), content);
   }
 }

@@ -1,12 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.oneof;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator.singleBuilderClassGenerator;
+import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
@@ -14,6 +16,8 @@ import java.util.Optional;
 import lombok.Value;
 
 public class OneOfBuilderGenerator {
+  private static final JavaName CONTAINER_NAME = JavaName.fromString("OneOfContainer");
+
   private OneOfBuilderGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> oneOfBuilderGenerator() {
@@ -22,13 +26,51 @@ public class OneOfBuilderGenerator {
   }
 
   private static Generator<NonEmptyList<OneOfPojo>, PojoSettings> oneOfBuilder() {
-    return SingleBuilderClassGenerator.singleBuilderClassGenerator(
-        pojos -> pojos.head().builderClassName(), dtoSetters());
+    return singleBuilderClassGenerator(pojos -> pojos.head().builderClassName(), setters());
   }
 
-  private static Generator<NonEmptyList<OneOfPojo>, PojoSettings> dtoSetters() {
+  private static Generator<NonEmptyList<OneOfPojo>, PojoSettings> setters() {
     return Generator.<NonEmptyList<OneOfPojo>, PojoSettings>emptyGen()
-        .appendList(singleOneOfPojoSetter(), list -> list, newLine());
+        .appendList(singleOneOfPojoSetter(), list -> list, newLine())
+        .appendSingleBlankLine()
+        .append(oneOfContainerSetter(), NonEmptyList::head);
+  }
+
+  private static Generator<OneOfPojo, PojoSettings> oneOfContainerSetter() {
+    return MethodGenBuilder.<OneOfPojo, PojoSettings>create()
+        .modifiers(PUBLIC)
+        .noGenericTypes()
+        .returnType(OneOfPojo::nextPojoBuilderClassName)
+        .methodName(
+            (pojo, settings) ->
+                CONTAINER_NAME.prefixedMethodeName(settings.getBuilderMethodPrefix()).asString())
+        .singleArgument(
+            pojo -> String.format("%s container", pojo.container.getContainerName().asString()))
+        .content(oneOfContainerSetterContent().contraMap(OneOfPojo::getContainer))
+        .build();
+  }
+
+  private static Generator<OneOfContainer, PojoSettings> oneOfContainerSetterContent() {
+    return Generator.<OneOfContainer, PojoSettings>emptyGen()
+        .appendList(
+            singleContainerPropertySetter(),
+            container -> container.getComposition().getPojos(),
+            newLine());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> singleContainerPropertySetter() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(
+            (p, s, w) ->
+                w.println("if (container.%s() != null) {", p.prefixedClassNameForMethod("get")))
+        .append(
+            (p, s, w) ->
+                w.println(
+                    "builder.%s(container.%s());",
+                    p.prefixedClassNameForMethod(s.getBuilderMethodPrefix()),
+                    p.prefixedClassNameForMethod("get")),
+            1)
+        .append(constant("}"));
   }
 
   private static Generator<OneOfPojo, PojoSettings> singleOneOfPojoSetter() {
@@ -55,22 +97,27 @@ public class OneOfBuilderGenerator {
   @Value
   private static class OneOfPojo {
     OneOfBuilderName oneOfBuilderName;
+    OneOfContainer container;
     JavaObjectPojo oneOfPojo;
 
     private static Optional<NonEmptyList<OneOfPojo>> fromObjectPojo(JavaObjectPojo parentPojo) {
       return parentPojo
-          .getOneOfComposition()
-          .map(oneOfComposition -> fromParentPojoAndOneOfComposition(parentPojo, oneOfComposition));
+          .getOneOfContainer()
+          .map(container -> fromParentPojoAndOneOfContainer(parentPojo, container));
     }
 
-    private static NonEmptyList<OneOfPojo> fromParentPojoAndOneOfComposition(
-        JavaObjectPojo parentPojo, JavaOneOfComposition oneOfComposition) {
-      return oneOfComposition
+    private static NonEmptyList<OneOfPojo> fromParentPojoAndOneOfContainer(
+        JavaObjectPojo parentPojo, OneOfContainer oneOfContainer) {
+      return oneOfContainer
+          .getComposition()
           .getPojos()
           .map(
               oneOfPojo ->
                   new OneOfPojo(
-                      OneOfBuilderName.of(parentPojo, oneOfComposition, oneOfPojo, 0), oneOfPojo));
+                      OneOfBuilderName.of(
+                          parentPojo, oneOfContainer.getComposition(), oneOfPojo, 0),
+                      oneOfContainer,
+                      oneOfPojo));
     }
 
     public String builderClassName() {

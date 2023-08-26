@@ -15,5 +15,15 @@ public static final class OneOfBuilder0 {
   public PropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
     return new PropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
   }
+
+  public PropertyBuilder0 setOneOfContainer(OneOfPojo1OneOfContainerDto container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+  }
 }
 ]

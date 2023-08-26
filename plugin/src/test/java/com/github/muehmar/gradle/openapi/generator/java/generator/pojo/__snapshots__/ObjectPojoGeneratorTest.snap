@@ -5175,6 +5175,16 @@ public class PersonDto {
     public PropertyBuilder0 setUserDto(UserDto dto) {
       return new PropertyBuilder0(builder.setUserDto(dto));
     }
+
+    public PropertyBuilder0 setOneOfContainer(PersonOneOfContainerDto container) {
+      if (container.getAdminDto() != null) {
+        builder.setAdminDto(container.getAdminDto());
+      }
+
+      if (container.getUserDto() != null) {
+        builder.setUserDto(container.getUserDto());
+      }
+    }
   }
 
   public static final class PropertyBuilder0 {

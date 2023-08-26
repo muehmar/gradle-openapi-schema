@@ -175,11 +175,7 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public JavaIdentifier prefixedClassNameForMethod(String prefix) {
-    if (prefix.isEmpty()) {
-      return name.asJavaName().startLowerCase().asIdentifier();
-    } else {
-      return name.asJavaName().startUpperCase().prefix(prefix).asIdentifier();
-    }
+    return name.asJavaName().prefixedMethodeName(prefix);
   }
 
   @Override

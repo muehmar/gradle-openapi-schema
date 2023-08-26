@@ -215,11 +215,7 @@ public class JavaPojoMember {
   }
 
   public JavaIdentifier prefixedMethodName(String prefix) {
-    if (prefix.isEmpty()) {
-      return name.asJavaName().asIdentifier();
-    } else {
-      return name.asJavaName().startUpperCase().prefix(prefix).asIdentifier();
-    }
+    return name.asJavaName().prefixedMethodeName(prefix);
   }
 
   public PList<TechnicalPojoMember> getTechnicalMembers() {

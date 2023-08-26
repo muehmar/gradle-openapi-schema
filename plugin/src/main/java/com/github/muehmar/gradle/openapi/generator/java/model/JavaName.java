@@ -39,6 +39,14 @@ public class JavaName {
     return JavaIdentifier.fromName(name);
   }
 
+  public JavaIdentifier prefixedMethodeName(String prefix) {
+    if (prefix.isEmpty()) {
+      return startLowerCase().asIdentifier();
+    } else {
+      return startUpperCase().prefix(prefix).asIdentifier();
+    }
+  }
+
   public Name asName() {
     return name;
   }

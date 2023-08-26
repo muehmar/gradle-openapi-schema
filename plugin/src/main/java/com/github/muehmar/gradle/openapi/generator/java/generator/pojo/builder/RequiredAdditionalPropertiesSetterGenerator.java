@@ -4,6 +4,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -40,11 +41,8 @@ public class RequiredAdditionalPropertiesSetterGenerator {
   }
 
   private static String createMethodName(JavaRequiredAdditionalProperty rp, PojoSettings settings) {
-    final String prefix = settings.getBuilderMethodPrefix();
-    if (prefix.isEmpty()) {
-      return rp.getName().asString();
-    } else {
-      return String.format("%s%s", prefix, rp.getName().startUpperCase());
-    }
+    return JavaName.fromName(rp.getName())
+        .prefixedMethodeName(settings.getBuilderMethodPrefix())
+        .asString();
   }
 }
