@@ -4,14 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import openapischema.example.api.oneof.model.AdminDto;
-import openapischema.example.api.oneof.model.AdminOrUserDto;
+import openapischema.example.api.oneof.model.AdminOrUserDiscriminatorDto;
 import openapischema.example.api.oneof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
-class TestSerialisation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+class DiscriminatorSerialisationTest {
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
@@ -23,10 +24,11 @@ class TestSerialisation {
             .setType("type")
             .setLevel(5L)
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAdminDto(adminDto).build();
+    final AdminOrUserDiscriminatorDto dto =
+        AdminOrUserDiscriminatorDto.newBuilder().setAdminDto(adminDto).build();
 
     assertEquals(
-        "{\"id\":\"admin-id\",\"type\":\"type\",\"adminname\":\"admin-name\",\"level\":5}",
+        "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5,\"type\":\"Admin\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -41,10 +43,11 @@ class TestSerialisation {
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setUserDto(userDto).build();
+    final AdminOrUserDiscriminatorDto dto =
+        AdminOrUserDiscriminatorDto.newBuilder().setUserDto(userDto).build();
 
     assertEquals(
-        "{\"id\":\"user-id\",\"type\":\"type\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
+        "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"type\":\"User\",\"username\":\"user-name\"}",
         MAPPER.writeValueAsString(dto));
   }
 }

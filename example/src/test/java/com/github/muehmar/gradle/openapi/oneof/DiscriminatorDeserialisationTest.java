@@ -5,14 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import openapischema.example.api.oneof.model.AdminDto;
 import openapischema.example.api.oneof.model.AdminOrUserDiscriminatorDto;
 import openapischema.example.api.oneof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
-class TestDiscriminatorDeserialisation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+class DiscriminatorDeserialisationTest {
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {

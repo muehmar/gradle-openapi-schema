@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -14,12 +15,12 @@ import javax.validation.ValidatorFactory;
 import openapischema.example.api.oneof.model.AdminOrUserDiscriminatorDto;
 import org.junit.jupiter.api.Test;
 
-class TestDiscriminatorValidation {
+class DiscriminatorValidationTest {
 
   private static final ValidatorFactory VALIDATOR_FACTORY =
       Validation.buildDefaultValidatorFactory();
   private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void validate_when_matchesUserSchema_then_noViolation() throws JsonProcessingException {
