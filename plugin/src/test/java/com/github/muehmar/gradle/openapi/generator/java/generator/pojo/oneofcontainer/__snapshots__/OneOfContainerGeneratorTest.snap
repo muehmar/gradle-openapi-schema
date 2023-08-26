@@ -10,7 +10,7 @@ public class InvoiceOneOfContainerDto {
   private final SampleObjectPojo1Dto sampleObjectPojo1Dto;
   private final SampleObjectPojo2Dto sampleObjectPojo2Dto;
 
-  private InvoiceDto(
+  private InvoiceOneOfContainerDto(
       SampleObjectPojo1Dto sampleObjectPojo1Dto,
       SampleObjectPojo2Dto sampleObjectPojo2Dto
     ) {
@@ -46,7 +46,7 @@ public class InvoiceOneOfContainerDto {
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
-    final InvoiceDto other = (InvoiceDto) obj;
+    final InvoiceOneOfContainerDto other = (InvoiceOneOfContainerDto) obj;
     return Objects.deepEquals(this.sampleObjectPojo1Dto, other.sampleObjectPojo1Dto)
         && Objects.deepEquals(this.sampleObjectPojo2Dto, other.sampleObjectPojo2Dto);
   }
@@ -61,7 +61,7 @@ public class InvoiceOneOfContainerDto {
 
   @Override
   public String toString() {
-    return "InvoiceDto{" +
+    return "InvoiceOneOfContainerDto{" +
       "sampleObjectPojo1Dto=" + sampleObjectPojo1Dto + ", " +
       "sampleObjectPojo2Dto=" + sampleObjectPojo2Dto +
       "}";

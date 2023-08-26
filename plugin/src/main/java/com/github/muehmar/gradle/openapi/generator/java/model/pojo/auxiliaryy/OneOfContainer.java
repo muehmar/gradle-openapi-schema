@@ -39,7 +39,7 @@ public class OneOfContainer {
   public PojoConstructorGenerator.ConstructorContent constructorContent() {
     return fullConstructorContentBuilder()
         .isArray(false)
-        .className(pojoName.asIdentifier())
+        .className(getContainerName())
         .members(composition.getPojosAsTechnicalMembers())
         .modifier(PRIVATE)
         .additionalProperties(Optional.empty())
@@ -48,7 +48,7 @@ public class OneOfContainer {
 
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return fullEqualsContentBuilder()
-        .className(pojoName.asIdentifier())
+        .className(getContainerName())
         .technicalPojoMembers(composition.getPojosAsTechnicalMembers())
         .build();
   }
@@ -61,7 +61,7 @@ public class OneOfContainer {
 
   public ToStringGenerator.ToStringContent getToStringContent() {
     return fullToStringContentBuilder()
-        .className(pojoName.asIdentifier())
+        .className(getContainerName())
         .technicalPojoMembers(composition.getPojosAsTechnicalMembers())
         .build();
   }
