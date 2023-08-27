@@ -3,12 +3,12 @@ package com.github.muehmar.gradle.openapi.validation;
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.validation.model.AllValueObjectDto;
-import OpenApiSchema.example.api.validation.model.ObjectMapDto;
-import OpenApiSchema.example.api.validation.model.StringMapDto;
 import java.util.HashMap;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.validation.model.AllValueObjectDto;
+import openapischema.example.api.validation.model.ObjectMapDto;
+import openapischema.example.api.validation.model.StringMapDto;
 import org.junit.jupiter.api.Test;
 
 class MapValidationTest {

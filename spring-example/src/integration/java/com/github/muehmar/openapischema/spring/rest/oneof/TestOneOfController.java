@@ -9,9 +9,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import OpenApiSchema.springexample.api.v1.model.AdminDto;
-import OpenApiSchema.springexample.api.v1.model.AdminOrUserDiscriminatorDto;
 import com.github.muehmar.openapischema.spring.rest.ControllerUnitTest;
+import openapischema.springexample.api.v1.model.AdminDto;
+import openapischema.springexample.api.v1.model.AdminOrUserDiscriminatorDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

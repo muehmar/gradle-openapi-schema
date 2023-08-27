@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.identifiers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import OpenApiSchema.example.api.identifiers.model.SchemaWithPropertyNameOther;
+import openapischema.example.api.identifiers.model.SchemaWithPropertyNameOther;
 import org.junit.jupiter.api.Test;
 
 /** Tests for issue 71 */

@@ -2,14 +2,14 @@ package com.github.muehmar.gradle.openapi.allof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.allof.model.BaseOrderDto;
-import OpenApiSchema.example.api.allof.model.InvoiceAllOfDto;
-import OpenApiSchema.example.api.allof.model.InvoiceDto;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import openapischema.example.api.allof.model.BaseOrderDto;
+import openapischema.example.api.allof.model.InvoiceAllOfDto;
+import openapischema.example.api.allof.model.InvoiceDto;
 import org.junit.jupiter.api.Test;
 
 class AllOfDtoFieldTest {

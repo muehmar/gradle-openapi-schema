@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.v1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.v1.model.SampleDto;
 import java.util.Optional;
+import openapischema.example.api.v1.model.SampleDto;
 import org.junit.jupiter.api.Test;
 
 class SafeBuilderTest {

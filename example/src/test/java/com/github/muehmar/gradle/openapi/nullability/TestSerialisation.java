@@ -3,13 +3,13 @@ package com.github.muehmar.gradle.openapi.nullability;
 import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.nullability.model.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import java.util.stream.Stream;
+import openapischema.example.api.nullability.model.UserDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

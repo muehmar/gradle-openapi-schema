@@ -2,12 +2,12 @@ package com.github.muehmar.gradle.openapi.oneof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.oneof.model.AdminDto;
-import OpenApiSchema.example.api.oneof.model.AdminOrUserDiscriminatorDto;
-import OpenApiSchema.example.api.oneof.model.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.openapi.util.Tristate;
+import openapischema.example.api.oneof.model.AdminDto;
+import openapischema.example.api.oneof.model.AdminOrUserDiscriminatorDto;
+import openapischema.example.api.oneof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class TestDiscriminatorSerialisation {

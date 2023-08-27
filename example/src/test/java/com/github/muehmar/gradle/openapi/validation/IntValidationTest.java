@@ -3,9 +3,9 @@ package com.github.muehmar.gradle.openapi.validation;
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.validation.model.AllValueObjectDto;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.validation.model.AllValueObjectDto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.oneof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.oneof.model.AdminOrUserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
@@ -10,6 +9,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import openapischema.example.api.oneof.model.AdminOrUserDto;
 import org.junit.jupiter.api.Test;
 
 class TestValidation {

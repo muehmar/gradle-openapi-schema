@@ -3,14 +3,14 @@ package com.github.muehmar.gradle.openapi.validation;
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.validation.model.IntegerMemberArrayDto;
-import OpenApiSchema.example.api.validation.model.IntegerPojoArrayDto;
-import OpenApiSchema.example.api.validation.model.LongMemberArrayDto;
-import OpenApiSchema.example.api.validation.model.LongPojoArrayDto;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.validation.model.IntegerMemberArrayDto;
+import openapischema.example.api.validation.model.IntegerPojoArrayDto;
+import openapischema.example.api.validation.model.LongMemberArrayDto;
+import openapischema.example.api.validation.model.LongPojoArrayDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

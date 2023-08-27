@@ -4,7 +4,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'OpenApiSchema'
+rootProject.name = 'openapi-schema'
 
 include 'plugin'
 include 'example'

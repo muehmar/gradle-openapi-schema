@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.v2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.v2.model.ErrorMessageDto;
+import openapischema.example.api.v2.model.ErrorMessageDto;
 import org.junit.jupiter.api.Test;
 
 class TestErrorMessage {

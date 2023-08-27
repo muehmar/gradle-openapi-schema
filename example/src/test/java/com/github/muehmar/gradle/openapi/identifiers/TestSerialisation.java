@@ -2,14 +2,14 @@ package com.github.muehmar.gradle.openapi.identifiers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.identifiers.model.New;
-import OpenApiSchema.example.api.identifiers.model.User1;
-import OpenApiSchema.example.api.identifiers.model.User1OrUser2;
-import OpenApiSchema.example.api.identifiers.model.User2;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
+import openapischema.example.api.identifiers.model.New;
+import openapischema.example.api.identifiers.model.User1;
+import openapischema.example.api.identifiers.model.User1OrUser2;
+import openapischema.example.api.identifiers.model.User2;
 import org.junit.jupiter.api.Test;
 
 class TestSerialisation {

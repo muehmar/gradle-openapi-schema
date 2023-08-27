@@ -2,10 +2,6 @@ package com.github.muehmar.gradle.openapi.freeform;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.freeform.model.FreeForm1Dto;
-import OpenApiSchema.example.api.freeform.model.FreeForm2Dto;
-import OpenApiSchema.example.api.freeform.model.FreeForm3Dto;
-import OpenApiSchema.example.api.freeform.model.InlineFreeFormDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
@@ -13,6 +9,10 @@ import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
+import openapischema.example.api.freeform.model.FreeForm1Dto;
+import openapischema.example.api.freeform.model.FreeForm2Dto;
+import openapischema.example.api.freeform.model.FreeForm3Dto;
+import openapischema.example.api.freeform.model.InlineFreeFormDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

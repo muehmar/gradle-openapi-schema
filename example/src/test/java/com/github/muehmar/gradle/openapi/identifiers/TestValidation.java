@@ -2,9 +2,6 @@ package com.github.muehmar.gradle.openapi.identifiers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.identifiers.model.User1;
-import OpenApiSchema.example.api.identifiers.model.User1OrUser2;
-import OpenApiSchema.example.api.identifiers.model.User2;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import java.util.Set;
@@ -12,6 +9,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import openapischema.example.api.identifiers.model.User1;
+import openapischema.example.api.identifiers.model.User1OrUser2;
+import openapischema.example.api.identifiers.model.User2;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

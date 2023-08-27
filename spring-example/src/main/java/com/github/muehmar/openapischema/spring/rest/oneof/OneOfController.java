@@ -1,7 +1,7 @@
 package com.github.muehmar.openapischema.spring.rest.oneof;
 
-import OpenApiSchema.springexample.api.v1.model.AdminOrUserDiscriminatorDto;
 import javax.validation.Valid;
+import openapischema.springexample.api.v1.model.AdminOrUserDiscriminatorDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

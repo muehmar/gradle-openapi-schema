@@ -2,10 +2,6 @@ package com.github.muehmar.gradle.openapi.anyof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.anyof.model.AdminDto;
-import OpenApiSchema.example.api.anyof.model.AdminOrUserDto;
-import OpenApiSchema.example.api.anyof.model.InlinedAnyOfDto;
-import OpenApiSchema.example.api.anyof.model.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.openapi.util.Tristate;
@@ -13,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import openapischema.example.api.anyof.model.AdminDto;
+import openapischema.example.api.anyof.model.AdminOrUserDto;
+import openapischema.example.api.anyof.model.InlinedAnyOfDto;
+import openapischema.example.api.anyof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class TestDeserialisation {

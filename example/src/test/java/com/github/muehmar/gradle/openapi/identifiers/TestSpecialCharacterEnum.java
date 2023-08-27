@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.identifiers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.identifiers.model.Special_Character_Enum;
+import openapischema.example.api.identifiers.model.Special_Character_Enum;
 import org.junit.jupiter.api.Test;
 
 class TestSpecialCharacterEnum {

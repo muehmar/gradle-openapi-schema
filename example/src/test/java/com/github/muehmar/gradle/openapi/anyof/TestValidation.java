@@ -2,8 +2,6 @@ package com.github.muehmar.gradle.openapi.anyof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.anyof.model.AdminOrUserDto;
-import OpenApiSchema.example.api.anyof.model.InlinedAnyOfDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
@@ -11,6 +9,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import openapischema.example.api.anyof.model.AdminOrUserDto;
+import openapischema.example.api.anyof.model.InlinedAnyOfDto;
 import org.junit.jupiter.api.Test;
 
 class TestValidation {

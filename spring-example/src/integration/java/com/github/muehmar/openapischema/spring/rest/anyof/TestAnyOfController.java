@@ -9,11 +9,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import OpenApiSchema.springexample.api.v1.model.AdminAndOrUserDto;
-import OpenApiSchema.springexample.api.v1.model.AdminDto;
-import OpenApiSchema.springexample.api.v1.model.UserDto;
 import com.github.muehmar.openapi.util.Tristate;
 import com.github.muehmar.openapischema.spring.rest.ControllerUnitTest;
+import openapischema.springexample.api.v1.model.AdminAndOrUserDto;
+import openapischema.springexample.api.v1.model.AdminDto;
+import openapischema.springexample.api.v1.model.UserDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

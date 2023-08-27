@@ -3,13 +3,13 @@ package com.github.muehmar.gradle.openapi.oneof;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import OpenApiSchema.example.api.oneof.model.AdminOrUserDto;
-import OpenApiSchema.example.api.oneof.model.AdminOrUserRequestDto;
-import OpenApiSchema.example.api.oneof.model.AdminOrUserResponseDto;
-import OpenApiSchema.example.api.oneof.model.UserDto;
-import OpenApiSchema.example.api.oneof.model.UserRequestDto;
-import OpenApiSchema.example.api.oneof.model.UserResponseDto;
 import java.lang.reflect.Field;
+import openapischema.example.api.oneof.model.AdminOrUserDto;
+import openapischema.example.api.oneof.model.AdminOrUserRequestDto;
+import openapischema.example.api.oneof.model.AdminOrUserResponseDto;
+import openapischema.example.api.oneof.model.UserDto;
+import openapischema.example.api.oneof.model.UserRequestDto;
+import openapischema.example.api.oneof.model.UserResponseDto;
 import org.junit.jupiter.api.Test;
 
 class OneOfReadWriteOnlyTest {

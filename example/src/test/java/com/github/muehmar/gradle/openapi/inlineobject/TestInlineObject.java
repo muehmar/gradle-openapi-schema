@@ -2,10 +2,10 @@ package com.github.muehmar.gradle.openapi.inlineobject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.inlineobject.model.CustomerDto;
-import OpenApiSchema.example.api.inlineobject.model.CustomerInlineObjectAnotherObjectDto;
-import OpenApiSchema.example.api.inlineobject.model.CustomerInlineObjectDto;
 import java.util.Optional;
+import openapischema.example.api.inlineobject.model.CustomerDto;
+import openapischema.example.api.inlineobject.model.CustomerInlineObjectAnotherObjectDto;
+import openapischema.example.api.inlineobject.model.CustomerInlineObjectDto;
 import org.junit.jupiter.api.Test;
 
 class TestInlineObject {

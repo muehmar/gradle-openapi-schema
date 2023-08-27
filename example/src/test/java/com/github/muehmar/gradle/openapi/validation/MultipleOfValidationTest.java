@@ -2,12 +2,12 @@ package com.github.muehmar.gradle.openapi.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.validation.model.MultipleOfObjectDto;
 import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.validation.model.MultipleOfObjectDto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

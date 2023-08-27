@@ -2,13 +2,13 @@ package com.github.muehmar.jakarta3;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.examplejakarta3.api.model.PatientDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import java.util.Set;
+import openapischema.examplejakarta3.api.model.PatientDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingConsumer;
 
