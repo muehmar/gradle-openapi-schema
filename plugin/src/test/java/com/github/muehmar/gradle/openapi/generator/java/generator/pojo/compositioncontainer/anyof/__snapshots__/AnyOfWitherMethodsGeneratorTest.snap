@@ -1,0 +1,27 @@
+anyOfContainer=[
+.
+.
+/**
+ * Creates a new instance of {@link AnyOfPojo1AnyOfContainerDto} additionally
+ * populated with {@link SampleObjectPojo1Dto}.
+ */
+public AnyOfPojo1AnyOfContainerDto withSampleObjectPojo1(SampleObjectPojo1Dto sampleObjectPojo1Dto) {
+  return new AnyOfPojo1AnyOfContainerDto(sampleObjectPojo1Dto, necessityAndNullabilityDto, sampleObjectPojo2Dto);
+}
+
+/**
+ * Creates a new instance of {@link AnyOfPojo1AnyOfContainerDto} additionally
+ * populated with {@link NecessityAndNullabilityDto}.
+ */
+public AnyOfPojo1AnyOfContainerDto withNecessityAndNullability(NecessityAndNullabilityDto necessityAndNullabilityDto) {
+  return new AnyOfPojo1AnyOfContainerDto(sampleObjectPojo1Dto, necessityAndNullabilityDto, sampleObjectPojo2Dto);
+}
+
+/**
+ * Creates a new instance of {@link AnyOfPojo1AnyOfContainerDto} additionally
+ * populated with {@link SampleObjectPojo2Dto}.
+ */
+public AnyOfPojo1AnyOfContainerDto withSampleObjectPojo2(SampleObjectPojo2Dto sampleObjectPojo2Dto) {
+  return new AnyOfPojo1AnyOfContainerDto(sampleObjectPojo1Dto, necessityAndNullabilityDto, sampleObjectPojo2Dto);
+}
+]

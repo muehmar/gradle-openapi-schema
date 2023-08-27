@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.anyOFromFactoryMethods;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof.AnyOfWitherMethodsGenerator.anyOfWitherMethodsGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.pojoConstructorGenerator;
@@ -40,6 +41,8 @@ public class AnyOfContainerGenerator {
         .append(pojoConstructorGenerator(), AnyOfContainer::constructorContent)
         .appendSingleBlankLine()
         .append(anyOFromFactoryMethods())
+        .appendSingleBlankLine()
+        .append(anyOfWitherMethodsGenerator())
         .appendSingleBlankLine()
         .append(equalsMethod(), AnyOfContainer::getEqualsContent)
         .appendSingleBlankLine()
