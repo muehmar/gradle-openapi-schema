@@ -663,6 +663,16 @@ public class PersonDto {
       return new AnyOfBuilder1(builder.setUserDto(dto));
     }
 
+    public AnyOfBuilder2 setAnyOfContainer(PersonAnyOfContainerDto container) {
+      if (container.getAdminDto() != null) {
+        builder.setAdminDto(container.getAdminDto());
+      }
+
+      if (container.getUserDto() != null) {
+        builder.setUserDto(container.getUserDto());
+      }
+      return new AnyOfBuilder2(builder);
+    }
   }
 
   public static final class AnyOfBuilder1 {
@@ -678,6 +688,22 @@ public class PersonDto {
 
     public AnyOfBuilder1 setUserDto(UserDto dto) {
       return new AnyOfBuilder1(builder.setUserDto(dto));
+    }
+
+    /**
+     * RequiredStringVal
+     */
+    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+    }
+
+  }
+
+  public static final class AnyOfBuilder2 {
+    private final Builder builder;
+
+    private AnyOfBuilder2(Builder builder) {
+      this.builder = builder;
     }
 
     /**

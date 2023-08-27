@@ -16,6 +16,16 @@ public static final class AnyOfBuilder0 {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
+  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1DtoAnyOfContainer container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+    return new AnyOfBuilder2(builder);
+  }
 }
 
 public static final class AnyOfBuilder1 {
@@ -46,6 +56,30 @@ public static final class AnyOfBuilder1 {
   public PropertyBuilder1 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     return new PropertyBuilder1(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
+
+}
+
+public static final class AnyOfBuilder2 {
+  private final Builder builder;
+
+  private AnyOfBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder1 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new PropertyBuilder1(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder1 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new PropertyBuilder1(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
 }
 ]
 
@@ -68,6 +102,16 @@ public static final class AnyOfBuilder0 {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
+  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+    return new AnyOfBuilder2(builder);
+  }
 }
 
 public static final class AnyOfBuilder1 {
@@ -96,5 +140,27 @@ public static final class AnyOfBuilder1 {
   public AnyOfPojo1Dto build(){
     return builder.build();
   }
+
+}
+
+public static final class AnyOfBuilder2 {
+  private final Builder builder;
+
+  private AnyOfBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public OptPropertyBuilder0 andAllOptionals(){
+    return new OptPropertyBuilder0(builder);
+  }
+
+  public Builder andOptionals(){
+    return builder;
+  }
+
+  public AnyOfPojo1Dto build(){
+    return builder.build();
+  }
+
 }
 ]
