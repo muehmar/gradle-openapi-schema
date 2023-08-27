@@ -1,7 +1,8 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.ContainerGetter.containerGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.ContainerGetter.anyOfContainerGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.ContainerGetter.oneOfContainerGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -11,6 +12,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.IntellijDiffSnapshotTestExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -25,16 +27,32 @@ class ContainerGetterTest {
 
   @Test
   @SnapshotName("oneOfPojo")
-  void containerGetter_when_oneOfPojo_then_correctOutput() {
-    final Generator<OneOfContainer, PojoSettings> generator = containerGetter();
+  void oneOfContainerGetter_when_oneOfPojo_then_correctOutput() {
+    final Generator<OneOfContainer, PojoSettings> generator = oneOfContainerGetter();
 
     final OneOfContainer oneOfContainer =
         JavaPojos.oneOfPojo(sampleObjectPojo1(), allNecessityAndNullabilityVariants())
             .getOneOfContainer()
-            .get();
+            .orElseThrow(IllegalStateException::new);
 
     final Writer writer =
         generator.generate(oneOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("anyOfPojo")
+  void containerGetter_when_oneOfPojo_then_correctOutput() {
+    final Generator<AnyOfContainer, PojoSettings> generator = anyOfContainerGetter();
+
+    final AnyOfContainer anyOfContainer =
+        JavaPojos.anyOfPojo(sampleObjectPojo1(), allNecessityAndNullabilityVariants())
+            .getAnyOfContainer()
+            .orElseThrow(IllegalStateException::new);
+
+    final Writer writer =
+        generator.generate(anyOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

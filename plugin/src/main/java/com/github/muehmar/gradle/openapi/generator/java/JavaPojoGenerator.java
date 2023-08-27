@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.OneOfContainerGenerator.oneOfContainerGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.oneof.OneOfContainerGenerator.oneOfContainerGenerator;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;

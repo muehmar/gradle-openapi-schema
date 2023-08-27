@@ -1,8 +1,8 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.oneof;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.ContainerGetter.containerGetter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.FactoryMethodGenerator.factoryMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.ContainerGetter.oneOfContainerGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.oneOFromFactoryMethods;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.pojoConstructorGenerator;
@@ -40,9 +40,9 @@ public class OneOfContainerGenerator {
         .appendSingleBlankLine()
         .append(pojoConstructorGenerator(), OneOfContainer::constructorContent)
         .appendSingleBlankLine()
-        .append(factoryMethodGenerator())
+        .append(oneOFromFactoryMethods())
         .appendSingleBlankLine()
-        .append(containerGetter())
+        .append(oneOfContainerGetter())
         .appendSingleBlankLine()
         .append(equalsMethod(), OneOfContainer::getEqualsContent)
         .appendSingleBlankLine()
