@@ -3,7 +3,11 @@ com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.Optional
 
-public static PropertyBuilder0 newBuilder() {
+public static PropertyBuilder0 builder() {
+  return new PropertyBuilder0(new Builder());
+}
+
+public static PropertyBuilder0 necessityAndNullabilityDtoBuilder() {
   return new PropertyBuilder0(new Builder());
 }
 
