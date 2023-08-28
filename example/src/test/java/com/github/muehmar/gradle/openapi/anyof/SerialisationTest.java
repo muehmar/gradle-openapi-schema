@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import openapischema.example.api.anyof.model.AdminDto;
@@ -13,8 +14,8 @@ import openapischema.example.api.anyof.model.InlinedAnyOfDto;
 import openapischema.example.api.anyof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
-class TestSerialisation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+class SerialisationTest {
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
@@ -29,7 +30,7 @@ class TestSerialisation {
     final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAdminDto(adminDto).build();
 
     assertEquals(
-        "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5}",
+        "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -50,7 +51,7 @@ class TestSerialisation {
             .build();
 
     assertEquals(
-        "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5,\"color\":\"red\"}}",
+        "{\"adminOrUser\":{\"adminname\":\"admin-name\",\"color\":\"red\",\"id\":\"admin-id\",\"level\":5}}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -67,7 +68,7 @@ class TestSerialisation {
     final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setUserDto(userDto).build();
 
     assertEquals(
-        "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
+        "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"username\":\"user-name\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -89,7 +90,7 @@ class TestSerialisation {
             .build();
 
     assertEquals(
-        "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}}",
+        "{\"adminOrUser\":{\"age\":25,\"email\":null,\"id\":\"user-id\",\"username\":\"user-name\"}}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -116,7 +117,7 @@ class TestSerialisation {
         AdminOrUserDto.newBuilder().setUserDto(userDto).setAdminDto(adminDto).build();
 
     assertEquals(
-        "{\"id\":\"id\",\"adminname\":\"admin-name\",\"level\":5,\"username\":\"user-name\",\"age\":25,\"email\":null}",
+        "{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"username\":\"user-name\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -150,7 +151,7 @@ class TestSerialisation {
             .build();
 
     assertEquals(
-        "{\"adminOrUser\":{\"id\":\"id\",\"adminname\":\"admin-name\",\"level\":5,\"username\":\"user-name\",\"age\":25,\"email\":null}}",
+        "{\"adminOrUser\":{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"username\":\"user-name\"}}",
         MAPPER.writeValueAsString(dto));
   }
 }

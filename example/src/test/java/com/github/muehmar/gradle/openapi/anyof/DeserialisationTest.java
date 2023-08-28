@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,8 +16,8 @@ import openapischema.example.api.anyof.model.InlinedAnyOfDto;
 import openapischema.example.api.anyof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
-class TestDeserialisation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+class DeserialisationTest {
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
