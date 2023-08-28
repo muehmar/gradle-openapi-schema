@@ -3,15 +3,15 @@ package com.github.muehmar.gradle.openapi.fullobject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import OpenApiSchema.example.api.fullobject.model.AdminDto;
-import OpenApiSchema.example.api.fullobject.model.BaseDataDto;
-import OpenApiSchema.example.api.fullobject.model.FullObjectDto;
-import OpenApiSchema.example.api.fullobject.model.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
 import java.util.Optional;
+import openapischema.example.api.fullobject.model.AdminDto;
+import openapischema.example.api.fullobject.model.BaseDataDto;
+import openapischema.example.api.fullobject.model.FullObjectDto;
+import openapischema.example.api.fullobject.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class FullObjectSerialisationTest {

@@ -3,13 +3,13 @@ package com.github.muehmar.gradle.openapi.additionalproperties;
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.additionalproperties.model.ObjectAdditionalPropertiesDto;
-import OpenApiSchema.example.api.additionalproperties.model.ObjectAdditionalPropertiesPropertyDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.additionalproperties.model.ObjectAdditionalPropertiesDto;
+import openapischema.example.api.additionalproperties.model.ObjectAdditionalPropertiesPropertyDto;
 import org.junit.jupiter.api.Test;
 
 class ObjectAdditionalPropertiesTest {

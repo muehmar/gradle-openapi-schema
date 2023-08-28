@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import OpenApiSchema.example.api.additionalproperties.model.NoAdditionalPropertiesDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
@@ -16,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.additionalproperties.model.NoAdditionalPropertiesDto;
 import org.junit.jupiter.api.Test;
 
 class NoAdditionalPropertiesTest {

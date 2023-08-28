@@ -2,11 +2,11 @@ package com.github.muehmar.gradle.openapi.additionalproperties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.additionalproperties.model.EnumAdditionalPropertiesDto;
-import OpenApiSchema.example.api.additionalproperties.model.EnumAdditionalPropertiesDto.PropertyEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import openapischema.example.api.additionalproperties.model.EnumAdditionalPropertiesDto;
+import openapischema.example.api.additionalproperties.model.EnumAdditionalPropertiesDto.PropertyEnum;
 import org.junit.jupiter.api.Test;
 
 class EnumAdditionalPropertiesTest {

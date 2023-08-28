@@ -4,12 +4,12 @@ import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.fullobject.model.NestedFullObjectDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.fullobject.model.NestedFullObjectDto;
 import org.junit.jupiter.api.Test;
 
 class NestedFullObjectValidationTest {

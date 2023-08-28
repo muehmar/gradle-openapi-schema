@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.additionalproperties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import OpenApiSchema.example.api.additionalproperties.model.StringAdditionalPropertiesDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import openapischema.example.api.additionalproperties.model.StringAdditionalPropertiesDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
