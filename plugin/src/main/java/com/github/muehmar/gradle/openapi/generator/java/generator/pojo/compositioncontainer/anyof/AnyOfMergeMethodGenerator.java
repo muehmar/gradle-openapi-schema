@@ -5,11 +5,13 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
@@ -17,14 +19,25 @@ public class AnyOfMergeMethodGenerator {
   private AnyOfMergeMethodGenerator() {}
 
   public static Generator<AnyOfContainer, PojoSettings> anyOfMergeMethodGenerator() {
-    return MethodGenBuilder.<AnyOfContainer, PojoSettings>create()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnType(container -> container.getContainerName().asString())
-        .methodName("merge")
-        .singleArgument(container -> String.format("%s other", container.getContainerName()))
-        .content(methodContent())
-        .build();
+    final MethodGen<AnyOfContainer, PojoSettings> method =
+        MethodGenBuilder.<AnyOfContainer, PojoSettings>create()
+            .modifiers(PUBLIC)
+            .noGenericTypes()
+            .returnType(container -> container.getContainerName().asString())
+            .methodName("merge")
+            .singleArgument(container -> String.format("%s other", container.getContainerName()))
+            .content(methodContent())
+            .build();
+    return javaDoc().append(method);
+  }
+
+  private static Generator<AnyOfContainer, PojoSettings> javaDoc() {
+    return JavaDocGenerator.javaDoc(
+        (c, s) ->
+            String.format(
+                "Merges another instance of {@link %s} with this instance "
+                    + "by accumulating all objects both container contains. ",
+                c.getContainerName()));
   }
 
   private static Generator<AnyOfContainer, PojoSettings> methodContent() {

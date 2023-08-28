@@ -75,6 +75,18 @@ public class AnyOfPojo1AnyOfContainerDto {
     return new AnyOfPojo1AnyOfContainerDto(sampleObjectPojo1Dto, necessityAndNullabilityDto, sampleObjectPojo2Dto);
   }
 
+  /**
+   * Merges another instance of {@link AnyOfPojo1AnyOfContainerDto} with this
+   * instance by accumulating all objects both container contains. 
+   */
+  public AnyOfPojo1AnyOfContainerDto merge(AnyOfPojo1AnyOfContainerDto other) {
+    return new AnyOfPojo1AnyOfContainerDto(
+      sampleObjectPojo1Dto != null ? sampleObjectPojo1Dto : other.sampleObjectPojo1Dto,
+      necessityAndNullabilityDto != null ? necessityAndNullabilityDto : other.necessityAndNullabilityDto,
+      sampleObjectPojo2Dto != null ? sampleObjectPojo2Dto : other.sampleObjectPojo2Dto
+    );
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
