@@ -16,13 +16,16 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.function.Function;
 
 public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
   private final Generator<JavaObjectPojo, PojoSettings> delegate;
 
   public SafeBuilderGenerator() {
     this.delegate =
-        factoryMethod()
+        factoryMethod(pojo -> "builder")
+            .appendSingleBlankLine()
+            .append(factoryMethod(pojo -> pojo.getClassName().startLowercase() + "Builder"))
             .appendSingleBlankLine()
             .append(AllOfBuilderGenerator.allOfBuilderGenerator())
             .appendSingleBlankLine()
@@ -45,13 +48,14 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
     return delegate.generate(data, settings, writer);
   }
 
-  private Generator<JavaObjectPojo, PojoSettings> factoryMethod() {
+  private Generator<JavaObjectPojo, PojoSettings> factoryMethod(
+      Function<JavaObjectPojo, String> builderName) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
             (pojo, s, w) ->
                 w.println(
-                    "public static %s newBuilder() {",
-                    createInitialBuilderName(pojo).currentName()))
+                    "public static %s %s() {",
+                    createInitialBuilderName(pojo).currentName(), builderName.apply(pojo)))
         .append(
             (pojo, s, w) ->
                 w.println(

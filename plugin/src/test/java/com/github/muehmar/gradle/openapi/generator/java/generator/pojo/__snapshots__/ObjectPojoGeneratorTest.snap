@@ -242,7 +242,11 @@ public class PersonDto {
     }
   }
 
-  public static AllOfBuilderAdmin0 newBuilder() {
+  public static AllOfBuilderAdmin0 builder() {
+    return new AllOfBuilderAdmin0(new Builder());
+  }
+
+  public static AllOfBuilderAdmin0 personDtoBuilder() {
     return new AllOfBuilderAdmin0(new Builder());
   }
 
@@ -644,7 +648,11 @@ public class PersonDto {
     }
   }
 
-  public static AnyOfBuilder0 newBuilder() {
+  public static AnyOfBuilder0 builder() {
+    return new AnyOfBuilder0(new Builder());
+  }
+
+  public static AnyOfBuilder0 personDtoBuilder() {
     return new AnyOfBuilder0(new Builder());
   }
 
@@ -881,7 +889,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static OptPropertyBuilder0 newBuilder() {
+  public static OptPropertyBuilder0 builder() {
+    return new OptPropertyBuilder0(new Builder());
+  }
+
+  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
@@ -2267,7 +2279,11 @@ public class UserDto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
+  public static PropertyBuilder0 builder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static PropertyBuilder0 userDtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
 
@@ -2548,7 +2564,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static OptPropertyBuilder0 newBuilder() {
+  public static OptPropertyBuilder0 builder() {
+    return new OptPropertyBuilder0(new Builder());
+  }
+
+  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
@@ -2726,7 +2746,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static OptPropertyBuilder0 newBuilder() {
+  public static OptPropertyBuilder0 builder() {
+    return new OptPropertyBuilder0(new Builder());
+  }
+
+  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
@@ -3667,7 +3691,11 @@ public class NecessityAndNullabilityDto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
+  public static PropertyBuilder0 builder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static PropertyBuilder0 necessityAndNullabilityDtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
 
@@ -3886,7 +3914,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static OptPropertyBuilder0 newBuilder() {
+  public static OptPropertyBuilder0 builder() {
+    return new OptPropertyBuilder0(new Builder());
+  }
+
+  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
@@ -4057,7 +4089,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static OptPropertyBuilder0 newBuilder() {
+  public static OptPropertyBuilder0 builder() {
+    return new OptPropertyBuilder0(new Builder());
+  }
+
+  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
@@ -4228,7 +4264,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static OptPropertyBuilder0 newBuilder() {
+  public static OptPropertyBuilder0 builder() {
+    return new OptPropertyBuilder0(new Builder());
+  }
+
+  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
@@ -4396,7 +4436,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static OptPropertyBuilder0 newBuilder() {
+  public static OptPropertyBuilder0 builder() {
+    return new OptPropertyBuilder0(new Builder());
+  }
+
+  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
@@ -4588,7 +4632,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
+  public static PropertyBuilder0 builder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static PropertyBuilder0 objectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
 
@@ -4791,7 +4839,11 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
+  public static PropertyBuilder0 builder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static PropertyBuilder0 objectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
 
@@ -5183,7 +5235,11 @@ public class PersonDto {
     }
   }
 
-  public static OneOfBuilder0 newBuilder() {
+  public static OneOfBuilder0 builder() {
+    return new OneOfBuilder0(new Builder());
+  }
+
+  public static OneOfBuilder0 personDtoBuilder() {
     return new OneOfBuilder0(new Builder());
   }
 

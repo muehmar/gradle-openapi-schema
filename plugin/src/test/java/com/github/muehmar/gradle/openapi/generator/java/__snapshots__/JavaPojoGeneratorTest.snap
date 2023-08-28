@@ -333,7 +333,11 @@ public class SampleObjectPojo1Dto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
+  public static PropertyBuilder0 builder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static PropertyBuilder0 sampleObjectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
 
