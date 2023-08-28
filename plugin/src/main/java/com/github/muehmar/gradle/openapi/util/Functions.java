@@ -26,4 +26,15 @@ public class Functions {
       }
     };
   }
+
+  public static <A, B> Function<Pair<A, Integer>, B> firstAndTail(
+      Function<A, B> first, Function<A, B> tail) {
+    return pair -> {
+      if (pair.second() == 0) {
+        return first.apply(pair.first());
+      } else {
+        return tail.apply(pair.first());
+      }
+    };
+  }
 }

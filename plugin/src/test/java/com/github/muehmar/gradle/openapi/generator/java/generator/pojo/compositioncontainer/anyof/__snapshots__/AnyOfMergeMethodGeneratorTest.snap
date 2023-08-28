@@ -1,0 +1,11 @@
+anyOfContainer=[
+.
+.
+public AnyOfPojo1AnyOfContainerDto merge(AnyOfPojo1AnyOfContainerDto other) {
+  return new AnyOfPojo1AnyOfContainerDto(
+    sampleObjectPojo1Dto != null ? sampleObjectPojo1Dto : other.sampleObjectPojo1Dto,
+    necessityAndNullabilityDto != null ? necessityAndNullabilityDto : other.necessityAndNullabilityDto,
+    sampleObjectPojo2Dto != null ? sampleObjectPojo2Dto : other.sampleObjectPojo2Dto
+  );
+}
+]
