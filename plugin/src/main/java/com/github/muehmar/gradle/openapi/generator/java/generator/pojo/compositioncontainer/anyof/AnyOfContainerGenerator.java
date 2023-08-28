@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.ContainerGetter.anyOfContainerGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.anyOfFromFactoryMethods;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof.AnyOfMergeMethodGenerator.anyOfMergeMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof.AnyOfWitherMethodsGenerator.anyOfWitherMethodsGenerator;
@@ -60,6 +61,8 @@ public class AnyOfContainerGenerator {
         .append(pojoConstructorGenerator(), AnyOfContainer::constructorContent)
         .appendSingleBlankLine()
         .append(anyOfFromFactoryMethods())
+        .appendSingleBlankLine()
+        .append(anyOfContainerGetter())
         .appendSingleBlankLine()
         .append(anyOfWitherMethodsGenerator())
         .appendSingleBlankLine()

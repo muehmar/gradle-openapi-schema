@@ -51,6 +51,18 @@ public class AnyOfPojo1AnyOfContainerDto {
     return new AnyOfPojo1AnyOfContainerDto(null, null, dto);
   }
 
+  SampleObjectPojo1Dto getSampleObjectPojo1Dto() {
+    return sampleObjectPojo1Dto;
+  }
+
+  NecessityAndNullabilityDto getNecessityAndNullabilityDto() {
+    return necessityAndNullabilityDto;
+  }
+
+  SampleObjectPojo2Dto getSampleObjectPojo2Dto() {
+    return sampleObjectPojo2Dto;
+  }
+
   /**
    * Creates a new instance of {@link AnyOfPojo1AnyOfContainerDto} additionally
    * populated with {@link SampleObjectPojo1Dto}.
