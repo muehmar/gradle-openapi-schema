@@ -21,9 +21,9 @@ class NestedFullObjectSerialisationTest {
   @Test
   void serialize_when_adminDto_then_correctJson() throws JsonProcessingException {
     final BaseDataDto baseDataDto =
-        BaseDataDto.newBuilder().setColor(BaseDataDto.ColorEnum.RED).build();
+        BaseDataDto.builder().setColor(BaseDataDto.ColorEnum.RED).build();
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setType("type")
             .setAdminname("adminname")
             .andAllOptionals()
@@ -31,7 +31,7 @@ class NestedFullObjectSerialisationTest {
             .build();
 
     final FullObjectDto fullObjectDto =
-        FullObjectDto.newBuilder()
+        FullObjectDto.builder()
             .setBaseDataDto(baseDataDto)
             .setAdminDto(adminDto)
             .setRoute("route")
@@ -41,7 +41,7 @@ class NestedFullObjectSerialisationTest {
             .build();
 
     final NestedFullObjectDto dto =
-        NestedFullObjectDto.newBuilder()
+        NestedFullObjectDto.builder()
             .setFullObjectDto(fullObjectDto)
             .setAmount(15)
             .andAllOptionals()
@@ -72,7 +72,7 @@ class NestedFullObjectSerialisationTest {
     assertEquals(Optional.of("code"), dto.getCodeOpt());
 
     final BaseDataDto expectedBaseDataDto =
-        BaseDataDto.newBuilder()
+        BaseDataDto.builder()
             .setColor(BaseDataDto.ColorEnum.RED)
             .andAllOptionals()
             .setAdditionalProperties(new HashMap<>(additionalProperties))
@@ -86,7 +86,7 @@ class NestedFullObjectSerialisationTest {
     adminAdditionalProperties.put("color", BaseDataDto.ColorEnum.RED);
 
     final AdminDto expectedAdminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setType("Admin")
             .setAdminname("adminname")
             .andAllOptionals()

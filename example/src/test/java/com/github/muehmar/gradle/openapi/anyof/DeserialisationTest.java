@@ -29,7 +29,7 @@ class DeserialisationTest {
     final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -50,7 +50,7 @@ class DeserialisationTest {
     final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -71,7 +71,7 @@ class DeserialisationTest {
     final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -91,7 +91,7 @@ class DeserialisationTest {
     final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -112,7 +112,7 @@ class DeserialisationTest {
     final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -123,7 +123,7 @@ class DeserialisationTest {
             .build();
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -152,7 +152,7 @@ class DeserialisationTest {
     final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -163,7 +163,7 @@ class DeserialisationTest {
             .build();
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
             .andAllOptionals()

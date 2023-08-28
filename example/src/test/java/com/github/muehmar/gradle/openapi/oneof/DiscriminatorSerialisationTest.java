@@ -17,7 +17,7 @@ class DiscriminatorSerialisationTest {
   @Test
   void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -25,7 +25,7 @@ class DiscriminatorSerialisationTest {
             .setLevel(5L)
             .build();
     final AdminOrUserDiscriminatorDto dto =
-        AdminOrUserDiscriminatorDto.newBuilder().setAdminDto(adminDto).build();
+        AdminOrUserDiscriminatorDto.builder().setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5,\"type\":\"Admin\"}",
@@ -35,7 +35,7 @@ class DiscriminatorSerialisationTest {
   @Test
   void writeValueAsString_when_userDto_then_correctJson() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -44,7 +44,7 @@ class DiscriminatorSerialisationTest {
             .setEmail(Tristate.ofNull())
             .build();
     final AdminOrUserDiscriminatorDto dto =
-        AdminOrUserDiscriminatorDto.newBuilder().setUserDto(userDto).build();
+        AdminOrUserDiscriminatorDto.builder().setUserDto(userDto).build();
 
     assertEquals(
         "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"type\":\"User\",\"username\":\"user-name\"}",

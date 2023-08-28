@@ -49,7 +49,7 @@ class NoAdditionalPropertiesTest {
   void
       getDeclaredMethods_when_normalBuilderClass_then_additionalPropertiesSetterNotPresentOrPrivate() {
     final Method[] methods =
-        NoAdditionalPropertiesDto.newBuilder()
+        NoAdditionalPropertiesDto.builder()
             .setName("")
             .andOptionals()
             .getClass()
@@ -70,7 +70,7 @@ class NoAdditionalPropertiesTest {
   @Test
   void getDeclaredMethods_when_allOptionalsBuilderClass_then_noAdditionalPropertiesSetterFound() {
     final Method[] methods =
-        NoAdditionalPropertiesDto.newBuilder()
+        NoAdditionalPropertiesDto.builder()
             .setName("")
             .andAllOptionals()
             .getClass()

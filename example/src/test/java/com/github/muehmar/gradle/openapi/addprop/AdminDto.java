@@ -150,7 +150,7 @@ public class AdminDto {
     }
   }
 
-  public static PropertyBuilder0 newBuilder() {
+  public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 

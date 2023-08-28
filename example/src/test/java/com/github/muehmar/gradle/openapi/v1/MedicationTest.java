@@ -23,7 +23,7 @@ class MedicationTest {
   @Test
   void serialize_when_dto_then_correctJson() throws JsonProcessingException {
     final MedicationDto dto =
-        MedicationDto.newBuilder().setName("Dafalgan").setKind(MedicationKind.DELETED).build();
+        MedicationDto.builder().setName("Dafalgan").setKind(MedicationKind.DELETED).build();
 
     final String json = MAPPER.writeValueAsString(dto);
     assertEquals("{\"kind\":\"DELETED\",\"name\":\"Dafalgan\"}", json);

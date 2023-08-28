@@ -17,14 +17,14 @@ class SerialisationTest {
   @Test
   void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
             .setType("type")
             .setLevel(5L)
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAdminDto(adminDto).build();
+    final AdminOrUserDto dto = AdminOrUserDto.builder().setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5,\"type\":\"type\"}",
@@ -34,7 +34,7 @@ class SerialisationTest {
   @Test
   void writeValueAsString_when_userDto_then_correctJson() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -42,7 +42,7 @@ class SerialisationTest {
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setUserDto(userDto).build();
+    final AdminOrUserDto dto = AdminOrUserDto.builder().setUserDto(userDto).build();
 
     assertEquals(
         "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"type\":\"type\",\"username\":\"user-name\"}",

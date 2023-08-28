@@ -25,7 +25,7 @@ class DiscriminatorDeserialisationTest {
     final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -45,7 +45,7 @@ class DiscriminatorDeserialisationTest {
     final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()

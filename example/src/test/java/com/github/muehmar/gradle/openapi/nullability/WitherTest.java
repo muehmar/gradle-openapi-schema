@@ -22,7 +22,7 @@ class WitherTest {
 
   @Test
   void withId_when_called_then_newDtoContainsNewId() throws JsonProcessingException {
-    final UserDto initialDto = UserDto.newBuilder().setId("id").setUsername("username").build();
+    final UserDto initialDto = UserDto.builder().setId("id").setUsername("username").build();
 
     final UserDto newDto = initialDto.withId("newId");
 
@@ -33,7 +33,7 @@ class WitherTest {
   @Test
   void withUsername_when_calledWithValue_then_newDtoContainsNewUsername()
       throws JsonProcessingException {
-    final UserDto initialDto = UserDto.newBuilder().setId("id").setUsername("username").build();
+    final UserDto initialDto = UserDto.builder().setId("id").setUsername("username").build();
 
     final UserDto newDto = initialDto.withUsername("newUsername");
 
@@ -44,7 +44,7 @@ class WitherTest {
   @Test
   void withUsername_when_calledWithNoValue_then_newDtoContainsNullUsername()
       throws JsonProcessingException {
-    final UserDto initialDto = UserDto.newBuilder().setId("id").setUsername("username").build();
+    final UserDto initialDto = UserDto.builder().setId("id").setUsername("username").build();
 
     final UserDto newDto = initialDto.withUsername(Optional.empty());
 
@@ -55,7 +55,7 @@ class WitherTest {
   @Test
   void withEmail_when_calledWithValue_then_newDtoContainsNewEmail() throws JsonProcessingException {
     final UserDto initialDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("username")
             .andOptionals()
@@ -74,7 +74,7 @@ class WitherTest {
   void withEmail_when_calledWithNoValue_then_newDtoContainsNoEmail()
       throws JsonProcessingException {
     final UserDto initialDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("username")
             .andOptionals()
@@ -90,7 +90,7 @@ class WitherTest {
   @Test
   void withPhone_when_calledWithValue_then_newDtoContainsNewPhone() throws JsonProcessingException {
     final UserDto initialDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("username")
             .andOptionals()
@@ -108,7 +108,7 @@ class WitherTest {
   @Test
   void withPhone_when_calledWithAbsent_then_newDtoContainsNoPhone() throws JsonProcessingException {
     final UserDto initialDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("username")
             .andOptionals()
@@ -124,7 +124,7 @@ class WitherTest {
   @Test
   void withPhone_when_calledWithNull_then_newDtoContainsNullPhone() throws JsonProcessingException {
     final UserDto initialDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("username")
             .andOptionals()

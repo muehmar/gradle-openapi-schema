@@ -19,7 +19,7 @@ class DataTypesTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   private static final DataTypesDto DTO =
-      DataTypesDto.newBuilder()
+      DataTypesDto.builder()
           .andAllOptionals()
           .setString("string")
           .setDate(LocalDate.of(2018, 12, 30))

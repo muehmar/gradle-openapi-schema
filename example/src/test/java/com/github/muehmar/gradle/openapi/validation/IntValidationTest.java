@@ -14,7 +14,7 @@ class IntValidationTest {
   @ValueSource(ints = {-5, -1, 0, 1, 22})
   void validate_when_ok_then_noViolations(int value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setIntValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setIntValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
@@ -25,7 +25,7 @@ class IntValidationTest {
   @ValueSource(ints = {-1000, -6, 23, 5000})
   void validate_when_exceedsRange_then_violation(int value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setIntValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setIntValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 

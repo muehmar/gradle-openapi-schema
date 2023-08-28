@@ -14,7 +14,7 @@ class LongValidationTest {
   @ValueSource(longs = {-122, -1, 0, 1, 249})
   void validate_when_ok_then_noViolations(long value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setLongValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setLongValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
@@ -25,7 +25,7 @@ class LongValidationTest {
   @ValueSource(longs = {-1000, -123, 250, 5000})
   void validate_when_exceedsRange_then_violation(long value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setLongValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setLongValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 

@@ -24,10 +24,10 @@ class MapTest {
 
   static {
     final HashMap<String, RootMapSchemaPropertyDto> map = new HashMap<>();
-    map.put("prop1", RootMapSchemaPropertyDto.newBuilder().setName("name1").build());
+    map.put("prop1", RootMapSchemaPropertyDto.builder().setName("name1").build());
     map.put(
         "prop2",
-        RootMapSchemaPropertyDto.newBuilder()
+        RootMapSchemaPropertyDto.builder()
             .setName("name2")
             .andAllOptionals()
             .setDescription("description2")
@@ -37,15 +37,15 @@ class MapTest {
 
   static {
     final HashMap<String, InlinedMapSchemaMapDto> map = new HashMap<>();
-    map.put("prop1", InlinedMapSchemaMapDto.newBuilder().setName("name1").build());
+    map.put("prop1", InlinedMapSchemaMapDto.builder().setName("name1").build());
     map.put(
         "prop2",
-        InlinedMapSchemaMapDto.newBuilder()
+        InlinedMapSchemaMapDto.builder()
             .setName("name2")
             .andAllOptionals()
             .setDescription("description2")
             .build());
-    INLINE_MAP_DTO = InlinedMapSchemaDto.newBuilder().andAllOptionals().setMap(map).build();
+    INLINE_MAP_DTO = InlinedMapSchemaDto.builder().andAllOptionals().setMap(map).build();
   }
 
   @Test

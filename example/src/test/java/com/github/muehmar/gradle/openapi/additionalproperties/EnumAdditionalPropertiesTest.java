@@ -13,7 +13,7 @@ class EnumAdditionalPropertiesTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   private static final EnumAdditionalPropertiesDto DTO =
-      EnumAdditionalPropertiesDto.newBuilder()
+      EnumAdditionalPropertiesDto.builder()
           .setName("Dexter")
           .andOptionals()
           .addAdditionalProperty("color", PropertyEnum.ORANGE)

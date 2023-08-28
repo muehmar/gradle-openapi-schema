@@ -11,7 +11,7 @@ class ReadWriteOnlyTest {
   @Test
   void newBuilder_when_calledForDefaultDto_then_readOnlyAndWriteOnlyPropertiesPresent() {
     final ReadWriteDto dto =
-        ReadWriteDto.newBuilder()
+        ReadWriteDto.builder()
             .setId("id")
             .setReadOnly("readOnly")
             .setWriteOnly("writeOnly")
@@ -26,7 +26,7 @@ class ReadWriteOnlyTest {
   @Test
   void newBuilder_when_calledForResponseDto_then_writeOnlyPropertyNotPresent() {
     final ReadWriteResponseDto dto =
-        ReadWriteResponseDto.newBuilder()
+        ReadWriteResponseDto.builder()
             .setId("id")
             .setReadOnly("readOnly")
             .andAllOptionals()
@@ -39,7 +39,7 @@ class ReadWriteOnlyTest {
   @Test
   void newBuilder_when_calledForRequestDto_then_readOnlyPropertyNotPresent() {
     final ReadWriteRequestDto dto =
-        ReadWriteRequestDto.newBuilder()
+        ReadWriteRequestDto.builder()
             .setId("id")
             .setWriteOnly("writeOnly")
             .andAllOptionals()

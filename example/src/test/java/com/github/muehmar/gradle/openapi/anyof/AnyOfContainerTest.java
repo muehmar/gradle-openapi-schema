@@ -19,7 +19,7 @@ class AnyOfContainerTest {
   @Test
   void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -29,7 +29,7 @@ class AnyOfContainerTest {
 
     final AdminOrUserAnyOfContainerDto container = AdminOrUserAnyOfContainerDto.fromAdmin(adminDto);
 
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAnyOfContainer(container).build();
+    final AdminOrUserDto dto = AdminOrUserDto.builder().setAnyOfContainer(container).build();
 
     assertEquals(
         "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5}",
@@ -39,7 +39,7 @@ class AnyOfContainerTest {
   @Test
   void writeValueAsString_when_userDto_then_correctJson() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -49,7 +49,7 @@ class AnyOfContainerTest {
 
     final AdminOrUserAnyOfContainerDto container = AdminOrUserAnyOfContainerDto.fromUser(userDto);
 
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAnyOfContainer(container).build();
+    final AdminOrUserDto dto = AdminOrUserDto.builder().setAnyOfContainer(container).build();
 
     assertEquals(
         "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"username\":\"user-name\"}",
@@ -60,7 +60,7 @@ class AnyOfContainerTest {
   void writeValueAsString_when_adminAndUserOfInlinedDto_then_correctJson()
       throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -68,7 +68,7 @@ class AnyOfContainerTest {
             .setEmail(Tristate.ofNull())
             .build();
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -81,7 +81,7 @@ class AnyOfContainerTest {
 
     final AdminOrUserAnyOfContainerDto container = c1.merge(c2);
 
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAnyOfContainer(container).build();
+    final AdminOrUserDto dto = AdminOrUserDto.builder().setAnyOfContainer(container).build();
 
     assertEquals(
         "{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"username\":\"user-name\"}",

@@ -20,14 +20,14 @@ class SerialisationTest {
   @Test
   void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setAdminDto(adminDto).build();
+    final AdminOrUserDto dto = AdminOrUserDto.builder().setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5}",
@@ -38,7 +38,7 @@ class SerialisationTest {
   void writeValueAsString_when_adminDtoOfInlinedDto_then_correctJson()
       throws JsonProcessingException {
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -46,8 +46,8 @@ class SerialisationTest {
             .setColor(AdminDto.ColorEnum.RED)
             .build();
     final InlinedAnyOfDto dto =
-        InlinedAnyOfDto.newBuilder()
-            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.newBuilder().setAdminDto(adminDto).build())
+        InlinedAnyOfDto.builder()
+            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.builder().setAdminDto(adminDto).build())
             .build();
 
     assertEquals(
@@ -58,14 +58,14 @@ class SerialisationTest {
   @Test
   void writeValueAsString_when_userDto_then_correctJson() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();
-    final AdminOrUserDto dto = AdminOrUserDto.newBuilder().setUserDto(userDto).build();
+    final AdminOrUserDto dto = AdminOrUserDto.builder().setUserDto(userDto).build();
 
     assertEquals(
         "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"username\":\"user-name\"}",
@@ -76,7 +76,7 @@ class SerialisationTest {
   void writeValueAsString_when_userDtoOfInlinedDto_then_correctJson()
       throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -85,8 +85,8 @@ class SerialisationTest {
             .build();
 
     final InlinedAnyOfDto dto =
-        InlinedAnyOfDto.newBuilder()
-            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.newBuilder().setUserDto(userDto).build())
+        InlinedAnyOfDto.builder()
+            .setAdminOrUser(InlinedAnyOfAdminOrUserDto.builder().setUserDto(userDto).build())
             .build();
 
     assertEquals(
@@ -97,7 +97,7 @@ class SerialisationTest {
   @Test
   void writeValueAsString_when_adminAndUserDto_then_correctJson() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -105,7 +105,7 @@ class SerialisationTest {
             .setEmail(Tristate.ofNull())
             .build();
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -114,7 +114,7 @@ class SerialisationTest {
             .build();
 
     final AdminOrUserDto dto =
-        AdminOrUserDto.newBuilder().setUserDto(userDto).setAdminDto(adminDto).build();
+        AdminOrUserDto.builder().setUserDto(userDto).setAdminDto(adminDto).build();
 
     assertEquals(
         "{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"username\":\"user-name\"}",
@@ -125,7 +125,7 @@ class SerialisationTest {
   void writeValueAsString_when_adminAndUserOfInlinedDto_then_correctJson()
       throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -133,7 +133,7 @@ class SerialisationTest {
             .setEmail(Tristate.ofNull())
             .build();
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -142,9 +142,9 @@ class SerialisationTest {
             .build();
 
     final InlinedAnyOfDto dto =
-        InlinedAnyOfDto.newBuilder()
+        InlinedAnyOfDto.builder()
             .setAdminOrUser(
-                InlinedAnyOfAdminOrUserDto.newBuilder()
+                InlinedAnyOfAdminOrUserDto.builder()
                     .setAdminDto(adminDto)
                     .setUserDto(userDto)
                     .build())

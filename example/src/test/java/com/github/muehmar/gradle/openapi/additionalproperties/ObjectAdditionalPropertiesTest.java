@@ -21,14 +21,14 @@ class ObjectAdditionalPropertiesTest {
 
   static {
     final ObjectAdditionalPropertiesPropertyDto additionalProperty =
-        ObjectAdditionalPropertiesPropertyDto.newBuilder()
+        ObjectAdditionalPropertiesPropertyDto.builder()
             .setTitle("Hello")
             .andOptionals()
             .setDescription("The description")
             .addAdditionalProperty("something", "more")
             .build();
     DTO =
-        ObjectAdditionalPropertiesDto.newBuilder()
+        ObjectAdditionalPropertiesDto.builder()
             .setName("Dexter")
             .andOptionals()
             .addAdditionalProperty("prop1", additionalProperty)
@@ -56,13 +56,13 @@ class ObjectAdditionalPropertiesTest {
   @Test
   void validate_when_descriptionInAdditionalPropertiesObjectTooShort_then_violation() {
     final ObjectAdditionalPropertiesPropertyDto additionalProperty =
-        ObjectAdditionalPropertiesPropertyDto.newBuilder()
+        ObjectAdditionalPropertiesPropertyDto.builder()
             .setTitle("Hello")
             .andOptionals()
             .setDescription("d")
             .build();
     final ObjectAdditionalPropertiesDto dto =
-        ObjectAdditionalPropertiesDto.newBuilder()
+        ObjectAdditionalPropertiesDto.builder()
             .setName("Dexter")
             .andOptionals()
             .addAdditionalProperty("prop1", additionalProperty)

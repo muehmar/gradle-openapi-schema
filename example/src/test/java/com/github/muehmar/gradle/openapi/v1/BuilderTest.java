@@ -14,7 +14,7 @@ class BuilderTest {
   @Test
   void build_when_optionalPropertySetTwiceAndEmptyTheSecondTime_then_propertyNotPresent() {
     final SampleDto dto =
-        SampleDto.newBuilder()
+        SampleDto.builder()
             .setProp1("prop1")
             .setProp2(5)
             .andOptionals()
@@ -28,7 +28,7 @@ class BuilderTest {
   @Test
   void builder_requiredMethodsDoNotHaveAPublicSetter() {
     final SampleDto.Builder builder =
-        SampleDto.newBuilder().setProp1("prop1").setProp2(5).andOptionals();
+        SampleDto.builder().setProp1("prop1").setProp2(5).andOptionals();
 
     final Method[] declaredMethods = builder.getClass().getDeclaredMethods();
 

@@ -15,7 +15,7 @@ class TestArrayProperty {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   private static final ReferenceArrayPropertyDto DTO =
-      ReferenceArrayPropertyDto.newBuilder()
+      ReferenceArrayPropertyDto.builder()
           .setPosology(new PosologyDto(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0))))
           .build();
   private static final String JSON = "{\"posology\":[1.0,2.0,3.0,4.0]}";

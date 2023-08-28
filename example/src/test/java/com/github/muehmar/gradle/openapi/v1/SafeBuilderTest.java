@@ -10,7 +10,7 @@ class SafeBuilderTest {
   @Test
   void andAllOptionals_when_useEmptyAndNonEmptyOptionals_then_allValuesCorrectSet() {
     final SampleDto dto =
-        SampleDto.newBuilder()
+        SampleDto.builder()
             .setProp1("prop1")
             .setProp2(5)
             .andAllOptionals()
@@ -25,7 +25,7 @@ class SafeBuilderTest {
   @Test
   void andOptionals_when_useEmptyAndNonEmptyOptionals_then_allValuesCorrectSet() {
     final SampleDto dto =
-        SampleDto.newBuilder()
+        SampleDto.builder()
             .setProp1("prop1")
             .setProp2(5)
             .andOptionals()

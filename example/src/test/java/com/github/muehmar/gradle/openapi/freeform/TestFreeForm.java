@@ -41,7 +41,7 @@ class TestFreeForm {
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
     final InlineFreeFormDto dto =
-        InlineFreeFormDto.newBuilder().andAllOptionals().setData(map).build();
+        InlineFreeFormDto.builder().andAllOptionals().setData(map).build();
 
     final String expectedJson = "{\"data\":{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}}";
     assertEquals(expectedJson, MAPPER.writeValueAsString(dto));
@@ -77,7 +77,7 @@ class TestFreeForm {
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
     final InlineFreeFormDto expectedDto =
-        InlineFreeFormDto.newBuilder().andAllOptionals().setData(map).build();
+        InlineFreeFormDto.builder().andAllOptionals().setData(map).build();
 
     assertEquals(expectedDto, dto);
   }
@@ -134,7 +134,7 @@ class TestFreeForm {
   void validate_when_inlineFreeFormDto_then_matchExpectedViolationCount(
       int propertyCount, int violationCount) {
     final InlineFreeFormDto dto =
-        InlineFreeFormDto.newBuilder()
+        InlineFreeFormDto.builder()
             .andAllOptionals()
             .setData(createPropertyMap(propertyCount))
             .build();

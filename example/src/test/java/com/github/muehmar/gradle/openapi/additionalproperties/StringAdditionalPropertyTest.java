@@ -74,7 +74,7 @@ class StringAdditionalPropertyTest {
     }
 
     final StringAdditionalPropertiesDto dto =
-        StringAdditionalPropertiesDto.newBuilder()
+        StringAdditionalPropertiesDto.builder()
             .setName("Dexter")
             .andOptionals()
             .setAdditionalProperties(additionalProperties)
@@ -100,7 +100,7 @@ class StringAdditionalPropertyTest {
   void serialize_when_dtoWithAdditionalProperties_then_correctJson()
       throws JsonProcessingException {
     final StringAdditionalPropertiesDto dto =
-        StringAdditionalPropertiesDto.newBuilder()
+        StringAdditionalPropertiesDto.builder()
             .setName("name")
             .andAllOptionals()
             .addAdditionalProperty("hello", "world")

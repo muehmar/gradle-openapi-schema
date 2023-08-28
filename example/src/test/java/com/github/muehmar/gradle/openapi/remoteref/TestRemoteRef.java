@@ -10,8 +10,8 @@ class TestRemoteRef {
   @Test
   void cityDtoCreated() {
     final CityDto city =
-        CityDto.newBuilder().setName("Winterthur").andOptionals().setZip(8400).build();
-    final UserDto user = UserDto.newBuilder().setName("Name").setCity(city).andOptionals().build();
+        CityDto.builder().setName("Winterthur").andOptionals().setZip(8400).build();
+    final UserDto user = UserDto.builder().setName("Name").setCity(city).andOptionals().build();
 
     assertEquals("Name", user.getName());
     assertEquals(city, user.getCity());

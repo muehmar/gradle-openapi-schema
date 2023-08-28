@@ -1,5 +1,9 @@
 package com.github.muehmar.gradle.openapi.fullobject;
 
+import static openapischema.example.api.fullobject.model.AdminDto.adminDtoBuilder;
+import static openapischema.example.api.fullobject.model.BaseDataDto.baseDataDtoBuilder;
+import static openapischema.example.api.fullobject.model.FullObjectDto.fullObjectDtoBuilder;
+import static openapischema.example.api.fullobject.model.UserDto.userDtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -20,9 +24,9 @@ class FullObjectSerialisationTest {
   @Test
   void serialize_when_adminDto_then_correctJson() throws JsonProcessingException {
     final BaseDataDto baseDataDto =
-        BaseDataDto.newBuilder().setColor(BaseDataDto.ColorEnum.RED).build();
+        baseDataDtoBuilder().setColor(BaseDataDto.ColorEnum.RED).build();
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        adminDtoBuilder()
             .setType("type")
             .setAdminname("adminname")
             .andAllOptionals()
@@ -30,7 +34,7 @@ class FullObjectSerialisationTest {
             .build();
 
     final FullObjectDto dto =
-        FullObjectDto.newBuilder()
+        fullObjectDtoBuilder()
             .setBaseDataDto(baseDataDto)
             .setAdminDto(adminDto)
             .setRoute("route")
@@ -61,7 +65,7 @@ class FullObjectSerialisationTest {
     assertEquals(additionalProperties, dto.getAdditionalProperties());
 
     final BaseDataDto expectedBaseDataDto =
-        BaseDataDto.newBuilder()
+        baseDataDtoBuilder()
             .setColor(BaseDataDto.ColorEnum.RED)
             .andAllOptionals()
             .setAdditionalProperties(new HashMap<>(additionalProperties))
@@ -75,7 +79,7 @@ class FullObjectSerialisationTest {
     adminAdditionalProperties.put("color", BaseDataDto.ColorEnum.RED);
 
     final UserDto expectedUser =
-        UserDto.newBuilder()
+        userDtoBuilder()
             .setType("User")
             .setUsername("username")
             .andAllOptionals()

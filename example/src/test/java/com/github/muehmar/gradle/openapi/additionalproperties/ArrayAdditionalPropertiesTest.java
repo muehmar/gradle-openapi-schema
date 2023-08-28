@@ -56,7 +56,7 @@ class ArrayAdditionalPropertiesTest {
   void serialize_when_withArrayAsAdditionalProperty_then_correctJson()
       throws JsonProcessingException {
     final ArrayAdditionalPropertiesDto dto =
-        ArrayAdditionalPropertiesDto.newBuilder()
+        ArrayAdditionalPropertiesDto.builder()
             .setName("name")
             .andAllOptionals()
             .addAdditionalProperty(

@@ -12,7 +12,7 @@ class PropertyCountValidationTest {
   @Test
   void validate_when_oneProperties_then_violation() {
     final NumbersObjectDto dto =
-        NumbersObjectDto.newBuilder().andOptionals().setDoubleValue(4.0).build();
+        NumbersObjectDto.builder().andOptionals().setDoubleValue(4.0).build();
 
     final Set<ConstraintViolation<NumbersObjectDto>> constraintViolations = validate(dto);
 
@@ -22,11 +22,7 @@ class PropertyCountValidationTest {
   @Test
   void validate_when_twoProperties_then_noViolations() {
     final NumbersObjectDto dto =
-        NumbersObjectDto.newBuilder()
-            .andOptionals()
-            .setDoubleValue(4.0)
-            .setFloatValue(4.0f)
-            .build();
+        NumbersObjectDto.builder().andOptionals().setDoubleValue(4.0).setFloatValue(4.0f).build();
 
     final Set<ConstraintViolation<NumbersObjectDto>> constraintViolations = validate(dto);
 
@@ -36,7 +32,7 @@ class PropertyCountValidationTest {
   @Test
   void validate_when_threeProperties_then_noViolations() {
     final NumbersObjectDto dto =
-        NumbersObjectDto.newBuilder()
+        NumbersObjectDto.builder()
             .andOptionals()
             .setDoubleValue(4.0)
             .setFloatValue(4.0f)
@@ -51,7 +47,7 @@ class PropertyCountValidationTest {
   @Test
   void validate_when_fourProperties_then_violation() {
     final NumbersObjectDto dto =
-        NumbersObjectDto.newBuilder()
+        NumbersObjectDto.builder()
             .andOptionals()
             .setDoubleValue(4.0)
             .setFloatValue(4.0f)

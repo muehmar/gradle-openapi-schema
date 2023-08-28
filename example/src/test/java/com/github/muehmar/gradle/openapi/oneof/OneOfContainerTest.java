@@ -18,7 +18,7 @@ class OneOfContainerTest {
   @Test
   void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -30,7 +30,7 @@ class OneOfContainerTest {
         AdminOrUserDiscriminatorOneOfContainerDto.fromAdmin(adminDto);
 
     final AdminOrUserDiscriminatorDto dto =
-        AdminOrUserDiscriminatorDto.newBuilder().setOneOfContainer(container).build();
+        AdminOrUserDiscriminatorDto.builder().setOneOfContainer(container).build();
 
     assertEquals(
         "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5,\"type\":\"Admin\"}",
@@ -40,7 +40,7 @@ class OneOfContainerTest {
   @Test
   void writeValueAsString_when_userDto_then_correctJson() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -53,7 +53,7 @@ class OneOfContainerTest {
         AdminOrUserDiscriminatorOneOfContainerDto.fromUser(userDto);
 
     final AdminOrUserDiscriminatorDto dto =
-        AdminOrUserDiscriminatorDto.newBuilder().setOneOfContainer(container).build();
+        AdminOrUserDiscriminatorDto.builder().setOneOfContainer(container).build();
 
     assertEquals(
         "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"type\":\"User\",\"username\":\"user-name\"}",

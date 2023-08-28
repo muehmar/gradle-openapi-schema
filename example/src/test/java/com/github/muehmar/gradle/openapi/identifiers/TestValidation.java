@@ -18,7 +18,7 @@ class TestValidation {
   @ValueSource(strings = {"n", "ne", "new"})
   void validate_when_differentStringLength_then_violationsForSmallerThanThree(String value) {
     final User1 dto =
-        User1.newBuilder().setNew(value).andAllOptionals().setInterface(Optional.empty()).build();
+        User1.builder().setNew(value).andAllOptionals().setInterface(Optional.empty()).build();
 
     final Set<ConstraintViolation<User1>> constraintViolations = validate(dto);
 
@@ -29,8 +29,8 @@ class TestValidation {
   @ValueSource(strings = {"publ", "publi", "public"})
   void validate_when_differentStringLength_then_violationsForSmallerThanSix(String value) {
     final User2 dto2 =
-        User2.newBuilder().setPublic(value).andAllOptionals().setNull(Tristate.ofNull()).build();
-    final User1OrUser2 dto = User1OrUser2.newBuilder().setUser2(dto2).build();
+        User2.builder().setPublic(value).andAllOptionals().setNull(Tristate.ofNull()).build();
+    final User1OrUser2 dto = User1OrUser2.builder().setUser2(dto2).build();
 
     final Set<ConstraintViolation<User1OrUser2>> constraintViolations = validate(dto);
 

@@ -38,7 +38,7 @@ class MapValidationTest {
   @Test
   void validate_when_objectMapWithCorrectValue_then_noViolations() {
     final HashMap<String, AllValueObjectDto> map = new HashMap<>();
-    map.put("Hello", AllValueObjectDto.newBuilder().build());
+    map.put("Hello", AllValueObjectDto.builder().build());
     final ObjectMapDto dto = ObjectMapDto.fromProperties(map);
 
     final Set<ConstraintViolation<ObjectMapDto>> violations = validate(dto);
@@ -49,7 +49,7 @@ class MapValidationTest {
   @Test
   void validate_when_objectMapWithInvalidValue_then_violations() {
     final HashMap<String, AllValueObjectDto> map = new HashMap<>();
-    map.put("Hello", AllValueObjectDto.newBuilder().andOptionals().setIntValue(35).build());
+    map.put("Hello", AllValueObjectDto.builder().andOptionals().setIntValue(35).build());
     final ObjectMapDto dto = ObjectMapDto.fromProperties(map);
 
     final Set<ConstraintViolation<ObjectMapDto>> violations = validate(dto);
