@@ -20,12 +20,12 @@ import lombok.Value;
 public class FactoryMethodGenerator {
   private FactoryMethodGenerator() {}
 
-  public static Generator<OneOfContainer, PojoSettings> oneOFromFactoryMethods() {
+  public static Generator<OneOfContainer, PojoSettings> oneOfFromFactoryMethods() {
     return Generator.<OneOfContainer, PojoSettings>emptyGen()
         .appendList(fromFactoryMethod(), ContainerAndPojo::fromOneOfContainer, newLine());
   }
 
-  public static Generator<AnyOfContainer, PojoSettings> anyOFromFactoryMethods() {
+  public static Generator<AnyOfContainer, PojoSettings> anyOfFromFactoryMethods() {
     return Generator.<AnyOfContainer, PojoSettings>emptyGen()
         .appendList(fromFactoryMethod(), ContainerAndPojo::fromAnyOfContainer, newLine());
   }

@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.anyOFromFactoryMethods;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.oneOFromFactoryMethods;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.anyOfFromFactoryMethods;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.oneOfFromFactoryMethods;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -32,7 +32,7 @@ class FactoryMethodGeneratorTest {
   @Test
   @SnapshotName("oneOfPojo")
   void oneOFromFactoryMethods_when_oneOfPojo_then_correctOutput() {
-    final Generator<OneOfContainer, PojoSettings> generator = oneOFromFactoryMethods();
+    final Generator<OneOfContainer, PojoSettings> generator = oneOfFromFactoryMethods();
 
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfComposition.fromPojos(
@@ -51,7 +51,7 @@ class FactoryMethodGeneratorTest {
   @Test
   @SnapshotName("anyOfPojo")
   void anyOFromFactoryMethods_when_oneOfPojo_then_correctOutput() {
-    final Generator<AnyOfContainer, PojoSettings> generator = anyOFromFactoryMethods();
+    final Generator<AnyOfContainer, PojoSettings> generator = anyOfFromFactoryMethods();
 
     final JavaAnyOfComposition anyOfComposition =
         JavaAnyOfComposition.fromPojos(

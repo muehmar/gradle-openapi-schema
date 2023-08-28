@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.anyOFromFactoryMethods;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.anyOfFromFactoryMethods;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof.AnyOfWitherMethodsGenerator.anyOfWitherMethodsGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
@@ -24,7 +24,7 @@ public class AnyOfContainerGenerator {
         .clazz()
         .topLevel()
         .packageGen(new PackageGenerator<>())
-        .javaDoc(JavaDocGenerator.javaDoc((container, settings) -> "TODO"))
+        .javaDoc(containerJavaDoc())
         .noAnnotations()
         .modifiers(PUBLIC)
         .className(container -> container.getContainerName().asString())
@@ -34,13 +34,31 @@ public class AnyOfContainerGenerator {
         .build();
   }
 
+  private static Generator<AnyOfContainer, PojoSettings> containerJavaDoc() {
+    return JavaDocGenerator.javaDoc(
+        (c, s) -> {
+          final String pojoLinks =
+              c.getComposition()
+                  .getPojos()
+                  .map(p -> String.format("{@link %s}", p.getClassName()))
+                  .toPList()
+                  .mkString(", ");
+          return String.format(
+              "This is a container for the any of composition of {@link %s}. It can hold any instance of %s. "
+                  + "Use the corresponding from-factory methods to create an instance for each of the objects "
+                  + "and then merge all instances to one using {@link %s#merge}. The resulting instance can be "
+                  + "used in the builder of {@link %s}.",
+              c.getPojoName(), pojoLinks, c.getContainerName(), c.getPojoName());
+        });
+  }
+
   private static Generator<AnyOfContainer, PojoSettings> content() {
     return Generator.<AnyOfContainer, PojoSettings>emptyGen()
         .append(memberGenerator(), AnyOfContainer::memberContent)
         .appendSingleBlankLine()
         .append(pojoConstructorGenerator(), AnyOfContainer::constructorContent)
         .appendSingleBlankLine()
-        .append(anyOFromFactoryMethods())
+        .append(anyOfFromFactoryMethods())
         .appendSingleBlankLine()
         .append(anyOfWitherMethodsGenerator())
         .appendSingleBlankLine()
