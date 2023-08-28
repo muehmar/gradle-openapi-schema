@@ -4,7 +4,11 @@ package com.github.muehmar;
 import java.util.Objects;
 
 /**
- * TODO
+ * This is a container for the one of composition of {@link InvoiceDto}. It can
+ * hold exactly one instance of {@link SampleObjectPojo1Dto}, {@link
+ * SampleObjectPojo2Dto}. Use the corresponding from-factory methods to create an
+ * instance for one of the objects. The resulting instance can be used in the
+ * builder of {@link InvoiceDto}.
  */
 public class InvoiceOneOfContainerDto {
   private final SampleObjectPojo1Dto sampleObjectPojo1Dto;

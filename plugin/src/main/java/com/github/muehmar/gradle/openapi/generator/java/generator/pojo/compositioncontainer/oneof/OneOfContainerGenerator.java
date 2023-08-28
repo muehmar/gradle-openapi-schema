@@ -1,8 +1,8 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.oneof;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.ContainerGetter.containerGetter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.oneofcontainer.FactoryMethodGenerator.factoryMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.ContainerGetter.oneOfContainerGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.oneOfFromFactoryMethods;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.pojoConstructorGenerator;
@@ -24,7 +24,7 @@ public class OneOfContainerGenerator {
         .clazz()
         .topLevel()
         .packageGen(new PackageGenerator<>())
-        .javaDoc(JavaDocGenerator.javaDoc((container, settings) -> "TODO"))
+        .javaDoc(containerJavaDoc())
         .noAnnotations()
         .modifiers(PUBLIC)
         .className(container -> container.getContainerName().asString())
@@ -34,15 +34,32 @@ public class OneOfContainerGenerator {
         .build();
   }
 
+  private static Generator<OneOfContainer, PojoSettings> containerJavaDoc() {
+    return JavaDocGenerator.javaDoc(
+        (c, s) -> {
+          final String pojoLinks =
+              c.getComposition()
+                  .getPojos()
+                  .map(p -> String.format("{@link %s}", p.getClassName()))
+                  .toPList()
+                  .mkString(", ");
+          return String.format(
+              "This is a container for the one of composition of {@link %s}. It can hold exactly one instance of %s. "
+                  + "Use the corresponding from-factory methods to create an instance for one of the objects. The"
+                  + " resulting instance can be used in the builder of {@link %s}.",
+              c.getPojoName(), pojoLinks, c.getPojoName());
+        });
+  }
+
   private static Generator<OneOfContainer, PojoSettings> content() {
     return Generator.<OneOfContainer, PojoSettings>emptyGen()
         .append(memberGenerator(), OneOfContainer::memberContent)
         .appendSingleBlankLine()
         .append(pojoConstructorGenerator(), OneOfContainer::constructorContent)
         .appendSingleBlankLine()
-        .append(factoryMethodGenerator())
+        .append(oneOfFromFactoryMethods())
         .appendSingleBlankLine()
-        .append(containerGetter())
+        .append(oneOfContainerGetter())
         .appendSingleBlankLine()
         .append(equalsMethod(), OneOfContainer::getEqualsContent)
         .appendSingleBlankLine()

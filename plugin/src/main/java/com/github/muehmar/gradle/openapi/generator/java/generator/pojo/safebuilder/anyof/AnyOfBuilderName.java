@@ -5,27 +5,29 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuild
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 
 public class AnyOfBuilderName implements BuilderName {
-  private final JavaObjectPojo parentPojo;
   private final BuilderType builderType;
 
-  private AnyOfBuilderName(JavaObjectPojo parentPojo, BuilderType builderType) {
-    this.parentPojo = parentPojo;
+  private AnyOfBuilderName(BuilderType builderType) {
     this.builderType = builderType;
   }
 
   public static BuilderName initial(JavaObjectPojo parentPojo) {
     return parentPojo
         .getAnyOfComposition()
-        .<BuilderName>map(anyOfComposition -> first(parentPojo))
+        .<BuilderName>map(anyOfComposition -> first())
         .orElse(RequiredPropertyBuilderName.initial(parentPojo));
   }
 
-  public static AnyOfBuilderName first(JavaObjectPojo parentPojo) {
-    return new AnyOfBuilderName(parentPojo, BuilderType.FIRST_BUILDER);
+  public static AnyOfBuilderName first() {
+    return new AnyOfBuilderName(BuilderType.FIRST_BUILDER);
   }
 
-  public static AnyOfBuilderName remaining(JavaObjectPojo parentPojo) {
-    return new AnyOfBuilderName(parentPojo, BuilderType.REMAINING_BUILDER);
+  public static AnyOfBuilderName remaining() {
+    return new AnyOfBuilderName(BuilderType.REMAINING_BUILDER);
+  }
+
+  public static AnyOfBuilderName last() {
+    return new AnyOfBuilderName(BuilderType.LAST_BUILDER);
   }
 
   public BuilderType getBuilderType() {
@@ -34,15 +36,26 @@ public class AnyOfBuilderName implements BuilderName {
 
   @Override
   public String currentName() {
-    return String.format("AnyOfBuilder%d", builderType.equals(BuilderType.FIRST_BUILDER) ? 0 : 1);
+    return String.format("AnyOfBuilder%d", builderType.getIdx());
   }
 
   public BuilderName getNextBuilderName() {
-    return new AnyOfBuilderName(parentPojo, BuilderType.REMAINING_BUILDER);
+    return new AnyOfBuilderName(BuilderType.REMAINING_BUILDER);
   }
 
   public enum BuilderType {
-    FIRST_BUILDER,
-    REMAINING_BUILDER
+    FIRST_BUILDER(0),
+    REMAINING_BUILDER(1),
+    LAST_BUILDER(2);
+
+    private final int idx;
+
+    BuilderType(int idx) {
+      this.idx = idx;
+    }
+
+    public int getIdx() {
+      return idx;
+    }
   }
 }

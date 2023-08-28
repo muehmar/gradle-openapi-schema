@@ -1,0 +1,56 @@
+anyOfPojo=[
+.
+.
+/**
+ * Creates an instance of {@link ObjectAnyOfContainerDto} from a {@link
+ * SampleObjectPojo1Dto}.
+ */
+public static ObjectAnyOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto dto) {
+  return new ObjectAnyOfContainerDto(dto, null, null);
+}
+
+/**
+ * Creates an instance of {@link ObjectAnyOfContainerDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
+public static ObjectAnyOfContainerDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ObjectAnyOfContainerDto(null, dto, null);
+}
+
+/**
+ * Creates an instance of {@link ObjectAnyOfContainerDto} from a {@link
+ * SampleObjectPojo2Dto}.
+ */
+public static ObjectAnyOfContainerDto fromSampleObjectPojo2(SampleObjectPojo2Dto dto) {
+  return new ObjectAnyOfContainerDto(null, null, dto);
+}
+]
+
+
+oneOfPojo=[
+.
+.
+/**
+ * Creates an instance of {@link ObjectOneOfContainerDto} from a {@link
+ * SampleObjectPojo1Dto}.
+ */
+public static ObjectOneOfContainerDto fromSampleObjectPojo1(SampleObjectPojo1Dto dto) {
+  return new ObjectOneOfContainerDto(dto, null, null);
+}
+
+/**
+ * Creates an instance of {@link ObjectOneOfContainerDto} from a {@link
+ * NecessityAndNullabilityDto}.
+ */
+public static ObjectOneOfContainerDto fromNecessityAndNullability(NecessityAndNullabilityDto dto) {
+  return new ObjectOneOfContainerDto(null, dto, null);
+}
+
+/**
+ * Creates an instance of {@link ObjectOneOfContainerDto} from a {@link
+ * SampleObjectPojo2Dto}.
+ */
+public static ObjectOneOfContainerDto fromSampleObjectPojo2(SampleObjectPojo2Dto dto) {
+  return new ObjectOneOfContainerDto(null, null, dto);
+}
+]
