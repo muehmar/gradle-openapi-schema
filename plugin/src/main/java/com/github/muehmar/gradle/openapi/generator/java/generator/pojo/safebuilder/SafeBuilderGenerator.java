@@ -1,17 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof.AllOfBuilderGenerator.allOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof.AnyOfBuilderGenerator.anyOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.oneof.OneOfBuilderGenerator.oneOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalOptionalMemberBuilderGenerator.finalOptionalMemberBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalRequiredMemberBuilderGenerator.finalRequiredMemberBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.OptionalMemberBuilderGenerator.optionalMemberBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof.AllOfBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof.AnyOfBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.oneof.OneOfBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalOptionalMemberBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalRequiredMemberBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.OptionalMemberBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.OptionalPropertyBuilderName;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredMemberBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -21,25 +22,25 @@ import java.util.function.Function;
 public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
   private final Generator<JavaObjectPojo, PojoSettings> delegate;
 
-  public SafeBuilderGenerator() {
+  public SafeBuilderGenerator(SafeBuilderVariant builderVariant) {
     this.delegate =
-        factoryMethod(pojo -> "builder")
+        factoryMethod(builderVariant, simpleBuilderMethodName(builderVariant))
             .appendSingleBlankLine()
-            .append(factoryMethod(pojo -> pojo.getClassName().startLowercase() + "Builder"))
+            .append(factoryMethod(builderVariant, pojoBuilderMethodName(builderVariant)))
             .appendSingleBlankLine()
-            .append(AllOfBuilderGenerator.allOfBuilderGenerator())
+            .append(allOfBuilderGenerator(builderVariant))
             .appendSingleBlankLine()
-            .append(OneOfBuilderGenerator.oneOfBuilderGenerator())
+            .append(oneOfBuilderGenerator(builderVariant))
             .appendSingleBlankLine()
-            .append(AnyOfBuilderGenerator.anyOfBuilderGenerator())
+            .append(anyOfBuilderGenerator(builderVariant))
             .appendSingleBlankLine()
-            .append(RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator())
+            .append(requiredMemberBuilderGenerator(builderVariant))
             .appendSingleBlankLine()
-            .append(FinalRequiredMemberBuilderGenerator.finalRequiredMemberBuilderGenerator())
+            .append(finalRequiredMemberBuilderGenerator(builderVariant))
             .appendSingleBlankLine()
-            .append(OptionalMemberBuilderGenerator.optionalMemberBuilderGenerator())
+            .append(optionalMemberBuilderGenerator(builderVariant))
             .appendSingleBlankLine()
-            .append(FinalOptionalMemberBuilderGenerator.finalOptionalMemberBuilderGenerator())
+            .append(finalOptionalMemberBuilderGenerator(builderVariant))
             .filter(Filters.isSafeBuilder());
   }
 
@@ -49,26 +50,54 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
   }
 
   private Generator<JavaObjectPojo, PojoSettings> factoryMethod(
-      Function<JavaObjectPojo, String> builderName) {
+      SafeBuilderVariant builderVariant, Function<JavaObjectPojo, String> builderName) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
             (pojo, s, w) ->
                 w.println(
                     "public static %s %s() {",
-                    createInitialBuilderName(pojo).currentName(), builderName.apply(pojo)))
+                    createInitialBuilderName(builderVariant, pojo).currentName(),
+                    builderName.apply(pojo)))
         .append(
             (pojo, s, w) ->
                 w.println(
-                    "return new %s(new Builder());", createInitialBuilderName(pojo).currentName()),
+                    "return new %s(new Builder());",
+                    createInitialBuilderName(builderVariant, pojo).currentName()),
             1)
         .append(constant("}"));
   }
 
-  private static BuilderName createInitialBuilderName(JavaObjectPojo pojo) {
+  private static Function<JavaObjectPojo, String> simpleBuilderMethodName(
+      SafeBuilderVariant builderVariant) {
+    return pojo -> {
+      final String prefix = builderVariant.getBuilderNamePrefix();
+      if (prefix.isEmpty()) {
+        return "builder";
+      } else {
+        return String.format("%sBuilder", prefix.toLowerCase());
+      }
+    };
+  }
+
+  private static Function<JavaObjectPojo, String> pojoBuilderMethodName(
+      SafeBuilderVariant builderVariant) {
+    return pojo -> {
+      final String prefix = builderVariant.getBuilderNamePrefix();
+      final JavaIdentifier className = pojo.getClassName();
+      if (prefix.isEmpty()) {
+        return String.format("%sBuilder", className.startLowercase());
+      } else {
+        return String.format("%s%sBuilder", prefix.toLowerCase(), className);
+      }
+    };
+  }
+
+  private static BuilderName createInitialBuilderName(
+      SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
     if (pojo.isSimpleMapPojo()) {
-      return OptionalPropertyBuilderName.initial(pojo);
+      return OptionalPropertyBuilderName.initial(builderVariant, pojo);
     } else {
-      return BuilderName.initial(pojo);
+      return BuilderName.initial(builderVariant, pojo);
     }
   }
 }

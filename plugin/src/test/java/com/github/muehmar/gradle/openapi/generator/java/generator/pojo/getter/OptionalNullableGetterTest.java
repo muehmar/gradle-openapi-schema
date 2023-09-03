@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -38,9 +39,7 @@ class OptionalNullableGetterTest {
 
     final Writer writer =
         generator.generate(
-            pojoMember,
-            TestPojoSettings.defaultSettings().withEnableValidation(false),
-            javaWriter());
+            pojoMember, defaultTestSettings().withEnableValidation(false), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -57,9 +56,7 @@ class OptionalNullableGetterTest {
 
     final Writer writer =
         generator.generate(
-            pojoMember,
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            pojoMember, defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -85,7 +82,7 @@ class OptionalNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withJsonSupport(JsonSupport.NONE)
                 .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
@@ -109,7 +106,7 @@ class OptionalNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withJsonSupport(JsonSupport.JACKSON)
                 .withValidationMethods(validationMethods),
             javaWriter());

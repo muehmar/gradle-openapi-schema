@@ -4,8 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.co
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
-import static org.junit.jupiter.api.Assertions.*;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -14,7 +14,6 @@ import com.github.muehmar.gradle.openapi.IntellijDiffSnapshotTestExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -35,8 +34,7 @@ class AnyOfContainerGeneratorTest {
             .getAnyOfContainer()
             .orElseThrow(IllegalStateException::new);
 
-    final Writer writer =
-        generator.generate(anyOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(anyOfContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

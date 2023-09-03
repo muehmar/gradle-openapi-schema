@@ -1,31 +1,43 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 
 public class RequiredPropertyBuilderName implements BuilderName {
+  private final SafeBuilderVariant builderVariant;
   private final JavaObjectPojo parentPojo;
-  private final int idx;
+  private final int memberIndex;
 
-  private RequiredPropertyBuilderName(JavaObjectPojo parentPojo, int idx) {
+  private RequiredPropertyBuilderName(
+      SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo, int memberIndex) {
+    this.builderVariant = builderVariant;
     this.parentPojo = parentPojo;
-    this.idx = idx;
+    this.memberIndex = memberIndex;
   }
 
-  public static RequiredPropertyBuilderName initial(JavaObjectPojo parentPojo) {
-    return new RequiredPropertyBuilderName(parentPojo, 0);
+  public static RequiredPropertyBuilderName initial(
+      SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
+    return new RequiredPropertyBuilderName(builderVariant, parentPojo, 0);
   }
 
-  public static RequiredPropertyBuilderName from(JavaObjectPojo parentPojo, int idx) {
-    return new RequiredPropertyBuilderName(parentPojo, idx);
+  public static RequiredPropertyBuilderName from(
+      SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo, int memberIndex) {
+    return new RequiredPropertyBuilderName(builderVariant, parentPojo, memberIndex);
   }
 
-  public RequiredPropertyBuilderName incrementIndex() {
-    return new RequiredPropertyBuilderName(parentPojo, idx + 1);
+  public String nextBuilderName() {
+    if (parentPojo.getRequiredMemberCount() - 1 == memberIndex
+        && builderVariant.equals(SafeBuilderVariant.FULL)) {
+      return OptionalPropertyBuilderName.initial(builderVariant, parentPojo).currentName();
+    } else {
+      return new RequiredPropertyBuilderName(builderVariant, parentPojo, memberIndex + 1)
+          .currentName();
+    }
   }
 
   @Override
   public String currentName() {
-    return String.format("PropertyBuilder%d", idx);
+    return String.format("%sPropertyBuilder%d", builderVariant.getBuilderNamePrefix(), memberIndex);
   }
 }

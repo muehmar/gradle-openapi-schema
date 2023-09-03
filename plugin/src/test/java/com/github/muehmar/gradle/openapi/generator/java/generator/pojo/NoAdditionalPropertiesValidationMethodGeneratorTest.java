@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,7 +10,6 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -28,9 +28,7 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaAdditionalProperties.notAllowed(),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            JavaAdditionalProperties.notAllowed(), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -43,9 +41,7 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaAdditionalProperties.anyTypeAllowed(),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            JavaAdditionalProperties.anyTypeAllowed(), defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -59,7 +55,7 @@ class NoAdditionalPropertiesValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaAdditionalProperties.notAllowed(),
-            TestPojoSettings.defaultSettings().withEnableValidation(false),
+            defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
     assertEquals("", writer.asString());

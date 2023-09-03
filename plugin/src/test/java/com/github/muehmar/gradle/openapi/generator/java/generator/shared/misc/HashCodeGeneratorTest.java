@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.byteArrayMember;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +16,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class HashCodeGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getHashCodeContent(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
@@ -46,9 +46,7 @@ class HashCodeGeneratorTest {
     final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
     final Writer writer =
         generator.generate(
-            JavaPojos.arrayPojo().getHashCodeContent(),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            JavaPojos.arrayPojo().getHashCodeContent(), defaultTestSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
 
@@ -64,8 +62,7 @@ class HashCodeGeneratorTest {
         PList.of(byteArrayMember(), requiredDouble()).flatMap(JavaPojoMember::getTechnicalMembers);
     final HashCodeContent hashCodeContent =
         HashCodeContentBuilder.create().technicalPojoMembers(technicalMembers).build();
-    final Writer writer =
-        generator.generate(hashCodeContent, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(hashCodeContent, defaultTestSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAYS::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));

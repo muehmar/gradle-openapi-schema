@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +32,7 @@ class AnyOfFoldValidationGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -45,7 +46,7 @@ class AnyOfFoldValidationGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withValidationMethods(
                     TestPojoSettings.defaultValidationMethods()
                         .withModifier(JavaModifier.PROTECTED)
@@ -62,7 +63,7 @@ class AnyOfFoldValidationGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     assertEquals("", writer.asString());

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +15,6 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -36,8 +36,7 @@ class JavaTypeGeneratorsTest {
                 .withConstraints(Constraints.ofMinAndMax(new Min(5), new Max(10))));
     final JavaType javaType = JavaType.wrap(arrayType, TypeMappings.empty());
 
-    final Writer writer =
-        generator.generate(javaType, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(javaType, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
 

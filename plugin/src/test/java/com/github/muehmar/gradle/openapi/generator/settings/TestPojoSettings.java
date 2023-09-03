@@ -6,7 +6,7 @@ import java.util.Collections;
 public class TestPojoSettings {
   private TestPojoSettings() {}
 
-  public static PojoSettings defaultSettings() {
+  public static PojoSettings defaultTestSettings() {
     return PojoSettingsBuilder.create()
         .jsonSupport(JsonSupport.JACKSON)
         .packageName("com.github.muehmar")
@@ -27,9 +27,13 @@ public class TestPojoSettings {
 
   public static PList<PojoSettings> validationVariants() {
     return PList.of(
-        defaultSettings().withEnableValidation(false),
-        defaultSettings().withEnableValidation(true).withValidationApi(ValidationApi.JAKARTA_2_0),
-        defaultSettings().withEnableValidation(true).withValidationApi(ValidationApi.JAKARTA_3_0));
+        defaultTestSettings().withEnableValidation(false),
+        defaultTestSettings()
+            .withEnableValidation(true)
+            .withValidationApi(ValidationApi.JAKARTA_2_0),
+        defaultTestSettings()
+            .withEnableValidation(true)
+            .withValidationApi(ValidationApi.JAKARTA_3_0));
   }
 
   public static GetterSuffixes defaultGetterSuffixes() {

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +14,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class ToStringGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getToStringContent(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
@@ -46,9 +46,7 @@ class ToStringGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.arrayPojo().getToStringContent(),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            JavaPojos.arrayPojo().getToStringContent(), defaultTestSettings(), javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
 
@@ -64,8 +62,7 @@ class ToStringGeneratorTest {
         JavaPojos.objectPojo(
             PList.of(JavaPojoMembers.byteArrayMember(), JavaPojoMembers.requiredDouble()));
     final Writer writer =
-        generator.generate(
-            pojo.getToStringContent(), TestPojoSettings.defaultSettings(), javaWriter());
+        generator.generate(pojo.getToStringContent(), defaultTestSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAYS::equals));
 

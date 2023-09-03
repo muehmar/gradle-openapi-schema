@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -18,7 +19,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -52,8 +52,7 @@ class ConversionMethodGeneratorTest {
 
     final JavaObjectPojo composedPojo = createComposedPojo.apply(NonEmptyList.of(pojo1, pojo2));
 
-    final Writer writer =
-        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(composedPojo, defaultTestSettings(), javaWriter());
 
     expect.scenario(name).toMatchSnapshot(writer.asString());
   }
@@ -75,8 +74,7 @@ class ConversionMethodGeneratorTest {
 
     final JavaObjectPojo composedPojo = JavaPojos.sampleObjectPojo1();
 
-    final Writer writer =
-        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(composedPojo, defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -93,8 +91,7 @@ class ConversionMethodGeneratorTest {
 
     final JavaObjectPojo composedPojo = JavaPojos.oneOfPojo(pojo1, pojo2);
 
-    final Writer writer =
-        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(composedPojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -109,8 +106,7 @@ class ConversionMethodGeneratorTest {
         JavaPojos.oneOfPojo(
             JavaPojos.oneOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2()));
 
-    final Writer writer =
-        generator.generate(composedPojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(composedPojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.sa
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SetterBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -37,7 +38,8 @@ public class OptionalMemberBuilderGenerator {
 
   private OptionalMemberBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> optionalMemberBuilderGenerator() {
+  public static Generator<JavaObjectPojo, PojoSettings> optionalMemberBuilderGenerator(
+      SafeBuilderVariant builderVariant) {
     final PList<SingleMemberSetterGenerator.Setter<OptionalMember>> setters =
         PList.of(NORMAL_SETTER, OPTIONAL_SETTER, TRISTATE_SETTER);
     final Generator<OptionalMember, PojoSettings> singleMemberSetterGenerator =
@@ -46,7 +48,9 @@ public class OptionalMemberBuilderGenerator {
         singleBuilderClassGenerator(OptionalMember::builderClassName, singleMemberSetterGenerator);
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(
-            singleBuilderClassGenerator, OptionalMember::fromObjectPojo, Generator.newLine());
+            singleBuilderClassGenerator,
+            pojo -> OptionalMember.fromObjectPojo(builderVariant, pojo),
+            Generator.newLine());
   }
 
   @Value
@@ -55,14 +59,17 @@ public class OptionalMemberBuilderGenerator {
     JavaPojoMember member;
     int idx;
 
-    private static PList<OptionalMember> fromObjectPojo(JavaObjectPojo pojo) {
+    private static PList<OptionalMember> fromObjectPojo(
+        SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
       return pojo.getMembers()
           .filter(JavaPojoMember::isOptional)
           .zipWithIndex()
           .map(
               p ->
                   new OptionalMember(
-                      OptionalPropertyBuilderName.from(pojo, p.second()), p.first(), p.second()));
+                      OptionalPropertyBuilderName.from(builderVariant, pojo, p.second()),
+                      p.first(),
+                      p.second()));
     }
 
     @Override

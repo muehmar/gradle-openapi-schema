@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -20,7 +21,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class WitherGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getWitherContent(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -58,7 +58,7 @@ class WitherGeneratorTest {
                     PList.of(requiredString(), requiredBirthdate())
                         .flatMap(JavaPojoMember::getTechnicalMembers))
                 .build(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -93,8 +93,7 @@ class WitherGeneratorTest {
     final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
         WitherGenerator.witherGenerator();
     final Writer writer =
-        generator.generate(
-            pojo.getWitherContent(), TestPojoSettings.defaultSettings(), javaWriter());
+        generator.generate(pojo.getWitherContent(), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

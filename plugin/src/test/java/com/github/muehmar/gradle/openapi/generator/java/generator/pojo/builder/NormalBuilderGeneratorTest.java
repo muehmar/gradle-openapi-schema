@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -19,7 +20,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredA
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class NormalBuilderGeneratorTest {
         generator.generate(
             JavaPojos.withRequiredAdditionalProperties(
                 allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -58,7 +58,7 @@ class NormalBuilderGeneratorTest {
         generator.generate(
             JavaPojos.objectPojo(
                 PList.empty(), JavaAdditionalProperties.allowedFor(stringListType())),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -73,7 +73,7 @@ class NormalBuilderGeneratorTest {
     final Writer writer =
         generator.generate(
             allNecessityAndNullabilityVariants(),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            defaultTestSettings().withJsonSupport(JsonSupport.NONE),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -88,7 +88,7 @@ class NormalBuilderGeneratorTest {
     final Writer writer =
         generator.generate(
             allNecessityAndNullabilityVariants(),
-            TestPojoSettings.defaultSettings().withEnableSafeBuilder(false),
+            defaultTestSettings().withEnableSafeBuilder(false),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -103,7 +103,7 @@ class NormalBuilderGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));

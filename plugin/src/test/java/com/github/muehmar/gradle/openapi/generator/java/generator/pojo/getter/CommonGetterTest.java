@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,8 +19,7 @@ class CommonGetterTest {
   void rawGetterMethod_when_defaultSettings_then_correctOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
     final Writer writer =
-        generator.generate(
-            JavaPojoMembers.optionalString(), TestPojoSettings.defaultSettings(), javaWriter());
+        generator.generate(JavaPojoMembers.optionalString(), defaultTestSettings(), javaWriter());
 
     assertEquals(
         "private String getOptionalStringValRaw() {\n" + "  return optionalStringVal;\n" + "}",
@@ -31,7 +31,7 @@ class CommonGetterTest {
     final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
 
     final PojoSettings settings =
-        TestPojoSettings.defaultSettings()
+        defaultTestSettings()
             .withValidationMethods(
                 TestPojoSettings.defaultValidationMethods()
                     .withModifier(JavaModifier.PUBLIC)

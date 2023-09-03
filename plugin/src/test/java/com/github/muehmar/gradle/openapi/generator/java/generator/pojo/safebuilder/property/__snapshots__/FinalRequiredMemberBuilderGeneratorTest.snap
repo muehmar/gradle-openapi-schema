@@ -1,4 +1,11 @@
-allNecessityAndNullabilityVariants=[
+allNecessityAndNullabilityVariants[FULL]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[STANDARD]=[
 .
 .
 public static final class PropertyBuilder3 {

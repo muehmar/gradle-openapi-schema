@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -14,7 +15,6 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -35,9 +35,7 @@ class PojoPropertyCountMethodTest {
 
     final Writer writer =
         gen.generate(
-            allNecessityAndNullabilityVariants(constraints),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            allNecessityAndNullabilityVariants(constraints), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -54,7 +52,7 @@ class PojoPropertyCountMethodTest {
     final Writer writer =
         gen.generate(
             allNecessityAndNullabilityVariants(constraints),
-            TestPojoSettings.defaultSettings().withEnableValidation(false),
+            defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -72,7 +70,7 @@ class PojoPropertyCountMethodTest {
     final Writer writer =
         gen.generate(
             allNecessityAndNullabilityVariants(constraints),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            defaultTestSettings().withJsonSupport(JsonSupport.NONE),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -87,7 +85,7 @@ class PojoPropertyCountMethodTest {
     final Writer writer =
         gen.generate(
             JavaPojos.oneOfPojo(allNecessityAndNullabilityVariants(), sampleObjectPojo1()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));

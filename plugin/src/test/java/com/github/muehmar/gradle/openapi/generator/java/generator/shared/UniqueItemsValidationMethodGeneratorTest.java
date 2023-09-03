@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +17,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ class UniqueItemsValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.requiredDouble(),
-            TestPojoSettings.defaultSettings().withEnableValidation(true),
+            defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
     assertEquals("", writer.asString());
@@ -48,7 +48,7 @@ class UniqueItemsValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.arrayPojo().getArrayPojoMember(),
-            TestPojoSettings.defaultSettings().withEnableValidation(true),
+            defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
     assertEquals("", writer.asString());
@@ -65,7 +65,7 @@ class UniqueItemsValidationMethodGeneratorTest {
                 Constraints.ofUniqueItems(true),
                 Necessity.REQUIRED,
                 Nullability.NOT_NULLABLE),
-            TestPojoSettings.defaultSettings().withEnableValidation(false),
+            defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
     assertEquals("", writer.asString());
@@ -83,7 +83,7 @@ class UniqueItemsValidationMethodGeneratorTest {
                 Constraints.ofUniqueItems(true),
                 Necessity.REQUIRED,
                 Nullability.NOT_NULLABLE),
-            TestPojoSettings.defaultSettings().withEnableValidation(true),
+            defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_HASH_SET::equals));

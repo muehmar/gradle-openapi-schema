@@ -1,12 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withMembers;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withRequiredAdditionalProperties;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -158,5 +162,27 @@ class JavaObjectPojoTest {
     assertEquals(
         PList.of("Direction", "ColorPojoDto.Color"),
         members.map(m -> m.getJavaType().getFullClassName().asString()));
+  }
+
+  @Test
+  void getRequiredPropertyCount_when_noRequiredAdditionalProperties_then_requiredMemberCount() {
+    final JavaObjectPojo javaObjectPojo =
+        objectPojo(requiredEmail(), requiredInteger(), optionalString());
+
+    assertEquals(2, javaObjectPojo.getRequiredMemberCount());
+  }
+
+  @Test
+  void
+      getRequiredPropertyCount_when_hasRequiredAdditionalProperties_then_countIncludesRequiredAdditionalProperties() {
+    final JavaRequiredAdditionalProperty requiredAdditionalProperty =
+        new JavaRequiredAdditionalProperty(Name.ofString("addProp"), stringType());
+    final JavaObjectPojo noRequiredAdditionalProperties =
+        objectPojo(requiredEmail(), requiredInteger(), optionalString());
+    final JavaObjectPojo javaObjectPojo =
+        withRequiredAdditionalProperties(
+            noRequiredAdditionalProperties, PList.single(requiredAdditionalProperty));
+
+    assertEquals(3, javaObjectPojo.getRequiredMemberCount());
   }
 }

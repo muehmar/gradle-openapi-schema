@@ -4,6 +4,10 @@ import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProper
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -24,7 +28,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectTyp
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
@@ -49,7 +52,6 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -110,7 +112,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
+        defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
             .withEnableValidation(false);
@@ -127,7 +129,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings().withEnableSafeBuilder(false).withEnableValidation(false);
+        defaultTestSettings().withEnableSafeBuilder(false).withEnableValidation(false);
 
     final String content =
         generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, javaWriter()).asString();
@@ -141,7 +143,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
+        defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(true)
             .withEnableValidation(false);
@@ -159,7 +161,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
+        defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
             .withEnableValidation(true)
@@ -278,7 +280,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
+        defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
             .withEnableSafeBuilder(false)
             .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
@@ -321,7 +323,7 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =
-        TestPojoSettings.defaultSettings()
+        defaultTestSettings()
             .withEnableSafeBuilder(false)
             .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
 
@@ -364,8 +366,8 @@ class ObjectPojoGeneratorTest {
     final String content =
         generator
             .generate(
-                (JavaObjectPojo) JavaPojos.allNecessityAndNullabilityVariants(),
-                TestPojoSettings.defaultSettings().withEnableSafeBuilder(true),
+                JavaPojos.allNecessityAndNullabilityVariants(),
+                defaultTestSettings().withEnableSafeBuilder(true),
                 javaWriter())
             .asString();
 
@@ -384,9 +386,7 @@ class ObjectPojoGeneratorTest {
     final String content =
         generator
             .generate(
-                JavaPojos.objectPojo(PList.single(member)),
-                TestPojoSettings.defaultSettings(),
-                javaWriter())
+                JavaPojos.objectPojo(PList.single(member)), defaultTestSettings(), javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -408,9 +408,7 @@ class ObjectPojoGeneratorTest {
     final String content =
         generator
             .generate(
-                JavaPojos.objectPojo(PList.single(member)),
-                TestPojoSettings.defaultSettings(),
-                javaWriter())
+                JavaPojos.objectPojo(PList.single(member)), defaultTestSettings(), javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -424,7 +422,7 @@ class ObjectPojoGeneratorTest {
         generator
             .generate(
                 JavaPojos.objectPojo(PList.empty(), JavaAdditionalProperties.notAllowed()),
-                TestPojoSettings.defaultSettings(),
+                defaultTestSettings(),
                 javaWriter())
             .asString();
 
@@ -435,18 +433,15 @@ class ObjectPojoGeneratorTest {
   @SnapshotName("inlinedEnumMapObject")
   void generatePojo_when_inlinedEnumMapObject_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final JavaObjectPojo objectPojo =
+        JavaPojos.objectPojo(
+            PList.empty(),
+            JavaAdditionalProperties.allowedFor(
+                JavaEnumType.wrap(
+                    EnumType.ofNameAndMembers(
+                        Name.ofString("ColorEnum"), PList.of("green", "yellow", "red")))));
     final String content =
-        generator
-            .generate(
-                JavaPojos.objectPojo(
-                    PList.empty(),
-                    JavaAdditionalProperties.allowedFor(
-                        JavaEnumType.wrap(
-                            EnumType.ofNameAndMembers(
-                                Name.ofString("ColorEnum"), PList.of("green", "yellow", "red"))))),
-                TestPojoSettings.defaultSettings(),
-                javaWriter())
-            .asString();
+        generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -455,17 +450,13 @@ class ObjectPojoGeneratorTest {
   @SnapshotName("objectMap")
   void generatePojo_when_objectMap_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final JavaObjectPojo objectPojo =
+        JavaPojos.objectPojo(
+            PList.empty(),
+            JavaAdditionalProperties.allowedFor(
+                JavaObjectType.wrap(ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto")))));
     final String content =
-        generator
-            .generate(
-                JavaPojos.objectPojo(
-                    PList.empty(),
-                    JavaAdditionalProperties.allowedFor(
-                        JavaObjectType.wrap(
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
-                TestPojoSettings.defaultSettings(),
-                javaWriter())
-            .asString();
+        generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -474,14 +465,11 @@ class ObjectPojoGeneratorTest {
   @SnapshotName("anyTypeMap")
   void generatePojo_when_anyTypeMap_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final JavaObjectPojo objectPojo =
+        JavaPojos.objectPojo(
+            PList.empty(), JavaAdditionalProperties.allowedFor(JavaAnyType.create()));
     final String content =
-        generator
-            .generate(
-                JavaPojos.objectPojo(
-                    PList.empty(), JavaAdditionalProperties.allowedFor(JavaAnyType.create())),
-                TestPojoSettings.defaultSettings(),
-                javaWriter())
-            .asString();
+        generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -490,16 +478,13 @@ class ObjectPojoGeneratorTest {
   @SnapshotName("integerMap")
   void generatePojo_when_integerMap_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final JavaObjectPojo objectPojo =
+        JavaPojos.objectPojo(
+            PList.empty(),
+            JavaAdditionalProperties.allowedFor(
+                JavaIntegerType.wrap(IntegerType.formatInteger(), TypeMappings.empty())));
     final String content =
-        generator
-            .generate(
-                JavaPojos.objectPojo(
-                    PList.empty(),
-                    JavaAdditionalProperties.allowedFor(
-                        JavaIntegerType.wrap(IntegerType.formatInteger(), TypeMappings.empty()))),
-                TestPojoSettings.defaultSettings(),
-                javaWriter())
-            .asString();
+        generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
   }
@@ -508,16 +493,14 @@ class ObjectPojoGeneratorTest {
   @SnapshotName("objectMapDisabledValidation")
   void generatePojo_when_objectMapDisabledValidation_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final JavaObjectPojo objectPojo =
+        JavaPojos.objectPojo(
+            PList.empty(),
+            JavaAdditionalProperties.allowedFor(
+                JavaObjectType.wrap(ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto")))));
     final String content =
         generator
-            .generate(
-                JavaPojos.objectPojo(
-                    PList.empty(),
-                    JavaAdditionalProperties.allowedFor(
-                        JavaObjectType.wrap(
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
-                TestPojoSettings.defaultSettings().withEnableValidation(false),
-                javaWriter())
+            .generate(objectPojo, defaultTestSettings().withEnableValidation(false), javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -527,16 +510,15 @@ class ObjectPojoGeneratorTest {
   @SnapshotName("objectMapNoJsonSupport")
   void generatePojo_when_objectMapNoJsonSupport_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+    final JavaObjectPojo objectPojo =
+        JavaPojos.objectPojo(
+            PList.empty(),
+            JavaAdditionalProperties.allowedFor(
+                JavaObjectType.wrap(ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto")))));
     final String content =
         generator
             .generate(
-                JavaPojos.objectPojo(
-                    PList.empty(),
-                    JavaAdditionalProperties.allowedFor(
-                        JavaObjectType.wrap(
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto"))))),
-                TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-                javaWriter())
+                objectPojo, defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter())
             .asString();
 
     expect.toMatchSnapshot(content);
@@ -551,8 +533,7 @@ class ObjectPojoGeneratorTest {
 
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    final Writer writer =
-        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(javaPojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -566,8 +547,7 @@ class ObjectPojoGeneratorTest {
 
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    final Writer writer =
-        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(javaPojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -581,8 +561,7 @@ class ObjectPojoGeneratorTest {
 
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    final Writer writer =
-        generator.generate(javaPojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(javaPojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -591,15 +570,11 @@ class ObjectPojoGeneratorTest {
       BiFunction<ObjectPojoBuilder.Builder, NonEmptyList<Pojo>, ObjectPojoBuilder.Builder>
           addCompositions) {
 
-    final PojoMember requiredString = PojoMembers.requiredString();
-    final PojoMember requiredBirthdate = PojoMembers.requiredBirthdate();
-    final PojoMember requiredUsername = PojoMembers.requiredUsername();
-
     final ObjectPojo userPojo =
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("User", "Dto"))
             .description("user")
-            .members(PList.of(requiredUsername))
+            .members(PList.of(requiredUsername()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -608,7 +583,7 @@ class ObjectPojoGeneratorTest {
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("Admin", "Dto"))
             .description("admin")
-            .members(PList.of(requiredBirthdate))
+            .members(PList.of(requiredBirthdate()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -617,7 +592,7 @@ class ObjectPojoGeneratorTest {
         ObjectPojoBuilder.create()
             .name(PojoName.ofNameAndSuffix("Person", "Dto"))
             .description("person")
-            .members(PList.of(requiredString))
+            .members(PList.of(requiredString()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())

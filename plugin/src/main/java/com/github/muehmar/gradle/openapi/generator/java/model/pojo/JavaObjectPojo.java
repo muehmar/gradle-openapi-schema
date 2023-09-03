@@ -208,6 +208,11 @@ public class JavaObjectPojo implements JavaPojo {
     return members;
   }
 
+  /** This includes also any possible required additional property. */
+  public int getRequiredMemberCount() {
+    return members.filter(JavaPojoMember::isRequired).size() + requiredAdditionalProperties.size();
+  }
+
   public PList<JavaPojoMember> getAllMembersForComposition() {
     return getMembers()
         .map(member -> member.asInnerEnumOf(getClassName()))

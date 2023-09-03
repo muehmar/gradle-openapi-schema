@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,7 @@ class JavaDocGeneratorsTest {
     final Generator<String, PojoSettings> gen =
         JavaDocGenerators.deprecatedValidationMethodJavaDoc();
 
-    final Writer writer = gen.generate("", TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate("", defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -36,7 +37,7 @@ class JavaDocGeneratorsTest {
     final Writer writer =
         gen.generate(
             "",
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withValidationMethods(
                     TestPojoSettings.defaultValidationMethods().withDeprecatedAnnotation(true)),
             javaWriter());

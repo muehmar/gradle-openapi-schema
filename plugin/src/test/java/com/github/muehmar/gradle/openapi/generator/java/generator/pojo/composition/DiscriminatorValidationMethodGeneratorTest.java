@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -36,7 +37,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -56,8 +57,7 @@ class DiscriminatorValidationMethodGeneratorTest {
             JavaOneOfComposition.fromPojosAndDiscriminator(
                 NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), noMappingDiscriminator));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -81,8 +81,7 @@ class DiscriminatorValidationMethodGeneratorTest {
             JavaOneOfComposition.fromPojosAndDiscriminator(
                 NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -109,7 +108,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             pojo,
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withValidationMethods(
                     TestPojoSettings.defaultValidationMethods()
                         .withModifier(JavaModifier.PROTECTED)
