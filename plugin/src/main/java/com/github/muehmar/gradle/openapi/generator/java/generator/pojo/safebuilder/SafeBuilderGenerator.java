@@ -10,7 +10,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.sa
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.OptionalPropertyBuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -56,13 +55,13 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
             (pojo, s, w) ->
                 w.println(
                     "public static %s %s() {",
-                    createInitialBuilderName(builderVariant, pojo).currentName(),
+                    BuilderName.initial(builderVariant, pojo).currentName(),
                     builderName.apply(pojo)))
         .append(
             (pojo, s, w) ->
                 w.println(
                     "return new %s(new Builder());",
-                    createInitialBuilderName(builderVariant, pojo).currentName()),
+                    BuilderName.initial(builderVariant, pojo).currentName()),
             1)
         .append(constant("}"));
   }
@@ -90,14 +89,5 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
         return String.format("%s%sBuilder", prefix.toLowerCase(), className);
       }
     };
-  }
-
-  private static BuilderName createInitialBuilderName(
-      SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
-    if (pojo.isSimpleMapPojo()) {
-      return OptionalPropertyBuilderName.initial(builderVariant, pojo);
-    } else {
-      return BuilderName.initial(builderVariant, pojo);
-    }
   }
 }

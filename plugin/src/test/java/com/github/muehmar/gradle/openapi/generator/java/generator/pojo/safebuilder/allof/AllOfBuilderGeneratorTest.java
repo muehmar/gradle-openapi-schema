@@ -12,6 +12,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import au.com.origin.snapshots.junit5.SnapshotExtension;
+import com.github.muehmar.gradle.openapi.IntellijDiffSnapshotTestExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -21,7 +22,7 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith(SnapshotExtension.class)
+@ExtendWith({SnapshotExtension.class, IntellijDiffSnapshotTestExtension.class})
 class AllOfBuilderGeneratorTest {
   private Expect expect;
 

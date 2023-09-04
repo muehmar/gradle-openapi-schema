@@ -16,9 +16,12 @@ public class RequiredPropertyBuilderName implements BuilderName {
     this.memberIndex = memberIndex;
   }
 
-  public static RequiredPropertyBuilderName initial(
-      SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
-    return new RequiredPropertyBuilderName(builderVariant, parentPojo, 0);
+  public static BuilderName initial(SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
+    if (builderVariant.equals(SafeBuilderVariant.FULL) && parentPojo.hasNotRequiredMembers()) {
+      return OptionalPropertyBuilderName.initial(builderVariant, parentPojo);
+    } else {
+      return new RequiredPropertyBuilderName(builderVariant, parentPojo, 0);
+    }
   }
 
   public static RequiredPropertyBuilderName from(

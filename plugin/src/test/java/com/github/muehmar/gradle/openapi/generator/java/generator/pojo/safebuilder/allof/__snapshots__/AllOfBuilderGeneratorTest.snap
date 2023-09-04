@@ -239,12 +239,12 @@ public static final class FullAllOfBuilderObjectPojo10 {
   /**
    * Direction
    */
-  public FullPropertyBuilder0 setDirection(ObjectPojo1Dto.Direction direction) {
-    return new FullPropertyBuilder0(builder.setDirection(direction));
+  public FullOptPropertyBuilder0 setDirection(ObjectPojo1Dto.Direction direction) {
+    return new FullOptPropertyBuilder0(builder.setDirection(direction));
   }
 
-  public FullPropertyBuilder0 setObjectPojo1Dto(ObjectPojo1Dto dto) {
-    return new FullPropertyBuilder0(builder.setObjectPojo1Dto(dto));
+  public FullOptPropertyBuilder0 setObjectPojo1Dto(ObjectPojo1Dto dto) {
+    return new FullOptPropertyBuilder0(builder.setObjectPojo1Dto(dto));
   }
 }
 ]
