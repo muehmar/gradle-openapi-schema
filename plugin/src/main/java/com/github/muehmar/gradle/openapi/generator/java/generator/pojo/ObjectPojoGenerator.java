@@ -20,6 +20,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.co
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AdditionalPropertiesGetter.additionalPropertiesGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ComposedDtoGetterGenerator.composedDtoGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter.requiredAdditionalPropertiesGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.map.MapFactoryMethodeGenerator.mapFactoryMethodeGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
@@ -87,6 +88,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendList(getterGenerator(), JavaObjectPojo::getAllMembers, newLine())
         .appendSingleBlankLine()
         .append(composedDtoGetterGenerator())
+        .appendSingleBlankLine()
+        .append(requiredAdditionalPropertiesGetter())
         .appendSingleBlankLine()
         .append(additionalPropertiesGetterGenerator())
         .appendSingleBlankLine()

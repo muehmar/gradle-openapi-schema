@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.optionalBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
@@ -21,6 +24,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
@@ -562,6 +566,21 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final Writer writer = generator.generate(javaPojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("pojoWithRequiredAdditionalProperties")
+  void generate_when_pojoWithRequiredAdditionalProperties_then_correctOutput() {
+    final JavaObjectPojo pojo =
+        JavaPojos.withRequiredAdditionalProperties(
+            JavaPojos.objectPojo(requiredEmail(), optionalBirthdate()),
+            PList.single(new JavaRequiredAdditionalProperty(Name.ofString("name"), stringType())));
+
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
