@@ -75,3 +75,14 @@ components:
           - orange
           - green
 
+    RequiredAdditionalProperties:
+      type: object
+      required:
+        - name
+        - lastname
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+
