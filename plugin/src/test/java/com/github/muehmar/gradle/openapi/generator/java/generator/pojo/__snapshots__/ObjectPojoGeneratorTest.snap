@@ -6519,3 +6519,419 @@ public class UserDto {
 
 }
 ]
+
+
+pojoWithRequiredAdditionalProperties=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+public class ObjectPojo1Dto {
+  private final String email;
+  private final LocalDate birthdate;
+  private final Map<String, Object> additionalProperties;
+
+  public ObjectPojo1Dto(
+      String email,
+      LocalDate birthdate,
+      Map<String, Object> additionalProperties
+    ) {
+    this.email = email;
+    this.birthdate = birthdate;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * email
+   */
+  @NotNull
+  @Email
+  public String getEmail() {
+    return email;
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonIgnore
+  public Optional<LocalDate> getBirthdate() {
+    return Optional.ofNullable(birthdate);
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonIgnore
+  public LocalDate getBirthdateOr(LocalDate defaultValue) {
+    return this.birthdate == null ? defaultValue : this.birthdate;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateRaw() {
+    return birthdate;
+  }
+
+  public String getName() {
+    try {
+      return (String) additionalProperties.get("name");
+    }
+    catch (ClassCastException e) {
+      return null;
+    }
+  }
+
+  @NotNull
+  private Object getNameAsObject() {
+    return additionalProperties.get("name");
+  }
+
+  @AssertTrue(message = "Value is not an instance of String")
+  private boolean isNameCorrectType() {
+    Object value = additionalProperties.get("name");
+    return value == null || String.isInstance(value);
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * email
+   */
+  public ObjectPojo1Dto withEmail(String email) {
+    return new ObjectPojo1Dto(email, birthdate, additionalProperties);
+  }
+
+  /**
+   * Birthdate
+   */
+  public ObjectPojo1Dto withBirthdate(LocalDate birthdate) {
+    return new ObjectPojo1Dto(email, birthdate, additionalProperties);
+  }
+
+  /**
+   * Birthdate
+   */
+  public ObjectPojo1Dto withBirthdate(Optional<LocalDate> birthdate) {
+    return new ObjectPojo1Dto(email, birthdate.orElse(null), additionalProperties);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (email != null ? 1 : 0) +
+      (birthdate != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  boolean validateBasic() {
+    return
+      email != null &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true &&
+      true;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.email, other.email)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      email,
+      birthdate,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "email=" + "'" + email + "'" + ", " +
+      "birthdate=" + birthdate + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String email;
+    private LocalDate birthdate;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    /**
+     * email
+     */
+    @JsonProperty("email")
+    private Builder setEmail(String email) {
+      this.email = email;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    @JsonProperty("birthdate")
+    public Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    public Builder setBirthdate(Optional<LocalDate> birthdate) {
+      this.birthdate = birthdate.orElse(null);
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    private Builder setName(String name) {
+      return addAdditionalProperty("name", name);
+    }
+
+    public ObjectPojo1Dto build() {
+      return new ObjectPojo1Dto(email, birthdate, additionalProperties);
+    }
+  }
+
+  public static FullPropertyBuilder0 fullBuilder() {
+    return new FullPropertyBuilder0(new Builder());
+  }
+
+  public static FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new FullPropertyBuilder0(new Builder());
+  }
+
+  public static final class FullPropertyBuilder0 {
+    private final Builder builder;
+
+    private FullPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * email
+     */
+    public FullPropertyBuilder1 setEmail(String email) {
+      return new FullPropertyBuilder1(builder.setEmail(email));
+    }
+
+  }
+
+  public static final class FullPropertyBuilder1 {
+    private final Builder builder;
+
+    private FullPropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Additional Property 'name'
+     */
+    public FullOptPropertyBuilder0 setName(String name) {
+      return new FullOptPropertyBuilder0(builder.setName(name));
+    }
+
+  }
+
+  public static final class FullOptPropertyBuilder0 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Birthdate
+     */
+    public FullOptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
+      return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+    }
+
+    /**
+     * Birthdate
+     */
+    public FullOptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
+      return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+    }
+
+  }
+
+  public static final class FullOptPropertyBuilder1 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public FullOptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+      return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static PropertyBuilder0 builder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static final class PropertyBuilder0 {
+    private final Builder builder;
+
+    private PropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * email
+     */
+    public PropertyBuilder1 setEmail(String email) {
+      return new PropertyBuilder1(builder.setEmail(email));
+    }
+
+  }
+
+  public static final class PropertyBuilder1 {
+    private final Builder builder;
+
+    private PropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Additional Property 'name'
+     */
+    public PropertyBuilder2 setName(String name) {
+      return new PropertyBuilder2(builder.setName(name));
+    }
+
+  }
+
+  public static final class PropertyBuilder2 {
+    private final Builder builder;
+
+    private PropertyBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder0 andAllOptionals(){
+      return new OptPropertyBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptPropertyBuilder0 {
+    private final Builder builder;
+
+    private OptPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Birthdate
+     */
+    public OptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
+      return new OptPropertyBuilder1(builder.setBirthdate(birthdate));
+    }
+
+    /**
+     * Birthdate
+     */
+    public OptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
+      return new OptPropertyBuilder1(builder.setBirthdate(birthdate));
+    }
+
+  }
+
+  public static final class OptPropertyBuilder1 {
+    private final Builder builder;
+
+    private OptPropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+      return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public ObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+}
+]
