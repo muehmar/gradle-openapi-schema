@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.*;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
@@ -31,6 +32,7 @@ public class RequiredAdditionalPropertiesGetter {
         .append(
             notNullAnnotation(JavaRequiredAdditionalProperty.class)
                 .filter(JavaRequiredAdditionalProperty::isAnyType))
+        .append(jsonIgnore())
         .append(getter())
         .appendSingleBlankLine()
         .append(notNullValidationGetterForSpecificType())
@@ -131,7 +133,7 @@ public class RequiredAdditionalPropertiesGetter {
                         .append(
                             (prop, s, w) ->
                                 w.println(
-                                    "return value == null || %s.isInstance(value);",
+                                    "return value == null || value instanceof %s;",
                                     prop.getJavaType().getQualifiedClassName().getClassName())))
                 .build())
         .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType)

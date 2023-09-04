@@ -6588,6 +6588,7 @@ public class ObjectPojo1Dto {
     return birthdate;
   }
 
+  @JsonIgnore
   public String getName() {
     try {
       return (String) additionalProperties.get("name");
@@ -6605,7 +6606,7 @@ public class ObjectPojo1Dto {
   @AssertTrue(message = "Value is not an instance of String")
   private boolean isNameCorrectType() {
     Object value = additionalProperties.get("name");
-    return value == null || String.isInstance(value);
+    return value == null || value instanceof String;
   }
 
   @JsonAnyGetter

@@ -1,7 +1,9 @@
 requiredAdditionalAnyTypeProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.NotNull
 
 @NotNull
+@JsonIgnore
 public Object getProp1() {
   return additionalProperties.get("prop1");
 }
@@ -10,11 +12,13 @@ public Object getProp1() {
 
 
 requiredAdditionalObjectProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.Valid
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
 @Valid
+@JsonIgnore
 public AdminDto getProp1() {
   try {
     return (AdminDto) additionalProperties.get("prop1");
@@ -32,17 +36,19 @@ private Object getProp1AsObject() {
 @AssertTrue(message = "Value is not an instance of AdminDto")
 private boolean isProp1CorrectType() {
   Object value = additionalProperties.get("prop1");
-  return value == null || AdminDto.isInstance(value);
+  return value == null || value instanceof AdminDto;
 }
 ]
 
 
 requiredAdditionalObjectPropertiesWithDeprecatedValidationMethod=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.Valid
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
 @Valid
+@JsonIgnore
 public AdminDto getProp1() {
   try {
     return (AdminDto) additionalProperties.get("prop1");
@@ -70,15 +76,17 @@ Object getProp1AsObject() {
 @AssertTrue(message = "Value is not an instance of AdminDto")
 boolean isProp1CorrectType() {
   Object value = additionalProperties.get("prop1");
-  return value == null || AdminDto.isInstance(value);
+  return value == null || value instanceof AdminDto;
 }
 ]
 
 
 requiredAdditionalStringProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
+@JsonIgnore
 public String getProp1() {
   try {
     return (String) additionalProperties.get("prop1");
@@ -96,6 +104,6 @@ private Object getProp1AsObject() {
 @AssertTrue(message = "Value is not an instance of String")
 private boolean isProp1CorrectType() {
   Object value = additionalProperties.get("prop1");
-  return value == null || String.isInstance(value);
+  return value == null || value instanceof String;
 }
 ]
