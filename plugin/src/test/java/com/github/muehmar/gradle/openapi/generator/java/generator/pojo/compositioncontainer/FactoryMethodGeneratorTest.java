@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.co
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.FactoryMethodGenerator.oneOfFromFactoryMethods;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -19,7 +20,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -42,8 +42,7 @@ class FactoryMethodGeneratorTest {
                 sampleObjectPojo2()));
     final OneOfContainer oneOfContainer =
         new OneOfContainer(JavaPojoName.fromNameAndSuffix("Object", "Dto"), javaOneOfComposition);
-    final Writer writer =
-        generator.generate(oneOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(oneOfContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -61,8 +60,7 @@ class FactoryMethodGeneratorTest {
                 sampleObjectPojo2()));
     final AnyOfContainer anyOfContainer =
         new AnyOfContainer(JavaPojoName.fromNameAndSuffix("Object", "Dto"), anyOfComposition);
-    final Writer writer =
-        generator.generate(anyOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(anyOfContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

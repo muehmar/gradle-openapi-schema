@@ -1,4 +1,29 @@
-allNecessityAndNullabilityVariants=[
+allNecessityAndNullabilityVariants[FULL]=[
+java.util.Map
+
+public static final class FullOptPropertyBuilder2 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+    return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public NecessityAndNullabilityDto build(){
+    return builder.build();
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariants[STANDARD]=[
 java.util.Map
 
 public static final class OptPropertyBuilder2 {
@@ -23,7 +48,24 @@ public static final class OptPropertyBuilder2 {
 ]
 
 
-noAdditionalPropertiesAllowed=[
+noAdditionalPropertiesAllowed[FULL]=[
+.
+.
+public static final class FullOptPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public ObjectPojo1Dto build(){
+    return builder.build();
+  }
+}
+]
+
+
+noAdditionalPropertiesAllowed[STANDARD]=[
 .
 .
 public static final class OptPropertyBuilder0 {

@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,7 +13,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -23,8 +23,7 @@ class JacksonAnnotationGeneratorTest {
   void jsonIgnore_when_enabledJackson_then_correctOutputAndRefs() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIgnore();
 
-    final Writer writer =
-        generator.generate(noData(), TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
@@ -37,9 +36,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            noData(),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            noData(), defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
     assertEquals("", writer.asString());
@@ -52,8 +49,7 @@ class JacksonAnnotationGeneratorTest {
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
-    final Writer writer =
-        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_PROPERTY::equals));
@@ -69,9 +65,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            pojoMember,
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            pojoMember, defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
     assertEquals("", writer.asString());
@@ -81,8 +75,7 @@ class JacksonAnnotationGeneratorTest {
   void jsonIncludeNonNull_when_enabledJackson_then_correctOutputAndRefs() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIncludeNonNull();
 
-    final Writer writer =
-        generator.generate(noData(), TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_INCLUDE::equals));
@@ -95,9 +88,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            noData(),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            noData(), defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
     assertEquals("", writer.asString());
@@ -107,8 +98,7 @@ class JacksonAnnotationGeneratorTest {
   void jsonValue_when_enabledJackson_then_correctOutputAndRefs() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonValue();
 
-    final Writer writer =
-        generator.generate(noData(), TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_VALUE::equals));
@@ -121,9 +111,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            noData(),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            noData(), defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
     assertEquals("", writer.asString());
@@ -133,8 +121,7 @@ class JacksonAnnotationGeneratorTest {
   void jsonCreator_when_enabledJackson_then_correctOutputAndRefs() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonCreator();
 
-    final Writer writer =
-        generator.generate(noData(), TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_CREATOR::equals));
@@ -147,9 +134,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            noData(),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            noData(), defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     assertTrue(writer.getRefs().isEmpty());
     assertEquals("", writer.asString());
@@ -160,8 +145,7 @@ class JacksonAnnotationGeneratorTest {
     final Generator<Object, PojoSettings> generator =
         JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set");
 
-    final Writer writer =
-        generator.generate(noData(), TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
     assertTrue(writer.getRefs().exists(JacksonRefs.JSON_POJO_BUILDER::equals));
@@ -175,9 +159,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            noData(),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            noData(), defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     assertEquals(0, writer.getRefs().size());
     assertEquals("", writer.asString());

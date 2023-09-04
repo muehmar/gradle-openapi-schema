@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,7 +10,6 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -23,8 +23,7 @@ class NumericParameterGeneratorTest {
         new Parameter(Name.ofString("limitParam"), NumericType.formatDouble(), Optional.of(15.12));
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
     assertEquals(
         "package com.github.muehmar.parameter;\n"
             + "\n"
@@ -56,8 +55,7 @@ class NumericParameterGeneratorTest {
             Optional.of(15.12));
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
@@ -95,8 +93,7 @@ class NumericParameterGeneratorTest {
 
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
@@ -131,8 +128,7 @@ class NumericParameterGeneratorTest {
             Optional.of(15.12));
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"

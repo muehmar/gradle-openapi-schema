@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,7 +25,6 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -47,8 +47,7 @@ class AdditionalPropertiesGetterTest {
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 
     final Writer writer =
-        generator.generate(
-            pojo, TestPojoSettings.defaultSettings().withEnableValidation(true), javaWriter());
+        generator.generate(pojo, defaultTestSettings().withEnableValidation(true), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -68,8 +67,7 @@ class AdditionalPropertiesGetterTest {
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 
     final Writer writer =
-        generator.generate(
-            pojo, TestPojoSettings.defaultSettings().withEnableValidation(true), javaWriter());
+        generator.generate(pojo, defaultTestSettings().withEnableValidation(true), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -85,8 +83,7 @@ class AdditionalPropertiesGetterTest {
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 
     final Writer writer =
-        generator.generate(
-            pojo, TestPojoSettings.defaultSettings().withEnableValidation(true), javaWriter());
+        generator.generate(pojo, defaultTestSettings().withEnableValidation(true), javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
 
@@ -101,8 +98,7 @@ class AdditionalPropertiesGetterTest {
     final JavaAdditionalProperties additionalProperties = JavaAdditionalProperties.notAllowed();
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -114,8 +110,7 @@ class AdditionalPropertiesGetterTest {
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty());
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));

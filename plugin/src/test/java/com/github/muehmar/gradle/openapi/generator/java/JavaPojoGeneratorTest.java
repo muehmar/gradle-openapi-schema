@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
@@ -8,7 +10,6 @@ import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.IntellijDiffSnapshotTestExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +25,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final NonEmptyList<GeneratedFile> generatedFiles =
-        pojoGenerator.generatePojo(JavaPojos.arrayPojo(), TestPojoSettings.defaultSettings());
+        pojoGenerator.generatePojo(JavaPojos.arrayPojo(), defaultTestSettings());
 
     assertEquals(1, generatedFiles.size());
 
@@ -37,8 +38,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final NonEmptyList<GeneratedFile> generatedFiles =
-        pojoGenerator.generatePojo(
-            JavaPojos.sampleObjectPojo1(), TestPojoSettings.defaultSettings());
+        pojoGenerator.generatePojo(sampleObjectPojo1(), defaultTestSettings());
 
     assertEquals(1, generatedFiles.size());
 
@@ -51,7 +51,7 @@ class JavaPojoGeneratorTest {
     final JavaPojoGenerator pojoGenerator = new JavaPojoGenerator();
 
     final NonEmptyList<GeneratedFile> generatedFiles =
-        pojoGenerator.generatePojo(JavaPojos.enumPojo(), TestPojoSettings.defaultSettings());
+        pojoGenerator.generatePojo(JavaPojos.enumPojo(), defaultTestSettings());
 
     assertEquals(1, generatedFiles.size());
 

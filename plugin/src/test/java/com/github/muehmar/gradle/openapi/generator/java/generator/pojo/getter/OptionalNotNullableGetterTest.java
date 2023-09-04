@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -35,8 +36,7 @@ class OptionalNotNullableGetterTest {
         OptionalNotNullableGetter.optionalNotNullableGetterGenerator(STANDARD);
     final JavaPojoMember pojoMember = JavaPojoMembers.birthdate(OPTIONAL, NOT_NULLABLE);
 
-    final Writer writer =
-        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -53,9 +53,7 @@ class OptionalNotNullableGetterTest {
 
     final Writer writer =
         generator.generate(
-            pojoMember,
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
-            javaWriter());
+            pojoMember, defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -69,9 +67,7 @@ class OptionalNotNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings()
-                .withJsonSupport(JsonSupport.NONE)
-                .withEnableValidation(false),
+            defaultTestSettings().withJsonSupport(JsonSupport.NONE).withEnableValidation(false),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -94,7 +90,7 @@ class OptionalNotNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withJsonSupport(JsonSupport.NONE)
                 .withEnableValidation(false)
                 .withGetterSuffixes(getterSuffixes),
@@ -117,7 +113,7 @@ class OptionalNotNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withJsonSupport(JsonSupport.JACKSON)
                 .withValidationMethods(validationMethods),
             javaWriter());

@@ -8,6 +8,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -22,24 +23,30 @@ public class AnyOfBuilderGenerator {
 
   private AnyOfBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> anyOfBuilderGenerator() {
+  public static Generator<JavaObjectPojo, PojoSettings> anyOfBuilderGenerator(
+      SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(anyOfBuilder(), AnyOfBuilderClass::fromPojo, newLine());
+        .appendList(
+            anyOfBuilder(builderVariant),
+            pojo -> AnyOfBuilderClass.fromPojo(builderVariant, pojo),
+            newLine());
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfBuilder() {
+  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfBuilder(
+      SafeBuilderVariant builderVariant) {
     return SingleBuilderClassGenerator.singleBuilderClassGenerator(
-        AnyOfBuilderClass::builderClassName, dtoSetters());
+        AnyOfBuilderClass::builderClassName, dtoSetters(builderVariant));
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> dtoSetters() {
+  private static Generator<AnyOfBuilderClass, PojoSettings> dtoSetters(
+      SafeBuilderVariant builderVariant) {
     return Generator.<AnyOfBuilderClass, PojoSettings>emptyGen()
         .appendList(singleAnyOfDtoSetter(), AnyOfBuilderClass::getNameAndPojos, newLine())
         .filter(AnyOfBuilderClass::isNotLastBuilder)
         .appendSingleBlankLine()
-        .append(firstPropertySetters())
+        .append(firstPropertySetters(builderVariant))
         .appendSingleBlankLine()
-        .append(anyOfContainerSetter());
+        .append(anyOfContainerSetter(builderVariant));
   }
 
   private static Generator<AnyOfPojoAndBuilderName, PojoSettings> singleAnyOfDtoSetter() {
@@ -63,32 +70,35 @@ public class AnyOfBuilderGenerator {
         .build();
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> firstPropertySetters() {
+  private static Generator<AnyOfBuilderClass, PojoSettings> firstPropertySetters(
+      SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
-            builderMethodsOfFirstRequiredMemberGenerator()
+            builderMethodsOfFirstRequiredMemberGenerator(builderVariant)
                 .filter(JavaObjectPojo::hasRequiredMembers))
         .append(builderMethods().filter(JavaObjectPojo::hasNotRequiredMembers))
         .contraMap(AnyOfBuilderClass::getPojo)
         .filter(AnyOfBuilderClass::isNotFirstBuilder);
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfContainerSetter() {
+  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfContainerSetter(
+      SafeBuilderVariant builderVariant) {
     return MethodGenBuilder.<AnyOfBuilderClass, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(AnyOfBuilderName.last().currentName())
+        .returnType(AnyOfBuilderName.last(builderVariant).currentName())
         .methodName(
             (pojo, settings) ->
                 CONTAINER_NAME.prefixedMethodeName(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(
             pojo -> String.format("%s container", pojo.container.getContainerName().asString()))
-        .content(anyOfContainerSetterContent())
+        .content(anyOfContainerSetterContent(builderVariant))
         .build()
         .filter(AnyOfBuilderClass::isFirstBuilder);
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfContainerSetterContent() {
+  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfContainerSetterContent(
+      SafeBuilderVariant builderVariant) {
     return Generator.<AnyOfBuilderClass, PojoSettings>emptyGen()
         .appendList(
             singleContainerPropertySetter(),
@@ -96,7 +106,9 @@ public class AnyOfBuilderGenerator {
             newLine())
         .append(
             (p, s, w) ->
-                w.println("return new %s(builder);", AnyOfBuilderName.last().currentName()));
+                w.println(
+                    "return new %s(builder);",
+                    AnyOfBuilderName.last(builderVariant).currentName()));
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> singleContainerPropertySetter() {
@@ -120,15 +132,16 @@ public class AnyOfBuilderGenerator {
     AnyOfContainer container;
     JavaObjectPojo pojo;
 
-    private static PList<AnyOfBuilderClass> fromPojo(JavaObjectPojo parentPojo) {
+    private static PList<AnyOfBuilderClass> fromPojo(
+        SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
       return parentPojo
           .getAnyOfContainer()
           .map(
               container ->
                   PList.of(
-                          AnyOfBuilderName.first(),
-                          AnyOfBuilderName.remaining(),
-                          AnyOfBuilderName.last())
+                          AnyOfBuilderName.first(builderVariant),
+                          AnyOfBuilderName.remaining(builderVariant),
+                          AnyOfBuilderName.last(builderVariant))
                       .map(
                           builderName -> new AnyOfBuilderClass(builderName, container, parentPojo)))
           .orElseGet(PList::empty);
@@ -146,22 +159,12 @@ public class AnyOfBuilderGenerator {
       return anyOfBuilderName.currentName();
     }
 
-    public JavaObjectPojo getPojo() {
-      return pojo;
-    }
-
     public boolean isFirstBuilder() {
       return anyOfBuilderName.getBuilderType().equals(AnyOfBuilderName.BuilderType.FIRST_BUILDER);
     }
 
     public boolean isNotFirstBuilder() {
       return not(isFirstBuilder());
-    }
-
-    public boolean isRemainingBuilder() {
-      return anyOfBuilderName
-          .getBuilderType()
-          .equals(AnyOfBuilderName.BuilderType.REMAINING_BUILDER);
     }
 
     public boolean isLastBuilder() {

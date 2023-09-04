@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,7 +12,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredBirthdate(), TestPojoSettings.defaultSettings(), javaWriter());
+            JavaPojoMembers.requiredBirthdate(), defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -41,7 +41,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.requiredBirthdate().asAllOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     assertEquals("", writer.asString());
@@ -55,7 +55,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.requiredBirthdate().asAnyOfMember(),
-            TestPojoSettings.defaultSettings().withJsonSupport(JsonSupport.NONE),
+            defaultTestSettings().withJsonSupport(JsonSupport.NONE),
             javaWriter());
 
     assertEquals("", writer.asString());
@@ -70,7 +70,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.requiredBirthdate().asOneOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -85,7 +85,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.requiredBirthdate().asAnyOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -100,7 +100,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.requiredNullableBirthdate().asOneOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -115,7 +115,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.requiredNullableBirthdate().asAnyOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -130,7 +130,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.optionalBirthdate().asOneOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -145,7 +145,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.optionalBirthdate().asOneOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -160,7 +160,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.optionalNullableBirthdate().asOneOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -175,7 +175,7 @@ class ComposedPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             JavaPojoMembers.optionalNullableBirthdate().asOneOfMember(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));

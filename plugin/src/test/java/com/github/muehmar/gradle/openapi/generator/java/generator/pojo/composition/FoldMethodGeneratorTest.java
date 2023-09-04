@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -16,7 +17,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ class FoldMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -54,9 +54,7 @@ class FoldMethodGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.oneOfPojo(javaOneOfComposition),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            JavaPojos.oneOfPojo(javaOneOfComposition), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -82,9 +80,7 @@ class FoldMethodGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.oneOfPojo(javaOneOfComposition),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            JavaPojos.oneOfPojo(javaOneOfComposition), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -98,7 +94,7 @@ class FoldMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));

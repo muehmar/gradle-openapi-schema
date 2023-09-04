@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,7 +12,6 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.EqualsContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class EqualsGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getEqualsContent(),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -42,9 +42,7 @@ class EqualsGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.arrayPojo().getEqualsContent(),
-            TestPojoSettings.defaultSettings(),
-            javaWriter());
+            JavaPojos.arrayPojo().getEqualsContent(), defaultTestSettings(), javaWriter());
 
     assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
 

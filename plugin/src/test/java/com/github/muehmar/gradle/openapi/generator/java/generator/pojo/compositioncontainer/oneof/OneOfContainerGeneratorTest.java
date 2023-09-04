@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -13,7 +14,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -34,8 +34,7 @@ class OneOfContainerGeneratorTest {
     final OneOfContainer oneOfContainer =
         new OneOfContainer(JavaPojoNames.invoiceName(), oneOfComposition);
 
-    final Writer writer =
-        generator.generate(oneOfContainer, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(oneOfContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

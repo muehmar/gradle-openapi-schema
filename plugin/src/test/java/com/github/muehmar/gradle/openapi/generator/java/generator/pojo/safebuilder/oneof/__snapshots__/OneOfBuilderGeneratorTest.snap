@@ -1,10 +1,42 @@
-oneOfPojo=[
+oneOfPojo[FULL]=[
 .
 .
-public static final class OneOfBuilder0 {
+public static final class FullOneOfBuilder {
   private final Builder builder;
 
-  private OneOfBuilder0(Builder builder) {
+  private FullOneOfBuilder(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullOptPropertyBuilder0 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new FullOptPropertyBuilder0(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public FullOptPropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new FullOptPropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  public FullOptPropertyBuilder0 setOneOfContainer(OneOfPojo1OneOfContainerDto container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+    return new FullOptPropertyBuilder0(builder);
+  }
+}
+]
+
+
+oneOfPojo[STANDARD]=[
+.
+.
+public static final class OneOfBuilder {
+  private final Builder builder;
+
+  private OneOfBuilder(Builder builder) {
     this.builder = builder;
   }
 

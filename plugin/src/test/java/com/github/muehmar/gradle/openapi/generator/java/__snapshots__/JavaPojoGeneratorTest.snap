@@ -333,6 +333,82 @@ public class SampleObjectPojo1Dto {
     }
   }
 
+  public static FullPropertyBuilder0 fullBuilder() {
+    return new FullPropertyBuilder0(new Builder());
+  }
+
+  public static FullPropertyBuilder0 fullSampleObjectPojo1DtoBuilder() {
+    return new FullPropertyBuilder0(new Builder());
+  }
+
+  public static final class FullPropertyBuilder0 {
+    private final Builder builder;
+
+    private FullPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * stringVal
+     */
+    public FullPropertyBuilder1 setStringVal(String stringVal) {
+      return new FullPropertyBuilder1(builder.setStringVal(stringVal));
+    }
+
+  }
+
+  public static final class FullPropertyBuilder1 {
+    private final Builder builder;
+
+    private FullPropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * intVal
+     */
+    public FullPropertyBuilder2 setIntVal(Integer intVal) {
+      return new FullPropertyBuilder2(builder.setIntVal(intVal));
+    }
+
+  }
+
+  public static final class FullPropertyBuilder2 {
+    private final Builder builder;
+
+    private FullPropertyBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * doubleVal
+     */
+    public FullOptPropertyBuilder0 setDoubleVal(Double doubleVal) {
+      return new FullOptPropertyBuilder0(builder.setDoubleVal(doubleVal));
+    }
+
+  }
+
+  public static final class FullOptPropertyBuilder0 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public SampleObjectPojo1Dto build(){
+      return builder.build();
+    }
+  }
+
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }

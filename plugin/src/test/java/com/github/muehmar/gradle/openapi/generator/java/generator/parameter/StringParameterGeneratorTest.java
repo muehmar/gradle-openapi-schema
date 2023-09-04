@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,7 +13,6 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -32,8 +32,7 @@ class StringParameterGeneratorTest {
         new Parameter(Name.ofString("stringParam"), StringType.noFormat(), Optional.of("mode"));
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
@@ -66,8 +65,7 @@ class StringParameterGeneratorTest {
             Optional.empty());
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
@@ -100,8 +98,7 @@ class StringParameterGeneratorTest {
             Optional.empty());
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
@@ -134,8 +131,7 @@ class StringParameterGeneratorTest {
             Optional.of("mode"));
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
@@ -171,8 +167,7 @@ class StringParameterGeneratorTest {
             Optional.empty());
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
@@ -206,8 +201,7 @@ class StringParameterGeneratorTest {
         new Parameter(Name.ofString("stringParam"), StringType.ofFormat(format), Optional.empty());
     final JavaParameter limitParam = JavaParameter.wrap(param);
 
-    final Writer writer =
-        gen.generate(limitParam, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = gen.generate(limitParam, defaultTestSettings(), javaWriter());
 
     expect.scenario(format.getValue()).toMatchSnapshot(writer.asString());
   }

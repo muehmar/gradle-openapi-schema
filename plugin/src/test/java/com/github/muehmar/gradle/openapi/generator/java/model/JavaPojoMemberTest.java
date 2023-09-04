@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -8,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,8 +46,7 @@ class JavaPojoMemberTest {
     assertEquals(
         getterName,
         javaPojoMember
-            .getGetterNameWithSuffix(
-                TestPojoSettings.defaultSettings().withGetterSuffixes(GETTER_SUFFIXES))
+            .getGetterNameWithSuffix(defaultTestSettings().withGetterSuffixes(GETTER_SUFFIXES))
             .asString());
   }
 
@@ -70,8 +69,7 @@ class JavaPojoMemberTest {
   @Test
   void getValidationGetterName_when_calledWithDefaultSettings_then_correctMethodName() {
     JavaPojoMember member = JavaPojoMembers.requiredString();
-    JavaIdentifier validationGetterName =
-        member.getValidationGetterName(TestPojoSettings.defaultSettings());
+    JavaIdentifier validationGetterName = member.getValidationGetterName(defaultTestSettings());
     assertEquals("getStringValRaw", validationGetterName.asString());
   }
 

@@ -7,6 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SetterBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator;
@@ -21,9 +22,13 @@ import lombok.Value;
 public class AllOfBuilderGenerator {
   private AllOfBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> allOfBuilderGenerator() {
+  public static Generator<JavaObjectPojo, PojoSettings> allOfBuilderGenerator(
+      SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(allOfMemberGenerator(), AllOfMember::fromObjectPojo, newLine());
+        .appendList(
+            allOfMemberGenerator(),
+            pojo -> AllOfMember.fromObjectPojo(builderVariant, pojo),
+            newLine());
   }
 
   private static Generator<AllOfMember, PojoSettings> allOfMemberGenerator() {
@@ -92,31 +97,41 @@ public class AllOfBuilderGenerator {
     JavaPojoMember member;
     int idx;
 
-    private static PList<AllOfMember> fromObjectPojo(JavaObjectPojo pojo) {
+    private static PList<AllOfMember> fromObjectPojo(
+        SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
       return pojo.getAllOfComposition()
-          .map(allOfComposition -> fromParentPojoAndAllOfComposition(pojo, allOfComposition))
+          .map(
+              allOfComposition ->
+                  fromParentPojoAndAllOfComposition(builderVariant, pojo, allOfComposition))
           .orElse(PList.empty());
     }
 
     private static PList<AllOfMember> fromParentPojoAndAllOfComposition(
-        JavaObjectPojo pojo, JavaAllOfComposition allOfComposition) {
+        SafeBuilderVariant builderVariant,
+        JavaObjectPojo pojo,
+        JavaAllOfComposition allOfComposition) {
       return allOfComposition
           .getPojos()
           .toPList()
           .flatMap(
               allOfPojo ->
-                  fromParentPojoAndAllOfCompositionAndAllOfPojo(pojo, allOfComposition, allOfPojo));
+                  fromParentPojoAndAllOfCompositionAndAllOfPojo(
+                      builderVariant, pojo, allOfComposition, allOfPojo));
     }
 
     private static PList<AllOfMember> fromParentPojoAndAllOfCompositionAndAllOfPojo(
-        JavaObjectPojo pojo, JavaAllOfComposition allOfComposition, JavaObjectPojo allOfPojo) {
+        SafeBuilderVariant builderVariant,
+        JavaObjectPojo pojo,
+        JavaAllOfComposition allOfComposition,
+        JavaObjectPojo allOfPojo) {
       return allOfPojo
           .getAllMembers()
           .zipWithIndex()
           .map(
               p ->
                   new AllOfMember(
-                      AllOfBuilderName.of(pojo, allOfComposition, allOfPojo, p.second()),
+                      AllOfBuilderName.of(
+                          builderVariant, pojo, allOfComposition, allOfPojo, p.second()),
                       allOfPojo,
                       p.first().asInnerEnumOf(allOfPojo.getClassName()),
                       p.second()));

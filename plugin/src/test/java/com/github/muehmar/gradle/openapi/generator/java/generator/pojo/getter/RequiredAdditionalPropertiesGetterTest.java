@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter.requiredAdditionalPropertiesGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -43,8 +44,7 @@ class RequiredAdditionalPropertiesGetterTest {
                     JavaObjectType.wrap(
                         ObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto")))))));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -67,7 +67,7 @@ class RequiredAdditionalPropertiesGetterTest {
     final Writer writer =
         generator.generate(
             pojo,
-            TestPojoSettings.defaultSettings()
+            defaultTestSettings()
                 .withValidationMethods(
                     ValidationMethodsBuilder.create()
                         .modifier(JavaModifier.PACKAGE_PRIVATE)
@@ -92,8 +92,7 @@ class RequiredAdditionalPropertiesGetterTest {
                     Name.ofString("prop1"),
                     JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -109,8 +108,7 @@ class RequiredAdditionalPropertiesGetterTest {
             PList.single(
                 new JavaRequiredAdditionalProperty(Name.ofString("prop1"), javaAnyType())));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

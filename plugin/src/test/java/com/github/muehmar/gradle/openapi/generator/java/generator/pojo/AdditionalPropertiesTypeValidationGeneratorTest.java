@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withAdditionalProperties;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,7 +16,6 @@ import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
     final Writer writer =
         generator.generate(
             withAdditionalProperties(sampleObjectPojo1(), JavaAdditionalProperties.notAllowed()),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     assertEquals("", writer.asString());
@@ -46,7 +46,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
         generator.generate(
             withAdditionalProperties(
                 sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(javaAnyType())),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     assertEquals("", writer.asString());
@@ -62,7 +62,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
         generator.generate(
             withAdditionalProperties(
                 sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(stringType())),
-            TestPojoSettings.defaultSettings(),
+            defaultTestSettings(),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -77,7 +77,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
         generator.generate(
             withAdditionalProperties(
                 sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(stringType())),
-            TestPojoSettings.defaultSettings().withEnableValidation(false),
+            defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
     assertEquals("", writer.asString());

@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof;
 
 import ch.bluecare.commons.data.Pair;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.oneof.OneOfBuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
@@ -12,23 +13,26 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class AllOfBuilderName implements BuilderName {
+  private final SafeBuilderVariant builderVariant;
   private final JavaObjectPojo parentPojo;
   private final JavaAllOfComposition allOfComposition;
   private final JavaObjectPojo allOfPojo;
-  private final int idx;
+  private final int memberIndex;
 
   private AllOfBuilderName(
+      SafeBuilderVariant builderVariant,
       JavaObjectPojo parentPojo,
       JavaAllOfComposition allOfComposition,
       JavaObjectPojo allOfPojo,
-      int idx) {
+      int memberIndex) {
+    this.builderVariant = builderVariant;
     this.parentPojo = parentPojo;
     this.allOfComposition = allOfComposition;
     this.allOfPojo = allOfPojo;
-    this.idx = idx;
+    this.memberIndex = memberIndex;
   }
 
-  public static BuilderName initial(JavaObjectPojo parentPojo) {
+  public static BuilderName initial(SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
     return parentPojo
         .getAllOfComposition()
         .<BuilderName>flatMap(
@@ -37,32 +41,39 @@ public class AllOfBuilderName implements BuilderName {
               return allOfPojo
                   .getAllMembers()
                   .headOption()
-                  .map(member -> new AllOfBuilderName(parentPojo, allOfComposition, allOfPojo, 0));
+                  .map(
+                      member ->
+                          new AllOfBuilderName(
+                              builderVariant, parentPojo, allOfComposition, allOfPojo, 0));
             })
-        .orElse(OneOfBuilderName.initial(parentPojo));
+        .orElse(OneOfBuilderName.initial(builderVariant, parentPojo));
   }
 
   public static AllOfBuilderName of(
+      SafeBuilderVariant builderVariant,
       JavaObjectPojo parentPojo,
       JavaAllOfComposition allOfComposition,
       JavaObjectPojo allOfPojo,
       int idx) {
-    return new AllOfBuilderName(parentPojo, allOfComposition, allOfPojo, idx);
+    return new AllOfBuilderName(builderVariant, parentPojo, allOfComposition, allOfPojo, idx);
   }
 
   @Override
   public String currentName() {
-    return String.format("AllOfBuilder%s%d", allOfPojo.getSchemaName(), idx);
+    return String.format(
+        "%sAllOfBuilder%s%d",
+        builderVariant.getBuilderNamePrefix(), allOfPojo.getSchemaName(), memberIndex);
   }
 
-  public BuilderName incrementIndex() {
-    return new AllOfBuilderName(parentPojo, allOfComposition, allOfPojo, idx + 1);
+  private BuilderName incrementMemberIndex() {
+    return new AllOfBuilderName(
+        builderVariant, parentPojo, allOfComposition, allOfPojo, memberIndex + 1);
   }
 
   public BuilderName getNextBuilderName() {
-    return idx + 1 >= allOfPojo.getAllMembers().size()
+    return memberIndex + 1 >= allOfPojo.getAllMembers().size()
         ? getNextPojoBuilderName()
-        : incrementIndex();
+        : incrementMemberIndex();
   }
 
   public BuilderName getNextPojoBuilderName() {
@@ -88,7 +99,8 @@ public class AllOfBuilderName implements BuilderName {
             .headOption()
             .map(
                 nextAllOfPojo ->
-                    new AllOfBuilderName(parentPojo, allOfComposition, nextAllOfPojo, 0));
-    return nextAllOfBuilderName.orElse(OneOfBuilderName.initial(parentPojo));
+                    new AllOfBuilderName(
+                        builderVariant, parentPojo, allOfComposition, nextAllOfPojo, 0));
+    return nextAllOfBuilderName.orElse(OneOfBuilderName.initial(builderVariant, parentPojo));
   }
 }

@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static com.github.muehmar.gradle.openapi.SnapshotUtil.writerSnapshot;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -19,7 +20,6 @@ import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -37,8 +37,7 @@ class RequiredNotNullableGetterTest {
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
-    final Writer writer =
-        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -51,8 +50,7 @@ class RequiredNotNullableGetterTest {
     final JavaPojoMember pojoMember =
         JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
-    final Writer writer =
-        generator.generate(pojoMember, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -67,9 +65,7 @@ class RequiredNotNullableGetterTest {
 
     final Writer writer =
         generator.generate(
-            pojoMember,
-            TestPojoSettings.defaultSettings().withEnableValidation(false),
-            javaWriter());
+            pojoMember, defaultTestSettings().withEnableValidation(false), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -93,9 +89,7 @@ class RequiredNotNullableGetterTest {
     final Writer writer =
         generator.generate(
             pojoMember,
-            TestPojoSettings.defaultSettings()
-                .withEnableValidation(false)
-                .withGetterSuffixes(getterSuffixes),
+            defaultTestSettings().withEnableValidation(false).withGetterSuffixes(getterSuffixes),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -116,8 +110,7 @@ class RequiredNotNullableGetterTest {
             itemType, Constraints.empty(), Necessity.REQUIRED, Nullability.NOT_NULLABLE);
 
     final Writer writer =
-        generator.generate(
-            member, TestPojoSettings.defaultSettings().withEnableValidation(true), javaWriter());
+        generator.generate(member, defaultTestSettings().withEnableValidation(true), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

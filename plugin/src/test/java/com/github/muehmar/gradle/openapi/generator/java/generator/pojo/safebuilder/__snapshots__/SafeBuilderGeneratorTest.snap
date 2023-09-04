@@ -1,4 +1,122 @@
-enabledSafeBuilder=[
+enabledSafeBuilder[FULL]=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Map
+java.util.Optional
+
+public static FullPropertyBuilder0 fullBuilder() {
+  return new FullPropertyBuilder0(new Builder());
+}
+
+public static FullPropertyBuilder0 fullNecessityAndNullabilityDtoBuilder() {
+  return new FullPropertyBuilder0(new Builder());
+}
+
+public static final class FullPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public FullPropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+    return new FullPropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+}
+
+public static final class FullPropertyBuilder1 {
+  private final Builder builder;
+
+  private FullPropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+}
+
+public static final class FullOptPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public FullOptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
+    return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public FullOptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
+    return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+}
+
+public static final class FullOptPropertyBuilder1 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public FullOptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
+    return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+}
+
+public static final class FullOptPropertyBuilder2 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+    return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public NecessityAndNullabilityDto build(){
+    return builder.build();
+  }
+}
+]
+
+
+enabledSafeBuilder[STANDARD]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.Optional

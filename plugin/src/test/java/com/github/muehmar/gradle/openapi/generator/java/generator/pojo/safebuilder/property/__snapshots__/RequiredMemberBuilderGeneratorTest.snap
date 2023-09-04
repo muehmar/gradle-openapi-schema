@@ -1,47 +1,63 @@
-allNecessityAndNullabilityVariants=[
+allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties[FULL]=[
 java.util.Optional
 
-public static final class PropertyBuilder0 {
+public static final class FullPropertyBuilder0 {
   private final Builder builder;
 
-  private PropertyBuilder0(Builder builder) {
+  private FullPropertyBuilder0(Builder builder) {
     this.builder = builder;
   }
 
   /**
    * RequiredStringVal
    */
-  public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-    return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+  public FullPropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+    return new FullPropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
   }
 
 }
 
-public static final class PropertyBuilder1 {
+public static final class FullPropertyBuilder1 {
   private final Builder builder;
 
-  private PropertyBuilder1(Builder builder) {
+  private FullPropertyBuilder1(Builder builder) {
     this.builder = builder;
   }
 
   /**
    * RequiredNullableStringVal
    */
-  public PropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  public FullPropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
 
   /**
    * RequiredNullableStringVal
    */
-  public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
+}
+
+public static final class FullPropertyBuilder2 {
+  private final Builder builder;
+
+  private FullPropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Additional Property 'prop1'
+   */
+  public FullOptPropertyBuilder0 setProp1(Object prop1) {
+    return new FullOptPropertyBuilder0(builder.setProp1(prop1));
+  }
+
 }
 ]
 
 
-allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties=[
+allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties[STANDARD]=[
 java.util.Optional
 
 public static final class PropertyBuilder0 {
@@ -100,7 +116,113 @@ public static final class PropertyBuilder2 {
 ]
 
 
-builderMethodsOfFirstRequiredMemberGeneratorWithRequiredProperty=[
+allNecessityAndNullabilityVariants[FULL]=[
+java.util.Optional
+
+public static final class FullPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public FullPropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+    return new FullPropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+}
+
+public static final class FullPropertyBuilder1 {
+  private final Builder builder;
+
+  private FullPropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariants[STANDARD]=[
+java.util.Optional
+
+public static final class PropertyBuilder0 {
+  private final Builder builder;
+
+  private PropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+    return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+}
+
+public static final class PropertyBuilder1 {
+  private final Builder builder;
+
+  private PropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+}
+]
+
+
+builderMethodsOfFirstRequiredMemberGeneratorWithRequiredProperty[FULL]=[
+java.time.LocalDate
+java.util.Optional
+
+/**
+ * Birthdate
+ */
+public FullOptPropertyBuilder0 setBirthdate(LocalDate birthdate) {
+  return new FullOptPropertyBuilder0(builder.setBirthdate(birthdate));
+}
+
+/**
+ * Birthdate
+ */
+public FullOptPropertyBuilder0 setBirthdate(Optional<LocalDate> birthdate) {
+  return new FullOptPropertyBuilder0(builder.setBirthdate(birthdate));
+}
+]
+
+
+builderMethodsOfFirstRequiredMemberGeneratorWithRequiredProperty[STANDARD]=[
 java.time.LocalDate
 java.util.Optional
 

@@ -1,4 +1,55 @@
-allNecessityAndNullabilityVariants=[
+allNecessityAndNullabilityVariants[FULL]=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+
+public static final class FullOptPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public FullOptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
+    return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public FullOptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
+    return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+}
+
+public static final class FullOptPropertyBuilder1 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public FullOptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
+    return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+    return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariants[STANDARD]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.Optional
 

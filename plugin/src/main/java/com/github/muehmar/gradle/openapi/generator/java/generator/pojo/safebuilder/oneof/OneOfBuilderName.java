@@ -1,28 +1,20 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.oneof;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof.AnyOfBuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 
 public class OneOfBuilderName implements BuilderName {
+  private final SafeBuilderVariant builderVariant;
   private final JavaObjectPojo parentPojo;
-  private final JavaOneOfComposition oneOfComposition;
-  private final JavaObjectPojo oneOfPojo;
-  private final int idx;
 
-  private OneOfBuilderName(
-      JavaObjectPojo parentPojo,
-      JavaOneOfComposition oneOfComposition,
-      JavaObjectPojo oneOfPojo,
-      int idx) {
+  private OneOfBuilderName(SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
+    this.builderVariant = builderVariant;
     this.parentPojo = parentPojo;
-    this.oneOfComposition = oneOfComposition;
-    this.oneOfPojo = oneOfPojo;
-    this.idx = idx;
   }
 
-  public static BuilderName initial(JavaObjectPojo parentPojo) {
+  public static BuilderName initial(SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
     return parentPojo
         .getOneOfComposition()
         .<BuilderName>flatMap(
@@ -32,34 +24,20 @@ public class OneOfBuilderName implements BuilderName {
                     .head()
                     .getAllMembers()
                     .headOption()
-                    .map(
-                        member ->
-                            new OneOfBuilderName(
-                                parentPojo,
-                                oneOfComposition,
-                                oneOfComposition.getPojos().head(),
-                                0)))
-        .orElse(AnyOfBuilderName.initial(parentPojo));
+                    .map(member -> new OneOfBuilderName(builderVariant, parentPojo)))
+        .orElse(AnyOfBuilderName.initial(builderVariant, parentPojo));
   }
 
-  public static OneOfBuilderName of(
-      JavaObjectPojo parentPojo,
-      JavaOneOfComposition oneOfComposition,
-      JavaObjectPojo allOfPojo,
-      int idx) {
-    return new OneOfBuilderName(parentPojo, oneOfComposition, allOfPojo, idx);
+  public static OneOfBuilderName of(SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
+    return new OneOfBuilderName(builderVariant, parentPojo);
   }
 
   @Override
   public String currentName() {
-    if (idx == 0) {
-      return String.format("OneOfBuilder%d", idx);
-    } else {
-      return String.format("OneOfBuilder%s%d", oneOfPojo.getSchemaName(), idx);
-    }
+    return String.format("%sOneOfBuilder", builderVariant.getBuilderNamePrefix());
   }
 
   public BuilderName getNextPojoBuilderName() {
-    return AnyOfBuilderName.initial(parentPojo);
+    return AnyOfBuilderName.initial(builderVariant, parentPojo);
   }
 }

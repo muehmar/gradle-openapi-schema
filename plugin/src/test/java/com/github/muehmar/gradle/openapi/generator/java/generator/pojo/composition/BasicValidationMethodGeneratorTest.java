@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.BasicValidationMethodGenerator.basicValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
@@ -21,7 +22,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -41,8 +41,7 @@ class BasicValidationMethodGeneratorTest {
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             PList.of(JavaPojoMembers.requiredColorEnum()));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -59,8 +58,7 @@ class BasicValidationMethodGeneratorTest {
 
     final JavaObjectPojo pojo = JavaPojos.oneOfPojo(javaOneOfComposition);
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -75,8 +73,7 @@ class BasicValidationMethodGeneratorTest {
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             PList.of(JavaPojoMembers.requiredColorEnum()));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -88,8 +85,7 @@ class BasicValidationMethodGeneratorTest {
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo();
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -103,8 +99,7 @@ class BasicValidationMethodGeneratorTest {
         JavaPojos.allNecessityAndNullabilityVariants(
             Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(5)));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -118,8 +113,7 @@ class BasicValidationMethodGeneratorTest {
         JavaPojos.allNecessityAndNullabilityVariants(
             Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(8)));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }
@@ -133,8 +127,7 @@ class BasicValidationMethodGeneratorTest {
         JavaPojos.withAdditionalProperties(
             sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(JavaTypes.stringType()));
 
-    final Writer writer =
-        generator.generate(pojo, TestPojoSettings.defaultSettings(), javaWriter());
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

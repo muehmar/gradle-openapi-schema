@@ -6,6 +6,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
@@ -20,9 +21,10 @@ public class OneOfBuilderGenerator {
 
   private OneOfBuilderGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> oneOfBuilderGenerator() {
+  public static Generator<JavaObjectPojo, PojoSettings> oneOfBuilderGenerator(
+      SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(oneOfBuilder(), OneOfPojo::fromObjectPojo);
+        .appendOptional(oneOfBuilder(), pojo -> OneOfPojo.fromObjectPojo(builderVariant, pojo));
   }
 
   private static Generator<NonEmptyList<OneOfPojo>, PojoSettings> oneOfBuilder() {
@@ -101,24 +103,24 @@ public class OneOfBuilderGenerator {
     OneOfContainer container;
     JavaObjectPojo oneOfPojo;
 
-    private static Optional<NonEmptyList<OneOfPojo>> fromObjectPojo(JavaObjectPojo parentPojo) {
+    private static Optional<NonEmptyList<OneOfPojo>> fromObjectPojo(
+        SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
       return parentPojo
           .getOneOfContainer()
-          .map(container -> fromParentPojoAndOneOfContainer(parentPojo, container));
+          .map(container -> fromParentPojoAndOneOfContainer(builderVariant, parentPojo, container));
     }
 
     private static NonEmptyList<OneOfPojo> fromParentPojoAndOneOfContainer(
-        JavaObjectPojo parentPojo, OneOfContainer oneOfContainer) {
+        SafeBuilderVariant builderVariant,
+        JavaObjectPojo parentPojo,
+        OneOfContainer oneOfContainer) {
       return oneOfContainer
           .getComposition()
           .getPojos()
           .map(
               oneOfPojo ->
                   new OneOfPojo(
-                      OneOfBuilderName.of(
-                          parentPojo, oneOfContainer.getComposition(), oneOfPojo, 0),
-                      oneOfContainer,
-                      oneOfPojo));
+                      OneOfBuilderName.of(builderVariant, parentPojo), oneOfContainer, oneOfPojo));
     }
 
     public String builderClassName() {
