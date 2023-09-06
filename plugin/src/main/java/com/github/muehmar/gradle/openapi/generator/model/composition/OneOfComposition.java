@@ -1,8 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.model.composition;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,6 +19,33 @@ public class OneOfComposition {
   OneOfComposition(NonEmptyList<Pojo> pojos, Optional<Discriminator> discriminator) {
     this.pojos = pojos;
     this.discriminator = discriminator;
+
+    assertRequiredDiscriminatorMember(pojos, discriminator);
+  }
+
+  private static void assertRequiredDiscriminatorMember(
+      NonEmptyList<Pojo> pojos, Optional<Discriminator> discriminator) {
+    discriminator.ifPresent(
+        disc ->
+            pojos.forEach(
+                pojo ->
+                    pojo.asObjectPojo()
+                        .ifPresent(
+                            objectPojo -> {
+                              final Optional<PojoMember> discriminatorMember =
+                                  objectPojo
+                                      .getMembers()
+                                      .find(
+                                          pojoMember ->
+                                              pojoMember.getName().equals(disc.getPropertyName()))
+                                      .filter(PojoMember::isRequired);
+                              if (not(discriminatorMember.isPresent())) {
+                                throw new IllegalArgumentException(
+                                    String.format(
+                                        "Invalid schema: Pojo %s does not have a required property named %s used by the discriminator.",
+                                        objectPojo.getName(), disc.getPropertyName()));
+                              }
+                            })));
   }
 
   public static OneOfComposition fromPojos(NonEmptyList<Pojo> pojos) {
