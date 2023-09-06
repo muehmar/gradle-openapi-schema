@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi;
+package com.github.muehmar.gradle.openapi.snapshot;
 
 import au.com.origin.snapshots.exceptions.SnapshotMatchException;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
-public class IntellijDiffSnapshotTestExtension implements InvocationInterceptor {
+class IntellijDiffSnapshotTestExtension implements InvocationInterceptor {
 
   @Override
   public void interceptTestMethod(

@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi;
+package com.github.muehmar.gradle.openapi.snapshot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

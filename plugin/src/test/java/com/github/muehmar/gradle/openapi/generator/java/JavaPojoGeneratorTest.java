@@ -6,15 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import au.com.origin.snapshots.junit5.SnapshotExtension;
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.IntellijDiffSnapshotTestExtension;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith({SnapshotExtension.class, IntellijDiffSnapshotTestExtension.class})
+@SnapshotTest
 class JavaPojoGeneratorTest {
 
   private Expect expect;

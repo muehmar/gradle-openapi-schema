@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi;
+package com.github.muehmar.gradle.openapi.snapshot;
 
 import ch.bluecare.commons.data.PList;
 import io.github.muehmar.codegenerator.writer.Writer;
