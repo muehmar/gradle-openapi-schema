@@ -7,7 +7,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumG
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
@@ -18,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.writer.Writer;
 
 public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings> {

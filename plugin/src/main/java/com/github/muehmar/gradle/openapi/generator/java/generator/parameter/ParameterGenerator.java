@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
@@ -197,7 +198,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .noGenericTypes()
         .returnType("boolean")
         .methodName("matchesPattern")
-        .arguments(parameter -> PList.single(String.format("%s val", parameter.getTypeClassName())))
+        .singleArgument(parameter -> new Argument(parameter.getTypeClassName().asString(), "val"))
         .content(
             parameter -> {
               final String condition =
@@ -254,7 +255,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .noGenericTypes()
         .returnType("boolean")
         .methodName("matchesLimits")
-        .arguments(parameter -> PList.single(String.format("%s val", parameter.getTypeClassName())))
+        .singleArgument(parameter -> new Argument(parameter.getTypeClassName().asString(), "val"))
         .content(
             parameter -> {
               final Constraints constraints = parameter.getJavaType().getConstraints();

@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOn
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import java.util.Optional;
 import lombok.Value;
@@ -42,7 +43,8 @@ public class DtoSetterGenerator {
         .methodName(
             (pojo, settings) ->
                 pojo.prefixedClassNameForMethod(settings.getBuilderMethodPrefix()).asString())
-        .singleArgument(pojo -> String.format("%s dto", pojo.getComposedPojo().getClassName()))
+        .singleArgument(
+            pojo -> new Argument(pojo.getComposedPojo().getClassName().asString(), "dto"))
         .content(dtoSetterContent())
         .build();
   }

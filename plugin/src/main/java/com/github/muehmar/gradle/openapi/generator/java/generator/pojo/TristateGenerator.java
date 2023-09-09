@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.override;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.javaDoc;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator.ofJavaDocString;
+import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
+import static io.github.muehmar.codegenerator.java.JavaDocGenerator.ofJavaDocString;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;

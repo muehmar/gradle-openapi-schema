@@ -16,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAl
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
@@ -42,7 +43,7 @@ public class AllOfBuilderGenerator {
     final SingleMemberSetterGenerator.Setter<AllOfMember> setter =
         SetterBuilder.<AllOfMember>create()
             .includeInBuilder(ignore -> true)
-            .argumentFormat("%s %s")
+            .typeFormat("%s")
             .addRefs(writer -> writer)
             .build();
     return singleMemberSetterGenerator(setter);
@@ -52,7 +53,7 @@ public class AllOfBuilderGenerator {
     final SingleMemberSetterGenerator.Setter<AllOfMember> setter =
         SetterBuilder.<AllOfMember>create()
             .includeInBuilder(AllOfMember::isJavaOptional)
-            .argumentFormat("Optional<%s> %s")
+            .typeFormat("Optional<%s>")
             .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
     return singleMemberSetterGenerator(setter);
@@ -62,7 +63,7 @@ public class AllOfBuilderGenerator {
     final SingleMemberSetterGenerator.Setter<AllOfMember> setter =
         SetterBuilder.<AllOfMember>create()
             .includeInBuilder(AllOfMember::isJavaTristate)
-            .argumentFormat("Tristate<%s> %s")
+            .typeFormat("Tristate<%s>")
             .addRefs(writer -> writer.ref(OpenApiUtilRefs.TRISTATE))
             .build();
     return singleMemberSetterGenerator(setter);
@@ -79,7 +80,7 @@ public class AllOfBuilderGenerator {
                     .allOfPojo
                     .prefixedClassNameForMethod(settings.getBuilderMethodPrefix())
                     .asString())
-        .singleArgument(m -> String.format("%s dto", m.allOfPojo.getClassName()))
+        .singleArgument(m -> new MethodGen.Argument(m.allOfPojo.getClassName().asString(), "dto"))
         .content(
             (m, s, w) ->
                 w.println(

@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class FinalOptionalMemberBuilderGenerator {
@@ -59,9 +60,10 @@ public class FinalOptionalMemberBuilderGenerator {
         .arguments(
             p ->
                 PList.of(
-                    "String key",
-                    String.format(
-                        "%s value", p.getAdditionalProperties().getType().getFullClassName())))
+                    new Argument("String", "key"),
+                    new Argument(
+                        p.getAdditionalProperties().getType().getFullClassName().asString(),
+                        "value")))
         .content(
             p ->
                 String.format(
@@ -79,10 +81,11 @@ public class FinalOptionalMemberBuilderGenerator {
         .methodName("setAdditionalProperties")
         .singleArgument(
             p ->
-                String.format(
-                    "Map<String, %s> %s",
-                    p.getAdditionalProperties().getType().getFullClassName(),
-                    additionalPropertiesName()))
+                new Argument(
+                    String.format(
+                        "Map<String, %s>",
+                        p.getAdditionalProperties().getType().getFullClassName()),
+                    additionalPropertiesName().asString()))
         .content(
             p ->
                 String.format(

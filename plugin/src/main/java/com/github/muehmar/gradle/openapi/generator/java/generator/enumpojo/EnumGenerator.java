@@ -6,7 +6,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
@@ -16,7 +15,9 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.ClassGen;
 import io.github.muehmar.codegenerator.java.ClassGenBuilder;
+import io.github.muehmar.codegenerator.java.ConstructorGen.Argument;
 import io.github.muehmar.codegenerator.java.ConstructorGenBuilder;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -108,7 +109,9 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
     return ConstructorGenBuilder.<EnumContent, PojoSettings>create()
         .modifiers()
         .className(content -> content.getClassName().asString())
-        .arguments(ignore -> PList.of("String value", "String description"))
+        .arguments(
+            ignore ->
+                PList.of(new Argument("String", "value"), new Argument("String", "description")))
         .content(w -> w.println("this.value = value;").println("this.description = description;"))
         .build();
   }
@@ -157,7 +160,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .noGenericTypes()
         .returnType(javaEnumPojo -> javaEnumPojo.getClassName().asString())
         .methodName("fromValue")
-        .singleArgument(javaEnumPojo -> "String value")
+        .singleArgument(javaEnumPojo -> new MethodGen.Argument("String", "value"))
         .content(this::fromValueContent)
         .build();
   }

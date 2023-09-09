@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import java.util.Optional;
 import lombok.Value;
@@ -47,7 +48,7 @@ public class OneOfBuilderGenerator {
             (pojo, settings) ->
                 CONTAINER_NAME.prefixedMethodeName(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(
-            pojo -> String.format("%s container", pojo.container.getContainerName().asString()))
+            pojo -> new Argument(pojo.container.getContainerName().asString(), "container"))
         .content(oneOfContainerSetterContent())
         .build();
   }
@@ -87,7 +88,7 @@ public class OneOfBuilderGenerator {
                     .oneOfPojo
                     .prefixedClassNameForMethod(settings.getBuilderMethodPrefix())
                     .asString())
-        .singleArgument(m -> String.format("%s dto", m.oneOfPojo.getClassName()))
+        .singleArgument(m -> new Argument(m.oneOfPojo.getClassName().asString(), "dto"))
         .content(
             (m, s, w) ->
                 w.println(

@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredA
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class RequiredAdditionalPropertiesSetterGenerator {
@@ -32,7 +33,9 @@ public class RequiredAdditionalPropertiesSetterGenerator {
         .returnType("Builder")
         .methodName(RequiredAdditionalPropertiesSetterGenerator::createMethodName)
         .singleArgument(
-            rp -> String.format("%s %s", rp.getJavaType().getFullClassName(), rp.getName()))
+            rp ->
+                new Argument(
+                    rp.getJavaType().getFullClassName().asString(), rp.getName().asString()))
         .content(
             rp ->
                 String.format(

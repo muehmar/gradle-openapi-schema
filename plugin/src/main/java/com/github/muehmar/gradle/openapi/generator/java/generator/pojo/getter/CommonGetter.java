@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import java.util.function.BiFunction;
 
 class CommonGetter {
@@ -31,7 +32,8 @@ class CommonGetter {
         .noGenericTypes()
         .returnType(f -> f.getJavaType().getFullClassName().asString())
         .methodName(f -> String.format("%sOr", f.getGetterName()))
-        .singleArgument(f -> String.format("%s defaultValue", f.getJavaType().getFullClassName()))
+        .singleArgument(
+            f -> new Argument(f.getJavaType().getFullClassName().asString(), "defaultValue"))
         .content(
             f ->
                 String.format(

@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGener
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class FactoryMethodGenerator {
@@ -23,7 +24,9 @@ public class FactoryMethodGenerator {
         .returnType(p -> p.getClassName().asString())
         .methodName("fromItems")
         .singleArgument(
-            p -> String.format("%s items", p.getArrayPojoMember().getJavaType().getFullClassName()))
+            p ->
+                new Argument(
+                    p.getArrayPojoMember().getJavaType().getFullClassName().asString(), "items"))
         .content(p -> String.format("return new %s(items);", p.getClassName()))
         .build()
         .append(RefsGenerator.fieldRefs(), JavaArrayPojo::getArrayPojoMember);

@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMembe
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.function.UnaryOperator;
@@ -25,7 +26,7 @@ public class EqualsGenerator {
             .noGenericTypes()
             .returnType("boolean")
             .methodName("equals")
-            .singleArgument(pojo -> "Object obj")
+            .singleArgument(pojo -> new Argument("Object", "obj"))
             .content(equalsMethodContent())
             .build();
     return AnnotationGenerator.<EqualsContent, PojoSettings>override().append(method);

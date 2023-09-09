@@ -21,8 +21,8 @@ private Object getBirthdateJackson() {
 }
 
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 @Deprecated
 public LocalDate getBirthdateRaw() {

@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class MapFactoryMethodeGenerator {
@@ -21,9 +22,11 @@ public class MapFactoryMethodeGenerator {
         .methodName("fromProperties")
         .singleArgument(
             pojo ->
-                String.format(
-                    "Map<String, %s> properties",
-                    pojo.getAdditionalProperties().getType().getFullClassName()))
+                new Argument(
+                    String.format(
+                        "Map<String, %s>",
+                        pojo.getAdditionalProperties().getType().getFullClassName()),
+                    "properties"))
         .content(methodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_MAP))

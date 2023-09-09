@@ -18,8 +18,8 @@ com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.Valid
 
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 @Valid
 @Deprecated

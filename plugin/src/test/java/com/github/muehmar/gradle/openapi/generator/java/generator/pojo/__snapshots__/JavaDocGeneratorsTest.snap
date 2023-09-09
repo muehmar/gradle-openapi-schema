@@ -2,7 +2,7 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerator
 .
 .
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 ]

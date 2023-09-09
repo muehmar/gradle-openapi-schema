@@ -6,14 +6,15 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import ch.bluecare.commons.data.PList;
 import ch.bluecare.commons.data.Pair;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.MethodGen;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
@@ -37,7 +38,7 @@ public class FactoryMethodGenerator {
             .noGenericTypes()
             .returnType(cap -> cap.getContainerName().asString())
             .methodName(pojos -> String.format("from%s", pojos.pojo.getSchemaName().asIdentifier()))
-            .singleArgument(pojos -> String.format("%s dto", pojos.pojo.getClassName()))
+            .singleArgument(pojos -> new Argument(pojos.pojo.getClassName().asString(), "dto"))
             .content(fromMethodContent())
             .build();
     final Generator<ContainerAndPojo, PojoSettings> javaDoc =

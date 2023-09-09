@@ -20,19 +20,19 @@ public class OptionalMemberBuilderGenerator {
   private static final SingleMemberSetterGenerator.Setter<OptionalMember> NORMAL_SETTER =
       SetterBuilder.<OptionalMember>create()
           .includeInBuilder(ignore -> true)
-          .argumentFormat("%s %s")
+          .typeFormat("%s")
           .addRefs(writer -> writer)
           .build();
   private static final SingleMemberSetterGenerator.Setter<OptionalMember> OPTIONAL_SETTER =
       SetterBuilder.<OptionalMember>create()
           .includeInBuilder(OptionalMember::isNotNullable)
-          .argumentFormat("Optional<%s> %s")
+          .typeFormat("Optional<%s>")
           .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
           .build();
   private static final SingleMemberSetterGenerator.Setter<OptionalMember> TRISTATE_SETTER =
       SetterBuilder.<OptionalMember>create()
           .includeInBuilder(OptionalMember::isNullable)
-          .argumentFormat("Tristate<%s> %s")
+          .typeFormat("Tristate<%s>")
           .addRefs(writer -> writer.ref(OpenApiUtilRefs.TRISTATE))
           .build();
 

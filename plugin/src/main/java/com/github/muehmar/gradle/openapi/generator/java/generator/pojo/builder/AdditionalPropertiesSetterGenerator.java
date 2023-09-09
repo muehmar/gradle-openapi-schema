@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 class AdditionalPropertiesSetterGenerator {
@@ -46,10 +47,12 @@ class AdditionalPropertiesSetterGenerator {
             .arguments(
                 props ->
                     PList.of(
-                        "String key",
-                        String.format(
-                            "%s value",
-                            forObjectType ? "Object" : props.getType().getFullClassName())))
+                        new Argument("String", "key"),
+                        new Argument(
+                            forObjectType
+                                ? "Object"
+                                : props.getType().getFullClassName().asString(),
+                            "value")))
             .content(
                 (props, s, w) ->
                     w.println("this.%s.put(key, value);", additionalPropertiesName())
@@ -75,9 +78,9 @@ class AdditionalPropertiesSetterGenerator {
         .methodName("setAdditionalProperties")
         .singleArgument(
             props ->
-                String.format(
-                    "Map<String, %s> %s",
-                    props.getType().getFullClassName(), additionalPropertiesName()))
+                new Argument(
+                    String.format("Map<String, %s>", props.getType().getFullClassName()),
+                    additionalPropertiesName().asString()))
         .content(
             (props, s, w) ->
                 w.println(

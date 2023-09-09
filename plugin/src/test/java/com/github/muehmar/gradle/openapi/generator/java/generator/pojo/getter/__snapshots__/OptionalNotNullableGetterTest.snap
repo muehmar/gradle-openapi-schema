@@ -22,8 +22,8 @@ public LocalDate getBirthdateOr(LocalDate defaultValue) {
 }
 
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)

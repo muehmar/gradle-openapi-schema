@@ -23,13 +23,13 @@ public class RequiredMemberBuilderGenerator {
   private static final SingleMemberSetterGenerator.Setter<RequiredMember> NORMAL_SETTER =
       SetterBuilder.<RequiredMember>create()
           .includeInBuilder(ignore -> true)
-          .argumentFormat("%s %s")
+          .typeFormat("%s")
           .addRefs(writer -> writer)
           .build();
   private static final SingleMemberSetterGenerator.Setter<RequiredMember> OPTIONAL_SETTER =
       SetterBuilder.<RequiredMember>create()
           .includeInBuilder(RequiredMember::isNullable)
-          .argumentFormat("Optional<%s> %s")
+          .typeFormat("Optional<%s>")
           .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
           .build();
 

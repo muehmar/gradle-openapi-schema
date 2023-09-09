@@ -6,7 +6,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -14,6 +13,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import java.util.Optional;
 import lombok.Value;
@@ -23,7 +24,7 @@ public class FoldMethodGenerator {
   private static final String JAVA_DOC_ONE_OF_FOLD =
       "Folds the oneOf part of this instance using the given mapping functions for the DTO's. If this instance is valid "
           + "against exactly one of the specified schemas, its corresponding mapping function gets executed with the "
-          + "DTO as input and its result is returned.<br><br>\n\n";
+          + "DTO as input and its result is returned.\n\n";
 
   private static final String JAVA_DOC_ANY_OF_FOLD =
       "Folds the anyOf part of this instance using the given mapping functions for the DTO's. All mapping functions "
@@ -31,11 +32,11 @@ public class FoldMethodGenerator {
           + "schema and the results are returned in a list. The order of the elements in the returned list is "
           + "deterministic: The order corresponds to the order of the mapping function arguments, i.e. the result of "
           + "the first mapping function will always be at the first position in the list (if the function gets "
-          + "executed).<br><br>\n\n";
+          + "executed).\n\n";
 
   private static final String JAVA_DOC_EXAMPLE =
       "I.e. if the JSON was valid against the schema '%s', the mapping method {@code %s} "
-          + "gets executed with the {@link %s} as argument.<br><br>\n\n";
+          + "gets executed with the {@link %s} as argument.\n\n";
 
   private static final String JAVA_DOC_ONE_OF_THROWS =
       "This method assumes this instance is either manually or automatically validated, i.e. the JSON is valid "
@@ -216,17 +217,18 @@ public class FoldMethodGenerator {
         .append(constant("}"));
   }
 
-  private static NonEmptyList<String> fullFoldMethodArguments(NonEmptyList<JavaObjectPojo> pojos) {
-    return standardFoldMethodArguments(pojos).add("Supplier<T> onInvalid");
+  private static NonEmptyList<Argument> fullFoldMethodArguments(
+      NonEmptyList<JavaObjectPojo> pojos) {
+    return standardFoldMethodArguments(pojos).add(new Argument("Supplier<T>", "onInvalid"));
   }
 
-  private static NonEmptyList<String> standardFoldMethodArguments(
+  private static NonEmptyList<Argument> standardFoldMethodArguments(
       NonEmptyList<JavaObjectPojo> pojos) {
     return pojos.map(
         pojo ->
-            String.format(
-                "Function<%s, T> %s",
-                pojo.getClassName(), CompositionNames.dtoMappingArgumentName(pojo)));
+            new Argument(
+                String.format("Function<%s, T>", pojo.getClassName()),
+                CompositionNames.dtoMappingArgumentName(pojo).asString()));
   }
 
   @Value

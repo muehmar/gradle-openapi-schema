@@ -1,0 +1,89 @@
+tristateClass=[
+java.util.Objects
+java.util.Optional
+java.util.function.Function
+java.util.function.Supplier
+
+package com.github.muehmar.openapi.util;
+
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+public final class Tristate<T> {
+  private final Optional<T> value;
+  private final boolean isNull;
+
+  private Tristate(Optional<T> value, boolean isNull) {
+    this.value = value;
+    this.isNull = isNull;
+  }
+
+  /**
+   * Returns a Tristate class whose value is mapped with the given function.
+   */
+  public <R> Tristate<R> map(Function<T, R> f) {
+    return new Tristate<>(value.map(f), isNull);
+  }
+
+  public static <T> Tristate<T> ofNullableAndNullFlag(T nullableValue, boolean isNull) {
+    return new Tristate<>(Optional.ofNullable(nullableValue), isNull);
+  }
+
+  public static <T> Tristate<T> ofValue(T value) {
+    return new Tristate<>(Optional.of(value), false);
+  }
+
+  public static <T> Tristate<T> ofAbsent() {
+    return new Tristate<>(Optional.empty(), false);
+  }
+
+  public static <T> Tristate<T> ofNull() {
+    return new Tristate<>(Optional.empty(), true);
+  }
+
+  /**
+   * Registers a {@link java.util.function.Function} which is applied on the value of
+   * the property if it was present and non-null.
+   */
+  public <R> OnNull<R> onValue(Function<T, R> onValue) {
+    return onNull ->
+      onAbsent -> value.map(onValue).orElseGet(() -> isNull ? onNull.get() : onAbsent.get());
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Tristate<?> tristate = (Tristate<?>) o;
+    return isNull == tristate.isNull && Objects.equals(value, tristate.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value, isNull);
+  }
+
+  @Override
+  public String toString() {
+    return "Tristate{" + "value=" + value + ", isNull=" + isNull + '}';
+  }
+
+  public interface OnNull<R> {
+    /**
+     * Registers a {@link java.util.function.Supplier} which is called in case the
+     * property was null.
+     */
+    OnAbsent<R> onNull(Supplier<R> onNull);
+  }
+
+  public interface OnAbsent<R> {
+    /**
+     * Registers a {@link java.util.function.Supplier} which is called in case the
+     * property was absent.
+     */
+    R onAbsent(Supplier<R> onAbsent);
+  }
+}
+]

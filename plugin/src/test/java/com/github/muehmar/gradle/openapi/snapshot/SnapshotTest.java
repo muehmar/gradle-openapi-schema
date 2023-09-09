@@ -7,7 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-/** Convenient annotation to activate snapshot testing while enabling IntelliJ to provide the diffs.*/
+/**
+ * Convenient annotation to activate snapshot testing while enabling IntelliJ to provide the diffs.
+ */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith({SnapshotExtension.class, IntellijDiffSnapshotTestExtension.class})

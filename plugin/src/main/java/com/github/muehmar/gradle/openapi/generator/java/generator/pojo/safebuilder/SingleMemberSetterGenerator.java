@@ -4,10 +4,11 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.BuildMethod;
@@ -45,10 +46,10 @@ public class SingleMemberSetterGenerator {
                 (m, s) -> m.getMember().prefixedMethodName(s.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 m ->
-                    String.format(
-                        argumentFormat,
-                        m.getMember().getJavaType().getFullClassName().asString(),
-                        m.getMember().getNameAsIdentifier()))
+                    new Argument(
+                        String.format(
+                            argumentFormat, m.getMember().getJavaType().getFullClassName()),
+                        m.getMember().getNameAsIdentifier().asString()))
             .content(
                 (m, s, w) ->
                     w.println(
@@ -83,7 +84,7 @@ public class SingleMemberSetterGenerator {
   @Value
   public static class SetterBuilder<T extends Member> {
     IncludeInBuilder<T> includeInBuilder;
-    String argumentFormat;
+    String typeFormat;
     AddRefs addRefs;
 
     @BuildMethod
@@ -96,7 +97,7 @@ public class SingleMemberSetterGenerator {
 
         @Override
         public String argumentFormat() {
-          return setter.argumentFormat;
+          return setter.typeFormat;
         }
 
         @Override

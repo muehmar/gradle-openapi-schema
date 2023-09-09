@@ -6,12 +6,12 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -82,15 +82,14 @@ public class WitherGenerator {
       return pojoMember.getWitherName().asString();
     }
 
-    PList<String> argument() {
+    PList<MethodGen.Argument> argument() {
       return PList.single(
-          String.format(
-              argumentFormat(),
-              pojoMember.getJavaType().getFullClassName(),
-              pojoMember.getNameAsIdentifier()));
+          new MethodGen.Argument(
+              String.format(typeFormat(), pojoMember.getJavaType().getFullClassName()),
+              pojoMember.getNameAsIdentifier().asString()));
     }
 
-    abstract String argumentFormat();
+    abstract String typeFormat();
 
     String constructorCall() {
       final String constructorCall =
@@ -120,8 +119,8 @@ public class WitherGenerator {
     }
 
     @Override
-    String argumentFormat() {
-      return "%s %s";
+    String typeFormat() {
+      return "%s";
     }
 
     @Override
@@ -152,8 +151,8 @@ public class WitherGenerator {
     }
 
     @Override
-    String argumentFormat() {
-      return "Optional<%s> %s";
+    String typeFormat() {
+      return "Optional<%s>";
     }
 
     @Override
@@ -194,8 +193,8 @@ public class WitherGenerator {
     }
 
     @Override
-    String argumentFormat() {
-      return "Tristate<%s> %s";
+    String typeFormat() {
+      return "Tristate<%s>";
     }
 
     @Override

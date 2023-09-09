@@ -5,14 +5,15 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.java.MethodGen;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import java.util.function.BiFunction;
 
@@ -48,9 +49,9 @@ class SetterGenerator {
                     member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 member ->
-                    String.format(
-                        "%s %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
+                    new Argument(
+                        member.getJavaType().getFullClassName().asString(),
+                        member.getNameAsIdentifier().asString()))
             .content(setterMethodContent())
             .build();
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
@@ -92,9 +93,10 @@ class SetterGenerator {
                     member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 member ->
-                    String.format(
-                        "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
+                    new Argument(
+                        String.format(
+                            "Optional<%s>", member.getJavaType().getFullClassName().asString()),
+                        member.getNameAsIdentifier().asString()))
             .content(
                 (member, settings, writer) ->
                     writer
@@ -124,9 +126,10 @@ class SetterGenerator {
                     member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 member ->
-                    String.format(
-                        "Optional<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
+                    new Argument(
+                        String.format(
+                            "Optional<%s>", member.getJavaType().getFullClassName().asString()),
+                        member.getNameAsIdentifier().asString()))
             .content(
                 (member, settings, writer) ->
                     writer
@@ -155,9 +158,9 @@ class SetterGenerator {
                     member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 member ->
-                    String.format(
-                        "Tristate<%s> %s",
-                        member.getJavaType().getFullClassName(), member.getNameAsIdentifier()))
+                    new Argument(
+                        String.format("Tristate<%s>", member.getJavaType().getFullClassName()),
+                        member.getNameAsIdentifier().asString()))
             .content(
                 (member, settings, writer) ->
                     writer

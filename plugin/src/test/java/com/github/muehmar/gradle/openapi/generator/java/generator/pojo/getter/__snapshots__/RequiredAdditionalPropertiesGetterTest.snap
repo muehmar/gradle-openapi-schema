@@ -59,8 +59,8 @@ public AdminDto getProp1() {
 }
 
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 @Deprecated
 @NotNull
@@ -69,8 +69,8 @@ Object getProp1AsObject() {
 }
 
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 @Deprecated
 @AssertTrue(message = "Value is not an instance of AdminDto")

@@ -30,7 +30,7 @@ public class SingleBuilderClassGenerator {
         .noJavaDoc()
         .noAnnotations()
         .modifiers(PUBLIC, STATIC, FINAL)
-        .className(createClassName)
+        .className(createClassName.andThen(s -> s))
         .noSuperClass()
         .noInterfaces()
         .content(builderContent(createClassName).appendSingleBlankLine().append(singleGenContent))

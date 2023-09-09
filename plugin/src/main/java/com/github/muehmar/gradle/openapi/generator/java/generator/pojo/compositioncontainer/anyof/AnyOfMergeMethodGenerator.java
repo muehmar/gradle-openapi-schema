@@ -5,13 +5,14 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.MethodGen;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
@@ -25,7 +26,8 @@ public class AnyOfMergeMethodGenerator {
             .noGenericTypes()
             .returnType(container -> container.getContainerName().asString())
             .methodName("merge")
-            .singleArgument(container -> String.format("%s other", container.getContainerName()))
+            .singleArgument(
+                container -> new Argument(container.getContainerName().asString(), "other"))
             .content(methodContent())
             .build();
     return javaDoc().append(method);

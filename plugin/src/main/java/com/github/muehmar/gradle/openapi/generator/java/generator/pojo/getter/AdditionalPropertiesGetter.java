@@ -11,7 +11,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaDocGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -23,6 +22,8 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
+import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class AdditionalPropertiesGetter {
@@ -107,7 +108,7 @@ public class AdditionalPropertiesGetter {
             .noGenericTypes()
             .returnType(props -> String.format("Optional<%s>", props.getType().getFullClassName()))
             .methodName("getAdditionalProperty")
-            .singleArgument(ignore -> "String key")
+            .singleArgument(ignore -> new Argument("String", "key"))
             .content(singlePropGetterContent())
             .build()
             .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL))
@@ -141,7 +142,7 @@ public class AdditionalPropertiesGetter {
         .noGenericTypes()
         .returnType(p -> String.format("Optional<%s>", p.getType().getFullClassName()))
         .methodName(CAST_ADDITIONAL_PROPERTY_METHOD_NAME)
-        .singleArgument(p -> "Object property")
+        .singleArgument(p -> new Argument("Object", "property"))
         .content(additionalPropertyCastMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL))

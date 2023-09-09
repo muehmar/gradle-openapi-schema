@@ -22,8 +22,8 @@ public LocalDate getBirthdateOr(LocalDate defaultValue) {
 }
 
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 @JsonProperty("birthdate")
 @Deprecated
@@ -32,8 +32,8 @@ public LocalDate getBirthdateRaw() {
 }
 
 /**
- * @deprecated This method is intended to be used only by frameworks for
- * validation or serialisation.
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
  */
 @AssertTrue(message = "birthdate is required but it is not present")
 @Deprecated
