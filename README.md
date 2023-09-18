@@ -92,7 +92,7 @@ openApiGenerator {
             
             getterSuffixes {
                 requiredSuffix = "Req"
-                requiredNullabeSuffix = "Opt"
+                requiredNullableSuffix = "Opt"
                 optionalSuffix = "Opt"
                 optionalNullableSuffix = "Tristate"                
             }
@@ -253,7 +253,7 @@ It is possible to customize the suffixes of these getters:
 ```
 getterSuffixes {
     requiredSuffix = ""
-    requiredNullabeSuffix = "Opt"
+    requiredNullableSuffix = "Opt"
     optionalSuffix = "Opt"
     optionalNullableSuffix = "Tristate"                
 }
