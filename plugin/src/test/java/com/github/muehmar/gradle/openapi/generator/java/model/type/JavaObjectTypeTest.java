@@ -13,14 +13,29 @@ import org.junit.jupiter.api.Test;
 class JavaObjectTypeTest {
   @Test
   void wrap_when_objectTypeWrapped_then_correctWrapped() {
-    final ObjectType objectType =
-        ObjectType.ofName(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"));
+    final ObjectType objectType = ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto"));
     final JavaObjectType javaType = JavaObjectType.wrap(objectType);
 
     assertEquals("UserDto", javaType.getFullClassName().asString());
     assertEquals("UserDto", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("UserDto"),
+        javaType
+            .getAllQualifiedClassNames()
+            .map(Name::asString)
+            .sort(Comparator.comparing(Function.identity())));
+  }
+
+  @Test
+  void wrap_when_pojoNameWithSpecialCharacters_then_correctType() {
+    final ObjectType objectType =
+        ObjectType.ofName(PojoName.ofNameAndSuffix("Prefixed.User", "Dto"));
+    final JavaObjectType javaType = JavaObjectType.wrap(objectType);
+
+    assertEquals("Prefixed_UserDto", javaType.getFullClassName().asString());
+    assertEquals("Prefixed_UserDto", javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(
+        PList.of("Prefixed_UserDto"),
         javaType
             .getAllQualifiedClassNames()
             .map(Name::asString)

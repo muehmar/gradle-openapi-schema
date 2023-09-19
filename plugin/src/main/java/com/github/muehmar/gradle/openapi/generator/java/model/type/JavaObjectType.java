@@ -35,7 +35,7 @@ public class JavaObjectType extends NonGenericJavaType {
   }
 
   public static JavaObjectType wrap(ObjectType objectType) {
-    final QualifiedClassName className = QualifiedClassName.ofName(objectType.getName().asString());
+    final QualifiedClassName className = QualifiedClassName.ofPojoName(objectType.getName());
     return new JavaObjectType(className, objectType.getConstraints(), objectType);
   }
 

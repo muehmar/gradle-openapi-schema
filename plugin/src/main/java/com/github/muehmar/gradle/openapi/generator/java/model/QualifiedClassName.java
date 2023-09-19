@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import java.util.Optional;
@@ -37,6 +38,11 @@ public class QualifiedClassName {
     } else {
       return new QualifiedClassName(Name.ofString(qualifiedClassName));
     }
+  }
+
+  public static QualifiedClassName ofPojoName(PojoName pojoName) {
+    final JavaIdentifier javaIdentifier = JavaIdentifier.fromString(pojoName.asString());
+    return new QualifiedClassName(Name.ofString(javaIdentifier.asString()));
   }
 
   public static QualifiedClassName ofName(String name) {
