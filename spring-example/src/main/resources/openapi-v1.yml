@@ -14,16 +14,16 @@ paths:
               schema:
                 $ref: "#/components/schemas/AdminOrUserDiscriminator"
     post:
-     summary: OneOf Post Endpoint
-     requestBody:
-       required: true
-       content:
-         application/json:
+      summary: OneOf Post Endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
               $ref: "#/components/schemas/AdminOrUserDiscriminator"
-     responses:
-       '200':
-         description: OK
+      responses:
+        '200':
+          description: OK
   /api/v1/anyof:
     get:
       summary: AnyOf Get Endpoint
@@ -35,16 +35,16 @@ paths:
               schema:
                 $ref: "#/components/schemas/AdminAndOrUser"
     post:
-     summary: AnyOf Post Endpoint
-     requestBody:
-       required: true
-       content:
-         application/json:
+      summary: AnyOf Post Endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
               $ref: "#/components/schemas/AdminAndOrUser"
-     responses:
-       '200':
-         description: OK
+      responses:
+        '200':
+          description: OK
 
 
 components:
@@ -53,6 +53,7 @@ components:
       required:
         - id
         - username
+        - type
       properties:
         id:
           type: string
@@ -73,6 +74,7 @@ components:
       required:
         - id
         - adminname
+        - type
       properties:
         id:
           type: string

@@ -9,6 +9,7 @@ components:
       required:
         - id
         - username
+        - type
       properties:
         id:
           type: string
@@ -30,6 +31,7 @@ components:
       required:
         - id
         - adminname
+        - type
       properties:
         id:
           type: string

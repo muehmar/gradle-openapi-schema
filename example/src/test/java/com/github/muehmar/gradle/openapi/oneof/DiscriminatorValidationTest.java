@@ -63,7 +63,9 @@ class DiscriminatorValidationTest {
         Arrays.asList(
             "invalidCompositionDtos[0].adminname -> must not be null",
             "invalidCompositionDtos[0].id -> must not be null",
+            "invalidCompositionDtos[0].type -> must not be null",
             "invalidCompositionDtos[1].id -> must not be null",
+            "invalidCompositionDtos[1].type -> must not be null",
             "invalidCompositionDtos[1].username -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),

@@ -49,6 +49,7 @@ components:
       required:
         - type
         - adminname
+        - type
       properties:
         type:
           type: string

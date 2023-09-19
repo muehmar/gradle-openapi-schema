@@ -27,9 +27,9 @@ class DiscriminatorDeserialisationTest {
     final AdminDto adminDto =
         AdminDto.builder()
             .setId("admin-id")
+            .setType("Admin")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("Admin")
             .setLevel(5L)
             .build();
     assertEquals(adminDto, obj);
@@ -47,9 +47,9 @@ class DiscriminatorDeserialisationTest {
     final UserDto userDto =
         UserDto.builder()
             .setId("user-id")
+            .setType("User")
             .setUsername("user-name")
             .andAllOptionals()
-            .setType("User")
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();

@@ -20,9 +20,9 @@ class OneOfContainerTest {
     final AdminDto adminDto =
         AdminDto.builder()
             .setId("admin-id")
+            .setType("type")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("type")
             .setLevel(5L)
             .build();
 
@@ -42,9 +42,9 @@ class OneOfContainerTest {
     final UserDto userDto =
         UserDto.builder()
             .setId("user-id")
+            .setType("type")
             .setUsername("user-name")
             .andAllOptionals()
-            .setType("type")
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();
