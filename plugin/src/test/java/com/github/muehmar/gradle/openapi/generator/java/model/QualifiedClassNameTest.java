@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import java.util.Optional;
@@ -18,6 +19,14 @@ class QualifiedClassNameTest {
         QualifiedClassName.ofQualifiedClassName("java.lang.String");
     assertEquals("String", className.getClassName().asString());
     assertEquals("java.lang.String", className.asName().asString());
+  }
+
+  @Test
+  void ofPojoName_when_pojoNameWithSpecialCharacters_then_correctClassName() {
+    final QualifiedClassName className =
+        QualifiedClassName.ofPojoName(PojoName.ofNameAndSuffix("Prefixed.User", "Dto"));
+    assertEquals("Prefixed_UserDto", className.getClassName().asString());
+    assertEquals("Prefixed_UserDto", className.asName().asString());
   }
 
   @Test
