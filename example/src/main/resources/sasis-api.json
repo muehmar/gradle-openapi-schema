@@ -1,0 +1,3872 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ZSR Webservice v1",
+    "description": "This is the ZSR Webservice v1 documentation (binary version v1.4.28).",
+    "contact": {
+      "name": "Webservice Support",
+      "email": "zsr-b2b@sasis.ch"
+    },
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "/ApiGateway"
+    }
+  ],
+  "paths": {
+    "/api/v1/affiliations": {
+      "get": {
+        "tags": [
+          "Affiliations"
+        ],
+        "summary": "Get all affiliations.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Affiliation"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/businessscopes": {
+      "get": {
+        "tags": [
+          "BusinessScopes"
+        ],
+        "summary": "Get all business scopes.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BusinessScope"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/careprovidercertification": {
+      "post": {
+        "tags": [
+          "CareProviderCertification"
+        ],
+        "summary": "Creates or updates care provider certification periods and health services of one specific care provider. The request must always contain the full set historicised data.",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CareProviderCertificationRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CareProviderCertificationRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CareProviderCertificationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CareProviderCertificationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted. The provided data has been accepted and is scheduled to be applied asynchronously."
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Error response"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/clearingnumbers": {
+      "post": {
+        "tags": [
+          "ClearingNumbers"
+        ],
+        "summary": "Returns details for specific clearing numbers (ZSR/RCC/CPR). The returned data is to be specified as a list of plain clearing numbers as parameters.",
+        "requestBody": {
+          "description": "A list of plain clearing numbers. <br />Validations:<ul><li>Max. 500 clearing numbers per request.</li></ul>",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.ClearingNumberDetailViewItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/clearingnumbersuffixes": {
+      "get": {
+        "tags": [
+          "ClearingNumberSuffixes"
+        ],
+        "summary": "Get all clearingnumber suffixes (=Nummernkreis).",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberSuffix"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/countries": {
+      "get": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Get all countries.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Country"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/employeenumbers": {
+      "post": {
+        "tags": [
+          "EmployeeNumbers"
+        ],
+        "summary": "Returns details for specific employees. The returned data is to be specified as a list of plain employee numbers (K-Nummer / Numéro C / Numero di controllo) as parameters.",
+        "requestBody": {
+          "description": "A list of plain employee numbers. <br />Validations:<ul><li>Max. 500 employee numbers per request.</li></ul>",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.EmployeeNumberDetailViewItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/facilities": {
+      "get": {
+        "tags": [
+          "Facilities"
+        ],
+        "summary": "Get all facilities (=Standortbezogene Eigenschaften).",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Facility"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/healthservices": {
+      "get": {
+        "tags": [
+          "HealthServices"
+        ],
+        "summary": "Get all health services.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceCertifier"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/healthservices/comments": {
+      "get": {
+        "tags": [
+          "HealthServices"
+        ],
+        "summary": "Get all comments available on health services.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.HealthServiceCommentViewItem"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/numbers": {
+      "get": {
+        "tags": [
+          "Numbers"
+        ],
+        "summary": "Returns a paged list of clearing numbers (ZSR/RCC/CPR) and/or employee numbers (K-Nummer / Numéro C / Numero di controllo) by subscription search options.",
+        "parameters": [
+          {
+            "name": "filterOptions",
+            "in": "query",
+            "description": "A set of OR-combined filter options to control the result set. Multiple selections are possible, but select at least one. <br /><p>Your licensed subscription options allow you to access following filter options:</p><ul><li>Okp: Chiropractors, DelegatedPsychotherapy, Dentists, DispensariesMiGeL, Doctors, DoctorFacilitiesForOutpatienNursing, Hospitals, Laboratories, Midwives, Neuropsychologists, Nurses, NursingHomes, NutritionCounselors, OccupationalTherapists, Orthopedists, OtherBillers, Pharmacies, Physiotheraphists, Spas, SpeechTherapists, Spitex, TransportRescueCompanies, Podiatrists, PsychologicalPsychotherapists</li><li>Ortho: Orthopedists</li><li>Pharma: Pharmacies</li><li>Lea: Hospitals</li><li>Comp: ComplementaryTherapists</li><li>Fit: Fitness</li><li>Asca: Asca, ComplementaryTherapists</li><li>Spak: Spak, ComplementaryTherapists</li><li>Aptn: Aptn, ComplementaryTherapists</li><li>Emr: Emr, ComplementaryTherapists</li><li>EmFit: EmFit, Fitness</li><li>Qtop: Qtop, Fitness</li><li>QCert: QCert, Fitness</li><li>FGuide: FGuide, Fitness</li><li>FGuideK: FGuideK, Fitness</li><li>MedUnreg: Dentists, Chiropractors, Doctors, Pharmacies</li></ul>",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.FilterOption"
+              }
+            }
+          },
+          {
+            "name": "numberTypes",
+            "in": "query",
+            "description": "A set of OR-combined number filter options to control the result set. Multiple selections are possible, but select at least one.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.NumberType"
+              }
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of entries used as offset to retrieve the next page. The next offset it must be calculated as sum of the previously used offset and the page size (limit).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximal number of entries in the next returned page. Receiving a recordCount smaller than the limit indicates that the last page has been reached.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "modifiedFrom",
+            "in": "query",
+            "description": "Reduces the result set to numbers modified after this date (ISO 8601 time format, e.g: 2020-01-20T07:10:00Z).\r\nAny content and/or technical data change of a number will mark this number as modified.\r\nA consuming client must always be able to handle any quantity of modified numbers.\r\nSystem maintenances resulting in a large amount of modified numbers will not be notified in advance.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.StringBulkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/numbers/list": {
+      "post": {
+        "tags": [
+          "Numbers"
+        ],
+        "summary": "Returns basic information about clearing and/or employee numbers. The returned data is to be specified as a list of plain clearing (ZSR/RCC/CPR) and/or employee numbers (K-Nummer / Numéro C / Numero di controllo) as parameters.",
+        "requestBody": {
+          "description": "A list of clearing (ZSR/RCC/CPR) and/or employee numbers (K-Nummer / Numéro C / Numero di controllo). <br />Validations:<ul><li>Max. 500 employee numbers per request.</li></ul>",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.NumberListViewItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/qualifications": {
+      "get": {
+        "tags": [
+          "Qualifications"
+        ],
+        "summary": "Get all qualifications.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Qualification"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/subscribers": {
+      "get": {
+        "tags": [
+          "Subscribers"
+        ],
+        "summary": "Returns all available subscriber names.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.Subscriber"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/tariffsystems": {
+      "get": {
+        "tags": [
+          "TariffSystems"
+        ],
+        "summary": "Get all tariff systems.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.TariffSystem"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/unregisteredcareproviders": {
+      "post": {
+        "tags": [
+          "UnregisteredCareProviders"
+        ],
+        "summary": "Returns details for specific unregistered Medreg care provider. The returned data is to be specified as a list of plain global location numbers passed as parameters.",
+        "requestBody": {
+          "description": "A list of plain global location numbers. <br />Validations:<ul><li>Max. 500 global location numbers per request.</li></ul>",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.Medical"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.AcademicTitle": {
+        "enum": [
+          "UNKNOWN",
+          "DR",
+          "PROF_DR",
+          "DRES",
+          "DR_MED",
+          "PD_DR_MED",
+          "PROF_DR_MED",
+          "MED_PRAKT",
+          "MED_DENT",
+          "DR_MED_DENT",
+          "PD_DR_MED_DENT",
+          "PROF_DR_MED_DENT",
+          "DR_MED_CHIRO"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.AddressFormType": {
+        "enum": [
+          "UNKNOWN",
+          "MR",
+          "MS"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.AffiliationBroker": {
+        "enum": [
+          "TARIF_SUISSE",
+          "ASPI",
+          "PHYSIO_SWISS"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BankGroup": {
+        "enum": [
+          "SWISS_NATIONAL_BANK",
+          "UBS_GROUP",
+          "RESERVE",
+          "CREDIT_SUISSE_GROUP_1",
+          "CREDIT_SUISSE_GROUP_2",
+          "ENTRIS_BANKS",
+          "CANTONAL_BANKS",
+          "RAIFFEISEN_BANKS_AND_INDIVIDUAL_INSTITUTIONS",
+          "POST_FINANCE"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BankIidType": {
+        "enum": [
+          "HEAD_QUARTERS",
+          "MAIN_BRANCH",
+          "BRANCH"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BaseValidity": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "description": "Date of the validity start (=fachliches Startdatum). Time information will be ignored. Validity starts at the beginning of the specified day.",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Date of the validity end (=fachliches Enddatum). Time information will be ignored. Validity ends at the end of the specified day. If the period lasts indefinitely, the max date '9999-12-31 23:59:59.9999999' must be provided.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BusinessActivity": {
+        "enum": [
+          "ALLERGOLOGY_AND_CLINICAL_IMMUNOLOGY",
+          "GENERAL_INTERNAL_MEDICINE",
+          "ANESTHESIOLOGY",
+          "ANGIOLOGY",
+          "OCCUPATIONAL_MEDICINE",
+          "SURGERY",
+          "DERMATOLOGY_AND_VENEREOLOGY",
+          "ENDOCRINOLOGY_AND_DIABETOLOGY",
+          "GASTROENTEROLOGY",
+          "VASCULAR_SURGERY",
+          "GROUP_PRACTICES",
+          "GYNECOLOGY_AND_OBSTETRICS",
+          "HEMATOLOGY",
+          "HAND_SURGERY",
+          "CARDIAC_AND_THORACIC_VASCULAR_SURGERY",
+          "INFECTIOLOGY",
+          "INTENSIVE_CARE_MEDICINE",
+          "CARDIOLOGY",
+          "MAXILLOFACIAL_SURGERY",
+          "PEDIATRICS_AND_ADOLESCENT_MEDICINE",
+          "CHILD_AND_ADOLESCENT_PSYCHIATRY_AND_PSYCHOTHERAPY",
+          "PEDIATRIC_SURGERY",
+          "CLINICAL_PHARMACOLOGY_AND_TOXICOLOGY",
+          "MEDICAL_GENETICS",
+          "MEDICAL_ONCOLOGY",
+          "NEPHROLOGY",
+          "NEUROSURGERY",
+          "NEUROLOGY",
+          "NEUROPATHOLOGY",
+          "NUCLEAR_MEDICINE",
+          "OPHTHALMOLOGY",
+          "ORTHOPEDIC_SURGERY_AND_TRAUMATOLOGY_OF_THE_MUSCULOSKELETAL_SYSTEM",
+          "OTO_RHINO_LARYNGOLOGY",
+          "PATHOLOGY",
+          "PHARMACEUTICAL_MEDICINE",
+          "PHYSICAL_MEDICINE_AND_REHABILITATION",
+          "PLASTIC_RECONSTRUCTIVE_AND_AESTHETIC_SURGERY",
+          "PNEUMOLOGY",
+          "GENERAL_PRACTITIONER",
+          "PREVENTION_AND_HEALTH_CARE",
+          "PSYCHIATRY_AND_PSYCHOTHERAPY",
+          "RADIOLOGY",
+          "RADIO_ONCOLOGY_AND_RADIOTHERAPY",
+          "FORENSIC_MEDICINE",
+          "RHEUMATOLOGY",
+          "THORACIC_SURGERY",
+          "TROPICAL_AND_TRAVEL_MEDICINE",
+          "UROLOGY"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Canton": {
+        "enum": [
+          "AG",
+          "AI",
+          "AR",
+          "BS",
+          "BL",
+          "BE",
+          "FR",
+          "GE",
+          "GL",
+          "GR",
+          "JU",
+          "LU",
+          "NE",
+          "NW",
+          "OW",
+          "SH",
+          "SZ",
+          "SO",
+          "SG",
+          "TG",
+          "TI",
+          "UR",
+          "VS",
+          "VD",
+          "ZG",
+          "ZH"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.CertifierAffiliationType": {
+        "enum": [
+          "ASCA",
+          "APTN",
+          "NVS_SPAK",
+          "ESKAMED_EMR",
+          "ESKAMED_EMFIT",
+          "QC_QUALI_TOP",
+          "QC_FIT_SAFE",
+          "FC_FITNESS_GUIDE",
+          "BGB_FITNESS_GUIDE",
+          "QUALITOP",
+          "QualiCert"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ClearingNumberLawType": {
+        "enum": [
+          "KVG_VVG",
+          "PARTIAL_KVG_VVG",
+          "VVG",
+          "UVG_MV_IV"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ClearingNumberRelationType": {
+        "enum": [
+          "UNKNOWN",
+          "CHANGE_OF_REGION",
+          "CHANGE_OF_PRIMARY_BUSINESS_SCOPE",
+          "MERGER",
+          "TERMINATION_OF_ACTIVITY",
+          "CHANGE_OF_ACTIVITY",
+          "CHANGE_OF_HANDS",
+          "SECOND_CLEARING_NUMBER_INCLUSIVE_SUSPENSIONS",
+          "CHANGE_OF_SECONDARY_BUSINESS_SCOPE",
+          "COMPLEMENTARY_CARE_PROVIDER_MERGER",
+          "FITNESS_CARE_PROVIDER_MERGER",
+          "INVALID_MAPPING",
+          "MULTIPLE_LOCATIONS",
+          "MAIN_CLEARING_NUMBER"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ClearingNumberValidityEndReasonType": {
+        "enum": [
+          "UNKNOWN",
+          "TERMINATION_OF_ACTIVITY",
+          "REVOCATION_OF_BAB_LICENSE",
+          "CHANGE_OF_LOCATION",
+          "TERMINATION_BY_DEATH",
+          "CARE_PROVIDER_MERGER",
+          "CHANGE_OF_HANDS",
+          "OUT_OF_CONTRACT",
+          "CHANGE_OF_REGION",
+          "CHANGE_OF_BUSINESS_SCOPE",
+          "MISSING_CERTIFICATION",
+          "COMPLEMENTARY_CARE_PROVIDER_MERGER",
+          "UNPAYED_SERVICE_FEE",
+          "NONE"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ComplementaryMedicineLabel": {
+        "enum": [
+          "ESKAMED_EMR",
+          "ESKAMED_EMFIT"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.EmployeeNumberValidityEndReasonType": {
+        "enum": [
+          "UNKNOWN",
+          "END_OF_EMPLOYMENT",
+          "NONE"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.EmploymentType": {
+        "enum": [
+          "UNKNOWN",
+          "EXECUTIVE_KVG",
+          "REGULAR_KVG",
+          "REGULAR_NO_KVG"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.FacilityType": {
+        "enum": [
+          "HOSPITAL_LAB_TYPE",
+          "HOSPITAL_LAB_INFRASTRUCTURE",
+          "FITNESS_CLASSIFICATION",
+          "FITNESS_QUALITOP_FIT_SAFE",
+          "DOCTOR_FACILITY",
+          "HOSPITAL_FACILITY",
+          "NURSING_HOME_FACILITY",
+          "FITNESS_CARE_LEVEL",
+          "PROFICIENCY_TEST"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.FilterOption": {
+        "enum": [
+          "DispensariesMiGeL",
+          "Pharmacies",
+          "Doctors",
+          "Chiropractors",
+          "DelegatedPsychotherapy",
+          "OccupationalTherapists",
+          "NutritionCounselors",
+          "Fitness",
+          "Midwives",
+          "Spas",
+          "ComplementaryTherapists",
+          "Laboratories",
+          "SpeechTherapists",
+          "Neuropsychologists",
+          "Nurses",
+          "NursingHomes",
+          "Physiotheraphists",
+          "Hospitals",
+          "Spitex",
+          "TransportRescueCompanies",
+          "OtherBillers",
+          "Orthopedists",
+          "Dentists",
+          "DoctorFacilitiesForOutpatientNursing",
+          "Podiatrists",
+          "PsychologicalPsychotherapists",
+          "Asca",
+          "Aptn",
+          "Spak",
+          "Emr",
+          "EmFit",
+          "FGuide",
+          "FGuideK",
+          "QCert",
+          "Qtop"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Gender": {
+        "enum": [
+          "UNKNOWN",
+          "MALE",
+          "FEMALE"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.HealthService": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BaseValidity"
+          }
+        ],
+        "properties": {
+          "nameDe": {
+            "type": "string",
+            "description": "The health service name in German.",
+            "nullable": true
+          },
+          "nameFr": {
+            "type": "string",
+            "description": "The health service name in French.",
+            "nullable": true
+          },
+          "nameIt": {
+            "type": "string",
+            "description": "The health service name in Italian.",
+            "nullable": true
+          },
+          "affiliation": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.CertifierAffiliationType"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The health service external id.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Language": {
+        "enum": [
+          "DE",
+          "FR",
+          "IT"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.LegalFormType": {
+        "enum": [
+          "SOLE_PROPRIETORSHIP",
+          "GENERAL_PARTNERSHIP",
+          "LIMITED_PARTNERSHIP",
+          "PARTNERSHIP_LIMITED_BY_SHARES",
+          "COMPANY_LIMITED_BY_SHARES",
+          "LIMITED_LIABILITY_COMPANY",
+          "COOPERATIVE",
+          "ASSOCIATION",
+          "FOUNDATION",
+          "SWISS_BRANCH_WITH_HEADQUARTERS_ABROAD_AND_ENTRY_IN_THE_COMMERCIAL_REGISTER_IN_CH",
+          "SPECIAL_LEGAL_FORM",
+          "LIMITED_PARTNERSHIP_FOR_COLLECTIVE_INVESTMENTS",
+          "INVESTMENT_COMPANY_WITH_VARIABLE_CAPITAL",
+          "INVESTMENT_COMPANY_WITH_FIXED_CAPITAL",
+          "PUBLIC_LAW_INSTITUTE",
+          "NON_COMMERCIAL_POWER_OF_ATTORNEY",
+          "REPRESENTATIVE_OF_THE_COMMUNITY_OF_PROPERTY",
+          "SWISS_BRANCH_REGISTERED_IN_THE_COMMERCIAL_REGISTER",
+          "FEDERAL_ADMINISTRATION",
+          "CANTONAL_ADMINISTRATION",
+          "DISTRICT_ADMINISTRATION",
+          "LOCAL_ADMINISTRATION",
+          "PUBLIC_CORPORATION",
+          "FEDERAL_PUBLIC_COMPANY",
+          "CANTONAL_PUBLIC_COMPANY",
+          "DISTRICT_PUBLIC_COMPANY",
+          "LOCAL_PUBLIC_COMPANY",
+          "CORPORATE_PUBLIC_COMPANY",
+          "SIMPLE_PARTNERSHIP",
+          "SWISS_BRANCH_WITH_HEADQUARTERS_ABROAD_AND_NO_ENTRY_IN_THE_COMMERCIAL_REGISTER_IN_CH",
+          "FOREIGN_PUBLIC_COMPANY",
+          "FOREIGN_PUBLIC_ADMINISTRATION",
+          "INTERNATIONAL_ORGANISATION",
+          "OTHER_COOPERATIVE",
+          "TRUST",
+          "FUND",
+          "FOREIGN_COMPANY"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.LicenseRestrictionType": {
+        "enum": [
+          "UNKNOWN",
+          "NINETY_DAY_REGULATION",
+          "REGION",
+          "ACTIVITY",
+          "TIME"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.NumberType": {
+        "enum": [
+          "ClearingNumber",
+          "EmployeeNumber",
+          "UnregisteredGln"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.OrganizingInstitutionType": {
+        "enum": [
+          "PRIVATE",
+          "PUBLIC"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationCommentType": {
+        "enum": [
+          "VESTED_RIGHTS_GRANTED",
+          "VESTED_RIGHTS_REVOKED"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationGroupType": {
+        "enum": [
+          "UNKNOWN",
+          "DIPLOMA",
+          "POSTGRADUATE_TITLE",
+          "PRIVATE_LAW_POSTGRADUATE_TITLE"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationTitleType": {
+        "enum": [
+          "UNKNOWN",
+          "FEDERAL",
+          "RECOGINZED_MEBEKO",
+          "EQUIVALENT_MEBEKO",
+          "OTHER",
+          "VERIFIED_BGMD",
+          "VERIFIED_UNRECOGNIZABLE_FOREIGN_TITLE"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationType": {
+        "enum": [
+          "DIPLOMA",
+          "CERTIFICATE",
+          "CONTINUING_EDUCATION_CERTIFICATE",
+          "EXPERTISE_AREA",
+          "SKILLS",
+          "ADMISSION",
+          "ADDITIONAL_CERTIFICATE",
+          "FMH_POSTGRADUATE_TITLE",
+          "SIWF_POSTGRADUATE_TITLE",
+          "SIWF_CERTIFICATE",
+          "SIWF_SPECIALIZATION",
+          "SIWF_INTERDISCIPLINARY_SPECIALIZATION",
+          "SSO_POSTGRADUATE_TITLE",
+          "SSO_CERTIFICATE",
+          "FPH_POSTGRADUATE_TITLE",
+          "FPH_CERTIFICATE",
+          "FPH_TITLE",
+          "CHIRO_SUISSE_POSTGRADUATE_TITLE",
+          "CHIRO_SUISSE_CERTIFICATE",
+          "ORTHOPEDIC_SHOE_TECHNOLOGY_POSTGRADUATE_TITLE",
+          "LABORATORY_POSTGRADUATE_TITLE",
+          "LABORATORY_SPECIALIZATION"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CareProviderCertificationRequest": {
+        "required": [
+          "externalId",
+          "label"
+        ],
+        "type": "object",
+        "properties": {
+          "clearingNumber": {
+            "type": "string",
+            "description": "The clearing number (=ZSR-Nummer) identifying the care provider uniquely. <br />Validations:<ul><li>Clearing number check digit accoring to the documentation.</li></ul>",
+            "nullable": true
+          },
+          "externalId": {
+            "minLength": 1,
+            "type": "string",
+            "description": "The identification of the care provider in the system of the API consumer. <br />Validations:<ul><li>Must contain numbers only.</li></ul>"
+          },
+          "label": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ComplementaryMedicineLabel"
+          },
+          "careProviderHealthServices": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.HealthServicePeriodRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.HealthServicePeriodSubscriberRequest"
+                }
+              ]
+            },
+            "description": "Health services for the care provider.",
+            "nullable": true
+          },
+          "careProviderCertificationPeriods": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CertificationPeriodRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CertificationPeriodSubscriberRequest"
+                }
+              ]
+            },
+            "description": "Certification periods for the care provider.",
+            "nullable": true
+          },
+          "subscriberHealthServices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.HealthServicePeriodSubscriberRequest"
+            },
+            "description": "Health services per subscriber.",
+            "nullable": true
+          },
+          "subscriberCertificationPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CertificationPeriodSubscriberRequest"
+            },
+            "description": "Certification periods per subscriber.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The payload of a CareProviderCertification request."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CertificationPeriodRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BaseValidity"
+          }
+        ],
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CertificationPeriodSubscriberRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.CertificationPeriodRequest"
+          }
+        ],
+        "properties": {
+          "subscriberId": {
+            "type": "string",
+            "description": "The subscriber id according to the subscribers-Endpoint.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.HealthServicePeriodRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BaseValidity"
+          }
+        ],
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "description": "The identification of the health service in the system of the API consumer. <br />Validations:<ul><li>Must contain numbers only.</li></ul>",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.HealthServicePeriodSubscriberRequest": {
+        "required": [
+          "subscriberId"
+        ],
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Certifier.HealthServicePeriodRequest"
+          }
+        ],
+        "properties": {
+          "subscriberId": {
+            "minLength": 1,
+            "type": "string",
+            "description": "The subscriber id according to the subscribers-Endpoint."
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Subscriber.ClearingNumberCommentRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BaseValidity"
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The comment Id",
+            "format": "int64",
+            "nullable": true
+          },
+          "targetCprTenantRole": {
+            "type": "string",
+            "description": "When a user is assigned to multiple cpr tenants, this will clarify for which tenant the comment has to be created.",
+            "nullable": true
+          },
+          "clearingNumber": {
+            "type": "string",
+            "description": "The clearing number",
+            "nullable": true
+          },
+          "commentDe": {
+            "type": "string",
+            "description": "The comment in German",
+            "nullable": true
+          },
+          "commentFr": {
+            "type": "string",
+            "description": "The comment in French.",
+            "nullable": true
+          },
+          "commentIt": {
+            "type": "string",
+            "description": "The comment in Italian.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Requests.Subscriber.HealthServiceCommentRequest": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BaseValidity"
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The comment Id",
+            "format": "int64",
+            "nullable": true
+          },
+          "targetCprTenantRole": {
+            "type": "string",
+            "description": "When a user is assigned to multiple cpr tenants, this will clarify for which tenant the comment has to be created.",
+            "nullable": true
+          },
+          "healthServiceId": {
+            "type": "integer",
+            "description": "The health service Id",
+            "format": "int64"
+          },
+          "commentDe": {
+            "type": "string",
+            "description": "The comment in German",
+            "nullable": true
+          },
+          "commentFr": {
+            "type": "string",
+            "description": "The comment in French.",
+            "nullable": true
+          },
+          "commentIt": {
+            "type": "string",
+            "description": "The comment in Italian.",
+            "nullable": true
+          },
+          "isExcluded": {
+            "type": "boolean",
+            "description": "Whether the health service is excluded."
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.ClearingNumberDetailViewItem": {
+        "type": "object",
+        "properties": {
+          "modifiedTime": {
+            "type": "string",
+            "description": "Contains the clearing number modification date.",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "string",
+            "nullable": true
+          },
+          "clearingNumber": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumber"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A container for one specific clearing number and its context information."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Account": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "description": "The external id, e.g. BeguenstigtenId",
+            "nullable": true
+          },
+          "ibanNumber": {
+            "type": "string",
+            "description": "The IBAN number.",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "The account number (=Kontonummer).",
+            "nullable": true
+          },
+          "hasPaymentOrderReferenceNumber": {
+            "type": "boolean",
+            "description": "Marks the current account mapping available for ESR payments.",
+            "nullable": true
+          },
+          "beneficiary": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyJuristicPerson"
+              },
+              {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyNaturalPerson"
+              }
+            ],
+            "description": "Optionally contains the account holder (=Begünstigter) when not identical to the care provider (=Leistungserbringer).",
+            "nullable": true
+          },
+          "bank": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Bank"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The bank account."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Affiliation": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The identifier to match affiliations",
+            "format": "uuid",
+            "nullable": true
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "An affiliation in an organisation (=Mitgliedschaft)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Bank": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "bankGroup": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BankGroup"
+          },
+          "bankGroupTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "bankIidType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BankIidType"
+          },
+          "bankIidTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "iid": {
+            "type": "integer",
+            "description": "Each bank/financial institution is identified by the Iid made up of 3 to 5 digits.",
+            "format": "int32"
+          },
+          "newIid": {
+            "type": "integer",
+            "description": "Any value here replaces the Iid.",
+            "format": "int32",
+            "nullable": true
+          },
+          "branchId": {
+            "type": "string",
+            "description": "Together with the Iid number the BranchId provides a conclusive key for each bank or financial institution record.",
+            "nullable": true
+          },
+          "sicIid": {
+            "type": "string",
+            "description": "A 6-digit number only to be used by SIC and euroSIC participants.",
+            "nullable": true
+          },
+          "headquarterIid": {
+            "type": "integer",
+            "description": "The Iid of the head office.",
+            "format": "int32"
+          },
+          "shortName": {
+            "type": "string",
+            "description": "The short name of the bank or financial institution.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the bank or financial institution",
+            "nullable": true
+          },
+          "postalAccountNumber": {
+            "type": "string",
+            "description": "The bank's or financial institution's postal account number.",
+            "nullable": true
+          },
+          "bic": {
+            "type": "string",
+            "description": "The SWIFT directory entry value.",
+            "nullable": true
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Contact"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The SIX bank details."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier of the instance.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "description": "Date of the validity start (=fachliches Startdatum). Time information will be ignored. Validity starts at the beginning of the specified day.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Date of the validity end (=fachliches Enddatum). Time information will be ignored. Validity ends at the end of the specified day. If the period lasts indefinitely, the max date '9999-12-31 23:59:59.9999999' is used.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isValid": {
+            "type": "boolean",
+            "description": "Is true, if the instance was valid at the requested validityDate. If no specific validityDate was specified, then the current date (now) is evaluated (=fachliche Gültigkeit zum Zeitpunkt des übergebenen Stichdatums)."
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BusinessScope": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The identifier to match business scopes",
+            "format": "uuid",
+            "nullable": true
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "parentBusinessScope": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BusinessScope"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The business scope devided into parent business scope (=PartnerartObergruppe) and sub business scope (=PartnerartUntergruppe)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProvider": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Gets or sets e-mail address.",
+            "nullable": true
+          },
+          "careProviderParties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderParty"
+            },
+            "description": "The care provider party (=Personendaten). Despite multiple records for each moment in time only one active party exists.",
+            "nullable": true
+          },
+          "qualifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderQualification"
+            },
+            "description": "The care provider qualification mappings (=Qualifikationen).",
+            "nullable": true
+          },
+          "employeeNumbers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.EmployeeNumber"
+            },
+            "description": "The care provider employee number (=KNummer). For all employed OKP care providers.",
+            "nullable": true
+          },
+          "clearingNumbers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumber"
+            },
+            "description": "All care provider clearing numbers (=ZSR-Nummer).",
+            "nullable": true
+          },
+          "qualificationComments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderQualificationComment"
+            },
+            "description": "The care provider qualification comments",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The careprovider (=Leistungserbringer)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderAffiliation": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "description": "The care provider membership id (=Mitgliedernummer).",
+            "nullable": true
+          },
+          "affiliationBroker": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.AffiliationBroker"
+          },
+          "affiliationBrokerTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "affiliation": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Affiliation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The care provider affiliation."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderBusiness": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "careProviderBusinessParties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderBusinessParty"
+            },
+            "description": "The business party (=Personendaten). Despite multiple records for each moment in time only one active party exists.",
+            "nullable": true
+          },
+          "facilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderBusinessFacility"
+            },
+            "description": "A list of business facilities (=Einrichtung).",
+            "nullable": true
+          },
+          "healthServices": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthServiceCertifier"
+                },
+                {
+                  "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthServiceHospital"
+                }
+              ],
+              "description": "The mapping details for care provider health services (=Zertifizierer Methoden)."
+            },
+            "description": "A list of health services (=Zertifizierer Methoden) mapped to this particular business. For VVG businesses of complementary medicine only.",
+            "nullable": true
+          },
+          "affiliations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderAffiliation"
+            },
+            "description": "A list of affiliations (=Mitgliedschaften) mapped to this particular business.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The care provider business (=Zahlstelle)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderBusinessFacility": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "details": {
+            "type": "string",
+            "description": "Additional information for the assigned facility, e.g. bed count (=Anzahl Betten).",
+            "nullable": true
+          },
+          "facility": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Facility"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for a business facilities (=Einrichtungen)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderBusinessParty": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "party": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyBusiness"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for a business party (=Personendaten). For each point in time only one active mapping should exist."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthService": {
+        "required": [
+          "__typename"
+        ],
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "__typename": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for care provider health services (=Zertifizierer Methoden).",
+        "discriminator": {
+          "propertyName": "__typename",
+          "mapping": {
+            "CareProviderHealthServiceCertifier": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthServiceCertifier",
+            "CareProviderHealthServiceHospital": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthServiceHospital"
+          }
+        }
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthServiceCertifier": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthService"
+          }
+        ],
+        "properties": {
+          "healthService": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceCertifier"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthServiceHospital": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderHealthService"
+          }
+        ],
+        "properties": {
+          "healthService1": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceHospital"
+          },
+          "healthServiceMandate": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceMandate"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderParty": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "party": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyJuristicPerson"
+              },
+              {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyNaturalPerson"
+              }
+            ],
+            "description": "The care provider party (=Privatadresse).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for a care provider party (=Personendaten). For each point in time only one active mapping should exist."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderQualification": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "issueCountry": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Country"
+          },
+          "qualificationTitleType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationTitleType"
+          },
+          "qualificationTitleTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "recognitionDate": {
+            "type": "string",
+            "description": "The date the qualification has been recognized",
+            "format": "date-time",
+            "nullable": true
+          },
+          "equivalencyDate": {
+            "type": "string",
+            "description": "The date the qualification has been deemed equivalent",
+            "format": "date-time",
+            "nullable": true
+          },
+          "qualification": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Qualification"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for care provider qualifications (=Qualifikationen)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderQualificationComment": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "commentTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "qualificationCommentType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationCommentType"
+          },
+          "qualificationCommentTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for care provider qualifications (=Qualifikationen)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumber": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "The clearing number (=ZSR-Nummer) as plain text value.",
+            "nullable": true
+          },
+          "correspondenceParty": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyJuristicPerson"
+              },
+              {
+                "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyNaturalPerson"
+              }
+            ],
+            "description": "This party is used for correspondence.",
+            "nullable": true
+          },
+          "clearingNumberSuffix": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberSuffix"
+          },
+          "account": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Account"
+          },
+          "clearingNumberLaws": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberLaw"
+            },
+            "description": "The list of clearing number law types (=Zulassung) applicable for this clearing number.",
+            "nullable": true
+          },
+          "careProvider": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProvider"
+          },
+          "careProviderBusinesses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProviderBusiness"
+            },
+            "description": "The care provider business location (=Zahlstellen-Standorte). A care provider can multiple business locations.",
+            "nullable": true
+          },
+          "clearingNumberDummy": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberDummy"
+          },
+          "businessScope": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BusinessScope"
+          },
+          "businessActivity": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.BusinessActivity"
+          },
+          "relatedClearingNumbers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberRelation"
+            },
+            "description": "A mapping list of related clearing numbers.",
+            "nullable": true
+          },
+          "relatedEmployees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.EmployeeRelation"
+            },
+            "description": "A mapping list of employees of the care provider business, this clearing number belongs to.",
+            "nullable": true
+          },
+          "licenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.License"
+            },
+            "description": "A list of cantonal authorizations (=Kantonale Bewilligung).",
+            "nullable": true
+          },
+          "admissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.License"
+            },
+            "description": "A list of cantonal admissions (=Kantonale Zulassung).",
+            "nullable": true
+          },
+          "tariffSystems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberTariffSystem"
+            },
+            "description": "A mapping list of tariff systems (=Tarif-Verträge).",
+            "nullable": true
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberComment"
+            },
+            "description": "A list of comments regarding this clearing number.",
+            "nullable": true
+          },
+          "validityPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.ClearingNumberValidityPeriod"
+            },
+            "description": "A list of validity periods",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The clearing number (=ZSR-Nummer) and its full context information. Every business of a care provider has a clearing number."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberComment": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "commentTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The clearing number specific comment."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberDummy": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The clearing number dummy name.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The clearing number dummy (=ZSR-Nummer)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberLaw": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "clearingNumberLawType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ClearingNumberLawType"
+          },
+          "clearingNumberLawTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The clearing number law (=Zulassung)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberRelation": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "clearingNumber": {
+            "type": "string",
+            "description": "The related clearing number.",
+            "nullable": true
+          },
+          "clearingNumberRelationType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ClearingNumberRelationType"
+          },
+          "clearingNumberRelationTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for the clearing number relation (=Zugeordnete Zahlstellen, Zusätzliche Zahlstellen)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberSuffix": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The identifier to match clearing number suffixes",
+            "format": "uuid",
+            "nullable": true
+          },
+          "canton": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Canton"
+          },
+          "cantonTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "suffixNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The clearing number suffix (=StammKanton). This can be a swiss canton or any other grouping entity."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.ClearingNumberTariffSystem": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "tariffSystem": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.TariffSystem"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for the tarifs system (=Tarif-Verträge, Spitallaboratorium etc.)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Contact": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "language": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Language"
+          },
+          "languageTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PostalAddress"
+          },
+          "email": {
+            "type": "string",
+            "description": "Gets or sets e-mail address.",
+            "nullable": true
+          },
+          "mainPhoneNumber": {
+            "type": "string",
+            "description": "Gets or sets phone number.",
+            "nullable": true
+          },
+          "faxNumber": {
+            "type": "string",
+            "description": "Gets or sets fax number.",
+            "nullable": true
+          },
+          "additionalPhoneNumber": {
+            "type": "string",
+            "description": "Gets or sets mobile phone number.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The person's contact details."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Country": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The identifier to match countries",
+            "format": "uuid",
+            "nullable": true
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "twoLetterCountryCode": {
+            "type": "string",
+            "description": "The ISO 3166-1 alpha-2 two letter country code.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The country (=Land)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.EmployeeNumber": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "The employee number (=KNummer).",
+            "nullable": true
+          },
+          "careProvider": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.CareProvider"
+          },
+          "businessScope": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BusinessScope"
+          },
+          "relatedEmployers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.EmployerRelation"
+            },
+            "description": "A mapping list of employers.",
+            "nullable": true
+          },
+          "licenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.License"
+            },
+            "description": "A list of cantonal authorizations (=Kantonale Bewilligung).",
+            "nullable": true
+          },
+          "admissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.License"
+            },
+            "description": "A list of cantonal admissions (=Kantonale Zulassung).",
+            "nullable": true
+          },
+          "validityPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.EmployeeNumberValidityPeriod"
+            },
+            "description": "A list of validity periods",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The employee number (=KNummer)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.EmployeeRelation": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "employeeNumber": {
+            "type": "string",
+            "description": "The employee number (=KNummer).",
+            "nullable": true
+          },
+          "employmentType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.EmploymentType"
+          },
+          "employmentTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for the employee mapping (=Arbeitnehmer/Angestellte)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.EmployerRelation": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "clearingNumber": {
+            "type": "string",
+            "description": "The clearing number (=ZSR-Nummer).",
+            "nullable": true
+          },
+          "employmentType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.EmploymentType"
+          },
+          "employmentTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The mapping details for the employer mapping (=Arbeitgeber)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Facility": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The identifier to match facilities",
+            "format": "uuid",
+            "nullable": true
+          },
+          "facilityType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.FacilityType"
+          },
+          "facilityTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The business facility (=Einrichtung)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthService": {
+        "required": [
+          "__typename"
+        ],
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "__typename": {
+            "type": "string",
+            "nullable": true
+          },
+          "key": {
+            "type": "string",
+            "description": "The identifier to match qualifications",
+            "format": "uuid",
+            "nullable": true
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The certifier / lea health service identifier.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The certifier health service (=Zertifizierer-Methode).",
+        "discriminator": {
+          "propertyName": "__typename",
+          "mapping": {
+            "HealthServiceCertifier": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceCertifier",
+            "HealthServiceHospital": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceHospital"
+          }
+        }
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceCertifier": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthService"
+          }
+        ],
+        "properties": {
+          "affiliation": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Affiliation"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceComment"
+            },
+            "description": "Health service comments",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The certifier health service (=Zertifizierer-Methode)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceComment": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "commentTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "isExcluded": {
+            "type": "boolean",
+            "description": "Whether the health service is excluded."
+          }
+        },
+        "additionalProperties": false,
+        "description": "The health service specific comment."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceGroup": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "description": "Health service group external id (LEA-Leistungsbereich/-Leistungsgruppe abbreviation)",
+            "nullable": true
+          },
+          "parentExternalId": {
+            "type": "string",
+            "description": "The parent health service group external id (LEA-Leistungsbereich abbreviation)",
+            "nullable": true
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The health service group (=LEA-Leistungsbereich/-Leistungsgruppe)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceHospital": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthService"
+          }
+        ],
+        "properties": {
+          "healthServiceGroup": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceGroup"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The hospital health service (=LEA-Mandat)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.HealthServiceMandate": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "country": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Country"
+          },
+          "canton": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Canton"
+          },
+          "cantonTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The hospital health service canton mandat (=LeaDatModellKantonEinschraenkung)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.License": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "hasNarcoticSelfDispensation": {
+            "type": "boolean",
+            "description": "Cantonal license covers self dispensation of narcotics (=Selbstdispensation Betäubungsmittel).",
+            "nullable": true
+          },
+          "canton": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Canton"
+          },
+          "cantonTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "country": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Country"
+          },
+          "licenseRestrictions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.LicenseRestriction"
+            },
+            "description": "License restrictions (=Beschränkung).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The canton based license (=Kantonale Bewilligung) including any restrictions."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.LicenseRestriction": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "licenseRestrictionType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.LicenseRestrictionType"
+          },
+          "licenseRestrictionTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Licsense restriction reason (=Beschränkungstext).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "License restrictions (=Beschränkung, Sistierung, Sperrung, Ausstand)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Party": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "globalLocationNumber": {
+            "type": "string",
+            "description": "The global location number",
+            "nullable": true
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Contact"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The party (=Personendaten). Can either be an individual or legal person."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyBusiness": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Party"
+          }
+        ],
+        "properties": {
+          "branch": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyJuristicPerson": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyPerson"
+          }
+        ],
+        "properties": {
+          "firm": {
+            "type": "string",
+            "nullable": true
+          },
+          "branch": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizingInstitutionType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.OrganizingInstitutionType"
+          },
+          "organizingInstitutionTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyNaturalPerson": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyPerson"
+          }
+        ],
+        "properties": {
+          "givenName": {
+            "type": "string",
+            "nullable": true
+          },
+          "callName": {
+            "type": "string",
+            "nullable": true
+          },
+          "familyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "originalName": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressFormType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.AddressFormType"
+          },
+          "addressFormTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "academicTitle": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.AcademicTitle"
+          },
+          "academicTitleTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "birthPlace": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthCountry": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Country"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Gender"
+          },
+          "genderTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyPerson": {
+        "required": [
+          "__typename"
+        ],
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Party"
+          }
+        ],
+        "properties": {
+          "__typename": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationIdentificationNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalFormType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.LegalFormType"
+          },
+          "legalFormTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "__typename",
+          "mapping": {
+            "PartyJuristicPerson": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyJuristicPerson",
+            "PartyNaturalPerson": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PartyNaturalPerson"
+          }
+        }
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.PostalAddress": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "postOfficeBoxText": {
+            "type": "string",
+            "description": "Post office box text.",
+            "nullable": true
+          },
+          "postOfficeBoxNumber": {
+            "type": "integer",
+            "description": "Post office box number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "description": "The street (=Strasse).",
+            "nullable": true
+          },
+          "houseNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressAddition": {
+            "type": "string",
+            "description": "The address addition (=Adresszusatz).",
+            "nullable": true
+          },
+          "place": {
+            "type": "string",
+            "description": "The place/city (=Ort).",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code, national and international (=PLZ).",
+            "nullable": true
+          },
+          "country": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Country"
+          },
+          "canton": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Canton"
+          },
+          "cantonTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The postal address (=Postadresse)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Qualification": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The identifier to match qualifications",
+            "format": "uuid",
+            "nullable": true
+          },
+          "medRegId": {
+            "type": "integer",
+            "description": "The qualification MedReg id",
+            "format": "int32",
+            "nullable": true
+          },
+          "qualificationGroupType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationGroupType"
+          },
+          "qualificationGroupTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "qualificationType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.QualificationType"
+          },
+          "qualificationTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "affiliation": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.Affiliation"
+          },
+          "businessScope": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BusinessScope"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The qualification (=Qualifikation)."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.TariffSystem": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseContract"
+          }
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The identifier to match qualifications",
+            "format": "uuid",
+            "nullable": true
+          },
+          "tariffSystemType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.TariffSystemType"
+          },
+          "tariffSystemTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "nameTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "The tariff system."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.ClearingNumberValidityPeriod": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "description": "Date of the validity start (=fachliches Startdatum). Time information will be ignored. Validity starts at the beginning of the specified day.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Date of the validity end (=fachliches Enddatum). Time information will be ignored. Validity ends at the end of the specified day. If the period lasts indefinitely, the max date '9999-12-31 23:59:59.9999999' is used.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isValid": {
+            "type": "boolean",
+            "description": "Is true, if the instance was valid at the requested validityDate. If no specific validityDate was specified, then the current date (now) is evaluated (=fachliche Gültigkeit zum Zeitpunkt des übergebenen Stichdatums)."
+          },
+          "validityEndReasonType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.ClearingNumberValidityEndReasonType"
+          },
+          "validityEndReasonTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.EmployeeNumberValidityPeriod": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "description": "Date of the validity start (=fachliches Startdatum). Time information will be ignored. Validity starts at the beginning of the specified day.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Date of the validity end (=fachliches Enddatum). Time information will be ignored. Validity ends at the end of the specified day. If the period lasts indefinitely, the max date '9999-12-31 23:59:59.9999999' is used.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isValid": {
+            "type": "boolean",
+            "description": "Is true, if the instance was valid at the requested validityDate. If no specific validityDate was specified, then the current date (now) is evaluated (=fachliche Gültigkeit zum Zeitpunkt des übergebenen Stichdatums)."
+          },
+          "validityEndReasonType": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.EmployeeNumberValidityEndReasonType"
+          },
+          "validityEndReasonTypeTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.Subscriber": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.ValidityPeriod": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "description": "Date of the validity start (=fachliches Startdatum). Time information will be ignored. Validity starts at the beginning of the specified day.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Date of the validity end (=fachliches Enddatum). Time information will be ignored. Validity ends at the end of the specified day. If the period lasts indefinitely, the max date '9999-12-31 23:59:59.9999999' is used.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isValid": {
+            "type": "boolean",
+            "description": "Is true, if the instance was valid at the requested validityDate. If no specific validityDate was specified, then the current date (now) is evaluated (=fachliche Gültigkeit zum Zeitpunkt des übergebenen Stichdatums)."
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.EmployeeNumberDetailViewItem": {
+        "type": "object",
+        "properties": {
+          "modifiedTime": {
+            "type": "string",
+            "description": "Contains the employee number modification date.",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeNumber": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.EmployeeNumber"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A container for one specific employee number and its context information."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.HealthServiceCommentViewItem": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contract.BaseValidityContract"
+          }
+        ],
+        "properties": {
+          "healthServiceId": {
+            "type": "integer",
+            "description": "The internal health service id.",
+            "format": "int64"
+          },
+          "healthServiceExternalId": {
+            "type": "string",
+            "description": "The identification of the health service in the system of the API consumer as provided with the CareProviderCertification endpoint.",
+            "nullable": true
+          },
+          "certifier": {
+            "type": "string",
+            "description": "The certifier name.",
+            "nullable": true
+          },
+          "healthServiceTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "commentTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          },
+          "isExcluded": {
+            "type": "boolean",
+            "description": "Marks a health service as excluded/unsupported by an insurer."
+          }
+        },
+        "additionalProperties": false,
+        "description": "One specific comment entry on a health service."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.Authorization": {
+        "type": "object",
+        "properties": {
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.AuthorizationAddress"
+            },
+            "nullable": true
+          },
+          "authorizationConditionsAndRestrictions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.ConditionsAndRestrictions"
+            },
+            "nullable": true
+          },
+          "cantonOfAuthorizationId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cantonOfAuthorizationText": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalBasisId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "legalBasisText": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusOfAuthorizationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "statusOfAuthorizationText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfDecision": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "activityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "activityText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfDecisionActivity": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfLimitation": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "practiceOpeningDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "practiceClosingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "authorizationHiaId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "authorizationHiaText": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorizationForNarcoticsId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "authorizationForNarcoticsText": {
+            "type": "string",
+            "nullable": true
+          },
+          "commentNarcotics": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.AuthorizationAddress": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "additionalAdressData1": {
+            "type": "string",
+            "nullable": true
+          },
+          "additionalAdressData2": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "streetNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone2": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "individualEnterpriseId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "individualEnterpriseText": {
+            "type": "string",
+            "nullable": true
+          },
+          "legalFormId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "legalFormIdText": {
+            "type": "string",
+            "nullable": true
+          },
+          "uidBusiness": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorizationForSelfDispensationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "authorizationForSelfDispensationText": {
+            "type": "string",
+            "nullable": true
+          },
+          "commentSelfDispensation": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.ConditionsAndRestrictions": {
+        "type": "object",
+        "properties": {
+          "typeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeText": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfDecision": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfLimitation": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.Diploma": {
+        "type": "object",
+        "properties": {
+          "authorizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.Authorization"
+            },
+            "nullable": true
+          },
+          "ninetyDayServiceProviders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.NinetyDayServiceProvider"
+            },
+            "nullable": true
+          },
+          "diplomaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "diplomaText": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeOfDiplomaId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "typeOfDiplomaText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfIssue": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfRecognition": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfEquivalency": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "placeOfIssue": {
+            "type": "string",
+            "nullable": true
+          },
+          "landOfIssueId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "landOfIssueText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.LanguageAbility": {
+        "type": "object",
+        "properties": {
+          "languageAbilityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "languageAbilityText": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.Medical": {
+        "type": "object",
+        "properties": {
+          "diplomas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.Diploma"
+            },
+            "nullable": true
+          },
+          "postgraduateTitles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.PostgraduateTitle"
+            },
+            "nullable": true
+          },
+          "privateLawPostgraduateTitles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.PrivateLawPostgraduateTitle"
+            },
+            "nullable": true
+          },
+          "languageAbilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.LanguageAbility"
+            },
+            "nullable": true
+          },
+          "gln": {
+            "type": "string",
+            "nullable": true
+          },
+          "uid": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousName": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "sexId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sexText": {
+            "type": "string",
+            "nullable": true
+          },
+          "languageId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "languageText": {
+            "type": "string",
+            "nullable": true
+          },
+          "placeOfOrigin": {
+            "type": "string",
+            "nullable": true
+          },
+          "nationalityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nationalityText": {
+            "type": "string",
+            "nullable": true
+          },
+          "nationality2Id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nationality2Text": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.NinetyDayServiceProvider": {
+        "type": "object",
+        "properties": {
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.NinetyDayServiceProviderAddress"
+            },
+            "nullable": true
+          },
+          "statusId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "statusText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfNotification": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfStart": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cantonOfAuthorizationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cantonOfAuthorizationText": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorizationHiaId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "authorizationHiaText": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorizationForNarcoticsId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "authorizationForNarcoticsText": {
+            "type": "string",
+            "nullable": true
+          },
+          "commentNarcotics": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.NinetyDayServiceProviderAddress": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "additionalAdressData1": {
+            "type": "string",
+            "nullable": true
+          },
+          "additionalAdressData2": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "streetNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone2": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "fax": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorizationForSelfDispensationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "authorizationForSelfDispensationText": {
+            "type": "string",
+            "nullable": true
+          },
+          "commentSelfDispensation": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.PostgraduateTitle": {
+        "type": "object",
+        "properties": {
+          "postgraduateTitleId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "postgraduateTitleText": {
+            "type": "string",
+            "nullable": true
+          },
+          "typeOfTitleId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "typeOfTitleText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfIssue": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfRecognition": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfEquivalency": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "placeOfIssue": {
+            "type": "string",
+            "nullable": true
+          },
+          "landOfIssueId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "landOfIssueText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.MedReg.PrivateLawPostgraduateTitle": {
+        "type": "object",
+        "properties": {
+          "typeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeText": {
+            "type": "string",
+            "nullable": true
+          },
+          "designationId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "designationText": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfIssue": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateOfMutation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.NumberListViewItem": {
+        "type": "object",
+        "properties": {
+          "modifiedTime": {
+            "type": "string",
+            "description": "Contains the employee number modification date.",
+            "format": "date-time"
+          },
+          "number": {
+            "type": "string",
+            "description": "The number (clearing or employee number) itself.",
+            "nullable": true
+          },
+          "globalLocationNumber": {
+            "type": "string",
+            "description": "Global location number (=EANNummer).",
+            "nullable": true
+          },
+          "organizationIdentificationNumber": {
+            "type": "string",
+            "description": "Organization identification number (=UID-Nummer/IDE/IDI).",
+            "nullable": true
+          },
+          "firm": {
+            "type": "string",
+            "description": "The firm (=Firma).",
+            "nullable": true
+          },
+          "branch": {
+            "type": "string",
+            "description": "The branch name (=Praxis-/Standortname).",
+            "nullable": true
+          },
+          "givenName": {
+            "type": "string",
+            "description": "Given name / first name (=Vorname).",
+            "nullable": true
+          },
+          "callName": {
+            "type": "string",
+            "description": "Call name (=Rufname).",
+            "nullable": true
+          },
+          "familyName": {
+            "type": "string",
+            "description": "Family name / last name (=Nachname).",
+            "nullable": true
+          },
+          "originalName": {
+            "type": "string",
+            "description": "Orginal name (=Ledigenname).",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code, national and international (=PLZ).",
+            "nullable": true
+          },
+          "place": {
+            "type": "string",
+            "description": "The place/city (=Ort).",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "description": "The street with street number (=Strasse).",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "An E.164 phone number.",
+            "nullable": true
+          },
+          "validityPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.Contracts.ValidityPeriod"
+            },
+            "description": "A collection of validity periods. IsValid is true, if the instance was valid at the requested validityDate. If no specific validityDate was specified, then the current date (now) is evaluated (=fachliche Gültigkeit zum Zeitpunkt des übergebenen Stichdatums).",
+            "nullable": true
+          },
+          "detailViewItemUrl": {
+            "type": "string",
+            "description": "Resource URL to retrieve further details regarding this number.",
+            "nullable": true
+          },
+          "clearingNumberSuffixTwoLetterCantonCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "clearingNumberSuffixTranslations": {
+            "$ref": "#/components/schemas/Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A response container for a list of consolidated basic number (clearing or employee number) information."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Responses.StringBulkResponse": {
+        "type": "object",
+        "properties": {
+          "tookInMs": {
+            "type": "integer",
+            "description": "Request processing time in milliseconds.",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "Overall, paging-independently count of entries according to the specified parameters.",
+            "format": "int32"
+          },
+          "recordCount": {
+            "type": "integer",
+            "description": "Number of records in the current page.",
+            "format": "int32",
+            "readOnly": true
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The applied offset value.",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The applied limit value.",
+            "format": "int32"
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The records of the current page.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A response container for a list of string values."
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.TariffSystemType": {
+        "enum": [
+          "LOA",
+          "NURSING_HOME_FLAT_RATE"
+        ],
+        "type": "string"
+      },
+      "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1.Translation": {
+        "type": "object",
+        "properties": {
+          "de": {
+            "type": "string",
+            "nullable": true
+          },
+          "fr": {
+            "type": "string",
+            "nullable": true
+          },
+          "it": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. Example:\"Authorization:Bearer {token}\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}
