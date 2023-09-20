@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder.fullObjectPojoBuilder;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -104,13 +105,40 @@ public class ObjectPojo implements Pojo {
   }
 
   @Override
-  public Pojo inlineObjectReference(
+  public ObjectPojo inlineObjectReference(
       PojoName referenceName, String referenceDescription, Type referenceType) {
-    return mapMembers(
+    final PList<PojoMember> mappedMembers =
+        members.map(
             member ->
-                member.inlineObjectReference(referenceName, referenceDescription, referenceType))
-        .mapAdditionalProperties(
-            props -> props.inlineObjectReference(referenceName, referenceType));
+                member.inlineObjectReference(referenceName, referenceDescription, referenceType));
+    final Optional<AllOfComposition> mappedAllOfComposition =
+        allOfComposition.map(
+            composition ->
+                composition.inlineObjectReference(
+                    referenceName, referenceDescription, referenceType));
+    final Optional<OneOfComposition> mappedOneOfComposition =
+        oneOfComposition.map(
+            composition ->
+                composition.inlineObjectReference(
+                    referenceName, referenceDescription, referenceType));
+    final Optional<AnyOfComposition> mappedAnyOfComposition =
+        anyOfComposition.map(
+            composition ->
+                composition.inlineObjectReference(
+                    referenceName, referenceDescription, referenceType));
+    final AdditionalProperties mappedAdditionalProperties =
+        additionalProperties.inlineObjectReference(referenceName, referenceType);
+    return fullObjectPojoBuilder()
+        .name(name)
+        .description(description)
+        .members(mappedMembers)
+        .requiredAdditionalProperties(requiredAdditionalProperties)
+        .constraints(constraints)
+        .additionalProperties(mappedAdditionalProperties)
+        .allOfComposition(mappedAllOfComposition)
+        .oneOfComposition(mappedOneOfComposition)
+        .anyOfComposition(mappedAnyOfComposition)
+        .build();
   }
 
   private ObjectPojo mapMembers(UnaryOperator<PojoMember> map) {
@@ -124,19 +152,6 @@ public class ObjectPojo implements Pojo {
         anyOfComposition,
         constraints,
         additionalProperties);
-  }
-
-  private ObjectPojo mapAdditionalProperties(UnaryOperator<AdditionalProperties> map) {
-    return new ObjectPojo(
-        name,
-        description,
-        members,
-        requiredAdditionalProperties,
-        allOfComposition,
-        oneOfComposition,
-        anyOfComposition,
-        constraints,
-        map.apply(additionalProperties));
   }
 
   @Override

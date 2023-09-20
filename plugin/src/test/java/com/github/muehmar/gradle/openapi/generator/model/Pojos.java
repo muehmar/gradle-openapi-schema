@@ -4,7 +4,9 @@ import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProper
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
@@ -43,5 +45,39 @@ public class Pojos {
 
   public static ObjectPojo anyOfPojo(Pojo anyOfPojo, Pojo... morePojos) {
     return anyOfPojo(NonEmptyList.of(anyOfPojo, morePojos));
+  }
+
+  public static ObjectPojo oneOfPojo(NonEmptyList<Pojo> oneOfPojos) {
+    return ObjectPojoBuilder.create()
+        .name(PojoName.ofNameAndSuffix("OneOfPojo", "Dto"))
+        .description("One of pojo")
+        .members(PList.empty())
+        .requiredAdditionalProperties(PList.empty())
+        .constraints(Constraints.empty())
+        .additionalProperties(anyTypeAllowed())
+        .andOptionals()
+        .oneOfComposition(OneOfComposition.fromPojos(oneOfPojos))
+        .build();
+  }
+
+  public static ObjectPojo oneOfPojo(Pojo oneOfPojo, Pojo... morePojos) {
+    return oneOfPojo(NonEmptyList.of(oneOfPojo, morePojos));
+  }
+
+  public static ObjectPojo allOfPojo(NonEmptyList<Pojo> allOfPojos) {
+    return ObjectPojoBuilder.create()
+        .name(PojoName.ofNameAndSuffix("AllOfPojo", "Dto"))
+        .description("All of pojo")
+        .members(PList.empty())
+        .requiredAdditionalProperties(PList.empty())
+        .constraints(Constraints.empty())
+        .additionalProperties(anyTypeAllowed())
+        .andOptionals()
+        .allOfComposition(AllOfComposition.fromPojos(allOfPojos))
+        .build();
+  }
+
+  public static ObjectPojo allOfPojo(Pojo anyOfPojo, Pojo... morePojos) {
+    return allOfPojo(NonEmptyList.of(anyOfPojo, morePojos));
   }
 }

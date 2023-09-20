@@ -6,6 +6,8 @@ import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.Type;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -63,5 +65,13 @@ public class OneOfComposition {
 
   public Optional<Discriminator> getDiscriminator() {
     return discriminator;
+  }
+
+  public OneOfComposition inlineObjectReference(
+      PojoName referenceName, String referenceDescription, Type referenceType) {
+    final NonEmptyList<Pojo> mappedPojos =
+        pojos.map(
+            pojo -> pojo.inlineObjectReference(referenceName, referenceDescription, referenceType));
+    return new OneOfComposition(mappedPojos, discriminator);
   }
 }
