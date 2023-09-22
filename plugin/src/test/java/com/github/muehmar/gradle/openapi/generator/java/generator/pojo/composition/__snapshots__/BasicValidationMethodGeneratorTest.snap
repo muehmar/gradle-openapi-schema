@@ -71,7 +71,7 @@ boolean validateBasic() {
     true &&
     true &&
     true &&
-    additionalProperties.size == 0;
+    additionalProperties.isEmpty();
 }
 ]
 

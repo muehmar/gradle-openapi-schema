@@ -4344,7 +4344,7 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true &&
-      additionalProperties.size == 0;
+      additionalProperties.isEmpty();
   }
 
   @Override
