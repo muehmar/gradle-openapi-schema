@@ -43,6 +43,10 @@ public class JavaAdditionalProperties {
     return MAP_PROPERTY_NAME;
   }
 
+  public boolean isNotAllowed() {
+    return not(allowed);
+  }
+
   public boolean isValueAnyType() {
     return type.equals(javaAnyType());
   }

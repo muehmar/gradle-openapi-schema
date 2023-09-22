@@ -130,4 +130,18 @@ class BasicValidationMethodGeneratorTest {
 
     expect.toMatchSnapshot(writer.asString());
   }
+
+  @Test
+  @SnapshotName("objectPojoWithNotAllowedAdditionalProperties")
+  void generate_when_objectPojoWithNotAllowedAdditionalProperties_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+
+    final JavaObjectPojo pojo =
+        JavaPojos.withAdditionalProperties(
+            sampleObjectPojo1(), JavaAdditionalProperties.notAllowed());
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
 }

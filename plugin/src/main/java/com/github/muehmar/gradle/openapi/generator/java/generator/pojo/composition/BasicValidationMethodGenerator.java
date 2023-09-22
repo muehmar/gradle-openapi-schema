@@ -28,13 +28,14 @@ public class BasicValidationMethodGenerator {
   private static Generator<JavaObjectPojo, PojoSettings> basicValidationMethodContent() {
     return Generator.<JavaObjectPojo, PojoSettings>constant("return")
         .append(
-            singleCondition(basicValidationMethodContentWithRequiredMembers(), " &&")
+            basicValidationMethodContentWithRequiredMembers()
                 .append(singleCondition(methodContentOneOfCondition(), " &&"))
                 .append(singleCondition(methodContentOneOfDiscriminatorCondition(), " &&"))
                 .append(singleCondition(methodContentAnyOfCondition(), " &&"))
                 .append(singleCondition(additionalPropertiesTypeCondition(), " &&"))
                 .append(singleCondition(minPropertyCountCondition(), " &&"))
-                .append(singleCondition(maxPropertyCountCondition(), ";")),
+                .append(singleCondition(maxPropertyCountCondition(), " &&"))
+                .append(singleCondition(noAdditionalPropertiesCondition(), ";")),
             1);
   }
 
@@ -59,24 +60,27 @@ public class BasicValidationMethodGenerator {
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> methodContentOneOfCondition() {
-    return Generator.<JavaObjectPojo, PojoSettings>constant("getOneOfValidCount() == 1 &&")
+    return Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(
+            w -> w.print("getOneOfValidCount() == 1"))
         .filter(JavaObjectPojo::hasOneOfComposition);
   }
 
   private static Generator<JavaObjectPojo, PojoSettings>
       methodContentOneOfDiscriminatorCondition() {
-    return Generator.<JavaObjectPojo, PojoSettings>constant("isValidAgainstTheCorrectSchema() &&")
+    return Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(
+            w -> w.print("isValidAgainstTheCorrectSchema()"))
         .filter(BasicValidationMethodGenerator::hasOneOfDiscriminator);
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> methodContentAnyOfCondition() {
-    return Generator.<JavaObjectPojo, PojoSettings>constant("getAnyOfValidCount() >= 1 &&")
+    return Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(
+            w -> w.print("getAnyOfValidCount() >= 1"))
         .filter(JavaObjectPojo::hasAnyOfComposition);
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesTypeCondition() {
-    return Generator.<JavaObjectPojo, PojoSettings>constant(
-            "isAllAdditionalPropertiesHaveCorrectType() &&")
+    return Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(
+            w -> w.print("isAllAdditionalPropertiesHaveCorrectType()"))
         .filter(pojo -> pojo.getAdditionalProperties().isNotValueAnyType());
   }
 
@@ -84,8 +88,8 @@ public class BasicValidationMethodGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
             (p, s, w) ->
-                w.println(
-                    "%d <= getPropertyCount() &&",
+                w.print(
+                    "%d <= getPropertyCount()",
                     p.getConstraints()
                         .getPropertyCount()
                         .flatMap(PropertyCount::getMinProperties)
@@ -102,8 +106,8 @@ public class BasicValidationMethodGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
             (p, s, w) ->
-                w.println(
-                    "getPropertyCount() <= %d;",
+                w.print(
+                    "getPropertyCount() <= %d",
                     p.getConstraints()
                         .getPropertyCount()
                         .flatMap(PropertyCount::getMaxProperties)
@@ -114,6 +118,12 @@ public class BasicValidationMethodGenerator {
                     .getPropertyCount()
                     .flatMap(PropertyCount::getMaxProperties)
                     .isPresent());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> noAdditionalPropertiesCondition() {
+    return Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(
+            w -> w.print("additionalProperties.size == 0"))
+        .filter(pojo -> pojo.getAdditionalProperties().isNotAllowed());
   }
 
   private static boolean hasRequiredInMembers(JavaObjectPojo pojo) {
@@ -129,7 +139,7 @@ public class BasicValidationMethodGenerator {
     return (p, s, w) ->
         generator.generate(p, s, javaWriter()).asString().isEmpty()
             ? w.println("true%s", suffix)
-            : generator.generate(p, s, w);
+            : generator.generate(p, s, w).println(suffix);
   }
 
   @Value
