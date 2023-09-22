@@ -245,6 +245,7 @@ public class SampleObjectPojo1Dto {
       true &&
       true &&
       true &&
+      true &&
       true;
   }
 

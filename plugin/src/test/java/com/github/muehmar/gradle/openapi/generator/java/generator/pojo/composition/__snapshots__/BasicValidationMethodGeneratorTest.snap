@@ -7,6 +7,7 @@ boolean validateBasic() {
     getAnyOfValidCount() >= 1 &&
     true &&
     true &&
+    true &&
     true;
 }
 ]
@@ -36,7 +37,8 @@ boolean validateBasic() {
     true &&
     true &&
     true &&
-    getPropertyCount() <= 8;
+    getPropertyCount() <= 8 &&
+    true;
 }
 ]
 
@@ -51,7 +53,25 @@ boolean validateBasic() {
     true &&
     true &&
     5 <= getPropertyCount() &&
+    true &&
     true;
+}
+]
+
+
+objectPojoWithNotAllowedAdditionalProperties=[
+boolean validateBasic() {
+  return
+    stringVal != null &&
+    intVal != null &&
+    doubleVal != null &&
+    true &&
+    true &&
+    true &&
+    true &&
+    true &&
+    true &&
+    additionalProperties.size == 0;
 }
 ]
 
@@ -67,6 +87,7 @@ boolean validateBasic() {
     true &&
     isAllAdditionalPropertiesHaveCorrectType() &&
     true &&
+    true &&
     true;
 }
 ]
@@ -75,9 +96,9 @@ boolean validateBasic() {
 oneOfPojoWithDiscriminator=[
 boolean validateBasic() {
   return
-    true &&
     getOneOfValidCount() == 1 &&
     isValidAgainstTheCorrectSchema() &&
+    true &&
     true &&
     true &&
     true &&
@@ -91,6 +112,7 @@ boolean validateBasic() {
   return
     color != null &&
     getOneOfValidCount() == 1 &&
+    true &&
     true &&
     true &&
     true &&
