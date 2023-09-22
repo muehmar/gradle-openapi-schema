@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -38,6 +39,12 @@ public class MapType implements Type {
   @Override
   public Constraints getConstraints() {
     return constraints;
+  }
+
+  @Override
+  public MapType applyMapping(PojoNameMapping pojoNameMapping) {
+    return new MapType(
+        key.applyMapping(pojoNameMapping), value.applyMapping(pojoNameMapping), constraints);
   }
 
   @Override

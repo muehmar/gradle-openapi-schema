@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -51,6 +52,11 @@ public class EnumType implements Type {
   @Override
   public Constraints getConstraints() {
     return Constraints.empty();
+  }
+
+  @Override
+  public EnumType applyMapping(PojoNameMapping pojoNameMapping) {
+    return this;
   }
 
   @Override

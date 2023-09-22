@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -15,6 +16,8 @@ public interface Pojo {
 
   Pojo inlineObjectReference(
       PojoName referenceName, String referenceDescription, Type referenceType);
+
+  Pojo applyMapping(PojoNameMapping pojoNameMapping);
 
   <T> T fold(
       Function<ObjectPojo, T> onObjectPojo,

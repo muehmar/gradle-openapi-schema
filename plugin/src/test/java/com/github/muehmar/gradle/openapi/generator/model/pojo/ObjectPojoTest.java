@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -210,5 +211,96 @@ class ObjectPojoTest {
         anyOfPojo.inlineObjectReference(referenceName, "description", referenceType);
 
     assertEquals(anyOfPojo, mappedPojo);
+  }
+
+  @Test
+  void applyMapping_when_calledForSimpleObjectPojo_then_nameMappedCorrectly() {
+    final ObjectPojo objectPojo =
+        Pojos.objectPojo(
+            PList.of(
+                PojoMembers.requiredUsername(),
+                PojoMembers.ofType(ObjectType.ofName(PojoName.ofNameAndSuffix("Member", "Dto")))),
+            AdditionalProperties.allowed(
+                ObjectType.ofName(PojoName.ofNameAndSuffix("AdditionalProperty", "Dto"))));
+
+    final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
+
+    assertEquals("ObjectPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals(
+        "AdditionalPropertyMappedDto",
+        mappedPojo
+            .getAdditionalProperties()
+            .getType()
+            .asObjectType()
+            .map(ObjectType::getName)
+            .map(PojoName::asString)
+            .orElse(""));
+    assertEquals(
+        "MemberMappedDto",
+        mappedPojo
+            .getMembers()
+            .apply(1)
+            .getType()
+            .asObjectType()
+            .map(ObjectType::getName)
+            .map(PojoName::asString)
+            .orElse(""));
+  }
+
+  @Test
+  void applyMapping_when_calledForOneOfObjectPojo_then_nameMappedCorrectly() {
+    final ObjectPojo objectPojo =
+        Pojos.oneOfPojo(
+            NonEmptyList.single(Pojos.objectPojo(PList.of(PojoMembers.requiredUsername()))));
+
+    final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
+
+    assertEquals("OneOfPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals(
+        "ObjectPojoMappedDto",
+        mappedPojo
+            .getOneOfComposition()
+            .flatMap(comp -> comp.getPojos().head().asObjectPojo())
+            .map(ObjectPojo::getName)
+            .map(PojoName::asString)
+            .orElse(""));
+  }
+
+  @Test
+  void applyMapping_when_calledForAnyOfMapping_then_nameMappedCorrectly() {
+    final ObjectPojo objectPojo =
+        Pojos.anyOfPojo(
+            NonEmptyList.single(Pojos.objectPojo(PList.of(PojoMembers.requiredUsername()))));
+
+    final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
+
+    assertEquals("AnyOfPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals(
+        "ObjectPojoMappedDto",
+        mappedPojo
+            .getAnyOfComposition()
+            .flatMap(comp -> comp.getPojos().head().asObjectPojo())
+            .map(ObjectPojo::getName)
+            .map(PojoName::asString)
+            .orElse(""));
+  }
+
+  @Test
+  void applyMapping_when_calledForAllOfMapping_then_nameMappedCorrectly() {
+    final ObjectPojo objectPojo =
+        Pojos.allOfPojo(
+            NonEmptyList.single(Pojos.objectPojo(PList.of(PojoMembers.requiredUsername()))));
+
+    final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
+
+    assertEquals("AllOfPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals(
+        "ObjectPojoMappedDto",
+        mappedPojo
+            .getAllOfComposition()
+            .flatMap(comp -> comp.getPojos().head().asObjectPojo())
+            .map(ObjectPojo::getName)
+            .map(PojoName::asString)
+            .orElse(""));
   }
 }

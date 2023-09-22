@@ -21,6 +21,7 @@ public class TestPojoSettings {
         .getterSuffixes(defaultGetterSuffixes())
         .validationMethods(defaultValidationMethods())
         .excludeSchemas(Collections.emptyList())
+        .pojoNameMappings(PojoNameMappings.noMappings())
         .andAllOptionals()
         .build();
   }

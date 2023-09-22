@@ -27,6 +27,7 @@ public class PojoSettings implements Serializable {
   GetterSuffixes getterSuffixes;
   ValidationMethods validationMethods;
   List<String> excludeSchemas;
+  PojoNameMappings pojoNameMappings;
 
   public boolean isJacksonJson() {
     return jsonSupport.equals(JsonSupport.JACKSON);
@@ -83,5 +84,14 @@ public class PojoSettings implements Serializable {
 
   public TypeMappings getTypeMappings() {
     return new TypeMappings(PList.fromIter(classTypeMappings), PList.fromIter(formatTypeMappings));
+  }
+
+  public PojoNameMapping pojoNameMapping() {
+    return PList.fromIter(pojoNameMappings.getConstantNameMappings())
+        .map(
+            constantNameMapping ->
+                PojoNameMapping.replaceConstant(
+                    constantNameMapping.getConstant(), constantNameMapping.getReplacement()))
+        .foldLeft(PojoNameMapping.noMapping(), PojoNameMapping::andThen);
   }
 }

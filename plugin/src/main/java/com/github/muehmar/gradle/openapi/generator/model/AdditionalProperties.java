@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import lombok.Value;
 
 @Value
@@ -26,6 +27,11 @@ public class AdditionalProperties {
             .filter(objectType -> objectType.getName().equals(referenceName))
             .map(ignore -> referenceType)
             .orElse(type);
+    return new AdditionalProperties(allowed, newType);
+  }
+
+  public AdditionalProperties applyMapping(PojoNameMapping pojoNameMapping) {
+    final Type newType = type.applyMapping(pojoNameMapping);
     return new AdditionalProperties(allowed, newType);
   }
 }

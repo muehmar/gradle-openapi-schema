@@ -10,12 +10,15 @@ import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public interface Type {
   Constraints getConstraints();
+
+  Type applyMapping(PojoNameMapping pojoNameMapping);
 
   <T> T fold(
       Function<NumericType, T> onNumericType,

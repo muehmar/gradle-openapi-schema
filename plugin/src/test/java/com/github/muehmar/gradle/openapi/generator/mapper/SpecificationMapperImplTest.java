@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProper
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE_TIME;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.EMAIL;
@@ -301,7 +302,7 @@ class SpecificationMapperImplTest {
                         "",
                         MapType.ofKeyAndValueType(
                             StringType.noFormat(),
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("UserInterests", "Dto"))),
+                            ObjectType.ofName(pojoName("UserInterests", "User.interests", "Dto"))),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE),
@@ -319,7 +320,7 @@ class SpecificationMapperImplTest {
                         "",
                         MapType.ofKeyAndValueType(
                             StringType.noFormat(),
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("UserHobbies", "Dto"))),
+                            ObjectType.ofName(pojoName("UserHobbies", "User.hobbies", "Dto"))),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE),
@@ -362,7 +363,7 @@ class SpecificationMapperImplTest {
                         "",
                         ArrayType.ofItemType(
                             ObjectType.ofName(
-                                PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"))),
+                                pojoName("UserGroupLanguages", "UserGroup.languages", "Dto"))),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
@@ -374,7 +375,7 @@ class SpecificationMapperImplTest {
 
     assertEquals(
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("UserGroupLanguages", "Dto"))
+            .name(pojoName("UserGroupLanguages", "UserGroup.languages", "Dto"))
             .description("")
             .members(
                 PList.of(
@@ -400,7 +401,7 @@ class SpecificationMapperImplTest {
 
     assertEquals(
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("UserHobbies", "Dto"))
+            .name(pojoName("UserHobbies", "User.hobbies", "Dto"))
             .description("")
             .members(
                 PList.of(
@@ -426,15 +427,15 @@ class SpecificationMapperImplTest {
 
     assertEquals(
         ArrayPojo.of(
-            PojoName.ofNameAndSuffix("UserInterests", "Dto"),
+            pojoName("UserInterests", "User.interests", "Dto"),
             "",
-            ObjectType.ofName(PojoName.ofNameAndSuffix("UserInterestsValue", "Dto")),
+            ObjectType.ofName(pojoName("UserInterestsValue", "User.interests.value", "Dto")),
             Constraints.empty()),
         pojos.apply(5));
 
     assertEquals(
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("UserInterestsValue", "Dto"))
+            .name(pojoName("UserInterestsValue", "User.interests.value", "Dto"))
             .description("")
             .members(
                 PList.of(
@@ -910,10 +911,10 @@ class SpecificationMapperImplTest {
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(2, pojos.size());
-    assertEquals(PojoName.ofNameAndSuffix("Gender", "Dto"), pojos.apply(0).getName());
-    assertEquals(PojoName.ofNameAndSuffix("User", "Dto"), pojos.apply(1).getName());
+    assertEquals(pojoName("Gender", "gender", "Dto"), pojos.apply(0).getName());
+    assertEquals(pojoName("User", "user", "Dto"), pojos.apply(1).getName());
     assertEquals(
-        Optional.of(PojoName.ofNameAndSuffix("Gender", "Dto")),
+        Optional.of(pojoName("Gender", "Gender", "Dto")),
         pojos
             .apply(1)
             .asObjectPojo()
@@ -954,6 +955,6 @@ class SpecificationMapperImplTest {
             .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
 
     assertEquals(1, pojos.size());
-    assertEquals(PojoName.ofNameAndSuffix("Gender", "Dto"), pojos.apply(0).getName());
+    assertEquals(pojoName("Gender", "gender", "Dto"), pojos.apply(0).getName());
   }
 }

@@ -72,7 +72,7 @@ class ComposedSchemas {
     final PList<PojoName> namesFromReferences =
         references
             .map(SchemaReference::getSchemaName)
-            .map(n -> PojoName.ofNameAndSuffix(n, pojoName.getSuffix()));
+            .map(schemaName -> PojoName.ofNameAndSuffix(schemaName, pojoName.getSuffix()));
     final PList<PojoName> namesFromSchemas = pojoSchemas.map(PojoSchema::getPojoName);
     return namesFromReferences.concat(namesFromSchemas);
   }

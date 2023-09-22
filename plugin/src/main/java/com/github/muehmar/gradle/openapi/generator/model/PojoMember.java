@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import lombok.Value;
@@ -44,6 +45,11 @@ public class PojoMember {
         .filter(objType -> objType.getName().equals(referenceName))
         .map(ignore -> withDescription(referenceDescription).withType(referenceType))
         .orElse(this);
+  }
+
+  public PojoMember applyMapping(PojoNameMapping pojoNameMapping) {
+    final Type newType = type.applyMapping(pojoNameMapping);
+    return withType(newType);
   }
 
   public boolean isOptional() {

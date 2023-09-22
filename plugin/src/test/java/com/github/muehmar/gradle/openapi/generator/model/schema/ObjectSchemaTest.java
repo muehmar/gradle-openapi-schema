@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -98,7 +99,7 @@ class ObjectSchemaTest {
     final ObjectPojo objectPojo =
         resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
-    final PojoName memberObjectPojoName = PojoName.ofNameAndSuffix("ObjectObjectVal", "Dto");
+    final PojoName memberObjectPojoName = pojoName("ObjectObjectVal", "Object.objectVal", "Dto");
 
     final ObjectPojo expectedPojo =
         ObjectPojoBuilder.create()
@@ -313,7 +314,8 @@ class ObjectSchemaTest {
     final ObjectPojo objectPojo =
         resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
-    final PojoName additionalPropertiesPojoName = PojoName.ofNameAndSuffix("ObjectProperty", "Dto");
+    final PojoName additionalPropertiesPojoName =
+        pojoName("ObjectProperty", "Object.Property", "Dto");
 
     assertEquals(
         PList.single(Name.ofString("gender")), objectPojo.getRequiredAdditionalProperties());
@@ -385,7 +387,7 @@ class ObjectSchemaTest {
         mapToMemberType(
             PojoName.ofName(Name.ofString("invoice")), Name.ofString("page"), mapSchema);
 
-    final PojoName invoicePagePojoName = PojoName.ofName(Name.ofString("InvoicePage"));
+    final PojoName invoicePagePojoName = pojoName("InvoicePage", "invoice.page", "");
     final MapType expectedType =
         MapType.ofKeyAndValueType(StringType.noFormat(), ObjectType.ofName(invoicePagePojoName))
             .withConstraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(5)));
@@ -410,7 +412,7 @@ class ObjectSchemaTest {
     final PojoName pojoName = PojoName.ofName(Name.ofString("Map"));
     final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(pojoName);
 
-    final PojoName objectPojoName = PojoName.ofNameAndSuffix("MapProperty", "");
+    final PojoName objectPojoName = pojoName("MapProperty", "Map.Property", "");
     final PojoSchema pojoSchema = new PojoSchema(objectPojoName, objectSchema);
 
     final MapContext expectedContext =
@@ -458,7 +460,7 @@ class ObjectSchemaTest {
             Name.ofString("Member"),
             composedSchema);
 
-    final PojoName expectedPojoName = PojoName.ofNameAndSuffix("ComposedPojoMember", "Dto");
+    final PojoName expectedPojoName = pojoName("ComposedPojoMember", "ComposedPojo.Member", "Dto");
     final ObjectType expectedType = ObjectType.ofName(expectedPojoName);
 
     assertEquals(expectedType, result.getType());

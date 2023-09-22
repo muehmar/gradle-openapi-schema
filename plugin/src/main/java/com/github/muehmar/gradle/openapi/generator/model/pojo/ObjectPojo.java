@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfCompos
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.Function;
@@ -130,6 +131,31 @@ public class ObjectPojo implements Pojo {
         additionalProperties.inlineObjectReference(referenceName, referenceType);
     return fullObjectPojoBuilder()
         .name(name)
+        .description(description)
+        .members(mappedMembers)
+        .requiredAdditionalProperties(requiredAdditionalProperties)
+        .constraints(constraints)
+        .additionalProperties(mappedAdditionalProperties)
+        .allOfComposition(mappedAllOfComposition)
+        .oneOfComposition(mappedOneOfComposition)
+        .anyOfComposition(mappedAnyOfComposition)
+        .build();
+  }
+
+  @Override
+  public ObjectPojo applyMapping(PojoNameMapping pojoNameMapping) {
+    final PList<PojoMember> mappedMembers =
+        members.map(member -> member.applyMapping(pojoNameMapping));
+    final Optional<AllOfComposition> mappedAllOfComposition =
+        allOfComposition.map(composition -> composition.applyMapping(pojoNameMapping));
+    final Optional<OneOfComposition> mappedOneOfComposition =
+        oneOfComposition.map(composition -> composition.applyMapping(pojoNameMapping));
+    final Optional<AnyOfComposition> mappedAnyOfComposition =
+        anyOfComposition.map(composition -> composition.applyMapping(pojoNameMapping));
+    final AdditionalProperties mappedAdditionalProperties =
+        additionalProperties.applyMapping(pojoNameMapping);
+    return fullObjectPojoBuilder()
+        .name(pojoNameMapping.map(name))
         .description(description)
         .members(mappedMembers)
         .requiredAdditionalProperties(requiredAdditionalProperties)

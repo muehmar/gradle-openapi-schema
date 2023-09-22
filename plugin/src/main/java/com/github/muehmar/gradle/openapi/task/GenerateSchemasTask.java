@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.Language;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Suppliers;
 import com.github.muehmar.gradle.openapi.writer.BaseDirFileWriter;
@@ -99,8 +100,11 @@ public class GenerateSchemasTask extends DefaultTask {
         PojoMapperFactory.create(pojoSettings.get().getSuffix());
     final Path specPath = Paths.get(inputSpec);
     final OpenApiSpec openApiSpec = OpenApiSpec.fromPath(specPath.getFileName());
-    return specificationMapper.map(
-        mainDirectory, openApiSpec, pojoSettings.get().getExcludedSchemas());
+    final PojoNameMapping pojoNameMapping = pojoSettings.get().pojoNameMapping();
+    final MapResult mapResult =
+        specificationMapper.map(
+            mainDirectory, openApiSpec, pojoSettings.get().getExcludedSchemas());
+    return mapResult.mapPojos(pojo -> pojo.applyMapping(pojoNameMapping));
   }
 
   private Provider<FileCollection> usedSpecificationsProvider(

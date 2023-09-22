@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,7 +56,7 @@ class ArraySchemaTest {
     assertEquals(ArrayType.ofItemType(itemType), mappedSchema.getType());
     assertEquals(
         UnmappedItems.ofPojoSchema(
-            new PojoSchema(PojoName.ofNameAndSuffix("ReportsInvoice", "Dto"), composedSchema)),
+            new PojoSchema(pojoName("ReportsInvoice", "Reports.Invoice", "Dto"), composedSchema)),
         mappedSchema.getUnmappedItems());
   }
 

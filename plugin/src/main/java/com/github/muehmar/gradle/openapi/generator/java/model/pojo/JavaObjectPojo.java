@@ -29,6 +29,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
+import com.github.muehmar.gradle.openapi.generator.model.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -45,6 +46,7 @@ import lombok.ToString;
 @ToString
 public class JavaObjectPojo implements JavaPojo {
   private final JavaPojoName name;
+  private final SchemaName schemaName;
   private final String description;
   private final PList<JavaPojoMember> members;
   private final Optional<JavaAllOfComposition> allOfComposition;
@@ -57,6 +59,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   JavaObjectPojo(
       JavaPojoName name,
+      SchemaName schemaName,
       String description,
       PList<JavaPojoMember> members,
       Optional<JavaAllOfComposition> allOfComposition,
@@ -67,6 +70,7 @@ public class JavaObjectPojo implements JavaPojo {
       JavaAdditionalProperties additionalProperties,
       Constraints constraints) {
     this.name = name;
+    this.schemaName = schemaName;
     this.description = Optional.ofNullable(description).orElse("");
     this.members = members;
     this.allOfComposition = allOfComposition;
@@ -139,6 +143,7 @@ public class JavaObjectPojo implements JavaPojo {
         JavaAdditionalProperties.wrap(objectPojo.getAdditionalProperties(), typeMappings);
     return new JavaObjectPojo(
         JavaPojoName.wrap(type.mapName(objectPojo.getName())),
+        objectPojo.getName().getSchemaName(),
         objectPojo.getDescription(),
         members,
         objectPojo
@@ -163,7 +168,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   @Override
   public JavaName getSchemaName() {
-    return JavaName.fromName(name.getSchemaName());
+    return JavaName.fromName(schemaName.asName());
   }
 
   @Override

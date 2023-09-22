@@ -16,7 +16,7 @@ public static final class FullAnyOfBuilder0 {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public FullAnyOfBuilder2 setAnyOfContainer(AnyOfPojo1DtoAnyOfContainer container) {
+  public FullAnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }
@@ -102,7 +102,7 @@ public static final class AnyOfBuilder0 {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1DtoAnyOfContainer container) {
+  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }

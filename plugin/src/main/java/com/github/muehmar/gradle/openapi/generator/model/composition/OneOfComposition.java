@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -72,6 +73,11 @@ public class OneOfComposition {
     final NonEmptyList<Pojo> mappedPojos =
         pojos.map(
             pojo -> pojo.inlineObjectReference(referenceName, referenceDescription, referenceType));
+    return new OneOfComposition(mappedPojos, discriminator);
+  }
+
+  public OneOfComposition applyMapping(PojoNameMapping pojoNameMapping) {
+    final NonEmptyList<Pojo> mappedPojos = pojos.map(pojo -> pojo.applyMapping(pojoNameMapping));
     return new OneOfComposition(mappedPojos, discriminator);
   }
 }

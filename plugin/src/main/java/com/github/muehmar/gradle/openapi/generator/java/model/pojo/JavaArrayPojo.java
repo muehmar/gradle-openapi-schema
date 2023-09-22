@@ -27,6 +27,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
@@ -40,6 +41,7 @@ import lombok.ToString;
 @ToString
 public class JavaArrayPojo implements JavaPojo {
   private final JavaPojoName name;
+  private final SchemaName schemaName;
   private final String description;
   private final JavaType itemType;
   private final Constraints constraints;
@@ -47,11 +49,13 @@ public class JavaArrayPojo implements JavaPojo {
 
   private JavaArrayPojo(
       JavaPojoName name,
+      SchemaName schemaName,
       String description,
       JavaType itemType,
       Constraints constraints,
       JavaPojoMember arrayPojoMember) {
     this.name = name;
+    this.schemaName = schemaName;
     this.description = Optional.ofNullable(description).orElse("");
     this.itemType = itemType;
     this.constraints = constraints;
@@ -63,6 +67,7 @@ public class JavaArrayPojo implements JavaPojo {
     final JavaPojoMember arrayPojoMember = createItemTypeMember(arrayPojo, typeMappings);
     return new JavaArrayPojo(
         JavaPojoName.wrap(arrayPojo.getName()),
+        arrayPojo.getName().getSchemaName(),
         arrayPojo.getDescription(),
         itemType,
         arrayPojo.getConstraints(),
@@ -88,7 +93,7 @@ public class JavaArrayPojo implements JavaPojo {
 
   @Override
   public JavaName getSchemaName() {
-    return JavaName.fromName(name.getSchemaName());
+    return JavaName.fromName(schemaName.asName());
   }
 
   @Override

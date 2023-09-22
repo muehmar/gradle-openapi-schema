@@ -4,6 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -49,6 +50,13 @@ public class ArrayPojo implements Pojo {
   public Pojo inlineObjectReference(
       PojoName referenceName, String referenceDescription, Type referenceType) {
     return this;
+  }
+
+  @Override
+  public ArrayPojo applyMapping(PojoNameMapping pojoNameMapping) {
+    final PojoName mappedName = pojoNameMapping.map(name);
+    final Type mappedItemType = itemType.applyMapping(pojoNameMapping);
+    return new ArrayPojo(mappedName, description, mappedItemType, constraints);
   }
 
   @Override
