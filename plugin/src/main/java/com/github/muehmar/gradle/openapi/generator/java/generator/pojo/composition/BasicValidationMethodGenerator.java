@@ -122,7 +122,7 @@ public class BasicValidationMethodGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> noAdditionalPropertiesCondition() {
     return Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(
-            w -> w.print("additionalProperties.size == 0"))
+            w -> w.print("additionalProperties.isEmpty()"))
         .filter(pojo -> pojo.getAdditionalProperties().isNotAllowed());
   }
 
