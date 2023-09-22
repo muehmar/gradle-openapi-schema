@@ -32,4 +32,22 @@ class AdditionalPropertiesTest {
 
     assertEquals(originalType, inlinedReferenceProps.getType());
   }
+
+  @Test
+  void applyMapping_when_objectType_then_nameMapped() {
+    final ObjectType objectType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final AdditionalProperties props = AdditionalProperties.allowed(objectType);
+
+    final AdditionalProperties inlinedReferenceProps =
+        props.applyMapping(name -> name.appendToName("Mapped"));
+
+    assertEquals(
+        "ObjectMappedDto",
+        inlinedReferenceProps
+            .getType()
+            .asObjectType()
+            .map(ObjectType::getName)
+            .map(PojoName::asString)
+            .orElse(""));
+  }
 }

@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
+import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -23,6 +24,10 @@ public class MapResult {
   public static MapResult of(
       PList<Pojo> pojos, PList<Parameter> parameters, PList<OpenApiSpec> usedSpecs) {
     return new MapResult(pojos, parameters, usedSpecs);
+  }
+
+  public MapResult mapPojos(UnaryOperator<Pojo> map) {
+    return new MapResult(pojos.map(map), parameters, usedSpecs);
   }
 
   public PList<Pojo> getPojos() {

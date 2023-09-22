@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
@@ -27,7 +28,8 @@ public class JavaPojos {
 
   public static JavaObjectPojo sampleObjectPojo1() {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("SampleObjectPojo1", "Dto")))
+        .name(JavaPojoName.fromNameAndSuffix("SampleObjectPojo1", "Dto"))
+        .schemaName(SchemaName.ofString("SampleObjectPojo1"))
         .description("")
         .members(
             PList.of(
@@ -43,7 +45,8 @@ public class JavaPojos {
 
   public static JavaObjectPojo sampleObjectPojo2() {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("SampleObjectPojo2", "Dto")))
+        .name(JavaPojoName.fromNameAndSuffix("SampleObjectPojo2", "Dto"))
+        .schemaName(SchemaName.ofString("SampleObjectPojo2"))
         .description("")
         .members(
             PList.of(
@@ -60,7 +63,8 @@ public class JavaPojos {
   public static JavaObjectPojo objectPojo(
       PList<JavaPojoMember> members, JavaAdditionalProperties additionalProperties) {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("ObjectPojo1", "Dto")))
+        .name(JavaPojoName.fromNameAndSuffix("ObjectPojo1", "Dto"))
+        .schemaName(SchemaName.ofString("ObjectPojo1"))
         .description("")
         .members(members)
         .type(PojoType.DEFAULT)
@@ -72,7 +76,8 @@ public class JavaPojos {
 
   public static JavaObjectPojo allOfPojo(JavaAllOfComposition javaAllOfComposition) {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("OneOfPojo1", "Dto")))
+        .name(JavaPojoName.fromNameAndSuffix("OneOfPojo1", "Dto"))
+        .schemaName(SchemaName.ofString("OneOfPojo1"))
         .description("")
         .members(PList.empty())
         .type(PojoType.DEFAULT)
@@ -94,7 +99,8 @@ public class JavaPojos {
 
   public static JavaObjectPojo oneOfPojo(JavaOneOfComposition javaOneOfComposition) {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("OneOfPojo1", "Dto")))
+        .name(JavaPojoName.fromNameAndSuffix("OneOfPojo1", "Dto"))
+        .schemaName(SchemaName.ofString("OneOfPojo1"))
         .description("")
         .members(PList.empty())
         .type(PojoType.DEFAULT)
@@ -116,7 +122,8 @@ public class JavaPojos {
 
   public static JavaObjectPojo anyOfPojo(NonEmptyList<JavaPojo> anyOfPojos) {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("AnyOfPojo1", "Dto")))
+        .name(JavaPojoName.fromNameAndSuffix("AnyOfPojo1", "Dto"))
+        .schemaName(SchemaName.ofString("AnyOfPojo1"))
         .description("")
         .members(PList.empty())
         .type(PojoType.DEFAULT)
@@ -196,8 +203,8 @@ public class JavaPojos {
   public static JavaObjectPojo withMembers(
       JavaObjectPojo objectPojo, PList<JavaPojoMember> members) {
     return JavaObjectPojoBuilder.create()
-        .name(
-            JavaPojoName.wrap(PojoName.ofName(Name.ofString(objectPojo.getClassName().asString()))))
+        .name(objectPojo.getJavaPojoName())
+        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().asName()))
         .description(objectPojo.getDescription())
         .members(members)
         .type(objectPojo.getType())
@@ -218,6 +225,7 @@ public class JavaPojos {
   public static JavaObjectPojo withName(JavaObjectPojo objectPojo, PojoName pojoName) {
     return JavaObjectPojoBuilder.create()
         .name(JavaPojoName.wrap(pojoName))
+        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().asName()))
         .description(objectPojo.getDescription())
         .members(objectPojo.getMembers())
         .type(objectPojo.getType())
@@ -236,6 +244,7 @@ public class JavaPojos {
     return JavaObjectPojoBuilder.create()
         .name(
             JavaPojoName.wrap(PojoName.ofName(Name.ofString(objectPojo.getClassName().asString()))))
+        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().asName()))
         .description(objectPojo.getDescription())
         .members(objectPojo.getMembers())
         .type(objectPojo.getType())
@@ -255,6 +264,7 @@ public class JavaPojos {
     return JavaObjectPojoBuilder.create()
         .name(
             JavaPojoName.wrap(PojoName.ofName(Name.ofString(objectPojo.getClassName().asString()))))
+        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().asName()))
         .description(objectPojo.getDescription())
         .members(objectPojo.getMembers())
         .type(objectPojo.getType())

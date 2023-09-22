@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import java.util.Optional;
 import java.util.function.Function;
@@ -19,30 +20,37 @@ import lombok.ToString;
 @ToString
 public class JavaEnumPojo implements JavaPojo {
   private final JavaPojoName name;
+  private final SchemaName schemaName;
   private final String description;
   private final PList<EnumConstantName> members;
 
-  private JavaEnumPojo(JavaPojoName name, String description, PList<EnumConstantName> members) {
+  private JavaEnumPojo(
+      JavaPojoName name,
+      SchemaName schemaName,
+      String description,
+      PList<EnumConstantName> members) {
     this.name = name;
+    this.schemaName = schemaName;
     this.description = Optional.ofNullable(description).orElse("");
     this.members = members;
   }
 
   public static JavaEnumPojo of(
       PojoName name, String description, PList<EnumConstantName> members) {
-    return new JavaEnumPojo(JavaPojoName.wrap(name), description, members);
+    return new JavaEnumPojo(JavaPojoName.wrap(name), name.getSchemaName(), description, members);
   }
 
   public static JavaEnumPojo wrap(EnumPojo enumPojo) {
     return new JavaEnumPojo(
         JavaPojoName.wrap(enumPojo.getName()),
+        enumPojo.getName().getSchemaName(),
         enumPojo.getDescription(),
         enumPojo.getMembers().map(EnumConstantName::ofString));
   }
 
   @Override
   public JavaName getSchemaName() {
-    return JavaName.fromName(name.getSchemaName());
+    return JavaName.fromName(schemaName.asName());
   }
 
   @Override

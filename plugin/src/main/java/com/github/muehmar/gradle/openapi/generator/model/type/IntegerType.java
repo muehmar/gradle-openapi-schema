@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.type;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,11 @@ public class IntegerType implements Type {
   @Override
   public Constraints getConstraints() {
     return constraints;
+  }
+
+  @Override
+  public IntegerType applyMapping(PojoNameMapping pojoNameMapping) {
+    return this;
   }
 
   public Format getFormat() {

@@ -5,36 +5,40 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class PojoName {
   private final Name name;
+  private final SchemaName schemaName;
   private final String suffix;
 
-  private PojoName(Name name, String suffix) {
+  PojoName(Name name, SchemaName schemaName, String suffix) {
     this.name = name;
+    this.schemaName = schemaName;
     this.suffix = suffix;
   }
 
   public static PojoName ofName(Name name) {
-    return new PojoName(name, "");
+    return new PojoName(name, SchemaName.ofName(name), "");
   }
 
   public static PojoName ofNameAndSuffix(Name name, String suffix) {
-    return new PojoName(name, suffix);
+    return new PojoName(name, SchemaName.ofName(name), suffix);
   }
 
   public static PojoName ofNameAndSuffix(String name, String suffix) {
-    return new PojoName(Name.ofString(name), suffix);
+    return new PojoName(Name.ofString(name), SchemaName.ofString(name), suffix);
   }
 
   public static PojoName deriveOpenApiPojoName(PojoName pojoName, Name pojoMemberName) {
     final Name name = pojoName.getName().startUpperCase().append(pojoMemberName.startUpperCase());
-    return new PojoName(name, pojoName.getSuffix());
+    final SchemaName newSchemaName =
+        SchemaName.ofName(pojoName.getSchemaName().asName().append(".").append(pojoMemberName));
+    return new PojoName(name, newSchemaName, pojoName.getSuffix());
   }
 
   public PojoName appendToName(String append) {
-    return new PojoName(name.append(append), suffix);
+    return new PojoName(name.append(append), schemaName, suffix);
   }
 
   public PojoName prependSuffix(String prependText) {
-    return new PojoName(name, prependText + suffix);
+    return new PojoName(name, schemaName, prependText + suffix);
   }
 
   public boolean equalsIgnoreCase(PojoName other) {
@@ -42,11 +46,15 @@ public class PojoName {
   }
 
   public PojoName startUppercase() {
-    return new PojoName(name.startUpperCase(), suffix);
+    return new PojoName(name.startUpperCase(), schemaName, suffix);
   }
 
   public Name getName() {
     return name;
+  }
+
+  public SchemaName getSchemaName() {
+    return schemaName;
   }
 
   public String getSuffix() {
@@ -59,6 +67,14 @@ public class PojoName {
 
   @Override
   public String toString() {
-    return asString();
+    return "PojoName{"
+        + "name="
+        + name
+        + ", schemaName="
+        + schemaName
+        + ", suffix='"
+        + suffix
+        + '\''
+        + '}';
   }
 }

@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.dsl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
+import java.util.Collections;
 import java.util.Optional;
 import org.gradle.api.Action;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,7 @@ class SingleSchemaExtensionTest {
     commonClassMapping.setToClass("package.SuperString");
 
     // method call
-    extension.withCommonClassMappings(PList.single(commonClassMapping));
+    extension.withCommonClassMappings(Collections.singletonList(commonClassMapping));
 
     final PList<ClassMapping> classMappings = extension.getClassMappings();
 
@@ -49,7 +51,7 @@ class SingleSchemaExtensionTest {
     commonFormatTypeMapping.setClassType("package.CustomPassword");
 
     // method call
-    extension.withCommonFormatTypeMappings(PList.single(commonFormatTypeMapping));
+    extension.withCommonFormatTypeMappings(Collections.singletonList(commonFormatTypeMapping));
 
     final PList<FormatTypeMapping> formatTypeMappings = extension.getFormatTypeMappings();
 
@@ -123,5 +125,35 @@ class SingleSchemaExtensionTest {
         extension.getEnumDescriptionExtension();
 
     assertEquals(Optional.of(commonEnumDescriptionExtension), enumDescriptionExtension);
+  }
+
+  @Test
+  void withCommonConstantSchemaNameMappings_when_oneAdditionalMappingPresent_then_concatenated() {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final Action<ConstantSchemaNameMapping> constantSchemaNameMappingAction =
+        mapping -> {
+          mapping.setConstant("User");
+          mapping.setReplacement("Person");
+        };
+    extension.constantSchemaNameMapping(constantSchemaNameMappingAction);
+
+    final ConstantSchemaNameMapping commonConstantSchemaNameMapping =
+        new ConstantSchemaNameMapping();
+    commonConstantSchemaNameMapping.setConstant("Password");
+    commonConstantSchemaNameMapping.setReplacement("*****");
+
+    // method call
+    extension.withCommonConstantSchemaNameMappings(
+        Collections.singletonList(commonConstantSchemaNameMapping));
+
+    final PojoNameMappings pojoNameMappings = extension.getPojoNameMappings();
+
+    final ConstantSchemaNameMapping existingMapping = new ConstantSchemaNameMapping();
+    constantSchemaNameMappingAction.execute(existingMapping);
+    assertEquals(
+        PList.of(existingMapping, commonConstantSchemaNameMapping)
+            .map(ConstantSchemaNameMapping::toConstantNameMapping)
+            .toArrayList(),
+        pojoNameMappings.getConstantNameMappings());
   }
 }

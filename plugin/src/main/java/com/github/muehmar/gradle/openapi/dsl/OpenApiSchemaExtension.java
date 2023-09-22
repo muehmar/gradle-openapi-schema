@@ -19,6 +19,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
+  private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private final GetterSuffixes getterSuffixes;
   private final ValidationMethods validationMethods;
 
@@ -27,6 +28,7 @@ public class OpenApiSchemaExtension implements Serializable {
     this.schemaExtensions = objectFactory.domainObjectContainer(SingleSchemaExtension.class);
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
+    this.constantSchemaNameMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.validationMethods = ValidationMethods.allUndefined();
   }
@@ -60,16 +62,22 @@ public class OpenApiSchemaExtension implements Serializable {
     action.execute(validationMethods);
   }
 
+  public void constantSchemaNameMapping(Action<ConstantSchemaNameMapping> action) {
+    final ConstantSchemaNameMapping constantSchemaNameMapping = new ConstantSchemaNameMapping();
+    action.execute(constantSchemaNameMapping);
+    constantSchemaNameMappings.add(constantSchemaNameMapping);
+  }
+
   private Optional<EnumDescriptionExtension> getCommonEnumDescription() {
     return Optional.ofNullable(enumDescriptionExtension);
   }
 
-  private PList<ClassMapping> getCommonClassMappings() {
-    return PList.fromIter(classMappings);
+  private List<ClassMapping> getCommonClassMappings() {
+    return classMappings;
   }
 
-  private PList<FormatTypeMapping> getCommonFormatTypeMappings() {
-    return PList.fromIter(formatTypeMappings);
+  private List<FormatTypeMapping> getCommonFormatTypeMappings() {
+    return formatTypeMappings;
   }
 
   public GetterSuffixes getCommonGetterSuffixes() {
@@ -80,13 +88,19 @@ public class OpenApiSchemaExtension implements Serializable {
     return validationMethods;
   }
 
+  private List<ConstantSchemaNameMapping> getCommonConstantSchemaNameMappings() {
+    return constantSchemaNameMappings;
+  }
+
   public PList<SingleSchemaExtension> getSchemaExtensions() {
     return PList.fromIter(schemaExtensions)
         .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
         .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
         .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()))
         .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()))
-        .map(ext -> ext.withCommonValidationMethods(getCommonValidationMethods()));
+        .map(ext -> ext.withCommonValidationMethods(getCommonValidationMethods()))
+        .map(
+            ext -> ext.withCommonConstantSchemaNameMappings(getCommonConstantSchemaNameMappings()));
   }
 
   @Override
@@ -100,9 +114,11 @@ public class OpenApiSchemaExtension implements Serializable {
         + classMappings
         + ", formatTypeMappings="
         + formatTypeMappings
+        + ", constantSchemaNameMappings="
+        + constantSchemaNameMappings
         + ", getterSuffixes="
         + getterSuffixes
-        + ", validationMethod="
+        + ", validationMethods="
         + validationMethods
         + '}';
   }

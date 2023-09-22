@@ -39,6 +39,7 @@ public class SingleSchemaExtension implements Serializable {
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
+  private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private List<String> excludeSchemas;
 
   @Inject
@@ -48,6 +49,7 @@ public class SingleSchemaExtension implements Serializable {
     this.formatTypeMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.validationMethods = ValidationMethods.allUndefined();
+    this.constantSchemaNameMappings = new ArrayList<>();
     this.excludeSchemas = new ArrayList<>();
   }
 
@@ -202,8 +204,8 @@ public class SingleSchemaExtension implements Serializable {
     return PList.fromIter(classMappings);
   }
 
-  public SingleSchemaExtension withCommonClassMappings(PList<ClassMapping> other) {
-    classMappings.addAll(other.toArrayList());
+  public SingleSchemaExtension withCommonClassMappings(List<ClassMapping> other) {
+    classMappings.addAll(other);
     return this;
   }
 
@@ -213,8 +215,8 @@ public class SingleSchemaExtension implements Serializable {
     formatTypeMappings.add(formatTypeMapping);
   }
 
-  public SingleSchemaExtension withCommonFormatTypeMappings(PList<FormatTypeMapping> other) {
-    formatTypeMappings.addAll(other.toArrayList());
+  public SingleSchemaExtension withCommonFormatTypeMappings(List<FormatTypeMapping> other) {
+    formatTypeMappings.addAll(other);
     return this;
   }
 
@@ -248,6 +250,25 @@ public class SingleSchemaExtension implements Serializable {
       ValidationMethods commonValidationMethods) {
     this.validationMethods = this.validationMethods.withCommonRawGetter(commonValidationMethods);
     return this;
+  }
+
+  public void constantSchemaNameMapping(Action<ConstantSchemaNameMapping> action) {
+    final ConstantSchemaNameMapping constantSchemaNameMapping = new ConstantSchemaNameMapping();
+    action.execute(constantSchemaNameMapping);
+    constantSchemaNameMappings.add(constantSchemaNameMapping);
+  }
+
+  public SingleSchemaExtension withCommonConstantSchemaNameMappings(
+      List<ConstantSchemaNameMapping> other) {
+    constantSchemaNameMappings.addAll(other);
+    return this;
+  }
+
+  public PojoNameMappings getPojoNameMappings() {
+    return new PojoNameMappings(
+        PList.fromIter(constantSchemaNameMappings)
+            .map(ConstantSchemaNameMapping::toConstantNameMapping)
+            .toArrayList());
   }
 
   public PojoSettings toPojoSettings(Project project) {
@@ -288,6 +309,7 @@ public class SingleSchemaExtension implements Serializable {
         .getterSuffixes(settingsGetterSuffixes)
         .validationMethods(settingsValidationMethods)
         .excludeSchemas(getExcludeSchemas())
+        .pojoNameMappings(getPojoNameMappings())
         .andAllOptionals()
         .build();
   }

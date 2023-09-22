@@ -32,4 +32,22 @@ class PojoMemberTest {
 
     assertEquals(originalType, inlinedMember.getType());
   }
+
+  @Test
+  void applyMapping_when_called_then_nameMappedCorrectly() {
+    final PojoMember pojoMember =
+        PojoMembers.ofType(ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto")));
+
+    final PojoMember pojoMemberMapped =
+        pojoMember.applyMapping(name -> name.appendToName("Mapped"));
+
+    assertEquals(
+        "ObjectMappedDto",
+        pojoMemberMapped
+            .getType()
+            .asObjectType()
+            .map(ObjectType::getName)
+            .map(PojoName::asString)
+            .orElse(""));
+  }
 }

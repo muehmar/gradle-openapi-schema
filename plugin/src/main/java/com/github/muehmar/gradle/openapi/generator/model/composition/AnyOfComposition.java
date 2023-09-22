@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -29,6 +30,11 @@ public class AnyOfComposition {
     final NonEmptyList<Pojo> mappedPojos =
         pojos.map(
             pojo -> pojo.inlineObjectReference(referenceName, referenceDescription, referenceType));
+    return new AnyOfComposition(mappedPojos);
+  }
+
+  public AnyOfComposition applyMapping(PojoNameMapping pojoNameMapping) {
+    final NonEmptyList<Pojo> mappedPojos = pojos.map(pojo -> pojo.applyMapping(pojoNameMapping));
     return new AnyOfComposition(mappedPojos);
   }
 }

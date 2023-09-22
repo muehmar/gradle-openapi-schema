@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -44,6 +45,12 @@ public class EnumPojo implements Pojo {
   public Pojo inlineObjectReference(
       PojoName referenceName, String referenceDescription, Type referenceType) {
     return this;
+  }
+
+  @Override
+  public EnumPojo applyMapping(PojoNameMapping pojoNameMapping) {
+    final PojoName mappedName = pojoNameMapping.map(name);
+    return new EnumPojo(mappedName, description, members);
   }
 
   @Override

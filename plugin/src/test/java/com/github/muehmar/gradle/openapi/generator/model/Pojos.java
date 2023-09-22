@@ -32,8 +32,8 @@ public class Pojos {
 
   public static ObjectPojo anyOfPojo(NonEmptyList<Pojo> anyOfPojos) {
     return ObjectPojoBuilder.create()
-        .name(PojoName.ofNameAndSuffix("ObjectPojo", "Dto"))
-        .description("Object pojo")
+        .name(PojoName.ofNameAndSuffix("AnyOfPojo", "Dto"))
+        .description("Any of pojo")
         .members(PList.empty())
         .requiredAdditionalProperties(PList.empty())
         .constraints(Constraints.empty())

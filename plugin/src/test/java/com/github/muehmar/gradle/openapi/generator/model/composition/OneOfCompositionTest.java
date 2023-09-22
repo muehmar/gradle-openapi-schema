@@ -64,4 +64,19 @@ class OneOfCompositionTest {
     // Method call
     assertThrows(IllegalArgumentException.class, () -> new OneOfComposition(pojos, discriminator));
   }
+
+  @Test
+  void applyMapping_when_called_then_nameMappedCorrectly() {
+    final OneOfComposition oneOfComposition =
+        OneOfComposition.fromPojos(
+            NonEmptyList.of(
+                Pojos.objectPojo(PList.of(requiredString())),
+                Pojos.objectPojo(PList.of(requiredString()))));
+
+    final OneOfComposition oneOfCompositionMapped =
+        oneOfComposition.applyMapping(name -> name.appendToName("Mapped"));
+
+    assertEquals(
+        "ObjectPojoMappedDto", oneOfCompositionMapped.getPojos().head().getName().asString());
+  }
 }

@@ -6,30 +6,28 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public class JavaPojoName {
-  private final PojoName pojoName;
+  private final String name;
+  private final String suffix;
 
-  private JavaPojoName(PojoName pojoName) {
-    this.pojoName = pojoName;
+  private JavaPojoName(String name, String suffix) {
+    this.name = name;
+    this.suffix = suffix;
   }
 
   public static JavaPojoName wrap(PojoName pojoName) {
-    return new JavaPojoName(pojoName);
+    return new JavaPojoName(pojoName.getName().asString(), pojoName.getSuffix());
   }
 
   public static JavaPojoName fromNameAndSuffix(String name, String suffix) {
-    return new JavaPojoName(PojoName.ofNameAndSuffix(name, suffix));
+    return new JavaPojoName(name, suffix);
   }
 
-  public PojoName getPojoName() {
-    return pojoName;
-  }
-
-  public Name getSchemaName() {
-    return pojoName.getName();
+  public PojoName asPojoName() {
+    return PojoName.ofNameAndSuffix(name, suffix);
   }
 
   public JavaPojoName appendToName(String append) {
-    return new JavaPojoName(pojoName.appendToName(append));
+    return new JavaPojoName(name.concat(append), suffix);
   }
 
   public JavaName asJavaName() {
@@ -41,7 +39,7 @@ public class JavaPojoName {
   }
 
   public String asString() {
-    return pojoName.asString();
+    return name.concat(suffix);
   }
 
   @Override

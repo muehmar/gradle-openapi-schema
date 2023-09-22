@@ -39,7 +39,8 @@ class JavaObjectPojoTest {
             PList.single(JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NOT_NULLABLE)));
     final JavaObjectPojoBuilder.Builder builder =
         JavaObjectPojoBuilder.create()
-            .name(JavaPojoName.wrap(PojoName.ofNameAndSuffix("Object", "Dto")))
+            .name(JavaPojoName.fromNameAndSuffix("Object", "Dto"))
+            .schemaName(SchemaName.ofString("Object"))
             .description("")
             .members(PList.of(requiredEmail()))
             .type(PojoType.DEFAULT)
