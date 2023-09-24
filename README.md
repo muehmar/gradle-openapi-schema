@@ -741,9 +741,6 @@ afterEvaluate {
 * The keyword `not` is not supported.
 * Multi-Types in v3.1.0 are not supported, i.e. the list in type can contain only one type and optionally the `null` 
   type.
-* The object type does not support a combination of `properties`, `additionalProperties` and compositions `allOf`, `oneOf`
-  and `anyOf`. An object type can contain only one of the mentioned five keywords (issues `#76`, `#99`, `#100` targeted
-  for version 2.0.0).
 
 ## Migration Guide v1.x to 2.x
 * The factory method for the builder was renamed from `newBuilder()` to `builder()`.
