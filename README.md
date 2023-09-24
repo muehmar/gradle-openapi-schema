@@ -9,7 +9,7 @@ support a safe way creating instances. The data classes support JSON conversions
 generates simple classes for parameters (`#/component/parameters` section) to support checking the constraints.
 
 * Immutable Java classes
-* Special builder pattern for safe creation of instances
+* Special builder pattern for compile-time-safe creation of instances
 * JSON deserializing and serializing support with jackson
 * Customization of the code generation
 * Support for Java Bean Validation 2.x and Jakarta Bean Validation 2.x / 3.x
@@ -18,6 +18,7 @@ generates simple classes for parameters (`#/component/parameters` section) to su
 * Supports processing multiple specifications
 * Simple classes for parameters
 * Support compositions (`allOf`, `anyOf`, `oneOf`)
+* Customization of DTO classnames
 
 The implementation is based on the
 [swagger-parser](https://github.com/swagger-api/swagger-parser)
@@ -90,6 +91,12 @@ openApiGenerator {
                 toClass = "java.util.ArrayList"
             }
             
+            // Additional mapping removing 'ApiV1' from the generated classname
+            constantSchemaNameMapping {
+                constant = "ApiV1"
+                replacement = ""
+            }
+            
             getterSuffixes {
                 requiredSuffix = "Req"
                 requiredNullableSuffix = "Opt"
@@ -143,6 +150,12 @@ openApiGenerator {
     classMapping {
         fromClass = "List"
         toClass = "java.util.ArrayList"
+    }
+    
+    // Global schema name mapping which removes any '.' from the schema name for the classnames
+    constantSchemaNameMapping {
+        constant = "."
+        replacement = ""
     }
     
     getterSuffixes {
@@ -219,6 +232,21 @@ will use the class `com.package.UserName` for the property `accountName`. The co
 the fully qualified classname to properly generate import-statements.
 
 Repeat this block for each format type mapping.
+
+### Schema Name Mappings
+
+The schema name defines the generated classname of the DTO's. Constant mappings can be configured to adjust the 
+generated classname. For example a dot in the schema name is no legal Java identifier and is therefore escaped with
+an underscore. If this is not desired, a constant mapping can be configured to remove the underscore (or any other 
+character or string):
+```
+// Removes the points from the schema for generating classnames
+constantSchemaNameMapping {
+    constant = "."
+    replacement = ""
+}
+```
+
 
 ### Enum description extraction
 
