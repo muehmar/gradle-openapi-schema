@@ -586,6 +586,7 @@ The following keywords are supported:
 
 * `minProperties` and `maxProperties` for object types
 * `uniqueItems` for array types
+* `additionalProperties = false` gets validated
 
 The plugin generates a method which returns the number of present properties of an object which is annotated with the
 constraints (if present).
@@ -596,11 +597,12 @@ inherit all properties of the specified schemas, the validation will simply be p
 schema.
 
 For `anyOf` and `oneOf` compositions, the created DTO contains specific annotated methods only for validation. With
-these methods, it can be validated that the object is valid against exact one schema (`oneOf`) or is valid against at
+these methods, it can be validated that the object is valid against exactly one schema (`oneOf`) or is valid against at
 least one schema (`anyOf`).
 
 REMARK: Currently, an edge case is not supported: While validating against how many schemas the current object is valid
-against, only the presence of the required properties are considered. This means, if all required properties of two 
+against, only the presence of the required properties are considered (and possible absence of all other properties in case
+no additional properties are allowed via `additionalProperties = false`). This means, if all required properties of two 
 (or more) schemas are present for a `oneOf` composition, but a property of one schema is not valid, the object should be 
 considered as valid but it will result in an invalid object as the required properties of two schemas are present.
 
