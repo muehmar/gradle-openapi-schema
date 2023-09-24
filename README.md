@@ -757,6 +757,15 @@ afterEvaluate {
   client code. There exists a factory method `fromProperties` now.
 
 ## Change Log
+* 2.0.0 
+    * Support all combinations for compositions, properties and additionalProperties (issues `#76`, `#99`, `#100`)
+    * Support mapping of schema names to adjust the DTO classnames (issue `#123`)
+    * Fix validation of oneOf and anyOf composition (issue `#126`)
+    * Fix correct escaping for special characters in property names (issue `#122`)
+    * Add factory name for builder with DTO name for static import (issue `#117`)
+    * Add 'full' builder which enforces to set also all optional properties (issue `#111`)
+    * Quote strings in toString method (issue `#98`)
+    * Validate required properties in map schemas and create getters for them (issue `#106`)
 * 1.1.3 - Fix format type mapping for enums (issue `#113`)
 * 1.1.2 - Fix validation of primitive data types of arrays and maps (issue `#103`)
 * 1.1.1 - Fix enum reference in composed pojos (issue `#101`)
