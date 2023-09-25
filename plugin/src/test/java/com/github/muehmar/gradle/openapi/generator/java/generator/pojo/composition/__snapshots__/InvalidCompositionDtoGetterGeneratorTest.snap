@@ -1,9 +1,11 @@
 anyOfPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
 java.util.ArrayList
 java.util.List
 javax.validation.Valid
 
 @Valid
+@JsonIgnore
 private List<Object> getInvalidCompositionDtos() {
   final List<Object> dtos = new ArrayList<>();
   if(getAnyOfValidCount() == 0) {
@@ -16,11 +18,13 @@ private List<Object> getInvalidCompositionDtos() {
 
 
 oneOfPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
 java.util.ArrayList
 java.util.List
 javax.validation.Valid
 
 @Valid
+@JsonIgnore
 private List<Object> getInvalidCompositionDtos() {
   final List<Object> dtos = new ArrayList<>();
   if(getOneOfValidCount() != 1) {
