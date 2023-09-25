@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators.deprecatedValidationMethodJavaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
@@ -32,6 +33,7 @@ public class InvalidCompositionDtoGetterGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(deprecatedValidationMethodJavaDoc())
         .append(ValidationGenerator.validAnnotation())
+        .append(jsonIgnore())
         .append(method)
         .filter(p -> p.getOneOfComposition().isPresent() || p.getAnyOfComposition().isPresent())
         .filter(Filters.isValidationEnabled());
