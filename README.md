@@ -247,6 +247,7 @@ constantSchemaNameMapping {
 }
 ```
 
+Multiple configured constant mappings are applied in the order they are configured.
 
 ### Enum description extraction
 
