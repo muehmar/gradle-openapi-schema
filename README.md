@@ -30,7 +30,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '2.0.1'
+    id 'com.github.muehmar.openapischema' version '2.0.2'
 }
 ```
 
@@ -1000,6 +1000,7 @@ afterEvaluate {
   client code. There exists a factory method `fromProperties` now.
 
 ## Change Log
+* 2.0.2 - Fix inlining of simple non-object schemas (issue `#134`)
 * 2.0.1 - Fix serialisation of composed DTO's (issue `#130`)
 * 2.0.0 
     * Support all combinations for compositions, properties and additionalProperties (issues `#76`, `#99`, `#100`)
