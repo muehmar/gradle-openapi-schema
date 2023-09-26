@@ -14,7 +14,7 @@ class AllOfMemberReferenceTest {
   void idIsResolvedAsUUIDAndNotAsDto() {
     final UUID id = UUID.randomUUID();
     final AllOfMemberReferenceDto dto =
-        allOfMemberReferenceDtoBuilder().setId(id).setName("name").build();
+        allOfMemberReferenceDtoBuilder().setId(id).setValue("value").setName("name").build();
 
     assertEquals(Optional.of(id), dto.getIdOpt());
   }

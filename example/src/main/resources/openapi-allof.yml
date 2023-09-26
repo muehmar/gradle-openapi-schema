@@ -59,10 +59,15 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/ReferenceId'
+        value:
+          $ref: '#/components/schemas/referenceString'
 
     ReferenceId:
       type: string
       format: uuid
+
+    referenceString:
+      type: string
 
 
 
