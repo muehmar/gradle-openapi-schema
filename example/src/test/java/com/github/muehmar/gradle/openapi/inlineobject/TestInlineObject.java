@@ -13,13 +13,13 @@ class TestInlineObject {
   @Test
   void customerDtoIsSuccessfullyGeneratedAndCanBeUsed() {
     final CustomerInlineObjectAnotherObjectDto anotherObjectDto =
-        CustomerInlineObjectAnotherObjectDto.newBuilder()
+        CustomerInlineObjectAnotherObjectDto.builder()
             .setKey("key")
             .andAllOptionals()
             .setData("data")
             .build();
     final CustomerInlineObjectDto customerInlineObjectDto =
-        CustomerInlineObjectDto.newBuilder()
+        CustomerInlineObjectDto.builder()
             .setKey("key")
             .andAllOptionals()
             .setData("data")
@@ -27,7 +27,7 @@ class TestInlineObject {
             .build();
 
     final CustomerDto customerDto =
-        CustomerDto.newBuilder().setInlineObject(customerInlineObjectDto).andAllOptionals().build();
+        CustomerDto.builder().setInlineObject(customerInlineObjectDto).andAllOptionals().build();
 
     assertEquals(customerInlineObjectDto, customerDto.getInlineObject());
     assertEquals(

@@ -14,7 +14,7 @@ class StringValidationTest {
   @ValueSource(strings = {"A0", "MM12345678", "abcd"})
   void validate_when_ok_then_noViolations(String value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setStringValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setStringValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
@@ -25,7 +25,7 @@ class StringValidationTest {
   @ValueSource(strings = {"", "A", "!ABC!", "AB123456789"})
   void validate_when_wrongSizeOrDoesNotMatchPattern_then_violation(String value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setStringValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setStringValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 

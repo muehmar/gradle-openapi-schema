@@ -12,7 +12,7 @@ class EmailValidationTest {
   @Test
   void validate_when_ok_then_noViolations() {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setEmail("muehmar@github.com").build();
+        AllValueObjectDto.builder().andOptionals().setEmail("muehmar@github.com").build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
@@ -22,7 +22,7 @@ class EmailValidationTest {
   @Test
   void validate_when_invalidEmail_then_violation() {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setEmail("muehmar").build();
+        AllValueObjectDto.builder().andOptionals().setEmail("muehmar").build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 

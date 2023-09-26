@@ -88,7 +88,7 @@ class TestSerialisation {
   @Test
   void serialize_when_usernameAbsent_then_serializedAsNull() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("123abc")
             .setUsername(empty())
             .andAllOptionals()
@@ -104,7 +104,7 @@ class TestSerialisation {
   @Test
   void serialize_when_usernamePresent_then_serialized() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("123abc")
             .setUsername("Dexter")
             .andAllOptionals()
@@ -120,7 +120,7 @@ class TestSerialisation {
   @Test
   void serialize_when_emailPresent_then_serialized() throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("123abc")
             .setUsername(empty())
             .andAllOptionals()
@@ -137,7 +137,7 @@ class TestSerialisation {
   void serialize_when_phoneAbsent_then_noPhoneSerialized(
       Tristate<String> phone, String expectedOutput) throws JsonProcessingException {
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("123abc")
             .setUsername(empty())
             .andAllOptionals()

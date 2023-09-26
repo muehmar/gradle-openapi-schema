@@ -11,13 +11,13 @@ class SchemaWithPropertyNameOtherTest {
   @Test
   void equals_when_dtoHasPropertyNamedOther_then_dtoIsEqualsWithSameProperties() {
     final SchemaWithPropertyNameOther dto1 =
-        SchemaWithPropertyNameOther.newBuilder()
+        SchemaWithPropertyNameOther.builder()
             .andAllOptionals()
             .setFoo("foo")
             .setOther("other")
             .build();
     final SchemaWithPropertyNameOther dto2 =
-        SchemaWithPropertyNameOther.newBuilder()
+        SchemaWithPropertyNameOther.builder()
             .andAllOptionals()
             .setFoo("foo")
             .setOther("other")
@@ -28,13 +28,13 @@ class SchemaWithPropertyNameOtherTest {
   @Test
   void equals_when_dtoHasPropertyNamedOther_then_dtoIsNotEqualsWithDifferentProperties() {
     final SchemaWithPropertyNameOther dto1 =
-        SchemaWithPropertyNameOther.newBuilder()
+        SchemaWithPropertyNameOther.builder()
             .andAllOptionals()
             .setFoo("foo1")
             .setOther("other")
             .build();
     final SchemaWithPropertyNameOther dto2 =
-        SchemaWithPropertyNameOther.newBuilder()
+        SchemaWithPropertyNameOther.builder()
             .andAllOptionals()
             .setFoo("foo2")
             .setOther("other")

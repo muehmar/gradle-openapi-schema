@@ -4,14 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import openapischema.example.api.oneof.model.AdminDto;
 import openapischema.example.api.oneof.model.AdminOrUserDto;
 import openapischema.example.api.oneof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
-class TestDeserialisation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+class DeserialisationTest {
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
@@ -20,14 +21,14 @@ class TestDeserialisation {
             "{\"id\":\"admin-id\",\"type\":\"type\",\"adminname\":\"admin-name\",\"level\":5.5}",
             AdminOrUserDto.class);
 
-    final Object obj = adminOrUserDto.fold(admin -> admin, user -> user);
+    final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
+            .setType("type")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("type")
             .setLevel(5L)
             .build();
     assertEquals(adminDto, obj);
@@ -40,14 +41,14 @@ class TestDeserialisation {
             "{\"id\":\"user-id\",\"type\":\"type\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
             AdminOrUserDto.class);
 
-    final Object obj = adminOrUserDto.fold(admin -> admin, user -> user);
+    final Object obj = adminOrUserDto.foldOneOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
+            .setType("type")
             .setUsername("user-name")
             .andAllOptionals()
-            .setType("type")
             .setAge(25)
             .setEmail(Tristate.ofNull())
             .build();

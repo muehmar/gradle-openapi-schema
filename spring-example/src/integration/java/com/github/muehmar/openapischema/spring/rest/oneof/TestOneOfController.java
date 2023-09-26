@@ -31,15 +31,16 @@ public class TestOneOfController extends ControllerUnitTest {
   @Test
   void get_when_called_then_correctSerializedDtoReturned() throws Exception {
     final AdminDto admin =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
+            .setType("type")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("type")
             .setLevel(5L)
             .build();
 
-    final AdminOrUserDiscriminatorDto adminOrUserDto = AdminOrUserDiscriminatorDto.fromAdmin(admin);
+    final AdminOrUserDiscriminatorDto adminOrUserDto =
+        AdminOrUserDiscriminatorDto.builder().setAdminDto(admin).build();
     when(oneOfInterface.get()).thenReturn(adminOrUserDto);
 
     final MvcResult mvcResult =
@@ -63,15 +64,16 @@ public class TestOneOfController extends ControllerUnitTest {
         .andExpect(status().isOk());
 
     final AdminDto admin =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
+            .setType("type")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("type")
             .setLevel(5L)
             .build();
 
-    final AdminOrUserDiscriminatorDto adminOrUserDto = AdminOrUserDiscriminatorDto.fromAdmin(admin);
+    final AdminOrUserDiscriminatorDto adminOrUserDto =
+        AdminOrUserDiscriminatorDto.builder().setAdminDto(admin).build();
 
     verify(oneOfInterface).post(adminOrUserDto);
   }

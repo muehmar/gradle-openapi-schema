@@ -14,7 +14,7 @@ class DoubleValidationTest {
   @ValueSource(doubles = {5.1, 7.0, 100.49999})
   void validate_when_ok_then_noViolations(double value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setDoubleValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
@@ -25,7 +25,7 @@ class DoubleValidationTest {
   @ValueSource(doubles = {1, 5.0999, 100.5, 200})
   void validate_when_exceedsRange_then_violation(double value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setDoubleValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 

@@ -24,8 +24,7 @@ class ArrayValidationTest {
       numbers.add(i);
     }
 
-    final IntegerMemberArrayDto dto =
-        IntegerMemberArrayDto.newBuilder().setNumbers(numbers).build();
+    final IntegerMemberArrayDto dto = IntegerMemberArrayDto.builder().setNumbers(numbers).build();
 
     final Set<ConstraintViolation<IntegerMemberArrayDto>> constraintViolations = validate(dto);
 
@@ -40,8 +39,7 @@ class ArrayValidationTest {
       numbers.add(i);
     }
 
-    final IntegerMemberArrayDto dto =
-        IntegerMemberArrayDto.newBuilder().setNumbers(numbers).build();
+    final IntegerMemberArrayDto dto = IntegerMemberArrayDto.builder().setNumbers(numbers).build();
 
     final Set<ConstraintViolation<IntegerMemberArrayDto>> constraintViolations = validate(dto);
 
@@ -100,7 +98,7 @@ class ArrayValidationTest {
   void validate_when_memberArrayAndUniqueItems_then_noViolation() {
     final ArrayList<Long> numbers = new ArrayList<>(Arrays.asList(1L, 2L, 3L, 4L, 5L));
 
-    final LongMemberArrayDto dto = LongMemberArrayDto.newBuilder().setNumbers(numbers).build();
+    final LongMemberArrayDto dto = LongMemberArrayDto.builder().setNumbers(numbers).build();
 
     final Set<ConstraintViolation<LongMemberArrayDto>> constraintViolations = validate(dto);
 
@@ -111,7 +109,7 @@ class ArrayValidationTest {
   void validate_when_memberArrayAndNotUniqueItems_then_violation() {
     final ArrayList<Long> numbers = new ArrayList<>(Arrays.asList(1L, 2L, 2L, 4L, 5L));
 
-    final LongMemberArrayDto dto = LongMemberArrayDto.newBuilder().setNumbers(numbers).build();
+    final LongMemberArrayDto dto = LongMemberArrayDto.builder().setNumbers(numbers).build();
 
     final Set<ConstraintViolation<LongMemberArrayDto>> constraintViolations = validate(dto);
 

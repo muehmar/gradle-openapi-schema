@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,8 +16,8 @@ import openapischema.example.api.anyof.model.InlinedAnyOfDto;
 import openapischema.example.api.anyof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
-class TestDeserialisation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+class DeserialisationTest {
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
@@ -25,10 +26,10 @@ class TestDeserialisation {
             "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"color\":\"yellow\"}",
             AdminOrUserDto.class);
 
-    final List<Object> result = adminOrUserDto.fold(admin -> admin, user -> user);
+    final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -46,10 +47,10 @@ class TestDeserialisation {
             "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5}}",
             InlinedAnyOfDto.class);
 
-    final List<Object> result = inlinedDto.getAdminOrUser().fold(admin -> admin, user -> user);
+    final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
             .andAllOptionals()
@@ -67,10 +68,10 @@ class TestDeserialisation {
             "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
             AdminOrUserDto.class);
 
-    final List<Object> result = adminOrUserDto.fold(admin -> admin, user -> user);
+    final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -87,10 +88,10 @@ class TestDeserialisation {
             "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}}",
             InlinedAnyOfDto.class);
 
-    final List<Object> result = inlinedDto.getAdminOrUser().fold(admin -> admin, user -> user);
+    final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
             .andAllOptionals()
@@ -108,24 +109,29 @@ class TestDeserialisation {
             "{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5}",
             AdminOrUserDto.class);
 
-    final List<Object> result = adminOrUserDto.fold(admin -> admin, user -> user);
+    final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("user-name")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
+            .addAdditionalProperty("adminname", "admin-name")
+            .addAdditionalProperty("level", 5L)
             .build();
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
+            .addAdditionalProperty("username", "user-name")
+            .addAdditionalProperty("age", 25)
+            .addAdditionalProperty("email", null)
             .build();
 
     final List<Object> expected = new ArrayList<>();
@@ -143,24 +149,29 @@ class TestDeserialisation {
             "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5}}",
             InlinedAnyOfDto.class);
 
-    final List<Object> result = inlinedDto.getAdminOrUser().fold(admin -> admin, user -> user);
+    final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
 
     final UserDto userDto =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id")
             .setUsername("user-name")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
+            .addAdditionalProperty("adminname", "admin-name")
+            .addAdditionalProperty("level", 5L)
             .build();
 
     final AdminDto adminDto =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
+            .addAdditionalProperty("username", "user-name")
+            .addAdditionalProperty("age", 25)
+            .addAdditionalProperty("email", null)
             .build();
 
     final List<Object> expected = new ArrayList<>();

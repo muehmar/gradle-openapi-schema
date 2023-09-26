@@ -25,9 +25,9 @@ class TestFreeForm {
     final HashMap<String, Object> map = new HashMap<>();
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
-    final FreeForm1Dto dto1 = new FreeForm1Dto(map);
-    final FreeForm2Dto dto2 = new FreeForm2Dto(map);
-    final FreeForm3Dto dto3 = new FreeForm3Dto(map);
+    final FreeForm1Dto dto1 = FreeForm1Dto.fromProperties(map);
+    final FreeForm2Dto dto2 = FreeForm2Dto.fromProperties(map);
+    final FreeForm3Dto dto3 = FreeForm3Dto.fromProperties(map);
 
     final String expectedJson = "{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}";
     assertEquals(expectedJson, MAPPER.writeValueAsString(dto1));
@@ -41,7 +41,7 @@ class TestFreeForm {
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
     final InlineFreeFormDto dto =
-        InlineFreeFormDto.newBuilder().andAllOptionals().setData(map).build();
+        InlineFreeFormDto.builder().andAllOptionals().setData(map).build();
 
     final String expectedJson = "{\"data\":{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}}";
     assertEquals(expectedJson, MAPPER.writeValueAsString(dto));
@@ -59,12 +59,12 @@ class TestFreeForm {
     expectedMap.put("firstName", "Dexter");
     expectedMap.put("lastName", "Morgan");
 
-    assertEquals(Optional.of("Dexter"), dto1.getProperty("firstName"));
-    assertEquals(Optional.of("Morgan"), dto1.getProperty("lastName"));
+    assertEquals(Optional.of("Dexter"), dto1.getAdditionalProperty("firstName"));
+    assertEquals(Optional.of("Morgan"), dto1.getAdditionalProperty("lastName"));
 
-    assertEquals(new FreeForm1Dto(expectedMap), dto1);
-    assertEquals(new FreeForm2Dto(expectedMap), dto2);
-    assertEquals(new FreeForm3Dto(expectedMap), dto3);
+    assertEquals(FreeForm1Dto.fromProperties(expectedMap), dto1);
+    assertEquals(FreeForm2Dto.fromProperties(expectedMap), dto2);
+    assertEquals(FreeForm3Dto.fromProperties(expectedMap), dto3);
   }
 
   @Test
@@ -77,7 +77,7 @@ class TestFreeForm {
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
     final InlineFreeFormDto expectedDto =
-        InlineFreeFormDto.newBuilder().andAllOptionals().setData(map).build();
+        InlineFreeFormDto.builder().andAllOptionals().setData(map).build();
 
     assertEquals(expectedDto, dto);
   }
@@ -87,9 +87,9 @@ class TestFreeForm {
     final HashMap<String, Object> map = new HashMap<>();
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
-    final FreeForm1Dto dto1 = new FreeForm1Dto(map);
-    final FreeForm2Dto dto2 = new FreeForm2Dto(map);
-    final FreeForm3Dto dto3 = new FreeForm3Dto(map);
+    final FreeForm1Dto dto1 = FreeForm1Dto.fromProperties(map);
+    final FreeForm2Dto dto2 = FreeForm2Dto.fromProperties(map);
+    final FreeForm3Dto dto3 = FreeForm3Dto.fromProperties(map);
 
     assertEquals(2, dto1.getPropertyCount());
     assertEquals(2, dto2.getPropertyCount());
@@ -100,7 +100,7 @@ class TestFreeForm {
   @CsvSource({"0,1", "1,0", "2,0", "3,0", "4,1"})
   void validate_when_freeFormDto1_then_matchExpectedViolationCount(
       int propertyCount, int violationCount) {
-    final FreeForm1Dto dto = new FreeForm1Dto(createPropertyMap(propertyCount));
+    final FreeForm1Dto dto = FreeForm1Dto.fromProperties(createPropertyMap(propertyCount));
 
     final Set<?> violations = ValidationUtil.validate(dto);
 
@@ -111,7 +111,7 @@ class TestFreeForm {
   @CsvSource({"1,1", "2,0", "3,0", "4,0", "5,1"})
   void validate_when_freeFormDto2_then_matchExpectedViolationCount(
       int propertyCount, int violationCount) {
-    final FreeForm2Dto dto = new FreeForm2Dto(createPropertyMap(propertyCount));
+    final FreeForm2Dto dto = FreeForm2Dto.fromProperties(createPropertyMap(propertyCount));
 
     final Set<?> violations = ValidationUtil.validate(dto);
 
@@ -122,7 +122,7 @@ class TestFreeForm {
   @CsvSource({"2,1", "3,0", "4,0", "5,0", "6,1"})
   void validate_when_freeFormDto3_then_matchExpectedViolationCount(
       int propertyCount, int violationCount) {
-    final FreeForm3Dto dto = new FreeForm3Dto(createPropertyMap(propertyCount));
+    final FreeForm3Dto dto = FreeForm3Dto.fromProperties(createPropertyMap(propertyCount));
 
     final Set<?> violations = ValidationUtil.validate(dto);
 
@@ -134,7 +134,7 @@ class TestFreeForm {
   void validate_when_inlineFreeFormDto_then_matchExpectedViolationCount(
       int propertyCount, int violationCount) {
     final InlineFreeFormDto dto =
-        InlineFreeFormDto.newBuilder()
+        InlineFreeFormDto.builder()
             .andAllOptionals()
             .setData(createPropertyMap(propertyCount))
             .build();

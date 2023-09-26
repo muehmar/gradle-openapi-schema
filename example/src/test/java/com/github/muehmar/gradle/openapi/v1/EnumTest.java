@@ -28,7 +28,7 @@ class EnumTest {
   @Test
   void writeValueAsString_when_inlineEnum_then_correctJson() throws JsonProcessingException {
     final InlineEnumDto dto =
-        InlineEnumDto.newBuilder().andAllOptionals().setRole(InlineEnumDto.RoleEnum.ADMIN).build();
+        InlineEnumDto.builder().andAllOptionals().setRole(InlineEnumDto.RoleEnum.ADMIN).build();
     assertEquals("{\"role\":\"Admin\"}", MAPPER.writeValueAsString(dto));
   }
 
@@ -47,7 +47,7 @@ class EnumTest {
   @Test
   void readValue_when_inlineEnum_then_correctJson() throws JsonProcessingException {
     final InlineEnumDto dto =
-        InlineEnumDto.newBuilder().andAllOptionals().setRole(InlineEnumDto.RoleEnum.ADMIN).build();
+        InlineEnumDto.builder().andAllOptionals().setRole(InlineEnumDto.RoleEnum.ADMIN).build();
     assertEquals(dto, MAPPER.readValue("{\"role\":\"Admin\"}", InlineEnumDto.class));
   }
 }

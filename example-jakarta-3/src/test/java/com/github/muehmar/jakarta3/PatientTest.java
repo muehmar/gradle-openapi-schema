@@ -21,7 +21,7 @@ class PatientTest {
     runValidation(
         validator -> {
           PatientDto dto =
-              PatientDto.newBuilder()
+              PatientDto.builder()
                   .setId("123")
                   .setName("Dexter")
                   .andOptionals()
@@ -39,7 +39,7 @@ class PatientTest {
     runValidation(
         validator -> {
           PatientDto dto =
-              PatientDto.newBuilder()
+              PatientDto.builder()
                   .setId("123")
                   .setName("Dexter")
                   .andAllOptionals()
@@ -58,12 +58,7 @@ class PatientTest {
     runValidation(
         validator -> {
           PatientDto dto =
-              PatientDto.newBuilder()
-                  .setId("123")
-                  .setName("Dexter")
-                  .andOptionals()
-                  .setAge(5)
-                  .build();
+              PatientDto.builder().setId("123").setName("Dexter").andOptionals().setAge(5).build();
 
           final Set<ConstraintViolation<PatientDto>> violations = validator.validate(dto);
 
@@ -76,7 +71,7 @@ class PatientTest {
     runValidation(
         validator -> {
           PatientDto dto =
-              PatientDto.newBuilder()
+              PatientDto.builder()
                   .setId("123")
                   .setName("Dexter")
                   .andOptionals()

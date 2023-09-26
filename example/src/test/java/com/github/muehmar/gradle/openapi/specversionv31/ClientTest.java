@@ -18,7 +18,7 @@ class ClientTest {
 
   @Test
   void serialize_when_noName_then_serializedAsNull() throws JsonProcessingException {
-    final ClientDto dto = ClientDto.newBuilder().setId("id").setName(Optional.empty()).build();
+    final ClientDto dto = ClientDto.builder().setId("id").setName(Optional.empty()).build();
     final String json = MAPPER.writeValueAsString(dto);
     assertEquals("{\"id\":\"id\",\"name\":null}", json);
   }
@@ -27,7 +27,7 @@ class ClientTest {
   @ValueSource(floats = {120.6f, 180f, 200f})
   void validate_when_heightInRange_then_noViolations(float height) {
     final ClientDto dto =
-        ClientDto.newBuilder().setId("id").setName("name").andOptionals().setHeight(height).build();
+        ClientDto.builder().setId("id").setName("name").andOptionals().setHeight(height).build();
 
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 
@@ -38,7 +38,7 @@ class ClientTest {
   @ValueSource(floats = {50f, 120.5f, 200.1f, 300})
   void validate_when_heightExceedsRange_then_violations(float height) {
     final ClientDto dto =
-        ClientDto.newBuilder().setId("id").setName("name").andOptionals().setHeight(height).build();
+        ClientDto.builder().setId("id").setName("name").andOptionals().setHeight(height).build();
 
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 
@@ -49,7 +49,7 @@ class ClientTest {
   @ValueSource(ints = {18, 50, 99})
   void validate_when_heightInRange_then_noViolations(int age) {
     final ClientDto dto =
-        ClientDto.newBuilder().setId("id").setName("name").andOptionals().setAge(age).build();
+        ClientDto.builder().setId("id").setName("name").andOptionals().setAge(age).build();
 
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 
@@ -60,7 +60,7 @@ class ClientTest {
   @ValueSource(ints = {1, 17, 100, 200})
   void validate_when_heightExceedsRange_then_violations(int age) {
     final ClientDto dto =
-        ClientDto.newBuilder().setId("id").setName("name").andOptionals().setAge(age).build();
+        ClientDto.builder().setId("id").setName("name").andOptionals().setAge(age).build();
 
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 

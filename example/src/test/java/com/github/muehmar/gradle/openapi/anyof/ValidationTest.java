@@ -1,9 +1,12 @@
 package com.github.muehmar.gradle.openapi.anyof;
 
+import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -13,12 +16,12 @@ import openapischema.example.api.anyof.model.AdminOrUserDto;
 import openapischema.example.api.anyof.model.InlinedAnyOfDto;
 import org.junit.jupiter.api.Test;
 
-class TestValidation {
+class ValidationTest {
 
   private static final ValidatorFactory VALIDATOR_FACTORY =
       Validation.buildDefaultValidatorFactory();
   private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void validate_when_matchesUserSchema_then_noViolation() throws JsonProcessingException {
@@ -82,9 +85,14 @@ class TestValidation {
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<AdminOrUserDto> violation = violations.iterator().next();
-    assertEquals("validAgainstNoSchema", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "invalidCompositionDtos[0].adminname -> must not be null",
+            "invalidCompositionDtos[0].id -> must not be null",
+            "invalidCompositionDtos[1].id -> must not be null",
+            "invalidCompositionDtos[1].username -> must not be null",
+            "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+        formatViolations(violations));
   }
 
   @Test
@@ -94,9 +102,14 @@ class TestValidation {
 
     final Set<ConstraintViolation<InlinedAnyOfDto>> violations = VALIDATOR.validate(inlinedDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<InlinedAnyOfDto> violation = violations.iterator().next();
-    assertEquals("adminOrUser.validAgainstNoSchema", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "adminOrUser.invalidCompositionDtos[0].adminname -> must not be null",
+            "adminOrUser.invalidCompositionDtos[0].id -> must not be null",
+            "adminOrUser.invalidCompositionDtos[1].id -> must not be null",
+            "adminOrUser.invalidCompositionDtos[1].username -> must not be null",
+            "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+        formatViolations(violations));
   }
 
   @Test

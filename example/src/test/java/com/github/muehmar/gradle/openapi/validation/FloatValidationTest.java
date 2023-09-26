@@ -14,7 +14,7 @@ class FloatValidationTest {
   @ValueSource(floats = {200.25f, 255.67f, 300.499f})
   void validate_when_ok_then_noViolations(float value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setFloatValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setFloatValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
@@ -25,7 +25,7 @@ class FloatValidationTest {
   @ValueSource(floats = {1, 200.2499f, 300.5f, 2000})
   void validate_when_exceedsRange_then_violation(float value) {
     final AllValueObjectDto dto =
-        AllValueObjectDto.newBuilder().andOptionals().setFloatValue(value).build();
+        AllValueObjectDto.builder().andOptionals().setFloatValue(value).build();
 
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 

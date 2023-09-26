@@ -9,7 +9,7 @@ import java.util.HashMap;
 import openapischema.example.api.v1.model.InlinedMapSchemaDto;
 import openapischema.example.api.v1.model.InlinedMapSchemaMapDto;
 import openapischema.example.api.v1.model.RootMapSchemaDto;
-import openapischema.example.api.v1.model.RootMapSchemaObjectDto;
+import openapischema.example.api.v1.model.RootMapSchemaPropertyDto;
 import org.junit.jupiter.api.Test;
 
 class MapTest {
@@ -23,29 +23,29 @@ class MapTest {
   private static final InlinedMapSchemaDto INLINE_MAP_DTO;
 
   static {
-    final HashMap<String, RootMapSchemaObjectDto> map = new HashMap<>();
-    map.put("prop1", RootMapSchemaObjectDto.newBuilder().setName("name1").build());
+    final HashMap<String, RootMapSchemaPropertyDto> map = new HashMap<>();
+    map.put("prop1", RootMapSchemaPropertyDto.builder().setName("name1").build());
     map.put(
         "prop2",
-        RootMapSchemaObjectDto.newBuilder()
+        RootMapSchemaPropertyDto.builder()
             .setName("name2")
             .andAllOptionals()
             .setDescription("description2")
             .build());
-    ROOT_MAP_DTO = new RootMapSchemaDto(map);
+    ROOT_MAP_DTO = RootMapSchemaDto.fromProperties(map);
   }
 
   static {
     final HashMap<String, InlinedMapSchemaMapDto> map = new HashMap<>();
-    map.put("prop1", InlinedMapSchemaMapDto.newBuilder().setName("name1").build());
+    map.put("prop1", InlinedMapSchemaMapDto.builder().setName("name1").build());
     map.put(
         "prop2",
-        InlinedMapSchemaMapDto.newBuilder()
+        InlinedMapSchemaMapDto.builder()
             .setName("name2")
             .andAllOptionals()
             .setDescription("description2")
             .build());
-    INLINE_MAP_DTO = InlinedMapSchemaDto.newBuilder().andAllOptionals().setMap(map).build();
+    INLINE_MAP_DTO = InlinedMapSchemaDto.builder().andAllOptionals().setMap(map).build();
   }
 
   @Test

@@ -18,7 +18,7 @@ class MultipleOfValidationTest {
   @MethodSource("notMultipleOfInts")
   void validate_when_intNotMultipleOf_then_violation(int value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setIntValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setIntValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
@@ -35,7 +35,7 @@ class MultipleOfValidationTest {
   @ValueSource(ints = {0, 11, 22, 33})
   void validate_when_intMultipleOf_then_noViolation(int value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setIntValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setIntValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
@@ -46,7 +46,7 @@ class MultipleOfValidationTest {
   @MethodSource("notMultipleOfLongs")
   void validate_when_longNotMultipleOf_then_violation(long value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setLongValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setLongValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
@@ -66,7 +66,7 @@ class MultipleOfValidationTest {
   @ValueSource(longs = {0, 22, 44, 66})
   void validate_when_longMultipleOf_then_noViolation(long value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setLongValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setLongValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
@@ -77,7 +77,7 @@ class MultipleOfValidationTest {
   @MethodSource("notMultipleOfFloats")
   void validate_when_doubleNotMultipleOf_then_violation(float value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setFloatValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setFloatValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
@@ -98,7 +98,7 @@ class MultipleOfValidationTest {
   @ValueSource(floats = {0, 2.25f, 4.5f, 6.75f, 9})
   void validate_when_floatMultipleOf_then_noViolation(float value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setFloatValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setFloatValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
@@ -109,7 +109,7 @@ class MultipleOfValidationTest {
   @MethodSource("notMultipleOfDoubles")
   void validate_when_doubleNotMultipleOf_then_violation(double value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setDoubleValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
@@ -129,7 +129,7 @@ class MultipleOfValidationTest {
   @ValueSource(doubles = {0, 5.5, 11, 16.5, 22})
   void validate_when_doubleMultipleOf_then_noViolation(double value) {
     final MultipleOfObjectDto dto =
-        MultipleOfObjectDto.newBuilder().andOptionals().setDoubleValue(value).build();
+        MultipleOfObjectDto.builder().andOptionals().setDoubleValue(value).build();
 
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 

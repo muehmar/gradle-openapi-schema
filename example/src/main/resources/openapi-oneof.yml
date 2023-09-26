@@ -9,6 +9,7 @@ components:
       required:
         - id
         - username
+        - type
       properties:
         id:
           type: string
@@ -30,6 +31,7 @@ components:
       required:
         - id
         - adminname
+        - type
       properties:
         id:
           type: string
@@ -54,6 +56,24 @@ components:
         - $ref: '#/components/schemas/User'
       discriminator:
         propertyName: type
+
+    OneOfMemberReference:
+      oneOf:
+        - $ref: '#/components/schemas/BaseOneOfMemberReference'
+        - type: object
+          properties:
+            name:
+              type: string
+
+    BaseOneOfMemberReference:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ReferenceId'
+
+    ReferenceId:
+      type: string
+      format: uuid
 
 
 

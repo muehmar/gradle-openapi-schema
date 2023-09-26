@@ -15,19 +15,20 @@ class TestArrayProperty {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   private static final ReferenceArrayPropertyDto DTO =
-      new ReferenceArrayPropertyDto(
-          new PosologyDto(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0))));
+      ReferenceArrayPropertyDto.builder()
+          .setPosology(new PosologyDto(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0))))
+          .build();
   private static final String JSON = "{\"posology\":[1.0,2.0,3.0,4.0]}";
 
   @Test
-  void deserialize_when_referenceArrayProprtyDto_then_correctDto() throws JsonProcessingException {
+  void deserialize_when_referenceArrayPropertyDto_then_correctDto() throws JsonProcessingException {
     final ReferenceArrayPropertyDto deserializedDto =
         MAPPER.readValue(JSON, ReferenceArrayPropertyDto.class);
     assertEquals(DTO, deserializedDto);
   }
 
   @Test
-  void serialize_when_() throws JsonProcessingException {
+  void serialize_when_referenceArrayPropertyDto_then_correctJson() throws JsonProcessingException {
     assertEquals(JSON, MAPPER.writeValueAsString(DTO));
   }
 }

@@ -1,0 +1,88 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    NoAdditionalProperties:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties: false
+
+    StringAdditionalProperties:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+        pattern: "[A-Za-z0-9]+"
+        maxLength: 10
+      minProperties: 2
+      maxProperties: 4
+
+    ObjectAdditionalProperties:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+        required:
+          - title
+        properties:
+          title:
+            type: string
+          description:
+            type: string
+            minLength: 5
+
+    ArrayAdditionalProperties:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        maxItems: 2
+
+    EnumAdditionalProperties:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+        enum:
+          - red
+          - orange
+          - green
+
+    RequiredAdditionalProperties:
+      type: object
+      required:
+        - name
+        - lastname
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+

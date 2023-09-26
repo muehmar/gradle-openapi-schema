@@ -102,6 +102,14 @@ components:
           type: string
           nullable: true
 
+    NoAdditionalProperties:
+      required:
+        - val1
+      properties:
+        val1:
+          type: string
+      additionalProperties: false
+
     Nested:
       required:
         - id

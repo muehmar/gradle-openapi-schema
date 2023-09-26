@@ -58,6 +58,24 @@ components:
             - $ref: '#/components/schemas/Admin'
             - $ref: '#/components/schemas/User'
 
+    AnyOfMemberReference:
+      anyOf:
+        - $ref: '#/components/schemas/BaseAnyOfMemberReference'
+        - type: object
+          properties:
+            name:
+              type: string
+
+    BaseAnyOfMemberReference:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ReferenceId'
+
+    ReferenceId:
+      type: string
+      format: uuid
+
 
 
 

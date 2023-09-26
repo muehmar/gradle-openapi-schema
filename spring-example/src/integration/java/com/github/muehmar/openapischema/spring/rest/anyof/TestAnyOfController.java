@@ -33,15 +33,16 @@ public class TestAnyOfController extends ControllerUnitTest {
   @Test
   void get_when_called_then_correctSerializedDtoReturned() throws Exception {
     final AdminDto admin =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("admin-id")
+            .setType("admin")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("admin")
             .setLevel(5L)
             .build();
 
-    final AdminAndOrUserDto adminAndOrUserDto = AdminAndOrUserDto.fromAdmin(admin);
+    final AdminAndOrUserDto adminAndOrUserDto =
+        AdminAndOrUserDto.builder().setAdminDto(admin).build();
     when(anyOfInterface.get()).thenReturn(adminAndOrUserDto);
 
     final MvcResult mvcResult =
@@ -66,25 +67,26 @@ public class TestAnyOfController extends ControllerUnitTest {
         .andExpect(status().isOk());
 
     final AdminDto admin =
-        AdminDto.newBuilder()
+        AdminDto.builder()
             .setId("id-123")
+            .setType("admin-and-user")
             .setAdminname("admin-name")
             .andAllOptionals()
-            .setType("admin-and-user")
             .setLevel(5L)
             .build();
 
     final UserDto user =
-        UserDto.newBuilder()
+        UserDto.builder()
             .setId("id-123")
+            .setType("admin-and-user")
             .setUsername("user-name")
             .andAllOptionals()
-            .setType("admin-and-user")
             .setAge(39)
             .setEmail(Tristate.ofNull())
             .build();
 
-    final AdminAndOrUserDto adminAndOrUserDto = AdminAndOrUserDto.fromAdmin(admin).withUser(user);
+    final AdminAndOrUserDto adminAndOrUserDto =
+        AdminAndOrUserDto.builder().setAdminDto(admin).setUserDto(user).build();
 
     verify(anyOfInterface).post(adminAndOrUserDto);
   }
