@@ -1,14 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
@@ -51,8 +51,7 @@ class MapContextTest {
     final UnmappedItems unmappedItems = UnmappedItems.ofSpec(spec);
     final UnresolvedMapResult returnedUnresolvedMapResult =
         UnresolvedMapResult.ofPojo(
-            EnumPojo.of(
-                PojoName.ofNameAndSuffix("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
+            EnumPojo.of(componentName("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
     final MapContext mapContext =
         MapContext.fromUnmappedItemsAndResult(unmappedItems, UnresolvedMapResult.empty());
 
@@ -85,12 +84,10 @@ class MapContextTest {
   void onUnmappedItems_when_pojoSchema_then_onSchemasCalled() {
     final UnresolvedMapResult expectedUnresolvedMapResult =
         UnresolvedMapResult.ofPojo(
-            EnumPojo.of(
-                PojoName.ofNameAndSuffix("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
+            EnumPojo.of(componentName("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
     final PojoSchema pojoSchema =
         new PojoSchema(
-            PojoName.ofNameAndSuffix("Schema", "Dto"),
-            OpenApiSchema.wrapSchema(new StringSchema()));
+            componentName("Schema", "Dto"), OpenApiSchema.wrapSchema(new StringSchema()));
     final UnmappedItems unmappedItems = UnmappedItems.ofPojoSchema(pojoSchema);
     final MapContext mapContext =
         MapContext.fromUnmappedItemsAndResult(unmappedItems, UnresolvedMapResult.empty());

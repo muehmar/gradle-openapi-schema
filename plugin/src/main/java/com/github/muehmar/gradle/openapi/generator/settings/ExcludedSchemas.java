@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.settings;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import java.util.function.Predicate;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,20 +12,27 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class ExcludedSchemas {
-  private final PList<PojoName> excludedPojoNames;
+  private final PList<Name> excludedNames;
 
-  private ExcludedSchemas(PList<PojoName> excludedPojoNames) {
-    this.excludedPojoNames = excludedPojoNames;
+  private ExcludedSchemas(PList<Name> excludedNames) {
+    this.excludedNames = excludedNames;
   }
 
-  public static ExcludedSchemas fromExcludedPojoNames(PList<PojoName> excludedPojoNames) {
-    return new ExcludedSchemas(excludedPojoNames);
+  public static ExcludedSchemas fromExcludedPojoNames(PList<Name> excludedNames) {
+    return new ExcludedSchemas(excludedNames);
   }
 
   public Predicate<PojoSchema> getSchemaFilter() {
-    return pojoSchema ->
-        not(
-            excludedPojoNames.exists(
-                excludedPojoName -> pojoSchema.getPojoName().equalsIgnoreCase(excludedPojoName)));
+    return pojoSchema -> {
+      final Predicate<Name> matchesPojoName =
+          name -> pojoSchema.getPojoName().getName().equalsIgnoreCase(name);
+      final Predicate<Name> matchesSchemaName =
+          name -> pojoSchema.getSchemaName().asName().equalsIgnoreCase(name);
+
+      return not(
+          excludedNames.exists(
+              excludedName ->
+                  matchesPojoName.test(excludedName) || matchesSchemaName.test(excludedName)));
+    };
   }
 }

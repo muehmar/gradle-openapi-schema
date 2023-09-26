@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import io.swagger.v3.oas.models.media.Schema;

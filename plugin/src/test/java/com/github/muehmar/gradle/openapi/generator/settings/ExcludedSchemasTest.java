@@ -1,11 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -25,37 +27,48 @@ class ExcludedSchemasTest {
   }
 
   public static Stream<Arguments> filter() {
-    final PojoName userPojoName = PojoName.ofNameAndSuffix("User", "Dto");
-    final PojoName genderPojoName = PojoName.ofNameAndSuffix("Gender", "Dto");
-    final PojoName addressPojoName = PojoName.ofNameAndSuffix("Address", "Dto");
+    final ComponentName userName = componentName("User", "Dto");
+    final ComponentName genderName = componentName("Gender", "Dto");
+    final ComponentName addressName = componentName("Address", "Dto");
 
     return Stream.of(
         arguments(
             ExcludedSchemas.fromExcludedPojoNames(
-                PList.of(userPojoName, genderPojoName, addressPojoName)),
-            new PojoSchema(userPojoName, new StringSchema()),
+                PList.of(userName, genderName, addressName)
+                    .map(ComponentName::getPojoName)
+                    .map(PojoName::getName)),
+            new PojoSchema(userName, new StringSchema()),
             false),
         arguments(
             ExcludedSchemas.fromExcludedPojoNames(
-                PList.of(userPojoName, genderPojoName, addressPojoName)),
-            new PojoSchema(genderPojoName, new StringSchema()),
+                PList.of(userName, genderName, addressName)
+                    .map(ComponentName::getPojoName)
+                    .map(PojoName::getName)),
+            new PojoSchema(genderName, new StringSchema()),
             false),
         arguments(
             ExcludedSchemas.fromExcludedPojoNames(
-                PList.of(userPojoName, genderPojoName, addressPojoName)),
-            new PojoSchema(addressPojoName, new StringSchema()),
+                PList.of(userName, genderName, addressName)
+                    .map(ComponentName::getPojoName)
+                    .map(PojoName::getName)),
+            new PojoSchema(addressName, new StringSchema()),
             false),
         arguments(
-            ExcludedSchemas.fromExcludedPojoNames(PList.of(userPojoName)),
-            new PojoSchema(genderPojoName, new StringSchema()),
+            ExcludedSchemas.fromExcludedPojoNames(
+                PList.of(userName).map(ComponentName::getPojoName).map(PojoName::getName)),
+            new PojoSchema(genderName, new StringSchema()),
             true),
         arguments(
-            ExcludedSchemas.fromExcludedPojoNames(PList.of(userPojoName)),
-            new PojoSchema(addressPojoName, new StringSchema()),
+            ExcludedSchemas.fromExcludedPojoNames(
+                PList.of(userName).map(ComponentName::getPojoName).map(PojoName::getName)),
+            new PojoSchema(addressName, new StringSchema()),
             true),
         arguments(
-            ExcludedSchemas.fromExcludedPojoNames(PList.of(userPojoName, genderPojoName)),
-            new PojoSchema(addressPojoName, new StringSchema()),
+            ExcludedSchemas.fromExcludedPojoNames(
+                PList.of(userName, genderName)
+                    .map(ComponentName::getPojoName)
+                    .map(PojoName::getName)),
+            new PojoSchema(addressName, new StringSchema()),
             true));
   }
 }

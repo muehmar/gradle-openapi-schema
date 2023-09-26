@@ -29,8 +29,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
-import com.github.muehmar.gradle.openapi.generator.model.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
@@ -142,7 +142,7 @@ public class JavaObjectPojo implements JavaPojo {
     final JavaAdditionalProperties javaAdditionalProperties =
         JavaAdditionalProperties.wrap(objectPojo.getAdditionalProperties(), typeMappings);
     return new JavaObjectPojo(
-        JavaPojoName.wrap(type.mapName(objectPojo.getName())),
+        JavaPojoName.wrap(type.mapName(objectPojo.getName().getPojoName())),
         objectPojo.getName().getSchemaName(),
         objectPojo.getDescription(),
         members,

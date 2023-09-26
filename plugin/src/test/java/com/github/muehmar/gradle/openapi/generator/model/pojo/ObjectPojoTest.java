@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -7,9 +8,10 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Pojos;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import java.util.Optional;
@@ -44,7 +46,7 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeMatchesMember_then_referenceTypeUsed() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
@@ -61,9 +63,9 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeDoesNotMatchMember_then_pojoUnchanged() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
-    final ObjectType originalType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final ObjectType originalType = ObjectType.ofName(pojoName("Object", "Dto"));
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
             PList.of(PojoMembers.requiredUsername(), PojoMembers.ofType(originalType)));
@@ -76,7 +78,7 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeMatchesAdditionalProperty_then_referenceTypeUsed() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
@@ -92,9 +94,9 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeDoesNotMatchAdditionalProperty_then_pojoUnchanged() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
-    final ObjectType originalType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final ObjectType originalType = ObjectType.ofName(pojoName("Object", "Dto"));
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
             PList.of(PojoMembers.requiredUsername()), AdditionalProperties.allowed(originalType));
@@ -107,7 +109,7 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeMatchesAllOfMember_then_referenceTypeUsed() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
@@ -127,9 +129,9 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeDoesNotMatchAllOfMember_then_pojoUnchanged() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
-    final ObjectType originalType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final ObjectType originalType = ObjectType.ofName(pojoName("Object", "Dto"));
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
             PList.of(PojoMembers.requiredUsername(), PojoMembers.ofType(originalType)));
@@ -143,7 +145,7 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeMatchesOneOfMember_then_referenceTypeUsed() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
@@ -163,9 +165,9 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeDoesNotMatchOneOfMember_then_pojoUnchanged() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
-    final ObjectType originalType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final ObjectType originalType = ObjectType.ofName(pojoName("Object", "Dto"));
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
             PList.of(PojoMembers.requiredUsername(), PojoMembers.ofType(originalType)));
@@ -179,7 +181,7 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeMatchesAnyOfMember_then_referenceTypeUsed() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
@@ -199,9 +201,9 @@ class ObjectPojoTest {
 
   @Test
   void inlineObjectReference_when_referenceTypeDoesNotMatchAnyOfMember_then_pojoUnchanged() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
-    final ObjectType originalType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final ObjectType originalType = ObjectType.ofName(pojoName("Object", "Dto"));
     final ObjectPojo objectPojo =
         Pojos.objectPojo(
             PList.of(PojoMembers.requiredUsername(), PojoMembers.ofType(originalType)));
@@ -219,13 +221,12 @@ class ObjectPojoTest {
         Pojos.objectPojo(
             PList.of(
                 PojoMembers.requiredUsername(),
-                PojoMembers.ofType(ObjectType.ofName(PojoName.ofNameAndSuffix("Member", "Dto")))),
-            AdditionalProperties.allowed(
-                ObjectType.ofName(PojoName.ofNameAndSuffix("AdditionalProperty", "Dto"))));
+                PojoMembers.ofType(ObjectType.ofName(pojoName("Member", "Dto")))),
+            AdditionalProperties.allowed(ObjectType.ofName(pojoName("AdditionalProperty", "Dto"))));
 
     final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
 
-    assertEquals("ObjectPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals("ObjectPojoMappedDto", mappedPojo.getName().getPojoName().asString());
     assertEquals(
         "AdditionalPropertyMappedDto",
         mappedPojo
@@ -255,13 +256,14 @@ class ObjectPojoTest {
 
     final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
 
-    assertEquals("OneOfPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals("OneOfPojoMappedDto", mappedPojo.getName().getPojoName().asString());
     assertEquals(
         "ObjectPojoMappedDto",
         mappedPojo
             .getOneOfComposition()
             .flatMap(comp -> comp.getPojos().head().asObjectPojo())
             .map(ObjectPojo::getName)
+            .map(ComponentName::getPojoName)
             .map(PojoName::asString)
             .orElse(""));
   }
@@ -274,13 +276,14 @@ class ObjectPojoTest {
 
     final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
 
-    assertEquals("AnyOfPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals("AnyOfPojoMappedDto", mappedPojo.getName().getPojoName().asString());
     assertEquals(
         "ObjectPojoMappedDto",
         mappedPojo
             .getAnyOfComposition()
             .flatMap(comp -> comp.getPojos().head().asObjectPojo())
             .map(ObjectPojo::getName)
+            .map(ComponentName::getPojoName)
             .map(PojoName::asString)
             .orElse(""));
   }
@@ -293,13 +296,14 @@ class ObjectPojoTest {
 
     final ObjectPojo mappedPojo = objectPojo.applyMapping(name -> name.appendToName("Mapped"));
 
-    assertEquals("AllOfPojoMappedDto", mappedPojo.getName().asString());
+    assertEquals("AllOfPojoMappedDto", mappedPojo.getName().getPojoName().asString());
     assertEquals(
         "ObjectPojoMappedDto",
         mappedPojo
             .getAllOfComposition()
             .flatMap(comp -> comp.getPojos().head().asObjectPojo())
             .map(ObjectPojo::getName)
+            .map(ComponentName::getPojoName)
             .map(PojoName::asString)
             .orElse(""));
   }

@@ -10,6 +10,8 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -27,10 +29,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
@@ -44,6 +44,8 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
@@ -73,7 +75,7 @@ class ObjectPojoGeneratorTest {
       (JavaObjectPojo)
           JavaObjectPojo.wrap(
                   ObjectPojoBuilder.create()
-                      .name(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"))
+                      .name(componentName("User", "Dto"))
                       .description(
                           "User of the Application. This description is intentionally longer to see if its wrapped to a new line.")
                       .members(
@@ -173,7 +175,7 @@ class ObjectPojoGeneratorTest {
         (JavaObjectPojo)
             JavaObjectPojo.wrap(
                     ObjectPojoBuilder.create()
-                        .name(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"))
+                        .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .members(
                             PList.of(
@@ -291,7 +293,7 @@ class ObjectPojoGeneratorTest {
         (JavaObjectPojo)
             JavaObjectPojo.wrap(
                     ObjectPojoBuilder.create()
-                        .name(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"))
+                        .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .members(
                             PList.of(
@@ -333,7 +335,7 @@ class ObjectPojoGeneratorTest {
         (JavaObjectPojo)
             JavaObjectPojo.wrap(
                     ObjectPojoBuilder.create()
-                        .name(PojoName.ofNameAndSuffix(Name.ofString("User"), "Dto"))
+                        .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .members(
                             PList.of(
@@ -456,7 +458,7 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto")))));
+                JavaObjectType.wrap(ObjectType.ofName(pojoName("Hello", "Dto")))));
     final String content =
         generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 
@@ -499,7 +501,7 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto")))));
+                JavaObjectType.wrap(ObjectType.ofName(pojoName("Hello", "Dto")))));
     final String content =
         generator
             .generate(objectPojo, defaultTestSettings().withEnableValidation(false), javaWriter())
@@ -516,7 +518,7 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(ObjectType.ofName(PojoName.ofNameAndSuffix("Hello", "Dto")))));
+                JavaObjectType.wrap(ObjectType.ofName(pojoName("Hello", "Dto")))));
     final String content =
         generator
             .generate(
@@ -589,7 +591,7 @@ class ObjectPojoGeneratorTest {
 
     final ObjectPojo userPojo =
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("User", "Dto"))
+            .name(componentName("User", "Dto"))
             .description("user")
             .members(PList.of(requiredUsername()))
             .requiredAdditionalProperties(PList.empty())
@@ -598,7 +600,7 @@ class ObjectPojoGeneratorTest {
             .build();
     final ObjectPojo adminPojo =
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("Admin", "Dto"))
+            .name(componentName("Admin", "Dto"))
             .description("admin")
             .members(PList.of(requiredBirthdate()))
             .requiredAdditionalProperties(PList.empty())
@@ -607,7 +609,7 @@ class ObjectPojoGeneratorTest {
             .build();
     final ObjectPojoBuilder.Builder builder =
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("Person", "Dto"))
+            .name(componentName("Person", "Dto"))
             .description("person")
             .members(PList.of(requiredString()))
             .requiredAdditionalProperties(PList.empty())

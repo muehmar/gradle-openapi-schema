@@ -3,11 +3,11 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.List;
@@ -29,46 +29,46 @@ class SchemaCompositions {
     return new SchemaCompositions(delegate);
   }
 
-  public CompositionMapResult<UnresolvedAllOfComposition> getAllOf(PojoName pojoName) {
-    return mapSchemasToPojoNames(pojoName, Schema::getAllOf, ComposedSchemas.CompositionType.ALL_OF)
+  public CompositionMapResult<UnresolvedAllOfComposition> getAllOf(ComponentName name) {
+    return mapSchemasToPojoNames(name, Schema::getAllOf, ComposedSchemas.CompositionType.ALL_OF)
         .map(
             result ->
                 new CompositionMapResult<>(
                     result.getUnmappedItems(),
-                    UnresolvedAllOfComposition.fromPojoNames(result.getPojoNames())))
+                    UnresolvedAllOfComposition.fromComponentNames(result.getComponentNames())))
         .orElseGet(CompositionMapResult::empty);
   }
 
-  public CompositionMapResult<UnresolvedOneOfComposition> getOneOf(PojoName pojoName) {
-    return mapSchemasToPojoNames(pojoName, Schema::getOneOf, ComposedSchemas.CompositionType.ONE_OF)
+  public CompositionMapResult<UnresolvedOneOfComposition> getOneOf(ComponentName name) {
+    return mapSchemasToPojoNames(name, Schema::getOneOf, ComposedSchemas.CompositionType.ONE_OF)
         .map(
             result ->
                 new CompositionMapResult<>(
                     result.getUnmappedItems(),
                     UnresolvedOneOfComposition.fromPojoNamesAndDiscriminator(
-                        result.getPojoNames(), extractDiscriminator())))
+                        result.getComponentNames(), extractDiscriminator())))
         .orElseGet(CompositionMapResult::empty);
   }
 
-  public CompositionMapResult<UnresolvedAnyOfComposition> getAnyOf(PojoName pojoName) {
-    return mapSchemasToPojoNames(pojoName, Schema::getAnyOf, ComposedSchemas.CompositionType.ANY_OF)
+  public CompositionMapResult<UnresolvedAnyOfComposition> getAnyOf(ComponentName name) {
+    return mapSchemasToPojoNames(name, Schema::getAnyOf, ComposedSchemas.CompositionType.ANY_OF)
         .map(
             result ->
                 new CompositionMapResult<>(
                     result.getUnmappedItems(),
-                    UnresolvedAnyOfComposition.fromPojoNames(result.getPojoNames())))
+                    UnresolvedAnyOfComposition.fromPojoNames(result.getComponentNames())))
         .orElseGet(CompositionMapResult::empty);
   }
 
   private Optional<ComposedSchemas.ComposedSchemasMapResult> mapSchemasToPojoNames(
-      PojoName pojoName,
+      ComponentName name,
       Function<Schema<?>, List<Schema>> getCompositions,
       ComposedSchemas.CompositionType type) {
     return Optional.ofNullable(getCompositions.apply(delegate))
         .map(PList::fromIter)
         .map(schemas -> schemas.map(OpenApiSchema::wrapSchema))
         .map(ComposedSchemas::fromSchemas)
-        .map(s -> s.mapSchemasToPojoNames(pojoName, type));
+        .map(s -> s.mapSchemasToPojoNames(name, type));
   }
 
   private Optional<Discriminator> extractDiscriminator() {

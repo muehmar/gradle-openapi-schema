@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import org.junit.jupiter.api.Test;
 
 class PackageNameTest {

@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;

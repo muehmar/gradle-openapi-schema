@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

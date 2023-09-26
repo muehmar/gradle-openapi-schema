@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)

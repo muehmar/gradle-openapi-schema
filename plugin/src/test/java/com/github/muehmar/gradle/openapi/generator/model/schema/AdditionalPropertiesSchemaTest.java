@@ -1,14 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
@@ -33,8 +34,7 @@ class AdditionalPropertiesSchemaTest {
         AdditionalPropertiesSchema.wrapNullable(additionalProperties);
 
     final Type additionalPropertiesType =
-        additionalPropertiesSchema.getAdditionalPropertiesType(
-            PojoName.ofNameAndSuffix("Map", "Dto"));
+        additionalPropertiesSchema.getAdditionalPropertiesType(componentName("Map", "Dto"));
 
     assertTrue(additionalPropertiesSchema.isAllowed());
     assertEquals(AnyType.create(), additionalPropertiesType);
@@ -56,9 +56,9 @@ class AdditionalPropertiesSchemaTest {
     final AdditionalPropertiesSchema additionalPropertiesSchema =
         AdditionalPropertiesSchema.wrapNullable(objectSchema);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix("User", "Dto");
+    final ComponentName componentName = componentName("User", "Dto");
     final Type additionalPropertiesType =
-        additionalPropertiesSchema.getAdditionalPropertiesType(pojoName);
+        additionalPropertiesSchema.getAdditionalPropertiesType(componentName);
 
     assertTrue(additionalPropertiesSchema.isAllowed());
     assertEquals(
@@ -74,18 +74,18 @@ class AdditionalPropertiesSchemaTest {
     final AdditionalPropertiesSchema additionalPropertiesSchema =
         AdditionalPropertiesSchema.wrapNullable(arraySchema);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix("User", "Dto");
+    final ComponentName componentName = componentName("User", "Dto");
     // method call
     final MemberSchemaMapResult mapResult =
-        additionalPropertiesSchema.getAdditionalPropertiesMapResult(pojoName);
+        additionalPropertiesSchema.getAdditionalPropertiesMapResult(componentName);
 
-    final PojoName newPojoSchemaName =
-        PojoName.deriveOpenApiPojoName(pojoName, Name.ofString("Property"));
-    assertEquals(ObjectType.ofName(newPojoSchemaName), mapResult.getType());
+    final ComponentName newComponentName =
+        componentName.deriveMemberSchemaName(Name.ofString("Property"));
+    assertEquals(ObjectType.ofName(newComponentName.getPojoName()), mapResult.getType());
 
     assertEquals(1, mapResult.getUnmappedItems().getPojoSchemas().size());
     assertEquals(
-        new PojoSchema(newPojoSchemaName, arraySchema),
+        new PojoSchema(newComponentName, arraySchema),
         mapResult.getUnmappedItems().getPojoSchemas().apply(0));
   }
 }

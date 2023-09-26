@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.specification;
 
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import java.net.URI;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;

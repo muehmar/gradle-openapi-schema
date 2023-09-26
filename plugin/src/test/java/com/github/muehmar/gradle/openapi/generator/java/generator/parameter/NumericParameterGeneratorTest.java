@@ -4,11 +4,11 @@ import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSetti
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;

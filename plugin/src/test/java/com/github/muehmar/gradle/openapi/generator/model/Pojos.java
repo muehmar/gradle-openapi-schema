@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
@@ -21,7 +22,7 @@ public class Pojos {
   public static ObjectPojo objectPojo(
       PList<PojoMember> members, AdditionalProperties additionalProperties) {
     return ObjectPojoBuilder.create()
-        .name(PojoName.ofNameAndSuffix("ObjectPojo", "Dto"))
+        .name(componentName("ObjectPojo", "Dto"))
         .description("Object pojo")
         .members(members)
         .requiredAdditionalProperties(PList.empty())
@@ -32,7 +33,7 @@ public class Pojos {
 
   public static ObjectPojo anyOfPojo(NonEmptyList<Pojo> anyOfPojos) {
     return ObjectPojoBuilder.create()
-        .name(PojoName.ofNameAndSuffix("AnyOfPojo", "Dto"))
+        .name(componentName("AnyOfPojo", "Dto"))
         .description("Any of pojo")
         .members(PList.empty())
         .requiredAdditionalProperties(PList.empty())
@@ -49,7 +50,7 @@ public class Pojos {
 
   public static ObjectPojo oneOfPojo(NonEmptyList<Pojo> oneOfPojos) {
     return ObjectPojoBuilder.create()
-        .name(PojoName.ofNameAndSuffix("OneOfPojo", "Dto"))
+        .name(componentName("OneOfPojo", "Dto"))
         .description("One of pojo")
         .members(PList.empty())
         .requiredAdditionalProperties(PList.empty())
@@ -66,7 +67,7 @@ public class Pojos {
 
   public static ObjectPojo allOfPojo(NonEmptyList<Pojo> allOfPojos) {
     return ObjectPojoBuilder.create()
-        .name(PojoName.ofNameAndSuffix("AllOfPojo", "Dto"))
+        .name(componentName("AllOfPojo", "Dto"))
         .description("All of pojo")
         .members(PList.empty())
         .requiredAdditionalProperties(PList.empty())

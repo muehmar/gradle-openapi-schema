@@ -1,14 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -85,7 +85,7 @@ class UnmappedItemsTest {
   @Test
   void onUnmappedItems_when_pojoSchema_then_onSchemasCalled() {
     final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Schema", "Dto"), new StringSchema());
+        new PojoSchema(componentName("Schema", "Dto"), new StringSchema());
     final UnmappedItems unmappedItems = UnmappedItems.ofPojoSchema(pojoSchema);
 
     final BiFunction<UnmappedItems, NonEmptyList<OpenApiSpec>, UnresolvedMapResult>

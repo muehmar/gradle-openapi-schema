@@ -3,10 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.Schema;
@@ -33,13 +33,13 @@ public interface OpenApiSchema {
   }
 
   /** Maps the current schema to a {@link Pojo} returned within a {@link MapContext}. */
-  MapContext mapToPojo(PojoName pojoName);
+  MapContext mapToPojo(ComponentName name);
 
   /**
    * Maps the current schema to a member-type {@link Type} of a pojo returned within a {@link
    * MemberSchemaMapResult}.
    */
-  MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName);
+  MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName);
 
   Schema<?> getDelegateSchema();
 

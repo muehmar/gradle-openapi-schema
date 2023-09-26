@@ -1,8 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import org.junit.jupiter.api.Test;
 
 class PojoNameMappingTest {
@@ -11,7 +12,7 @@ class PojoNameMappingTest {
   void replaceConstant_when_constantMatches_then_replaced() {
     final PojoNameMapping mapping = PojoNameMapping.replaceConstant("User", "Person");
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix("UserIdentifier", "Dto");
+    final PojoName pojoName = pojoName("UserIdentifier", "Dto");
 
     final PojoName mappedName = mapping.map(pojoName);
 
@@ -25,7 +26,7 @@ class PojoNameMappingTest {
 
     final PojoNameMapping mapping = mapping1.andThen(mapping2);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix("User", "Dto");
+    final PojoName pojoName = pojoName("User", "Dto");
 
     final PojoName mappedName = mapping.map(pojoName);
 

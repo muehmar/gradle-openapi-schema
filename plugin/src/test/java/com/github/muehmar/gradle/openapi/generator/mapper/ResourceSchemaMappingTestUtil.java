@@ -21,6 +21,6 @@ public class ResourceSchemaMappingTestUtil {
     return specificationMapper
         .map(MainDirectory.fromString(mainDirectory), OpenApiSpec.fromString(schema))
         .getPojos()
-        .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+        .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
   }
 }

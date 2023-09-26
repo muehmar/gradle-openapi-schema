@@ -1,5 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.model;
+package com.github.muehmar.gradle.openapi.generator.model.name;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,9 +21,8 @@ class PojoNameTest {
 
   public static Stream<Arguments> equalsIgnoringCase() {
     return Stream.of(
-        arguments(PojoName.ofNameAndSuffix("User", "Dto"), PojoName.ofNameAndSuffix("user", "Dto")),
-        arguments(
-            PojoName.ofNameAndSuffix("user", "Dto"), PojoName.ofNameAndSuffix("User", "Dto")));
+        arguments(pojoName("User", "Dto"), pojoName("user", "Dto")),
+        arguments(pojoName("user", "Dto"), pojoName("User", "Dto")));
   }
 
   @ParameterizedTest
@@ -33,17 +33,14 @@ class PojoNameTest {
 
   public static Stream<Arguments> notEqualsIgnoringCase() {
     return Stream.of(
-        arguments(
-            PojoName.ofNameAndSuffix("User", "Dto"), PojoName.ofNameAndSuffix("Gender", "Dto")),
-        arguments(PojoName.ofNameAndSuffix("User", "Dto"), PojoName.ofNameAndSuffix("User", "")));
+        arguments(pojoName("User", "Dto"), pojoName("Gender", "Dto")),
+        arguments(pojoName("User", "Dto"), pojoName("User", "")));
   }
 
   @Test
-  void deriveOpenApiPojoName_when_called_then_nameDerivedCorrectly() {
-    final PojoName pojoName = PojoName.ofNameAndSuffix("User", "Dto");
-    final PojoName openApiPojoName =
-        PojoName.deriveOpenApiPojoName(pojoName, Name.ofString("Member"));
+  void deriveMemberSchemaName_when_called_then_nameDerivedCorrectly() {
+    final PojoName pojoName = pojoName("User", "Dto");
+    final PojoName openApiPojoName = pojoName.deriveMemberSchemaName(Name.ofString("Member"));
     assertEquals("UserMemberDto", openApiPojoName.asString());
-    assertEquals("User.Member", openApiPojoName.getSchemaName().asString());
   }
 }

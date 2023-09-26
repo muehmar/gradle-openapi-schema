@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import lombok.Value;

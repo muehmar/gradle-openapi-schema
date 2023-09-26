@@ -6,15 +6,16 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
@@ -27,7 +28,7 @@ import lombok.ToString;
 @ToString
 @PojoBuilder
 public class ObjectPojo implements Pojo {
-  private final PojoName name;
+  private final ComponentName name;
   private final String description;
   private final PList<PojoMember> members;
   private final PList<Name> requiredAdditionalProperties;
@@ -38,7 +39,7 @@ public class ObjectPojo implements Pojo {
   private final AdditionalProperties additionalProperties;
 
   ObjectPojo(
-      PojoName name,
+      ComponentName name,
       String description,
       PList<PojoMember> members,
       PList<Name> requiredAdditionalProperties,
@@ -59,7 +60,7 @@ public class ObjectPojo implements Pojo {
   }
 
   @Override
-  public PojoName getName() {
+  public ComponentName getName() {
     return name;
   }
 
@@ -155,7 +156,7 @@ public class ObjectPojo implements Pojo {
     final AdditionalProperties mappedAdditionalProperties =
         additionalProperties.applyMapping(pojoNameMapping);
     return fullObjectPojoBuilder()
-        .name(pojoNameMapping.map(name))
+        .name(name.applyPojoMapping(pojoNameMapping))
         .description(description)
         .members(mappedMembers)
         .requiredAdditionalProperties(requiredAdditionalProperties)

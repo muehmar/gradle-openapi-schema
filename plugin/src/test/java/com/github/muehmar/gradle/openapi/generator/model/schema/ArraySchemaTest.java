@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
-import static com.github.muehmar.gradle.openapi.generator.model.PojoNames.pojoName;
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,12 +9,12 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
@@ -47,16 +47,16 @@ class ArraySchemaTest {
     final io.swagger.v3.oas.models.media.ArraySchema arraySchema =
         new io.swagger.v3.oas.models.media.ArraySchema().items(composedSchema);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix("Reports", "Dto");
+    final ComponentName componentName = componentName("Reports", "Dto");
     final Name pojoMemberName = Name.ofString("Invoice");
     final MemberSchemaMapResult mappedSchema =
-        mapToMemberType(pojoName, pojoMemberName, arraySchema);
+        mapToMemberType(componentName, pojoMemberName, arraySchema);
     final ObjectType itemType =
-        ObjectType.ofName(PojoName.deriveOpenApiPojoName(pojoName, pojoMemberName));
+        ObjectType.ofName(componentName.deriveMemberSchemaName(pojoMemberName).getPojoName());
     assertEquals(ArrayType.ofItemType(itemType), mappedSchema.getType());
     assertEquals(
         UnmappedItems.ofPojoSchema(
-            new PojoSchema(pojoName("ReportsInvoice", "Reports.Invoice", "Dto"), composedSchema)),
+            new PojoSchema(componentName.deriveMemberSchemaName(pojoMemberName), composedSchema)),
         mappedSchema.getUnmappedItems());
   }
 
@@ -120,8 +120,7 @@ class ArraySchemaTest {
     arraySchema.setDescription("Test description");
     arraySchema.setItems(new io.swagger.v3.oas.models.media.StringSchema());
 
-    final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Array", "Dto"), arraySchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -132,10 +131,7 @@ class ArraySchemaTest {
 
     final ArrayPojo expectedPojo =
         ArrayPojo.of(
-            pojoSchema.getPojoName(),
-            "Test description",
-            StringType.noFormat(),
-            Constraints.empty());
+            pojoSchema.getName(), "Test description", StringType.noFormat(), Constraints.empty());
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }
@@ -147,8 +143,7 @@ class ArraySchemaTest {
     arraySchema.setItems(new io.swagger.v3.oas.models.media.StringSchema());
     arraySchema.setUniqueItems(true);
 
-    final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Array", "Dto"), arraySchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -170,8 +165,7 @@ class ArraySchemaTest {
     arraySchema.minItems(5);
     arraySchema.maxItems(10);
 
-    final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Array", "Dto"), arraySchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

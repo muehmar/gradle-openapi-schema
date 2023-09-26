@@ -4,10 +4,10 @@ import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
@@ -39,30 +39,33 @@ public class ArraySchema implements OpenApiSchema {
   }
 
   @Override
-  public MapContext mapToPojo(PojoName pojoName) {
+  public MapContext mapToPojo(ComponentName componentName) {
     final MemberSchemaMapResult memberSchemaMapResult =
-        getItemSchema().mapToMemberType(pojoName, Name.ofString("value"));
+        getItemSchema().mapToMemberType(componentName, Name.ofString("value"));
 
     final ArrayPojo pojo =
         ArrayPojo.of(
-            pojoName, getDescription(), memberSchemaMapResult.getType(), getArrayConstraints());
+            componentName,
+            getDescription(),
+            memberSchemaMapResult.getType(),
+            getArrayConstraints());
 
     return MapContext.fromUnmappedItemsAndResult(
         memberSchemaMapResult.getUnmappedItems(), UnresolvedMapResult.ofPojo(pojo));
   }
 
   @Override
-  public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
+  public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
     if (getItemSchema() instanceof ObjectSchema) {
-      final PojoName openApiPojoName = PojoName.deriveOpenApiPojoName(pojoName, memberName);
-      final ObjectType itemType = ObjectType.ofName(openApiPojoName);
+      final ComponentName memberSchemaName = parentComponentName.deriveMemberSchemaName(memberName);
+      final ObjectType itemType = ObjectType.ofName(memberSchemaName.getPojoName());
       final ArrayType arrayType =
           ArrayType.ofItemType(itemType).withConstraints(getArrayConstraints());
-      final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, getItemSchema());
+      final PojoSchema pojoSchema = new PojoSchema(memberSchemaName, getItemSchema());
       return MemberSchemaMapResult.ofTypeAndPojoSchema(arrayType, pojoSchema);
     } else {
       return getItemSchema()
-          .mapToMemberType(pojoName, memberName)
+          .mapToMemberType(parentComponentName, memberName)
           .mapType(
               itemType -> ArrayType.ofItemType(itemType).withConstraints(getArrayConstraints()));
     }

@@ -3,11 +3,11 @@ package com.github.muehmar.gradle.openapi.generator.mapper.reader;
 import static java.util.Objects.nonNull;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
@@ -49,7 +49,7 @@ public class SwaggerSpecificationParser implements SpecificationParser {
         .map(
             entry ->
                 new PojoSchema(
-                    PojoName.ofNameAndSuffix(entry.getKey(), pojoSuffix),
+                    ComponentName.fromSchemaStringAndSuffix(entry.getKey(), pojoSuffix),
                     OpenApiSchema.wrapSchema(entry.getValue())));
   }
 

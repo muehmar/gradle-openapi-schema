@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;

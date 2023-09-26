@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import java.util.Comparator;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;

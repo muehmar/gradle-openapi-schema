@@ -3,9 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import io.swagger.v3.oas.models.media.Schema;
@@ -37,13 +37,13 @@ public class EnumSchema implements OpenApiSchema {
   }
 
   @Override
-  public MapContext mapToPojo(PojoName pojoName) {
-    final EnumPojo enumPojo = EnumPojo.of(pojoName, getDescription(), enums);
+  public MapContext mapToPojo(ComponentName name) {
+    final EnumPojo enumPojo = EnumPojo.of(name, getDescription(), enums);
     return MapContext.ofPojo(enumPojo);
   }
 
   @Override
-  public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
+  public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
     final Optional<String> format = Optional.ofNullable(delegate.getFormat());
     final Type enumType =
         EnumType.ofNameAndMembersAndFormat(

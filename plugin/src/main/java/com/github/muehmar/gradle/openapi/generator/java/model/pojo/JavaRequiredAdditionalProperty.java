@@ -4,7 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAn
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value

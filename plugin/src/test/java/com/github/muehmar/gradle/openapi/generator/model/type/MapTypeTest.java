@@ -1,8 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import org.junit.jupiter.api.Test;
 
 class MapTypeTest {
@@ -10,8 +11,8 @@ class MapTypeTest {
   void applyMapping_when_called_then_nameMappedCorrectly() {
     final MapType mapType =
         MapType.ofKeyAndValueType(
-            ObjectType.ofName(PojoName.ofNameAndSuffix("KeyType", "Dto")),
-            ObjectType.ofName(PojoName.ofNameAndSuffix("ValueType", "Dto")));
+            ObjectType.ofName(pojoName("KeyType", "Dto")),
+            ObjectType.ofName(pojoName("ValueType", "Dto")));
 
     final MapType mapTypeMapped = mapType.applyMapping(name -> name.appendToName("Mapped"));
 

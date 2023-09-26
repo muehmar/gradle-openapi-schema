@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 
 public class PojoMembers {

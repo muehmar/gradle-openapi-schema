@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
-import com.github.muehmar.gradle.openapi.generator.model.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Map;
 import lombok.Value;

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -8,7 +9,6 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Pojos;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
@@ -32,14 +32,15 @@ class UnresolvedObjectPojoResolverTest {
 
     final UnresolvedObjectPojo unresolvedObjectPojo =
         UnresolvedObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("ComposedObject", "Dto"))
+            .name(componentName("ComposedObject", "Dto"))
             .description("Description")
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(AdditionalProperties.notAllowed())
             .andAllOptionals()
-            .allOfComposition(UnresolvedAllOfComposition.fromPojoNames(PList.of(pojo1.getName())))
+            .allOfComposition(
+                UnresolvedAllOfComposition.fromComponentNames(PList.of(pojo1.getName())))
             .oneOfComposition(Optional.empty())
             .anyOfComposition(Optional.empty())
             .build();
@@ -47,7 +48,7 @@ class UnresolvedObjectPojoResolverTest {
     // method call
     final PList<Pojo> resolved =
         UnresolvedObjectPojoResolver.resolve(PList.single(unresolvedObjectPojo), PList.of(pojo1))
-            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+            .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
     assertEquals(2, resolved.size());
 
@@ -67,7 +68,7 @@ class UnresolvedObjectPojoResolverTest {
 
     final UnresolvedObjectPojo unresolvedObjectPojo =
         UnresolvedObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("ComposedObject", "Dto"))
+            .name(componentName("ComposedObject", "Dto"))
             .description("Description")
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
@@ -84,7 +85,7 @@ class UnresolvedObjectPojoResolverTest {
     // method call
     final PList<Pojo> resolved =
         UnresolvedObjectPojoResolver.resolve(PList.single(unresolvedObjectPojo), PList.of(pojo1))
-            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+            .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
     assertEquals(2, resolved.size());
 
@@ -104,7 +105,7 @@ class UnresolvedObjectPojoResolverTest {
 
     final UnresolvedObjectPojo unresolvedObjectPojo =
         UnresolvedObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("ComposedObject", "Dto"))
+            .name(componentName("ComposedObject", "Dto"))
             .description("Description")
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
@@ -119,7 +120,7 @@ class UnresolvedObjectPojoResolverTest {
     // method call
     final PList<Pojo> resolved =
         UnresolvedObjectPojoResolver.resolve(PList.single(unresolvedObjectPojo), PList.of(pojo1))
-            .sort(Comparator.comparing(pojo -> pojo.getName().asString()));
+            .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
     assertEquals(2, resolved.size());
 

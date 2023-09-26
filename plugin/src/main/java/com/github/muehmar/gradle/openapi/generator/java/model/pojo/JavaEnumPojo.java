@@ -8,8 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.SchemaName;
+import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import java.util.Optional;
 import java.util.function.Function;
@@ -35,14 +34,9 @@ public class JavaEnumPojo implements JavaPojo {
     this.members = members;
   }
 
-  public static JavaEnumPojo of(
-      PojoName name, String description, PList<EnumConstantName> members) {
-    return new JavaEnumPojo(JavaPojoName.wrap(name), name.getSchemaName(), description, members);
-  }
-
   public static JavaEnumPojo wrap(EnumPojo enumPojo) {
     return new JavaEnumPojo(
-        JavaPojoName.wrap(enumPojo.getName()),
+        JavaPojoName.wrap(enumPojo.getName().getPojoName()),
         enumPojo.getName().getSchemaName(),
         enumPojo.getDescription(),
         enumPojo.getMembers().map(EnumConstantName::ofString));

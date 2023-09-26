@@ -1,13 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -26,7 +26,7 @@ class JavaPojoWrapResultTest {
     final PojoMember pojoMember1 = PojoMembers.requiredString(memberPropertyScope);
     final ObjectPojo objectPojo =
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("Object", "Dto"))
+            .name(componentName("Object", "Dto"))
             .description("Description")
             .members(PList.single(pojoMember1))
             .requiredAdditionalProperties(PList.empty())

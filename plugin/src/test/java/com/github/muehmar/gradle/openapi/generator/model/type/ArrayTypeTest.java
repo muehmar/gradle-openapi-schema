@@ -1,8 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import org.junit.jupiter.api.Test;
 
 class ArrayTypeTest {
@@ -10,7 +11,7 @@ class ArrayTypeTest {
   @Test
   void applyMapping_when_called_then_nameMappedCorrectly() {
     final ArrayType arrayType =
-        ArrayType.ofItemType(ObjectType.ofName(PojoName.ofNameAndSuffix("Posology", "Dto")));
+        ArrayType.ofItemType(ObjectType.ofName(pojoName("Posology", "Dto")));
 
     final ArrayType arrayTypeMapped = arrayType.applyMapping(name -> name.appendToName("Mapped"));
 

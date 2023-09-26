@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class AdditionalPropertiesTest {
   @Test
   void inlineObjectReference_when_nameMatchesObjectReferenceType_then_referenceTypeUsed() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
     final AdditionalProperties props =
         AdditionalProperties.allowed(ObjectType.ofName(referenceName));
@@ -22,9 +24,9 @@ class AdditionalPropertiesTest {
 
   @Test
   void inlineObjectReference_when_nameDoesNotMatchObjectReferenceType_then_originalTypeUsed() {
-    final PojoName referenceName = PojoName.ofNameAndSuffix("MemberReference", "Dto");
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
     final StringType referenceType = StringType.noFormat();
-    final ObjectType originalType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final ObjectType originalType = ObjectType.ofName(pojoName("Object", "Dto"));
     final AdditionalProperties props = AdditionalProperties.allowed(originalType);
 
     final AdditionalProperties inlinedReferenceProps =
@@ -35,7 +37,7 @@ class AdditionalPropertiesTest {
 
   @Test
   void applyMapping_when_objectType_then_nameMapped() {
-    final ObjectType objectType = ObjectType.ofName(PojoName.ofNameAndSuffix("Object", "Dto"));
+    final ObjectType objectType = ObjectType.ofName(pojoName("Object", "Dto"));
     final AdditionalProperties props = AdditionalProperties.allowed(objectType);
 
     final AdditionalProperties inlinedReferenceProps =

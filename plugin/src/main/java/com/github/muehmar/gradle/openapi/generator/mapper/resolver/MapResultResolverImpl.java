@@ -5,8 +5,8 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import java.util.Optional;
 
 public class MapResultResolverImpl implements MapResultResolver {
@@ -54,7 +54,7 @@ public class MapResultResolverImpl implements MapResultResolver {
             (p, enumPojo) ->
                 p.map(
                     pojo -> {
-                      final PojoName enumName = enumPojo.getName();
+                      final PojoName enumName = enumPojo.getName().getPojoName();
                       return pojo.addObjectTypeDescription(enumName, enumPojo.getDescription());
                     }));
   }

@@ -3,17 +3,18 @@ package com.github.muehmar.gradle.openapi.generator.mapper;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolver;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.ExcludedSchemas;
+import java.awt.*;
 import java.util.Optional;
 
 public class SpecificationMapperImpl implements SpecificationMapper {
@@ -87,7 +88,8 @@ public class SpecificationMapperImpl implements SpecificationMapper {
 
   private MemberSchemaMapResult mapParameterSchema(OpenApiSchema schema) {
     final Name dummyPojoMemberName = Name.ofString("DummyPojoMemeberName");
-    final PojoName dummyPojoName = PojoName.ofName(Name.ofString("DummyPojoName"));
-    return schema.mapToMemberType(dummyPojoName, dummyPojoMemberName);
+    final ComponentName dummyParentName =
+        ComponentName.fromSchemaStringAndSuffix("DummyParentName", "");
+    return schema.mapToMemberType(dummyParentName, dummyPojoMemberName);
   }
 }

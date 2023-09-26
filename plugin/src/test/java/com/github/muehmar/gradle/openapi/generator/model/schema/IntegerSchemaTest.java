@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -104,8 +104,7 @@ class IntegerSchemaTest {
   void mapToPojo_when_integerSchema_then_memberReference() {
     final Schema<?> schema = new IntegerSchema();
 
-    final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Integer", "Dto"), schema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Integer", "Dto"), schema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

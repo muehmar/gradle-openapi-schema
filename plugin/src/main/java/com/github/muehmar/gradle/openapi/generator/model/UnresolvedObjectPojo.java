@@ -10,6 +10,8 @@ import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedA
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
@@ -22,7 +24,7 @@ import lombok.ToString;
 @ToString
 @PojoBuilder
 public class UnresolvedObjectPojo {
-  private final PojoName name;
+  private final ComponentName name;
   private final String description;
   private final PList<PojoMember> members;
   private final PList<Name> requiredAdditionalProperties;
@@ -33,7 +35,7 @@ public class UnresolvedObjectPojo {
   private final AdditionalProperties additionalProperties;
 
   public UnresolvedObjectPojo(
-      PojoName name,
+      ComponentName name,
       String description,
       PList<PojoMember> members,
       PList<Name> requiredAdditionalProperties,
@@ -53,7 +55,7 @@ public class UnresolvedObjectPojo {
     this.additionalProperties = additionalProperties;
   }
 
-  public PojoName getName() {
+  public ComponentName getName() {
     return name;
   }
 
