@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -33,7 +34,7 @@ class UnresolvedObjectPojoTest {
       boolean expectedIsResolved) {
     final UnresolvedObjectPojo unresolvedObjectPojo =
         UnresolvedObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("Object", "Dto"))
+            .name(componentName("Object", "Dto"))
             .description("description")
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
@@ -61,14 +62,12 @@ class UnresolvedObjectPojoTest {
         ignore -> Optional.of(AnyOfComposition.fromPojos(pojos));
 
     final UnresolvedAllOfComposition unresolvedAllOf =
-        UnresolvedAllOfComposition.fromPojoNames(
-            PList.of(PojoName.ofNameAndSuffix("Object", "Dto")));
+        UnresolvedAllOfComposition.fromComponentNames(PList.of(componentName("Object", "Dto")));
     final UnresolvedOneOfComposition unresolvedOneOf =
         UnresolvedOneOfComposition.fromPojoNamesAndDiscriminator(
-            PList.of(PojoName.ofNameAndSuffix("Object", "Dto")), Optional.empty());
+            PList.of(componentName("Object", "Dto")), Optional.empty());
     final UnresolvedAnyOfComposition unresolvedAnyOf =
-        UnresolvedAnyOfComposition.fromPojoNames(
-            PList.of(PojoName.ofNameAndSuffix("Object", "Dto")));
+        UnresolvedAnyOfComposition.fromPojoNames(PList.of(componentName("Object", "Dto")));
 
     return Stream.of(
         arguments(

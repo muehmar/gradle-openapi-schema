@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.model;
+package com.github.muehmar.gradle.openapi.generator.model.name;
 
 import lombok.EqualsAndHashCode;
 

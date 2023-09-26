@@ -1,8 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class PojoSettingsTest {
 
     final PojoNameMapping pojoNameMapping = settings.pojoNameMapping();
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix("User", "Dto");
+    final PojoName pojoName = pojoName("User", "Dto");
     final PojoName mappedPojoName = pojoNameMapping.map(pojoName);
 
     assertEquals("PersonDto", mappedPojoName.asString());

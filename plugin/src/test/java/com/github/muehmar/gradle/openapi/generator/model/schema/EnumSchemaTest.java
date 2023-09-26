@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,9 +9,8 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -56,8 +56,7 @@ class EnumSchemaTest {
     enumSchema.setEnum(Arrays.asList("male", "female", "divers", "other"));
     enumSchema.setDescription("Test description");
 
-    final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Gender", "Dto"), enumSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Gender", "Dto"), enumSchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -67,8 +66,7 @@ class EnumSchemaTest {
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final EnumPojo expectedPojo =
-        EnumPojo.of(
-            pojoSchema.getPojoName(), "Test description", PList.fromIter(enumSchema.getEnum()));
+        EnumPojo.of(pojoSchema.getName(), "Test description", PList.fromIter(enumSchema.getEnum()));
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }

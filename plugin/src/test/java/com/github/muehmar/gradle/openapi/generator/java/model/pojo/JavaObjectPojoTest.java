@@ -12,15 +12,27 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withRequiredAdditionalProperties;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
-import com.github.muehmar.gradle.openapi.generator.java.model.*;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
-import com.github.muehmar.gradle.openapi.generator.model.*;
+import com.github.muehmar.gradle.openapi.generator.model.Necessity;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
+import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -74,7 +86,7 @@ class JavaObjectPojoTest {
     final PojoMember pojoMember = PojoMembers.requiredString(PropertyScope.DEFAULT);
     final ObjectPojo objectPojo =
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("Object", "Dto"))
+            .name(componentName("Object", "Dto"))
             .description("Description")
             .members(PList.single(pojoMember))
             .requiredAdditionalProperties(PList.empty())
@@ -99,7 +111,7 @@ class JavaObjectPojoTest {
     final PojoMember pojoMember2 = PojoMembers.requiredBirthdate(PropertyScope.WRITE_ONLY);
     final ObjectPojo objectPojo =
         ObjectPojoBuilder.create()
-            .name(PojoName.ofNameAndSuffix("Object", "Dto"))
+            .name(componentName("Object", "Dto"))
             .description("Description")
             .members(PList.of(pojoMember1, pojoMember2))
             .requiredAdditionalProperties(PList.empty())
@@ -150,8 +162,7 @@ class JavaObjectPojoTest {
     final JavaObjectPojo oneOfPojoWithEnum =
         oneOfPojo(
             withName(
-                objectPojo(JavaPojoMembers.requiredColorEnum()),
-                PojoName.ofNameAndSuffix("ColorPojo", "Dto")));
+                objectPojo(JavaPojoMembers.requiredColorEnum()), pojoName("ColorPojo", "Dto")));
 
     final JavaObjectPojo pojo =
         withMembers(

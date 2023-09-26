@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 
 public interface PojoNameMapping {
 

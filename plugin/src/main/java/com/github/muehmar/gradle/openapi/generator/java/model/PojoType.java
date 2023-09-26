@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 

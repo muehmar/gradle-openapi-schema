@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
@@ -11,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfCompos
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -48,26 +48,29 @@ public class UnresolvedObjectPojoResolver {
 
   private static Optional<AllOfComposition> resolveAllOf(
       UnresolvedAllOfComposition unresolvedAllOfComposition, PList<Pojo> pojos) {
-    return unresolvedAllOfComposition.resolve(pojoNames -> resolvePojoNames(pojoNames, pojos));
+    return unresolvedAllOfComposition.resolve(
+        componentNames -> resolveComponentNames(componentNames, pojos));
   }
 
   private static Optional<OneOfComposition> resolveOneOf(
       UnresolvedOneOfComposition unresolvedOneOfComposition, PList<Pojo> pojos) {
-    return unresolvedOneOfComposition.resolve(pojoNames -> resolvePojoNames(pojoNames, pojos));
+    return unresolvedOneOfComposition.resolve(pojoNames -> resolveComponentNames(pojoNames, pojos));
   }
 
   private static Optional<AnyOfComposition> resolveAnyOf(
       UnresolvedAnyOfComposition unresolvedAnyOfComposition, PList<Pojo> pojos) {
-    return unresolvedAnyOfComposition.resolve(pojoNames -> resolvePojoNames(pojoNames, pojos));
+    return unresolvedAnyOfComposition.resolve(pojoNames -> resolveComponentNames(pojoNames, pojos));
   }
 
-  private static Optional<PList<Pojo>> resolvePojoNames(
-      PList<PojoName> pojoNames, PList<Pojo> pojos) {
+  private static Optional<PList<Pojo>> resolveComponentNames(
+      PList<ComponentName> componentNames, PList<Pojo> pojos) {
     final PList<Pojo> resolvedComposedPojos =
-        pojoNames.flatMapOptional(
-            name -> pojos.find(pojo -> pojo.getName().equalsIgnoreCase(name)));
+        componentNames.flatMapOptional(
+            name ->
+                pojos.find(
+                    pojo -> pojo.getName().getPojoName().equalsIgnoreCase(name.getPojoName())));
 
-    if (resolvedComposedPojos.size() != pojoNames.size()) {
+    if (resolvedComposedPojos.size() != componentNames.size()) {
       return Optional.empty();
     }
 

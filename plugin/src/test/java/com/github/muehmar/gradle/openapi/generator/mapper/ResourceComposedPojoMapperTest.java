@@ -6,13 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ class ResourceComposedPojoMapperTest {
     assertEquals(3, pojos.size());
     assertEquals(
         PList.of("ColorDto", "ExtendedColorAllOfDto", "ExtendedColorDto"),
-        pojos.map(Pojo::getName).map(PojoName::asString));
+        pojos.map(Pojo::getName).map(ComponentName::getPojoName).map(PojoName::asString));
 
     // ColorDto
     assertTrue(pojos.apply(0) instanceof ObjectPojo);
@@ -73,7 +74,7 @@ class ResourceComposedPojoMapperTest {
     assertEquals(3, pojos.size());
     assertEquals(
         PList.of("AdminDto", "PersonDto", "UserDto"),
-        pojos.map(Pojo::getName).map(PojoName::asString));
+        pojos.map(Pojo::getName).map(ComponentName::getPojoName).map(PojoName::asString));
 
     // AdminDto
     assertTrue(pojos.apply(0) instanceof ObjectPojo);
@@ -105,7 +106,7 @@ class ResourceComposedPojoMapperTest {
     assertEquals(3, pojos.size());
     assertEquals(
         PList.of("AdminDto", "PersonDto", "UserDto"),
-        pojos.map(Pojo::getName).map(PojoName::asString));
+        pojos.map(Pojo::getName).map(ComponentName::getPojoName).map(PojoName::asString));
 
     // AdminDto
     assertTrue(pojos.apply(0) instanceof ObjectPojo);
@@ -144,7 +145,7 @@ class ResourceComposedPojoMapperTest {
     assertEquals(3, pojos.size());
     assertEquals(
         PList.of("AdminDto", "PersonDto", "UserDto"),
-        pojos.map(Pojo::getName).map(PojoName::asString));
+        pojos.map(Pojo::getName).map(ComponentName::getPojoName).map(PojoName::asString));
 
     // AdminDto
     assertTrue(pojos.apply(0) instanceof ObjectPojo);
@@ -185,7 +186,7 @@ class ResourceComposedPojoMapperTest {
     assertEquals(3, pojos.size());
     assertEquals(
         PList.of("AdminDto", "PersonDto", "UserDto"),
-        pojos.map(Pojo::getName).map(PojoName::asString));
+        pojos.map(Pojo::getName).map(ComponentName::getPojoName).map(PojoName::asString));
 
     // AdminDto
     assertTrue(pojos.apply(0) instanceof ObjectPojo);

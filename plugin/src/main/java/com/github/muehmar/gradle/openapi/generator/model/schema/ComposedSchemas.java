@@ -6,9 +6,10 @@ import ch.bluecare.commons.data.PList;
 import ch.bluecare.commons.data.Pair;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItemsBuilder;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import lombok.EqualsAndHashCode;
@@ -29,14 +30,15 @@ class ComposedSchemas {
     return new ComposedSchemas(schemas);
   }
 
-  public ComposedSchemasMapResult mapSchemasToPojoNames(PojoName pojoName, CompositionType type) {
+  public ComposedSchemasMapResult mapSchemasToPojoNames(ComponentName name, CompositionType type) {
     final PList<SchemaReference> references = determineSchemaReferences(schemas);
 
     final PList<OpenApiSpec> remoteSpecs =
         references.flatMapOptional(SchemaReference::getRemoteSpec);
 
-    final PList<PojoSchema> pojoSchemas = determinePojoSchemas(pojoName, type, schemas);
-    final PList<PojoName> pojoNames = determinePojoNames(pojoName, references, pojoSchemas);
+    final PList<PojoSchema> pojoSchemas = determinePojoSchemas(name, type, schemas);
+    final PList<ComponentName> componentNames =
+        determineAllComponentNames(name, references, pojoSchemas);
 
     final UnmappedItems unmappedItems =
         UnmappedItemsBuilder.create()
@@ -45,7 +47,7 @@ class ComposedSchemas {
             .parameterSchemas(PList.empty())
             .build();
 
-    return new ComposedSchemasMapResult(unmappedItems, pojoNames);
+    return new ComposedSchemasMapResult(unmappedItems, componentNames);
   }
 
   private static PList<SchemaReference> determineSchemaReferences(PList<OpenApiSchema> schemas) {
@@ -57,23 +59,26 @@ class ComposedSchemas {
   }
 
   private static PList<PojoSchema> determinePojoSchemas(
-      PojoName pojoName, CompositionType type, PList<OpenApiSchema> schemas) {
+      ComponentName name, CompositionType type, PList<OpenApiSchema> schemas) {
     final PList<OpenApiSchema> inlineDefinitions =
         schemas.filter(schema -> not(schema instanceof ReferenceSchema));
 
     return inlineDefinitions
         .zipWithIndex()
         .map(IndexedOpenApiSchema::fromPair)
-        .map(ioap -> ioap.toPojoSchema(pojoName, type, inlineDefinitions.size()));
+        .map(ioap -> ioap.toPojoSchema(name, type, inlineDefinitions.size()));
   }
 
-  private static PList<PojoName> determinePojoNames(
-      PojoName pojoName, PList<SchemaReference> references, PList<PojoSchema> pojoSchemas) {
-    final PList<PojoName> namesFromReferences =
+  private static PList<ComponentName> determineAllComponentNames(
+      ComponentName name, PList<SchemaReference> references, PList<PojoSchema> pojoSchemas) {
+    final PList<ComponentName> namesFromReferences =
         references
             .map(SchemaReference::getSchemaName)
-            .map(schemaName -> PojoName.ofNameAndSuffix(schemaName, pojoName.getSuffix()));
-    final PList<PojoName> namesFromSchemas = pojoSchemas.map(PojoSchema::getPojoName);
+            .map(
+                schemaName ->
+                    ComponentName.fromSchemaStringAndSuffix(
+                        schemaName.asString(), name.getPojoName().getSuffix()));
+    final PList<ComponentName> namesFromSchemas = pojoSchemas.map(PojoSchema::getName);
     return namesFromReferences.concat(namesFromSchemas);
   }
 
@@ -87,27 +92,35 @@ class ComposedSchemas {
     }
 
     public PojoSchema toPojoSchema(
-        PojoName composedPojoName, CompositionType composedPojoType, int totalPojoCount) {
-      final PojoName pojoName = getPojoName(composedPojoName, composedPojoType, totalPojoCount);
-      return new PojoSchema(pojoName, schema);
+        ComponentName composedComponentName, CompositionType composedPojoType, int totalPojoCount) {
+      final ComponentName componentName =
+          deriveComponentName(composedComponentName, composedPojoType, totalPojoCount);
+      return new PojoSchema(componentName, schema);
     }
 
-    public PojoName getPojoName(
-        PojoName composedPojoName, CompositionType composedPojoType, int totalPojoCount) {
+    public ComponentName deriveComponentName(
+        ComponentName composedComponentName, CompositionType composedPojoType, int totalPojoCount) {
       final String numberSuffix = totalPojoCount > 1 ? String.format("%d", index) : "";
-      final Name openApiPojoName =
-          composedPojoName
-              .getName()
-              .append(composedPojoType.asPascalCaseName())
-              .append(numberSuffix);
-      return PojoName.ofNameAndSuffix(openApiPojoName, composedPojoName.getSuffix());
+      final PojoName openApiPojoName =
+          composedComponentName
+              .getPojoName()
+              .appendToName(composedPojoType.asPascalCaseName())
+              .appendToName(numberSuffix);
+      final SchemaName schemaName =
+          SchemaName.ofName(
+              composedComponentName
+                  .getSchemaName()
+                  .asName()
+                  .append(composedPojoType.asPascalCaseName())
+                  .append(numberSuffix));
+      return new ComponentName(openApiPojoName, schemaName);
     }
   }
 
   @Value
   public static class ComposedSchemasMapResult {
     UnmappedItems unmappedItems;
-    PList<PojoName> pojoNames;
+    PList<ComponentName> componentNames;
   }
 
   public enum CompositionType {

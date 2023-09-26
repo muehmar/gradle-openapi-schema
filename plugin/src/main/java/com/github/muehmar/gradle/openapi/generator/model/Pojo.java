@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -8,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface Pojo {
-  PojoName getName();
+  ComponentName getName();
 
   String getDescription();
 

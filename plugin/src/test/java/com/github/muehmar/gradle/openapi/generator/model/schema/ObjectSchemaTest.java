@@ -1,7 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
-import static com.github.muehmar.gradle.openapi.generator.model.PojoNames.pojoName;
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,17 +13,18 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
@@ -52,17 +54,17 @@ class ObjectSchemaTest {
 
   @Test
   void mapToMemberType_when_uuidSchema_then_correctType() {
-    final PojoName pojoName = PojoName.ofName(Name.ofString("Person"));
+    final ComponentName componentName = componentName("Person", "");
     final Name memberName = Name.ofString("Address");
     final Schema<?> schema = new ObjectSchema();
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("street", new StringSchema());
     schema.setProperties(properties);
 
-    final MemberSchemaMapResult result = mapToMemberType(pojoName, memberName, schema);
+    final MemberSchemaMapResult result = mapToMemberType(componentName, memberName, schema);
 
-    final PojoName expectedPojoName = PojoName.deriveOpenApiPojoName(pojoName, memberName);
-    assertEquals(ObjectType.ofName(expectedPojoName), result.getType());
+    final ComponentName expectedPojoName = componentName.deriveMemberSchemaName(memberName);
+    assertEquals(ObjectType.ofName(expectedPojoName.getPojoName()), result.getType());
     assertEquals(
         UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, schema)),
         result.getUnmappedItems());
@@ -85,8 +87,8 @@ class ObjectSchemaTest {
     properties.put("refVal", new Schema<>().$ref("#/components/schemas/ReferenceSchema1"));
     objectSchema.setProperties(properties);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("Object"), "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(pojoName, objectSchema);
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -99,18 +101,19 @@ class ObjectSchemaTest {
     final ObjectPojo objectPojo =
         resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
-    final PojoName memberObjectPojoName = pojoName("ObjectObjectVal", "Object.objectVal", "Dto");
+    final ComponentName memberObjectComponentName =
+        componentName.deriveMemberSchemaName(Name.ofString("objectVal"));
 
     final ObjectPojo expectedPojo =
         ObjectPojoBuilder.create()
-            .name(pojoName)
+            .name(componentName)
             .description("Test description")
             .members(
                 PList.of(
                     new PojoMember(
                         Name.ofString("objectVal"),
                         null,
-                        ObjectType.ofName(memberObjectPojoName),
+                        ObjectType.ofName(memberObjectComponentName.getPojoName()),
                         PropertyScope.DEFAULT,
                         Necessity.OPTIONAL,
                         Nullability.NOT_NULLABLE),
@@ -124,7 +127,7 @@ class ObjectSchemaTest {
                     new PojoMember(
                         Name.ofString("refVal"),
                         null,
-                        ObjectType.ofName(PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto")),
+                        ObjectType.ofName(pojoName("ReferenceSchema1", "Dto")),
                         PropertyScope.DEFAULT,
                         Necessity.OPTIONAL,
                         Nullability.NOT_NULLABLE)))
@@ -135,7 +138,7 @@ class ObjectSchemaTest {
 
     assertEquals(expectedPojo, objectPojo);
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(memberObjectPojoName, objectSchemaProp)),
+        UnmappedItems.ofPojoSchema(new PojoSchema(memberObjectComponentName, objectSchemaProp)),
         mapContext.getUnmappedItems());
   }
 
@@ -151,8 +154,8 @@ class ObjectSchemaTest {
     objectSchema.setProperties(properties);
     objectSchema.setRequired(Arrays.asList("stringVal", "numVal"));
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("Object"), "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(pojoName, objectSchema);
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -205,8 +208,8 @@ class ObjectSchemaTest {
     properties.put("numVal", new NumberSchema());
     objectSchema.setProperties(properties);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("Object"), "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(pojoName, objectSchema);
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -258,8 +261,8 @@ class ObjectSchemaTest {
     objectSchema.setProperties(properties);
     objectSchema.required(Arrays.asList("stringVal", "otherVal"));
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("Object"), "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(pojoName, objectSchema);
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -300,8 +303,8 @@ class ObjectSchemaTest {
     objectSchema.required(Collections.singletonList("gender"));
     objectSchema.setAdditionalProperties(additionalPropertiesSchema);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("Object"), "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(pojoName, objectSchema);
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -314,15 +317,15 @@ class ObjectSchemaTest {
     final ObjectPojo objectPojo =
         resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
 
-    final PojoName additionalPropertiesPojoName =
-        pojoName("ObjectProperty", "Object.Property", "Dto");
+    final ComponentName additionalPropertiesName =
+        componentName.deriveMemberSchemaName(Name.ofString("Property"));
 
     assertEquals(
         PList.single(Name.ofString("gender")), objectPojo.getRequiredAdditionalProperties());
 
     final UnmappedItems expectedUnmappedItems =
         UnmappedItems.ofPojoSchema(
-            new PojoSchema(additionalPropertiesPojoName, additionalPropertiesSchema));
+            new PojoSchema(additionalPropertiesName, additionalPropertiesSchema));
     assertEquals(expectedUnmappedItems, mapContext.getUnmappedItems());
   }
 
@@ -352,13 +355,13 @@ class ObjectSchemaTest {
     mapSchema.setMinProperties(4);
     mapSchema.setMaxProperties(7);
 
-    final PojoName pojoName = PojoName.ofName(Name.ofString("Map"));
-    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(pojoName);
+    final ComponentName componentName = componentName("Map", "");
+    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(componentName);
 
     final MapContext expectedContext =
         MapContext.ofUnresolvedObjectPojo(
             UnresolvedObjectPojoBuilder.create()
-                .name(pojoName)
+                .name(componentName)
                 .description("")
                 .members(PList.empty())
                 .requiredAdditionalProperties(PList.empty())
@@ -383,18 +386,20 @@ class ObjectSchemaTest {
     mapSchema.setAdditionalProperties(objectSchema);
     mapSchema.maxProperties(5);
 
-    final MemberSchemaMapResult result =
-        mapToMemberType(
-            PojoName.ofName(Name.ofString("invoice")), Name.ofString("page"), mapSchema);
+    final ComponentName componentName = componentName("invoice", "");
+    final Name pojoMemberName = Name.ofString("page");
+    final MemberSchemaMapResult result = mapToMemberType(componentName, pojoMemberName, mapSchema);
 
-    final PojoName invoicePagePojoName = pojoName("InvoicePage", "invoice.page", "");
+    final ComponentName invoicePageComponentName =
+        componentName.deriveMemberSchemaName(Name.ofString("page"));
     final MapType expectedType =
-        MapType.ofKeyAndValueType(StringType.noFormat(), ObjectType.ofName(invoicePagePojoName))
+        MapType.ofKeyAndValueType(
+                StringType.noFormat(), ObjectType.ofName(invoicePageComponentName.getPojoName()))
             .withConstraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(5)));
 
     assertEquals(expectedType, result.getType());
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(invoicePagePojoName, objectSchema)),
+        UnmappedItems.ofPojoSchema(new PojoSchema(invoicePageComponentName, objectSchema)),
         result.getUnmappedItems());
   }
 
@@ -409,22 +414,24 @@ class ObjectSchemaTest {
     mapSchema.setAdditionalProperties(objectSchema);
     mapSchema.maxProperties(12);
 
-    final PojoName pojoName = PojoName.ofName(Name.ofString("Map"));
-    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(pojoName);
+    final ComponentName componentName = componentName("Map", "");
+    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(componentName);
 
-    final PojoName objectPojoName = pojoName("MapProperty", "Map.Property", "");
-    final PojoSchema pojoSchema = new PojoSchema(objectPojoName, objectSchema);
+    final ComponentName objectComponentName =
+        componentName.deriveMemberSchemaName(Name.ofString("Property"));
+    final PojoSchema pojoSchema = new PojoSchema(objectComponentName, objectSchema);
 
     final MapContext expectedContext =
         MapContext.ofUnresolvedObjectPojo(
                 UnresolvedObjectPojoBuilder.create()
-                    .name(pojoName)
+                    .name(componentName)
                     .description("")
                     .members(PList.empty())
                     .requiredAdditionalProperties(PList.empty())
                     .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(12)))
                     .additionalProperties(
-                        AdditionalProperties.allowed(ObjectType.ofName(objectPojoName)))
+                        AdditionalProperties.allowed(
+                            ObjectType.ofName(objectComponentName.getPojoName())))
                     .build())
             .addUnmappedItems(UnmappedItems.ofPojoSchema(pojoSchema));
 
@@ -454,18 +461,18 @@ class ObjectSchemaTest {
     composedSchema.setAllOf(
         Collections.singletonList(new Schema<>().$ref("#/components/schemas/ReferenceSchema1")));
 
+    final ComponentName componentName = componentName("ComposedPojo", "Dto");
+    final Name pojoMemberName = Name.ofString("Member");
     final MemberSchemaMapResult result =
-        mapToMemberType(
-            PojoName.ofNameAndSuffix("ComposedPojo", "Dto"),
-            Name.ofString("Member"),
-            composedSchema);
+        mapToMemberType(componentName, pojoMemberName, composedSchema);
 
-    final PojoName expectedPojoName = pojoName("ComposedPojoMember", "ComposedPojo.Member", "Dto");
-    final ObjectType expectedType = ObjectType.ofName(expectedPojoName);
+    final ComponentName expectedComponentName =
+        componentName.deriveMemberSchemaName(pojoMemberName);
+    final ObjectType expectedType = ObjectType.ofName(expectedComponentName.getPojoName());
 
     assertEquals(expectedType, result.getType());
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, composedSchema)),
+        UnmappedItems.ofPojoSchema(new PojoSchema(expectedComponentName, composedSchema)),
         result.getUnmappedItems());
   }
 
@@ -498,13 +505,13 @@ class ObjectSchemaTest {
     mapSchema.setAdditionalProperties(additionalProperties);
     mapSchema.minProperties(2);
 
-    final PojoName pojoName = PojoName.ofName(Name.ofString("Map"));
-    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(pojoName);
+    final ComponentName componentName = componentName("Map", "");
+    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(componentName);
 
     final MapContext expectedContext =
         MapContext.ofUnresolvedObjectPojo(
             UnresolvedObjectPojoBuilder.create()
-                .name(pojoName)
+                .name(componentName)
                 .description("")
                 .members(PList.empty())
                 .requiredAdditionalProperties(PList.empty())

@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import io.github.muehmar.pojobuilder.annotations.FieldBuilder;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
@@ -59,7 +59,7 @@ public class PojoSettings implements Serializable {
 
   public ExcludedSchemas getExcludedSchemas() {
     return ExcludedSchemas.fromExcludedPojoNames(
-        PList.fromIter(excludeSchemas).map(name -> PojoName.ofNameAndSuffix(name, suffix)));
+        PList.fromIter(excludeSchemas).map(Name::ofString));
   }
 
   public boolean isEnableSafeBuilder() {

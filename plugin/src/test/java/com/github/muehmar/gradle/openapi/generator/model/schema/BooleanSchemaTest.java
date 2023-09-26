@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import io.swagger.v3.oas.models.media.BooleanSchema;
@@ -29,8 +29,7 @@ class BooleanSchemaTest {
   void mapToPojo_when_binarySchema_then_memberReference() {
     final BooleanSchema schema = new BooleanSchema();
 
-    final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Boolean", "Dto"), schema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Boolean", "Dto"), schema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

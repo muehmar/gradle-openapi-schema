@@ -2,8 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -12,22 +13,22 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class EnumPojo implements Pojo {
-  private final PojoName name;
+  private final ComponentName name;
   private final String description;
   private final PList<String> members;
 
-  private EnumPojo(PojoName name, String description, PList<String> members) {
+  private EnumPojo(ComponentName name, String description, PList<String> members) {
     this.name = name;
     this.description = description;
     this.members = members;
   }
 
-  public static EnumPojo of(PojoName name, String description, PList<String> members) {
+  public static EnumPojo of(ComponentName name, String description, PList<String> members) {
     return new EnumPojo(name, description, members);
   }
 
   @Override
-  public PojoName getName() {
+  public ComponentName getName() {
     return name;
   }
 
@@ -49,7 +50,7 @@ public class EnumPojo implements Pojo {
 
   @Override
   public EnumPojo applyMapping(PojoNameMapping pojoNameMapping) {
-    final PojoName mappedName = pojoNameMapping.map(name);
+    final ComponentName mappedName = name.applyPojoMapping(pojoNameMapping);
     return new EnumPojo(mappedName, description, members);
   }
 

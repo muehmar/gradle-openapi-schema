@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.BINARY;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
@@ -15,13 +16,12 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.BinarySchema;
@@ -215,8 +215,7 @@ class StringSchemaTest {
     final StringSchema stringSchema = new StringSchema();
     stringSchema.setDescription("Test description");
 
-    final PojoSchema pojoSchema =
-        new PojoSchema(PojoName.ofNameAndSuffix("Text", "Dto"), stringSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Text", "Dto"), stringSchema);
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

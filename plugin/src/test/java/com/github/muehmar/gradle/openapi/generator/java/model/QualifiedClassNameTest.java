@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import java.util.Optional;
@@ -24,7 +24,7 @@ class QualifiedClassNameTest {
   @Test
   void ofPojoName_when_pojoNameWithSpecialCharacters_then_correctClassName() {
     final QualifiedClassName className =
-        QualifiedClassName.ofPojoName(PojoName.ofNameAndSuffix("Prefixed.User", "Dto"));
+        QualifiedClassName.ofPojoName(pojoName("Prefixed.User", "Dto"));
     assertEquals("Prefixed_UserDto", className.getClassName().asString());
     assertEquals("Prefixed_UserDto", className.asName().asString());
   }

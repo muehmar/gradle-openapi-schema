@@ -19,6 +19,7 @@ class AnyOfCompositionTest {
         anyOfComposition.applyMapping(name -> name.appendToName("Mapped"));
 
     assertEquals(
-        "ObjectPojoMappedDto", anyOfCompositionMapped.getPojos().head().getName().asString());
+        "ObjectPojoMappedDto",
+        anyOfCompositionMapped.getPojos().head().getName().getPojoName().asString());
   }
 }

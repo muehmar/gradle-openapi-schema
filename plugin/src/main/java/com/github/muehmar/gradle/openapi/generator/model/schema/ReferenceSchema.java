@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import io.swagger.v3.oas.models.media.Schema;
@@ -33,17 +33,19 @@ public class ReferenceSchema implements OpenApiSchema {
   }
 
   @Override
-  public MapContext mapToPojo(PojoName pojoName) {
+  public MapContext mapToPojo(ComponentName componentName) {
     throw new OpenApiGeneratorException(
         "A reference schema is currently not supported as root schema.");
   }
 
   @Override
-  public MemberSchemaMapResult mapToMemberType(PojoName pojoName, Name memberName) {
+  public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
     final SchemaReference schemaReference = SchemaReference.fromRefString(reference);
-    final PojoName name =
-        PojoName.ofNameAndSuffix(schemaReference.getSchemaName(), pojoName.getSuffix());
-    final ObjectType objectType = ObjectType.ofName(name);
+    final ComponentName name =
+        ComponentName.fromSchemaStringAndSuffix(
+            schemaReference.getSchemaName().asString(),
+            parentComponentName.getPojoName().getSuffix());
+    final ObjectType objectType = ObjectType.ofName(name.getPojoName());
     return MemberSchemaMapResult.ofType(objectType).addOpenApiSpec(schemaReference.getRemoteSpec());
   }
 

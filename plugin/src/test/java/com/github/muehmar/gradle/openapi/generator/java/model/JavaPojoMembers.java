@@ -5,13 +5,12 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTION
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
@@ -19,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.*;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 
@@ -81,9 +81,7 @@ public class JavaPojoMembers {
         .name(JavaMemberName.wrap(Name.ofString("ref")))
         .description("ref")
         .javaType(
-            JavaType.wrap(
-                ObjectType.ofName(PojoName.ofNameAndSuffix(Name.ofString("SomeObject"), "Dto")),
-                TypeMappings.empty()))
+            JavaType.wrap(ObjectType.ofName(pojoName("SomeObject", "Dto")), TypeMappings.empty()))
         .necessity(necessity)
         .nullability(nullability)
         .type(OBJECT_MEMBER)

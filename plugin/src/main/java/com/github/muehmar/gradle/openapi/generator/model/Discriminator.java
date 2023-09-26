@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;

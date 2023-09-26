@@ -2,10 +2,10 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import io.swagger.v3.oas.models.media.Schema;
@@ -40,36 +40,36 @@ class AdditionalPropertiesSchema {
     return allowed;
   }
 
-  public Type getAdditionalPropertiesType(PojoName pojoName) {
-    return getAdditionalPropertiesMapResult(pojoName).getType();
+  public Type getAdditionalPropertiesType(ComponentName name) {
+    return getAdditionalPropertiesMapResult(name).getType();
   }
 
   public MemberSchemaMapResult getAdditionalPropertiesMapResult(
-      PojoName pojoName, Name memberName) {
+      ComponentName name, Name memberName) {
     return schema
-        .map(s -> mapAdditionalPropertiesSchema(s, pojoName, memberName))
+        .map(s -> mapAdditionalPropertiesSchema(s, name, memberName))
         .orElse(MemberSchemaMapResult.ofType(AnyType.create()));
   }
 
-  public MemberSchemaMapResult getAdditionalPropertiesMapResult(PojoName pojoName) {
-    return getAdditionalPropertiesMapResult(pojoName, Name.ofString("Property"));
+  public MemberSchemaMapResult getAdditionalPropertiesMapResult(ComponentName name) {
+    return getAdditionalPropertiesMapResult(name, Name.ofString("Property"));
   }
 
   private static MemberSchemaMapResult mapAdditionalPropertiesSchema(
-      OpenApiSchema schema, PojoName pojoName, Name memberName) {
-    final MemberSchemaMapResult result = schema.mapToMemberType(pojoName, memberName);
+      OpenApiSchema schema, ComponentName name, Name memberName) {
+    final MemberSchemaMapResult result = schema.mapToMemberType(name, memberName);
     if (result.getType().isArrayType()) {
-      final PojoName arrayPojoName = PojoName.deriveOpenApiPojoName(pojoName, memberName);
-      final ObjectType type = ObjectType.ofName(arrayPojoName);
-      final PojoSchema arrayPojoSchema = new PojoSchema(arrayPojoName, schema);
+      final ComponentName arrayComponentName = name.deriveMemberSchemaName(memberName);
+      final ObjectType type = ObjectType.ofName(arrayComponentName.getPojoName());
+      final PojoSchema arrayPojoSchema = new PojoSchema(arrayComponentName, schema);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(type, arrayPojoSchema);
     }
     return result;
   }
 
-  public AdditionalProperties asAdditionalProperties(PojoName pojoName) {
+  public AdditionalProperties asAdditionalProperties(ComponentName name) {
     return allowed
-        ? AdditionalProperties.allowed(getAdditionalPropertiesType(pojoName))
+        ? AdditionalProperties.allowed(getAdditionalPropertiesType(name))
         : AdditionalProperties.notAllowed();
   }
 }

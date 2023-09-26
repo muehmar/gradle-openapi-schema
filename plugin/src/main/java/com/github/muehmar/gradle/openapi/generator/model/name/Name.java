@@ -1,11 +1,11 @@
-package com.github.muehmar.gradle.openapi.generator.model;
+package com.github.muehmar.gradle.openapi.generator.model.name;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
 
-/** Name of a pojo or a pojo member. */
+/** General-purpose name. */
 @EqualsAndHashCode
 public class Name {
   private final String value;
@@ -40,10 +40,6 @@ public class Name {
 
   public Name prefix(String prefix) {
     return new Name(prefix + value);
-  }
-
-  public SuffixedName suffix(String suffix) {
-    return SuffixedName.ofNameAndSuffix(this, suffix);
   }
 
   public boolean equalsIgnoreCase(Name other) {

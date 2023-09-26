@@ -1,16 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
-import com.github.muehmar.gradle.openapi.generator.model.Name;
-import com.github.muehmar.gradle.openapi.generator.model.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -34,16 +35,16 @@ class SchemaCompositionsTest {
   @MethodSource("allOfArguments")
   void getAllOf_when_allOfArguments_then_correctMapContext(
       SchemaCompositions schemaCompositions,
-      PojoName pojoName,
-      PList<PojoName> pojoNames,
+      ComponentName componentName,
+      PList<ComponentName> componentNames,
       UnmappedItems expectedUnmappedItems) {
 
     // method call
     final SchemaCompositions.CompositionMapResult<UnresolvedAllOfComposition> result =
-        schemaCompositions.getAllOf(pojoName);
+        schemaCompositions.getAllOf(componentName);
 
     final UnresolvedAllOfComposition expectedComposition =
-        UnresolvedAllOfComposition.fromPojoNames(pojoNames);
+        UnresolvedAllOfComposition.fromComponentNames(componentNames);
 
     assertEquals(Optional.of(expectedComposition), result.getComposition());
     assertEquals(expectedUnmappedItems, result.getUnmappedItems());
@@ -53,16 +54,16 @@ class SchemaCompositionsTest {
   @MethodSource("oneOfArguments")
   void getOneOf_when_oneOfArguments_then_correctMapContext(
       SchemaCompositions schemaCompositions,
-      PojoName pojoName,
-      PList<PojoName> pojoNames,
+      ComponentName componentName,
+      PList<ComponentName> componentNames,
       UnmappedItems expectedUnmappedItems) {
 
     // method call
     final SchemaCompositions.CompositionMapResult<UnresolvedOneOfComposition> result =
-        schemaCompositions.getOneOf(pojoName);
+        schemaCompositions.getOneOf(componentName);
 
     final UnresolvedOneOfComposition expectedComposition =
-        UnresolvedOneOfComposition.fromPojoNamesAndDiscriminator(pojoNames, Optional.empty());
+        UnresolvedOneOfComposition.fromPojoNamesAndDiscriminator(componentNames, Optional.empty());
 
     assertEquals(Optional.of(expectedComposition), result.getComposition());
     assertEquals(expectedUnmappedItems, result.getUnmappedItems());
@@ -72,16 +73,16 @@ class SchemaCompositionsTest {
   @MethodSource("anyOfArguments")
   void getAnyOf_when_anyOfArguments_then_correctMapContext(
       SchemaCompositions schemaCompositions,
-      PojoName pojoName,
-      PList<PojoName> pojoNames,
+      ComponentName componentName,
+      PList<ComponentName> componentNames,
       UnmappedItems expectedUnmappedItems) {
 
     // method call
     final SchemaCompositions.CompositionMapResult<UnresolvedAnyOfComposition> result =
-        schemaCompositions.getAnyOf(pojoName);
+        schemaCompositions.getAnyOf(componentName);
 
     final UnresolvedAnyOfComposition expectedComposition =
-        UnresolvedAnyOfComposition.fromPojoNames(pojoNames);
+        UnresolvedAnyOfComposition.fromPojoNames(componentNames);
 
     assertEquals(Optional.of(expectedComposition), result.getComposition());
     assertEquals(expectedUnmappedItems, result.getUnmappedItems());
@@ -103,7 +104,7 @@ class SchemaCompositionsTest {
 
     // method call
     final SchemaCompositions.CompositionMapResult<UnresolvedOneOfComposition> result =
-        schemaCompositions.getOneOf(PojoName.ofNameAndSuffix("Composed", "Dto"));
+        schemaCompositions.getOneOf(componentName("Composed", "Dto"));
 
     final HashMap<String, Name> mappings = new HashMap<>();
     mappings.put("hello", Name.ofString("World"));
@@ -152,16 +153,18 @@ class SchemaCompositionsTest {
 
     final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(composedSchema);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto");
+    final ComponentName componentName = componentName("ComposedPojoName", "Dto");
 
-    final PojoName refSchema1PojoName = PojoName.ofNameAndSuffix("ReferenceSchema1", "Dto");
-    final PojoName refSchema2PojoName = PojoName.ofNameAndSuffix("ReferenceSchema2", "Dto");
-    final PList<PojoName> pojoNames = PList.of(refSchema1PojoName, refSchema2PojoName);
+    final ComponentName refSchema1ComponentName = componentName("ReferenceSchema1", "Dto");
+    final ComponentName refSchema2ComponentName = componentName("ReferenceSchema2", "Dto");
+    final PList<ComponentName> componentNames =
+        PList.of(refSchema1ComponentName, refSchema2ComponentName);
 
     final UnmappedItems expectedUnmappedItems =
         UnmappedItems.ofSpec(OpenApiSpec.fromString("../../dir/components.yml"));
 
-    return Arguments.arguments(schemaCompositions, pojoName, pojoNames, expectedUnmappedItems);
+    return Arguments.arguments(
+        schemaCompositions, componentName, componentNames, expectedUnmappedItems);
   }
 
   private static Arguments singleInlineDefinitionArguments(
@@ -183,17 +186,17 @@ class SchemaCompositionsTest {
 
     final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(composedSchema);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto");
+    final ComponentName componentName = componentName("ComposedPojoName", "Dto");
 
-    final PojoName objectSchemaPojoName =
-        PojoName.ofNameAndSuffix(
-            String.format("ComposedPojoName%s", type.asPascalCaseName()), "Dto");
-    final PList<PojoName> pojoNames = PList.of(objectSchemaPojoName);
+    final ComponentName objectSchemaComponentName =
+        componentName(String.format("ComposedPojoName%s", type.asPascalCaseName()), "Dto");
+    final PList<ComponentName> componentNames = PList.of(objectSchemaComponentName);
 
     final UnmappedItems expectedUnmappedItems =
-        UnmappedItems.ofPojoSchema(new PojoSchema(objectSchemaPojoName, objectSchema));
+        UnmappedItems.ofPojoSchema(new PojoSchema(objectSchemaComponentName, objectSchema));
 
-    return Arguments.arguments(schemaCompositions, pojoName, pojoNames, expectedUnmappedItems);
+    return Arguments.arguments(
+        schemaCompositions, componentName, componentNames, expectedUnmappedItems);
   }
 
   private static Arguments multipleInlineDefinitionArguments(
@@ -220,23 +223,23 @@ class SchemaCompositionsTest {
 
     final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(composedSchema);
 
-    final PojoName pojoName = PojoName.ofNameAndSuffix(Name.ofString("ComposedPojoName"), "Dto");
+    final ComponentName componentName = componentName("ComposedPojoName", "Dto");
 
-    final PojoName objectSchema1PojoName =
-        PojoName.ofNameAndSuffix(
-            String.format("ComposedPojoName%s0", type.asPascalCaseName()), "Dto");
-    final PojoName objectSchema2PojoName =
-        PojoName.ofNameAndSuffix(
-            String.format("ComposedPojoName%s1", type.asPascalCaseName()), "Dto");
+    final ComponentName objectSchema1ComponentName =
+        componentName(String.format("ComposedPojoName%s0", type.asPascalCaseName()), "Dto");
+    final ComponentName objectSchema2ComponentName =
+        componentName(String.format("ComposedPojoName%s1", type.asPascalCaseName()), "Dto");
 
-    final PList<PojoName> pojoNames = PList.of(objectSchema1PojoName, objectSchema2PojoName);
+    final PList<ComponentName> componentNames =
+        PList.of(objectSchema1ComponentName, objectSchema2ComponentName);
 
     final UnmappedItems expectedUnmappedItems =
         UnmappedItems.ofPojoSchemas(
             PList.of(
-                new PojoSchema(objectSchema1PojoName, objectSchema1),
-                new PojoSchema(objectSchema2PojoName, objectSchema2)));
+                new PojoSchema(objectSchema1ComponentName, objectSchema1),
+                new PojoSchema(objectSchema2ComponentName, objectSchema2)));
 
-    return Arguments.arguments(schemaCompositions, pojoName, pojoNames, expectedUnmappedItems);
+    return Arguments.arguments(
+        schemaCompositions, componentName, componentNames, expectedUnmappedItems);
   }
 }
