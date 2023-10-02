@@ -82,8 +82,7 @@ public class JavaIdentifier {
   }
 
   private static String toValidIdentifierPattern(String name) {
-    return name.replaceAll(ILLEGAL_IDENTIFIER_CHARACTERS_PATTERN.concat("+"), "_")
-        .replaceAll("_+", "_")
+    return name.replaceAll("_?".concat(ILLEGAL_IDENTIFIER_CHARACTERS_PATTERN).concat("+_?"), "_")
         .replaceFirst("^(\\d)", "_$1");
   }
 
