@@ -5,13 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -24,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -63,7 +60,7 @@ class SchemaCompositionsTest {
         schemaCompositions.getOneOf(componentName);
 
     final UnresolvedOneOfComposition expectedComposition =
-        UnresolvedOneOfComposition.fromPojoNamesAndDiscriminator(componentNames, Optional.empty());
+        UnresolvedOneOfComposition.fromComponentNames(componentNames);
 
     assertEquals(Optional.of(expectedComposition), result.getComposition());
     assertEquals(expectedUnmappedItems, result.getUnmappedItems());
@@ -86,35 +83,6 @@ class SchemaCompositionsTest {
 
     assertEquals(Optional.of(expectedComposition), result.getComposition());
     assertEquals(expectedUnmappedItems, result.getUnmappedItems());
-  }
-
-  @Test
-  void getOneOf_when_discriminator_then_mappedCorrectly() {
-    final ComposedSchema composedSchema = new ComposedSchema();
-    composedSchema.addOneOfItem(new Schema<>());
-    final io.swagger.v3.oas.models.media.Discriminator discriminator =
-        new io.swagger.v3.oas.models.media.Discriminator();
-    composedSchema.setDiscriminator(discriminator);
-
-    discriminator.propertyName("propXY");
-    discriminator.mapping("hello", "#/components/schemas/World");
-    discriminator.mapping("lorem", "#/components/schemas/Ipsum");
-
-    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(composedSchema);
-
-    // method call
-    final SchemaCompositions.CompositionMapResult<UnresolvedOneOfComposition> result =
-        schemaCompositions.getOneOf(componentName("Composed", "Dto"));
-
-    final HashMap<String, Name> mappings = new HashMap<>();
-    mappings.put("hello", Name.ofString("World"));
-    mappings.put("lorem", Name.ofString("Ipsum"));
-    final Discriminator expectedDiscriminator =
-        Discriminator.fromPropertyNameAndMapping(Name.ofString("propXY"), mappings);
-
-    assertEquals(
-        Optional.of(expectedDiscriminator),
-        result.getComposition().flatMap(UnresolvedOneOfComposition::getDiscriminator));
   }
 
   private static Stream<Arguments> allOfArguments() {

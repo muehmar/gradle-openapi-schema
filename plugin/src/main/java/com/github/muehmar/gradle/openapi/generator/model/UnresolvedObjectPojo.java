@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder.fullObjectPojoBuilder;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
@@ -13,13 +14,14 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.Function;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+@AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 @PojoBuilder
@@ -33,27 +35,7 @@ public class UnresolvedObjectPojo {
   private final Optional<UnresolvedAnyOfComposition> anyOfComposition;
   private final Constraints constraints;
   private final AdditionalProperties additionalProperties;
-
-  public UnresolvedObjectPojo(
-      ComponentName name,
-      String description,
-      PList<PojoMember> members,
-      PList<Name> requiredAdditionalProperties,
-      Optional<UnresolvedAllOfComposition> allOfComposition,
-      Optional<UnresolvedOneOfComposition> oneOfComposition,
-      Optional<UnresolvedAnyOfComposition> anyOfComposition,
-      Constraints constraints,
-      AdditionalProperties additionalProperties) {
-    this.name = name;
-    this.description = description;
-    this.members = members;
-    this.requiredAdditionalProperties = requiredAdditionalProperties;
-    this.allOfComposition = allOfComposition;
-    this.oneOfComposition = oneOfComposition;
-    this.anyOfComposition = anyOfComposition;
-    this.constraints = constraints;
-    this.additionalProperties = additionalProperties;
-  }
+  private final Optional<Discriminator> discriminator;
 
   public ComponentName getName() {
     return name;
@@ -70,17 +52,17 @@ public class UnresolvedObjectPojo {
     if (bothPresentOrAbsent(allOfComposition, resolvedAllOf)
         && bothPresentOrAbsent(oneOfComposition, resolvedOneOf)
         && bothPresentOrAbsent(anyOfComposition, resolvedAnyOf)) {
-      return ObjectPojoBuilder.create()
+      return fullObjectPojoBuilder()
           .name(name)
           .description(description)
           .members(members)
           .requiredAdditionalProperties(requiredAdditionalProperties)
           .constraints(constraints)
           .additionalProperties(additionalProperties)
-          .andAllOptionals()
           .allOfComposition(resolvedAllOf)
           .oneOfComposition(resolvedOneOf)
           .anyOfComposition(resolvedAnyOf)
+          .discriminator(discriminator)
           .build()
           .asObjectPojo();
     } else {

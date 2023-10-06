@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
@@ -21,85 +22,26 @@ import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Value;
+import lombok.With;
 
-@EqualsAndHashCode
-@ToString
+@Value
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @PojoBuilder
+@With
 public class ObjectPojo implements Pojo {
-  private final ComponentName name;
-  private final String description;
-  private final PList<PojoMember> members;
-  private final PList<Name> requiredAdditionalProperties;
-  private final Optional<AllOfComposition> allOfComposition;
-  private final Optional<OneOfComposition> oneOfComposition;
-  private final Optional<AnyOfComposition> anyOfComposition;
-  private final Constraints constraints;
-  private final AdditionalProperties additionalProperties;
-
-  ObjectPojo(
-      ComponentName name,
-      String description,
-      PList<PojoMember> members,
-      PList<Name> requiredAdditionalProperties,
-      Optional<AllOfComposition> allOfComposition,
-      Optional<OneOfComposition> oneOfComposition,
-      Optional<AnyOfComposition> anyOfComposition,
-      Constraints constraints,
-      AdditionalProperties additionalProperties) {
-    this.name = name;
-    this.description = description;
-    this.members = members;
-    this.requiredAdditionalProperties = requiredAdditionalProperties;
-    this.allOfComposition = allOfComposition;
-    this.oneOfComposition = oneOfComposition;
-    this.anyOfComposition = anyOfComposition;
-    this.constraints = constraints;
-    this.additionalProperties = additionalProperties;
-  }
-
-  @Override
-  public ComponentName getName() {
-    return name;
-  }
-
-  @Override
-  public String getDescription() {
-    return description;
-  }
-
-  public PList<PojoMember> getMembers() {
-    return members;
-  }
-
-  public Constraints getConstraints() {
-    return constraints;
-  }
-
-  public PList<Name> getRequiredAdditionalProperties() {
-    return requiredAdditionalProperties;
-  }
-
-  public AdditionalProperties getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  public Optional<AllOfComposition> getAllOfComposition() {
-    return allOfComposition;
-  }
-
-  public Optional<OneOfComposition> getOneOfComposition() {
-    return oneOfComposition;
-  }
-
-  public Optional<AnyOfComposition> getAnyOfComposition() {
-    return anyOfComposition;
-  }
-
-  public boolean allowsAdditionalProperties() {
-    return additionalProperties.isAllowed();
-  }
+  ComponentName name;
+  String description;
+  PList<PojoMember> members;
+  PList<Name> requiredAdditionalProperties;
+  Optional<AllOfComposition> allOfComposition;
+  Optional<OneOfComposition> oneOfComposition;
+  Optional<AnyOfComposition> anyOfComposition;
+  Constraints constraints;
+  AdditionalProperties additionalProperties;
+  Optional<Discriminator> discriminator;
 
   @Override
   public Pojo addObjectTypeDescription(PojoName objectTypeName, String description) {
@@ -140,6 +82,7 @@ public class ObjectPojo implements Pojo {
         .allOfComposition(mappedAllOfComposition)
         .oneOfComposition(mappedOneOfComposition)
         .anyOfComposition(mappedAnyOfComposition)
+        .discriminator(discriminator)
         .build();
   }
 
@@ -165,20 +108,23 @@ public class ObjectPojo implements Pojo {
         .allOfComposition(mappedAllOfComposition)
         .oneOfComposition(mappedOneOfComposition)
         .anyOfComposition(mappedAnyOfComposition)
+        .discriminator(discriminator)
         .build();
   }
 
   private ObjectPojo mapMembers(UnaryOperator<PojoMember> map) {
-    return new ObjectPojo(
-        name,
-        description,
-        members.map(map),
-        requiredAdditionalProperties,
-        allOfComposition,
-        oneOfComposition,
-        anyOfComposition,
-        constraints,
-        additionalProperties);
+    return fullObjectPojoBuilder()
+        .name(name)
+        .description(description)
+        .members(members.map(map))
+        .requiredAdditionalProperties(requiredAdditionalProperties)
+        .constraints(constraints)
+        .additionalProperties(additionalProperties)
+        .allOfComposition(allOfComposition)
+        .oneOfComposition(oneOfComposition)
+        .anyOfComposition(anyOfComposition)
+        .discriminator(discriminator)
+        .build();
   }
 
   @Override
@@ -187,6 +133,16 @@ public class ObjectPojo implements Pojo {
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo) {
     return onObjectPojo.apply(this);
+  }
+
+  public PList<PojoMember> getMembersAndAllOfMembers() {
+    return members.concat(
+        allOfComposition
+            .map(AllOfComposition::getPojos)
+            .map(NonEmptyList::toPList)
+            .orElseGet(PList::empty)
+            .flatMapOptional(Pojo::asObjectPojo)
+            .flatMap(ObjectPojo::getMembersAndAllOfMembers));
   }
 
   public boolean containsNoneDefaultPropertyScope() {

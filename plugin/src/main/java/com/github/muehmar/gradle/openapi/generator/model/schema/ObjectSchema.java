@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder.fullUnresolvedObjectPojoBuilder;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
@@ -7,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PropertyScopeMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -14,7 +17,6 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
@@ -108,19 +110,21 @@ public class ObjectSchema implements OpenApiSchema {
         schemaCompositions.getOneOf(name);
     final CompositionMapResult<UnresolvedAnyOfComposition> anyOfResult =
         schemaCompositions.getAnyOf(name);
+    final Optional<Discriminator> discriminator =
+        DiscriminatorDefinition.extractFromSchema(delegate);
 
     final UnresolvedObjectPojo unresolvedObjectPojo =
-        UnresolvedObjectPojoBuilder.create()
+        fullUnresolvedObjectPojoBuilder()
             .name(name)
             .description(getDescription())
             .members(pojoMemberMapResults.getMembers())
             .requiredAdditionalProperties(requiredAdditionalProperties)
             .constraints(constraints)
             .additionalProperties(additionalPropertiesSchema.asAdditionalProperties(name))
-            .andAllOptionals()
             .allOfComposition(allOfResult.getComposition())
             .oneOfComposition(oneOfResult.getComposition())
             .anyOfComposition(anyOfResult.getComposition())
+            .discriminator(discriminator)
             .build();
 
     final UnmappedItems unmappedItems =

@@ -2,19 +2,14 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
-import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.Value;
 
 /** Wrapper for a schema to extract the compositions. */
@@ -45,8 +40,7 @@ class SchemaCompositions {
             result ->
                 new CompositionMapResult<>(
                     result.getUnmappedItems(),
-                    UnresolvedOneOfComposition.fromPojoNamesAndDiscriminator(
-                        result.getComponentNames(), extractDiscriminator())))
+                    UnresolvedOneOfComposition.fromComponentNames(result.getComponentNames())))
         .orElseGet(CompositionMapResult::empty);
   }
 
@@ -69,30 +63,6 @@ class SchemaCompositions {
         .map(schemas -> schemas.map(OpenApiSchema::wrapSchema))
         .map(ComposedSchemas::fromSchemas)
         .map(s -> s.mapSchemasToPojoNames(name, type));
-  }
-
-  private Optional<Discriminator> extractDiscriminator() {
-    return Optional.ofNullable(delegate.getDiscriminator())
-        .filter(discriminator -> discriminator.getPropertyName() != null)
-        .map(this::fromOpenApiDiscriminator);
-  }
-
-  private Discriminator fromOpenApiDiscriminator(
-      io.swagger.v3.oas.models.media.Discriminator oasDiscriminator) {
-    final Name propertyName = Name.ofString(oasDiscriminator.getPropertyName());
-    final Optional<Map<String, Name>> pojoNameMapping =
-        Optional.ofNullable(oasDiscriminator.getMapping())
-            .map(this::fromOpenApiDiscriminatorMapping);
-    return Discriminator.fromPropertyName(propertyName).withMapping(pojoNameMapping);
-  }
-
-  private Map<String, Name> fromOpenApiDiscriminatorMapping(Map<String, String> mapping) {
-    return mapping.entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, e -> mapMappingReference(e.getValue())));
-  }
-
-  private Name mapMappingReference(String reference) {
-    return SchemaReference.fromRefString(reference).getSchemaName();
   }
 
   @Value

@@ -151,7 +151,10 @@ public class JavaObjectPojo implements JavaPojo {
             .map(comp -> JavaAllOfComposition.wrap(comp, type, typeMappings)),
         objectPojo
             .getOneOfComposition()
-            .map(comp -> JavaOneOfComposition.wrap(comp, type, typeMappings)),
+            .map(
+                comp ->
+                    JavaOneOfComposition.wrap(
+                        comp, objectPojo.getDiscriminator(), type, typeMappings)),
         objectPojo
             .getAnyOfComposition()
             .map(comp -> JavaAnyOfComposition.wrap(comp, type, typeMappings)),
