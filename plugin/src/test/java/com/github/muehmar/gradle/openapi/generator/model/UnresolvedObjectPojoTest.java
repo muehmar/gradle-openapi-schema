@@ -44,6 +44,7 @@ class UnresolvedObjectPojoTest {
             .allOfComposition(allOfComposition)
             .oneOfComposition(oneOfComposition)
             .anyOfComposition(anyOfComposition)
+            .discriminator(Optional.empty())
             .build();
 
     final Optional<ObjectPojo> resolved =
@@ -64,8 +65,7 @@ class UnresolvedObjectPojoTest {
     final UnresolvedAllOfComposition unresolvedAllOf =
         UnresolvedAllOfComposition.fromComponentNames(PList.of(componentName("Object", "Dto")));
     final UnresolvedOneOfComposition unresolvedOneOf =
-        UnresolvedOneOfComposition.fromPojoNamesAndDiscriminator(
-            PList.of(componentName("Object", "Dto")), Optional.empty());
+        UnresolvedOneOfComposition.fromComponentNames(PList.of(componentName("Object", "Dto")));
     final UnresolvedAnyOfComposition unresolvedAnyOf =
         UnresolvedAnyOfComposition.fromPojoNames(PList.of(componentName("Object", "Dto")));
 

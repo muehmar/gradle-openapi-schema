@@ -30,13 +30,16 @@ public class JavaOneOfComposition {
   }
 
   public static JavaOneOfComposition wrap(
-      OneOfComposition oneOfComposition, PojoType type, TypeMappings typeMappings) {
+      OneOfComposition oneOfComposition,
+      Optional<Discriminator> objectPojoDiscriminator,
+      PojoType type,
+      TypeMappings typeMappings) {
     return new JavaOneOfComposition(
         oneOfComposition
             .getPojos()
             .map(pojo -> JavaPojo.wrap(pojo, typeMappings))
             .map(result -> result.getTypeOrDefault(type)),
-        oneOfComposition.getDiscriminator());
+        oneOfComposition.determineDiscriminator(objectPojoDiscriminator));
   }
 
   public static JavaOneOfComposition fromPojos(NonEmptyList<JavaPojo> pojos) {

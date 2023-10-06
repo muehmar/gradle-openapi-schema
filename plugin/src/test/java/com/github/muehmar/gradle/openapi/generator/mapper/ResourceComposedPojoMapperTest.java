@@ -131,9 +131,7 @@ class ResourceComposedPojoMapperTest {
 
     final Discriminator expectedDiscriminator =
         Discriminator.fromPropertyName(Name.ofString("personType"));
-    assertEquals(
-        Optional.of(expectedDiscriminator),
-        personDto.getOneOfComposition().flatMap(OneOfComposition::getDiscriminator));
+    assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
   }
 
   @Test
@@ -173,9 +171,7 @@ class ResourceComposedPojoMapperTest {
     mapping.put("adm", Name.ofString("Admin"));
     final Discriminator expectedDiscriminator =
         Discriminator.fromPropertyNameAndMapping(Name.ofString("personType"), mapping);
-    assertEquals(
-        Optional.of(expectedDiscriminator),
-        personDto.getOneOfComposition().flatMap(OneOfComposition::getDiscriminator));
+    assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
   }
 
   @Test
