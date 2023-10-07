@@ -4,19 +4,24 @@
 # Gradle OpenApi Schema Codegen
 
 This is a gradle plugin to generate Java code given an openapi 3.0.x or 3.1.0 specification. Unlike other codegen tools, this
-focuses mainly on the `#/component/schema` section. It generates immutable classes and special builder classes to
-support a safe way creating instances. The data classes support JSON conversions via jackson. Additionally, the plugin
-generates simple classes for parameters (`#/component/parameters` section) to support checking the constraints.
+focuses mainly on the `#/component/schema` section. It generates immutable classes and a staged builder to
+support a safe way creating instances. The data classes support JSON conversions via jackson.
+
+This plugin has three main advantages over using the standard swagger code generator for schemas:
+* Extended support of schema specifications: The generator can create classes for almost every possible schema definition
+* Extended validation: The generated code can be validated automatically against every constraint one can define in the specification
+* Improved compile-time safety: The generated classes do reflect more property attributes to improve the compile-time safety
+
+The main features are:
 
 * Immutable Java classes
-* Special builder pattern for compile-time-safe creation of instances
+* Staged builder pattern for compile-time-safe creation of instances
 * JSON deserializing and serializing support with jackson
 * Customization of the code generation
 * Support for Java Bean Validation 2.x and Jakarta Bean Validation 2.x / 3.x
 * Additional validation of object level constraints
 * Extraction of description for enums
 * Supports processing multiple specifications
-* Simple classes for parameters
 * Support compositions (`allOf`, `anyOf`, `oneOf`)
 * Customization of DTO classnames
 
