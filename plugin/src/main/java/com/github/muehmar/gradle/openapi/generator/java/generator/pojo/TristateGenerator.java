@@ -14,13 +14,15 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 
 public class TristateGenerator {
   private static final String ON_VALUE_JAVA_DOC =
-      "Registers a {@link java.util.function.Function} which is applied on the value of the property if it was present and non-null.";
+      "Registers a {@link Function} which is applied on the value of the property if it was present and non-null.";
   private static final String ON_NULL_JAVA_DOC =
-      "Registers a {@link java.util.function.Supplier} which is called in case the property was null.";
+      "Registers a {@link Supplier} which is called in case the property was null.";
   private static final String ON_ABSENT_JAVA_DOC =
-      "Registers a {@link java.util.function.Supplier} which is called in case the property was absent.";
+      "Registers a {@link Supplier} which is called in case the property was absent.";
   private static final String MAP_METHOD_JAVA_DOC =
       "Returns a Tristate class whose value is mapped with the given function.";
+  private static final String TO_OPTIONAL_METHOD_JAVA_DOC =
+      "Converts to an {@link Optional} mapping the cases if the value is null or absent to an empty {@link Optional}.";
 
   private TristateGenerator() {}
 
@@ -46,9 +48,6 @@ public class TristateGenerator {
         .appendNewLine()
         .append(constructor())
         .appendNewLine()
-        .append(ofJavaDocString(MAP_METHOD_JAVA_DOC))
-        .append(mapMethod())
-        .appendNewLine()
         .append(ofNullableAndNullFlagFactoryMethod())
         .appendNewLine()
         .append(ofValueFactoryMethod())
@@ -56,6 +55,12 @@ public class TristateGenerator {
         .append(ofAbsentFactoryMethod())
         .appendNewLine()
         .append(ofNullFactoryMethod())
+        .appendNewLine()
+        .append(ofJavaDocString(MAP_METHOD_JAVA_DOC))
+        .append(mapMethod())
+        .appendNewLine()
+        .append(ofJavaDocString(TO_OPTIONAL_METHOD_JAVA_DOC))
+        .append(toOptionalMethod())
         .appendNewLine()
         .append(ofJavaDocString(ON_VALUE_JAVA_DOC))
         .append(onValueMethod())
@@ -94,15 +99,6 @@ public class TristateGenerator {
             .ref(JavaRefs.JAVA_UTIL_OPTIONAL);
   }
 
-  private static <A, B> Generator<A, B> mapMethod() {
-    return (a, b, writer) ->
-        writer
-            .println("public <R> Tristate<R> map(Function<T, R> f) {")
-            .tab(1)
-            .println("return new Tristate<>(value.map(f), isNull);")
-            .println("}");
-  }
-
   private static <B, A> Generator<A, B> ofNullableAndNullFlagFactoryMethod() {
     return (a, b, writer) ->
         writer
@@ -138,6 +134,26 @@ public class TristateGenerator {
             .tab(1)
             .println("return new Tristate<>(Optional.empty(), false);")
             .println("}");
+  }
+
+  private static <A, B> Generator<A, B> mapMethod() {
+    return (a, b, writer) ->
+        writer
+            .println("public <R> Tristate<R> map(Function<T, R> f) {")
+            .tab(1)
+            .println("return new Tristate<>(value.map(f), isNull);")
+            .println("}");
+  }
+
+  private static <A, B> Generator<A, B> toOptionalMethod() {
+    return (a, b, writer) ->
+        writer
+            .println("public Optional<T> toOptional() {")
+            .tab(1)
+            .println(
+                "return onValue(Optional::of).onNull(Optional::empty).onAbsent(Optional::empty);")
+            .println("}")
+            .ref(JavaRefs.JAVA_UTIL_OPTIONAL);
   }
 
   private static <B, A> Generator<A, B> onValueMethod() {

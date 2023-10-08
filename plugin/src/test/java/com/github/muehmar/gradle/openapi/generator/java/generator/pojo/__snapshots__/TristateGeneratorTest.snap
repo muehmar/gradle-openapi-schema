@@ -20,13 +20,6 @@ public final class Tristate<T> {
     this.isNull = isNull;
   }
 
-  /**
-   * Returns a Tristate class whose value is mapped with the given function.
-   */
-  public <R> Tristate<R> map(Function<T, R> f) {
-    return new Tristate<>(value.map(f), isNull);
-  }
-
   public static <T> Tristate<T> ofNullableAndNullFlag(T nullableValue, boolean isNull) {
     return new Tristate<>(Optional.ofNullable(nullableValue), isNull);
   }
@@ -44,8 +37,23 @@ public final class Tristate<T> {
   }
 
   /**
-   * Registers a {@link java.util.function.Function} which is applied on the value of
-   * the property if it was present and non-null.
+   * Returns a Tristate class whose value is mapped with the given function.
+   */
+  public <R> Tristate<R> map(Function<T, R> f) {
+    return new Tristate<>(value.map(f), isNull);
+  }
+
+  /**
+   * Converts to an {@link Optional} mapping the cases if the value is null or absent
+   * to an empty {@link Optional}.
+   */
+  public Optional<T> toOptional() {
+    return onValue(Optional::of).onNull(Optional::empty).onAbsent(Optional::empty);
+  }
+
+  /**
+   * Registers a {@link Function} which is applied on the value of the property if it
+   * was present and non-null.
    */
   public <R> OnNull<R> onValue(Function<T, R> onValue) {
     return onNull ->
@@ -72,16 +80,14 @@ public final class Tristate<T> {
 
   public interface OnNull<R> {
     /**
-     * Registers a {@link java.util.function.Supplier} which is called in case the
-     * property was null.
+     * Registers a {@link Supplier} which is called in case the property was null.
      */
     OnAbsent<R> onNull(Supplier<R> onNull);
   }
 
   public interface OnAbsent<R> {
     /**
-     * Registers a {@link java.util.function.Supplier} which is called in case the
-     * property was absent.
+     * Registers a {@link Supplier} which is called in case the property was absent.
      */
     R onAbsent(Supplier<R> onAbsent);
   }
