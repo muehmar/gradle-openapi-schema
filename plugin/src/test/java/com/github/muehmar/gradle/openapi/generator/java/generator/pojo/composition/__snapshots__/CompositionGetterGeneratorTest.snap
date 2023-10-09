@@ -1,4 +1,5 @@
 anyOfPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 .
 .
@@ -7,6 +8,7 @@ java.util.Optional
  * valid against the schema SampleObjectPojo1 wrapped in an {@link Optional}, empty
  * otherwise.
  */
+@JsonIgnore
 public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
   return this.<Optional<SampleObjectPojo1Dto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
 }
@@ -16,6 +18,7 @@ public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
  * valid against the schema SampleObjectPojo2 wrapped in an {@link Optional}, empty
  * otherwise.
  */
+@JsonIgnore
 public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
   return this.<Optional<SampleObjectPojo2Dto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
 }
@@ -23,6 +26,7 @@ public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
 
 
 oneOfPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 
 /**
@@ -30,6 +34,7 @@ java.util.Optional
  * valid against the schema SampleObjectPojo1 wrapped in an {@link Optional}, empty
  * otherwise.
  */
+@JsonIgnore
 public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
   return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
 }
@@ -39,6 +44,7 @@ public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
  * valid against the schema SampleObjectPojo2 wrapped in an {@link Optional}, empty
  * otherwise.
  */
+@JsonIgnore
 public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
   return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
 }
