@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Wi
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGenerator.normalBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.AnyOfFoldValidationGenerator.anyOfFoldValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.BasicValidationMethodGenerator.basicValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.CompositionGetterGenerator.compositionGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ConversionMethodGenerator.conversionMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldMethodGenerator.foldMethodGenerator;
@@ -98,6 +99,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .append(pojoPropertyCountMethoGenerator())
         .appendSingleBlankLine()
         .append(foldMethodGenerator())
+        .appendSingleBlankLine()
+        .append(compositionGetterGenerator())
         .appendSingleBlankLine()
         .append(conversionMethodGenerator())
         .appendSingleBlankLine()

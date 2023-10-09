@@ -556,6 +556,22 @@ public class PersonDto {
     return result;
   }
 
+  /**
+   * Returns {@link AdminDto} of the anyOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<AdminDto> getAdminDto() {
+    return foldAnyOf(Optional::of, ignore -> Optional.empty());
+  }
+
+  /**
+   * Returns {@link UserDto} of the anyOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<UserDto> getUserDto() {
+    return foldAnyOf(ignore -> Optional.empty(), Optional::of);
+  }
+
   private AdminDto asAdminDto() {
     Map<String, Object> props = new HashMap<>(additionalProperties);
     if (requiredStringVal != null) {
@@ -5726,6 +5742,22 @@ public class PersonDto {
       onUserDto,
       () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto].");}
     );
+  }
+
+  /**
+   * Returns {@link AdminDto} of the oneOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<AdminDto> getAdminDto() {
+    return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+  }
+
+  /**
+   * Returns {@link UserDto} of the oneOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<UserDto> getUserDto() {
+    return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
   }
 
   private AdminDto asAdminDto() {
