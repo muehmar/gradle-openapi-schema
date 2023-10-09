@@ -556,6 +556,22 @@ public class PersonDto {
     return result;
   }
 
+  /**
+   * Returns {@link AdminDto} of the anyOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<AdminDto> getAdminDto() {
+    return foldAnyOf(Optional::of, ignore -> Optional.empty());
+  }
+
+  /**
+   * Returns {@link UserDto} of the anyOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<UserDto> getUserDto() {
+    return foldAnyOf(ignore -> Optional.empty(), Optional::of);
+  }
+
   private AdminDto asAdminDto() {
     Map<String, Object> props = new HashMap<>(additionalProperties);
     if (requiredStringVal != null) {
