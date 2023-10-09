@@ -8,7 +8,7 @@ java.util.Optional
  * otherwise.
  */
 public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
-  return foldAnyOf(Optional::of, ignore -> Optional.empty());
+  return this.<Optional<SampleObjectPojo1Dto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
 }
 
 /**
@@ -17,7 +17,7 @@ public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
  * otherwise.
  */
 public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
-  return foldAnyOf(ignore -> Optional.empty(), Optional::of);
+  return this.<Optional<SampleObjectPojo2Dto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
 }
 ]
 

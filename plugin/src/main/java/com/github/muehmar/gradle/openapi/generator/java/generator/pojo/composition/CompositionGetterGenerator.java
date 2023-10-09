@@ -98,8 +98,13 @@ public class CompositionGetterGenerator {
     }
 
     String getMethodCall() {
-      final String methodName = type.equals(Type.ONE_OF) ? "foldOneOf" : "foldAnyOf";
-      return String.format("%s(%s)", methodName, getArguments());
+      if (type.equals(Type.ONE_OF)) {
+        return String.format("foldOneOf(%s)", getArguments());
+      } else {
+        return String.format(
+            "this.<Optional<%s>>foldAnyOf(%s).stream().findFirst().flatMap(Function.identity())",
+            pojo.getClassName(), getArguments());
+      }
     }
   }
 
