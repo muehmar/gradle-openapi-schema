@@ -275,8 +275,44 @@ public class ManualAllValueObjectDto {
         + additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return true && true && true && true && true && true && true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    @DecimalMin(value = "5.1", inclusive = true)
+    @DecimalMax(value = "100.5", inclusive = false)
+    private boolean isDoubleValueValid() {
+      return 5.1d <= doubleValue && doubleValue < 100.5d;
+    }
+
+    @DecimalMin(value = "200.25", inclusive = true)
+    @DecimalMax(value = "300.5", inclusive = false)
+    private boolean isFloatValueValid() {
+      return 200.25f <= floatValue && floatValue < 300.5f;
+    }
+
+    @Min(value = -5)
+    @Max(value = 22)
+    private boolean isIntValueValid() {
+      return -5 <= intValue && intValue <= 22;
+    }
+
+    @Size(min = 2, max = 10)
+    @Pattern(regexp = "[A-Za-z\\d]*")
+    private boolean isStringValueValid() {
+      return 2 <= stringValue.length()
+          && stringValue.length() <= 10
+          && java.util.regex.Pattern.matches("[A-Za-z\\d]*", stringValue);
+    }
+
+    private boolean isValid() {
+      // Including everything what's already checked in validateBasic
+      return isDoubleValueValid()
+          && isFloatValueValid()
+          && isIntValueValid()
+          && isStringValueValid();
+    }
   }
 
   @Override
