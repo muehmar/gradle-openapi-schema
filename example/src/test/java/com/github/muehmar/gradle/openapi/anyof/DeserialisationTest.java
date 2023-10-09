@@ -38,6 +38,8 @@ class DeserialisationTest {
             .build();
 
     assertEquals(Collections.singletonList(adminDto), result);
+    assertEquals(Optional.empty(), adminOrUserDto.getUserDto());
+    assertEquals(Optional.of(adminDto), adminOrUserDto.getAdminDto());
   }
 
   @Test
