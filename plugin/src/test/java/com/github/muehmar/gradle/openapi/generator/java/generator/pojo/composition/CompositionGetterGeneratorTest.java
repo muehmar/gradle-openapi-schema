@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.OneOfGetterGenerator.oneOfGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.CompositionGetterGenerator.compositionGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -19,13 +19,13 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
-class OneOfGetterGeneratorTest {
+class CompositionGetterGeneratorTest {
   private Expect expect;
 
   @Test
   @SnapshotName("oneOfPojo")
   void generate_when_oneOfPojo_then_matchSnapshot() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = oneOfGetterGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
 
     final Writer writer =
         generator.generate(
@@ -37,8 +37,22 @@ class OneOfGetterGeneratorTest {
   }
 
   @Test
+  @SnapshotName("anyOfPojo")
+  void generate_when_anyOfPojo_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
   void generate_when_noOneOfPojo_then_noOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = oneOfGetterGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
 
     final Writer writer =
         generator.generate(sampleObjectPojo1(), defaultTestSettings(), javaWriter());

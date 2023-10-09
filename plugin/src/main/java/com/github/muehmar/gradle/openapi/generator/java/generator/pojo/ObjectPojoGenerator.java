@@ -8,14 +8,13 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Po
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator.witherGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGenerator.normalBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.AnyOfFoldValidationGenerator.anyOfFoldValidationGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.AnyOfGetterGenerator.anyOfGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.BasicValidationMethodGenerator.basicValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.CompositionGetterGenerator.compositionGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ConversionMethodGenerator.conversionMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldMethodGenerator.foldMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.InvalidCompositionDtoGetterGenerator.invalidCompositionDtoGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.OneOfFoldValidationGenerator.oneOfFoldValidationGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.OneOfGetterGenerator.oneOfGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidCountMethodGenerator.validCountMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidCountValidationMethod.validCountValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidationMethodGenerator.validationMethodGenerator;
@@ -101,9 +100,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .append(foldMethodGenerator())
         .appendSingleBlankLine()
-        .append(oneOfGetterGenerator())
-        .appendSingleBlankLine()
-        .append(anyOfGetterGenerator())
+        .append(compositionGetterGenerator())
         .appendSingleBlankLine()
         .append(conversionMethodGenerator())
         .appendSingleBlankLine()
