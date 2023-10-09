@@ -146,6 +146,9 @@ public class PersonDto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -654,6 +657,9 @@ public class PersonDto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -1055,6 +1061,9 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -1518,6 +1527,9 @@ public class UserDto {
       5 <= getPropertyCount() &&
       getPropertyCount() <= 15 &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -2064,6 +2076,9 @@ public class UserDto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -2434,6 +2449,9 @@ public class UserDto {
       2 <= getPropertyCount() &&
       getPropertyCount() <= 10 &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -2835,6 +2853,9 @@ public class ObjectPojo1Dto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -3043,6 +3064,9 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -3369,6 +3393,9 @@ public class UserDto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -3631,6 +3658,9 @@ public class UserDto {
       2 <= getPropertyCount() &&
       getPropertyCount() <= 10 &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -3942,6 +3972,9 @@ public class NecessityAndNullabilityDto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -4366,6 +4399,9 @@ public class ObjectPojo1Dto {
       additionalProperties.isEmpty();
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -4548,6 +4584,9 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -4759,6 +4798,9 @@ public class ObjectPojo1Dto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -4954,6 +4996,9 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -5169,6 +5214,9 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -5426,6 +5474,9 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override
@@ -5850,6 +5901,9 @@ public class PersonDto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -6257,6 +6311,9 @@ public class UserDto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -6494,6 +6551,9 @@ public class UserDto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -6713,6 +6773,9 @@ public class ObjectPojo1Dto {
       true &&
       true &&
       true;
+  }
+
+  private class Validator {
   }
 
   @Override

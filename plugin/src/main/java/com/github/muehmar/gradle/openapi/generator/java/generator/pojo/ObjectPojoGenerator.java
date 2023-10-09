@@ -23,6 +23,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter.requiredAdditionalPropertiesGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.map.MapFactoryMethodeGenerator.mapFactoryMethodeGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.ValidatorClassGenerator.validationClassGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
@@ -119,6 +120,9 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .append(discriminatorValidationMethodGenerator())
         .appendSingleBlankLine()
         .append(basicValidationMethodGenerator())
+        .appendSingleBlankLine()
+        .append(validationClassGenerator())
+        .appendSingleBlankLine()
         .appendSingleBlankLine()
         .append(equalsMethod(), JavaObjectPojo::getEqualsContent)
         .appendSingleBlankLine()

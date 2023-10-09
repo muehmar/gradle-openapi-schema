@@ -249,6 +249,9 @@ public class SampleObjectPojo1Dto {
       true;
   }
 
+  private class Validator {
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
