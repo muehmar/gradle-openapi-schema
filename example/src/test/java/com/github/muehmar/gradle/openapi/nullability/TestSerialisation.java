@@ -33,6 +33,7 @@ class TestSerialisation {
     assertEquals(empty(), dto.getUsernameOpt());
     assertEquals(empty(), dto.getEmailOpt());
     assertEquals(Tristate.ofAbsent(), dto.getPhoneTristate());
+    assertEquals(Optional.empty(), dto.getPhoneTristate().toOptional());
   }
 
   @Test
@@ -44,6 +45,7 @@ class TestSerialisation {
     assertEquals(Optional.of("Dexter"), dto.getUsernameOpt());
     assertEquals(empty(), dto.getEmailOpt());
     assertEquals(Tristate.ofAbsent(), dto.getPhoneTristate());
+    assertEquals(Optional.empty(), dto.getPhoneTristate().toOptional());
   }
 
   @Test
@@ -57,6 +59,7 @@ class TestSerialisation {
     assertEquals(Optional.of("Dexter"), dto.getUsernameOpt());
     assertEquals(Optional.of("hello@github.com"), dto.getEmailOpt());
     assertEquals(Tristate.ofAbsent(), dto.getPhoneTristate());
+    assertEquals(Optional.empty(), dto.getPhoneTristate().toOptional());
   }
 
   @Test
@@ -70,6 +73,7 @@ class TestSerialisation {
     assertEquals(Optional.of("Dexter"), dto.getUsernameOpt());
     assertEquals(Optional.of("hello@github.com"), dto.getEmailOpt());
     assertEquals(Tristate.ofNull(), dto.getPhoneTristate());
+    assertEquals(Optional.empty(), dto.getPhoneTristate().toOptional());
   }
 
   @Test
@@ -83,6 +87,7 @@ class TestSerialisation {
     assertEquals(Optional.of("Dexter"), dto.getUsernameOpt());
     assertEquals(Optional.of("hello@github.com"), dto.getEmailOpt());
     assertEquals(Tristate.ofValue("00411234567"), dto.getPhoneTristate());
+    assertEquals(Optional.of("00411234567"), dto.getPhoneTristate().toOptional());
   }
 
   @Test
