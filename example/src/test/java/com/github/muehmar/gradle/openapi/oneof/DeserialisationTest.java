@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
+import java.util.Optional;
 import openapischema.example.api.oneof.model.AdminDto;
 import openapischema.example.api.oneof.model.AdminOrUserDto;
 import openapischema.example.api.oneof.model.UserDto;
@@ -32,6 +33,8 @@ class DeserialisationTest {
             .setLevel(5L)
             .build();
     assertEquals(adminDto, obj);
+    assertEquals(Optional.empty(), adminOrUserDto.getUserDto());
+    assertEquals(Optional.of(adminDto), adminOrUserDto.getAdminDto());
   }
 
   @Test
