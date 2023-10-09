@@ -57,10 +57,28 @@ gradlePlugin {
     }
 }
 
-test {
-    def updateSnapshot = project.properties["updateSnapshot"]
-    if (updateSnapshot != null) {
-        systemProperties.put("updateSnapshot", updateSnapshot)
+def snapshotPropertiesFile = "$projectDir/src/test/resources/snapshot.properties"
+
+tasks.register("enableUpdateAllSnapshots") {
+    doFirst {
+        exec {
+            commandLine 'sed', '-i', 's/update-snapshot=none/update-snapshot=all/', snapshotPropertiesFile
+        }
+    }
+}
+
+tasks.register("updateSnapshots", Test) {
+    group 'verification'
+    dependsOn(tasks.enableUpdateAllSnapshots)
+    dependsOn(tasks.test) {
+        useJUnitPlatform() {
+            includeTags 'snapshot-test'
+        }
+    }
+    doLast {
+        exec {
+            commandLine 'sed', '-i', 's/update-snapshot=all/update-snapshot=none/', snapshotPropertiesFile
+        }
     }
 }
 
