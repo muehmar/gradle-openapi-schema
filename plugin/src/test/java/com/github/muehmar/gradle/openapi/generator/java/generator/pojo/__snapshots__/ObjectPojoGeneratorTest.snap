@@ -560,6 +560,7 @@ public class PersonDto {
    * Returns {@link AdminDto} of the anyOf composition in case it is valid against
    * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
+  @JsonIgnore
   public Optional<AdminDto> getAdminDto() {
     return this.<Optional<AdminDto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
   }
@@ -568,6 +569,7 @@ public class PersonDto {
    * Returns {@link UserDto} of the anyOf composition in case it is valid against the
    * schema User wrapped in an {@link Optional}, empty otherwise.
    */
+  @JsonIgnore
   public Optional<UserDto> getUserDto() {
     return this.<Optional<UserDto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
   }
@@ -5748,6 +5750,7 @@ public class PersonDto {
    * Returns {@link AdminDto} of the oneOf composition in case it is valid against
    * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
+  @JsonIgnore
   public Optional<AdminDto> getAdminDto() {
     return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
   }
@@ -5756,6 +5759,7 @@ public class PersonDto {
    * Returns {@link UserDto} of the oneOf composition in case it is valid against the
    * schema User wrapped in an {@link Optional}, empty otherwise.
    */
+  @JsonIgnore
   public Optional<UserDto> getUserDto() {
     return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
   }
