@@ -1,0 +1,21 @@
+oneOfPojo=[
+java.util.Optional
+
+/**
+ * Returns {@link SampleObjectPojo1Dto} of the oneOf composition in case it is
+ * valid against the schema SampleObjectPojo1 wrapped in an {@link Optional}, empty
+ * otherwise.
+ */
+public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
+  return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+}
+
+/**
+ * Returns {@link SampleObjectPojo2Dto} of the oneOf composition in case it is
+ * valid against the schema SampleObjectPojo2 wrapped in an {@link Optional}, empty
+ * otherwise.
+ */
+public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
+  return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
+}
+]

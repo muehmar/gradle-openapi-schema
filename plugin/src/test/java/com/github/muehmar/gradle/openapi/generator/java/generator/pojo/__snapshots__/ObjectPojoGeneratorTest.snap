@@ -5728,6 +5728,22 @@ public class PersonDto {
     );
   }
 
+  /**
+   * Returns {@link AdminDto} of the oneOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<AdminDto> getAdminDto() {
+    return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+  }
+
+  /**
+   * Returns {@link UserDto} of the oneOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<UserDto> getUserDto() {
+    return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
+  }
+
   private AdminDto asAdminDto() {
     Map<String, Object> props = new HashMap<>(additionalProperties);
     if (requiredStringVal != null) {
