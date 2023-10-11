@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.PropertyValidationGenerator.propertyValidationGenerator;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -21,7 +23,12 @@ public class ValidatorClassGenerator {
         .className("Validator")
         .noSuperClass()
         .noInterfaces()
-        .content(Generator.emptyGen())
+        .content(content())
         .build();
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> content() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendList(propertyValidationGenerator(), JavaObjectPojo::getMembers, newLine());
   }
 }

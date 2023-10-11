@@ -147,6 +147,9 @@ public class PersonDto {
   }
 
   private class Validator {
+    private boolean isRequiredStringValValid() {
+      return true;
+    }
   }
 
   @Override
@@ -658,6 +661,9 @@ public class PersonDto {
   }
 
   private class Validator {
+    private boolean isRequiredStringValValid() {
+      return true;
+    }
   }
 
   @Override
@@ -1530,6 +1536,45 @@ public class UserDto {
   }
 
   private class Validator {
+    private boolean isIdValid() {
+      return id <= 50;
+    }
+
+    private boolean isNameValid() {
+      return true;
+    }
+
+    private boolean isLastNameValid() {
+      return true;
+    }
+
+    private boolean isNickNameValid() {
+      return true;
+    }
+
+    private boolean isEmailValid() {
+      return true;
+    }
+
+    private boolean isHeightValid() {
+      return true;
+    }
+
+    private boolean isLevelValid() {
+      return 5 <= level;
+    }
+
+    private boolean isUppercaseValid() {
+      return true;
+    }
+
+    private boolean isMultipleOfValueValid() {
+      return true;
+    }
+
+    private boolean isAnotherPojoValid() {
+      return true;
+    }
   }
 
   @Override
@@ -2077,6 +2122,45 @@ public class UserDto {
   }
 
   private class Validator {
+    private boolean isIdValid() {
+      return id <= 50;
+    }
+
+    private boolean isNameValid() {
+      return true;
+    }
+
+    private boolean isLastNameValid() {
+      return true;
+    }
+
+    private boolean isNickNameValid() {
+      return true;
+    }
+
+    private boolean isEmailValid() {
+      return true;
+    }
+
+    private boolean isHeightValid() {
+      return true;
+    }
+
+    private boolean isLevelValid() {
+      return 5 <= level;
+    }
+
+    private boolean isUppercaseValid() {
+      return true;
+    }
+
+    private boolean isMultipleOfValueValid() {
+      return true;
+    }
+
+    private boolean isAnotherPojoValid() {
+      return true;
+    }
   }
 
   @Override
@@ -2452,6 +2536,17 @@ public class UserDto {
   }
 
   private class Validator {
+    private boolean isIdValid() {
+      return true;
+    }
+
+    private boolean isNameValid() {
+      return true;
+    }
+
+    private boolean isLanguageValid() {
+      return true;
+    }
   }
 
   @Override
@@ -3394,6 +3489,17 @@ public class UserDto {
   }
 
   private class Validator {
+    private boolean isIdValid() {
+      return true;
+    }
+
+    private boolean isNameValid() {
+      return true;
+    }
+
+    private boolean isLanguageValid() {
+      return true;
+    }
   }
 
   @Override
@@ -3661,6 +3767,17 @@ public class UserDto {
   }
 
   private class Validator {
+    private boolean isIdValid() {
+      return true;
+    }
+
+    private boolean isNameValid() {
+      return true;
+    }
+
+    private boolean isLanguageValid() {
+      return true;
+    }
   }
 
   @Override
@@ -3975,6 +4092,21 @@ public class NecessityAndNullabilityDto {
   }
 
   private class Validator {
+    private boolean isRequiredStringValValid() {
+      return true;
+    }
+
+    private boolean isRequiredNullableStringValValid() {
+      return true;
+    }
+
+    private boolean isOptionalStringValValid() {
+      return true;
+    }
+
+    private boolean isOptionalNullableStringValValid() {
+      return true;
+    }
   }
 
   @Override
@@ -5217,6 +5349,9 @@ public class ObjectPojo1Dto {
   }
 
   private class Validator {
+    private boolean isListValValid() {
+      return true;
+    }
   }
 
   @Override
@@ -5477,6 +5612,9 @@ public class ObjectPojo1Dto {
   }
 
   private class Validator {
+    private boolean isMapValValid() {
+      return true;
+    }
   }
 
   @Override
@@ -5902,6 +6040,9 @@ public class PersonDto {
   }
 
   private class Validator {
+    private boolean isRequiredStringValValid() {
+      return true;
+    }
   }
 
   @Override
@@ -6312,6 +6453,9 @@ public class UserDto {
   }
 
   private class Validator {
+    private boolean isLanguageValid() {
+      return true;
+    }
   }
 
   @Override
@@ -6552,6 +6696,9 @@ public class UserDto {
   }
 
   private class Validator {
+    private boolean isLanguageValid() {
+      return true;
+    }
   }
 
   @Override
@@ -6776,6 +6923,13 @@ public class ObjectPojo1Dto {
   }
 
   private class Validator {
+    private boolean isEmailValid() {
+      return true;
+    }
+
+    private boolean isBirthdateValid() {
+      return true;
+    }
   }
 
   @Override

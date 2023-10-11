@@ -1,0 +1,8 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.PropertyValidationGeneratorTest.generate_when_integerWithMinAndMax_then_metchSnapshot=[
+.
+.
+private boolean isIntValValid() {
+  return 10 <= intVal
+      && intVal <= 50;
+}
+]

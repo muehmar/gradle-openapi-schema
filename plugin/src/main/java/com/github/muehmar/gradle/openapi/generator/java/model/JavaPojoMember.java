@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.With;
 
 /**
  * This member corresponds to a property in the specification. To support all possible states af a
@@ -26,6 +27,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @PojoBuilder
+@With
 public class JavaPojoMember {
   private final JavaMemberName name;
   private final String description;
