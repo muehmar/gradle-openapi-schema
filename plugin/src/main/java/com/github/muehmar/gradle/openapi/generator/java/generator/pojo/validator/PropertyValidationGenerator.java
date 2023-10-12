@@ -25,7 +25,13 @@ public class PropertyValidationGenerator {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> propertyValidationMethodContent() {
-    return conditionGenerator(minCondition(), maxCondition());
+    return conditionGenerator(
+        requiredNotNullCondition(),
+        requiredNullableCondition(),
+        optionalNotNullableCondition(),
+        optionalNullableCondition(),
+        minCondition(),
+        maxCondition());
   }
 
   private static Generator<JavaPojoMember, PojoSettings> conditionGenerator(
@@ -49,6 +55,35 @@ public class PropertyValidationGenerator {
             .println(";");
       }
     };
+  }
+
+  private static Condition requiredNotNullCondition() {
+    return (member, settings) -> {
+      if (member.isRequiredAndNotNullable()) {
+        return Optional.of(String.format("%s != null", member.getNameAsIdentifier()));
+      }
+      return Optional.empty();
+    };
+  }
+
+  private static Condition requiredNullableCondition() {
+    return (member, settings) -> {
+      if (member.isRequiredAndNullable()) {
+        return Optional.of(
+            String.format(
+                "(%s != null || %s)", member.getNameAsIdentifier(), member.getIsPresentFlagName()));
+      }
+      return Optional.empty();
+    };
+  }
+
+  private static Condition optionalNotNullableCondition() {
+    // Implement with #142 when the flag is present
+    return (member, settings) -> Optional.empty();
+  }
+
+  private static Condition optionalNullableCondition() {
+    return (member, settings) -> Optional.empty();
   }
 
   private static Condition minCondition() {
