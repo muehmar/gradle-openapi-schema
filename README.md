@@ -219,7 +219,7 @@ class. For example the spec
 
 ```
   properties:
-    accountName:
+    userName:
       type: string
       format: username
 ```
@@ -233,7 +233,7 @@ formatTypeMapping {
 }
 ```
 
-will use the class `com.package.UserName` for the property `accountName`. The config-property `classType` should be
+will use the class `com.package.UserName` for the property `userName`. The config-property `classType` should be
 the fully qualified classname to properly generate import-statements.
 
 Repeat this block for each format type mapping.
@@ -379,13 +379,14 @@ components:
           type: string
 
     AdminAndUser:
-      anyOf:
+      allOf:
         - $ref: '#/components/schemas/Admin'
         - $ref: '#/components/schemas/User'
 ```
 
 This will generate the three DTO's, `User`, `Admin` and `AdminAndUser`. The `AdminAndUser` will contain both
-properties of the `User` and the `Admin`, i.e. the `username` property and `adminname` property.
+properties of the `User` and the `Admin`, i.e. the `username` property and `adminname` property. It's also possible to
+retrieve an instance of `User` or `Admin` from the `AdminAndUser` DTO.
 
 ### AnyOf and OneOf
 The usage of `anyOf` and `oneOf` will generate special classes used to represent this composition.
