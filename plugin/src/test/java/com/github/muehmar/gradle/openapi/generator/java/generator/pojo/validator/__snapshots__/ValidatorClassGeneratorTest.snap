@@ -3,15 +3,27 @@ sampleObjectPojo2=[
 .
 private class Validator {
   private boolean isStringValValid() {
-    return true;
+    if(stringVal != null) {
+      return true;
+    }
+
+    return stringVal != null;
   }
 
   private boolean isBirthdateValid() {
-    return true;
+    if(birthdate != null) {
+      return true;
+    }
+
+    return birthdate != null;
   }
 
   private boolean isEmailValid() {
-    return true;
+    if(email != null) {
+      return true;
+    }
+
+    return email != null;
   }
 }
 ]

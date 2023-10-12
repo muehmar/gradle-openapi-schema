@@ -2,7 +2,11 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.Proper
 .
 .
 private boolean isIntValValid() {
-  return 10 <= intVal
-      && intVal <= 50;
+  if(intVal != null) {
+    return 10 <= intVal
+        && intVal <= 50;
+  }
+
+  return intVal != null;
 }
 ]

@@ -148,7 +148,11 @@ public class PersonDto {
 
   private class Validator {
     private boolean isRequiredStringValValid() {
-      return true;
+      if(requiredStringVal != null) {
+        return true;
+      }
+
+      return requiredStringVal != null;
     }
   }
 
@@ -662,7 +666,11 @@ public class PersonDto {
 
   private class Validator {
     private boolean isRequiredStringValValid() {
-      return true;
+      if(requiredStringVal != null) {
+        return true;
+      }
+
+      return requiredStringVal != null;
     }
   }
 
@@ -1537,42 +1545,82 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      return id <= 50;
+      if(id != null) {
+        return id <= 50;
+      }
+
+      return id != null;
     }
 
     private boolean isNameValid() {
-      return true;
+      if(name != null) {
+        return true;
+      }
+
+      return name != null;
     }
 
     private boolean isLastNameValid() {
-      return true;
+      if(lastName != null) {
+        return true;
+      }
+
+      return lastName != null;
     }
 
     private boolean isNickNameValid() {
-      return true;
+      if(nickName != null) {
+        return true;
+      }
+
+      return nickName != null;
     }
 
     private boolean isEmailValid() {
-      return true;
+      if(email != null) {
+        return true;
+      }
+
+      return email != null;
     }
 
     private boolean isHeightValid() {
-      return true;
+      if(height != null) {
+        return true;
+      }
+
+      return height != null;
     }
 
     private boolean isLevelValid() {
-      return 5 <= level;
+      if(level != null) {
+        return 5 <= level;
+      }
+
+      return true;
     }
 
     private boolean isUppercaseValid() {
+      if(uppercase != null) {
+        return true;
+      }
+
       return true;
     }
 
     private boolean isMultipleOfValueValid() {
+      if(multipleOfValue != null) {
+        return true;
+      }
+
       return true;
     }
 
     private boolean isAnotherPojoValid() {
+      if(anotherPojo != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -2123,42 +2171,82 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      return id <= 50;
+      if(id != null) {
+        return id <= 50;
+      }
+
+      return id != null;
     }
 
     private boolean isNameValid() {
-      return true;
+      if(name != null) {
+        return true;
+      }
+
+      return name != null;
     }
 
     private boolean isLastNameValid() {
-      return true;
+      if(lastName != null) {
+        return true;
+      }
+
+      return lastName != null;
     }
 
     private boolean isNickNameValid() {
-      return true;
+      if(nickName != null) {
+        return true;
+      }
+
+      return nickName != null;
     }
 
     private boolean isEmailValid() {
-      return true;
+      if(email != null) {
+        return true;
+      }
+
+      return email != null;
     }
 
     private boolean isHeightValid() {
-      return true;
+      if(height != null) {
+        return true;
+      }
+
+      return height != null;
     }
 
     private boolean isLevelValid() {
-      return 5 <= level;
+      if(level != null) {
+        return 5 <= level;
+      }
+
+      return true;
     }
 
     private boolean isUppercaseValid() {
+      if(uppercase != null) {
+        return true;
+      }
+
       return true;
     }
 
     private boolean isMultipleOfValueValid() {
+      if(multipleOfValue != null) {
+        return true;
+      }
+
       return true;
     }
 
     private boolean isAnotherPojoValid() {
+      if(anotherPojo != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -2537,14 +2625,26 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      return true;
+      if(id != null) {
+        return true;
+      }
+
+      return id != null;
     }
 
     private boolean isNameValid() {
-      return true;
+      if(name != null) {
+        return true;
+      }
+
+      return name != null;
     }
 
     private boolean isLanguageValid() {
+      if(language != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -3490,14 +3590,26 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      return true;
+      if(id != null) {
+        return true;
+      }
+
+      return id != null;
     }
 
     private boolean isNameValid() {
-      return true;
+      if(name != null) {
+        return true;
+      }
+
+      return name != null;
     }
 
     private boolean isLanguageValid() {
+      if(language != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -3768,14 +3880,26 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      return true;
+      if(id != null) {
+        return true;
+      }
+
+      return id != null;
     }
 
     private boolean isNameValid() {
-      return true;
+      if(name != null) {
+        return true;
+      }
+
+      return name != null;
     }
 
     private boolean isLanguageValid() {
+      if(language != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -4093,18 +4217,34 @@ public class NecessityAndNullabilityDto {
 
   private class Validator {
     private boolean isRequiredStringValValid() {
-      return true;
+      if(requiredStringVal != null) {
+        return true;
+      }
+
+      return requiredStringVal != null;
     }
 
     private boolean isRequiredNullableStringValValid() {
-      return true;
+      if(requiredNullableStringVal != null) {
+        return true;
+      }
+
+      return (requiredNullableStringVal != null || isRequiredNullableStringValPresent);
     }
 
     private boolean isOptionalStringValValid() {
+      if(optionalStringVal != null) {
+        return true;
+      }
+
       return true;
     }
 
     private boolean isOptionalNullableStringValValid() {
+      if(optionalNullableStringVal != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -5350,7 +5490,11 @@ public class ObjectPojo1Dto {
 
   private class Validator {
     private boolean isListValValid() {
-      return true;
+      if(listVal != null) {
+        return true;
+      }
+
+      return listVal != null;
     }
   }
 
@@ -5613,7 +5757,11 @@ public class ObjectPojo1Dto {
 
   private class Validator {
     private boolean isMapValValid() {
-      return true;
+      if(mapVal != null) {
+        return true;
+      }
+
+      return mapVal != null;
     }
   }
 
@@ -6041,7 +6189,11 @@ public class PersonDto {
 
   private class Validator {
     private boolean isRequiredStringValValid() {
-      return true;
+      if(requiredStringVal != null) {
+        return true;
+      }
+
+      return requiredStringVal != null;
     }
   }
 
@@ -6454,6 +6606,10 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
+      if(language != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -6697,6 +6853,10 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
+      if(language != null) {
+        return true;
+      }
+
       return true;
     }
   }
@@ -6924,10 +7084,18 @@ public class ObjectPojo1Dto {
 
   private class Validator {
     private boolean isEmailValid() {
-      return true;
+      if(email != null) {
+        return true;
+      }
+
+      return email != null;
     }
 
     private boolean isBirthdateValid() {
+      if(birthdate != null) {
+        return true;
+      }
+
       return true;
     }
   }

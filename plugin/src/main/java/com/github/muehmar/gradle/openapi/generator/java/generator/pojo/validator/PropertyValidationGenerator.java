@@ -25,13 +25,15 @@ public class PropertyValidationGenerator {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> propertyValidationMethodContent() {
-    return conditionGenerator(
-        requiredNotNullCondition(),
-        requiredNullableCondition(),
-        optionalNotNullableCondition(),
-        optionalNullableCondition(),
-        minCondition(),
-        maxCondition());
+
+    return wrapNotNullsafeGenerator(conditionGenerator(minCondition(), maxCondition()))
+        .appendSingleBlankLine()
+        .append(
+            conditionGenerator(
+                requiredNotNullCondition(),
+                requiredNullableCondition(),
+                optionalNotNullableCondition(),
+                optionalNullableCondition()));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> conditionGenerator(
@@ -55,6 +57,14 @@ public class PropertyValidationGenerator {
             .println(";");
       }
     };
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> wrapNotNullsafeGenerator(
+      Generator<JavaPojoMember, PojoSettings> conditions) {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append((m, s, w) -> w.println("if(%s != null) {", m.getNameAsIdentifier()))
+        .append(conditions, 1)
+        .append(Generator.constant("}"));
   }
 
   private static Condition requiredNotNullCondition() {

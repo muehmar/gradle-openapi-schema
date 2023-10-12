@@ -251,16 +251,28 @@ public class SampleObjectPojo1Dto {
 
   private class Validator {
     private boolean isStringValValid() {
-      return true;
+      if(stringVal != null) {
+        return true;
+      }
+
+      return stringVal != null;
     }
 
     private boolean isIntValValid() {
-      return 10 <= intVal
-          && intVal <= 50;
+      if(intVal != null) {
+        return 10 <= intVal
+            && intVal <= 50;
+      }
+
+      return intVal != null;
     }
 
     private boolean isDoubleValValid() {
-      return true;
+      if(doubleVal != null) {
+        return true;
+      }
+
+      return doubleVal != null;
     }
   }
 
