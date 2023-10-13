@@ -1587,7 +1587,8 @@ public class UserDto {
 
     private boolean isHeightValid() {
       if(height != null) {
-        return true;
+        return 0 <= java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("120.0"))
+            && java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("199") < 0);
       }
 
       return height != null;
@@ -2214,7 +2215,8 @@ public class UserDto {
 
     private boolean isHeightValid() {
       if(height != null) {
-        return true;
+        return 0 <= java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("120.0"))
+            && java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("199") < 0);
       }
 
       return height != null;

@@ -32,7 +32,12 @@ public class PropertyValidationGenerator {
   private static Generator<JavaPojoMember, PojoSettings> propertyValidationMethodContent() {
     return wrapNotNullsafeGenerator(
             conditionGenerator(
-                minCondition(), maxCondition(), minSizeCondition(), maxSizeCondition()))
+                minCondition(),
+                maxCondition(),
+                minSizeCondition(),
+                maxSizeCondition(),
+                decimalMinCondition(),
+                decimalMaxCondition()))
         .appendSingleBlankLine()
         .append(
             conditionGenerator(
@@ -150,6 +155,36 @@ public class PropertyValidationGenerator {
                       accessor ->
                           format("%s.%s <= %d", member.getNameAsIdentifier(), accessor, max)));
     };
+  }
+
+  private static Condition decimalMinCondition() {
+    return (member, settings) ->
+        member
+            .getJavaType()
+            .getConstraints()
+            .getDecimalMin()
+            .map(
+                decimalMin ->
+                    format(
+                        "0 <%s java.math.BigDecimal.valueOf(%s).compareTo(new java.math.BigDecimal(\"%s\"))",
+                        decimalMin.isInclusiveMin() ? "=" : "",
+                        member.getNameAsIdentifier(),
+                        decimalMin.getValue()));
+  }
+
+  private static Condition decimalMaxCondition() {
+    return (member, settings) ->
+        member
+            .getJavaType()
+            .getConstraints()
+            .getDecimalMax()
+            .map(
+                decimalMax ->
+                    format(
+                        "java.math.BigDecimal.valueOf(%s).compareTo(new java.math.BigDecimal(\"%s\") <%s 0)",
+                        member.getNameAsIdentifier(),
+                        decimalMax.getValue(),
+                        decimalMax.isInclusiveMax() ? "=" : ""));
   }
 
   private static Optional<String> sizeAccessorForMember(JavaPojoMember member) {

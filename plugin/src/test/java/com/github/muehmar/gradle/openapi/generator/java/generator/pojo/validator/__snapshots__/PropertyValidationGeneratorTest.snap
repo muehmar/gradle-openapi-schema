@@ -12,6 +12,34 @@ private boolean isStringValValid() {
 ]
 
 
+doubleWithDecimalMinMaxExclusive=[
+.
+.
+private boolean isDoubleValValid() {
+  if(doubleVal != null) {
+    return 0 < java.math.BigDecimal.valueOf(doubleVal).compareTo(new java.math.BigDecimal("50.1"))
+        && java.math.BigDecimal.valueOf(doubleVal).compareTo(new java.math.BigDecimal("100.1") < 0);
+  }
+
+  return doubleVal != null;
+}
+]
+
+
+doubleWithDecimalMinMaxInclusive=[
+.
+.
+private boolean isDoubleValValid() {
+  if(doubleVal != null) {
+    return 0 <= java.math.BigDecimal.valueOf(doubleVal).compareTo(new java.math.BigDecimal("50.1"))
+        && java.math.BigDecimal.valueOf(doubleVal).compareTo(new java.math.BigDecimal("100.1") <= 0);
+  }
+
+  return doubleVal != null;
+}
+]
+
+
 integerWithMinAndMax=[
 .
 .

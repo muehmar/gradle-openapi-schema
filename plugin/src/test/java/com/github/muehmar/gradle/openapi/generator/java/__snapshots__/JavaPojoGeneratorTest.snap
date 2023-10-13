@@ -269,7 +269,8 @@ public class SampleObjectPojo1Dto {
 
     private boolean isDoubleValValid() {
       if(doubleVal != null) {
-        return true;
+        return 0 <= java.math.BigDecimal.valueOf(doubleVal).compareTo(new java.math.BigDecimal("12.5"))
+            && java.math.BigDecimal.valueOf(doubleVal).compareTo(new java.math.BigDecimal("50.1") < 0);
       }
 
       return doubleVal != null;

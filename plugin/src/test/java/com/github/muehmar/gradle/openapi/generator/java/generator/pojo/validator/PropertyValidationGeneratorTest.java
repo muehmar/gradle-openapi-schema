@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validato
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.PropertyValidationGenerator.propertyValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.list;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.map;
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -11,11 +12,15 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaNumericType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -106,6 +111,46 @@ class PropertyValidationGeneratorTest {
                     TypeMappings.empty()));
 
     final Writer writer = generator.generate(byteArrayType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("doubleWithDecimalMinMaxExclusive")
+  void generate_when_doubleWithDecimalMinMaxExclusive_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+
+    final JavaPojoMember doubleMember =
+        requiredDouble()
+            .withJavaType(
+                JavaNumericType.wrap(
+                    NumericType.formatDouble()
+                        .withConstraints(
+                            Constraints.ofDecimalMinAndMax(
+                                new DecimalMin("50.1", false), new DecimalMax("100.1", false))),
+                    TypeMappings.empty()));
+
+    final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("doubleWithDecimalMinMaxInclusive")
+  void generate_when_doubleWithDecimalMinMaxInclusive_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+
+    final JavaPojoMember doubleMember =
+        requiredDouble()
+            .withJavaType(
+                JavaNumericType.wrap(
+                    NumericType.formatDouble()
+                        .withConstraints(
+                            Constraints.ofDecimalMinAndMax(
+                                new DecimalMin("50.1", true), new DecimalMax("100.1", true))),
+                    TypeMappings.empty()));
+
+    final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
   }
