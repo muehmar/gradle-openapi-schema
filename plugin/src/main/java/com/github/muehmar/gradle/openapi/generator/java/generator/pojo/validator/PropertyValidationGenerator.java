@@ -1,13 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
+import static java.lang.String.format;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class PropertyValidationGenerator {
@@ -25,8 +30,9 @@ public class PropertyValidationGenerator {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> propertyValidationMethodContent() {
-
-    return wrapNotNullsafeGenerator(conditionGenerator(minCondition(), maxCondition()))
+    return wrapNotNullsafeGenerator(
+            conditionGenerator(
+                minCondition(), maxCondition(), minSizeCondition(), maxSizeCondition()))
         .appendSingleBlankLine()
         .append(
             conditionGenerator(
@@ -70,7 +76,7 @@ public class PropertyValidationGenerator {
   private static Condition requiredNotNullCondition() {
     return (member, settings) -> {
       if (member.isRequiredAndNotNullable()) {
-        return Optional.of(String.format("%s != null", member.getNameAsIdentifier()));
+        return Optional.of(format("%s != null", member.getNameAsIdentifier()));
       }
       return Optional.empty();
     };
@@ -80,7 +86,7 @@ public class PropertyValidationGenerator {
     return (member, settings) -> {
       if (member.isRequiredAndNullable()) {
         return Optional.of(
-            String.format(
+            format(
                 "(%s != null || %s)", member.getNameAsIdentifier(), member.getIsPresentFlagName()));
       }
       return Optional.empty();
@@ -102,7 +108,7 @@ public class PropertyValidationGenerator {
             .getJavaType()
             .getConstraints()
             .getMin()
-            .map(min -> String.format("%d <= %s", min.getValue(), member.getNameAsIdentifier()));
+            .map(min -> format("%d <= %s", min.getValue(), member.getNameAsIdentifier()));
   }
 
   private static Condition maxCondition() {
@@ -111,7 +117,52 @@ public class PropertyValidationGenerator {
             .getJavaType()
             .getConstraints()
             .getMax()
-            .map(max -> String.format("%s <= %d", member.getNameAsIdentifier(), max.getValue()));
+            .map(max -> format("%s <= %d", member.getNameAsIdentifier(), max.getValue()));
+  }
+
+  private static Condition minSizeCondition() {
+    return (member, settings) -> {
+      final Optional<String> sizeAccessor = sizeAccessorForMember(member);
+      return member
+          .getJavaType()
+          .getConstraints()
+          .getSize()
+          .flatMap(Size::getMin)
+          .flatMap(
+              min ->
+                  sizeAccessor.map(
+                      accessor ->
+                          format("%d <= %s.%s", min, member.getNameAsIdentifier(), accessor)));
+    };
+  }
+
+  private static Condition maxSizeCondition() {
+    return (member, settings) -> {
+      final Optional<String> sizeAccessor = sizeAccessorForMember(member);
+      return member
+          .getJavaType()
+          .getConstraints()
+          .getSize()
+          .flatMap(Size::getMax)
+          .flatMap(
+              max ->
+                  sizeAccessor.map(
+                      accessor ->
+                          format("%s.%s <= %d", member.getNameAsIdentifier(), accessor, max)));
+    };
+  }
+
+  private static Optional<String> sizeAccessorForMember(JavaPojoMember member) {
+    if (member.getJavaType().isJavaArray()) {
+      return Optional.of("length");
+    }
+
+    final HashMap<QualifiedClassName, String> methodName = new HashMap<>();
+    methodName.put(QualifiedClassNames.LIST, "size()");
+    methodName.put(QualifiedClassNames.MAP, "size()");
+    methodName.put(QualifiedClassNames.STRING, "length()");
+
+    return Optional.ofNullable(methodName.get(member.getJavaType().getQualifiedClassName()));
   }
 
   private interface Condition {

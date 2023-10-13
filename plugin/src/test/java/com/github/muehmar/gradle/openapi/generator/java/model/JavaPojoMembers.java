@@ -147,7 +147,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember list(
-      Type itemType, Constraints constraints, Necessity necessity, Nullability nullability) {
+      Type itemType, Necessity necessity, Nullability nullability, Constraints constraints) {
     return JavaPojoMemberBuilder.create()
         .name(JavaMemberName.wrap(Name.ofString("listVal")))
         .description("List")

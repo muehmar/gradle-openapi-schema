@@ -61,9 +61,9 @@ class UniqueItemsValidationMethodGeneratorTest {
         generator.generate(
             JavaPojoMembers.list(
                 StringType.noFormat(),
-                Constraints.ofUniqueItems(true),
                 Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE),
+                Nullability.NOT_NULLABLE,
+                Constraints.ofUniqueItems(true)),
             defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
@@ -79,9 +79,9 @@ class UniqueItemsValidationMethodGeneratorTest {
         generator.generate(
             JavaPojoMembers.list(
                 StringType.noFormat(),
-                Constraints.ofUniqueItems(true),
                 Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE),
+                Nullability.NOT_NULLABLE,
+                Constraints.ofUniqueItems(true)),
             defaultTestSettings().withEnableValidation(true),
             javaWriter());
 

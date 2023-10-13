@@ -1554,7 +1554,8 @@ public class UserDto {
 
     private boolean isNameValid() {
       if(name != null) {
-        return true;
+        return 10 <= name.length()
+            && name.length() <= 15;
       }
 
       return name != null;
@@ -1562,7 +1563,7 @@ public class UserDto {
 
     private boolean isLastNameValid() {
       if(lastName != null) {
-        return true;
+        return 10 <= lastName.length();
       }
 
       return lastName != null;
@@ -1570,7 +1571,7 @@ public class UserDto {
 
     private boolean isNickNameValid() {
       if(nickName != null) {
-        return true;
+        return nickName.length() <= 50;
       }
 
       return nickName != null;
@@ -2180,7 +2181,8 @@ public class UserDto {
 
     private boolean isNameValid() {
       if(name != null) {
-        return true;
+        return 10 <= name.length()
+            && name.length() <= 15;
       }
 
       return name != null;
@@ -2188,7 +2190,7 @@ public class UserDto {
 
     private boolean isLastNameValid() {
       if(lastName != null) {
-        return true;
+        return 10 <= lastName.length();
       }
 
       return lastName != null;
@@ -2196,7 +2198,7 @@ public class UserDto {
 
     private boolean isNickNameValid() {
       if(nickName != null) {
-        return true;
+        return nickName.length() <= 50;
       }
 
       return nickName != null;

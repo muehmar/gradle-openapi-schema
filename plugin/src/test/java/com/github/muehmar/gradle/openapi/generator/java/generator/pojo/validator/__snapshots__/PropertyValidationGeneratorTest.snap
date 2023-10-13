@@ -1,4 +1,18 @@
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.PropertyValidationGeneratorTest.generate_when_integerWithMinAndMax_then_metchSnapshot=[
+byteArraySize=[
+.
+.
+private boolean isStringValValid() {
+  if(stringVal != null) {
+    return 10 <= stringVal.length
+        && stringVal.length <= 50;
+  }
+
+  return stringVal != null;
+}
+]
+
+
+integerWithMinAndMax=[
 .
 .
 private boolean isIntValValid() {
@@ -8,5 +22,47 @@ private boolean isIntValValid() {
   }
 
   return intVal != null;
+}
+]
+
+
+listWithSize=[
+.
+.
+private boolean isListValValid() {
+  if(listVal != null) {
+    return 10 <= listVal.size()
+        && listVal.size() <= 50;
+  }
+
+  return listVal != null;
+}
+]
+
+
+mapWithSize=[
+.
+.
+private boolean isMapValValid() {
+  if(mapVal != null) {
+    return 10 <= mapVal.size()
+        && mapVal.size() <= 50;
+  }
+
+  return mapVal != null;
+}
+]
+
+
+stringWithSize=[
+.
+.
+private boolean isStringValValid() {
+  if(stringVal != null) {
+    return 10 <= stringVal.length()
+        && stringVal.length() <= 50;
+  }
+
+  return stringVal != null;
 }
 ]

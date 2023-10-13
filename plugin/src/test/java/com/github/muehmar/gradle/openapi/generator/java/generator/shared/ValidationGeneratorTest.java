@@ -134,7 +134,7 @@ class ValidationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForStringList_then_noValidAnnotation() {
     final JavaPojoMember member =
-        JavaPojoMembers.list(StringType.noFormat(), Constraints.empty(), OPTIONAL, NOT_NULLABLE);
+        JavaPojoMembers.list(StringType.noFormat(), OPTIONAL, NOT_NULLABLE, Constraints.empty());
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
@@ -149,9 +149,9 @@ class ValidationGeneratorTest {
     final JavaPojoMember member =
         JavaPojoMembers.list(
             ObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))),
-            Constraints.empty(),
             OPTIONAL,
-            NOT_NULLABLE);
+            NOT_NULLABLE,
+            Constraints.empty());
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
@@ -254,7 +254,7 @@ class ValidationGeneratorTest {
   void validationAnnotations_when_calledForOptionalStringListField_then_minAndMaxWithRefs() {
     final JavaPojoMember member =
         JavaPojoMembers.list(
-            StringType.noFormat(), Constraints.ofSize(Size.of(1, 50)), OPTIONAL, NOT_NULLABLE);
+            StringType.noFormat(), OPTIONAL, NOT_NULLABLE, Constraints.ofSize(Size.of(1, 50)));
     final Generator<JavaPojoMember, PojoSettings> generator =
         ValidationGenerator.validationAnnotationsForMember();
 
