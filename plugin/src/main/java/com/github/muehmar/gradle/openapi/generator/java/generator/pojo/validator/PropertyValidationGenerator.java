@@ -1,11 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
-import static java.lang.String.format;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
+import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
@@ -13,6 +14,8 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
+import io.github.muehmar.codegenerator.util.Strings;
+import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -52,22 +55,26 @@ public class PropertyValidationGenerator {
   private static Generator<JavaPojoMember, PojoSettings> conditionGenerator(
       Condition... conditions) {
     return (member, settings, writer) -> {
+      final PList<Writer> writers =
+          PList.fromArray(conditions).map(gen -> gen.generate(member, settings, javaWriter()));
       final NonEmptyList<String> formattedConditions =
-          NonEmptyList.fromIter(
-                  PList.fromArray(conditions).flatMapOptional(c -> c.format(member, settings)))
+          NonEmptyList.fromIter(writers.map(Writer::asString).filter(Strings::nonEmptyOrBlank))
               .orElse(NonEmptyList.single("true"));
 
       final String firstFormatted = formattedConditions.head();
       final PList<String> remainingFormatted = formattedConditions.tail();
 
+      final PList<String> refs = writers.flatMap(Writer::getRefs);
+
       if (remainingFormatted.isEmpty()) {
-        return writer.println("return %s;", firstFormatted);
+        return writer.println("return %s;", firstFormatted).refs(refs);
       } else {
         return remainingFormatted
             .foldLeft(
                 writer.print("return %s", firstFormatted),
                 (w, f) -> w.println().tab(2).print("&& %s", f))
-            .println(";");
+            .println(";")
+            .refs(refs);
       }
     };
   }
@@ -81,54 +88,55 @@ public class PropertyValidationGenerator {
   }
 
   private static Condition requiredNotNullCondition() {
-    return (member, settings) -> {
+    return (member, settings, writer) -> {
       if (member.isRequiredAndNotNullable()) {
-        return Optional.of(format("%s != null", member.getNameAsIdentifier()));
+        return writer.print("%s != null", member.getNameAsIdentifier());
       }
-      return Optional.empty();
+      return writer;
     };
   }
 
   private static Condition requiredNullableCondition() {
-    return (member, settings) -> {
+    return (member, settings, writer) -> {
       if (member.isRequiredAndNullable()) {
-        return Optional.of(
-            format(
-                "(%s != null || %s)", member.getNameAsIdentifier(), member.getIsPresentFlagName()));
+        return writer.print(
+            "(%s != null || %s)", member.getNameAsIdentifier(), member.getIsPresentFlagName());
       }
-      return Optional.empty();
+      return writer;
     };
   }
 
   private static Condition optionalNotNullableCondition() {
     // Implement with #142 when the flag is present
-    return (member, settings) -> Optional.empty();
+    return (member, settings, writer) -> writer;
   }
 
   private static Condition optionalNullableCondition() {
-    return (member, settings) -> Optional.empty();
+    return (member, settings, writer) -> writer;
   }
 
   private static Condition minCondition() {
-    return (member, settings) ->
+    return (member, settings, writer) ->
         member
             .getJavaType()
             .getConstraints()
             .getMin()
-            .map(min -> format("%d <= %s", min.getValue(), member.getNameAsIdentifier()));
+            .map(min -> writer.print("%d <= %s", min.getValue(), member.getNameAsIdentifier()))
+            .orElse(writer);
   }
 
   private static Condition maxCondition() {
-    return (member, settings) ->
+    return (member, settings, writer) ->
         member
             .getJavaType()
             .getConstraints()
             .getMax()
-            .map(max -> format("%s <= %d", member.getNameAsIdentifier(), max.getValue()));
+            .map(max -> writer.print("%s <= %d", member.getNameAsIdentifier(), max.getValue()))
+            .orElse(writer);
   }
 
   private static Condition minSizeCondition() {
-    return (member, settings) -> {
+    return (member, settings, writer) -> {
       final Optional<String> sizeAccessor = sizeAccessorForMember(member);
       return member
           .getJavaType()
@@ -139,12 +147,13 @@ public class PropertyValidationGenerator {
               min ->
                   sizeAccessor.map(
                       accessor ->
-                          format("%d <= %s.%s", min, member.getNameAsIdentifier(), accessor)));
+                          writer.print("%d <= %s.%s", min, member.getNameAsIdentifier(), accessor)))
+          .orElse(writer);
     };
   }
 
   private static Condition maxSizeCondition() {
-    return (member, settings) -> {
+    return (member, settings, writer) -> {
       final Optional<String> sizeAccessor = sizeAccessorForMember(member);
       return member
           .getJavaType()
@@ -155,52 +164,60 @@ public class PropertyValidationGenerator {
               max ->
                   sizeAccessor.map(
                       accessor ->
-                          format("%s.%s <= %d", member.getNameAsIdentifier(), accessor, max)));
+                          writer.print("%s.%s <= %d", member.getNameAsIdentifier(), accessor, max)))
+          .orElse(writer);
     };
   }
 
   private static Condition decimalMinCondition() {
-    return (member, settings) ->
+    return (member, settings, writer) ->
         member
             .getJavaType()
             .getConstraints()
             .getDecimalMin()
             .map(
                 decimalMin ->
-                    format(
-                        "0 <%s java.math.BigDecimal.valueOf(%s).compareTo(new java.math.BigDecimal(\"%s\"))",
-                        decimalMin.isInclusiveMin() ? "=" : "",
-                        member.getNameAsIdentifier(),
-                        decimalMin.getValue()));
+                    writer
+                        .print(
+                            "0 <%s BigDecimal.valueOf(%s).compareTo(new BigDecimal(\"%s\"))",
+                            decimalMin.isInclusiveMin() ? "=" : "",
+                            member.getNameAsIdentifier(),
+                            decimalMin.getValue())
+                        .ref(JavaRefs.JAVA_MATH_BIG_DECIMAL))
+            .orElse(writer);
   }
 
   private static Condition decimalMaxCondition() {
-    return (member, settings) ->
+    return (member, settings, writer) ->
         member
             .getJavaType()
             .getConstraints()
             .getDecimalMax()
             .map(
                 decimalMax ->
-                    format(
-                        "java.math.BigDecimal.valueOf(%s).compareTo(new java.math.BigDecimal(\"%s\") <%s 0)",
-                        member.getNameAsIdentifier(),
-                        decimalMax.getValue(),
-                        decimalMax.isInclusiveMax() ? "=" : ""));
+                    writer
+                        .print(
+                            "BigDecimal.valueOf(%s).compareTo(new BigDecimal(\"%s\") <%s 0)",
+                            member.getNameAsIdentifier(),
+                            decimalMax.getValue(),
+                            decimalMax.isInclusiveMax() ? "=" : "")
+                        .ref(JavaRefs.JAVA_MATH_BIG_DECIMAL))
+            .orElse(writer);
   }
 
   private static Condition patternCondition() {
-    return (member, settings) ->
+    return (member, settings, writer) ->
         member
             .getJavaType()
             .getConstraints()
             .getPattern()
             .map(
                 pattern ->
-                    format(
+                    writer.print(
                         "java.util.regex.Pattern.matches(\"%s\", %s)",
                         pattern.getPatternEscaped(JavaEscaper::escape),
-                        member.getNameAsIdentifier()));
+                        member.getNameAsIdentifier()))
+            .orElse(writer);
   }
 
   private static Optional<String> sizeAccessorForMember(JavaPojoMember member) {
@@ -216,7 +233,5 @@ public class PropertyValidationGenerator {
     return Optional.ofNullable(methodName.get(member.getJavaType().getQualifiedClassName()));
   }
 
-  private interface Condition {
-    Optional<String> format(JavaPojoMember member, PojoSettings settings);
-  }
+  private interface Condition extends Generator<JavaPojoMember, PojoSettings> {}
 }

@@ -1208,6 +1208,7 @@ public class ObjectPojo1Dto {
 enableValidation[jakarta-2]=[
 package com.github.muehmar;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -1587,8 +1588,8 @@ public class UserDto {
 
     private boolean isHeightValid() {
       if(height != null) {
-        return 0 <= java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("120.0"))
-            && java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("199") < 0);
+        return 0 <= BigDecimal.valueOf(height).compareTo(new BigDecimal("120.0"))
+            && BigDecimal.valueOf(height).compareTo(new BigDecimal("199") < 0);
       }
 
       return height != null;
@@ -1846,6 +1847,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -2215,8 +2217,8 @@ public class UserDto {
 
     private boolean isHeightValid() {
       if(height != null) {
-        return 0 <= java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("120.0"))
-            && java.math.BigDecimal.valueOf(height).compareTo(new java.math.BigDecimal("199") < 0);
+        return 0 <= BigDecimal.valueOf(height).compareTo(new BigDecimal("120.0"))
+            && BigDecimal.valueOf(height).compareTo(new BigDecimal("199") < 0);
       }
 
       return height != null;
