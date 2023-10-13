@@ -5,6 +5,7 @@ import static java.lang.String.format;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
@@ -37,7 +38,8 @@ public class PropertyValidationGenerator {
                 minSizeCondition(),
                 maxSizeCondition(),
                 decimalMinCondition(),
-                decimalMaxCondition()))
+                decimalMaxCondition(),
+                patternCondition()))
         .appendSingleBlankLine()
         .append(
             conditionGenerator(
@@ -185,6 +187,20 @@ public class PropertyValidationGenerator {
                         member.getNameAsIdentifier(),
                         decimalMax.getValue(),
                         decimalMax.isInclusiveMax() ? "=" : ""));
+  }
+
+  private static Condition patternCondition() {
+    return (member, settings) ->
+        member
+            .getJavaType()
+            .getConstraints()
+            .getPattern()
+            .map(
+                pattern ->
+                    format(
+                        "java.util.regex.Pattern.matches(\"%s\", %s)",
+                        pattern.getPatternEscaped(JavaEscaper::escape),
+                        member.getNameAsIdentifier()));
   }
 
   private static Optional<String> sizeAccessorForMember(JavaPojoMember member) {

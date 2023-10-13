@@ -154,4 +154,14 @@ class PropertyValidationGeneratorTest {
 
     expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("stringWithPattern")
+  void generate_when_stringWithPattern_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+
+    final Writer writer = generator.generate(requiredString(), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
 }

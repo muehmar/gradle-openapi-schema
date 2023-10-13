@@ -149,7 +149,7 @@ public class PersonDto {
   private class Validator {
     private boolean isRequiredStringValValid() {
       if(requiredStringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
       return requiredStringVal != null;
@@ -667,7 +667,7 @@ public class PersonDto {
   private class Validator {
     private boolean isRequiredStringValValid() {
       if(requiredStringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
       return requiredStringVal != null;
@@ -1604,7 +1604,7 @@ public class UserDto {
 
     private boolean isUppercaseValid() {
       if(uppercase != null) {
-        return true;
+        return java.util.regex.Pattern.matches("^(\\d[A-Z]*)", uppercase);
       }
 
       return true;
@@ -2232,7 +2232,7 @@ public class UserDto {
 
     private boolean isUppercaseValid() {
       if(uppercase != null) {
-        return true;
+        return java.util.regex.Pattern.matches("^(\\d[A-Z]*)", uppercase);
       }
 
       return true;
@@ -4222,7 +4222,7 @@ public class NecessityAndNullabilityDto {
   private class Validator {
     private boolean isRequiredStringValValid() {
       if(requiredStringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
       return requiredStringVal != null;
@@ -4230,7 +4230,7 @@ public class NecessityAndNullabilityDto {
 
     private boolean isRequiredNullableStringValValid() {
       if(requiredNullableStringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", requiredNullableStringVal);
       }
 
       return (requiredNullableStringVal != null || isRequiredNullableStringValPresent);
@@ -4238,7 +4238,7 @@ public class NecessityAndNullabilityDto {
 
     private boolean isOptionalStringValValid() {
       if(optionalStringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", optionalStringVal);
       }
 
       return true;
@@ -4246,7 +4246,7 @@ public class NecessityAndNullabilityDto {
 
     private boolean isOptionalNullableStringValValid() {
       if(optionalNullableStringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", optionalNullableStringVal);
       }
 
       return true;
@@ -6194,7 +6194,7 @@ public class PersonDto {
   private class Validator {
     private boolean isRequiredStringValValid() {
       if(requiredStringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
       return requiredStringVal != null;

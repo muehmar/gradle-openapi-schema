@@ -82,6 +82,19 @@ private boolean isMapValValid() {
 ]
 
 
+stringWithPattern=[
+.
+.
+private boolean isStringValValid() {
+  if(stringVal != null) {
+    return java.util.regex.Pattern.matches("Hello", stringVal);
+  }
+
+  return stringVal != null;
+}
+]
+
+
 stringWithSize=[
 .
 .

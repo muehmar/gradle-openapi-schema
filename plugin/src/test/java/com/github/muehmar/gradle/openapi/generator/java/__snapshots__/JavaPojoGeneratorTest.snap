@@ -252,7 +252,7 @@ public class SampleObjectPojo1Dto {
   private class Validator {
     private boolean isStringValValid() {
       if(stringVal != null) {
-        return true;
+        return java.util.regex.Pattern.matches("Hello", stringVal);
       }
 
       return stringVal != null;
