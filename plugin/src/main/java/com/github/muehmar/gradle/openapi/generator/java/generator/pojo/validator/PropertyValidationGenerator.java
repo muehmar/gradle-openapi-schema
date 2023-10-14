@@ -7,9 +7,15 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.model.Necessity;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -18,6 +24,7 @@ import io.github.muehmar.codegenerator.util.Strings;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.HashMap;
 import java.util.Optional;
+import lombok.Value;
 
 public class PropertyValidationGenerator {
   private PropertyValidationGenerator() {}
@@ -49,14 +56,16 @@ public class PropertyValidationGenerator {
                 requiredNotNullCondition(),
                 requiredNullableCondition(),
                 optionalNotNullableCondition(),
-                optionalNullableCondition()));
+                optionalNullableCondition()))
+        .contraMap(PropertyValue::fromJavaMember);
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> conditionGenerator(
+  private static Generator<PropertyValue, PojoSettings> conditionGenerator(
       Condition... conditions) {
-    return (member, settings, writer) -> {
+    return (propertyValue, settings, writer) -> {
       final PList<Writer> writers =
-          PList.fromArray(conditions).map(gen -> gen.generate(member, settings, javaWriter()));
+          PList.fromArray(conditions)
+              .map(gen -> gen.generate(propertyValue, settings, javaWriter()));
       final NonEmptyList<String> formattedConditions =
           NonEmptyList.fromIter(writers.map(Writer::asString).filter(Strings::nonEmptyOrBlank))
               .orElse(NonEmptyList.single("true"));
@@ -79,28 +88,30 @@ public class PropertyValidationGenerator {
     };
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> wrapNotNullsafeGenerator(
-      Generator<JavaPojoMember, PojoSettings> conditions) {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((m, s, w) -> w.println("if(%s != null) {", m.getNameAsIdentifier()))
+  private static Generator<PropertyValue, PojoSettings> wrapNotNullsafeGenerator(
+      Generator<PropertyValue, PojoSettings> conditions) {
+    return Generator.<PropertyValue, PojoSettings>emptyGen()
+        .append((pv, s, w) -> w.println("if(%s != null) {", pv.getNameAsIdentifier()))
         .append(conditions, 1)
         .append(Generator.constant("}"));
   }
 
   private static Condition requiredNotNullCondition() {
-    return (member, settings, writer) -> {
-      if (member.isRequiredAndNotNullable()) {
-        return writer.print("%s != null", member.getNameAsIdentifier());
+    return (propertyValue, settings, writer) -> {
+      if (propertyValue.isRequiredAndNotNullable()) {
+        return writer.print("%s != null", propertyValue.getNameAsIdentifier());
       }
       return writer;
     };
   }
 
   private static Condition requiredNullableCondition() {
-    return (member, settings, writer) -> {
-      if (member.isRequiredAndNullable()) {
+    return (propertyValue, settings, writer) -> {
+      if (propertyValue.isRequiredAndNullable()) {
         return writer.print(
-            "(%s != null || %s)", member.getNameAsIdentifier(), member.getIsPresentFlagName());
+            "(%s != null || %s)",
+            propertyValue.getNameAsIdentifier(),
+            IsPresentFlagName.fromJavaMemberName(propertyValue.getName()).getName());
       }
       return writer;
     };
@@ -116,30 +127,34 @@ public class PropertyValidationGenerator {
   }
 
   private static Condition minCondition() {
-    return (member, settings, writer) ->
-        member
-            .getJavaType()
+    return (propertyValue, settings, writer) ->
+        propertyValue
+            .getType()
             .getConstraints()
             .getMin()
-            .map(min -> writer.print("%d <= %s", min.getValue(), member.getNameAsIdentifier()))
+            .map(
+                min ->
+                    writer.print("%d <= %s", min.getValue(), propertyValue.getNameAsIdentifier()))
             .orElse(writer);
   }
 
   private static Condition maxCondition() {
-    return (member, settings, writer) ->
-        member
-            .getJavaType()
+    return (propertyValue, settings, writer) ->
+        propertyValue
+            .getType()
             .getConstraints()
             .getMax()
-            .map(max -> writer.print("%s <= %d", member.getNameAsIdentifier(), max.getValue()))
+            .map(
+                max ->
+                    writer.print("%s <= %d", propertyValue.getNameAsIdentifier(), max.getValue()))
             .orElse(writer);
   }
 
   private static Condition minSizeCondition() {
-    return (member, settings, writer) -> {
-      final Optional<String> sizeAccessor = sizeAccessorForMember(member);
-      return member
-          .getJavaType()
+    return (propertyValue, settings, writer) -> {
+      final Optional<String> sizeAccessor = sizeAccessorForProperty(propertyValue);
+      return propertyValue
+          .getType()
           .getConstraints()
           .getSize()
           .flatMap(Size::getMin)
@@ -147,16 +162,17 @@ public class PropertyValidationGenerator {
               min ->
                   sizeAccessor.map(
                       accessor ->
-                          writer.print("%d <= %s.%s", min, member.getNameAsIdentifier(), accessor)))
+                          writer.print(
+                              "%d <= %s.%s", min, propertyValue.getNameAsIdentifier(), accessor)))
           .orElse(writer);
     };
   }
 
   private static Condition maxSizeCondition() {
-    return (member, settings, writer) -> {
-      final Optional<String> sizeAccessor = sizeAccessorForMember(member);
-      return member
-          .getJavaType()
+    return (propertyValue, settings, writer) -> {
+      final Optional<String> sizeAccessor = sizeAccessorForProperty(propertyValue);
+      return propertyValue
+          .getType()
           .getConstraints()
           .getSize()
           .flatMap(Size::getMax)
@@ -164,15 +180,16 @@ public class PropertyValidationGenerator {
               max ->
                   sizeAccessor.map(
                       accessor ->
-                          writer.print("%s.%s <= %d", member.getNameAsIdentifier(), accessor, max)))
+                          writer.print(
+                              "%s.%s <= %d", propertyValue.getNameAsIdentifier(), accessor, max)))
           .orElse(writer);
     };
   }
 
   private static Condition decimalMinCondition() {
-    return (member, settings, writer) ->
-        member
-            .getJavaType()
+    return (propertyValue, settings, writer) ->
+        propertyValue
+            .getType()
             .getConstraints()
             .getDecimalMin()
             .map(
@@ -181,16 +198,16 @@ public class PropertyValidationGenerator {
                         .print(
                             "0 <%s BigDecimal.valueOf(%s).compareTo(new BigDecimal(\"%s\"))",
                             decimalMin.isInclusiveMin() ? "=" : "",
-                            member.getNameAsIdentifier(),
+                            propertyValue.getNameAsIdentifier(),
                             decimalMin.getValue())
                         .ref(JavaRefs.JAVA_MATH_BIG_DECIMAL))
             .orElse(writer);
   }
 
   private static Condition decimalMaxCondition() {
-    return (member, settings, writer) ->
-        member
-            .getJavaType()
+    return (propertyValue, settings, writer) ->
+        propertyValue
+            .getType()
             .getConstraints()
             .getDecimalMax()
             .map(
@@ -198,7 +215,7 @@ public class PropertyValidationGenerator {
                     writer
                         .print(
                             "BigDecimal.valueOf(%s).compareTo(new BigDecimal(\"%s\") <%s 0)",
-                            member.getNameAsIdentifier(),
+                            propertyValue.getNameAsIdentifier(),
                             decimalMax.getValue(),
                             decimalMax.isInclusiveMax() ? "=" : "")
                         .ref(JavaRefs.JAVA_MATH_BIG_DECIMAL))
@@ -206,9 +223,9 @@ public class PropertyValidationGenerator {
   }
 
   private static Condition patternCondition() {
-    return (member, settings, writer) ->
-        member
-            .getJavaType()
+    return (propertyValue, settings, writer) ->
+        propertyValue
+            .getType()
             .getConstraints()
             .getPattern()
             .map(
@@ -216,12 +233,12 @@ public class PropertyValidationGenerator {
                     writer.print(
                         "java.util.regex.Pattern.matches(\"%s\", %s)",
                         pattern.getPatternEscaped(JavaEscaper::escape),
-                        member.getNameAsIdentifier()))
+                        propertyValue.getNameAsIdentifier()))
             .orElse(writer);
   }
 
-  private static Optional<String> sizeAccessorForMember(JavaPojoMember member) {
-    if (member.getJavaType().isJavaArray()) {
+  private static Optional<String> sizeAccessorForProperty(PropertyValue propertyValue) {
+    if (propertyValue.getType().isJavaArray()) {
       return Optional.of("length");
     }
 
@@ -230,8 +247,57 @@ public class PropertyValidationGenerator {
     methodName.put(QualifiedClassNames.MAP, "size()");
     methodName.put(QualifiedClassNames.STRING, "length()");
 
-    return Optional.ofNullable(methodName.get(member.getJavaType().getQualifiedClassName()));
+    return Optional.ofNullable(methodName.get(propertyValue.getType().getQualifiedClassName()));
   }
 
-  private interface Condition extends Generator<JavaPojoMember, PojoSettings> {}
+  private interface Condition extends Generator<PropertyValue, PojoSettings> {}
+
+  @Value
+  private static class PropertyValue {
+    JavaMemberName name;
+    JavaType type;
+    Nullability nullability;
+    Necessity necessity;
+
+    public static PropertyValue fromJavaMember(JavaPojoMember member) {
+      return new PropertyValue(
+          member.getName(), member.getJavaType(), member.getNullability(), member.getNecessity());
+    }
+
+    private JavaIdentifier getNameAsIdentifier() {
+      return name.asIdentifier();
+    }
+
+    private boolean isRequired() {
+      return necessity.isRequired();
+    }
+
+    private boolean isOptional() {
+      return necessity.isOptional();
+    }
+
+    private boolean isNullable() {
+      return nullability.isNullable();
+    }
+
+    private boolean isNotNullable() {
+      return nullability.isNotNullable();
+    }
+
+    public boolean isRequiredAndNullable() {
+      return isRequired() && isNullable();
+    }
+
+    public boolean isRequiredAndNotNullable() {
+      return isRequired() && isNotNullable();
+    }
+
+    public boolean isOptionalAndNullable() {
+      return isOptional() && isNullable();
+    }
+
+    public boolean isOptionalAndNotNullable() {
+      return isOptional() && isNotNullable();
+    }
+  }
 }

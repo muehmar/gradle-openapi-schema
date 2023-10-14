@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator.EnumContent;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -180,11 +182,11 @@ public class JavaPojoMember {
   }
 
   public JavaIdentifier getIsPresentFlagName() {
-    return name.asJavaName().startUpperCase().prefix("is").append("Present").asIdentifier();
+    return IsPresentFlagName.fromJavaMemberName(name).getName();
   }
 
   public JavaIdentifier getIsNullFlagName() {
-    return name.asJavaName().startUpperCase().prefix("is").append("Null").asIdentifier();
+    return IsNullFlagName.fromJavaMemberName(name).getName();
   }
 
   public JavaIdentifier getGetterName() {
