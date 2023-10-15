@@ -6,7 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value
-public class IsPropertyValidMethodName {
+class IsPropertyValidMethodName {
   JavaIdentifier name;
 
   public static IsPropertyValidMethodName fromMember(JavaPojoMember member) {

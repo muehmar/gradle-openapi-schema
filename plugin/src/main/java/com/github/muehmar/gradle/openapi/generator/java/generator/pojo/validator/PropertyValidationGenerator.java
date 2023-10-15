@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validato
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
-import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
@@ -21,13 +20,12 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.java.MethodGen;
-import io.github.muehmar.codegenerator.util.Strings;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.HashMap;
 import java.util.Optional;
 import lombok.Value;
 
-public class PropertyValidationGenerator {
+class PropertyValidationGenerator {
   private PropertyValidationGenerator() {}
 
   public static Generator<JavaPojoMember, PojoSettings> propertyValidationGenerator() {
@@ -91,28 +89,12 @@ public class PropertyValidationGenerator {
   private static Generator<PropertyValue, PojoSettings> conditionGenerator(
       Condition... conditions) {
     return (propertyValue, settings, writer) -> {
-      final PList<Writer> writers =
+      final PList<Writer> conditionWriters =
           PList.fromArray(conditions)
               .map(gen -> gen.generate(propertyValue, settings, javaWriter()));
-      final NonEmptyList<String> formattedConditions =
-          NonEmptyList.fromIter(writers.map(Writer::asString).filter(Strings::nonEmptyOrBlank))
-              .orElse(NonEmptyList.single("true"));
-
-      final String firstFormatted = formattedConditions.head();
-      final PList<String> remainingFormatted = formattedConditions.tail();
-
-      final PList<String> refs = writers.flatMap(Writer::getRefs);
-
-      if (remainingFormatted.isEmpty()) {
-        return writer.println("return %s;", firstFormatted).refs(refs);
-      } else {
-        return remainingFormatted
-            .foldLeft(
-                writer.print("return %s", firstFormatted),
-                (w, f) -> w.println().tab(2).print("&& %s", f))
-            .println(";")
-            .refs(refs);
-      }
+      final ReturningAndConditions returningAndConditions =
+          ReturningAndConditions.forConditions(conditionWriters);
+      return writer.append(returningAndConditions.getWriter());
     };
   }
 

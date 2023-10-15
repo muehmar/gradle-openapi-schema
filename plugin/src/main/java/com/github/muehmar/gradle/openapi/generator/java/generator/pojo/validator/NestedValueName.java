@@ -4,7 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import lombok.Value;
 
 @Value
-public class NestedValueName {
+class NestedValueName {
   JavaMemberName name;
 
   public static NestedValueName fromMemberName(JavaMemberName name) {

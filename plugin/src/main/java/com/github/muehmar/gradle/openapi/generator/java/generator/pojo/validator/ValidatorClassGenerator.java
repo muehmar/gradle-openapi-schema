@@ -5,13 +5,11 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
-import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
-import io.github.muehmar.codegenerator.util.Strings;
 import io.github.muehmar.codegenerator.writer.Writer;
 
 public class ValidatorClassGenerator {
@@ -55,28 +53,11 @@ public class ValidatorClassGenerator {
     return (pojo, settings, writer) -> {
       final PList<Condition> allConditions =
           createPropertyValidationConditions(pojo).concat(dtoConditions);
-
-      final PList<Writer> writers =
+      final PList<Writer> conditionWriters =
           allConditions.map(gen -> gen.generate(pojo, settings, javaWriter()));
-      final NonEmptyList<String> formattedConditions =
-          NonEmptyList.fromIter(writers.map(Writer::asString).filter(Strings::nonEmptyOrBlank))
-              .orElse(NonEmptyList.single("true"));
-
-      final String firstFormatted = formattedConditions.head();
-      final PList<String> remainingFormatted = formattedConditions.tail();
-
-      final PList<String> refs = writers.flatMap(Writer::getRefs);
-
-      if (remainingFormatted.isEmpty()) {
-        return writer.println("return %s;", firstFormatted).refs(refs);
-      } else {
-        return remainingFormatted
-            .foldLeft(
-                writer.print("return %s", firstFormatted),
-                (w, f) -> w.println().tab(2).print("&& %s", f))
-            .println(";")
-            .refs(refs);
-      }
+      final ReturningAndConditions returningAndConditions =
+          ReturningAndConditions.forConditions(conditionWriters);
+      return writer.append(returningAndConditions.getWriter());
     };
   }
 
