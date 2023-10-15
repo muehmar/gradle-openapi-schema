@@ -73,20 +73,30 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
   private Generator<JavaObjectPojo, PojoSettings> content() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(memberGenerator(), JavaObjectPojo::getMemberContent)
-        .<JavaObjectPojo>contraMap(pojo -> pojo)
         .appendSingleBlankLine()
         .append(pojoConstructorGenerator(), JavaObjectPojo::getConstructorContent)
         .appendSingleBlankLine()
-        .appendList(
-            EnumGenerator.nested(),
-            pojo -> pojo.getMembers().flatMapOptional(JavaPojoMember::asEnumContent),
-            newLine())
+        .append(innerEnums())
         .appendSingleBlankLine()
         .append(mapFactoryMethodeGenerator())
         .appendSingleBlankLine()
-        .appendOptional(
-            EnumGenerator.nested(), pojo -> pojo.getAdditionalProperties().asEnumContent())
+        .append(getters())
         .appendSingleBlankLine()
+        .append(witherGenerator(), JavaObjectPojo::getWitherContent)
+        .appendSingleBlankLine()
+        .append(foldMethodGenerator())
+        .appendSingleBlankLine()
+        .append(conversionMethodGenerator())
+        .appendSingleBlankLine()
+        .append(customValidationMethods())
+        .appendSingleBlankLine()
+        .append(equalsHashCodeToString())
+        .appendSingleBlankLine()
+        .append(builders());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> getters() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(getterGenerator(), JavaObjectPojo::getAllMembers, newLine())
         .appendSingleBlankLine()
         .append(composedDtoGetterGenerator())
@@ -95,16 +105,24 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .append(additionalPropertiesGetterGenerator())
         .appendSingleBlankLine()
-        .append(witherGenerator(), JavaObjectPojo::getWitherContent)
-        .appendSingleBlankLine()
-        .append(pojoPropertyCountMethoGenerator())
-        .appendSingleBlankLine()
-        .append(foldMethodGenerator())
-        .appendSingleBlankLine()
         .append(compositionGetterGenerator())
         .appendSingleBlankLine()
-        .append(conversionMethodGenerator())
+        .append(pojoPropertyCountMethoGenerator());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> innerEnums() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendList(
+            EnumGenerator.nested(),
+            pojo -> pojo.getMembers().flatMapOptional(JavaPojoMember::asEnumContent),
+            newLine())
         .appendSingleBlankLine()
+        .appendOptional(
+            EnumGenerator.nested(), pojo -> pojo.getAdditionalProperties().asEnumContent());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> customValidationMethods() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(invalidCompositionDtoGetterGenerator())
         .appendSingleBlankLine()
         .append(validationMethodGenerator())
@@ -123,13 +141,6 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .append(validationClassGenerator())
         .appendSingleBlankLine()
-        .appendSingleBlankLine()
-        .append(equalsMethod(), JavaObjectPojo::getEqualsContent)
-        .appendSingleBlankLine()
-        .append(hashCodeMethod(), JavaObjectPojo::getHashCodeContent)
-        .appendSingleBlankLine()
-        .append(toStringMethod(), JavaObjectPojo::getToStringContent)
-        .appendSingleBlankLine()
         .append(multipleOfValidationMethodGenerator())
         .appendSingleBlankLine()
         .append(
@@ -140,7 +151,20 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .appendSingleBlankLine()
         .appendList(
             uniqueItemsValidationMethodGenerator().appendSingleBlankLine(),
-            JavaObjectPojo::getMembers)
+            JavaObjectPojo::getMembers);
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> equalsHashCodeToString() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(equalsMethod(), JavaObjectPojo::getEqualsContent)
+        .appendSingleBlankLine()
+        .append(hashCodeMethod(), JavaObjectPojo::getHashCodeContent)
+        .appendSingleBlankLine()
+        .append(toStringMethod(), JavaObjectPojo::getToStringContent);
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> builders() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(normalBuilderGenerator())
         .appendSingleBlankLine()
         .append(new SafeBuilderGenerator(SafeBuilderVariant.FULL))

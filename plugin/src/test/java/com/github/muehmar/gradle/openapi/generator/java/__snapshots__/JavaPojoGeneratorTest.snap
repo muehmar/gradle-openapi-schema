@@ -204,6 +204,18 @@ public class SampleObjectPojo1Dto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (stringVal != null ? 1 : 0) +
+      (intVal != null ? 1 : 0) +
+      (doubleVal != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * stringVal
    */
   public SampleObjectPojo1Dto withStringVal(String stringVal) {
@@ -222,18 +234,6 @@ public class SampleObjectPojo1Dto {
    */
   public SampleObjectPojo1Dto withDoubleVal(Double doubleVal) {
     return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (stringVal != null ? 1 : 0) +
-      (intVal != null ? 1 : 0) +
-      (doubleVal != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {

@@ -88,13 +88,6 @@ public class PersonDto {
   }
 
   /**
-   * RequiredStringVal
-   */
-  public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
-  }
-
-  /**
    * Returns the number of present properties of this object.
    */
   @JsonIgnore
@@ -104,6 +97,13 @@ public class PersonDto {
       (birthdate != null ? 1 : 0) +
       (username != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   private AdminDto asAdminDto() {
@@ -521,10 +521,21 @@ public class PersonDto {
   }
 
   /**
-   * RequiredStringVal
+   * Returns {@link AdminDto} of the anyOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
-  public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+  @JsonIgnore
+  public Optional<AdminDto> getAdminDto() {
+    return this.<Optional<AdminDto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
+  }
+
+  /**
+   * Returns {@link UserDto} of the anyOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  @JsonIgnore
+  public Optional<UserDto> getUserDto() {
+    return this.<Optional<UserDto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
   }
 
   /**
@@ -537,6 +548,13 @@ public class PersonDto {
       (birthdate != null ? 1 : 0) +
       (username != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   /**
@@ -564,24 +582,6 @@ public class PersonDto {
       result.add(onUserDto.apply(asUserDto()));
     }
     return result;
-  }
-
-  /**
-   * Returns {@link AdminDto} of the anyOf composition in case it is valid against
-   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<AdminDto> getAdminDto() {
-    return this.<Optional<AdminDto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
-  }
-
-  /**
-   * Returns {@link UserDto} of the anyOf composition in case it is valid against the
-   * schema User wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<UserDto> getUserDto() {
-    return this.<Optional<UserDto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
   }
 
   private AdminDto asAdminDto() {
@@ -1410,6 +1410,26 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(15)
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (lastName != null ? 1 : 0) +
+      (nickName != null ? 1 : 0) +
+      (email != null ? 1 : 0) +
+      (height != null ? 1 : 0) +
+      (level != null ? 1 : 0) +
+      (uppercase != null ? 1 : 0) +
+      (multipleOfValue != null ? 1 : 0) +
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -1505,26 +1525,6 @@ public class UserDto {
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
     return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @Min(5)
-  @Max(15)
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (lastName != null ? 1 : 0) +
-      (nickName != null ? 1 : 0) +
-      (email != null ? 1 : 0) +
-      (height != null ? 1 : 0) +
-      (level != null ? 1 : 0) +
-      (uppercase != null ? 1 : 0) +
-      (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -1628,6 +1628,11 @@ public class UserDto {
     }
   }
 
+  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
+  private boolean isMultipleOfValueMultipleOfValid() {
+    return multipleOfValue == null || multipleOfValue % 5L == 0;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -1678,11 +1683,6 @@ public class UserDto {
       "anotherPojo=" + anotherPojo + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
-  private boolean isMultipleOfValueMultipleOfValid() {
-    return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
 
   public static Builder newBuilder() {
@@ -2039,6 +2039,26 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(15)
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (lastName != null ? 1 : 0) +
+      (nickName != null ? 1 : 0) +
+      (email != null ? 1 : 0) +
+      (height != null ? 1 : 0) +
+      (level != null ? 1 : 0) +
+      (uppercase != null ? 1 : 0) +
+      (multipleOfValue != null ? 1 : 0) +
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -2134,26 +2154,6 @@ public class UserDto {
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
     return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @Min(5)
-  @Max(15)
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (lastName != null ? 1 : 0) +
-      (nickName != null ? 1 : 0) +
-      (email != null ? 1 : 0) +
-      (height != null ? 1 : 0) +
-      (level != null ? 1 : 0) +
-      (uppercase != null ? 1 : 0) +
-      (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -2257,6 +2257,11 @@ public class UserDto {
     }
   }
 
+  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
+  private boolean isMultipleOfValueMultipleOfValid() {
+    return multipleOfValue == null || multipleOfValue % 5L == 0;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -2307,11 +2312,6 @@ public class UserDto {
       "anotherPojo=" + anotherPojo + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
-  private boolean isMultipleOfValueMultipleOfValid() {
-    return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
 
   public static Builder newBuilder() {
@@ -2578,6 +2578,17 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -2603,17 +2614,6 @@ public class UserDto {
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -2961,10 +2961,6 @@ public class ObjectPojo1Dto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
-  public static ObjectPojo1Dto fromProperties(Map<String, ColorEnum> properties) {
-    return new ObjectPojo1Dto(new HashMap<>(properties));
-  }
-
   /**
    * Additional property enum
    */
@@ -3007,6 +3003,10 @@ public class ObjectPojo1Dto {
           + possibleValues
           + "]");
     }
+  }
+
+  public static ObjectPojo1Dto fromProperties(Map<String, ColorEnum> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
   @JsonAnyGetter
@@ -3057,6 +3057,12 @@ public class ObjectPojo1Dto {
   private class Validator {
   }
 
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -3077,12 +3083,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @JsonIgnore
-  @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -3270,6 +3270,12 @@ public class ObjectPojo1Dto {
   private class Validator {
   }
 
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of Integer")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -3290,12 +3296,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @JsonIgnore
-  @AssertTrue(message = "Not all additional properties are instances of Integer")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -3542,6 +3542,18 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -3567,18 +3579,6 @@ public class UserDto {
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -3833,6 +3833,17 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -3858,17 +3869,6 @@ public class UserDto {
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -4147,6 +4147,19 @@ public class NecessityAndNullabilityDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (requiredStringVal != null ? 1 : 0) +
+      (isRequiredNullableStringValPresent ? 1 : 0) +
+      (optionalStringVal != null ? 1 : 0) +
+      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
@@ -4193,19 +4206,6 @@ public class NecessityAndNullabilityDto {
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (requiredStringVal != null ? 1 : 0) +
-      (isRequiredNullableStringValPresent ? 1 : 0) +
-      (optionalStringVal != null ? 1 : 0) +
-      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -4680,6 +4680,11 @@ public class ObjectPojo1Dto {
   private class Validator {
   }
 
+  @AssertTrue(message = "No additional properties allowed")
+  private boolean hasNoAdditionalProperties() {
+    return additionalProperties.size() == 0;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -4700,11 +4705,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "No additional properties allowed")
-  private boolean hasNoAdditionalProperties() {
-    return additionalProperties.size() == 0;
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -4867,6 +4867,12 @@ public class ObjectPojo1Dto {
   private class Validator {
   }
 
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -4887,12 +4893,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @JsonIgnore
-  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -5279,6 +5279,11 @@ public class ObjectPojo1Dto {
   private class Validator {
   }
 
+  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -5299,11 +5304,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   public static final class Builder {
@@ -5466,13 +5466,6 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * List
-   */
-  public ObjectPojo1Dto withListVal(List<String> listVal) {
-    return new ObjectPojo1Dto(listVal, additionalProperties);
-  }
-
-  /**
    * Returns the number of present properties of this object.
    */
   @JsonIgnore
@@ -5480,6 +5473,13 @@ public class ObjectPojo1Dto {
     return
       (listVal != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * List
+   */
+  public ObjectPojo1Dto withListVal(List<String> listVal) {
+    return new ObjectPojo1Dto(listVal, additionalProperties);
   }
 
   boolean validateBasic() {
@@ -5512,6 +5512,11 @@ public class ObjectPojo1Dto {
     }
   }
 
+  @AssertTrue(message = "listVal does not contain unique items")
+  private boolean hasListValUniqueItems() {
+    return new HashSet<>(listVal).size() == listVal.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -5535,11 +5540,6 @@ public class ObjectPojo1Dto {
       "listVal=" + listVal + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "listVal does not contain unique items")
-  private boolean hasListValUniqueItems() {
-    return new HashSet<>(listVal).size() == listVal.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -5741,13 +5741,6 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Map
-   */
-  public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
-    return new ObjectPojo1Dto(mapVal, additionalProperties);
-  }
-
-  /**
    * Returns the number of present properties of this object.
    */
   @JsonIgnore
@@ -5755,6 +5748,13 @@ public class ObjectPojo1Dto {
     return
       (mapVal != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * Map
+   */
+  public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
+    return new ObjectPojo1Dto(mapVal, additionalProperties);
   }
 
   boolean validateBasic() {
@@ -6039,10 +6039,21 @@ public class PersonDto {
   }
 
   /**
-   * RequiredStringVal
+   * Returns {@link AdminDto} of the oneOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
-  public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+  @JsonIgnore
+  public Optional<AdminDto> getAdminDto() {
+    return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+  }
+
+  /**
+   * Returns {@link UserDto} of the oneOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  @JsonIgnore
+  public Optional<UserDto> getUserDto() {
+    return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
   }
 
   /**
@@ -6055,6 +6066,13 @@ public class PersonDto {
       (birthdate != null ? 1 : 0) +
       (username != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   /**
@@ -6103,24 +6121,6 @@ public class PersonDto {
       onUserDto,
       () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto].");}
     );
-  }
-
-  /**
-   * Returns {@link AdminDto} of the oneOf composition in case it is valid against
-   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<AdminDto> getAdminDto() {
-    return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
-  }
-
-  /**
-   * Returns {@link UserDto} of the oneOf composition in case it is valid against the
-   * schema User wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<UserDto> getUserDto() {
-    return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
   }
 
   private AdminDto asAdminDto() {
@@ -6589,6 +6589,15 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * Preferred language of this user<br>
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
@@ -6604,15 +6613,6 @@ public class UserDto {
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
     return new UserDto(language.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  public int getPropertyCount() {
-    return
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -6835,6 +6835,16 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * Preferred language of this user<br>
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
@@ -6850,16 +6860,6 @@ public class UserDto {
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
     return new UserDto(language.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
@@ -7061,6 +7061,17 @@ public class ObjectPojo1Dto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (email != null ? 1 : 0) +
+      (birthdate != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * email
    */
   public ObjectPojo1Dto withEmail(String email) {
@@ -7079,17 +7090,6 @@ public class ObjectPojo1Dto {
    */
   public ObjectPojo1Dto withBirthdate(Optional<LocalDate> birthdate) {
     return new ObjectPojo1Dto(email, birthdate.orElse(null), additionalProperties);
-  }
-
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (email != null ? 1 : 0) +
-      (birthdate != null ? 1 : 0) +
-      additionalProperties.size();
   }
 
   boolean validateBasic() {
