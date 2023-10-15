@@ -25,5 +25,11 @@ private class Validator {
 
     return email != null;
   }
+
+  private boolean isValid() {
+    return isStringValValid()
+        && isBirthdateValid()
+        && isEmailValid();
+  }
 }
 ]

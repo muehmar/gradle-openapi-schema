@@ -276,6 +276,12 @@ public class SampleObjectPojo1Dto {
 
       return doubleVal != null;
     }
+
+    private boolean isValid() {
+      return isStringValValid()
+          && isIntValValid()
+          && isDoubleValValid();
+    }
   }
 
   @Override
