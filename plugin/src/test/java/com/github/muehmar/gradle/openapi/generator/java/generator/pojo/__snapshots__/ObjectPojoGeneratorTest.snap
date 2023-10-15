@@ -1621,7 +1621,7 @@ public class UserDto {
 
     private boolean isAnotherPojoValid() {
       if(anotherPojo != null) {
-        return true;
+        return anotherPojo.isValid();
       }
 
       return true;
@@ -2250,7 +2250,7 @@ public class UserDto {
 
     private boolean isAnotherPojoValid() {
       if(anotherPojo != null) {
-        return true;
+        return anotherPojo.isValid();
       }
 
       return true;
@@ -5497,10 +5497,18 @@ public class ObjectPojo1Dto {
   private class Validator {
     private boolean isListValValid() {
       if(listVal != null) {
-        return true;
+        return listVal.stream().allMatch(this::isListValValueValid);
       }
 
       return listVal != null;
+    }
+
+    private boolean isListValValueValid(String listValValue) {
+      if(listValValue != null) {
+        return true;
+      }
+
+      return listValValue != null;
     }
   }
 
@@ -5764,10 +5772,18 @@ public class ObjectPojo1Dto {
   private class Validator {
     private boolean isMapValValid() {
       if(mapVal != null) {
-        return true;
+        return mapVal.values().stream().allMatch(this::isMapValValueValid);
       }
 
       return mapVal != null;
+    }
+
+    private boolean isMapValValueValid(UUID mapValValue) {
+      if(mapValValue != null) {
+        return true;
+      }
+
+      return mapValValue != null;
     }
   }
 

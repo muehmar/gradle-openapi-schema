@@ -60,10 +60,51 @@ listWithSize=[
 private boolean isListValValid() {
   if(listVal != null) {
     return 10 <= listVal.size()
-        && listVal.size() <= 50;
+        && listVal.size() <= 50
+        && listVal.stream().allMatch(this::isListValValueValid);
   }
 
   return listVal != null;
+}
+
+private boolean isListValValueValid(String listValValue) {
+  if(listValValue != null) {
+    return true;
+  }
+
+  return listValValue != null;
+}
+]
+
+
+mapWithListValueType=[
+.
+.
+private boolean isMapValValid() {
+  if(mapVal != null) {
+    return 10 <= mapVal.size()
+        && mapVal.size() <= 50
+        && mapVal.values().stream().allMatch(this::isMapValValueValid);
+  }
+
+  return mapVal != null;
+}
+
+private boolean isMapValValueValid(List<String> mapValValue) {
+  if(mapValValue != null) {
+    return 8 <= mapValValue.size()
+        && mapValValue.stream().allMatch(this::isMapValValueValueValid);
+  }
+
+  return mapValValue != null;
+}
+
+private boolean isMapValValueValueValid(String mapValValueValue) {
+  if(mapValValueValue != null) {
+    return mapValValueValue.length() <= 50;
+  }
+
+  return mapValValueValue != null;
 }
 ]
 
@@ -74,10 +115,19 @@ mapWithSize=[
 private boolean isMapValValid() {
   if(mapVal != null) {
     return 10 <= mapVal.size()
-        && mapVal.size() <= 50;
+        && mapVal.size() <= 50
+        && mapVal.values().stream().allMatch(this::isMapValValueValid);
   }
 
   return mapVal != null;
+}
+
+private boolean isMapValValueValid(String mapValValue) {
+  if(mapValValue != null) {
+    return true;
+  }
+
+  return mapValValue != null;
 }
 ]
 

@@ -20,6 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
+import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.util.Strings;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.HashMap;
@@ -30,17 +31,44 @@ public class PropertyValidationGenerator {
   private PropertyValidationGenerator() {}
 
   public static Generator<JavaPojoMember, PojoSettings> propertyValidationGenerator() {
-    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers(PRIVATE)
-        .noGenericTypes()
-        .returnType("boolean")
-        .methodName(member -> IsPropertyValidMethodName.fromMember(member).asString())
-        .noArguments()
-        .content(propertyValidationMethodContent())
-        .build();
+    return propertyValueValidationMethodGenerator().contraMap(PropertyValue::fromJavaMember);
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> propertyValidationMethodContent() {
+  private static Generator<PropertyValue, PojoSettings> propertyValueValidationMethodGenerator() {
+    final MethodGen<PropertyValue, PojoSettings> method =
+        JavaGenerators.<PropertyValue, PojoSettings>methodGen()
+            .modifiers(PRIVATE)
+            .noGenericTypes()
+            .returnType("boolean")
+            .methodName(
+                propertyValue ->
+                    IsPropertyValidMethodName.fromIdentifier(propertyValue.getNameAsIdentifier())
+                        .asString())
+            .arguments(
+                pv ->
+                    pv.isNested
+                        ? PList.single(
+                            new MethodGen.Argument(
+                                pv.getType().getFullClassName().asString(),
+                                pv.getNameAsIdentifier().asString()))
+                        : PList.empty())
+            .content(propertyValueValidationGenerator())
+            .build();
+    return (propertyValue, settings, writer) -> {
+      final Writer validationMethodWriter = method.generate(propertyValue, settings, writer);
+
+      return propertyValue
+          .nestedPropertyValue()
+          .map(
+              nestedPropertyValue ->
+                  propertyValueValidationMethodGenerator()
+                      .generate(nestedPropertyValue, settings, javaWriter()))
+          .map(w -> validationMethodWriter.printSingleBlankLine().append(w))
+          .orElse(validationMethodWriter);
+    };
+  }
+
+  private static Generator<PropertyValue, PojoSettings> propertyValueValidationGenerator() {
     return wrapNotNullsafeGenerator(
             conditionGenerator(
                 minCondition(),
@@ -49,15 +77,15 @@ public class PropertyValidationGenerator {
                 maxSizeCondition(),
                 decimalMinCondition(),
                 decimalMaxCondition(),
-                patternCondition()))
+                patternCondition(),
+                deepValidationCondition()))
         .appendSingleBlankLine()
         .append(
             conditionGenerator(
                 requiredNotNullCondition(),
                 requiredNullableCondition(),
                 optionalNotNullableCondition(),
-                optionalNullableCondition()))
-        .contraMap(PropertyValue::fromJavaMember);
+                optionalNullableCondition()));
   }
 
   private static Generator<PropertyValue, PojoSettings> conditionGenerator(
@@ -237,6 +265,28 @@ public class PropertyValidationGenerator {
             .orElse(writer);
   }
 
+  private static Condition deepValidationCondition() {
+    return (propertyValue, settings, writer) -> {
+      final NestedValueName nestedValueName =
+          NestedValueName.fromMemberName(propertyValue.getName());
+      final IsPropertyValidMethodName nestedIsValidMethodName =
+          IsPropertyValidMethodName.fromIdentifier(nestedValueName.getName().asIdentifier());
+      if (propertyValue.getType().isArrayType()) {
+        return writer.print(
+            "%s.stream().allMatch(this::%s)",
+            propertyValue.getNameAsIdentifier(), nestedIsValidMethodName);
+      } else if (propertyValue.getType().isMapType()) {
+        return writer.print(
+            "%s.values().stream().allMatch(this::%s)",
+            propertyValue.getNameAsIdentifier(), nestedIsValidMethodName);
+      } else if (propertyValue.getType().isObjectType()) {
+        return writer.print("%s.isValid()", propertyValue.getNameAsIdentifier());
+      } else {
+        return writer;
+      }
+    };
+  }
+
   private static Optional<String> sizeAccessorForProperty(PropertyValue propertyValue) {
     if (propertyValue.getType().isJavaArray()) {
       return Optional.of("length");
@@ -258,10 +308,34 @@ public class PropertyValidationGenerator {
     JavaType type;
     Nullability nullability;
     Necessity necessity;
+    boolean isNested;
 
     public static PropertyValue fromJavaMember(JavaPojoMember member) {
       return new PropertyValue(
-          member.getName(), member.getJavaType(), member.getNullability(), member.getNecessity());
+          member.getName(),
+          member.getJavaType(),
+          member.getNullability(),
+          member.getNecessity(),
+          false);
+    }
+
+    private Optional<PropertyValue> nestedPropertyValue() {
+      return type.fold(
+          arrayType -> Optional.of(nestedForType(arrayType.getItemType())),
+          booleanType -> Optional.empty(),
+          enumType -> Optional.empty(),
+          mapType -> Optional.of(nestedForType(mapType.getValue())),
+          anyType -> Optional.empty(),
+          numericType -> Optional.empty(),
+          integerType -> Optional.empty(),
+          objectType -> Optional.empty(),
+          stringType -> Optional.empty());
+    }
+
+    private PropertyValue nestedForType(JavaType type) {
+      final JavaMemberName nestedName = NestedValueName.fromMemberName(name).getName();
+      return new PropertyValue(
+          nestedName, type, Nullability.NOT_NULLABLE, Necessity.REQUIRED, true);
     }
 
     private JavaIdentifier getNameAsIdentifier() {

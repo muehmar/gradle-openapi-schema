@@ -20,6 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -161,6 +162,28 @@ class PropertyValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
 
     final Writer writer = generator.generate(requiredString(), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("mapWithListValueType")
+  void generate_when_mapWithListValueType_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+
+    final StringType stringType =
+        StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMax(50)));
+    final ArrayType listType =
+        ArrayType.ofItemType(stringType).withConstraints(Constraints.ofSize(Size.ofMin(8)));
+    final JavaPojoMember mapType =
+        map(
+            StringType.noFormat(),
+            listType,
+            Necessity.REQUIRED,
+            Nullability.NOT_NULLABLE,
+            Constraints.ofSize(Size.of(10, 50)));
+
+    final Writer writer = generator.generate(mapType, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
   }

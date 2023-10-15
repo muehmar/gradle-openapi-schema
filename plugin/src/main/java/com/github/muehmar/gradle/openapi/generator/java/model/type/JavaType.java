@@ -50,6 +50,45 @@ public interface JavaType {
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType);
 
+  default boolean isArrayType() {
+    return fold(
+        javaArrayType -> true,
+        javaBooleanType -> false,
+        javaEnumType -> false,
+        javaMapType -> false,
+        javaAnyType -> false,
+        javaNumericType -> false,
+        javaIntegerType -> false,
+        javaObjectType -> false,
+        javaStringType -> false);
+  }
+
+  default boolean isMapType() {
+    return fold(
+        javaArrayType -> false,
+        javaBooleanType -> false,
+        javaEnumType -> false,
+        javaMapType -> true,
+        javaAnyType -> false,
+        javaNumericType -> false,
+        javaIntegerType -> false,
+        javaObjectType -> false,
+        javaStringType -> false);
+  }
+
+  default boolean isObjectType() {
+    return fold(
+        javaArrayType -> false,
+        javaBooleanType -> false,
+        javaEnumType -> false,
+        javaMapType -> false,
+        javaAnyType -> false,
+        javaNumericType -> false,
+        javaIntegerType -> false,
+        javaObjectType -> true,
+        javaStringType -> false);
+  }
+
   default PList<Name> getImports() {
     return getAllQualifiedClassNames()
         .filter(
