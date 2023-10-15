@@ -678,7 +678,8 @@ public class PersonDto {
     }
 
     private boolean isValid() {
-      return isRequiredStringValValid();
+      return isRequiredStringValValid()
+          && getAnyOfValidCount() >= 1;
     }
   }
 
@@ -1649,7 +1650,9 @@ public class UserDto {
           && isLevelValid()
           && isUppercaseValid()
           && isMultipleOfValueValid()
-          && isAnotherPojoValid();
+          && isAnotherPojoValid()
+          && 5 <= getPropertyCount()
+          && getPropertyCount() <= 15;
     }
   }
 
@@ -2291,7 +2294,9 @@ public class UserDto {
           && isLevelValid()
           && isUppercaseValid()
           && isMultipleOfValueValid()
-          && isAnotherPojoValid();
+          && isAnotherPojoValid()
+          && 5 <= getPropertyCount()
+          && getPropertyCount() <= 15;
     }
   }
 
@@ -2695,7 +2700,9 @@ public class UserDto {
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
-          && isLanguageValid();
+          && isLanguageValid()
+          && 2 <= getPropertyCount()
+          && getPropertyCount() <= 10;
     }
   }
 
@@ -3101,7 +3108,7 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isValid() {
-      return true;
+      return isAllAdditionalPropertiesHaveCorrectType();
     }
   }
 
@@ -3318,7 +3325,7 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isValid() {
-      return true;
+      return isAllAdditionalPropertiesHaveCorrectType();
     }
   }
 
@@ -3674,7 +3681,9 @@ public class UserDto {
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
-          && isLanguageValid();
+          && isLanguageValid()
+          && 2 <= getPropertyCount()
+          && getPropertyCount() <= 10;
     }
   }
 
@@ -3970,7 +3979,9 @@ public class UserDto {
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
-          && isLanguageValid();
+          && isLanguageValid()
+          && 2 <= getPropertyCount()
+          && getPropertyCount() <= 10;
     }
   }
 
@@ -4751,7 +4762,7 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isValid() {
-      return true;
+      return additionalProperties.isEmpty();
     }
   }
 
@@ -4942,7 +4953,7 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isValid() {
-      return true;
+      return isAllAdditionalPropertiesHaveCorrectType();
     }
   }
 
@@ -5158,7 +5169,7 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isValid() {
-      return true;
+      return isAllAdditionalPropertiesHaveCorrectType();
     }
   }
 
@@ -5362,7 +5373,7 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isValid() {
-      return true;
+      return isAllAdditionalPropertiesHaveCorrectType();
     }
   }
 
@@ -6314,7 +6325,8 @@ public class PersonDto {
     }
 
     private boolean isValid() {
-      return isRequiredStringValValid();
+      return isRequiredStringValValid()
+          && getOneOfValidCount() == 1;
     }
   }
 
