@@ -1,5 +1,5 @@
 anyOfPojoWithMembers=[
-boolean validateBasic() {
+boolean isValid() {
   return
     color != null &&
     true &&
@@ -14,7 +14,7 @@ boolean validateBasic() {
 
 
 emptyPojo=[
-boolean validateBasic() {
+boolean isValid() {
   return
     true &&
     true &&
@@ -28,7 +28,7 @@ boolean validateBasic() {
 
 
 objectPojoWithMaxPropertyCountConstraint=[
-boolean validateBasic() {
+boolean isValid() {
   return
     requiredStringVal != null &&
     isRequiredNullableStringValPresent &&
@@ -44,7 +44,7 @@ boolean validateBasic() {
 
 
 objectPojoWithMinPropertyCountConstraint=[
-boolean validateBasic() {
+boolean isValid() {
   return
     requiredStringVal != null &&
     isRequiredNullableStringValPresent &&
@@ -60,7 +60,7 @@ boolean validateBasic() {
 
 
 objectPojoWithNotAllowedAdditionalProperties=[
-boolean validateBasic() {
+boolean isValid() {
   return
     stringVal != null &&
     intVal != null &&
@@ -77,7 +77,7 @@ boolean validateBasic() {
 
 
 objectPojoWithNotAnyValueTypeForAdditionalProperties=[
-boolean validateBasic() {
+boolean isValid() {
   return
     stringVal != null &&
     intVal != null &&
@@ -94,7 +94,7 @@ boolean validateBasic() {
 
 
 oneOfPojoWithDiscriminator=[
-boolean validateBasic() {
+boolean isValid() {
   return
     getOneOfValidCount() == 1 &&
     isValidAgainstTheCorrectSchema() &&
@@ -108,7 +108,7 @@ boolean validateBasic() {
 
 
 oneOfPojoWithMembers=[
-boolean validateBasic() {
+boolean isValid() {
   return
     color != null &&
     getOneOfValidCount() == 1 &&

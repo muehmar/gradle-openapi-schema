@@ -236,7 +236,7 @@ public class SampleObjectPojo1Dto {
     return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       stringVal != null &&
       intVal != null &&

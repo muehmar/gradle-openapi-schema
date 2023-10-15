@@ -134,7 +134,7 @@ public class PersonDto {
     );
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       requiredStringVal != null &&
       true &&
@@ -652,7 +652,7 @@ public class PersonDto {
     return foldAnyOf(dto -> dto, dto -> dto);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       requiredStringVal != null &&
       true &&
@@ -1066,7 +1066,7 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -1527,7 +1527,7 @@ public class UserDto {
     return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       id != null &&
       name != null &&
@@ -2156,7 +2156,7 @@ public class UserDto {
     return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       id != null &&
       name != null &&
@@ -2616,7 +2616,7 @@ public class UserDto {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       id != null &&
       name != null &&
@@ -3043,7 +3043,7 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -3256,7 +3256,7 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -3581,7 +3581,7 @@ public class UserDto {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       id != null &&
       name != null &&
@@ -3871,7 +3871,7 @@ public class UserDto {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       id != null &&
       name != null &&
@@ -4208,7 +4208,7 @@ public class NecessityAndNullabilityDto {
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       requiredStringVal != null &&
       isRequiredNullableStringValPresent &&
@@ -4666,7 +4666,7 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -4853,7 +4853,7 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -5065,7 +5065,7 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -5265,7 +5265,7 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -5482,7 +5482,7 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(listVal, additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       listVal != null &&
       true &&
@@ -5757,7 +5757,7 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(mapVal, additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       mapVal != null &&
       true &&
@@ -6197,7 +6197,7 @@ public class PersonDto {
     return foldOneOf(dto -> dto, dto -> dto, () -> null);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       requiredStringVal != null &&
       getOneOfValidCount() == 1 &&
@@ -6615,7 +6615,7 @@ public class UserDto {
     return new UserDto(language.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -6862,7 +6862,7 @@ public class UserDto {
     return new UserDto(language.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       true &&
       true &&
@@ -7092,7 +7092,7 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(email, birthdate.orElse(null), additionalProperties);
   }
 
-  boolean validateBasic() {
+  boolean isValid() {
     return
       email != null &&
       true &&

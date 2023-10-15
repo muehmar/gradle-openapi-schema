@@ -11,21 +11,21 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import lombok.Value;
 
-public class BasicValidationMethodGenerator {
-  private BasicValidationMethodGenerator() {}
+public class IsValidMethodGenerator {
+  private IsValidMethodGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> basicValidationMethodGenerator() {
+  public static Generator<JavaObjectPojo, PojoSettings> isValidMethodGenerator() {
     return JavaGenerators.<JavaObjectPojo, PojoSettings>methodGen()
         .modifiers()
         .noGenericTypes()
         .returnType("boolean")
-        .methodName("validateBasic")
+        .methodName("isValid")
         .noArguments()
-        .content(basicValidationMethodContent())
+        .content(isValidMethodContent())
         .build();
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> basicValidationMethodContent() {
+  private static Generator<JavaObjectPojo, PojoSettings> isValidMethodContent() {
     return Generator.<JavaObjectPojo, PojoSettings>constant("return")
         .append(
             basicValidationMethodContentWithRequiredMembers()
@@ -45,8 +45,8 @@ public class BasicValidationMethodGenerator {
         .appendList(
             singlePojoMemberCondition(),
             pojo -> pojo.getMembers().map(member -> new JavaPojoAndMember(pojo, member)))
-        .filter(BasicValidationMethodGenerator::hasRequiredInMembers)
-        .filter(BasicValidationMethodGenerator::hasRequiredInMembers);
+        .filter(IsValidMethodGenerator::hasRequiredInMembers)
+        .filter(IsValidMethodGenerator::hasRequiredInMembers);
   }
 
   private static Generator<JavaPojoAndMember, PojoSettings> singlePojoMemberCondition() {
@@ -69,7 +69,7 @@ public class BasicValidationMethodGenerator {
       methodContentOneOfDiscriminatorCondition() {
     return Generator.<JavaObjectPojo, PojoSettings>ofWriterFunction(
             w -> w.print("isValidAgainstTheCorrectSchema()"))
-        .filter(BasicValidationMethodGenerator::hasOneOfDiscriminator);
+        .filter(IsValidMethodGenerator::hasOneOfDiscriminator);
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> methodContentAnyOfCondition() {
