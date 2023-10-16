@@ -2509,6 +2509,10 @@ public class UserDto {
       return value;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -2973,6 +2977,10 @@ public class ObjectPojo1Dto {
     @JsonValue
     public String getValue() {
       return value;
+    }
+
+    boolean isValid() {
+      return true;
     }
 
     @Override
@@ -3456,6 +3464,10 @@ public class UserDto {
       return value;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -3754,6 +3766,10 @@ public class UserDto {
 
     public String getValue() {
       return value;
+    }
+
+    boolean isValid() {
+      return true;
     }
 
     @Override
@@ -6492,6 +6508,10 @@ public class UserDto {
       return description;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -6727,6 +6747,10 @@ public class UserDto {
     @JsonIgnore
     public String getDescription() {
       return description;
+    }
+
+    boolean isValid() {
+      return true;
     }
 
     @Override

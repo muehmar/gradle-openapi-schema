@@ -61,18 +61,20 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
   private Generator<EnumContent, PojoSettings> content() {
     return Generator.<EnumContent, PojoSettings>emptyGen()
         .append(this::printEnumMembers)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(this::printClassMembers)
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(printConstructor())
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(JacksonAnnotationGenerator.jsonValue())
         .append(printValueGetter())
         .append(printDescriptionGetter())
-        .appendNewLine()
+        .appendSingleBlankLine()
+        .append(isValidMethod())
+        .appendSingleBlankLine()
         .append(AnnotationGenerator.override())
         .append(printToString())
-        .appendNewLine()
+        .appendSingleBlankLine()
         .append(JacksonAnnotationGenerator.jsonCreator())
         .append(printFromValue());
   }
@@ -141,6 +143,17 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(methodGen)
         .filter((data, settings) -> settings.getEnumDescriptionSettings().isEnabled());
+  }
+
+  private Generator<EnumContent, PojoSettings> isValidMethod() {
+    return MethodGenBuilder.<EnumContent, PojoSettings>create()
+        .modifiers()
+        .noGenericTypes()
+        .returnType("boolean")
+        .methodName("isValid")
+        .noArguments()
+        .content("return true;")
+        .build();
   }
 
   private <T> Generator<T, PojoSettings> printToString() {
