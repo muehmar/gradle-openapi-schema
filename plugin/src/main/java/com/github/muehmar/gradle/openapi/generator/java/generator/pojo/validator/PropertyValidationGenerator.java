@@ -224,7 +224,7 @@ class PropertyValidationGenerator {
                 decimalMax ->
                     writer
                         .print(
-                            "BigDecimal.valueOf(%s).compareTo(new BigDecimal(\"%s\") <%s 0)",
+                            "BigDecimal.valueOf(%s).compareTo(new BigDecimal(\"%s\")) <%s 0",
                             propertyValue.getNameAsIdentifier(),
                             decimalMax.getValue(),
                             decimalMax.isInclusiveMax() ? "=" : "")
