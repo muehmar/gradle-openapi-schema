@@ -52,7 +52,6 @@ public class ValidationMethodGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
             (p, s, w) ->
-                w.println(
-                    "return %s().validateBasic();", CompositionNames.asConversionMethodName(p)));
+                w.println("return %s().isValid();", CompositionNames.asConversionMethodName(p)));
   }
 }

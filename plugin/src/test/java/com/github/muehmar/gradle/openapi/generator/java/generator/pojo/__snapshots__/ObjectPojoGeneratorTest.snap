@@ -620,11 +620,11 @@ public class PersonDto {
   }
 
   private boolean isValidAgainstAdminDto() {
-    return asAdminDto().validateBasic();
+    return asAdminDto().isValid();
   }
 
   private boolean isValidAgainstUserDto() {
-    return asUserDto().validateBasic();
+    return asUserDto().isValid();
   }
 
   private int getAnyOfValidCount() {
@@ -6126,11 +6126,11 @@ public class PersonDto {
   }
 
   private boolean isValidAgainstAdminDto() {
-    return asAdminDto().validateBasic();
+    return asAdminDto().isValid();
   }
 
   private boolean isValidAgainstUserDto() {
-    return asUserDto().validateBasic();
+    return asUserDto().isValid();
   }
 
   private int getOneOfValidCount() {
