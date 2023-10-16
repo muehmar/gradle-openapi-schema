@@ -237,17 +237,7 @@ public class SampleObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      stringVal != null &&
-      intVal != null &&
-      doubleVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {

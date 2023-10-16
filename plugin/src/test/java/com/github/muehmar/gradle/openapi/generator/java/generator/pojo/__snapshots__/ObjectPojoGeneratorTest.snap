@@ -135,15 +135,7 @@ public class PersonDto {
   }
 
   boolean isValid() {
-    return
-      requiredStringVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -657,15 +649,7 @@ public class PersonDto {
   }
 
   boolean isValid() {
-    return
-      requiredStringVal != null &&
-      true &&
-      true &&
-      getAnyOfValidCount() >= 1 &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -1076,14 +1060,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -1541,20 +1518,7 @@ public class UserDto {
   }
 
   boolean isValid() {
-    return
-      id != null &&
-      name != null &&
-      lastName != null &&
-      nickName != null &&
-      email != null &&
-      height != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      5 <= getPropertyCount() &&
-      getPropertyCount() <= 15 &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -2185,20 +2149,7 @@ public class UserDto {
   }
 
   boolean isValid() {
-    return
-      id != null &&
-      name != null &&
-      lastName != null &&
-      nickName != null &&
-      email != null &&
-      height != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      5 <= getPropertyCount() &&
-      getPropertyCount() <= 15 &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -2660,16 +2611,7 @@ public class UserDto {
   }
 
   boolean isValid() {
-    return
-      id != null &&
-      name != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      2 <= getPropertyCount() &&
-      getPropertyCount() <= 10 &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -3095,14 +3037,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -3312,14 +3247,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -3641,16 +3569,7 @@ public class UserDto {
   }
 
   boolean isValid() {
-    return
-      id != null &&
-      name != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      2 <= getPropertyCount() &&
-      getPropertyCount() <= 10 &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -3939,16 +3858,7 @@ public class UserDto {
   }
 
   boolean isValid() {
-    return
-      id != null &&
-      name != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      2 <= getPropertyCount() &&
-      getPropertyCount() <= 10 &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -4284,16 +4194,7 @@ public class NecessityAndNullabilityDto {
   }
 
   boolean isValid() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -4749,14 +4650,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      additionalProperties.isEmpty();
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -4940,14 +4834,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -5156,14 +5043,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -5360,14 +5240,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -5581,15 +5454,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      listVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -5860,15 +5725,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      mapVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -6304,15 +6161,7 @@ public class PersonDto {
   }
 
   boolean isValid() {
-    return
-      requiredStringVal != null &&
-      getOneOfValidCount() == 1 &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -6727,14 +6576,7 @@ public class UserDto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -6978,14 +6820,7 @@ public class UserDto {
   }
 
   boolean isValid() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {
@@ -7212,15 +7047,7 @@ public class ObjectPojo1Dto {
   }
 
   boolean isValid() {
-    return
-      email != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+    return new Validator().isValid();
   }
 
   private class Validator {

@@ -1,3 +1,226 @@
+anyOfPojoWithMembers=[
+private class Validator {
+  private boolean isColorValid() {
+    if(color != null) {
+      return true;
+    }
+
+    return color != null;
+  }
+
+  private boolean isValid() {
+    return isColorValid()
+        && getAnyOfValidCount() >= 1;
+  }
+}
+]
+
+
+emptyPojo=[
+private class Validator {
+
+  private boolean isValid() {
+    return true;
+  }
+}
+]
+
+
+objectPojoWithMaxPropertyCountConstraint=[
+private class Validator {
+  private boolean isRequiredStringValValid() {
+    if(requiredStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredStringVal);
+    }
+
+    return requiredStringVal != null;
+  }
+
+  private boolean isRequiredNullableStringValValid() {
+    if(requiredNullableStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredNullableStringVal);
+    }
+
+    return (requiredNullableStringVal != null || isRequiredNullableStringValPresent);
+  }
+
+  private boolean isOptionalStringValValid() {
+    if(optionalStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalStringVal);
+    }
+
+    return true;
+  }
+
+  private boolean isOptionalNullableStringValValid() {
+    if(optionalNullableStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalNullableStringVal);
+    }
+
+    return true;
+  }
+
+  private boolean isValid() {
+    return isRequiredStringValValid()
+        && isRequiredNullableStringValValid()
+        && isOptionalStringValValid()
+        && isOptionalNullableStringValValid()
+        && getPropertyCount() <= 8;
+  }
+}
+]
+
+
+objectPojoWithMinPropertyCountConstraint=[
+private class Validator {
+  private boolean isRequiredStringValValid() {
+    if(requiredStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredStringVal);
+    }
+
+    return requiredStringVal != null;
+  }
+
+  private boolean isRequiredNullableStringValValid() {
+    if(requiredNullableStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredNullableStringVal);
+    }
+
+    return (requiredNullableStringVal != null || isRequiredNullableStringValPresent);
+  }
+
+  private boolean isOptionalStringValValid() {
+    if(optionalStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalStringVal);
+    }
+
+    return true;
+  }
+
+  private boolean isOptionalNullableStringValValid() {
+    if(optionalNullableStringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalNullableStringVal);
+    }
+
+    return true;
+  }
+
+  private boolean isValid() {
+    return isRequiredStringValValid()
+        && isRequiredNullableStringValValid()
+        && isOptionalStringValValid()
+        && isOptionalNullableStringValValid()
+        && 5 <= getPropertyCount();
+  }
+}
+]
+
+
+objectPojoWithNotAllowedAdditionalProperties=[
+private class Validator {
+  private boolean isStringValValid() {
+    if(stringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", stringVal);
+    }
+
+    return stringVal != null;
+  }
+
+  private boolean isIntValValid() {
+    if(intVal != null) {
+      return 10 <= intVal
+          && intVal <= 50;
+    }
+
+    return intVal != null;
+  }
+
+  private boolean isDoubleValValid() {
+    if(doubleVal != null) {
+      return 0 <= BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("12.5"))
+          && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1") < 0);
+    }
+
+    return doubleVal != null;
+  }
+
+  private boolean isValid() {
+    return isStringValValid()
+        && isIntValValid()
+        && isDoubleValValid()
+        && additionalProperties.isEmpty();
+  }
+}
+]
+
+
+objectPojoWithNotAnyValueTypeForAdditionalProperties=[
+private class Validator {
+  private boolean isStringValValid() {
+    if(stringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", stringVal);
+    }
+
+    return stringVal != null;
+  }
+
+  private boolean isIntValValid() {
+    if(intVal != null) {
+      return 10 <= intVal
+          && intVal <= 50;
+    }
+
+    return intVal != null;
+  }
+
+  private boolean isDoubleValValid() {
+    if(doubleVal != null) {
+      return 0 <= BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("12.5"))
+          && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1") < 0);
+    }
+
+    return doubleVal != null;
+  }
+
+  private boolean isValid() {
+    return isStringValValid()
+        && isIntValValid()
+        && isDoubleValValid()
+        && isAllAdditionalPropertiesHaveCorrectType();
+  }
+}
+]
+
+
+oneOfPojoWithDiscriminator=[
+private class Validator {
+
+  private boolean isValid() {
+    return getOneOfValidCount() == 1
+        && isValidAgainstTheCorrectSchema();
+  }
+}
+]
+
+
+oneOfPojoWithMembers=[
+private class Validator {
+  private boolean isColorValid() {
+    if(color != null) {
+      return true;
+    }
+
+    return color != null;
+  }
+
+  private boolean isValid() {
+    return isColorValid()
+        && getOneOfValidCount() == 1;
+  }
+}
+]
+
+
 sampleObjectPojo2=[
 .
 .
