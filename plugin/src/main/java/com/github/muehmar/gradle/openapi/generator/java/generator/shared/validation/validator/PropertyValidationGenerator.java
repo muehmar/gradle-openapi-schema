@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import lombok.Value;
 
-class PropertyValidationGenerator {
+public class PropertyValidationGenerator {
   private PropertyValidationGenerator() {}
 
   public static Generator<JavaPojoMember, PojoSettings> propertyValidationGenerator() {

@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -6,7 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value
-class IsPropertyValidMethodName {
+public class IsPropertyValidMethodName {
   JavaIdentifier name;
 
   public static IsPropertyValidMethodName fromMember(JavaPojoMember member) {

@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -9,7 +9,7 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import lombok.Value;
 
 @Value
-class ReturningAndConditions {
+public class ReturningAndConditions {
   Writer writer;
 
   public static ReturningAndConditions forConditions(PList<Writer> writers) {

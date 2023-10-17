@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.IsValidMethodGenerator.isValidMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.IsValidMethodGenerator.isValidMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;

@@ -1,0 +1,49 @@
+arrayPojo=[
+private class Validator {
+  private boolean isValueValid() {
+    if(value != null) {
+      return value.stream().allMatch(this::isValueValueValid);
+    }
+
+    return value != null;
+  }
+
+  private boolean isValueValueValid(Double valueValue) {
+    if(valueValue != null) {
+      return true;
+    }
+
+    return valueValue != null;
+  }
+
+  private boolean isValid() {
+    return isValueValid();
+  }
+}
+]
+
+
+arrayPojoWithUniqueItems=[
+private class Validator {
+  private boolean isValueValid() {
+    if(value != null) {
+      return value.stream().allMatch(this::isValueValueValid);
+    }
+
+    return value != null;
+  }
+
+  private boolean isValueValueValid(Double valueValue) {
+    if(valueValue != null) {
+      return true;
+    }
+
+    return valueValue != null;
+  }
+
+  private boolean isValid() {
+    return isValueValid()
+        && hasValueUniqueItems();
+  }
+}
+]

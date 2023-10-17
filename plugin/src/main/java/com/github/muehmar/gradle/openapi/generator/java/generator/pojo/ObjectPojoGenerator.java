@@ -13,7 +13,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.co
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldMethodGenerator.foldMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.InvalidCompositionDtoGetterGenerator.invalidCompositionDtoGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.IsValidMethodGenerator.isValidMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.OneOfFoldValidationGenerator.oneOfFoldValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidCountMethodGenerator.validCountMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidCountValidationMethod.validCountValidationMethodGenerator;
@@ -29,6 +28,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.pojoConstructorGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator.toStringMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.IsValidMethodGenerator.isValidMethodGenerator;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;

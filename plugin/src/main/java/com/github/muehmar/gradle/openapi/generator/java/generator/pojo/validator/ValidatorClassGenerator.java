@@ -1,11 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.PropertyValidationGenerator.propertyValidationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValidationGenerator;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
