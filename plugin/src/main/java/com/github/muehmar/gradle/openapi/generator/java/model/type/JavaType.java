@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
 import java.util.function.Function;
 
 public interface JavaType {
@@ -77,16 +78,20 @@ public interface JavaType {
   }
 
   default boolean isObjectType() {
+    return onObjectType().isPresent();
+  }
+
+  default Optional<JavaObjectType> onObjectType() {
     return fold(
-        javaArrayType -> false,
-        javaBooleanType -> false,
-        javaEnumType -> false,
-        javaMapType -> false,
-        javaAnyType -> false,
-        javaNumericType -> false,
-        javaIntegerType -> false,
-        javaObjectType -> true,
-        javaStringType -> false);
+        javaArrayType -> Optional.empty(),
+        javaBooleanType -> Optional.empty(),
+        javaEnumType -> Optional.empty(),
+        javaMapType -> Optional.empty(),
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        Optional::of,
+        javaStringType -> Optional.empty());
   }
 
   default PList<Name> getImports() {

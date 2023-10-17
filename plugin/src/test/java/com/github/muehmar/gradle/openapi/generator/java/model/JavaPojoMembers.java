@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -272,6 +273,25 @@ public class JavaPojoMembers {
                 EnumType.ofNameAndMembers(
                     Name.ofString("Direction"), PList.of("north", "east", "south", "west")),
                 TypeMappings.empty()))
+        .necessity(REQUIRED)
+        .nullability(NOT_NULLABLE)
+        .type(OBJECT_MEMBER)
+        .build();
+  }
+
+  public static JavaPojoMember object(QualifiedClassName objectClassName) {
+    return object(JavaObjectType.fromClassName(objectClassName));
+  }
+
+  public static JavaPojoMember object(ObjectType objectType) {
+    return object(JavaObjectType.wrap(objectType));
+  }
+
+  private static JavaPojoMember object(JavaObjectType objectType) {
+    return JavaPojoMemberBuilder.create()
+        .name(JavaMemberName.wrap(Name.ofString("object")))
+        .description("Object")
+        .javaType(objectType)
         .necessity(REQUIRED)
         .nullability(NOT_NULLABLE)
         .type(OBJECT_MEMBER)

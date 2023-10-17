@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -196,6 +197,19 @@ class PropertyValidationGenerator {
     };
   }
 
+  private static Optional<String> sizeAccessorForProperty(PropertyValue propertyValue) {
+    if (propertyValue.getType().isJavaArray()) {
+      return Optional.of("length");
+    }
+
+    final HashMap<QualifiedClassName, String> methodName = new HashMap<>();
+    methodName.put(QualifiedClassNames.LIST, "size()");
+    methodName.put(QualifiedClassNames.MAP, "size()");
+    methodName.put(QualifiedClassNames.STRING, "length()");
+
+    return Optional.ofNullable(methodName.get(propertyValue.getType().getQualifiedClassName()));
+  }
+
   private static Condition decimalMinCondition() {
     return (propertyValue, settings, writer) ->
         propertyValue
@@ -253,33 +267,44 @@ class PropertyValidationGenerator {
           NestedValueName.fromMemberName(propertyValue.getName());
       final IsPropertyValidMethodName nestedIsValidMethodName =
           IsPropertyValidMethodName.fromIdentifier(nestedValueName.getName().asIdentifier());
-      if (propertyValue.getType().isArrayType()) {
-        return writer.print(
-            "%s.stream().allMatch(this::%s)",
-            propertyValue.getNameAsIdentifier(), nestedIsValidMethodName);
-      } else if (propertyValue.getType().isMapType()) {
-        return writer.print(
-            "%s.values().stream().allMatch(this::%s)",
-            propertyValue.getNameAsIdentifier(), nestedIsValidMethodName);
-      } else if (propertyValue.getType().isObjectType()) {
-        return writer.print("%s.isValid()", propertyValue.getNameAsIdentifier());
-      } else {
-        return writer;
-      }
+      return propertyValue
+          .getType()
+          .fold(
+              arrayType -> deepValidateArrayType(propertyValue, nestedIsValidMethodName, writer),
+              booleanType -> writer,
+              enumType -> writer,
+              mapType -> deepValidateMapType(propertyValue, nestedIsValidMethodName, writer),
+              javaAnyType -> writer,
+              numericType -> writer,
+              integerType -> writer,
+              objectType -> deepValidateObjectType(propertyValue, objectType, writer),
+              stringType -> writer);
     };
   }
 
-  private static Optional<String> sizeAccessorForProperty(PropertyValue propertyValue) {
-    if (propertyValue.getType().isJavaArray()) {
-      return Optional.of("length");
-    }
+  private static Writer deepValidateArrayType(
+      PropertyValue propertyValue,
+      IsPropertyValidMethodName nestedIsValidMethodName,
+      Writer writer) {
+    return writer.print(
+        "%s.stream().allMatch(this::%s)",
+        propertyValue.getNameAsIdentifier(), nestedIsValidMethodName);
+  }
 
-    final HashMap<QualifiedClassName, String> methodName = new HashMap<>();
-    methodName.put(QualifiedClassNames.LIST, "size()");
-    methodName.put(QualifiedClassNames.MAP, "size()");
-    methodName.put(QualifiedClassNames.STRING, "length()");
+  private static Writer deepValidateMapType(
+      PropertyValue propertyValue,
+      IsPropertyValidMethodName nestedIsValidMethodName,
+      Writer writer) {
+    return writer.print(
+        "%s.values().stream().allMatch(this::%s)",
+        propertyValue.getNameAsIdentifier(), nestedIsValidMethodName);
+  }
 
-    return Optional.ofNullable(methodName.get(propertyValue.getType().getQualifiedClassName()));
+  private static Writer deepValidateObjectType(
+      PropertyValue propertyValue, JavaObjectType objectType, Writer writer) {
+    return objectType.getOrigin().equals(JavaObjectType.TypeOrigin.OPENAPI)
+        ? writer.print("%s.isValid()", propertyValue.getNameAsIdentifier())
+        : writer;
   }
 
   private interface Condition extends Generator<PropertyValue, PojoSettings> {}
@@ -324,36 +349,12 @@ class PropertyValidationGenerator {
       return name.asIdentifier();
     }
 
-    private boolean isRequired() {
-      return necessity.isRequired();
-    }
-
-    private boolean isOptional() {
-      return necessity.isOptional();
-    }
-
-    private boolean isNullable() {
-      return nullability.isNullable();
-    }
-
-    private boolean isNotNullable() {
-      return nullability.isNotNullable();
-    }
-
     public boolean isRequiredAndNullable() {
-      return isRequired() && isNullable();
+      return necessity.isRequired() && nullability.isNullable();
     }
 
     public boolean isRequiredAndNotNullable() {
-      return isRequired() && isNotNullable();
-    }
-
-    public boolean isOptionalAndNullable() {
-      return isOptional() && isNullable();
-    }
-
-    public boolean isOptionalAndNotNullable() {
-      return isOptional() && isNotNullable();
+      return necessity.isRequired() && nullability.isNotNullable();
     }
   }
 }

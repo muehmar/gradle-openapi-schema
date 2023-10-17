@@ -12,6 +12,8 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaNumericType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -20,8 +22,10 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -184,6 +188,32 @@ class PropertyValidationGeneratorTest {
             Constraints.ofSize(Size.of(10, 50)));
 
     final Writer writer = generator.generate(mapType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("customObjectType")
+  void generate_when_customObjectType_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+
+    final JavaPojoMember objectMember =
+        JavaPojoMembers.object(QualifiedClassName.ofName("CustomObject"));
+
+    final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("openapiObjectType")
+  void generate_when_openapiObjectType_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+
+    final JavaPojoMember objectMember =
+        JavaPojoMembers.object(ObjectType.ofName(PojoName.ofNameAndSuffix("OpenapiObject", "Dto")));
+
+    final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
   }

@@ -12,6 +12,19 @@ private boolean isStringValValid() {
 ]
 
 
+customObjectType=[
+.
+.
+private boolean isObjectValid() {
+  if(object != null) {
+    return true;
+  }
+
+  return object != null;
+}
+]
+
+
 doubleWithDecimalMinMaxExclusive=[
 java.math.BigDecimal
 
@@ -128,6 +141,19 @@ private boolean isMapValValueValid(String mapValValue) {
   }
 
   return mapValValue != null;
+}
+]
+
+
+openapiObjectType=[
+.
+.
+private boolean isObjectValid() {
+  if(object != null) {
+    return object.isValid();
+  }
+
+  return object != null;
 }
 ]
 
