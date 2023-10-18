@@ -1,14 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value
 class NestedValueName {
-  JavaMemberName name;
+  Name name;
 
-  public static NestedValueName fromMemberName(JavaMemberName name) {
-    return new NestedValueName(JavaMemberName.wrap(name.asName().append("Value")));
+  public static NestedValueName fromName(Name name) {
+    return new NestedValueName(name.append("Value"));
   }
 
   public String asString() {

@@ -8,9 +8,26 @@ private class Validator {
     return color != null;
   }
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
     return isColorValid()
-        && getAnyOfValidCount() >= 1;
+        && getAnyOfValidCount() >= 1
+        && isAdditionalPropertiesValid();
   }
 }
 ]
@@ -19,8 +36,24 @@ private class Validator {
 emptyPojo=[
 private class Validator {
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
-    return true;
+    return isAdditionalPropertiesValid();
   }
 }
 ]
@@ -60,12 +93,29 @@ private class Validator {
     return true;
   }
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
     return isRequiredStringValValid()
         && isRequiredNullableStringValValid()
         && isOptionalStringValValid()
         && isOptionalNullableStringValValid()
-        && getPropertyCount() <= 8;
+        && getPropertyCount() <= 8
+        && isAdditionalPropertiesValid();
   }
 }
 ]
@@ -105,12 +155,29 @@ private class Validator {
     return true;
   }
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
     return isRequiredStringValValid()
         && isRequiredNullableStringValValid()
         && isOptionalStringValValid()
         && isOptionalNullableStringValValid()
-        && 5 <= getPropertyCount();
+        && 5 <= getPropertyCount()
+        && isAdditionalPropertiesValid();
   }
 }
 ]
@@ -182,11 +249,28 @@ private class Validator {
     return doubleVal != null;
   }
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(String additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
     return isStringValValid()
         && isIntValValid()
         && isDoubleValValid()
-        && isAllAdditionalPropertiesHaveCorrectType();
+        && isAllAdditionalPropertiesHaveCorrectType()
+        && isAdditionalPropertiesValid();
   }
 }
 ]
@@ -195,9 +279,26 @@ private class Validator {
 oneOfPojoWithDiscriminator=[
 private class Validator {
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
     return getOneOfValidCount() == 1
-        && isValidAgainstTheCorrectSchema();
+        && isValidAgainstTheCorrectSchema()
+        && isAdditionalPropertiesValid();
   }
 }
 ]
@@ -213,9 +314,26 @@ private class Validator {
     return color != null;
   }
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
     return isColorValid()
-        && getOneOfValidCount() == 1;
+        && getOneOfValidCount() == 1
+        && isAdditionalPropertiesValid();
   }
 }
 ]
@@ -249,10 +367,27 @@ private class Validator {
     return email != null;
   }
 
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return additionalPropertiesValue != null;
+  }
+
   private boolean isValid() {
     return isStringValValid()
         && isBirthdateValid()
-        && isEmailValid();
+        && isEmailValid()
+        && isAdditionalPropertiesValid();
   }
 }
 ]

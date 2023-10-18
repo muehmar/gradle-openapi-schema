@@ -182,11 +182,11 @@ public class JavaPojoMember {
   }
 
   public JavaIdentifier getIsPresentFlagName() {
-    return IsPresentFlagName.fromJavaMemberName(name).getName();
+    return IsPresentFlagName.fromName(name.asName()).getName();
   }
 
   public JavaIdentifier getIsNullFlagName() {
-    return IsNullFlagName.fromJavaMemberName(name).getName();
+    return IsNullFlagName.fromName(name.asName()).getName();
   }
 
   public JavaIdentifier getGetterName() {

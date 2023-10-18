@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value
@@ -12,9 +12,9 @@ public class IsNullFlagName {
     this.name = name;
   }
 
-  public static IsNullFlagName fromJavaMemberName(JavaMemberName name) {
+  public static IsNullFlagName fromName(Name name) {
     return new IsNullFlagName(
-        name.asJavaName().startUpperCase().prefix("is").append("Null").asIdentifier());
+        JavaIdentifier.fromName(name.startUpperCase().prefix("is").append("Null")));
   }
 
   public String asString() {

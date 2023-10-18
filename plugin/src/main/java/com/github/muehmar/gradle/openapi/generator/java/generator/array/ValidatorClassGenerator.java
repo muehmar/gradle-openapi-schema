@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValidationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -33,7 +33,7 @@ public class ValidatorClassGenerator {
 
   private static Generator<JavaArrayPojo, PojoSettings> validationClassContent() {
     return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
-        .append(propertyValidationGenerator(), JavaArrayPojo::getArrayPojoMember)
+        .append(memberValidationGenerator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
         .append(isValidMethod());
   }

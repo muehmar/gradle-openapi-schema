@@ -1,12 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValidationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValueValidationGenerator;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -39,9 +41,19 @@ public class ValidatorClassGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> validationClassContent() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(propertyValidationGenerator(), JavaObjectPojo::getMembers, newLine())
+        .appendList(memberValidationGenerator(), JavaObjectPojo::getMembers, newLine())
+        .appendSingleBlankLine()
+        .append(additionalPropertiesValidationMethods())
         .appendSingleBlankLine()
         .append(isValidMethod());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesValidationMethods() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(
+            propertyValueValidationGenerator(),
+            pojo -> PropertyValue.fromAdditionalProperties(pojo.getAdditionalProperties()))
+        .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> isValidMethod() {
@@ -60,7 +72,8 @@ public class ValidatorClassGenerator {
                     additionalPropertiesTypeCondition(),
                     minPropertyCountCondition(),
                     maxPropertyCountCondition(),
-                    noAdditionalPropertiesCondition())))
+                    noAdditionalPropertiesCondition(),
+                    additionalPropertiesValidCondition())))
         .build();
   }
 
@@ -127,6 +140,11 @@ public class ValidatorClassGenerator {
   private static Condition noAdditionalPropertiesCondition() {
     return Condition.constant("additionalProperties.isEmpty()")
         .filter(pojo -> pojo.getAdditionalProperties().isNotAllowed());
+  }
+
+  private static Condition additionalPropertiesValidCondition() {
+    return Condition.constant("isAdditionalPropertiesValid()")
+        .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 
   private interface Condition extends Generator<JavaObjectPojo, PojoSettings> {

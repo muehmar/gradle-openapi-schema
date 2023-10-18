@@ -147,8 +147,25 @@ public class PersonDto {
       return requiredStringVal != null;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isRequiredStringValValid();
+      return isRequiredStringValValid()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -661,9 +678,26 @@ public class PersonDto {
       return requiredStringVal != null;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isRequiredStringValValid()
-          && getAnyOfValidCount() >= 1;
+          && getAnyOfValidCount() >= 1
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -1065,8 +1099,24 @@ public class ObjectPojo1Dto {
 
   private class Validator {
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return true;
+      return isAdditionalPropertiesValid();
     }
   }
 
@@ -1604,6 +1654,22 @@ public class UserDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
@@ -1616,7 +1682,8 @@ public class UserDto {
           && isMultipleOfValueValid()
           && isAnotherPojoValid()
           && 5 <= getPropertyCount()
-          && getPropertyCount() <= 15;
+          && getPropertyCount() <= 15
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -2235,6 +2302,22 @@ public class UserDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
@@ -2247,7 +2330,8 @@ public class UserDto {
           && isMultipleOfValueValid()
           && isAnotherPojoValid()
           && 5 <= getPropertyCount()
-          && getPropertyCount() <= 15;
+          && getPropertyCount() <= 15
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -2643,12 +2727,29 @@ public class UserDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
           && isLanguageValid()
           && 2 <= getPropertyCount()
-          && getPropertyCount() <= 10;
+          && getPropertyCount() <= 10
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -3050,8 +3151,25 @@ public class ObjectPojo1Dto {
 
   private class Validator {
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(ColorEnum additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isAllAdditionalPropertiesHaveCorrectType();
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -3260,8 +3378,25 @@ public class ObjectPojo1Dto {
 
   private class Validator {
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Integer additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isAllAdditionalPropertiesHaveCorrectType();
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -3609,12 +3744,29 @@ public class UserDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
           && isLanguageValid()
           && 2 <= getPropertyCount()
-          && getPropertyCount() <= 10;
+          && getPropertyCount() <= 10
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -3902,12 +4054,29 @@ public class UserDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isIdValid()
           && isNameValid()
           && isLanguageValid()
           && 2 <= getPropertyCount()
-          && getPropertyCount() <= 10;
+          && getPropertyCount() <= 10
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -4246,11 +4415,28 @@ public class NecessityAndNullabilityDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isRequiredStringValValid()
           && isRequiredNullableStringValValid()
           && isOptionalStringValValid()
-          && isOptionalNullableStringValValid();
+          && isOptionalNullableStringValValid()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -4855,8 +5041,25 @@ public class ObjectPojo1Dto {
 
   private class Validator {
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return additionalPropertiesValue.isValid();
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isAllAdditionalPropertiesHaveCorrectType();
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -5064,8 +5267,25 @@ public class ObjectPojo1Dto {
 
   private class Validator {
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return additionalPropertiesValue.isValid();
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isAllAdditionalPropertiesHaveCorrectType();
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -5261,8 +5481,25 @@ public class ObjectPojo1Dto {
 
   private class Validator {
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return additionalPropertiesValue.isValid();
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isAllAdditionalPropertiesHaveCorrectType();
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -5490,8 +5727,25 @@ public class ObjectPojo1Dto {
       return listValValue != null;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isListValValid();
+      return isListValValid()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -5761,8 +6015,25 @@ public class ObjectPojo1Dto {
       return mapValValue != null;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isMapValValid();
+      return isMapValValid()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -6189,9 +6460,26 @@ public class PersonDto {
       return requiredStringVal != null;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isRequiredStringValValid()
-          && getOneOfValidCount() == 1;
+          && getOneOfValidCount() == 1
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -6608,8 +6896,25 @@ public class UserDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isLanguageValid();
+      return isLanguageValid()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -6856,8 +7161,25 @@ public class UserDto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
-      return isLanguageValid();
+      return isLanguageValid()
+          && isAdditionalPropertiesValid();
     }
   }
 
@@ -7091,9 +7413,26 @@ public class ObjectPojo1Dto {
       return true;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isEmailValid()
-          && isBirthdateValid();
+          && isBirthdateValid()
+          && isAdditionalPropertiesValid();
     }
   }
 

@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValidationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.list;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.map;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
@@ -42,7 +42,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("integerWithMinAndMax")
   void generate_when_integerWithMinAndMax_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final Writer writer =
         generator.generate(requiredInteger(), defaultTestSettings(), javaWriter());
@@ -53,7 +53,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("stringWithSize")
   void generate_when_stringWithMinAndMaxLength_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember stringType =
         requiredString()
@@ -70,7 +70,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("listWithSize")
   void generate_when_listWithMinAndMaxLength_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember listType =
         list(
@@ -87,7 +87,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("mapWithSize")
   void generate_when_mapWithMinAndMaxLength_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember listType =
         map(
@@ -105,7 +105,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("byteArraySize")
   void generate_when_byteArrayWithMinAndMaxLength_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember byteArrayType =
         requiredString()
@@ -123,7 +123,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("doubleWithDecimalMinMaxExclusive")
   void generate_when_doubleWithDecimalMinMaxExclusive_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember doubleMember =
         requiredDouble()
@@ -143,7 +143,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("doubleWithDecimalMinMaxInclusive")
   void generate_when_doubleWithDecimalMinMaxInclusive_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember doubleMember =
         requiredDouble()
@@ -163,7 +163,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("stringWithPattern")
   void generate_when_stringWithPattern_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final Writer writer = generator.generate(requiredString(), defaultTestSettings(), javaWriter());
 
@@ -173,7 +173,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("mapWithListValueType")
   void generate_when_mapWithListValueType_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final StringType stringType =
         StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMax(50)));
@@ -195,7 +195,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("customObjectType")
   void generate_when_customObjectType_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember objectMember =
         JavaPojoMembers.object(QualifiedClassName.ofName("CustomObject"));
@@ -208,7 +208,7 @@ class PropertyValidationGeneratorTest {
   @Test
   @SnapshotName("openapiObjectType")
   void generate_when_openapiObjectType_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = propertyValidationGenerator();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember objectMember =
         JavaPojoMembers.object(ObjectType.ofName(PojoName.ofNameAndSuffix("OpenapiObject", "Dto")));

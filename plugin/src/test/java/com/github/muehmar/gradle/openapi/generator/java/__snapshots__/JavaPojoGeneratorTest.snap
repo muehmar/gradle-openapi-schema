@@ -297,10 +297,27 @@ public class SampleObjectPojo1Dto {
       return doubleVal != null;
     }
 
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return getAdditionalProperties() != null;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return true;
+      }
+
+      return additionalPropertiesValue != null;
+    }
+
     private boolean isValid() {
       return isStringValValid()
           && isIntValValid()
-          && isDoubleValValid();
+          && isDoubleValValid()
+          && isAdditionalPropertiesValid();
     }
   }
 

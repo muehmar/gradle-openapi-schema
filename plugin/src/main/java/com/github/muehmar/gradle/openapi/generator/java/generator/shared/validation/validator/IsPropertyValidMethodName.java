@@ -10,11 +10,11 @@ public class IsPropertyValidMethodName {
   JavaIdentifier name;
 
   public static IsPropertyValidMethodName fromMember(JavaPojoMember member) {
-    return fromIdentifier(member.getNameAsIdentifier());
+    return fromName(member.getName().asName());
   }
 
-  public static IsPropertyValidMethodName fromIdentifier(JavaIdentifier name) {
-    final Name upperCaseName = Name.ofString(name.asString()).startUpperCase();
+  public static IsPropertyValidMethodName fromName(Name name) {
+    final Name upperCaseName = name.startUpperCase();
     final JavaIdentifier methodeName =
         JavaIdentifier.fromString(String.format("is%sValid", upperCaseName));
     return new IsPropertyValidMethodName(methodeName);
