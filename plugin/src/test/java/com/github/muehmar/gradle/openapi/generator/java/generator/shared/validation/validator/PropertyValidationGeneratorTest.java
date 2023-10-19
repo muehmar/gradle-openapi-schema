@@ -85,6 +85,23 @@ class PropertyValidationGeneratorTest {
   }
 
   @Test
+  @SnapshotName("listUniqueItems")
+  void generate_when_listUniqueItems_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember listType =
+        list(
+            StringType.noFormat(),
+            Necessity.REQUIRED,
+            Nullability.NOT_NULLABLE,
+            Constraints.ofUniqueItems(true));
+
+    final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("mapWithSize")
   void generate_when_mapWithMinAndMaxLength_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();

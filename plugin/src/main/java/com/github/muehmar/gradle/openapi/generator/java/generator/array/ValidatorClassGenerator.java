@@ -45,7 +45,7 @@ public class ValidatorClassGenerator {
         .returnType("boolean")
         .methodName("isValid")
         .noArguments()
-        .content(isValidMethodContent(valueValidationCondition(), isAllUniqueItemsCondition()))
+        .content(isValidMethodContent(valueValidationCondition()))
         .build();
   }
 
@@ -62,11 +62,6 @@ public class ValidatorClassGenerator {
 
   private static Condition valueValidationCondition() {
     return Condition.constant("isValueValid()");
-  }
-
-  private static Condition isAllUniqueItemsCondition() {
-    return Condition.constant("hasValueUniqueItems()")
-        .filter(pojo -> pojo.getConstraints().isUniqueItems());
   }
 
   private interface Condition extends Generator<JavaArrayPojo, PojoSettings> {

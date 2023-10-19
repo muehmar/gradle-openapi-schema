@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
@@ -77,6 +78,7 @@ public class PropertyValidationGenerator {
                 decimalMinCondition(),
                 decimalMaxCondition(),
                 patternCondition(),
+                uniqueArrayItemsCondition(),
                 deepValidationCondition()))
         .appendSingleBlankLine()
         .append(
@@ -255,6 +257,24 @@ public class PropertyValidationGenerator {
                         pattern.getPatternEscaped(JavaEscaper::escape),
                         propertyValue.getAccessor()))
             .orElse(writer);
+  }
+
+  private static Condition uniqueArrayItemsCondition() {
+    return (propertyValue, settings, writer) -> {
+      final boolean uniqueItems = propertyValue.getType().getConstraints().isUniqueItems();
+      final boolean isArrayType = propertyValue.getType().isArrayType();
+      if (uniqueItems && isArrayType) {
+        final JavaIdentifier methodName =
+            JavaName.fromName(propertyValue.getName())
+                .startUpperCase()
+                .prefix("has")
+                .append("UniqueItems")
+                .asIdentifier();
+        return writer.print("%s()", methodName);
+      } else {
+        return writer;
+      }
+    };
   }
 
   private static Condition deepValidationCondition() {

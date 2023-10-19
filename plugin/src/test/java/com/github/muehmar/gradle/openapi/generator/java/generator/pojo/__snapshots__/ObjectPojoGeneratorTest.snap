@@ -5713,7 +5713,8 @@ public class ObjectPojo1Dto {
   private class Validator {
     private boolean isListValValid() {
       if(listVal != null) {
-        return listVal.stream().allMatch(this::isListValValueValid);
+        return hasListValUniqueItems()
+            && listVal.stream().allMatch(this::isListValValueValid);
       }
 
       return listVal != null;

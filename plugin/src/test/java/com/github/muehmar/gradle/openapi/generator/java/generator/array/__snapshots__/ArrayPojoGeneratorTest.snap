@@ -54,7 +54,8 @@ public class PosologyDto {
   private class Validator {
     private boolean isValueValid() {
       if(value != null) {
-        return value.stream().allMatch(this::isValueValueValid);
+        return hasValueUniqueItems()
+            && value.stream().allMatch(this::isValueValueValid);
       }
 
       return value != null;
@@ -69,8 +70,7 @@ public class PosologyDto {
     }
 
     private boolean isValid() {
-      return isValueValid()
-          && hasValueUniqueItems();
+      return isValueValid();
     }
   }
 

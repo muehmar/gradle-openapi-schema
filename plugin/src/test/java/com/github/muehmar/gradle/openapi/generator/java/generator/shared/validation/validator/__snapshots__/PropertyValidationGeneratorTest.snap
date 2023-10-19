@@ -67,6 +67,28 @@ private boolean isIntValValid() {
 ]
 
 
+listUniqueItems=[
+.
+.
+private boolean isListValValid() {
+  if(listVal != null) {
+    return hasListValUniqueItems()
+        && listVal.stream().allMatch(this::isListValValueValid);
+  }
+
+  return listVal != null;
+}
+
+private boolean isListValValueValid(String listValValue) {
+  if(listValValue != null) {
+    return true;
+  }
+
+  return true;
+}
+]
+
+
 listWithSize=[
 .
 .
