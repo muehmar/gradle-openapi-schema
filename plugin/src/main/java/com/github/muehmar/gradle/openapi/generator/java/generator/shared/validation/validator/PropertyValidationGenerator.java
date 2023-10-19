@@ -198,6 +198,8 @@ public class PropertyValidationGenerator {
 
     final HashMap<QualifiedClassName, String> methodName = new HashMap<>();
     methodName.put(QualifiedClassNames.LIST, "size()");
+    methodName.put(QualifiedClassNames.ARRAY_LIST, "size()");
+    methodName.put(QualifiedClassNames.LINKED_LIST, "size()");
     methodName.put(QualifiedClassNames.MAP, "size()");
     methodName.put(QualifiedClassNames.STRING, "length()");
 
