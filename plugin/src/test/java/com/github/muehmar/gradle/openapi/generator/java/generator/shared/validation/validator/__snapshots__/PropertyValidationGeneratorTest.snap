@@ -85,7 +85,7 @@ private boolean isListValValueValid(String listValValue) {
     return true;
   }
 
-  return listValValue != null;
+  return true;
 }
 ]
 
@@ -109,7 +109,7 @@ private boolean isMapValValueValid(List<String> mapValValue) {
         && mapValValue.stream().allMatch(this::isMapValValueValueValid);
   }
 
-  return mapValValue != null;
+  return true;
 }
 
 private boolean isMapValValueValueValid(String mapValValueValue) {
@@ -117,7 +117,7 @@ private boolean isMapValValueValueValid(String mapValValueValue) {
     return mapValValueValue.length() <= 50;
   }
 
-  return mapValValueValue != null;
+  return true;
 }
 ]
 
@@ -140,7 +140,7 @@ private boolean isMapValValueValid(String mapValValue) {
     return true;
   }
 
-  return mapValValue != null;
+  return true;
 }
 ]
 

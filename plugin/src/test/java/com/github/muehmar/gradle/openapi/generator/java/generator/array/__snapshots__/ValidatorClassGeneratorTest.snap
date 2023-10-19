@@ -13,7 +13,7 @@ private class Validator {
       return true;
     }
 
-    return valueValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -38,7 +38,7 @@ private class Validator {
       return true;
     }
 
-    return valueValue != null;
+    return true;
   }
 
   private boolean isValid() {

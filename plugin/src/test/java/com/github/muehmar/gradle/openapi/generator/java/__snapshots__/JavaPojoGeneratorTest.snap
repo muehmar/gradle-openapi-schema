@@ -58,7 +58,7 @@ public class PosologyDto {
         return true;
       }
 
-      return valueValue != null;
+      return true;
     }
 
     private boolean isValid() {
@@ -310,7 +310,7 @@ public class SampleObjectPojo1Dto {
         return true;
       }
 
-      return additionalPropertiesValue != null;
+      return true;
     }
 
     private boolean isValid() {

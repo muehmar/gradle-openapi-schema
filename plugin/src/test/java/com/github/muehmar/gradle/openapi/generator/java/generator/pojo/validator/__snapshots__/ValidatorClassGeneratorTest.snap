@@ -21,7 +21,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -49,7 +49,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -106,7 +106,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -168,7 +168,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -262,7 +262,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -292,7 +292,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -327,7 +327,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {
@@ -380,7 +380,7 @@ private class Validator {
       return true;
     }
 
-    return additionalPropertiesValue != null;
+    return true;
   }
 
   private boolean isValid() {

@@ -65,7 +65,7 @@ public class PosologyDto {
         return true;
       }
 
-      return valueValue != null;
+      return true;
     }
 
     private boolean isValid() {

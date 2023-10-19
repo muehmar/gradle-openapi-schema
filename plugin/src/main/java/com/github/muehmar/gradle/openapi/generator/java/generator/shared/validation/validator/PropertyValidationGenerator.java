@@ -350,8 +350,8 @@ public class PropertyValidationGenerator {
           nestedName,
           JavaIdentifier.fromName(nestedName).asString(),
           type,
-          Nullability.NOT_NULLABLE,
-          Necessity.REQUIRED,
+          Nullability.NULLABLE,
+          Necessity.OPTIONAL,
           true);
     }
 
