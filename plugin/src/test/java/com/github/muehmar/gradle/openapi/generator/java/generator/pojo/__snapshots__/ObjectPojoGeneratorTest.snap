@@ -1640,7 +1640,7 @@ public class UserDto {
 
     private boolean isMultipleOfValueValid() {
       if(multipleOfValue != null) {
-        return true;
+        return isMultipleOfValueMultipleOfValid();
       }
 
       return true;
@@ -2288,7 +2288,7 @@ public class UserDto {
 
     private boolean isMultipleOfValueValid() {
       if(multipleOfValue != null) {
-        return true;
+        return isMultipleOfValueMultipleOfValid();
       }
 
       return true;

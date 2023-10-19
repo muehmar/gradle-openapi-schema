@@ -21,6 +21,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
@@ -33,6 +34,7 @@ import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
@@ -231,6 +233,25 @@ class PropertyValidationGeneratorTest {
         JavaPojoMembers.object(ObjectType.ofName(PojoName.ofNameAndSuffix("OpenapiObject", "Dto")));
 
     final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("doubleMultipleOf")
+  void generate_when_doubleMultipleOf_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember doubleMember =
+        requiredDouble()
+            .withJavaType(
+                JavaNumericType.wrap(
+                    NumericType.formatDouble()
+                        .withConstraints(
+                            Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("129")))),
+                    TypeMappings.empty()));
+
+    final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
   }

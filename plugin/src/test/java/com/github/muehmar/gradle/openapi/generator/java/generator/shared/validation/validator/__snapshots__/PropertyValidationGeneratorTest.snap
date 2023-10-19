@@ -25,6 +25,19 @@ private boolean isObjectValid() {
 ]
 
 
+doubleMultipleOf=[
+.
+.
+private boolean isDoubleValValid() {
+  if(doubleVal != null) {
+    return isDoubleValMultipleOfValid();
+  }
+
+  return doubleVal != null;
+}
+]
+
+
 doubleWithDecimalMinMaxExclusive=[
 java.math.BigDecimal
 

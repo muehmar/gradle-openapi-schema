@@ -79,6 +79,7 @@ public class PropertyValidationGenerator {
                 decimalMaxCondition(),
                 patternCondition(),
                 uniqueArrayItemsCondition(),
+                multipleOfCondition(),
                 deepValidationCondition()))
         .appendSingleBlankLine()
         .append(
@@ -274,6 +275,23 @@ public class PropertyValidationGenerator {
       } else {
         return writer;
       }
+    };
+  }
+
+  private static Condition multipleOfCondition() {
+    return (propertyValue, settings, writer) -> {
+      final JavaIdentifier methodName =
+          JavaName.fromName(propertyValue.getName())
+              .startUpperCase()
+              .prefix("is")
+              .append("MultipleOfValid")
+              .asIdentifier();
+      return propertyValue
+          .getType()
+          .getConstraints()
+          .getMultipleOf()
+          .map(ignore -> writer.print("%s()", methodName))
+          .orElse(writer);
     };
   }
 
