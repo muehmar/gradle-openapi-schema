@@ -18,9 +18,12 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectTyp
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.java.MethodGen;
@@ -165,11 +168,14 @@ public class PropertyValidationGenerator {
   private static Condition minSizeCondition() {
     return (propertyValue, settings, writer) -> {
       final Optional<String> sizeAccessor = sizeAccessorForProperty(propertyValue);
-      return propertyValue
-          .getType()
-          .getConstraints()
-          .getSize()
-          .flatMap(Size::getMin)
+      final Constraints constraints = propertyValue.getType().getConstraints();
+      final Optional<Integer> minSize = constraints.getSize().flatMap(Size::getMin);
+      final Optional<Integer> minPropertyCountForMap =
+          constraints
+              .getPropertyCount()
+              .flatMap(PropertyCount::getMinProperties)
+              .filter(ignore -> propertyValue.getType().isMapType());
+      return Optionals.or(minSize, minPropertyCountForMap)
           .flatMap(
               min ->
                   sizeAccessor.map(
@@ -182,11 +188,14 @@ public class PropertyValidationGenerator {
   private static Condition maxSizeCondition() {
     return (propertyValue, settings, writer) -> {
       final Optional<String> sizeAccessor = sizeAccessorForProperty(propertyValue);
-      return propertyValue
-          .getType()
-          .getConstraints()
-          .getSize()
-          .flatMap(Size::getMax)
+      final Constraints constraints = propertyValue.getType().getConstraints();
+      final Optional<Integer> maxSize = constraints.getSize().flatMap(Size::getMax);
+      final Optional<Integer> maxPropertyCountForMap =
+          constraints
+              .getPropertyCount()
+              .flatMap(PropertyCount::getMaxProperties)
+              .filter(ignore -> propertyValue.getType().isMapType());
+      return Optionals.or(maxSize, maxPropertyCountForMap)
           .flatMap(
               max ->
                   sizeAccessor.map(

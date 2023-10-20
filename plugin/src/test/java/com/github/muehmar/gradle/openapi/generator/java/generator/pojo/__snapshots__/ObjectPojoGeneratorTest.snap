@@ -6006,7 +6006,9 @@ public class ObjectPojo1Dto {
   private class Validator {
     private boolean isMapValValid() {
       if(mapVal != null) {
-        return mapVal.values().stream().allMatch(this::isMapValValueValid);
+        return 3 <= mapVal.size()
+            && mapVal.size() <= 8
+            && mapVal.values().stream().allMatch(this::isMapValValueValid);
       }
 
       return mapVal != null;

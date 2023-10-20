@@ -22,6 +22,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
@@ -115,6 +116,24 @@ class PropertyValidationGeneratorTest {
             Necessity.REQUIRED,
             Nullability.NOT_NULLABLE,
             Constraints.ofSize(Size.of(10, 50)));
+
+    final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("mapWithPropertyCount")
+  void generate_when_mapWithPropertyCount_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember listType =
+        map(
+            StringType.noFormat(),
+            StringType.noFormat(),
+            Necessity.REQUIRED,
+            Nullability.NOT_NULLABLE,
+            Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(5, 10)));
 
     final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
 

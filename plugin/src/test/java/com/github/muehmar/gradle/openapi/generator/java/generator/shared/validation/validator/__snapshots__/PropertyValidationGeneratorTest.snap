@@ -157,6 +157,29 @@ private boolean isMapValValueValueValid(String mapValValueValue) {
 ]
 
 
+mapWithPropertyCount=[
+.
+.
+private boolean isMapValValid() {
+  if(mapVal != null) {
+    return 5 <= mapVal.size()
+        && mapVal.size() <= 10
+        && mapVal.values().stream().allMatch(this::isMapValValueValid);
+  }
+
+  return mapVal != null;
+}
+
+private boolean isMapValValueValid(String mapValValue) {
+  if(mapValValue != null) {
+    return true;
+  }
+
+  return true;
+}
+]
+
+
 mapWithSize=[
 .
 .
