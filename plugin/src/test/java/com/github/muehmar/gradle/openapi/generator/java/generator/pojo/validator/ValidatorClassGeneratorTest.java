@@ -43,6 +43,21 @@ class ValidatorClassGeneratorTest {
   }
 
   @Test
+  @SnapshotName("allOfPojoWithMembers")
+  void generate_when_allOfPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaObjectPojo pojo =
+        JavaPojos.withMembers(
+            JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            PList.of(JavaPojoMembers.requiredColorEnum()));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
   @SnapshotName("oneOfPojoWithMembers")
   void generate_when_oneOfPojoWithMembers_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();

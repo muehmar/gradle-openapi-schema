@@ -1,3 +1,39 @@
+allOfPojoWithMembers=[
+private class Validator {
+  private boolean isColorValid() {
+    if(color != null) {
+      return true;
+    }
+
+    return color != null;
+  }
+
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return getAdditionalProperties() != null;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    if(additionalPropertiesValue != null) {
+      return true;
+    }
+
+    return true;
+  }
+
+  private boolean isValid() {
+    return isColorValid()
+        && asSampleObjectPojo1Dto().isValid()
+        && asSampleObjectPojo2Dto().isValid()
+        && isAdditionalPropertiesValid();
+  }
+}
+]
+
+
 anyOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {

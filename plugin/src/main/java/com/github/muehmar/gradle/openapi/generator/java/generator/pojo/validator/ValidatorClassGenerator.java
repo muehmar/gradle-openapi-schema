@@ -6,10 +6,13 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.CompositionNames;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
@@ -81,7 +84,9 @@ public class ValidatorClassGenerator {
       PList<Condition> dtoConditions) {
     return (pojo, settings, writer) -> {
       final PList<Condition> allConditions =
-          createPropertyValidationConditions(pojo).concat(dtoConditions);
+          createPropertyValidationConditions(pojo)
+              .concat(createAllOfDtoValidationConditions(pojo))
+              .concat(dtoConditions);
       final PList<Writer> conditionWriters =
           allConditions.map(gen -> gen.generate(pojo, settings, javaWriter()));
       final ReturningAndConditions returningAndConditions =
@@ -93,6 +98,17 @@ public class ValidatorClassGenerator {
   private static PList<Condition> createPropertyValidationConditions(JavaObjectPojo pojo) {
     return pojo.getMembers()
         .map(member -> (p, s, w) -> w.print("%s()", IsPropertyValidMethodName.fromMember(member)));
+  }
+
+  private static PList<Condition> createAllOfDtoValidationConditions(JavaObjectPojo pojo) {
+    return pojo.getAllOfComposition()
+        .map(JavaAllOfComposition::getPojos)
+        .map(NonEmptyList::toPList)
+        .orElseGet(PList::empty)
+        .map(
+            allOfPojo ->
+                (p, s, w) ->
+                    w.print("%s().isValid()", CompositionNames.asConversionMethodName(allOfPojo)));
   }
 
   private static Condition methodContentOneOfCondition() {

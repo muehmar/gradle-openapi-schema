@@ -165,6 +165,8 @@ public class PersonDto {
 
     private boolean isValid() {
       return isRequiredStringValValid()
+          && asAdminDto().isValid()
+          && asUserDto().isValid()
           && isAdditionalPropertiesValid();
     }
   }
