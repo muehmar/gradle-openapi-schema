@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validato
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValueValidationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.requiredAdditionalPropertyGenerator;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -12,10 +13,14 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositi
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -45,6 +50,9 @@ public class ValidatorClassGenerator {
   private static Generator<JavaObjectPojo, PojoSettings> validationClassContent() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(memberValidationGenerator(), JavaObjectPojo::getMembers, newLine())
+        .appendSingleBlankLine()
+        .appendList(
+            requiredAdditionalPropertyGenerator(), JavaObjectPojo::getRequiredAdditionalProperties)
         .appendSingleBlankLine()
         .append(additionalPropertiesValidationMethods())
         .appendSingleBlankLine()
@@ -96,8 +104,13 @@ public class ValidatorClassGenerator {
   }
 
   private static PList<Condition> createPropertyValidationConditions(JavaObjectPojo pojo) {
-    return pojo.getMembers()
-        .map(member -> (p, s, w) -> w.print("%s()", IsPropertyValidMethodName.fromMember(member)));
+    final PList<Name> memberNames =
+        pojo.getMembers().map(JavaPojoMember::getName).map(JavaMemberName::asName);
+    final PList<Name> requiredAdditionalPropertiesNames =
+        pojo.getRequiredAdditionalProperties().map(JavaRequiredAdditionalProperty::getName);
+    return memberNames
+        .concat(requiredAdditionalPropertiesNames)
+        .map(name -> (p, s, w) -> w.print("%s()", IsPropertyValidMethodName.fromName(name)));
   }
 
   private static PList<Condition> createAllOfDtoValidationConditions(JavaObjectPojo pojo) {

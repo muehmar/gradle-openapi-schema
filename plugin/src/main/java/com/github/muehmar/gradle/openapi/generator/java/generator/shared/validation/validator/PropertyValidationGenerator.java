@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -37,6 +38,12 @@ public class PropertyValidationGenerator {
 
   public static Generator<JavaPojoMember, PojoSettings> memberValidationGenerator() {
     return propertyValueValidationGenerator().contraMap(PropertyValue::fromJavaMember);
+  }
+
+  public static Generator<JavaRequiredAdditionalProperty, PojoSettings>
+      requiredAdditionalPropertyGenerator() {
+    return propertyValueValidationGenerator()
+        .contraMap(PropertyValue::fromRequiredAdditionalProperty);
   }
 
   public static Generator<PropertyValue, PojoSettings> propertyValueValidationGenerator() {
@@ -382,6 +389,19 @@ public class PropertyValidationGenerator {
           member.getJavaType(),
           member.getNullability(),
           member.getNecessity(),
+          false);
+    }
+
+    public static PropertyValue fromRequiredAdditionalProperty(
+        JavaRequiredAdditionalProperty additionalProperty) {
+      return new PropertyValue(
+          additionalProperty.getName(),
+          String.format(
+              "%s()",
+              JavaIdentifier.fromName(additionalProperty.getName().startUpperCase().prefix("get"))),
+          additionalProperty.getJavaType(),
+          Nullability.NOT_NULLABLE,
+          Necessity.REQUIRED,
           false);
     }
 

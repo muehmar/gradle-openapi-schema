@@ -7421,6 +7421,14 @@ public class ObjectPojo1Dto {
       return true;
     }
 
+    private boolean isNameValid() {
+      if(getName() != null) {
+        return true;
+      }
+
+      return getName() != null;
+    }
+
     private boolean isAdditionalPropertiesValid() {
       if(getAdditionalProperties() != null) {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
@@ -7440,6 +7448,7 @@ public class ObjectPojo1Dto {
     private boolean isValid() {
       return isEmailValid()
           && isBirthdateValid()
+          && isNameValid()
           && isAdditionalPropertiesValid();
     }
   }
