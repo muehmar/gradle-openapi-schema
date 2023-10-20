@@ -340,8 +340,8 @@ private class Validator {
 
 
 sampleObjectPojo2=[
-.
-.
+com.github.muehmar.openapi.util.EmailValidator
+
 private class Validator {
   private boolean isStringValValid() {
     if(stringVal != null) {
@@ -361,7 +361,7 @@ private class Validator {
 
   private boolean isEmailValid() {
     if(email != null) {
-      return true;
+      return EmailValidator.isValid(email);
     }
 
     return email != null;

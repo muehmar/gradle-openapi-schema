@@ -190,6 +190,24 @@ class PropertyValidationGeneratorTest {
   }
 
   @Test
+  @SnapshotName("stringWithEmail")
+  void generate_when_stringWithEmail_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final Writer writer =
+        generator.generate(
+            requiredString()
+                .withJavaType(
+                    JavaStringType.wrap(
+                        StringType.noFormat().withConstraints(Constraints.ofEmail()),
+                        TypeMappings.empty())),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("mapWithListValueType")
   void generate_when_mapWithListValueType_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();

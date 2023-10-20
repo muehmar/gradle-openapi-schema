@@ -1248,6 +1248,7 @@ public class ObjectPojo1Dto {
 enableValidation[jakarta-2]=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.EmailValidator;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1607,7 +1608,7 @@ public class UserDto {
 
     private boolean isEmailValid() {
       if(email != null) {
-        return true;
+        return EmailValidator.isValid(email);
       }
 
       return email != null;
@@ -1896,6 +1897,7 @@ public class UserDto {
 enableValidation[jakarta-3]=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.EmailValidator;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
@@ -2255,7 +2257,7 @@ public class UserDto {
 
     private boolean isEmailValid() {
       if(email != null) {
-        return true;
+        return EmailValidator.isValid(email);
       }
 
       return email != null;
@@ -7270,6 +7272,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.EmailValidator;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7400,7 +7403,7 @@ public class ObjectPojo1Dto {
   private class Validator {
     private boolean isEmailValid() {
       if(email != null) {
-        return true;
+        return EmailValidator.isValid(email);
       }
 
       return email != null;

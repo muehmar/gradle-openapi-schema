@@ -193,6 +193,19 @@ private boolean isObjectValid() {
 ]
 
 
+stringWithEmail=[
+com.github.muehmar.openapi.util.EmailValidator
+
+private boolean isStringValValid() {
+  if(stringVal != null) {
+    return EmailValidator.isValid(stringVal);
+  }
+
+  return stringVal != null;
+}
+]
+
+
 stringWithPattern=[
 .
 .

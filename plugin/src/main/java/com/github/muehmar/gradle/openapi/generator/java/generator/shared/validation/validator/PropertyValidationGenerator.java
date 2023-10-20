@@ -6,6 +6,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
@@ -78,6 +79,7 @@ public class PropertyValidationGenerator {
                 decimalMinCondition(),
                 decimalMaxCondition(),
                 patternCondition(),
+                emailCondition(),
                 uniqueArrayItemsCondition(),
                 multipleOfCondition(),
                 deepValidationCondition()))
@@ -257,6 +259,20 @@ public class PropertyValidationGenerator {
                         "java.util.regex.Pattern.matches(\"%s\", %s)",
                         pattern.getPatternEscaped(JavaEscaper::escape),
                         propertyValue.getAccessor()))
+            .orElse(writer);
+  }
+
+  private static Condition emailCondition() {
+    return (propertyValue, settings, writer) ->
+        propertyValue
+            .getType()
+            .getConstraints()
+            .getEmail()
+            .map(
+                email ->
+                    writer
+                        .print("EmailValidator.isValid(%s)", propertyValue.getAccessor())
+                        .ref(OpenApiUtilRefs.EMAIL_VALIDATOR))
             .orElse(writer);
   }
 
