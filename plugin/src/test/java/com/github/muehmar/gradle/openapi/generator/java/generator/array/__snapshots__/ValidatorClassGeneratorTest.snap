@@ -5,7 +5,7 @@ private class Validator {
       return value.stream().allMatch(this::isValueValueValid);
     }
 
-    return value != null;
+    return false;
   }
 
   private boolean isValueValueValid(Double valueValue) {
@@ -31,7 +31,7 @@ private class Validator {
           && value.stream().allMatch(this::isValueValueValid);
     }
 
-    return value != null;
+    return false;
   }
 
   private boolean isValueValueValid(Double valueValue) {

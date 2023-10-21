@@ -94,12 +94,7 @@ public class PropertyValidationGenerator {
                 multipleOfCondition(),
                 deepValidationCondition()))
         .appendSingleBlankLine()
-        .append(
-            conditionGenerator(
-                requiredNotNullCondition(),
-                requiredNullableCondition(),
-                optionalNotNullableCondition(),
-                optionalNullableCondition()));
+        .append(conditionGenerator(necessityAndNullabilityCondition()));
   }
 
   private static Generator<PropertyValue, PojoSettings> conditionGenerator(
@@ -122,34 +117,19 @@ public class PropertyValidationGenerator {
         .append(Generator.constant("}"));
   }
 
-  private static Condition requiredNotNullCondition() {
+  private static Condition necessityAndNullabilityCondition() {
     return (propertyValue, settings, writer) -> {
       if (propertyValue.isRequiredAndNotNullable()) {
-        return writer.print("%s != null", propertyValue.getAccessor());
+        return writer.print("false", propertyValue.getAccessor());
+      } else if (propertyValue.isRequiredAndNullable()) {
+        return writer.print("%s", IsPresentFlagName.fromName(propertyValue.getName()).getName());
+      } else if (propertyValue.isOptionalAndNotNullable()) {
+        // Implement with #142 when the flag is present
+        return writer;
+      } else {
+        return writer;
       }
-      return writer;
     };
-  }
-
-  private static Condition requiredNullableCondition() {
-    return (propertyValue, settings, writer) -> {
-      if (propertyValue.isRequiredAndNullable()) {
-        return writer.print(
-            "(%s != null || %s)",
-            propertyValue.getAccessor(),
-            IsPresentFlagName.fromName(propertyValue.getName()).getName());
-      }
-      return writer;
-    };
-  }
-
-  private static Condition optionalNotNullableCondition() {
-    // Implement with #142 when the flag is present
-    return (member, settings, writer) -> writer;
-  }
-
-  private static Condition optionalNullableCondition() {
-    return (member, settings, writer) -> writer;
   }
 
   private static Condition minCondition() {
@@ -450,6 +430,14 @@ public class PropertyValidationGenerator {
 
     public boolean isRequiredAndNotNullable() {
       return necessity.isRequired() && nullability.isNotNullable();
+    }
+
+    public boolean isOptionalAndNullable() {
+      return necessity.isOptional() && nullability.isNullable();
+    }
+
+    public boolean isOptionalAndNotNullable() {
+      return necessity.isOptional() && nullability.isNotNullable();
     }
   }
 }

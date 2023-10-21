@@ -50,7 +50,7 @@ public class PosologyDto {
         return value.stream().allMatch(this::isValueValueValid);
       }
 
-      return value != null;
+      return false;
     }
 
     private boolean isValueValueValid(Double valueValue) {
@@ -276,7 +276,7 @@ public class SampleObjectPojo1Dto {
         return java.util.regex.Pattern.matches("Hello", stringVal);
       }
 
-      return stringVal != null;
+      return false;
     }
 
     private boolean isIntValValid() {
@@ -285,7 +285,7 @@ public class SampleObjectPojo1Dto {
             && intVal <= 50;
       }
 
-      return intVal != null;
+      return false;
     }
 
     private boolean isDoubleValValid() {
@@ -294,7 +294,7 @@ public class SampleObjectPojo1Dto {
             && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1")) < 0;
       }
 
-      return doubleVal != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -302,7 +302,7 @@ public class SampleObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {

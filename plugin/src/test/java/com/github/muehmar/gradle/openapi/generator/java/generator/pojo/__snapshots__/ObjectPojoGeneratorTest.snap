@@ -144,7 +144,7 @@ public class PersonDto {
         return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
-      return requiredStringVal != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -152,7 +152,7 @@ public class PersonDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -677,7 +677,7 @@ public class PersonDto {
         return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
-      return requiredStringVal != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -685,7 +685,7 @@ public class PersonDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -1106,7 +1106,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -1580,7 +1580,7 @@ public class UserDto {
         return id <= 50;
       }
 
-      return id != null;
+      return false;
     }
 
     private boolean isNameValid() {
@@ -1589,7 +1589,7 @@ public class UserDto {
             && name.length() <= 15;
       }
 
-      return name != null;
+      return false;
     }
 
     private boolean isLastNameValid() {
@@ -1597,7 +1597,7 @@ public class UserDto {
         return 10 <= lastName.length();
       }
 
-      return lastName != null;
+      return false;
     }
 
     private boolean isNickNameValid() {
@@ -1605,7 +1605,7 @@ public class UserDto {
         return nickName.length() <= 50;
       }
 
-      return nickName != null;
+      return false;
     }
 
     private boolean isEmailValid() {
@@ -1613,7 +1613,7 @@ public class UserDto {
         return EmailValidator.isValid(email);
       }
 
-      return email != null;
+      return false;
     }
 
     private boolean isHeightValid() {
@@ -1622,7 +1622,7 @@ public class UserDto {
             && BigDecimal.valueOf(height).compareTo(new BigDecimal("199")) < 0;
       }
 
-      return height != null;
+      return false;
     }
 
     private boolean isLevelValid() {
@@ -1662,7 +1662,7 @@ public class UserDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -2229,7 +2229,7 @@ public class UserDto {
         return id <= 50;
       }
 
-      return id != null;
+      return false;
     }
 
     private boolean isNameValid() {
@@ -2238,7 +2238,7 @@ public class UserDto {
             && name.length() <= 15;
       }
 
-      return name != null;
+      return false;
     }
 
     private boolean isLastNameValid() {
@@ -2246,7 +2246,7 @@ public class UserDto {
         return 10 <= lastName.length();
       }
 
-      return lastName != null;
+      return false;
     }
 
     private boolean isNickNameValid() {
@@ -2254,7 +2254,7 @@ public class UserDto {
         return nickName.length() <= 50;
       }
 
-      return nickName != null;
+      return false;
     }
 
     private boolean isEmailValid() {
@@ -2262,7 +2262,7 @@ public class UserDto {
         return EmailValidator.isValid(email);
       }
 
-      return email != null;
+      return false;
     }
 
     private boolean isHeightValid() {
@@ -2271,7 +2271,7 @@ public class UserDto {
             && BigDecimal.valueOf(height).compareTo(new BigDecimal("199")) < 0;
       }
 
-      return height != null;
+      return false;
     }
 
     private boolean isLevelValid() {
@@ -2311,7 +2311,7 @@ public class UserDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -2712,7 +2712,7 @@ public class UserDto {
         return true;
       }
 
-      return id != null;
+      return false;
     }
 
     private boolean isNameValid() {
@@ -2720,7 +2720,7 @@ public class UserDto {
         return true;
       }
 
-      return name != null;
+      return false;
     }
 
     private boolean isLanguageValid() {
@@ -2736,7 +2736,7 @@ public class UserDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -3160,7 +3160,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(ColorEnum additionalPropertiesValue) {
@@ -3387,7 +3387,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Integer additionalPropertiesValue) {
@@ -3729,7 +3729,7 @@ public class UserDto {
         return true;
       }
 
-      return id != null;
+      return false;
     }
 
     private boolean isNameValid() {
@@ -3737,7 +3737,7 @@ public class UserDto {
         return true;
       }
 
-      return name != null;
+      return false;
     }
 
     private boolean isLanguageValid() {
@@ -3753,7 +3753,7 @@ public class UserDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -4039,7 +4039,7 @@ public class UserDto {
         return true;
       }
 
-      return id != null;
+      return false;
     }
 
     private boolean isNameValid() {
@@ -4047,7 +4047,7 @@ public class UserDto {
         return true;
       }
 
-      return name != null;
+      return false;
     }
 
     private boolean isLanguageValid() {
@@ -4063,7 +4063,7 @@ public class UserDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -4392,7 +4392,7 @@ public class NecessityAndNullabilityDto {
         return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
-      return requiredStringVal != null;
+      return false;
     }
 
     private boolean isRequiredNullableStringValValid() {
@@ -4400,7 +4400,7 @@ public class NecessityAndNullabilityDto {
         return java.util.regex.Pattern.matches("Hello", requiredNullableStringVal);
       }
 
-      return (requiredNullableStringVal != null || isRequiredNullableStringValPresent);
+      return isRequiredNullableStringValPresent;
     }
 
     private boolean isOptionalStringValValid() {
@@ -4424,7 +4424,7 @@ public class NecessityAndNullabilityDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -5050,7 +5050,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
@@ -5276,7 +5276,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
@@ -5490,7 +5490,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
@@ -5721,7 +5721,7 @@ public class ObjectPojo1Dto {
             && listVal.stream().allMatch(this::isListValValueValid);
       }
 
-      return listVal != null;
+      return false;
     }
 
     private boolean isListValValueValid(String listValValue) {
@@ -5737,7 +5737,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -6011,7 +6011,7 @@ public class ObjectPojo1Dto {
             && mapVal.values().stream().allMatch(this::isMapValValueValid);
       }
 
-      return mapVal != null;
+      return false;
     }
 
     private boolean isMapValValueValid(UUID mapValValue) {
@@ -6027,7 +6027,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -6464,7 +6464,7 @@ public class PersonDto {
         return java.util.regex.Pattern.matches("Hello", requiredStringVal);
       }
 
-      return requiredStringVal != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -6472,7 +6472,7 @@ public class PersonDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -6908,7 +6908,7 @@ public class UserDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -7173,7 +7173,7 @@ public class UserDto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
@@ -7410,7 +7410,7 @@ public class ObjectPojo1Dto {
         return EmailValidator.isValid(email);
       }
 
-      return email != null;
+      return false;
     }
 
     private boolean isBirthdateValid() {
@@ -7426,7 +7426,7 @@ public class ObjectPojo1Dto {
         return true;
       }
 
-      return getName() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -7434,7 +7434,7 @@ public class ObjectPojo1Dto {
         return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
-      return getAdditionalProperties() != null;
+      return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {

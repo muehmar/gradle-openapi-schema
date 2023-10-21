@@ -7,7 +7,7 @@ private boolean isStringValValid() {
         && stringVal.length <= 50;
   }
 
-  return stringVal != null;
+  return false;
 }
 ]
 
@@ -20,7 +20,7 @@ private boolean isObjectValid() {
     return true;
   }
 
-  return object != null;
+  return false;
 }
 ]
 
@@ -33,7 +33,7 @@ private boolean isDoubleValValid() {
     return isDoubleValMultipleOfValid();
   }
 
-  return doubleVal != null;
+  return false;
 }
 ]
 
@@ -47,7 +47,7 @@ private boolean isDoubleValValid() {
         && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("100.1")) < 0;
   }
 
-  return doubleVal != null;
+  return false;
 }
 ]
 
@@ -61,7 +61,7 @@ private boolean isDoubleValValid() {
         && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("100.1")) <= 0;
   }
 
-  return doubleVal != null;
+  return false;
 }
 ]
 
@@ -75,7 +75,7 @@ private boolean isIntValValid() {
         && intVal <= 50;
   }
 
-  return intVal != null;
+  return false;
 }
 ]
 
@@ -89,7 +89,7 @@ private boolean isListValValid() {
         && listVal.stream().allMatch(this::isListValValueValid);
   }
 
-  return listVal != null;
+  return false;
 }
 
 private boolean isListValValueValid(String listValValue) {
@@ -112,7 +112,7 @@ private boolean isListValValid() {
         && listVal.stream().allMatch(this::isListValValueValid);
   }
 
-  return listVal != null;
+  return false;
 }
 
 private boolean isListValValueValid(String listValValue) {
@@ -135,7 +135,7 @@ private boolean isMapValValid() {
         && mapVal.values().stream().allMatch(this::isMapValValueValid);
   }
 
-  return mapVal != null;
+  return false;
 }
 
 private boolean isMapValValueValid(List<String> mapValValue) {
@@ -167,7 +167,7 @@ private boolean isMapValValid() {
         && mapVal.values().stream().allMatch(this::isMapValValueValid);
   }
 
-  return mapVal != null;
+  return false;
 }
 
 private boolean isMapValValueValid(String mapValValue) {
@@ -190,7 +190,7 @@ private boolean isMapValValid() {
         && mapVal.values().stream().allMatch(this::isMapValValueValid);
   }
 
-  return mapVal != null;
+  return false;
 }
 
 private boolean isMapValValueValid(String mapValValue) {
@@ -211,7 +211,7 @@ private boolean isObjectValid() {
     return object.isValid();
   }
 
-  return object != null;
+  return false;
 }
 ]
 
@@ -224,7 +224,7 @@ private boolean isStringValValid() {
     return EmailValidator.isValid(stringVal);
   }
 
-  return stringVal != null;
+  return false;
 }
 ]
 
@@ -237,7 +237,7 @@ private boolean isStringValValid() {
     return java.util.regex.Pattern.matches("Hello", stringVal);
   }
 
-  return stringVal != null;
+  return false;
 }
 ]
 
@@ -251,6 +251,6 @@ private boolean isStringValValid() {
         && stringVal.length() <= 50;
   }
 
-  return stringVal != null;
+  return false;
 }
 ]

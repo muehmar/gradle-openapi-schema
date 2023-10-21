@@ -58,7 +58,7 @@ public class PosologyDto {
             && value.stream().allMatch(this::isValueValueValid);
       }
 
-      return value != null;
+      return false;
     }
 
     private boolean isValueValueValid(Double valueValue) {
