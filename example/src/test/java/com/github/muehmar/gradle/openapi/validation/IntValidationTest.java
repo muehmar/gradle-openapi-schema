@@ -2,10 +2,11 @@ package com.github.muehmar.gradle.openapi.validation;
 
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.validation.model.AllValueObjectDto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -19,6 +20,7 @@ class IntValidationTest {
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -30,5 +32,6 @@ class IntValidationTest {
     final Set<ConstraintViolation<AllValueObjectDto>> constraintViolations = validate(dto);
 
     assertEquals(1, constraintViolations.size());
+    assertFalse(dto.isValid());
   }
 }

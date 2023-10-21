@@ -2,15 +2,13 @@ package com.github.muehmar.gradle.openapi.validation;
 
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.validation.model.IntegerMemberArrayDto;
-import openapischema.example.api.validation.model.IntegerPojoArrayDto;
-import openapischema.example.api.validation.model.LongMemberArrayDto;
-import openapischema.example.api.validation.model.LongPojoArrayDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -29,6 +27,7 @@ class ArrayValidationTest {
     final Set<ConstraintViolation<IntegerMemberArrayDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -47,6 +46,7 @@ class ArrayValidationTest {
     assertEquals(
         "size must be between 3 and 5",
         constraintViolations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @ParameterizedTest
@@ -62,6 +62,7 @@ class ArrayValidationTest {
     final Set<ConstraintViolation<IntegerPojoArrayDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -80,6 +81,7 @@ class ArrayValidationTest {
     assertEquals(
         "size must be between 3 and 5",
         constraintViolations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @Test
@@ -92,6 +94,7 @@ class ArrayValidationTest {
     assertEquals(1, violations.size());
     assertEquals(
         "must be less than or equal to 100", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @Test
@@ -103,6 +106,7 @@ class ArrayValidationTest {
     final Set<ConstraintViolation<LongMemberArrayDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
+    assertTrue(dto.isValid());
   }
 
   @Test
@@ -117,6 +121,7 @@ class ArrayValidationTest {
     assertEquals(
         "numbers does not contain unique items",
         constraintViolations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @Test
@@ -128,6 +133,7 @@ class ArrayValidationTest {
     final Set<ConstraintViolation<LongPojoArrayDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
+    assertTrue(dto.isValid());
   }
 
   @Test
@@ -142,5 +148,6 @@ class ArrayValidationTest {
     assertEquals(
         "value does not contain unique items",
         constraintViolations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 }

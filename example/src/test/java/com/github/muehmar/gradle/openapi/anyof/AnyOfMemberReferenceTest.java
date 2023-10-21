@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import openapischema.example.api.anyof.model.AnyOfMemberReferenceDto;
-import openapischema.example.api.anyof.model.BaseAnyOfMemberReferenceDto;
 import org.junit.jupiter.api.Test;
 
 class AnyOfMemberReferenceTest {

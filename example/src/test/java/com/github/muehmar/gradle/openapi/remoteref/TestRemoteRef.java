@@ -2,8 +2,6 @@ package com.github.muehmar.gradle.openapi.remoteref;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import openapischema.example.api.remoteref.model.CityDto;
-import openapischema.example.api.remoteref.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class TestRemoteRef {

@@ -1,7 +1,10 @@
 package com.github.muehmar.gradle.openapi.oneof;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,17 +12,10 @@ import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import openapischema.example.api.oneof.model.AdminOrUserDiscriminatorDto;
 import org.junit.jupiter.api.Test;
 
 class DiscriminatorValidationTest {
 
-  private static final ValidatorFactory VALIDATOR_FACTORY =
-      Validation.buildDefaultValidatorFactory();
-  private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
@@ -30,9 +26,10 @@ class DiscriminatorValidationTest {
             AdminOrUserDiscriminatorDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDiscriminatorDto>> violations =
-        VALIDATOR.validate(adminOrUserDto);
+        validate(adminOrUserDto);
 
     assertEquals(0, violations.size());
+    assertTrue(adminOrUserDto.isValid());
   }
 
   @Test
@@ -44,11 +41,17 @@ class DiscriminatorValidationTest {
             AdminOrUserDiscriminatorDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDiscriminatorDto>> violations =
-        VALIDATOR.validate(adminOrUserDto);
+        validate(adminOrUserDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<AdminOrUserDiscriminatorDto> violation = violations.iterator().next();
-    assertEquals("oneOf.ageRaw", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "invalidCompositionDtos[0].adminname -> must not be null",
+            "invalidCompositionDtos[1].ageRaw -> must be less than or equal to 199",
+            "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
+            "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
+        formatViolations(violations),
+        String.join("\n", formatViolations(violations)));
+    assertFalse(adminOrUserDto.isValid());
   }
 
   @Test
@@ -57,7 +60,7 @@ class DiscriminatorValidationTest {
         MAPPER.readValue("{}", AdminOrUserDiscriminatorDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDiscriminatorDto>> violations =
-        VALIDATOR.validate(adminOrUserDto);
+        validate(adminOrUserDto);
 
     assertEquals(
         Arrays.asList(
@@ -70,6 +73,7 @@ class DiscriminatorValidationTest {
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
         formatViolations(violations));
+    assertFalse(adminOrUserDto.isValid());
   }
 
   @Test
@@ -80,15 +84,12 @@ class DiscriminatorValidationTest {
             AdminOrUserDiscriminatorDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDiscriminatorDto>> violations =
-        VALIDATOR.validate(adminOrUserDto);
+        validate(adminOrUserDto);
 
     assertEquals(
         Arrays.asList(
             "validAgainstMoreThanOneSchema -> Is valid against more than one of the schemas [Admin, User]"),
         formatViolations(violations));
-
-    assertEquals(1, violations.size());
-    final ConstraintViolation<AdminOrUserDiscriminatorDto> violation = violations.iterator().next();
-    assertEquals("validAgainstMoreThanOneSchema", violation.getPropertyPath().toString());
+    assertFalse(adminOrUserDto.isValid());
   }
 }

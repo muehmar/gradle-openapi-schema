@@ -1,16 +1,17 @@
 package com.github.muehmar.gradle.openapi.additionalproperties;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
-import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.additionalproperties.model.StringAdditionalPropertiesDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -27,10 +28,10 @@ class StringAdditionalPropertyTest {
 
     assertEquals(Optional.of("world"), dto.getAdditionalProperty("message"));
 
-    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations =
-        ValidationUtil.validate(dto);
+    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations = validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 
   @Test
@@ -40,11 +41,11 @@ class StringAdditionalPropertyTest {
         MAPPER.readValue(
             "{\"name\":\"hello\",\"message\":\"world!\"}", StringAdditionalPropertiesDto.class);
 
-    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations =
-        ValidationUtil.validate(dto);
+    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations = validate(dto);
 
     assertEquals(1, violations.size());
     assertEquals("must match \"[A-Za-z0-9]+\"", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @Test
@@ -55,12 +56,12 @@ class StringAdditionalPropertyTest {
             "{\"name\":\"hello\",\"message\":\"worldworldworld\"}",
             StringAdditionalPropertiesDto.class);
 
-    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations =
-        ValidationUtil.validate(dto);
+    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations = validate(dto);
 
     assertEquals(1, violations.size());
     assertEquals(
         "size must be between 0 and 10", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @ParameterizedTest
@@ -80,19 +81,21 @@ class StringAdditionalPropertyTest {
             .setAdditionalProperties(additionalProperties)
             .build();
 
-    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations =
-        ValidationUtil.validate(dto);
+    final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations = validate(dto);
 
     if (additionalPropertyCount < 1) {
       assertEquals(1, violations.size());
       assertEquals(
           "must be greater than or equal to 2", violations.stream().findFirst().get().getMessage());
+      assertFalse(dto.isValid());
     } else if (3 < additionalPropertyCount) {
       assertEquals(1, violations.size());
       assertEquals(
           "must be less than or equal to 4", violations.stream().findFirst().get().getMessage());
+      assertFalse(dto.isValid());
     } else {
       assertEquals(0, violations.size());
+      assertTrue(dto.isValid());
     }
   }
 

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
-import openapischema.example.api.nullability.model.UserDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

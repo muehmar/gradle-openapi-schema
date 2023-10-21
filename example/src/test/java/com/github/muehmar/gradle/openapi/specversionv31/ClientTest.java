@@ -2,13 +2,14 @@ package com.github.muehmar.gradle.openapi.specversionv31;
 
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.specversionv31.model.ClientDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -32,6 +33,7 @@ class ClientTest {
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -43,6 +45,7 @@ class ClientTest {
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 
     assertEquals(1, constraintViolations.size());
+    assertFalse(dto.isValid());
   }
 
   @ParameterizedTest
@@ -54,6 +57,7 @@ class ClientTest {
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 
     assertEquals(0, constraintViolations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -65,5 +69,6 @@ class ClientTest {
     final Set<ConstraintViolation<ClientDto>> constraintViolations = validate(dto);
 
     assertEquals(1, constraintViolations.size());
+    assertFalse(dto.isValid());
   }
 }

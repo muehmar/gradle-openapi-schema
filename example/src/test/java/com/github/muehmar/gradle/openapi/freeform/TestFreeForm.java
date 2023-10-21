@@ -1,18 +1,14 @@
 package com.github.muehmar.gradle.openapi.freeform;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
-import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
-import openapischema.example.api.freeform.model.FreeForm1Dto;
-import openapischema.example.api.freeform.model.FreeForm2Dto;
-import openapischema.example.api.freeform.model.FreeForm3Dto;
-import openapischema.example.api.freeform.model.InlineFreeFormDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -102,9 +98,10 @@ class TestFreeForm {
       int propertyCount, int violationCount) {
     final FreeForm1Dto dto = FreeForm1Dto.fromProperties(createPropertyMap(propertyCount));
 
-    final Set<?> violations = ValidationUtil.validate(dto);
+    final Set<?> violations = validate(dto);
 
     assertEquals(violationCount, violations.size());
+    assertEquals(violationCount == 0, dto.isValid());
   }
 
   @ParameterizedTest
@@ -113,9 +110,10 @@ class TestFreeForm {
       int propertyCount, int violationCount) {
     final FreeForm2Dto dto = FreeForm2Dto.fromProperties(createPropertyMap(propertyCount));
 
-    final Set<?> violations = ValidationUtil.validate(dto);
+    final Set<?> violations = validate(dto);
 
     assertEquals(violationCount, violations.size());
+    assertEquals(violationCount == 0, dto.isValid());
   }
 
   @ParameterizedTest
@@ -124,9 +122,10 @@ class TestFreeForm {
       int propertyCount, int violationCount) {
     final FreeForm3Dto dto = FreeForm3Dto.fromProperties(createPropertyMap(propertyCount));
 
-    final Set<?> violations = ValidationUtil.validate(dto);
+    final Set<?> violations = validate(dto);
 
     assertEquals(violationCount, violations.size());
+    assertEquals(violationCount == 0, dto.isValid());
   }
 
   @ParameterizedTest
@@ -139,9 +138,10 @@ class TestFreeForm {
             .setData(createPropertyMap(propertyCount))
             .build();
 
-    final Set<?> violations = ValidationUtil.validate(dto);
+    final Set<?> violations = validate(dto);
 
     assertEquals(violationCount, violations.size());
+    assertEquals(violationCount == 0, dto.isValid());
   }
 
   private static HashMap<String, Object> createPropertyMap(int propertyCount) {

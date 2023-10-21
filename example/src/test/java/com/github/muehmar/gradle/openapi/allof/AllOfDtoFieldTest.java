@@ -8,9 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import openapischema.example.api.allof.model.BaseOrderDto;
-import openapischema.example.api.allof.model.InvoiceAllOfDto;
-import openapischema.example.api.allof.model.InvoiceDto;
 import org.junit.jupiter.api.Test;
 
 class AllOfDtoFieldTest {

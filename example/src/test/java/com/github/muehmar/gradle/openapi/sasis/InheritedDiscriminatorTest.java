@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.sasis;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import openapischema.example.api.sasis.model.ResponsesContractCareProviderPartyPartyDto;
 import org.junit.jupiter.api.Test;
 
 class InheritedDiscriminatorTest {

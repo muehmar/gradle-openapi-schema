@@ -7,10 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
-import openapischema.example.api.anyof.model.AdminDto;
-import openapischema.example.api.anyof.model.AdminOrUserAnyOfContainerDto;
-import openapischema.example.api.anyof.model.AdminOrUserDto;
-import openapischema.example.api.anyof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class AnyOfContainerTest {

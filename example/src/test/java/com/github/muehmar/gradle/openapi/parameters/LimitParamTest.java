@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.parameters;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import openapischema.example.api.parameters.model.parameter.LimitParam;
+import com.github.muehmar.gradle.openapi.parameters.parameter.LimitParam;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
-import openapischema.example.api.fullobject.model.AdminDto;
-import openapischema.example.api.fullobject.model.BaseDataDto;
-import openapischema.example.api.fullobject.model.FullObjectDto;
 import org.junit.jupiter.api.Test;
 
 class FullBuilderTest {

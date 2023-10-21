@@ -2,13 +2,12 @@ package com.github.muehmar.gradle.openapi.validation;
 
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.validation.model.AllValueObjectDto;
-import openapischema.example.api.validation.model.ObjectMapDto;
-import openapischema.example.api.validation.model.StringMapDto;
 import org.junit.jupiter.api.Test;
 
 class MapValidationTest {
@@ -21,6 +20,7 @@ class MapValidationTest {
     final Set<ConstraintViolation<StringMapDto>> violations = validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 
   @Test
@@ -33,6 +33,7 @@ class MapValidationTest {
 
     assertEquals(1, violations.size());
     assertEquals("must match \"[A-Za-z]*\"", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @Test
@@ -44,6 +45,7 @@ class MapValidationTest {
     final Set<ConstraintViolation<ObjectMapDto>> violations = validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 
   @Test
@@ -57,5 +59,6 @@ class MapValidationTest {
     assertEquals(1, violations.size());
     assertEquals(
         "must be less than or equal to 22", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 }

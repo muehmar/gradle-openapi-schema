@@ -6,10 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
-import openapischema.example.api.v1.model.InlinedMapSchemaDto;
-import openapischema.example.api.v1.model.InlinedMapSchemaMapDto;
-import openapischema.example.api.v1.model.RootMapSchemaDto;
-import openapischema.example.api.v1.model.RootMapSchemaPropertyDto;
 import org.junit.jupiter.api.Test;
 
 class MapTest {

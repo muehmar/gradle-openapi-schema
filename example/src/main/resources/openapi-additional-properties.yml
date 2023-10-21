@@ -85,4 +85,5 @@ components:
           type: string
       additionalProperties:
         type: string
+        minLength: 5
 

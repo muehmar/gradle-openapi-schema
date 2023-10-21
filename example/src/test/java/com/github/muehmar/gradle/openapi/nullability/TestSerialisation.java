@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import java.util.stream.Stream;
-import openapischema.example.api.nullability.model.UserDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

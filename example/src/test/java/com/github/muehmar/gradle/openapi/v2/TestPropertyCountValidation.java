@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.v2;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -8,10 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import openapischema.example.api.v2.model.PatientDto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -38,12 +35,10 @@ public class TestPropertyCountValidation {
   void validate_when_jsonInput_then_matchExpectedValidationViolationCount(
       String inputJson, int expectedViolationsCount) throws JsonProcessingException {
     final PatientDto dto = MAPPER.readValue(inputJson, PatientDto.class);
-    try (final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
-      final Validator validator = validatorFactory.getValidator();
 
-      final Set<ConstraintViolation<PatientDto>> violations = validator.validate(dto);
+    final Set<ConstraintViolation<PatientDto>> violations = validate(dto);
 
-      assertEquals(expectedViolationsCount, violations.size());
-    }
+    assertEquals(expectedViolationsCount, violations.size());
+    assertEquals(dto.isValid(), expectedViolationsCount == 0);
   }
 }

@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.fullobject;
 
-import static openapischema.example.api.fullobject.model.AdminDto.adminDtoBuilder;
-import static openapischema.example.api.fullobject.model.BaseDataDto.baseDataDtoBuilder;
-import static openapischema.example.api.fullobject.model.FullObjectDto.fullObjectDtoBuilder;
-import static openapischema.example.api.fullobject.model.UserDto.userDtoBuilder;
+import static com.github.muehmar.gradle.openapi.fullobject.AdminDto.adminDtoBuilder;
+import static com.github.muehmar.gradle.openapi.fullobject.BaseDataDto.baseDataDtoBuilder;
+import static com.github.muehmar.gradle.openapi.fullobject.FullObjectDto.fullObjectDtoBuilder;
+import static com.github.muehmar.gradle.openapi.fullobject.UserDto.userDtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -12,10 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
 import java.util.Optional;
-import openapischema.example.api.fullobject.model.AdminDto;
-import openapischema.example.api.fullobject.model.BaseDataDto;
-import openapischema.example.api.fullobject.model.FullObjectDto;
-import openapischema.example.api.fullobject.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class FullObjectSerialisationTest {
