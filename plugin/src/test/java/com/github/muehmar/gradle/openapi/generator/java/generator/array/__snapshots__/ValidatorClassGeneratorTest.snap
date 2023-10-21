@@ -9,10 +9,6 @@ private class Validator {
   }
 
   private boolean isValueValueValid(Double valueValue) {
-    if(valueValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -35,10 +31,6 @@ private class Validator {
   }
 
   private boolean isValueValueValid(Double valueValue) {
-    if(valueValue != null) {
-      return true;
-    }
-
     return true;
   }
 

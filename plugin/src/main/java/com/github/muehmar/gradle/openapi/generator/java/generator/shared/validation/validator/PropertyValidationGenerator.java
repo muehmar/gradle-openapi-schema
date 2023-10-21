@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -80,21 +81,21 @@ public class PropertyValidationGenerator {
   }
 
   private static Generator<PropertyValue, PojoSettings> singlePropertyValueValidationGenerator() {
-    return wrapNotNullsafeGenerator(
-            conditionGenerator(
-                minCondition(),
-                maxCondition(),
-                minSizeCondition(),
-                maxSizeCondition(),
-                decimalMinCondition(),
-                decimalMaxCondition(),
-                patternCondition(),
-                emailCondition(),
-                uniqueArrayItemsCondition(),
-                multipleOfCondition(),
-                deepValidationCondition()))
-        .appendSingleBlankLine()
-        .append(conditionGenerator(necessityAndNullabilityCondition()));
+    final Generator<PropertyValue, PojoSettings> conditionsGenerator =
+        conditionGenerator(
+            minCondition(),
+            maxCondition(),
+            minSizeCondition(),
+            maxSizeCondition(),
+            decimalMinCondition(),
+            decimalMaxCondition(),
+            patternCondition(),
+            emailCondition(),
+            uniqueArrayItemsCondition(),
+            multipleOfCondition(),
+            deepValidationCondition());
+    return wrapNotNullsafeGenerator(conditionsGenerator)
+        .append(conditionGenerator(necessityAndNullabilityCondition(conditionsGenerator)));
   }
 
   private static Generator<PropertyValue, PojoSettings> conditionGenerator(
@@ -114,15 +115,30 @@ public class PropertyValidationGenerator {
     return Generator.<PropertyValue, PojoSettings>emptyGen()
         .append((pv, s, w) -> w.println("if(%s != null) {", pv.getAccessor()))
         .append(conditions, 1)
-        .append(Generator.constant("}"));
+        .append(Generator.constant("}"))
+        .appendSingleBlankLine()
+        .filter((pv, settings) -> not(isSingleTrueCondition(conditions, pv, settings)));
   }
 
-  private static Condition necessityAndNullabilityCondition() {
+  private static Condition necessityAndNullabilityCondition(
+      Generator<PropertyValue, PojoSettings> conditionsGenerator) {
     return (propertyValue, settings, writer) -> {
+      final boolean noConditions =
+          isSingleTrueCondition(conditionsGenerator, propertyValue, settings);
       if (propertyValue.isRequiredAndNotNullable()) {
-        return writer.print("false", propertyValue.getAccessor());
+        if (noConditions) {
+          return writer.print("%s != null", propertyValue.getAccessor());
+        } else {
+          return writer.print("false", propertyValue.getAccessor());
+        }
       } else if (propertyValue.isRequiredAndNullable()) {
-        return writer.print("%s", IsPresentFlagName.fromName(propertyValue.getName()).getName());
+        final JavaIdentifier isPresentFlagName =
+            IsPresentFlagName.fromName(propertyValue.getName()).getName();
+        if (noConditions) {
+          return writer.print("(%s != null || %s)", propertyValue.getAccessor(), isPresentFlagName);
+        } else {
+          return writer.print("%s", isPresentFlagName);
+        }
       } else if (propertyValue.isOptionalAndNotNullable()) {
         // Implement with #142 when the flag is present
         return writer;
@@ -349,6 +365,11 @@ public class PropertyValidationGenerator {
     return objectType.getOrigin().equals(JavaObjectType.TypeOrigin.OPENAPI)
         ? writer.print("%s.isValid()", propertyValue.getAccessor())
         : writer;
+  }
+
+  private static boolean isSingleTrueCondition(
+      Generator<PropertyValue, PojoSettings> generator, PropertyValue pv, PojoSettings settings) {
+    return generator.generate(pv, settings, javaWriter()).asString().equals("return true;");
   }
 
   private interface Condition extends Generator<PropertyValue, PojoSettings> {}

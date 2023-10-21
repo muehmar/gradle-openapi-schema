@@ -1,11 +1,7 @@
 allOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {
-    if(color != null) {
-      return true;
-    }
-
-    return false;
+    return color != null;
   }
 
   private boolean isAdditionalPropertiesValid() {
@@ -17,10 +13,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -37,11 +29,7 @@ private class Validator {
 anyOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {
-    if(color != null) {
-      return true;
-    }
-
-    return false;
+    return color != null;
   }
 
   private boolean isAdditionalPropertiesValid() {
@@ -53,10 +41,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -81,10 +65,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -138,10 +118,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -200,10 +176,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -294,10 +266,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(String additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -324,10 +292,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -343,11 +307,7 @@ private class Validator {
 oneOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {
-    if(color != null) {
-      return true;
-    }
-
-    return false;
+    return color != null;
   }
 
   private boolean isAdditionalPropertiesValid() {
@@ -359,10 +319,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 
@@ -388,11 +344,7 @@ private class Validator {
   }
 
   private boolean isBirthdateValid() {
-    if(birthdate != null) {
-      return true;
-    }
-
-    return false;
+    return birthdate != null;
   }
 
   private boolean isEmailValid() {
@@ -412,10 +364,6 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-    if(additionalPropertiesValue != null) {
-      return true;
-    }
-
     return true;
   }
 

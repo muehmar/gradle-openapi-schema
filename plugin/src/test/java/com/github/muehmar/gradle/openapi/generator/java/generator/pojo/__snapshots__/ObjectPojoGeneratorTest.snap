@@ -156,10 +156,6 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -689,10 +685,6 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -1110,10 +1102,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -1666,10 +1654,6 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -2315,10 +2299,6 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -2708,26 +2688,14 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      if(id != null) {
-        return true;
-      }
-
-      return false;
+      return id != null;
     }
 
     private boolean isNameValid() {
-      if(name != null) {
-        return true;
-      }
-
-      return false;
+      return name != null;
     }
 
     private boolean isLanguageValid() {
-      if(language != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -2740,10 +2708,6 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -3164,10 +3128,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(ColorEnum additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -3391,10 +3351,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Integer additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -3725,26 +3681,14 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      if(id != null) {
-        return true;
-      }
-
-      return false;
+      return id != null;
     }
 
     private boolean isNameValid() {
-      if(name != null) {
-        return true;
-      }
-
-      return false;
+      return name != null;
     }
 
     private boolean isLanguageValid() {
-      if(language != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -3757,10 +3701,6 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -4035,26 +3975,14 @@ public class UserDto {
 
   private class Validator {
     private boolean isIdValid() {
-      if(id != null) {
-        return true;
-      }
-
-      return false;
+      return id != null;
     }
 
     private boolean isNameValid() {
-      if(name != null) {
-        return true;
-      }
-
-      return false;
+      return name != null;
     }
 
     private boolean isLanguageValid() {
-      if(language != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -4067,10 +3995,6 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -4428,10 +4352,6 @@ public class NecessityAndNullabilityDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -5725,10 +5645,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isListValValueValid(String listValValue) {
-      if(listValValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -5741,10 +5657,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -6015,10 +5927,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isMapValValueValid(UUID mapValValue) {
-      if(mapValValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -6031,10 +5939,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -6476,10 +6380,6 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -6896,10 +6796,6 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
-      if(language != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -6912,10 +6808,6 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -7161,10 +7053,6 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
-      if(language != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -7177,10 +7065,6 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -7414,19 +7298,11 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isBirthdateValid() {
-      if(birthdate != null) {
-        return true;
-      }
-
       return true;
     }
 
     private boolean isNameValid() {
-      if(getName() != null) {
-        return true;
-      }
-
-      return false;
+      return getName() != null;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -7438,10 +7314,6 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 

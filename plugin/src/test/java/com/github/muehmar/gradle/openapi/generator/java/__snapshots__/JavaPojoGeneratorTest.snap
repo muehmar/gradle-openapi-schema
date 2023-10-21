@@ -54,10 +54,6 @@ public class PosologyDto {
     }
 
     private boolean isValueValueValid(Double valueValue) {
-      if(valueValue != null) {
-        return true;
-      }
-
       return true;
     }
 
@@ -306,10 +302,6 @@ public class SampleObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      if(additionalPropertiesValue != null) {
-        return true;
-      }
-
       return true;
     }
 
