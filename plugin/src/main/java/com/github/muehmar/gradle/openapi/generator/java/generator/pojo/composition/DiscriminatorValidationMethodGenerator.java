@@ -9,9 +9,9 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Annotat
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -71,7 +71,7 @@ public class DiscriminatorValidationMethodGenerator {
   private static class PojoAndDiscriminator {
     JavaObjectPojo pojo;
     NonEmptyList<JavaObjectPojo> memberPojos;
-    Discriminator discriminator;
+    JavaDiscriminator discriminator;
 
     static Optional<PojoAndDiscriminator> fromPojo(JavaObjectPojo pojo) {
       return pojo.getOneOfComposition()
@@ -89,10 +89,10 @@ public class DiscriminatorValidationMethodGenerator {
   @Value
   private static class SinglePojoAndDiscriminator {
     JavaPojo pojo;
-    Discriminator discriminator;
+    JavaDiscriminator discriminator;
 
     String getDiscriminatorValue() {
-      return discriminator.getValueForSchemaName(pojo.getSchemaName().asName());
+      return discriminator.getValueForSchemaName(pojo.getSchemaName().getOriginalName());
     }
 
     Name isValidAgainstMethodName() {

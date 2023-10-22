@@ -10,6 +10,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
@@ -39,7 +40,7 @@ class RequiredAdditionalPropertiesGetterTest {
             sampleObjectPojo1(),
             PList.single(
                 new JavaRequiredAdditionalProperty(
-                    Name.ofString("prop1"),
+                    JavaName.fromString("prop1"),
                     JavaObjectType.wrap(
                         ObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto")))))));
 
@@ -59,7 +60,7 @@ class RequiredAdditionalPropertiesGetterTest {
             sampleObjectPojo1(),
             PList.single(
                 new JavaRequiredAdditionalProperty(
-                    Name.ofString("prop1"),
+                    JavaName.fromString("prop1"),
                     JavaObjectType.wrap(
                         ObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto")))))));
 
@@ -88,7 +89,7 @@ class RequiredAdditionalPropertiesGetterTest {
             sampleObjectPojo1(),
             PList.single(
                 new JavaRequiredAdditionalProperty(
-                    Name.ofString("prop1"),
+                    JavaName.fromString("prop1"),
                     JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
@@ -105,7 +106,7 @@ class RequiredAdditionalPropertiesGetterTest {
         JavaPojos.withRequiredAdditionalProperties(
             sampleObjectPojo1(),
             PList.single(
-                new JavaRequiredAdditionalProperty(Name.ofString("prop1"), javaAnyType())));
+                new JavaRequiredAdditionalProperty(JavaName.fromString("prop1"), javaAnyType())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

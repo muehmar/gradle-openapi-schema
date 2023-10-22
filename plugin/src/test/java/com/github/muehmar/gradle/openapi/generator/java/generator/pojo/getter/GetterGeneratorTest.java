@@ -30,7 +30,9 @@ class GetterGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
-    expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
+    expect
+        .scenario(member.getName().getOriginalName().asString())
+        .toMatchSnapshot(writerSnapshot(writer));
   }
 
   public static Stream<Arguments> pojoMembers() {

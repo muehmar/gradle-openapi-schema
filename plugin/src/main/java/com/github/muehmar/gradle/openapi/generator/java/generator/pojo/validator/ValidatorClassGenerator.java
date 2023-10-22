@@ -13,14 +13,13 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositi
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -104,9 +103,8 @@ public class ValidatorClassGenerator {
   }
 
   private static PList<Condition> createPropertyValidationConditions(JavaObjectPojo pojo) {
-    final PList<Name> memberNames =
-        pojo.getMembers().map(JavaPojoMember::getName).map(JavaMemberName::asName);
-    final PList<Name> requiredAdditionalPropertiesNames =
+    final PList<JavaName> memberNames = pojo.getMembers().map(JavaPojoMember::getName);
+    final PList<JavaName> requiredAdditionalPropertiesNames =
         pojo.getRequiredAdditionalProperties().map(JavaRequiredAdditionalProperty::getName);
     return memberNames
         .concat(requiredAdditionalPropertiesNames)

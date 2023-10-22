@@ -97,7 +97,7 @@ public class FoldMethodGenerator {
     final JavaObjectPojo ep = pojos.head();
     return String.format(
         JAVA_DOC_EXAMPLE,
-        ep.getSchemaName(),
+        ep.getSchemaName().getOriginalName(),
         CompositionNames.dtoMappingArgumentName(ep),
         ep.getClassName());
   }
@@ -262,7 +262,8 @@ public class FoldMethodGenerator {
               discriminator ->
                   String.format(
                       "\"%s\".equals(%s) && ",
-                      discriminator.getValueForSchemaName(memberPojo.getSchemaName().asName()),
+                      discriminator.getValueForSchemaName(
+                          memberPojo.getSchemaName().getOriginalName()),
                       discriminator.getPropertyName()))
           .orElse("");
     }

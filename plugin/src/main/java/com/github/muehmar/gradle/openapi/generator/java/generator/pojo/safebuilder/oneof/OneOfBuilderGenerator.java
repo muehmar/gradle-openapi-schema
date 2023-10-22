@@ -7,7 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -46,7 +46,7 @@ public class OneOfBuilderGenerator {
         .returnType(OneOfPojo::nextPojoBuilderClassName)
         .methodName(
             (pojo, settings) ->
-                CONTAINER_NAME.prefixedMethodeName(settings.getBuilderMethodPrefix()).asString())
+                CONTAINER_NAME.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(
             pojo -> new Argument(pojo.container.getContainerName().asString(), "container"))
         .content(oneOfContainerSetterContent())

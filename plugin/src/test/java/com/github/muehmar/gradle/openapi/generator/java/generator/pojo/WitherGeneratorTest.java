@@ -11,15 +11,13 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
@@ -50,7 +48,7 @@ class WitherGeneratorTest {
     final Writer writer =
         generator.generate(
             WitherContentBuilder.create()
-                .className(JavaIdentifier.fromString("ObjectDto"))
+                .className(JavaName.fromString("ObjectDto"))
                 .membersForWithers(PList.single(requiredString()))
                 .technicalPojoMembers(
                     PList.of(requiredString(), requiredBirthdate())
@@ -82,7 +80,7 @@ class WitherGeneratorTest {
       generate_when_pojoContainsPropertyNameWhichMatchesSubstringOfOtherProperty_then_correctOutput() {
     final JavaPojoMember surnameMember =
         JavaPojoMemberBuilder.create()
-            .name(JavaMemberName.wrap(Name.ofString("surname")))
+            .name(JavaName.fromString("surname"))
             .description("desc")
             .javaType(stringType())
             .necessity(Necessity.REQUIRED)
@@ -92,7 +90,7 @@ class WitherGeneratorTest {
 
     final JavaPojoMember nameMember =
         JavaPojoMemberBuilder.create()
-            .name(JavaMemberName.wrap(Name.ofString("name")))
+            .name(JavaName.fromString("name"))
             .description("desc")
             .javaType(stringType())
             .necessity(Necessity.OPTIONAL)

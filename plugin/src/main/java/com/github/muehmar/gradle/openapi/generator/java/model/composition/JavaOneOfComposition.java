@@ -21,10 +21,9 @@ import lombok.ToString;
 @ToString
 public class JavaOneOfComposition {
   private final NonEmptyList<JavaObjectPojo> pojos;
-  private final Optional<Discriminator> discriminator;
+  private final Optional<JavaDiscriminator> discriminator;
 
-  private JavaOneOfComposition(
-      NonEmptyList<JavaPojo> pojos, Optional<Discriminator> discriminator) {
+  JavaOneOfComposition(NonEmptyList<JavaPojo> pojos, Optional<JavaDiscriminator> discriminator) {
     this.pojos = assertAllObjectPojos(pojos);
     this.discriminator = discriminator;
   }
@@ -34,21 +33,20 @@ public class JavaOneOfComposition {
       Optional<Discriminator> objectPojoDiscriminator,
       PojoType type,
       TypeMappings typeMappings) {
+    final Optional<JavaDiscriminator> javaDiscriminator =
+        oneOfComposition
+            .determineDiscriminator(objectPojoDiscriminator)
+            .map(JavaDiscriminator::wrap);
     return new JavaOneOfComposition(
         oneOfComposition
             .getPojos()
             .map(pojo -> JavaPojo.wrap(pojo, typeMappings))
             .map(result -> result.getTypeOrDefault(type)),
-        oneOfComposition.determineDiscriminator(objectPojoDiscriminator));
+        javaDiscriminator);
   }
 
   public static JavaOneOfComposition fromPojos(NonEmptyList<JavaPojo> pojos) {
     return new JavaOneOfComposition(pojos, Optional.empty());
-  }
-
-  public static JavaOneOfComposition fromPojosAndDiscriminator(
-      NonEmptyList<JavaPojo> pojos, Discriminator discriminator) {
-    return new JavaOneOfComposition(pojos, Optional.of(discriminator));
   }
 
   public NonEmptyList<JavaObjectPojo> getPojos() {
@@ -67,7 +65,7 @@ public class JavaOneOfComposition {
     return pojos.toPList().map(TechnicalPojoMember::wrapJavaObjectPojo);
   }
 
-  public Optional<Discriminator> getDiscriminator() {
+  public Optional<JavaDiscriminator> getDiscriminator() {
     return discriminator;
   }
 }

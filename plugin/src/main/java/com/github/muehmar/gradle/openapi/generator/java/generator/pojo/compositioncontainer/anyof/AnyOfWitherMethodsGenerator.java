@@ -4,7 +4,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -29,12 +29,12 @@ public class AnyOfWitherMethodsGenerator {
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType(cap -> cap.getContainerName().asString())
-            .methodName(pojos -> String.format("with%s", pojos.pojo.getSchemaName().asIdentifier()))
+            .methodName(pojos -> String.format("with%s", pojos.pojo.getSchemaName()))
             .singleArgument(
                 pojos ->
                     new Argument(
                         pojos.pojo.getClassName().asString(),
-                        pojos.pojo.getClassName().startLowercase().asString()))
+                        pojos.pojo.getClassName().startLowerCase().asString()))
             .content(fromMethodContent())
             .build();
     final Generator<ContainerAndPojo, PojoSettings> javaDoc =
@@ -55,7 +55,7 @@ public class AnyOfWitherMethodsGenerator {
 
   @Value
   private static class ContainerAndPojo {
-    JavaIdentifier containerName;
+    JavaName containerName;
     PList<JavaObjectPojo> containerPojos;
     JavaObjectPojo pojo;
     int pojoIdx;
@@ -76,7 +76,7 @@ public class AnyOfWitherMethodsGenerator {
     }
 
     String constructorArguments() {
-      return containerPojos.map(pojo -> pojo.getClassName().startLowercase()).mkString(", ");
+      return containerPojos.map(p -> p.getClassName().startLowerCase()).mkString(", ");
     }
   }
 }

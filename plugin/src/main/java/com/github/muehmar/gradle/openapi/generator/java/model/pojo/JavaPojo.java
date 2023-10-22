@@ -2,9 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
@@ -20,9 +19,13 @@ public interface JavaPojo {
         enumPojo -> JavaPojoWrapResult.ofDefaultPojo(JavaEnumPojo.wrap(enumPojo)));
   }
 
+  /**
+   * Returns the schema name in the specification. Might be different from the pojo/class name due
+   * to custom name mapping.
+   */
   JavaName getSchemaName();
 
-  JavaIdentifier getClassName();
+  JavaName getClassName();
 
   String getDescription();
 

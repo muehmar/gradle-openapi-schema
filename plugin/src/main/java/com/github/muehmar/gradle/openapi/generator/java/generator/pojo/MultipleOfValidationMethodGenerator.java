@@ -96,14 +96,7 @@ public class MultipleOfValidationMethodGenerator {
     }
 
     public String getIsMultipleOfValidMethodName() {
-      return member
-          .getName()
-          .asJavaName()
-          .startUpperCase()
-          .prefix("is")
-          .append("MultipleOfValid")
-          .asIdentifier()
-          .asString();
+      return member.getName().startUpperCase().prefix("is").append("MultipleOfValid").asString();
     }
 
     public boolean isIntegerType() {

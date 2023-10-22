@@ -6,7 +6,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
 import ch.bluecare.commons.data.PList;
 import ch.bluecare.commons.data.Pair;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
@@ -37,7 +37,7 @@ public class FactoryMethodGenerator {
             .modifiers(PUBLIC, STATIC)
             .noGenericTypes()
             .returnType(cap -> cap.getContainerName().asString())
-            .methodName(pojos -> String.format("from%s", pojos.pojo.getSchemaName().asIdentifier()))
+            .methodName(pojos -> String.format("from%s", pojos.pojo.getSchemaName()))
             .singleArgument(pojos -> new Argument(pojos.pojo.getClassName().asString(), "dto"))
             .content(fromMethodContent())
             .build();
@@ -59,7 +59,7 @@ public class FactoryMethodGenerator {
 
   @Value
   private static class ContainerAndPojo {
-    JavaIdentifier containerName;
+    JavaName containerName;
     PList<JavaObjectPojo> containerPojos;
     JavaObjectPojo pojo;
     int pojoIdx;

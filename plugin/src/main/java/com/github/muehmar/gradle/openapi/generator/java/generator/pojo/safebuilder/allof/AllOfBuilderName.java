@@ -62,9 +62,7 @@ public class AllOfBuilderName implements BuilderName {
   public String currentName() {
     return String.format(
         "%sAllOfBuilder%s%d",
-        builderVariant.getBuilderNamePrefix(),
-        allOfPojo.getSchemaName().asIdentifier(),
-        memberIndex);
+        builderVariant.getBuilderNamePrefix(), allOfPojo.getSchemaName(), memberIndex);
   }
 
   private BuilderName incrementMemberIndex() {

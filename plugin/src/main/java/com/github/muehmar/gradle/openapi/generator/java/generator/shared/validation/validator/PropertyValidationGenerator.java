@@ -9,12 +9,11 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
@@ -23,7 +22,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.github.muehmar.codegenerator.Generator;
@@ -62,7 +60,7 @@ public class PropertyValidationGenerator {
                         ? PList.single(
                             new MethodGen.Argument(
                                 pv.getType().getFullClassName().asString(),
-                                pv.getNameAsIdentifier().asString()))
+                                pv.getName().asString()))
                         : PList.empty())
             .content(singlePropertyValueValidationGenerator())
             .build();
@@ -132,7 +130,7 @@ public class PropertyValidationGenerator {
           return writer.print("false", propertyValue.getAccessor());
         }
       } else if (propertyValue.isRequiredAndNullable()) {
-        final JavaIdentifier isPresentFlagName =
+        final JavaName isPresentFlagName =
             IsPresentFlagName.fromName(propertyValue.getName()).getName();
         if (noConditions) {
           return writer.print("(%s != null || %s)", propertyValue.getAccessor(), isPresentFlagName);
@@ -293,12 +291,8 @@ public class PropertyValidationGenerator {
       final boolean uniqueItems = propertyValue.getType().getConstraints().isUniqueItems();
       final boolean isArrayType = propertyValue.getType().isArrayType();
       if (uniqueItems && isArrayType) {
-        final JavaIdentifier methodName =
-            JavaName.fromName(propertyValue.getName())
-                .startUpperCase()
-                .prefix("has")
-                .append("UniqueItems")
-                .asIdentifier();
+        final JavaName methodName =
+            propertyValue.getName().startUpperCase().prefix("has").append("UniqueItems");
         return writer.print("%s()", methodName);
       } else {
         return writer;
@@ -308,12 +302,8 @@ public class PropertyValidationGenerator {
 
   private static Condition multipleOfCondition() {
     return (propertyValue, settings, writer) -> {
-      final JavaIdentifier methodName =
-          JavaName.fromName(propertyValue.getName())
-              .startUpperCase()
-              .prefix("is")
-              .append("MultipleOfValid")
-              .asIdentifier();
+      final JavaName methodName =
+          propertyValue.getName().startUpperCase().prefix("is").append("MultipleOfValid");
       return propertyValue
           .getType()
           .getConstraints()
@@ -376,7 +366,7 @@ public class PropertyValidationGenerator {
 
   @Value
   public static class PropertyValue {
-    Name name;
+    JavaName name;
     String accessor;
     JavaType type;
     Nullability nullability;
@@ -385,8 +375,8 @@ public class PropertyValidationGenerator {
 
     public static PropertyValue fromJavaMember(JavaPojoMember member) {
       return new PropertyValue(
-          member.getName().asName(),
-          member.getNameAsIdentifier().asString(),
+          member.getName(),
+          member.getName().asString(),
           member.getJavaType(),
           member.getNullability(),
           member.getNecessity(),
@@ -397,9 +387,7 @@ public class PropertyValidationGenerator {
         JavaRequiredAdditionalProperty additionalProperty) {
       return new PropertyValue(
           additionalProperty.getName(),
-          String.format(
-              "%s()",
-              JavaIdentifier.fromName(additionalProperty.getName().startUpperCase().prefix("get"))),
+          String.format("%s()", additionalProperty.getName().startUpperCase().prefix("get")),
           additionalProperty.getJavaType(),
           Nullability.NOT_NULLABLE,
           Necessity.REQUIRED,
@@ -409,7 +397,7 @@ public class PropertyValidationGenerator {
     public static PropertyValue fromAdditionalProperties(
         JavaAdditionalProperties additionalProperties) {
       return new PropertyValue(
-          Name.ofString(JavaAdditionalProperties.additionalPropertiesName().asString()),
+          JavaAdditionalProperties.additionalPropertiesName(),
           "getAdditionalProperties()",
           additionalProperties.asTechnicalPojoMember().getJavaType(),
           Nullability.NOT_NULLABLE,
@@ -431,18 +419,9 @@ public class PropertyValidationGenerator {
     }
 
     private PropertyValue nestedForType(JavaType type) {
-      final Name nestedName = NestedValueName.fromName(name).getName();
+      final JavaName nestedName = NestedValueName.fromName(name).getName();
       return new PropertyValue(
-          nestedName,
-          JavaIdentifier.fromName(nestedName).asString(),
-          type,
-          Nullability.NULLABLE,
-          Necessity.OPTIONAL,
-          true);
-    }
-
-    public JavaIdentifier getNameAsIdentifier() {
-      return JavaIdentifier.fromName(name);
+          nestedName, nestedName.asString(), type, Nullability.NULLABLE, Necessity.OPTIONAL, true);
     }
 
     public boolean isRequiredAndNullable() {

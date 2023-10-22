@@ -1,6 +1,8 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.PackageName;
+import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
@@ -80,6 +82,18 @@ public class QualifiedClassName {
     return pkg.map(p -> p.qualifiedClassName(name)).orElse(name);
   }
 
+  public String asString() {
+    return asName().asString();
+  }
+
+  public Optional<PackageName> getPackageName() {
+    return pkg;
+  }
+
+  public boolean isJavaLangPackage() {
+    return pkg.equals(Optional.of(PackageNames.JAVA_LANG));
+  }
+
   public Name getClassNameWithGenerics(Name className, Name... more) {
     final PList<Name> generics = PList.fromArray(more).cons(className);
     final String genericsCommaSeparated = generics.map(Name::asString).mkString(", ");
@@ -96,7 +110,7 @@ public class QualifiedClassName {
         .orElse(this);
   }
 
-  public QualifiedClassName asInnerClassOf(JavaIdentifier outerClassName) {
+  public QualifiedClassName asInnerClassOf(JavaName outerClassName) {
     return new QualifiedClassName(
         pkg, Name.ofString(outerClassName.asString()).append(".").append(name));
   }

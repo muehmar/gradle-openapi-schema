@@ -6,9 +6,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -52,7 +52,9 @@ public class ToStringGenerator {
           .map(
               member ->
                   String.format(
-                      SINGLE_PROPERTY_FORMAT, member.getName(), toRightHandExpression(member)))
+                      SINGLE_PROPERTY_FORMAT,
+                      member.getName().getOriginalName(),
+                      toRightHandExpression(member)))
           .reverse()
           .zipWithIndex()
           .map(allExceptFirst(line -> line.concat(" \", \" +")))
@@ -76,7 +78,7 @@ public class ToStringGenerator {
   @PojoBuilder(builderName = "ToStringContentBuilder")
   @Value
   public static class ToStringContent {
-    JavaIdentifier className;
+    JavaName className;
 
     PList<TechnicalPojoMember> technicalPojoMembers;
 

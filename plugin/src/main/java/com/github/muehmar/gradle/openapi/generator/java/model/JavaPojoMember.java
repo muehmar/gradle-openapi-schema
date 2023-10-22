@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumC
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator.EnumContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -31,7 +32,7 @@ import lombok.With;
 @PojoBuilder
 @With
 public class JavaPojoMember {
-  private final JavaMemberName name;
+  private final JavaName name;
   private final String description;
   private final JavaType javaType;
   private final Necessity necessity;
@@ -44,7 +45,7 @@ public class JavaPojoMember {
       "onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)";
 
   JavaPojoMember(
-      JavaMemberName name,
+      JavaName name,
       String description,
       JavaType javaType,
       Necessity necessity,
@@ -61,7 +62,7 @@ public class JavaPojoMember {
   public static JavaPojoMember wrap(PojoMember pojoMember, TypeMappings typeMappings) {
     final JavaType javaType = JavaType.wrap(pojoMember.getType(), typeMappings);
     return new JavaPojoMember(
-        JavaMemberName.wrap(pojoMember.getName()),
+        JavaName.fromName(pojoMember.getName()),
         pojoMember.getDescription(),
         javaType,
         pojoMember.getNecessity(),
@@ -69,12 +70,8 @@ public class JavaPojoMember {
         MemberType.OBJECT_MEMBER);
   }
 
-  public JavaMemberName getName() {
+  public JavaName getName() {
     return name;
-  }
-
-  public JavaIdentifier getNameAsIdentifier() {
-    return name.asJavaName().asIdentifier();
   }
 
   public Nullability getNullability() {
@@ -177,32 +174,29 @@ public class JavaPojoMember {
     return isOptional() && isNotNullable();
   }
 
-  public JavaIdentifier getWitherName() {
+  public JavaName getWitherName() {
     return prefixedMethodName("with");
   }
 
-  public JavaIdentifier getIsPresentFlagName() {
-    return IsPresentFlagName.fromName(name.asName()).getName();
+  public JavaName getIsPresentFlagName() {
+    return IsPresentFlagName.fromName(name).getName();
   }
 
-  public JavaIdentifier getIsNullFlagName() {
-    return IsNullFlagName.fromName(name.asName()).getName();
+  public JavaName getIsNullFlagName() {
+    return IsNullFlagName.fromName(name).getName();
   }
 
-  public JavaIdentifier getGetterName() {
+  public JavaName getGetterName() {
     return prefixedMethodName("get");
   }
 
-  public JavaIdentifier getValidationGetterName(PojoSettings settings) {
+  public JavaName getValidationGetterName(PojoSettings settings) {
     return JavaName.fromString(getGetterName().asString())
-        .append(settings.getValidationMethods().getGetterSuffix())
-        .asIdentifier();
+        .append(settings.getValidationMethods().getGetterSuffix());
   }
 
-  public JavaIdentifier getGetterNameWithSuffix(PojoSettings settings) {
-    return JavaName.fromString(getGetterName().asString())
-        .append(determineSuffix(settings))
-        .asIdentifier();
+  public JavaName getGetterNameWithSuffix(PojoSettings settings) {
+    return JavaName.fromString(getGetterName().asString()).append(determineSuffix(settings));
   }
 
   private String determineSuffix(PojoSettings settings) {
@@ -218,8 +212,8 @@ public class JavaPojoMember {
     }
   }
 
-  public JavaIdentifier prefixedMethodName(String prefix) {
-    return name.asJavaName().prefixedMethodeName(prefix);
+  public JavaName prefixedMethodName(String prefix) {
+    return name.prefixedMethodName(prefix);
   }
 
   public PList<TechnicalPojoMember> getTechnicalMembers() {
@@ -249,8 +243,7 @@ public class JavaPojoMember {
         enumType ->
             Optional.of(
                 EnumContentBuilder.create()
-                    .className(
-                        JavaIdentifier.fromName(enumType.getQualifiedClassName().getClassName()))
+                    .className(JavaName.fromName(enumType.getQualifiedClassName().getClassName()))
                     .description(getDescription())
                     .members(enumType.getMembers())
                     .build());
@@ -270,7 +263,7 @@ public class JavaPojoMember {
    * In case this member is an enum type, it converts the classname of the enum so that it's
    * referenced via outer-class {@code javaPojoName}.
    */
-  public JavaPojoMember asInnerEnumOf(JavaIdentifier javaPojoName) {
+  public JavaPojoMember asInnerEnumOf(JavaName javaPojoName) {
     final JavaType newType =
         javaType.fold(
             arrayType -> arrayType,

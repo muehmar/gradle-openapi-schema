@@ -49,14 +49,14 @@ public class SingleMemberSetterGenerator {
                     new Argument(
                         String.format(
                             argumentFormat, m.getMember().getJavaType().getFullClassName()),
-                        m.getMember().getNameAsIdentifier().asString()))
+                        m.getMember().getName().asString()))
             .content(
                 (m, s, w) ->
                     w.println(
                         "return new %s(builder.%s(%s));",
                         m.nextBuilderClassName(),
                         m.getMember().prefixedMethodName(s.getBuilderMethodPrefix()),
-                        m.getMember().getNameAsIdentifier()))
+                        m.getMember().getName()))
             .build()
             .append(fieldRefs(), Member::getMember);
     return JavaDocGenerator.<PojoSettings>javaDoc()

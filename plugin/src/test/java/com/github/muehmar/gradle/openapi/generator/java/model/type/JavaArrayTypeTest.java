@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
@@ -24,7 +24,7 @@ class JavaArrayTypeTest {
         PList.of("java.util.List", "java.util.UUID"),
         javaArrayType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 
@@ -43,7 +43,7 @@ class JavaArrayTypeTest {
         PList.of("com.custom.CustomList", "java.util.UUID"),
         javaArrayType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 

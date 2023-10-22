@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
@@ -30,7 +30,7 @@ class JavaIntegerTypeTest {
         PList.of("java.lang." + className),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 
@@ -55,7 +55,7 @@ class JavaIntegerTypeTest {
         PList.of("com.custom.CustomLong"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 
@@ -74,7 +74,7 @@ class JavaIntegerTypeTest {
         PList.of("com.custom.CustomLong"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 }

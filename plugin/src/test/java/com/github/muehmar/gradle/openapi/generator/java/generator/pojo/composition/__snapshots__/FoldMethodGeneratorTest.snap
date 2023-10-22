@@ -44,7 +44,7 @@ java.util.function.Supplier
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'IllegalIdentifier', the mapping
+ * I.e. if the JSON was valid against the schema 'Illegal?Identifier', the mapping
  * method {@code onIllegal_IdentifierDto} gets executed with the {@link
  * Illegal_IdentifierDto} as argument.<br>
  * <br>
@@ -54,10 +54,10 @@ java.util.function.Supplier
  * returned.
  */
 public <T> T foldOneOf(Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto, Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto, Supplier<T> onInvalid) {
-  if ("IllegalIdentifier".equals(switch) && isValidAgainstIllegal_IdentifierDto()) {
+  if ("Illegal?Identifier".equals(switch_) && isValidAgainstIllegal_IdentifierDto()) {
     return onIllegal_IdentifierDto.apply(asIllegal_IdentifierDto());
   }
-  if ("IllegalIdentifier".equals(switch) && isValidAgainstIllegal_IdentifierDto()) {
+  if ("Illegal?Identifier".equals(switch_) && isValidAgainstIllegal_IdentifierDto()) {
     return onIllegal_IdentifierDto.apply(asIllegal_IdentifierDto());
   }
   else {
@@ -71,7 +71,7 @@ public <T> T foldOneOf(Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDt
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'IllegalIdentifier', the mapping
+ * I.e. if the JSON was valid against the schema 'Illegal?Identifier', the mapping
  * method {@code onIllegal_IdentifierDto} gets executed with the {@link
  * Illegal_IdentifierDto} as argument.<br>
  * <br>

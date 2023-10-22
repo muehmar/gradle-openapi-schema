@@ -11,7 +11,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -82,9 +82,9 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
       SafeBuilderVariant builderVariant) {
     return pojo -> {
       final String prefix = builderVariant.getBuilderNamePrefix();
-      final JavaIdentifier className = pojo.getClassName();
+      final JavaName className = pojo.getClassName();
       if (prefix.isEmpty()) {
-        return String.format("%sBuilder", className.startLowercase());
+        return String.format("%sBuilder", className.startLowerCase());
       } else {
         return String.format("%s%sBuilder", prefix.toLowerCase(), className);
       }

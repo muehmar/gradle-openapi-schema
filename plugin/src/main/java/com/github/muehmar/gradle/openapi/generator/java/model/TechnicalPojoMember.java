@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaBooleanType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
@@ -21,7 +22,7 @@ import lombok.Value;
  */
 @Value
 public class TechnicalPojoMember {
-  JavaIdentifier name;
+  JavaName name;
   JavaType javaType;
 
   public static TechnicalPojoMember additionalProperties(JavaType valueType) {
@@ -30,20 +31,20 @@ public class TechnicalPojoMember {
     return new TechnicalPojoMember(additionalPropertiesName(), javaMapType);
   }
 
-  public static TechnicalPojoMember isPresentFlagMember(JavaIdentifier name) {
+  public static TechnicalPojoMember isPresentFlagMember(JavaName name) {
     return new TechnicalPojoMember(name, JavaBooleanType.createPrimitive());
   }
 
-  public static TechnicalPojoMember isNullFlagMember(JavaIdentifier name) {
+  public static TechnicalPojoMember isNullFlagMember(JavaName name) {
     return new TechnicalPojoMember(name, JavaBooleanType.createPrimitive());
   }
 
   public static TechnicalPojoMember wrapPojoMember(JavaPojoMember member) {
-    return new TechnicalPojoMember(member.getName().asIdentifier(), member.getJavaType());
+    return new TechnicalPojoMember(member.getName(), member.getJavaType());
   }
 
   public static TechnicalPojoMember wrapJavaObjectPojo(JavaObjectPojo pojo) {
     return new TechnicalPojoMember(
-        pojo.getClassName().startLowercase(), JavaObjectType.fromObjectPojo(pojo));
+        pojo.getClassName().startLowerCase(), JavaObjectType.fromObjectPojo(pojo));
   }
 }

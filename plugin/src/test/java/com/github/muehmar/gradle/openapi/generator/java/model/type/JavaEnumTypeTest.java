@@ -3,7 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
@@ -25,7 +26,7 @@ class JavaEnumTypeTest {
         PList.of("Gender"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 
@@ -47,7 +48,7 @@ class JavaEnumTypeTest {
         PList.of("com.github.muehmar.gradle.openapi.CustomGender"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 
@@ -64,7 +65,7 @@ class JavaEnumTypeTest {
         PList.of("Gender"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 
@@ -73,7 +74,7 @@ class JavaEnumTypeTest {
     final JavaEnumType enumType =
         JavaEnumType.wrap(
             EnumType.ofNameAndMembers(Name.ofString("Color"), PList.of("yellow", "red")));
-    final JavaEnumType mappedType = enumType.asInnerClassOf(JavaIdentifier.fromString("AdminDto"));
+    final JavaEnumType mappedType = enumType.asInnerClassOf(JavaName.fromString("AdminDto"));
 
     assertEquals("AdminDto.Color", mappedType.getQualifiedClassName().getClassName().asString());
   }
