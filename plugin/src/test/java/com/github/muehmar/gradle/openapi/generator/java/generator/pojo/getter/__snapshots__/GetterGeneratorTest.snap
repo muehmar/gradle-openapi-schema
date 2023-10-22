@@ -1,0 +1,164 @@
+pojoMembers[optionalNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
+javax.validation.constraints.Pattern
+
+/**
+ * OptionalNullableStringVal
+ */
+@JsonIgnore
+public Tristate<String> getOptionalNullableStringVal() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+
+@JsonProperty("optionalNullableStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringValJackson() {
+  return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+}
+
+@Pattern(regexp="Hello")
+private String getOptionalNullableStringValRaw() {
+  return optionalNullableStringVal;
+}
+]
+
+
+pojoMembers[optionalStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+javax.validation.constraints.Pattern
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public Optional<String> getOptionalStringVal() {
+  return Optional.ofNullable(optionalStringVal);
+}
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public String getOptionalStringValOr(String defaultValue) {
+  return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
+}
+
+@JsonProperty("optionalStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Pattern(regexp="Hello")
+private String getOptionalStringValRaw() {
+  return optionalStringVal;
+}
+]
+
+
+pojoMembers[point.]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * Point
+ */
+@JsonIgnore
+public Tristate<String> getPoint_() {
+  return Tristate.ofNullableAndNullFlag(point_, isPoint_Null);
+}
+
+@JsonProperty("point.")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getPoint_Jackson() {
+  return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
+}
+
+private String getPoint_Raw() {
+  return point_;
+}
+]
+
+
+pojoMembers[requiredNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.Pattern
+
+/**
+ * RequiredNullableStringVal
+ */
+@JsonIgnore
+public Optional<String> getRequiredNullableStringVal() {
+  return Optional.ofNullable(requiredNullableStringVal);
+}
+
+/**
+ * RequiredNullableStringVal
+ */
+@JsonIgnore
+public String getRequiredNullableStringValOr(String defaultValue) {
+  return this.requiredNullableStringVal == null ? defaultValue : this.requiredNullableStringVal;
+}
+
+@Pattern(regexp="Hello")
+@JsonProperty("requiredNullableStringVal")
+private String getRequiredNullableStringValRaw() {
+  return requiredNullableStringVal;
+}
+
+@AssertTrue(message = "requiredNullableStringVal is required but it is not present")
+private boolean isRequiredNullableStringValPresent() {
+  return isRequiredNullableStringValPresent;
+}
+]
+
+
+pojoMembers[requiredStringVal]=[
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+/**
+ * RequiredStringVal
+ */
+@NotNull
+@Pattern(regexp="Hello")
+public String getRequiredStringVal() {
+  return requiredStringVal;
+}
+]
+
+
+pojoMembers[switch]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * Switch
+ */
+@JsonIgnore
+public Tristate<String> getSwitch() {
+  return Tristate.ofNullableAndNullFlag(switch_, isSwitchNull);
+}
+
+@JsonProperty("switch")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getSwitchJackson() {
+  return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
+}
+
+private String getSwitchRaw() {
+  return switch_;
+}
+]

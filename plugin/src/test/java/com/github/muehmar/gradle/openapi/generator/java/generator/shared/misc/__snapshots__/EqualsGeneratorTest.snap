@@ -26,3 +26,20 @@ public boolean equals(Object obj) {
   return Objects.deepEquals(this.value, other.value);
 }
 ]
+
+
+illegalIdentifierPojo=[
+java.util.Objects
+
+@Override
+public boolean equals(Object obj) {
+  if (this == obj) return true;
+  if (obj == null || this.getClass() != obj.getClass()) return false;
+  final Illegal_IdentifierDto other = (Illegal_IdentifierDto) obj;
+  return Objects.deepEquals(this.switch_, other.switch_)
+      && Objects.deepEquals(this.isSwitchNull, other.isSwitchNull)
+      && Objects.deepEquals(this.point_, other.point_)
+      && Objects.deepEquals(this.isPoint_Null, other.isPoint_Null)
+      && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+}
+]

@@ -75,6 +75,37 @@ private class Validator {
 ]
 
 
+illegalIdentifierPojo=[
+private class Validator {
+  private boolean isSwitchValid() {
+    return true;
+  }
+
+  private boolean isPoint_Valid() {
+    return true;
+  }
+
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties() != null) {
+      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    return true;
+  }
+
+  private boolean isValid() {
+    return isSwitchValid()
+        && isPoint_Valid()
+        && isAdditionalPropertiesValid();
+  }
+}
+]
+
+
 objectPojoWithMaxPropertyCountConstraint=[
 private class Validator {
   private boolean isRequiredStringValValid() {

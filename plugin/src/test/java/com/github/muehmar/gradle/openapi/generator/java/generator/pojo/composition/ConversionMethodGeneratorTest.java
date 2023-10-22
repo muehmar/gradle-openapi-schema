@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ConversionMethodGenerator.conversionMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -38,8 +41,7 @@ class ConversionMethodGeneratorTest {
   @SnapshotName("composedPojo")
   void generate_when_composedPojo_then_correctOutput(
       Function<NonEmptyList<JavaPojo>, JavaObjectPojo> createComposedPojo, String name) {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        ConversionMethodGenerator.conversionMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = conversionMethodGenerator();
 
     final JavaObjectPojo pojo1 = JavaPojos.sampleObjectPojo1();
 
@@ -68,8 +70,7 @@ class ConversionMethodGeneratorTest {
 
   @Test
   void generate_when_nonComposedPojo_then_noOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        ConversionMethodGenerator.conversionMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = conversionMethodGenerator();
 
     final JavaObjectPojo composedPojo = JavaPojos.sampleObjectPojo1();
 
@@ -81,8 +82,7 @@ class ConversionMethodGeneratorTest {
   @Test
   @SnapshotName("composedPojoWithNullabilityAndNecessityVariants")
   void generate_when_composedPojoWithNullabilityAndNecessityVariants_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        ConversionMethodGenerator.conversionMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = conversionMethodGenerator();
 
     final JavaObjectPojo pojo1 = JavaPojos.sampleObjectPojo1();
 
@@ -98,14 +98,27 @@ class ConversionMethodGeneratorTest {
   @Test
   @SnapshotName("nestedOneOf")
   void generate_when_nestedOneOf_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        ConversionMethodGenerator.conversionMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = conversionMethodGenerator();
 
     final JavaObjectPojo composedPojo =
         JavaPojos.oneOfPojo(
             JavaPojos.oneOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2()));
 
     final Writer writer = generator.generate(composedPojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generate_when_illegalIdentifierPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = conversionMethodGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojo(illegalIdentifierPojo(), sampleObjectPojo1()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

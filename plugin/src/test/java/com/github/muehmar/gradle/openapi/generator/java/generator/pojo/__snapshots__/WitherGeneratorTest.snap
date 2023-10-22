@@ -53,6 +53,39 @@ public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String>
 ]
 
 
+illegalIdentifierPojo=[
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * Switch
+ */
+public Illegal_IdentifierDto withSwitch(String switch_) {
+  return new Illegal_IdentifierDto(switch_, false, point_, isPoint_Null, additionalProperties);
+}
+
+/**
+ * Switch
+ */
+public Illegal_IdentifierDto withSwitch(Tristate<String> switch_) {
+  return new Illegal_IdentifierDto(switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), point_, isPoint_Null, additionalProperties);
+}
+
+/**
+ * Point
+ */
+public Illegal_IdentifierDto withPoint_(String point_) {
+  return new Illegal_IdentifierDto(switch_, isSwitchNull, point_, false, additionalProperties);
+}
+
+/**
+ * Point
+ */
+public Illegal_IdentifierDto withPoint_(Tristate<String> point_) {
+  return new Illegal_IdentifierDto(switch_, isSwitchNull, point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+}
+]
+
+
 noAdditionalProperties=[
 .
 .

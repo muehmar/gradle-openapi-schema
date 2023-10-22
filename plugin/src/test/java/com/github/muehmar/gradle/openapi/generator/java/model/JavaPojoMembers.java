@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.p
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -275,6 +276,28 @@ public class JavaPojoMembers {
                 TypeMappings.empty()))
         .necessity(REQUIRED)
         .nullability(NOT_NULLABLE)
+        .type(OBJECT_MEMBER)
+        .build();
+  }
+
+  public static JavaPojoMember keywordNameString() {
+    return JavaPojoMemberBuilder.create()
+        .name(JavaMemberName.wrap(Name.ofString("switch")))
+        .description("Switch")
+        .javaType(JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))
+        .necessity(OPTIONAL)
+        .nullability(NULLABLE)
+        .type(OBJECT_MEMBER)
+        .build();
+  }
+
+  public static JavaPojoMember illegalCharacterString() {
+    return JavaPojoMemberBuilder.create()
+        .name(JavaMemberName.wrap(Name.ofString("point.")))
+        .description("Point")
+        .javaType(JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))
+        .necessity(OPTIONAL)
+        .nullability(NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }

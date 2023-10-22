@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -32,7 +34,7 @@ class DiscriminatorValidationMethodGeneratorTest {
   @SnapshotName("NoDiscriminator")
   void generate_when_calledWithoutDiscriminator_then_noContent() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
+        discriminatorValidationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
@@ -46,7 +48,7 @@ class DiscriminatorValidationMethodGeneratorTest {
   @SnapshotName("DiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
+        discriminatorValidationMethodGenerator();
 
     final Discriminator noMappingDiscriminator =
         Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
@@ -62,10 +64,30 @@ class DiscriminatorValidationMethodGeneratorTest {
   }
 
   @Test
+  @SnapshotName("IllegalIdentifierPojoDiscriminatorWithoutMapping")
+  void generate_when_illegalIdentifierPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        discriminatorValidationMethodGenerator();
+
+    final Discriminator noMappingDiscriminator =
+        Discriminator.fromPropertyName(JavaPojoMembers.keywordNameString().getName().asName());
+
+    final JavaObjectPojo pojo =
+        JavaPojos.oneOfPojo(
+            JavaOneOfComposition.fromPojosAndDiscriminator(
+                NonEmptyList.of(illegalIdentifierPojo(), illegalIdentifierPojo()),
+                noMappingDiscriminator));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("DiscriminatorWithMapping")
   void generate_when_calledWithDiscriminatorAndMapping_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
+        discriminatorValidationMethodGenerator();
 
     final HashMap<String, Name> mapping = new HashMap<>();
     mapping.put("obj1", sampleObjectPojo1().getSchemaName().asName());
@@ -89,7 +111,7 @@ class DiscriminatorValidationMethodGeneratorTest {
   @SnapshotName("DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings")
   void generate_when_protectedAndDeprecatedValidationSettings_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator();
+        discriminatorValidationMethodGenerator();
 
     final HashMap<String, Name> mapping = new HashMap<>();
     mapping.put("obj1", sampleObjectPojo1().getSchemaName().asName());

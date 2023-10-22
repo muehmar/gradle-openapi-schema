@@ -8,6 +8,23 @@ public PosologyDto(
 ]
 
 
+illegalIdentifierPojo=[
+public Illegal_IdentifierDto(
+    String switch_,
+    boolean isSwitchNull,
+    String point_,
+    boolean isPoint_Null,
+    Map<String, Object> additionalProperties
+  ) {
+  this.switch_ = switch_;
+  this.isSwitchNull = isSwitchNull;
+  this.point_ = point_;
+  this.isPoint_Null = isPoint_Null;
+  this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+}
+]
+
+
 necessityAndNullabilityObjectPojo=[
 public NecessityAndNullabilityDto(
     String requiredStringVal,
