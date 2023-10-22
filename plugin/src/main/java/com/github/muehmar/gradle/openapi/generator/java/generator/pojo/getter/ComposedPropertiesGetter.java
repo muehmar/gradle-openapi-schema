@@ -54,7 +54,7 @@ class ComposedPropertiesGetter {
 
   private static Generator<JavaPojoMember, PojoSettings> notNullableGetterContent() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((m, s, w) -> w.println("return %s;", m.getNameAsIdentifier()))
+        .append((m, s, w) -> w.println("return %s;", m.getName()))
         .filter(JavaPojoMember::isNotNullable);
   }
 
@@ -64,7 +64,7 @@ class ComposedPropertiesGetter {
             (m, s, w) ->
                 w.println(
                     "return %s ? new JacksonNullContainer<>(%s) : null;",
-                    m.getIsPresentFlagName(), m.getNameAsIdentifier()))
+                    m.getIsPresentFlagName(), m.getName()))
         .append(ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
         .filter(JavaPojoMember::isRequiredAndNullable);
   }
@@ -75,7 +75,7 @@ class ComposedPropertiesGetter {
             (m, s, w) ->
                 w.println(
                     "return %s ? new JacksonNullContainer<>(%s) : %s;",
-                    m.getIsNullFlagName(), m.getNameAsIdentifier(), m.getNameAsIdentifier()))
+                    m.getIsNullFlagName(), m.getName(), m.getName()))
         .append(ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
         .filter(JavaPojoMember::isOptionalAndNullable);
   }

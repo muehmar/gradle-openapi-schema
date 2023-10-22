@@ -13,6 +13,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
@@ -46,9 +47,10 @@ class FoldMethodGeneratorTest {
   void generate_when_calledWithDiscriminator_then_correctContent() {
     final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
     final Discriminator discriminator =
-        Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
+        Discriminator.fromPropertyName(
+            JavaPojoMembers.requiredString().getName().getOriginalName());
     final JavaOneOfComposition javaOneOfComposition =
-        JavaOneOfComposition.fromPojosAndDiscriminator(
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
 
     final Writer writer =
@@ -64,11 +66,12 @@ class FoldMethodGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
 
     final Discriminator noMappingDiscriminator =
-        Discriminator.fromPropertyName(JavaPojoMembers.keywordNameString().getName().asName());
+        Discriminator.fromPropertyName(
+            JavaPojoMembers.keywordNameString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
-            JavaOneOfComposition.fromPojosAndDiscriminator(
+            JavaOneOfCompositions.fromPojosAndDiscriminator(
                 NonEmptyList.of(illegalIdentifierPojo(), illegalIdentifierPojo()),
                 noMappingDiscriminator));
 
@@ -85,14 +88,14 @@ class FoldMethodGeneratorTest {
     final JavaObjectPojo sampleObjectPojo2 = sampleObjectPojo2();
 
     final HashMap<String, Name> mapping = new HashMap<>();
-    mapping.put("obj1", sampleObjectPojo1.getSchemaName().asName());
-    mapping.put("obj2", sampleObjectPojo2.getSchemaName().asName());
+    mapping.put("obj1", sampleObjectPojo1.getSchemaName().getOriginalName());
+    mapping.put("obj2", sampleObjectPojo2.getSchemaName().getOriginalName());
     final Discriminator discriminator =
         Discriminator.fromPropertyNameAndMapping(
-            JavaPojoMembers.requiredString().getName().asName(), mapping);
+            JavaPojoMembers.requiredString().getName().getOriginalName(), mapping);
 
     final JavaOneOfComposition javaOneOfComposition =
-        JavaOneOfComposition.fromPojosAndDiscriminator(
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1, sampleObjectPojo2), discriminator);
 
     final Writer writer =

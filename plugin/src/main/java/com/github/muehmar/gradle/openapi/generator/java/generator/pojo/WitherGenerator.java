@@ -6,9 +6,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaDocGenerator;
@@ -86,7 +86,7 @@ public class WitherGenerator {
       return PList.single(
           new MethodGen.Argument(
               String.format(typeFormat(), pojoMember.getJavaType().getFullClassName()),
-              pojoMember.getNameAsIdentifier().asString()));
+              pojoMember.getName().asString()));
     }
 
     abstract String typeFormat();
@@ -159,18 +159,18 @@ public class WitherGenerator {
     String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isRequiredAndNullable()) {
         return call.replaceAll(
-                pojoMember.getNameAsIdentifier().wordBoundaryPattern(),
-                String.format("%s.orElse(null)", pojoMember.getNameAsIdentifier()))
+                pojoMember.getName().wordBoundaryPattern(),
+                String.format("%s.orElse(null)", pojoMember.getName()))
             .replaceAll(
                 pojoMember.getIsPresentFlagName().wordBoundaryPattern(),
-                String.format("%s.isPresent()", pojoMember.getNameAsIdentifier()));
+                String.format("%s.isPresent()", pojoMember.getName()));
       } else if (pojoMember.isOptionalAndNotNullable()) {
         return call.replaceAll(
-                pojoMember.getNameAsIdentifier().wordBoundaryPattern(),
-                String.format("%s.orElse(null)", pojoMember.getNameAsIdentifier()))
+                pojoMember.getName().wordBoundaryPattern(),
+                String.format("%s.orElse(null)", pojoMember.getName()))
             .replaceAll(
                 pojoMember.getIsNullFlagName().wordBoundaryPattern(),
-                String.format("!%s.isPresent()", pojoMember.getNameAsIdentifier()));
+                String.format("!%s.isPresent()", pojoMember.getName()));
       } else {
         return call;
       }
@@ -201,13 +201,11 @@ public class WitherGenerator {
     String replacePropertiesInConstructorCall(String call) {
       if (pojoMember.isOptionalAndNullable()) {
         return call.replaceAll(
-                pojoMember.getNameAsIdentifier().wordBoundaryPattern(),
-                String.format(
-                    "%s.%s", pojoMember.getNameAsIdentifier(), pojoMember.tristateToProperty()))
+                pojoMember.getName().wordBoundaryPattern(),
+                String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToProperty()))
             .replaceAll(
                 pojoMember.getIsNullFlagName().wordBoundaryPattern(),
-                String.format(
-                    "%s.%s", pojoMember.getNameAsIdentifier(), pojoMember.tristateToIsNullFlag()));
+                String.format("%s.%s", pojoMember.getName(), pojoMember.tristateToIsNullFlag()));
       } else {
         return call;
       }
@@ -222,7 +220,7 @@ public class WitherGenerator {
   @Value
   @PojoBuilder(builderName = "WitherContentBuilder")
   public static class WitherContent {
-    JavaIdentifier className;
+    JavaName className;
     PList<JavaPojoMember> membersForWithers;
     PList<TechnicalPojoMember> technicalPojoMembers;
   }

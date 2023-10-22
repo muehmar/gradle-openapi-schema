@@ -14,6 +14,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
@@ -79,7 +80,7 @@ class ValidatorClassGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaOneOfComposition javaOneOfComposition =
-        JavaOneOfComposition.fromPojosAndDiscriminator(
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
             Discriminator.fromPropertyName(Name.ofString("type")));
 

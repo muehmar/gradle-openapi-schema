@@ -14,6 +14,7 @@ import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
@@ -57,9 +58,10 @@ class DtoSetterGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
 
     final Discriminator discriminator =
-        Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
+        Discriminator.fromPropertyName(
+            JavaPojoMembers.requiredString().getName().getOriginalName());
     final JavaOneOfComposition javaOneOfComposition =
-        JavaOneOfComposition.fromPojosAndDiscriminator(
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
 
     final Writer writer =

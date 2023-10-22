@@ -8,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SetterBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -75,7 +74,7 @@ public class RequiredMemberBuilderGenerator {
               .map(
                   rp ->
                       JavaPojoMemberBuilder.create()
-                          .name(JavaMemberName.wrap(rp.getName()))
+                          .name(rp.getName())
                           .description(rp.getDescription())
                           .javaType(rp.getJavaType())
                           .necessity(Necessity.REQUIRED)

@@ -51,7 +51,7 @@ class SetterGenerator {
                 member ->
                     new Argument(
                         member.getJavaType().getFullClassName().asString(),
-                        member.getNameAsIdentifier().asString()))
+                        member.getName().asString()))
             .content(setterMethodContent())
             .build();
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
@@ -64,8 +64,7 @@ class SetterGenerator {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(
             (member, settings, writer) ->
-                writer.println(
-                    "this.%s = %s;", member.getNameAsIdentifier(), member.getNameAsIdentifier()))
+                writer.println("this.%s = %s;", member.getName(), member.getName()))
         .appendConditionally(
             (member, settings, writer) ->
                 writer.println("this.%s = true;", member.getIsPresentFlagName()),
@@ -73,8 +72,7 @@ class SetterGenerator {
         .appendConditionally(
             (member, settings, writer) ->
                 writer.println(
-                    "this.%s = %s == null;",
-                    member.getIsNullFlagName(), member.getNameAsIdentifier()),
+                    "this.%s = %s == null;", member.getIsNullFlagName(), member.getName()),
             JavaPojoMember::isOptionalAndNullable)
         .append(w -> w.println("return this;"));
   }
@@ -96,13 +94,11 @@ class SetterGenerator {
                     new Argument(
                         String.format(
                             "Optional<%s>", member.getJavaType().getFullClassName().asString()),
-                        member.getNameAsIdentifier().asString()))
+                        member.getName().asString()))
             .content(
                 (member, settings, writer) ->
                     writer
-                        .println(
-                            "this.%s = %s.orElse(null);",
-                            member.getNameAsIdentifier(), member.getNameAsIdentifier())
+                        .println("this.%s = %s.orElse(null);", member.getName(), member.getName())
                         .println("this.%s = true;", member.getIsPresentFlagName())
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
@@ -129,13 +125,11 @@ class SetterGenerator {
                     new Argument(
                         String.format(
                             "Optional<%s>", member.getJavaType().getFullClassName().asString()),
-                        member.getNameAsIdentifier().asString()))
+                        member.getName().asString()))
             .content(
                 (member, settings, writer) ->
                     writer
-                        .println(
-                            "this.%s = %s.orElse(null);",
-                            member.getNameAsIdentifier(), member.getNameAsIdentifier())
+                        .println("this.%s = %s.orElse(null);", member.getName(), member.getName())
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
@@ -160,19 +154,17 @@ class SetterGenerator {
                 member ->
                     new Argument(
                         String.format("Tristate<%s>", member.getJavaType().getFullClassName()),
-                        member.getNameAsIdentifier().asString()))
+                        member.getName().asString()))
             .content(
                 (member, settings, writer) ->
                     writer
                         .println(
                             "this.%s = %s.%s;",
-                            member.getNameAsIdentifier(),
-                            member.getNameAsIdentifier(),
-                            member.tristateToProperty())
+                            member.getName(), member.getName(), member.tristateToProperty())
                         .println(
                             "this.%s = %s.%s;",
                             member.getIsNullFlagName(),
-                            member.getNameAsIdentifier(),
+                            member.getName(),
                             member.tristateToIsNullFlag())
                         .println("return this;")
                         .ref(OpenApiUtilRefs.TRISTATE))

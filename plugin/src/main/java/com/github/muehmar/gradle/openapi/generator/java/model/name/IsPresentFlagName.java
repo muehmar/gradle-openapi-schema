@@ -1,20 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value
 public class IsPresentFlagName {
-  JavaIdentifier name;
+  JavaName name;
 
-  private IsPresentFlagName(JavaIdentifier name) {
+  private IsPresentFlagName(JavaName name) {
     this.name = name;
   }
 
-  public static IsPresentFlagName fromName(Name name) {
-    return new IsPresentFlagName(
-        JavaIdentifier.fromName(name.startUpperCase().prefix("is").append("Present")));
+  public static IsPresentFlagName fromName(JavaName name) {
+    return new IsPresentFlagName(name.startUpperCase().prefix("is").append("Present"));
   }
 
   public String asString() {

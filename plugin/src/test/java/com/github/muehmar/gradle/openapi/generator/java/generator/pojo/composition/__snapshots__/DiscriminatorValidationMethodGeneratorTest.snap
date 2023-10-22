@@ -67,12 +67,12 @@ javax.validation.constraints.AssertTrue
 @AssertTrue(message = "Not valid against the schema described by the discriminator")
 @JsonIgnore
 private boolean isValidAgainstTheCorrectSchema() {
-  if (switch == null) {
+  if (switch_ == null) {
     return false;
   }
-  switch(switch) {
-    case "IllegalIdentifier": return isValidAgainstIllegal_IdentifierDto();
-    case "IllegalIdentifier": return isValidAgainstIllegal_IdentifierDto();
+  switch(switch_) {
+    case "Illegal?Identifier": return isValidAgainstIllegal_IdentifierDto();
+    case "Illegal?Identifier": return isValidAgainstIllegal_IdentifierDto();
   }
   return false;
 }

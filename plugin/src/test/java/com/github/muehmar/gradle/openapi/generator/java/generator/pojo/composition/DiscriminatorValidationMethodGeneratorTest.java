@@ -12,7 +12,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
@@ -51,11 +51,12 @@ class DiscriminatorValidationMethodGeneratorTest {
         discriminatorValidationMethodGenerator();
 
     final Discriminator noMappingDiscriminator =
-        Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
+        Discriminator.fromPropertyName(
+            JavaPojoMembers.requiredString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
-            JavaOneOfComposition.fromPojosAndDiscriminator(
+            JavaOneOfCompositions.fromPojosAndDiscriminator(
                 NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), noMappingDiscriminator));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
@@ -70,11 +71,12 @@ class DiscriminatorValidationMethodGeneratorTest {
         discriminatorValidationMethodGenerator();
 
     final Discriminator noMappingDiscriminator =
-        Discriminator.fromPropertyName(JavaPojoMembers.keywordNameString().getName().asName());
+        Discriminator.fromPropertyName(
+            JavaPojoMembers.keywordNameString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
-            JavaOneOfComposition.fromPojosAndDiscriminator(
+            JavaOneOfCompositions.fromPojosAndDiscriminator(
                 NonEmptyList.of(illegalIdentifierPojo(), illegalIdentifierPojo()),
                 noMappingDiscriminator));
 
@@ -90,16 +92,16 @@ class DiscriminatorValidationMethodGeneratorTest {
         discriminatorValidationMethodGenerator();
 
     final HashMap<String, Name> mapping = new HashMap<>();
-    mapping.put("obj1", sampleObjectPojo1().getSchemaName().asName());
-    mapping.put("obj2", sampleObjectPojo2().getSchemaName().asName());
+    mapping.put("obj1", sampleObjectPojo1().getSchemaName().getOriginalName());
+    mapping.put("obj2", sampleObjectPojo2().getSchemaName().getOriginalName());
 
-    final Name propertyName = JavaPojoMembers.requiredString().getName().asName();
+    final Name propertyName = JavaPojoMembers.requiredString().getName().getOriginalName();
     final Discriminator discriminator =
         Discriminator.fromPropertyNameAndMapping(propertyName, mapping);
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
-            JavaOneOfComposition.fromPojosAndDiscriminator(
+            JavaOneOfCompositions.fromPojosAndDiscriminator(
                 NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
@@ -114,16 +116,16 @@ class DiscriminatorValidationMethodGeneratorTest {
         discriminatorValidationMethodGenerator();
 
     final HashMap<String, Name> mapping = new HashMap<>();
-    mapping.put("obj1", sampleObjectPojo1().getSchemaName().asName());
-    mapping.put("obj2", sampleObjectPojo2().getSchemaName().asName());
+    mapping.put("obj1", sampleObjectPojo1().getSchemaName().getOriginalName());
+    mapping.put("obj2", sampleObjectPojo2().getSchemaName().getOriginalName());
 
-    final Name propertyName = JavaPojoMembers.requiredString().getName().asName();
+    final Name propertyName = JavaPojoMembers.requiredString().getName().getOriginalName();
     final Discriminator discriminator =
         Discriminator.fromPropertyNameAndMapping(propertyName, mapping);
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
-            JavaOneOfComposition.fromPojosAndDiscriminator(
+            JavaOneOfCompositions.fromPojosAndDiscriminator(
                 NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator));
 
     final Writer writer =

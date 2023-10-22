@@ -7,9 +7,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -130,7 +130,7 @@ public class DtoSetterGenerator {
     JavaObjectPojo parentPojo;
     JavaObjectPojo composedPojo;
 
-    public JavaIdentifier prefixedClassNameForMethod(String prefix) {
+    public JavaName prefixedClassNameForMethod(String prefix) {
       return composedPojo.prefixedClassNameForMethod(prefix);
     }
 
@@ -147,11 +147,11 @@ public class DtoSetterGenerator {
     JavaObjectPojo composedPojo;
     JavaPojoMember member;
 
-    private JavaIdentifier prefixedMethodName(String prefix) {
+    private JavaName prefixedMethodName(String prefix) {
       return member.prefixedMethodName(prefix);
     }
 
-    public JavaIdentifier getGetterNameWithSuffix(PojoSettings settings) {
+    public JavaName getGetterNameWithSuffix(PojoSettings settings) {
       return member.getGetterNameWithSuffix(settings);
     }
 
@@ -161,7 +161,8 @@ public class DtoSetterGenerator {
           .flatMap(JavaOneOfComposition::getDiscriminator)
           .map(
               discriminator ->
-                  discriminator.getValueForSchemaName(composedPojo.getSchemaName().asName()))
+                  discriminator.getValueForSchemaName(
+                      composedPojo.getSchemaName().getOriginalName()))
           .orElse("");
     }
 
@@ -169,8 +170,7 @@ public class DtoSetterGenerator {
       return parentPojo
           .getOneOfComposition()
           .flatMap(JavaOneOfComposition::getDiscriminator)
-          .filter(
-              discriminator -> discriminator.getPropertyName().equals(member.getName().asName()))
+          .filter(discriminator -> discriminator.getPropertyName().equals(member.getName()))
           .isPresent();
     }
 

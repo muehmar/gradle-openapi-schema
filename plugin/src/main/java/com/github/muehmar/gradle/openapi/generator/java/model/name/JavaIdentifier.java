@@ -1,11 +1,11 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public class JavaIdentifier {
+class JavaIdentifier {
   private static final String ILLEGAL_IDENTIFIER_CHARACTERS_PATTERN = "[^A-Za-z0-9$_]";
   private final String identifier;
 

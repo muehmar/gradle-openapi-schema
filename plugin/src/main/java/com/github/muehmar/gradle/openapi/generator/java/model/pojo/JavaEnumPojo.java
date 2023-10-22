@@ -4,10 +4,9 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import java.util.Optional;
@@ -36,7 +35,7 @@ public class JavaEnumPojo implements JavaPojo {
 
   public static JavaEnumPojo wrap(EnumPojo enumPojo) {
     return new JavaEnumPojo(
-        JavaPojoName.wrap(enumPojo.getName().getPojoName()),
+        JavaPojoName.fromPojoName(enumPojo.getName().getPojoName()),
         enumPojo.getName().getSchemaName(),
         enumPojo.getDescription(),
         enumPojo.getMembers().map(EnumConstantName::ofString));
@@ -48,8 +47,8 @@ public class JavaEnumPojo implements JavaPojo {
   }
 
   @Override
-  public JavaIdentifier getClassName() {
-    return name.asIdentifier();
+  public JavaName getClassName() {
+    return name.asJavaName();
   }
 
   @Override

@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
@@ -24,7 +24,7 @@ class JavaMapTypeTest {
         PList.of("java.lang.String", "java.util.Map", "java.util.UUID"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 
@@ -43,7 +43,7 @@ class JavaMapTypeTest {
         PList.of("com.custom.CustomMap", "java.lang.String", "java.util.UUID"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
   }
 

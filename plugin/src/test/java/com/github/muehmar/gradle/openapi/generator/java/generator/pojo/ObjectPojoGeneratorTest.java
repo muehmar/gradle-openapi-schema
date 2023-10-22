@@ -23,6 +23,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
@@ -577,7 +578,8 @@ class ObjectPojoGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.withRequiredAdditionalProperties(
             JavaPojos.objectPojo(requiredEmail(), optionalBirthdate()),
-            PList.single(new JavaRequiredAdditionalProperty(Name.ofString("name"), stringType())));
+            PList.single(
+                new JavaRequiredAdditionalProperty(JavaName.fromString("name"), stringType())));
 
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 

@@ -4,8 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.p
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import java.util.Comparator;
 import java.util.function.Function;
@@ -23,7 +22,7 @@ class JavaObjectTypeTest {
         PList.of("UserDto"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
     assertEquals(JavaObjectType.TypeOrigin.OPENAPI, javaType.getOrigin());
   }
@@ -39,7 +38,7 @@ class JavaObjectTypeTest {
         PList.of("Prefixed_UserDto"),
         javaType
             .getAllQualifiedClassNames()
-            .map(Name::asString)
+            .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
     assertEquals(JavaObjectType.TypeOrigin.OPENAPI, javaType.getOrigin());
   }
