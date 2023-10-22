@@ -65,6 +65,20 @@ public class JavaPojos {
         .build();
   }
 
+  public static JavaObjectPojo illegalIdentifierPojo() {
+    return JavaObjectPojoBuilder.create()
+        .name(JavaPojoName.fromNameAndSuffix("Illegal?Identifier", "Dto"))
+        .schemaName(SchemaName.ofString("IllegalIdentifier"))
+        .description("")
+        .members(
+            PList.of(JavaPojoMembers.keywordNameString(), JavaPojoMembers.illegalCharacterString()))
+        .type(PojoType.DEFAULT)
+        .requiredAdditionalProperties(PList.empty())
+        .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .constraints(Constraints.empty())
+        .build();
+  }
+
   public static JavaObjectPojo objectPojo(
       PList<JavaPojoMember> members, JavaAdditionalProperties additionalProperties) {
     return JavaObjectPojoBuilder.create()

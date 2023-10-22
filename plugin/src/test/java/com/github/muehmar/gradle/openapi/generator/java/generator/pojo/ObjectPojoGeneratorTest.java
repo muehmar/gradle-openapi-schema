@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.optionalBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
@@ -581,6 +582,17 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generate_when_illegalIdentifierPojo_then_correctOutput() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer =
+        generator.generate(illegalIdentifierPojo(), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

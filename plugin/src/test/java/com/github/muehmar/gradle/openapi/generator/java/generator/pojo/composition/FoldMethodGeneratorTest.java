@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldMethodGenerator.foldMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -29,8 +31,7 @@ class FoldMethodGeneratorTest {
   @Test
   @SnapshotName("OneOfNoDiscriminator")
   void generate_when_calledWithoutDiscriminator_then_correctContent() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        FoldMethodGenerator.foldMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
@@ -43,8 +44,7 @@ class FoldMethodGeneratorTest {
   @Test
   @SnapshotName("OneOfDiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctContent() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        FoldMethodGenerator.foldMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
     final Discriminator discriminator =
         Discriminator.fromPropertyName(JavaPojoMembers.requiredString().getName().asName());
     final JavaOneOfComposition javaOneOfComposition =
@@ -59,10 +59,28 @@ class FoldMethodGeneratorTest {
   }
 
   @Test
+  @SnapshotName("IllegalIdentifierPojoDiscriminatorWithoutMapping")
+  void generate_when_illegalIdentifierPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
+
+    final Discriminator noMappingDiscriminator =
+        Discriminator.fromPropertyName(JavaPojoMembers.keywordNameString().getName().asName());
+
+    final JavaObjectPojo pojo =
+        JavaPojos.oneOfPojo(
+            JavaOneOfComposition.fromPojosAndDiscriminator(
+                NonEmptyList.of(illegalIdentifierPojo(), illegalIdentifierPojo()),
+                noMappingDiscriminator));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("OneOfDiscriminatorWithMapping")
   void generate_when_calledWithDiscriminatorAndMapping_then_correctContent() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        FoldMethodGenerator.foldMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
     final JavaObjectPojo sampleObjectPojo1 = sampleObjectPojo1();
     final JavaObjectPojo sampleObjectPojo2 = sampleObjectPojo2();
 
@@ -87,8 +105,7 @@ class FoldMethodGeneratorTest {
   @Test
   @SnapshotName("AnyOf")
   void generate_when_anyOf_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        FoldMethodGenerator.foldMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
 
     final Writer writer =
         generator.generate(

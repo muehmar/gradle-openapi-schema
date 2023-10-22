@@ -2998,6 +2998,433 @@ public class UserDto {
 ]
 
 
+illegalIdentifierPojo=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+@JsonDeserialize(builder = Illegal_IdentifierDto.Builder.class)
+public class Illegal_IdentifierDto {
+  private final String switch_;
+  private final boolean isSwitchNull;
+  private final String point_;
+  private final boolean isPoint_Null;
+  private final Map<String, Object> additionalProperties;
+
+  public Illegal_IdentifierDto(
+      String switch_,
+      boolean isSwitchNull,
+      String point_,
+      boolean isPoint_Null,
+      Map<String, Object> additionalProperties
+    ) {
+    this.switch_ = switch_;
+    this.isSwitchNull = isSwitchNull;
+    this.point_ = point_;
+    this.isPoint_Null = isPoint_Null;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * Switch
+   */
+  @JsonIgnore
+  public Tristate<String> getSwitch() {
+    return Tristate.ofNullableAndNullFlag(switch_, isSwitchNull);
+  }
+
+  @JsonProperty("switch")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getSwitchJackson() {
+    return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
+  }
+
+  private String getSwitchRaw() {
+    return switch_;
+  }
+
+  /**
+   * Point
+   */
+  @JsonIgnore
+  public Tristate<String> getPoint_() {
+    return Tristate.ofNullableAndNullFlag(point_, isPoint_Null);
+  }
+
+  @JsonProperty("point.")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getPoint_Jackson() {
+    return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
+  }
+
+  private String getPoint_Raw() {
+    return point_;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Returns the additional property with {@code key} wrapped in an {@link Optional}
+   * if present, {@link Optional#empty()} otherwise
+   */
+  public Optional<Object> getAdditionalProperty(String key) {
+    return Optional.ofNullable(additionalProperties.get(key));
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      ((isSwitchNull || switch_ != null) ? 1 : 0) +
+      ((isPoint_Null || point_ != null) ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * Switch
+   */
+  public Illegal_IdentifierDto withSwitch(String switch_) {
+    return new Illegal_IdentifierDto(switch_, false, point_, isPoint_Null, additionalProperties);
+  }
+
+  /**
+   * Switch
+   */
+  public Illegal_IdentifierDto withSwitch(Tristate<String> switch_) {
+    return new Illegal_IdentifierDto(switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), point_, isPoint_Null, additionalProperties);
+  }
+
+  /**
+   * Point
+   */
+  public Illegal_IdentifierDto withPoint_(String point_) {
+    return new Illegal_IdentifierDto(switch_, isSwitchNull, point_, false, additionalProperties);
+  }
+
+  /**
+   * Point
+   */
+  public Illegal_IdentifierDto withPoint_(Tristate<String> point_) {
+    return new Illegal_IdentifierDto(switch_, isSwitchNull, point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isSwitchValid() {
+      return true;
+    }
+
+    private boolean isPoint_Valid() {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isSwitchValid()
+          && isPoint_Valid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final Illegal_IdentifierDto other = (Illegal_IdentifierDto) obj;
+    return Objects.deepEquals(this.switch_, other.switch_)
+        && Objects.deepEquals(this.isSwitchNull, other.isSwitchNull)
+        && Objects.deepEquals(this.point_, other.point_)
+        && Objects.deepEquals(this.isPoint_Null, other.isPoint_Null)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      switch_,
+      isSwitchNull,
+      point_,
+      isPoint_Null,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "Illegal_IdentifierDto{" +
+      "switch_=" + "'" + switch_ + "'" + ", " +
+      "isSwitchNull=" + isSwitchNull + ", " +
+      "point_=" + "'" + point_ + "'" + ", " +
+      "isPoint_Null=" + isPoint_Null + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String switch_;
+    private boolean isSwitchNull = false;
+    private String point_;
+    private boolean isPoint_Null = false;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    /**
+     * Switch
+     */
+    @JsonProperty("switch")
+    public Builder setSwitch(String switch_) {
+      this.switch_ = switch_;
+      this.isSwitchNull = switch_ == null;
+      return this;
+    }
+
+    /**
+     * Switch
+     */
+    public Builder setSwitch(Tristate<String> switch_) {
+      this.switch_ = switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isSwitchNull = switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    /**
+     * Point
+     */
+    @JsonProperty("point.")
+    public Builder setPoint_(String point_) {
+      this.point_ = point_;
+      this.isPoint_Null = point_ == null;
+      return this;
+    }
+
+    /**
+     * Point
+     */
+    public Builder setPoint_(Tristate<String> point_) {
+      this.point_ = point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isPoint_Null = point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public Illegal_IdentifierDto build() {
+      return new Illegal_IdentifierDto(switch_, isSwitchNull, point_, isPoint_Null, additionalProperties);
+    }
+  }
+
+  public static FullOptPropertyBuilder0 fullBuilder() {
+    return new FullOptPropertyBuilder0(new Builder());
+  }
+
+  public static FullOptPropertyBuilder0 fullIllegal_IdentifierDtoBuilder() {
+    return new FullOptPropertyBuilder0(new Builder());
+  }
+
+  public static final class FullOptPropertyBuilder0 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Switch
+     */
+    public FullOptPropertyBuilder1 setSwitch(String switch_) {
+      return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
+    }
+
+    /**
+     * Switch
+     */
+    public FullOptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
+      return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
+    }
+  }
+
+  public static final class FullOptPropertyBuilder1 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Point
+     */
+    public FullOptPropertyBuilder2 setPoint_(String point_) {
+      return new FullOptPropertyBuilder2(builder.setPoint_(point_));
+    }
+
+    /**
+     * Point
+     */
+    public FullOptPropertyBuilder2 setPoint_(Tristate<String> point_) {
+      return new FullOptPropertyBuilder2(builder.setPoint_(point_));
+    }
+  }
+
+  public static final class FullOptPropertyBuilder2 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+      return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public Illegal_IdentifierDto build(){
+      return builder.build();
+    }
+  }
+
+  public static PropertyBuilder0 builder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static PropertyBuilder0 illegal_IdentifierDtoBuilder() {
+    return new PropertyBuilder0(new Builder());
+  }
+
+  public static final class PropertyBuilder0 {
+    private final Builder builder;
+
+    private PropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder0 andAllOptionals(){
+      return new OptPropertyBuilder0(builder);
+    }
+
+    public Builder andOptionals(){
+      return builder;
+    }
+
+    public Illegal_IdentifierDto build(){
+      return builder.build();
+    }
+  }
+
+  public static final class OptPropertyBuilder0 {
+    private final Builder builder;
+
+    private OptPropertyBuilder0(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Switch
+     */
+    public OptPropertyBuilder1 setSwitch(String switch_) {
+      return new OptPropertyBuilder1(builder.setSwitch(switch_));
+    }
+
+    /**
+     * Switch
+     */
+    public OptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
+      return new OptPropertyBuilder1(builder.setSwitch(switch_));
+    }
+  }
+
+  public static final class OptPropertyBuilder1 {
+    private final Builder builder;
+
+    private OptPropertyBuilder1(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * Point
+     */
+    public OptPropertyBuilder2 setPoint_(String point_) {
+      return new OptPropertyBuilder2(builder.setPoint_(point_));
+    }
+
+    /**
+     * Point
+     */
+    public OptPropertyBuilder2 setPoint_(Tristate<String> point_) {
+      return new OptPropertyBuilder2(builder.setPoint_(point_));
+    }
+  }
+
+  public static final class OptPropertyBuilder2 {
+    private final Builder builder;
+
+    private OptPropertyBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+      return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public Illegal_IdentifierDto build(){
+      return builder.build();
+    }
+  }
+}
+]
+
+
 inlinedEnumMapObject=[
 package com.github.muehmar;
 

@@ -1,4 +1,6 @@
 allNecessityAndNullabilityVariants=[
+java.util.Objects
+
 @Override
 public int hashCode() {
   return Objects.hash(
@@ -15,6 +17,8 @@ public int hashCode() {
 
 
 arrayPojo=[
+java.util.Objects
+
 @Override
 public int hashCode() {
   return Objects.hash(
@@ -25,11 +29,30 @@ public int hashCode() {
 
 
 byteArrayMember=[
+java.util.Arrays
+java.util.Objects
+
 @Override
 public int hashCode() {
   return Objects.hash(
     Arrays.hashCode(data),
     doubleVal
+  );
+}
+]
+
+
+illegalIdentifierPojo=[
+java.util.Objects
+
+@Override
+public int hashCode() {
+  return Objects.hash(
+    switch_,
+    isSwitchNull,
+    point_,
+    isPoint_Null,
+    additionalProperties
   );
 }
 ]

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.pojoConstructorGenerator;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -20,8 +21,7 @@ class PojoConstructorGeneratorTest {
   @Test
   @SnapshotName("objectPojo")
   void generator_when_objectPojo_then_correctOutput() {
-    final Generator<ConstructorContent, PojoSettings> generator =
-        PojoConstructorGenerator.pojoConstructorGenerator();
+    final Generator<ConstructorContent, PojoSettings> generator = pojoConstructorGenerator();
 
     final Writer writer =
         generator.generate(
@@ -35,8 +35,7 @@ class PojoConstructorGeneratorTest {
   @Test
   @SnapshotName("necessityAndNullabilityObjectPojo")
   void generator_when_necessityAndNullabilityObjectPojo_then_correctOutput() {
-    final Generator<ConstructorContent, PojoSettings> generator =
-        PojoConstructorGenerator.pojoConstructorGenerator();
+    final Generator<ConstructorContent, PojoSettings> generator = pojoConstructorGenerator();
 
     final Writer writer =
         generator.generate(
@@ -48,10 +47,23 @@ class PojoConstructorGeneratorTest {
   }
 
   @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generator_when_illegalIdentifierPojo_then_correctOutput() {
+    final Generator<ConstructorContent, PojoSettings> generator = pojoConstructorGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.illegalIdentifierPojo().getConstructorContent(),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
   @SnapshotName("arrayPojo")
   void generator_when_arrayPojo_then_correctOutput() {
-    final Generator<ConstructorContent, PojoSettings> generator =
-        PojoConstructorGenerator.pojoConstructorGenerator();
+    final Generator<ConstructorContent, PojoSettings> generator = pojoConstructorGenerator();
 
     final Writer writer =
         generator.generate(
