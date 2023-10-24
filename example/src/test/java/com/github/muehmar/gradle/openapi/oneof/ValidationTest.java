@@ -44,8 +44,8 @@ class ValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidCompositionDtos[0].adminname -> must not be null",
-            "invalidCompositionDtos[1].ageRaw -> must be less than or equal to 199",
+            "invalidOneOfDtos[0].adminname -> must not be null",
+            "invalidOneOfDtos[1].ageRaw -> must be less than or equal to 199",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
@@ -60,12 +60,12 @@ class ValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidCompositionDtos[0].adminname -> must not be null",
-            "invalidCompositionDtos[0].id -> must not be null",
-            "invalidCompositionDtos[0].type -> must not be null",
-            "invalidCompositionDtos[1].id -> must not be null",
-            "invalidCompositionDtos[1].type -> must not be null",
-            "invalidCompositionDtos[1].username -> must not be null",
+            "invalidOneOfDtos[0].adminname -> must not be null",
+            "invalidOneOfDtos[0].id -> must not be null",
+            "invalidOneOfDtos[0].type -> must not be null",
+            "invalidOneOfDtos[1].id -> must not be null",
+            "invalidOneOfDtos[1].type -> must not be null",
+            "invalidOneOfDtos[1].username -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
     assertFalse(adminOrUserDto.isValid());

@@ -52,8 +52,8 @@ class FullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidCompositionDtos[0].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
-            "invalidCompositionDtos[1].username -> must not be null",
+            "invalidOneOfDtos[0].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
+            "invalidOneOfDtos[1].username -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
         formatViolations(violations));
@@ -71,9 +71,9 @@ class FullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidCompositionDtos[0].adminname -> must not be null",
-            "invalidCompositionDtos[0].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
-            "invalidCompositionDtos[1].propertyCount -> must be less than or equal to 7",
+            "invalidOneOfDtos[0].adminname -> must not be null",
+            "invalidOneOfDtos[0].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
+            "invalidOneOfDtos[1].propertyCount -> must be less than or equal to 7",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
         formatViolations(violations));
@@ -136,9 +136,9 @@ class FullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidCompositionDtos[0].adminname -> must not be null",
-            "invalidCompositionDtos[0].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
-            "invalidCompositionDtos[1].username -> size must be between 0 and 9",
+            "invalidOneOfDtos[0].adminname -> must not be null",
+            "invalidOneOfDtos[0].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
+            "invalidOneOfDtos[1].username -> size must be between 0 and 9",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
         formatViolations(violations),
