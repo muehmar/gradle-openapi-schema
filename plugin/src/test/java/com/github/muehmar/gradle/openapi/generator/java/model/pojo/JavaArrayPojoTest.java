@@ -3,8 +3,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -28,7 +28,7 @@ class JavaArrayPojoTest {
 
     final JavaPojoMember arrayPojoMember = javaArrayPojo.getArrayPojoMember();
 
-    assertEquals(JavaMemberName.wrap(Name.ofString("value")), arrayPojoMember.getName());
+    assertEquals(JavaName.fromString("value"), arrayPojoMember.getName());
     assertEquals(arrayPojo.getDescription(), arrayPojoMember.getDescription());
     assertEquals(arrayPojo.getConstraints(), arrayPojoMember.getJavaType().getConstraints());
     assertEquals(Name.ofString("List<Double>"), arrayPojoMember.getJavaType().getFullClassName());

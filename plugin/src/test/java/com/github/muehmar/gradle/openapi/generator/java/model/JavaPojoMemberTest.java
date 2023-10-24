@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
@@ -69,21 +70,21 @@ class JavaPojoMemberTest {
   @Test
   void getValidationGetterName_when_calledWithDefaultSettings_then_correctMethodName() {
     JavaPojoMember member = JavaPojoMembers.requiredString();
-    JavaIdentifier validationGetterName = member.getValidationGetterName(defaultTestSettings());
+    JavaName validationGetterName = member.getValidationGetterName(defaultTestSettings());
     assertEquals("getStringValRaw", validationGetterName.asString());
   }
 
   @Test
   void getIsNullFlagName_when_called_then_correctMethodName() {
     JavaPojoMember member = JavaPojoMembers.requiredString();
-    JavaIdentifier validationGetterName = member.getIsNullFlagName();
+    JavaName validationGetterName = member.getIsNullFlagName();
     assertEquals("isStringValNull", validationGetterName.asString());
   }
 
   @Test
   void getIsPresentFlagName_when_called_then_correctMethodName() {
     JavaPojoMember member = JavaPojoMembers.requiredString();
-    JavaIdentifier validationGetterName = member.getIsPresentFlagName();
+    JavaName validationGetterName = member.getIsPresentFlagName();
     assertEquals("isStringValPresent", validationGetterName.asString());
   }
 
@@ -112,13 +113,13 @@ class JavaPojoMemberTest {
   @Test
   void asInnerEnumOf_when_calledForStringMember_then_unchanged() {
     final JavaPojoMember member = JavaPojoMembers.requiredString();
-    assertEquals(member, member.asInnerEnumOf(JavaIdentifier.fromString("AdminDto")));
+    assertEquals(member, member.asInnerEnumOf(JavaName.fromString("AdminDto")));
   }
 
   @Test
   void asInnerEnumOf_when_calledForEnumMember_then_classNameReferencedWithOuterClass() {
     final JavaPojoMember member = JavaPojoMembers.requiredColorEnum();
-    final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaIdentifier.fromString("AdminDto"));
+    final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaName.fromString("AdminDto"));
     assertEquals(
         "AdminDto.Color",
         mappedMember.getJavaType().getQualifiedClassName().getClassName().asString());

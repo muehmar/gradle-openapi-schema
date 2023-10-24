@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.EqualsAndHashCode;
@@ -13,8 +13,8 @@ public abstract class NonGenericJavaType extends BaseJavaType {
   }
 
   @Override
-  public PList<Name> getAllQualifiedClassNames() {
-    return PList.single(qualifiedClassName.asName());
+  public PList<QualifiedClassName> getAllQualifiedClassNames() {
+    return PList.single(qualifiedClassName);
   }
 
   @Override

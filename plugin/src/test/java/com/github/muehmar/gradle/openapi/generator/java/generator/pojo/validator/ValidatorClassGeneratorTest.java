@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.ValidatorClassGenerator.validationClassGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -13,6 +14,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
@@ -78,7 +80,7 @@ class ValidatorClassGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaOneOfComposition javaOneOfComposition =
-        JavaOneOfComposition.fromPojosAndDiscriminator(
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
             Discriminator.fromPropertyName(Name.ofString("type")));
 
@@ -168,6 +170,17 @@ class ValidatorClassGeneratorTest {
             sampleObjectPojo1(), JavaAdditionalProperties.notAllowed());
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generate_when_illegalIdentifierPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final Writer writer =
+        generator.generate(illegalIdentifierPojo(), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

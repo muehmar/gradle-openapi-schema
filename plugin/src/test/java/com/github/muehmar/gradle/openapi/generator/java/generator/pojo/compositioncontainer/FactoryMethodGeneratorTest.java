@@ -11,9 +11,9 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
@@ -39,7 +39,7 @@ class FactoryMethodGeneratorTest {
                 JavaPojos.allNecessityAndNullabilityVariants(),
                 sampleObjectPojo2()));
     final OneOfContainer oneOfContainer =
-        new OneOfContainer(JavaPojoName.fromNameAndSuffix("Object", "Dto"), javaOneOfComposition);
+        new OneOfContainer(JavaPojoNames.fromNameAndSuffix("Object", "Dto"), javaOneOfComposition);
     final Writer writer = generator.generate(oneOfContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -57,7 +57,7 @@ class FactoryMethodGeneratorTest {
                 JavaPojos.allNecessityAndNullabilityVariants(),
                 sampleObjectPojo2()));
     final AnyOfContainer anyOfContainer =
-        new AnyOfContainer(JavaPojoName.fromNameAndSuffix("Object", "Dto"), anyOfComposition);
+        new AnyOfContainer(JavaPojoNames.fromNameAndSuffix("Object", "Dto"), anyOfComposition);
     final Writer writer = generator.generate(anyOfContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));

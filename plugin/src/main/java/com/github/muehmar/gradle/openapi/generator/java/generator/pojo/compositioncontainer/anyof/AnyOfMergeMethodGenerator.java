@@ -5,7 +5,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -63,8 +63,8 @@ public class AnyOfMergeMethodGenerator {
     JavaObjectPojo pojo;
     boolean isLast;
 
-    JavaIdentifier memberName() {
-      return pojo.getClassName().startLowercase();
+    JavaName memberName() {
+      return pojo.getClassName().startLowerCase();
     }
 
     String commaOrNothing() {

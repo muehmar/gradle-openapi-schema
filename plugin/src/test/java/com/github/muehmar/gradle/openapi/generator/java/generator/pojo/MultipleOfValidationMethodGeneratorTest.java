@@ -10,10 +10,10 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
@@ -22,7 +22,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -39,7 +38,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember INTEGER_MEMBER =
       JavaPojoMemberBuilder.create()
-          .name(JavaMemberName.wrap(Name.ofString("intVal")))
+          .name(JavaName.fromString("intVal"))
           .description("Description")
           .javaType(
               JavaIntegerType.wrap(
@@ -54,7 +53,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember LONG_MEMBER =
       JavaPojoMemberBuilder.create()
-          .name(JavaMemberName.wrap(Name.ofString("longVal")))
+          .name(JavaName.fromString("longVal"))
           .description("Description")
           .javaType(
               JavaIntegerType.wrap(
@@ -69,7 +68,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember FLOAT_MEMBER =
       JavaPojoMemberBuilder.create()
-          .name(JavaMemberName.wrap(Name.ofString("floatVal")))
+          .name(JavaName.fromString("floatVal"))
           .description("Description")
           .javaType(
               JavaNumericType.wrap(
@@ -84,7 +83,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember DOUBLE_MEMBER =
       JavaPojoMemberBuilder.create()
-          .name(JavaMemberName.wrap(Name.ofString("doubleVal")))
+          .name(JavaName.fromString("doubleVal"))
           .description("Description")
           .javaType(
               JavaNumericType.wrap(

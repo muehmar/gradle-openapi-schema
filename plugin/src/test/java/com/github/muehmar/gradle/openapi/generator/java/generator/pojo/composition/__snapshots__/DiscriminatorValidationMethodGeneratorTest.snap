@@ -60,6 +60,25 @@ protected boolean isValidAgainstTheCorrectSchema() {
 ]
 
 
+IllegalIdentifierPojoDiscriminatorWithoutMapping=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (switch_ == null) {
+    return false;
+  }
+  switch(switch_) {
+    case "Illegal?Identifier": return isValidAgainstIllegal_IdentifierDto();
+    case "Illegal?Identifier": return isValidAgainstIllegal_IdentifierDto();
+  }
+  return false;
+}
+]
+
+
 NoDiscriminator=[
 .
 .

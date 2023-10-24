@@ -1,15 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.byteArrayMember;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
+import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.HashCodeContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
@@ -27,35 +27,44 @@ class HashCodeGeneratorTest {
   @Test
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctHashCodeMethod() {
-    final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
+    final Generator<HashCodeContent, PojoSettings> generator = hashCodeMethod();
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getHashCodeContent(),
             defaultTestSettings(),
             javaWriter());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 
-    expect.toMatchSnapshot(writer.asString());
+  @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generate_when_illegalIdentifierPojo_then_correctHashCodeMethod() {
+    final Generator<HashCodeContent, PojoSettings> generator = hashCodeMethod();
+    final Writer writer =
+        generator.generate(
+            JavaPojos.illegalIdentifierPojo().getHashCodeContent(),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("arrayPojo")
   void generate_when_arrayPojo_then_correctHashCodeMethod() {
-    final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
+    final Generator<HashCodeContent, PojoSettings> generator = hashCodeMethod();
     final Writer writer =
         generator.generate(
             JavaPojos.arrayPojo().getHashCodeContent(), defaultTestSettings(), javaWriter());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("byteArrayMember")
   void generate_when_byteArrayMember_then_correctHashCodeMethod() {
-    final Generator<HashCodeContent, PojoSettings> generator = HashCodeGenerator.hashCodeMethod();
+    final Generator<HashCodeContent, PojoSettings> generator = hashCodeMethod();
 
     final PList<TechnicalPojoMember> technicalMembers =
         PList.of(byteArrayMember(), requiredDouble()).flatMap(JavaPojoMember::getTechnicalMembers);
@@ -63,9 +72,6 @@ class HashCodeGeneratorTest {
         HashCodeContentBuilder.create().technicalPojoMembers(technicalMembers).build();
     final Writer writer = generator.generate(hashCodeContent, defaultTestSettings(), javaWriter());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_ARRAYS::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OBJECTS::equals));
-
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

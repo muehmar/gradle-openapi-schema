@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.parameter.JavaParameter;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import java.io.File;
@@ -26,8 +27,7 @@ public class JavaFileName {
     return fromSettingsAndClassname(settings, pojo.getClassName());
   }
 
-  public static JavaFileName fromSettingsAndClassname(
-      PojoSettings settings, JavaIdentifier className) {
+  public static JavaFileName fromSettingsAndClassname(PojoSettings settings, JavaName className) {
     final String packagePath =
         settings
             .getPackageName()

@@ -32,14 +32,7 @@ public class UniqueItemsValidationMethodGenerator {
   }
 
   private static String uniqueItemsMethodName(JavaPojoMember member) {
-    return member
-        .getName()
-        .asJavaName()
-        .startUpperCase()
-        .prefix("has")
-        .append("UniqueItems")
-        .asIdentifier()
-        .asString();
+    return member.getName().startUpperCase().prefix("has").append("UniqueItems").asString();
   }
 
   private static boolean generateMethod(JavaPojoMember member, PojoSettings settings) {

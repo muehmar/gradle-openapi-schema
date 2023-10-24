@@ -1,3 +1,19 @@
+illegalIdentifierPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+/**
+ * Returns the number of present properties of this object.
+ */
+@JsonIgnore
+public int getPropertyCount() {
+  return
+    ((isSwitchNull || switch_ != null) ? 1 : 0) +
+    ((isPoint_Null || point_ != null) ? 1 : 0) +
+    additionalProperties.size();
+}
+]
+
+
 oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonIgnore
 

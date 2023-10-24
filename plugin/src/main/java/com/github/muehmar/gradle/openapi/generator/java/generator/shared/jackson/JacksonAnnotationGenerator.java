@@ -14,7 +14,7 @@ public class JacksonAnnotationGenerator {
 
   public static Generator<JavaPojoMember, PojoSettings> jsonProperty() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((f, s, w) -> w.println("@JsonProperty(\"%s\")", f.getName()))
+        .append((f, s, w) -> w.println("@JsonProperty(\"%s\")", f.getName().getOriginalName()))
         .append(w -> w.ref(JacksonRefs.JSON_PROPERTY))
         .filter(isJacksonJson());
   }

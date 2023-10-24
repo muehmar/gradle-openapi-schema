@@ -15,19 +15,16 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Eq
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
@@ -66,7 +63,7 @@ public class JavaArrayPojo implements JavaPojo {
     final JavaType itemType = JavaType.wrap(arrayPojo.getItemType(), typeMappings);
     final JavaPojoMember arrayPojoMember = createItemTypeMember(arrayPojo, typeMappings);
     return new JavaArrayPojo(
-        JavaPojoName.wrap(arrayPojo.getName().getPojoName()),
+        JavaPojoName.fromPojoName(arrayPojo.getName().getPojoName()),
         arrayPojo.getName().getSchemaName(),
         arrayPojo.getDescription(),
         itemType,
@@ -79,9 +76,9 @@ public class JavaArrayPojo implements JavaPojo {
     final ArrayType arrayType =
         ArrayType.ofItemType(arrayPojo.getItemType()).withConstraints(arrayPojo.getConstraints());
     final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, typeMappings);
-    final Name name = Name.ofString("value");
+    final JavaName name = JavaName.fromString("value");
     return JavaPojoMemberBuilder.create()
-        .name(JavaMemberName.wrap(name))
+        .name(name)
         .description(arrayPojo.getDescription())
         .javaType(javaArrayType)
         .necessity(Necessity.REQUIRED)
@@ -97,8 +94,8 @@ public class JavaArrayPojo implements JavaPojo {
   }
 
   @Override
-  public JavaIdentifier getClassName() {
-    return name.asIdentifier();
+  public JavaName getClassName() {
+    return name.asJavaName();
   }
 
   @Override

@@ -10,11 +10,11 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -51,8 +51,7 @@ public class ConversionMethodGenerator {
   }
 
   private static Generator<ParentAndComposedPojo, PojoSettings> asDtoMethodContent() {
-    final Generator<JavaIdentifier, PojoSettings> memberGen =
-        (identifier, s, w) -> w.println("%s,", identifier);
+    final Generator<JavaName, PojoSettings> memberGen = (name, s, w) -> w.println("%s,", name);
     return Generator.<ParentAndComposedPojo, PojoSettings>emptyGen()
         .append(
             constant("Map<String, Object> props = new HashMap<>(%s);", additionalPropertiesName()))
@@ -60,8 +59,7 @@ public class ConversionMethodGenerator {
         .append((pc, s, w) -> w.println("return new %s(", pc.getComposedPojo().getClassName()))
         .appendList(
             memberGen.indent(1),
-            pojo ->
-                pojo.getComposedPojoAndMembers().flatMap(PojoAndMember::getFieldNameIdentifiers))
+            pojo -> pojo.getComposedPojoAndMembers().flatMap(PojoAndMember::getFieldNames))
         .append(constant("props"), 1)
         .append(w -> w.println(");"))
         .append(ref(JavaRefs.JAVA_UTIL_MAP))
@@ -72,7 +70,8 @@ public class ConversionMethodGenerator {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(addPropertyToMapCondition())
         .append(
-            (m, s, w) -> w.println("props.put(\"%s\", %s);", m.getName(), m.getNameAsIdentifier()),
+            (m, s, w) ->
+                w.println("props.put(\"%s\", %s);", m.getName().getOriginalName(), m.getName()),
             1)
         .append(constant("}"));
   }
@@ -85,7 +84,7 @@ public class ConversionMethodGenerator {
 
   private static Generator<JavaPojoMember, PojoSettings> addPropertyToMapNotNullableCondition() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((m, s, w) -> w.println("if (%s != null) {", m.getNameAsIdentifier()))
+        .append((m, s, w) -> w.println("if (%s != null) {", m.getName()))
         .filter(JavaPojoMember::isNotNullable);
   }
 
@@ -100,9 +99,7 @@ public class ConversionMethodGenerator {
       addPropertyToMapOptionalNullableCondition() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(
-            (m, s, w) ->
-                w.println(
-                    "if (%s != null || %s) {", m.getNameAsIdentifier(), m.getIsNullFlagName()))
+            (m, s, w) -> w.println("if (%s != null || %s) {", m.getName(), m.getIsNullFlagName()))
         .filter(JavaPojoMember::isOptionalAndNullable);
   }
 
@@ -132,13 +129,13 @@ public class ConversionMethodGenerator {
     JavaObjectPojo pojo;
     JavaPojoMember member;
 
-    private PList<JavaIdentifier> getFieldNameIdentifiers() {
+    private PList<JavaName> getFieldNames() {
       if (member.isRequiredAndNotNullable() || member.isOptionalAndNotNullable()) {
-        return PList.single(member.getNameAsIdentifier());
+        return PList.single(member.getName());
       } else if (member.isRequiredAndNullable()) {
-        return PList.of(member.getNameAsIdentifier(), member.getIsPresentFlagName());
+        return PList.of(member.getName(), member.getIsPresentFlagName());
       } else {
-        return PList.of(member.getNameAsIdentifier(), member.getIsNullFlagName());
+        return PList.of(member.getName(), member.getIsNullFlagName());
       }
     }
   }

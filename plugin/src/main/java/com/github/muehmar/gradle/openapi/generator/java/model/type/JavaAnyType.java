@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import java.util.function.Function;

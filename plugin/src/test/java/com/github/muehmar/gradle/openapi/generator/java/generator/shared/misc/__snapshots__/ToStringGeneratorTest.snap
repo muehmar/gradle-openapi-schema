@@ -34,3 +34,17 @@ public String toString() {
     "}";
 }
 ]
+
+
+illegalIdentifierPojo=[
+@Override
+public String toString() {
+  return "Illegal_IdentifierDto{" +
+    "switch=" + "'" + switch_ + "'" + ", " +
+    "isSwitchNull=" + isSwitchNull + ", " +
+    "point.=" + "'" + point_ + "'" + ", " +
+    "isPoint.Null=" + isPoint_Null + ", " +
+    "additionalProperties=" + additionalProperties +
+    "}";
+}
+]

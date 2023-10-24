@@ -3,17 +3,18 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value
 public class JavaRequiredAdditionalProperty {
-  Name name;
+  JavaName name;
   JavaType javaType;
 
   public static JavaRequiredAdditionalProperty fromNameAndType(Name name, JavaType javaType) {
-    return new JavaRequiredAdditionalProperty(name, javaType);
+    return new JavaRequiredAdditionalProperty(JavaName.fromName(name), javaType);
   }
 
   public String getDescription() {

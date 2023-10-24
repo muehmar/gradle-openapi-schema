@@ -12,9 +12,9 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Eq
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import java.util.Optional;
 import lombok.Value;
 
@@ -24,8 +24,8 @@ public class OneOfContainer {
   JavaPojoName pojoName;
   JavaOneOfComposition composition;
 
-  public JavaIdentifier getContainerName() {
-    return pojoName.appendToName(NAME_SUFFIX).asIdentifier();
+  public JavaName getContainerName() {
+    return pojoName.appendToName(NAME_SUFFIX).asJavaName();
   }
 
   public MemberGenerator.MemberContent memberContent() {

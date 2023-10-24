@@ -8,8 +8,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Construct
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -95,7 +95,7 @@ public class PojoConstructorGenerator {
   public static class ConstructorContent {
     Optional<JavaModifier> modifier;
     boolean isArray;
-    JavaIdentifier className;
+    JavaName className;
     PList<TechnicalPojoMember> members;
     Optional<JavaAdditionalProperties> additionalProperties;
 

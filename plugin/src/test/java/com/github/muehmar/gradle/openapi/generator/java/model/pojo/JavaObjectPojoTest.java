@@ -22,16 +22,16 @@ import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
@@ -51,7 +51,7 @@ class JavaObjectPojoTest {
             PList.single(JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NOT_NULLABLE)));
     final JavaObjectPojoBuilder.Builder builder =
         JavaObjectPojoBuilder.create()
-            .name(JavaPojoName.fromNameAndSuffix("Object", "Dto"))
+            .name(JavaPojoNames.fromNameAndSuffix("Object", "Dto"))
             .schemaName(SchemaName.ofString("Object"))
             .description("")
             .members(PList.of(requiredEmail()))
@@ -140,8 +140,10 @@ class JavaObjectPojoTest {
     assertEquals(2, defaultPojo.get().getMembers().size());
     assertEquals(1, requestPojo.get().getMembers().size());
     assertEquals(1, responsePojo.get().getMembers().size());
-    assertEquals(pojoMember1.getName(), responsePojo.get().getMembers().head().getName().asName());
-    assertEquals(pojoMember2.getName(), requestPojo.get().getMembers().head().getName().asName());
+    assertEquals(
+        pojoMember1.getName(), responsePojo.get().getMembers().head().getName().getOriginalName());
+    assertEquals(
+        pojoMember2.getName(), requestPojo.get().getMembers().head().getName().getOriginalName());
 
     assertEquals("ObjectDto", defaultPojo.get().getClassName().asString());
     assertEquals("ObjectResponseDto", responsePojo.get().getClassName().asString());
@@ -188,7 +190,7 @@ class JavaObjectPojoTest {
   void
       getRequiredPropertyCount_when_hasRequiredAdditionalProperties_then_countIncludesRequiredAdditionalProperties() {
     final JavaRequiredAdditionalProperty requiredAdditionalProperty =
-        new JavaRequiredAdditionalProperty(Name.ofString("addProp"), stringType());
+        new JavaRequiredAdditionalProperty(JavaName.fromString("addProp"), stringType());
     final JavaObjectPojo noRequiredAdditionalProperties =
         objectPojo(requiredEmail(), requiredInteger(), optionalString());
     final JavaObjectPojo javaObjectPojo =

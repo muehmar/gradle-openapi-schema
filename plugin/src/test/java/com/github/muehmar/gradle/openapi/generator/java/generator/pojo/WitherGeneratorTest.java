@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator.witherGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
@@ -10,15 +11,13 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaMemberName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
@@ -32,8 +31,7 @@ class WitherGeneratorTest {
   @Test
   @SnapshotName("allNullabilityAndNecessityVariants")
   void generate_when_calledWithNullabilityAndNecessityVariants_then_correctOutput() {
-    final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
-        WitherGenerator.witherGenerator();
+    final Generator<WitherGenerator.WitherContent, PojoSettings> generator = witherGenerator();
     final Writer writer =
         generator.generate(
             JavaPojos.allNecessityAndNullabilityVariants().getWitherContent(),
@@ -46,12 +44,11 @@ class WitherGeneratorTest {
   @Test
   @SnapshotName("noAdditionalProperties")
   void generate_when_noAdditionalProperties_then_correctOutput() {
-    final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
-        WitherGenerator.witherGenerator();
+    final Generator<WitherGenerator.WitherContent, PojoSettings> generator = witherGenerator();
     final Writer writer =
         generator.generate(
             WitherContentBuilder.create()
-                .className(JavaIdentifier.fromString("ObjectDto"))
+                .className(JavaName.fromString("ObjectDto"))
                 .membersForWithers(PList.single(requiredString()))
                 .technicalPojoMembers(
                     PList.of(requiredString(), requiredBirthdate())
@@ -64,12 +61,26 @@ class WitherGeneratorTest {
   }
 
   @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generate_when_illegalIdentifierPojo_then_correctOutput() {
+    final Generator<WitherGenerator.WitherContent, PojoSettings> generator = witherGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.illegalIdentifierPojo().getWitherContent(),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("propertyNameMatchesSubstringOfOtherProperty")
   void
       generate_when_pojoContainsPropertyNameWhichMatchesSubstringOfOtherProperty_then_correctOutput() {
     final JavaPojoMember surnameMember =
         JavaPojoMemberBuilder.create()
-            .name(JavaMemberName.wrap(Name.ofString("surname")))
+            .name(JavaName.fromString("surname"))
             .description("desc")
             .javaType(stringType())
             .necessity(Necessity.REQUIRED)
@@ -79,7 +90,7 @@ class WitherGeneratorTest {
 
     final JavaPojoMember nameMember =
         JavaPojoMemberBuilder.create()
-            .name(JavaMemberName.wrap(Name.ofString("name")))
+            .name(JavaName.fromString("name"))
             .description("desc")
             .javaType(stringType())
             .necessity(Necessity.OPTIONAL)
@@ -89,8 +100,7 @@ class WitherGeneratorTest {
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.of(surnameMember, nameMember));
 
-    final Generator<WitherGenerator.WitherContent, PojoSettings> generator =
-        WitherGenerator.witherGenerator();
+    final Generator<WitherGenerator.WitherContent, PojoSettings> generator = witherGenerator();
     final Writer writer =
         generator.generate(pojo.getWitherContent(), defaultTestSettings(), javaWriter());
 

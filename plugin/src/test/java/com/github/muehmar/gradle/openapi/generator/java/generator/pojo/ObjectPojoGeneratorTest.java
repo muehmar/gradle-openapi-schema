@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.optionalBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
@@ -22,6 +23,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
@@ -576,11 +578,23 @@ class ObjectPojoGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.withRequiredAdditionalProperties(
             JavaPojos.objectPojo(requiredEmail(), optionalBirthdate()),
-            PList.single(new JavaRequiredAdditionalProperty(Name.ofString("name"), stringType())));
+            PList.single(
+                new JavaRequiredAdditionalProperty(JavaName.fromString("name"), stringType())));
 
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generate_when_illegalIdentifierPojo_then_correctOutput() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer =
+        generator.generate(illegalIdentifierPojo(), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writer.asString());
   }

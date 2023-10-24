@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
@@ -15,8 +16,7 @@ import lombok.Value;
 
 @Value
 public class JavaAdditionalProperties {
-  private static final JavaIdentifier MAP_PROPERTY_NAME =
-      JavaIdentifier.fromString("additionalProperties");
+  private static final JavaName MAP_PROPERTY_NAME = JavaName.fromString("additionalProperties");
   boolean allowed;
   JavaType type;
 
@@ -39,7 +39,7 @@ public class JavaAdditionalProperties {
     return new JavaAdditionalProperties(false, javaAnyType());
   }
 
-  public static JavaIdentifier additionalPropertiesName() {
+  public static JavaName additionalPropertiesName() {
     return MAP_PROPERTY_NAME;
   }
 
@@ -64,7 +64,7 @@ public class JavaAdditionalProperties {
         enumType ->
             Optional.of(
                 EnumContentBuilder.create()
-                    .className(JavaIdentifier.fromName(type.getQualifiedClassName().getClassName()))
+                    .className(JavaName.fromName(type.getQualifiedClassName().getClassName()))
                     .description("Additional property enum")
                     .members(enumType.getMembers())
                     .build());

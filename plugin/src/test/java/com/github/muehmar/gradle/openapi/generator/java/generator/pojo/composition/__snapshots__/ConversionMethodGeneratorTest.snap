@@ -147,6 +147,48 @@ private ObjectPojo1Dto asObjectPojo1Dto() {
 ]
 
 
+illegalIdentifierPojo=[
+java.util.HashMap
+java.util.Map
+
+private Illegal_IdentifierDto asIllegal_IdentifierDto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (stringVal != null) {
+    props.put("stringVal", stringVal);
+  }
+  if (intVal != null) {
+    props.put("intVal", intVal);
+  }
+  if (doubleVal != null) {
+    props.put("doubleVal", doubleVal);
+  }
+  return new Illegal_IdentifierDto(
+    switch_,
+    isSwitchNull,
+    point_,
+    isPoint_Null,
+    props
+  );
+}
+
+private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+  Map<String, Object> props = new HashMap<>(additionalProperties);
+  if (switch_ != null || isSwitchNull) {
+    props.put("switch", switch_);
+  }
+  if (point_ != null || isPoint_Null) {
+    props.put("point.", point_);
+  }
+  return new SampleObjectPojo1Dto(
+    stringVal,
+    intVal,
+    doubleVal,
+    props
+  );
+}
+]
+
+
 nestedOneOf=[
 java.util.HashMap
 java.util.Map

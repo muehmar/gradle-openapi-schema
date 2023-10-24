@@ -32,7 +32,7 @@ class RequiredNotNullableGetter {
         .returnType(deepAnnotatedFullClassName().contraMap(JavaPojoMember::getJavaType))
         .methodName((f, settings) -> f.getGetterNameWithSuffix(settings).asString())
         .noArguments()
-        .content(f -> String.format("return %s;", f.getNameAsIdentifier()))
+        .content(f -> String.format("return %s;", f.getName()))
         .build()
         .append(RefsGenerator.fieldRefs());
   }

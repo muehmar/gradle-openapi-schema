@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -21,8 +22,8 @@ public class EnumConstantName {
     return originalConstant;
   }
 
-  public JavaIdentifier asJavaConstant() {
-    return JavaIdentifier.fromName(toUpperCaseSnakeCase(originalConstant));
+  public JavaName asJavaConstant() {
+    return JavaName.fromName(toUpperCaseSnakeCase(originalConstant));
   }
 
   private static Name toUpperCaseSnakeCase(String name) {

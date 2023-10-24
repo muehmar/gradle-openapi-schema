@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -95,7 +95,7 @@ class QualifiedClassNameTest {
   void asInnerClassOf_when_calledWithDtoName_then_correctReferenceWithOuterClass() {
     final QualifiedClassName className = QualifiedClassName.ofName("Enum");
     final QualifiedClassName innerClassName =
-        className.asInnerClassOf(JavaIdentifier.fromString("AdminDto"));
+        className.asInnerClassOf(JavaName.fromString("AdminDto"));
     assertEquals("AdminDto.Enum", innerClassName.getClassName().asString());
   }
 }

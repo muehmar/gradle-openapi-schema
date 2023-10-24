@@ -1,5 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 
 public class QualifiedClassNames {

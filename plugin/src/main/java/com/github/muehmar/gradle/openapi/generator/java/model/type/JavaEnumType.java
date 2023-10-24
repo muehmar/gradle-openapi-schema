@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -39,7 +39,7 @@ public class JavaEnumType extends NonGenericJavaType {
         .orElse(JavaEnumType.wrap(enumType));
   }
 
-  public JavaEnumType asInnerClassOf(JavaIdentifier outerClassName) {
+  public JavaEnumType asInnerClassOf(JavaName outerClassName) {
     return new JavaEnumType(
         qualifiedClassName.asInnerClassOf(outerClassName), members, (EnumType) getType());
   }

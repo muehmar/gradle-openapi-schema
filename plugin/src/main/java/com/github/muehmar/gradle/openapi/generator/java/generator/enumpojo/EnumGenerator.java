@@ -9,7 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Annotat
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaIdentifier;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -179,7 +179,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
   }
 
   private Writer fromValueContent(EnumContent content, PojoSettings settings, Writer writer) {
-    final JavaIdentifier enumName = content.getClassName();
+    final JavaName enumName = content.getClassName();
     return writer
         .println("for (%s e: %s.values()) {", enumName, enumName)
         .tab(1)
@@ -211,7 +211,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
   @Value
   @PojoBuilder(builderName = "EnumContentBuilder")
   public static class EnumContent {
-    JavaIdentifier className;
+    JavaName className;
     String description;
     PList<EnumConstantName> members;
   }

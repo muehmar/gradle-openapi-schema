@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator.toStringMethod;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,7 +26,7 @@ class ToStringGeneratorTest {
   @Test
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctToStringMethod() {
-    final Generator<ToStringContent, PojoSettings> generator = ToStringGenerator.toStringMethod();
+    final Generator<ToStringContent, PojoSettings> generator = toStringMethod();
 
     final Writer writer =
         generator.generate(
@@ -39,9 +40,25 @@ class ToStringGeneratorTest {
   }
 
   @Test
+  @SnapshotName("illegalIdentifierPojo")
+  void generate_when_illegalIdentifierPojo_then_correctToStringMethod() {
+    final Generator<ToStringContent, PojoSettings> generator = toStringMethod();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.illegalIdentifierPojo().getToStringContent(),
+            defaultTestSettings(),
+            javaWriter());
+
+    assertTrue(writer.getRefs().isEmpty());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
   @SnapshotName("arrayPojo")
   void generate_when_arrayPojo_then_correctToStringMethod() {
-    final Generator<ToStringContent, PojoSettings> generator = ToStringGenerator.toStringMethod();
+    final Generator<ToStringContent, PojoSettings> generator = toStringMethod();
 
     final Writer writer =
         generator.generate(
@@ -55,7 +72,7 @@ class ToStringGeneratorTest {
   @Test
   @SnapshotName("byteArrayMember")
   void generate_when_byteArrayMember_then_correctToStringMethod() {
-    final Generator<ToStringContent, PojoSettings> generator = ToStringGenerator.toStringMethod();
+    final Generator<ToStringContent, PojoSettings> generator = toStringMethod();
 
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo(

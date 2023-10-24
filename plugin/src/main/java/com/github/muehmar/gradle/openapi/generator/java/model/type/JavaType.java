@@ -3,8 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
-import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -21,7 +20,7 @@ public interface JavaType {
    * Returns the qualified classnames used for this type, including the classes of possible type
    * parameters.s
    */
-  PList<Name> getAllQualifiedClassNames();
+  PList<QualifiedClassName> getAllQualifiedClassNames();
 
   /** Returns the full classname, i.e. including possible type parameters. */
   Name getFullClassName();
@@ -94,18 +93,14 @@ public interface JavaType {
         javaStringType -> Optional.empty());
   }
 
-  default PList<Name> getImports() {
+  default PList<QualifiedClassName> getImports() {
     return getAllQualifiedClassNames()
-        .filter(
-            qualifiedClassName ->
-                not(qualifiedClassName.equals(qualifiedClassName.startUpperCase())))
-        .filter(
-            qualifiedClassName ->
-                qualifiedClassName.startsNotWith(PackageNames.JAVA_LANG.asString()));
+        .filter(qualifiedClassName -> qualifiedClassName.getPackageName().isPresent())
+        .filter(qualifiedClassName -> not(qualifiedClassName.isJavaLangPackage()));
   }
 
   default PList<String> getImportsAsString() {
-    return getImports().map(Name::asString);
+    return getImports().map(QualifiedClassName::asString);
   }
 
   static JavaType wrap(Type type, TypeMappings typeMappings) {

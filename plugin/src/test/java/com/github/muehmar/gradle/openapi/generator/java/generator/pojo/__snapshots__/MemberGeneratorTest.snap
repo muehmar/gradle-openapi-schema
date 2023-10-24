@@ -7,3 +7,12 @@ private final String optionalNullableStringVal;
 private final boolean isOptionalNullableStringValNull;
 private final Map<String, Object> additionalProperties;
 ]
+
+
+illegalIdentifierPojo=[
+private final String switch_;
+private final boolean isSwitchNull;
+private final String point_;
+private final boolean isPoint_Null;
+private final Map<String, Object> additionalProperties;
+]
