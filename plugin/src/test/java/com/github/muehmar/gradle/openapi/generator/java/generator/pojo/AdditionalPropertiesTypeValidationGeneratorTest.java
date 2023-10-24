@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AdditionalPropertiesTypeValidationGenerator.additionalPropertiesTypeValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
-import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withAdditionalProperties;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -30,7 +29,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
         additionalPropertiesTypeValidationGenerator();
     final Writer writer =
         generator.generate(
-            withAdditionalProperties(sampleObjectPojo1(), JavaAdditionalProperties.notAllowed()),
+            sampleObjectPojo1().withAdditionalProperties(JavaAdditionalProperties.notAllowed()),
             defaultTestSettings(),
             javaWriter());
 
@@ -43,8 +42,8 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
         additionalPropertiesTypeValidationGenerator();
     final Writer writer =
         generator.generate(
-            withAdditionalProperties(
-                sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(javaAnyType())),
+            sampleObjectPojo1()
+                .withAdditionalProperties(JavaAdditionalProperties.allowedFor(javaAnyType())),
             defaultTestSettings(),
             javaWriter());
 
@@ -59,8 +58,8 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            withAdditionalProperties(
-                sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(stringType())),
+            sampleObjectPojo1()
+                .withAdditionalProperties(JavaAdditionalProperties.allowedFor(stringType())),
             defaultTestSettings(),
             javaWriter());
 
@@ -74,8 +73,8 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            withAdditionalProperties(
-                sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(stringType())),
+            sampleObjectPojo1()
+                .withAdditionalProperties(JavaAdditionalProperties.allowedFor(stringType())),
             defaultTestSettings().withEnableValidation(false),
             javaWriter());
 

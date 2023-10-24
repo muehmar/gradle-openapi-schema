@@ -37,8 +37,8 @@ public class MethodNames {
       return JavaName.fromString(String.format("get%sValidCount", type.asString()));
     }
 
-    public static JavaName getInvalidCompositionDtosMethodName() {
-      return JavaName.fromString("getInvalidCompositionDtos");
+    public static JavaName getInvalidCompositionDtosMethodName(CompositionType type) {
+      return JavaName.fromString(String.format("getInvalid%sDtos", type.asString()));
     }
 
     public static class OneOf {

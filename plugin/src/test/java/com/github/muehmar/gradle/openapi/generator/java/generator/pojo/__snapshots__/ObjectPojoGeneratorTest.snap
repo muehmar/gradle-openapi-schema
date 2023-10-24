@@ -625,7 +625,7 @@ public class PersonDto {
 
   @Valid
   @JsonIgnore
-  private List<Object> getInvalidCompositionDtos() {
+  private List<Object> getInvalidAnyOfDtos() {
     final List<Object> dtos = new ArrayList<>();
     if(getAnyOfValidCount() == 0) {
       dtos.add(asAdminDto());
@@ -6741,7 +6741,7 @@ public class PersonDto {
 
   @Valid
   @JsonIgnore
-  private List<Object> getInvalidCompositionDtos() {
+  private List<Object> getInvalidOneOfDtos() {
     final List<Object> dtos = new ArrayList<>();
     if(getOneOfValidCount() != 1) {
       dtos.add(asAdminDto());

@@ -4,6 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Ja
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.getAnyOfValidCountMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ANY_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ONE_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.getOneOfValidCountMethodName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.getInvalidCompositionDtosMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
@@ -22,14 +24,22 @@ public class InvalidCompositionDtoGetterGenerator {
   private InvalidCompositionDtoGetterGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> invalidCompositionDtoGetterGenerator() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(invalidCompositionDtoGetter(ONE_OF))
+        .appendSingleBlankLine()
+        .append(invalidCompositionDtoGetter(ANY_OF));
+  }
+
+  public static Generator<JavaObjectPojo, PojoSettings> invalidCompositionDtoGetter(
+      MethodNames.Composition.CompositionType type) {
     final Generator<JavaObjectPojo, PojoSettings> method =
         JavaGenerators.<JavaObjectPojo, PojoSettings>methodGen()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("List<Object>")
-            .methodName(getInvalidCompositionDtosMethodName().asString())
+            .methodName(getInvalidCompositionDtosMethodName(type).asString())
             .noArguments()
-            .content(invalidCompositionDtoGetterContent())
+            .content(invalidCompositionDtoGetterContent(type))
             .build()
             .append(ref(JavaRefs.JAVA_UTIL_LIST))
             .append(ref(JavaRefs.JAVA_UTIL_ARRAY_LIST));
@@ -39,15 +49,19 @@ public class InvalidCompositionDtoGetterGenerator {
         .append(ValidationGenerator.validAnnotation())
         .append(jsonIgnore())
         .append(method)
-        .filter(p -> p.getOneOfComposition().isPresent() || p.getAnyOfComposition().isPresent())
+        .filter(
+            p ->
+                (p.getOneOfComposition().isPresent() && type.equals(ONE_OF))
+                    || (p.getAnyOfComposition().isPresent() && type.equals(ANY_OF)))
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> invalidCompositionDtoGetterContent() {
+  private static Generator<JavaObjectPojo, PojoSettings> invalidCompositionDtoGetterContent(
+      MethodNames.Composition.CompositionType type) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(constant("final List<Object> dtos = new ArrayList<>();"))
-        .append(addInvalidOneOfDtos())
-        .append(addInvalidAnyOfDtos())
+        .append(addInvalidOneOfDtos().filter(ignore -> type.equals(ONE_OF)))
+        .append(addInvalidAnyOfDtos().filter(ignore -> type.equals(ANY_OF)))
         .append(constant("return dtos;"));
   }
 

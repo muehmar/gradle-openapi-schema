@@ -16,11 +16,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
-import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
@@ -168,7 +165,7 @@ public class JavaPojos {
   }
 
   public static JavaObjectPojo simpleMapPojo(JavaAdditionalProperties additionalProperties) {
-    return withAdditionalProperties(objectPojo(), additionalProperties);
+    return objectPojo().withAdditionalProperties(additionalProperties);
   }
 
   public static JavaObjectPojo allNecessityAndNullabilityVariants(Constraints constraints) {
@@ -218,85 +215,5 @@ public class JavaPojos {
             "Gender of person",
             PList.of("male", "female", "divers", "other"));
     return JavaEnumPojo.wrap(enumPojo);
-  }
-
-  public static JavaObjectPojo withMembers(
-      JavaObjectPojo objectPojo, PList<JavaPojoMember> members) {
-    return JavaObjectPojoBuilder.create()
-        .name(objectPojo.getJavaPojoName())
-        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().getOriginalName()))
-        .description(objectPojo.getDescription())
-        .members(members)
-        .type(objectPojo.getType())
-        .requiredAdditionalProperties(objectPojo.getRequiredAdditionalProperties())
-        .additionalProperties(objectPojo.getAdditionalProperties())
-        .constraints(objectPojo.getConstraints())
-        .andAllOptionals()
-        .allOfComposition(objectPojo.getAllOfComposition())
-        .oneOfComposition(objectPojo.getOneOfComposition())
-        .anyOfComposition(objectPojo.getAnyOfComposition())
-        .build();
-  }
-
-  public static JavaObjectPojo withMembers(JavaObjectPojo objectPojo, JavaPojoMember... members) {
-    return withMembers(objectPojo, PList.of(members));
-  }
-
-  public static JavaObjectPojo withName(JavaObjectPojo objectPojo, PojoName pojoName) {
-    return JavaObjectPojoBuilder.create()
-        .name(JavaPojoName.fromPojoName(pojoName))
-        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().getOriginalName()))
-        .description(objectPojo.getDescription())
-        .members(objectPojo.getMembers())
-        .type(objectPojo.getType())
-        .requiredAdditionalProperties(objectPojo.getRequiredAdditionalProperties())
-        .additionalProperties(objectPojo.getAdditionalProperties())
-        .constraints(objectPojo.getConstraints())
-        .andAllOptionals()
-        .allOfComposition(objectPojo.getAllOfComposition())
-        .oneOfComposition(objectPojo.getOneOfComposition())
-        .anyOfComposition(objectPojo.getAnyOfComposition())
-        .build();
-  }
-
-  public static JavaObjectPojo withAdditionalProperties(
-      JavaObjectPojo objectPojo, JavaAdditionalProperties additionalProperties) {
-    return JavaObjectPojoBuilder.create()
-        .name(
-            JavaPojoName.fromPojoName(
-                PojoName.ofName(Name.ofString(objectPojo.getClassName().asString()))))
-        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().getOriginalName()))
-        .description(objectPojo.getDescription())
-        .members(objectPojo.getMembers())
-        .type(objectPojo.getType())
-        .requiredAdditionalProperties(objectPojo.getRequiredAdditionalProperties())
-        .additionalProperties(additionalProperties)
-        .constraints(objectPojo.getConstraints())
-        .andAllOptionals()
-        .allOfComposition(objectPojo.getAllOfComposition())
-        .oneOfComposition(objectPojo.getOneOfComposition())
-        .anyOfComposition(objectPojo.getAnyOfComposition())
-        .build();
-  }
-
-  public static JavaObjectPojo withRequiredAdditionalProperties(
-      JavaObjectPojo objectPojo,
-      PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties) {
-    return JavaObjectPojoBuilder.create()
-        .name(
-            JavaPojoName.fromPojoName(
-                PojoName.ofName(Name.ofString(objectPojo.getClassName().asString()))))
-        .schemaName(SchemaName.ofName(objectPojo.getSchemaName().getOriginalName()))
-        .description(objectPojo.getDescription())
-        .members(objectPojo.getMembers())
-        .type(objectPojo.getType())
-        .requiredAdditionalProperties(requiredAdditionalProperties)
-        .additionalProperties(objectPojo.getAdditionalProperties())
-        .constraints(objectPojo.getConstraints())
-        .andAllOptionals()
-        .allOfComposition(objectPojo.getAllOfComposition())
-        .oneOfComposition(objectPojo.getOneOfComposition())
-        .anyOfComposition(objectPojo.getAnyOfComposition())
-        .build();
   }
 }

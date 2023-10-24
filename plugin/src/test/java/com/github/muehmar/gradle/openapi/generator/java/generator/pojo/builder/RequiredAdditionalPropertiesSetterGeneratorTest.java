@@ -11,7 +11,6 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -35,8 +34,7 @@ class RequiredAdditionalPropertiesSetterGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.withRequiredAdditionalProperties(
-                sampleObjectPojo1(), requiredAdditionalProperties),
+            sampleObjectPojo1().withRequiredAdditionalProperties(requiredAdditionalProperties),
             defaultTestSettings(),
             javaWriter());
 

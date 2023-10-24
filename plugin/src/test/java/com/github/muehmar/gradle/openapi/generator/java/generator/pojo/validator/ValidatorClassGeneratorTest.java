@@ -50,9 +50,8 @@ class ValidatorClassGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
-        JavaPojos.withMembers(
-            JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            PList.of(JavaPojoMembers.requiredColorEnum()));
+        JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
+            .withMembers(PList.of(JavaPojoMembers.requiredColorEnum()));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -65,9 +64,8 @@ class ValidatorClassGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
-        JavaPojos.withMembers(
-            JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            PList.of(JavaPojoMembers.requiredColorEnum()));
+        JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
+            .withMembers(PList.of(JavaPojoMembers.requiredColorEnum()));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -97,9 +95,8 @@ class ValidatorClassGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
-        JavaPojos.withMembers(
-            JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-            PList.of(JavaPojoMembers.requiredColorEnum()));
+        JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
+            .withMembers(PList.of(JavaPojoMembers.requiredColorEnum()));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -152,8 +149,8 @@ class ValidatorClassGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
-        JavaPojos.withAdditionalProperties(
-            sampleObjectPojo1(), JavaAdditionalProperties.allowedFor(JavaTypes.stringType()));
+        sampleObjectPojo1()
+            .withAdditionalProperties(JavaAdditionalProperties.allowedFor(JavaTypes.stringType()));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -166,8 +163,7 @@ class ValidatorClassGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
-        JavaPojos.withAdditionalProperties(
-            sampleObjectPojo1(), JavaAdditionalProperties.notAllowed());
+        sampleObjectPojo1().withAdditionalProperties(JavaAdditionalProperties.notAllowed());
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

@@ -576,10 +576,10 @@ class ObjectPojoGeneratorTest {
   @SnapshotName("pojoWithRequiredAdditionalProperties")
   void generate_when_pojoWithRequiredAdditionalProperties_then_correctOutput() {
     final JavaObjectPojo pojo =
-        JavaPojos.withRequiredAdditionalProperties(
-            JavaPojos.objectPojo(requiredEmail(), optionalBirthdate()),
-            PList.single(
-                new JavaRequiredAdditionalProperty(JavaName.fromString("name"), stringType())));
+        JavaPojos.objectPojo(requiredEmail(), optionalBirthdate())
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    new JavaRequiredAdditionalProperty(JavaName.fromString("name"), stringType())));
 
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 

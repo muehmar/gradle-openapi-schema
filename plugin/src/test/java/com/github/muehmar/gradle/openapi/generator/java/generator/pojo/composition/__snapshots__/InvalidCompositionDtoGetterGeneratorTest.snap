@@ -1,4 +1,4 @@
-anyOfPojo=[
+anyOfAndOneOfPojo=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.ArrayList
 java.util.List
@@ -6,7 +6,38 @@ javax.validation.Valid
 
 @Valid
 @JsonIgnore
-private List<Object> getInvalidCompositionDtos() {
+private List<Object> getInvalidOneOfDtos() {
+  final List<Object> dtos = new ArrayList<>();
+  if(getOneOfValidCount() != 1) {
+    dtos.add(asSampleObjectPojo1Dto());
+    dtos.add(asSampleObjectPojo2Dto());
+  }
+  return dtos;
+}
+
+@Valid
+@JsonIgnore
+private List<Object> getInvalidAnyOfDtos() {
+  final List<Object> dtos = new ArrayList<>();
+  if(getAnyOfValidCount() == 0) {
+    dtos.add(asSampleObjectPojo1Dto());
+    dtos.add(asSampleObjectPojo2Dto());
+  }
+  return dtos;
+}
+]
+
+
+anyOfPojo=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.ArrayList
+java.util.List
+javax.validation.Valid
+.
+.
+@Valid
+@JsonIgnore
+private List<Object> getInvalidAnyOfDtos() {
   final List<Object> dtos = new ArrayList<>();
   if(getAnyOfValidCount() == 0) {
     dtos.add(asSampleObjectPojo1Dto());
@@ -25,7 +56,7 @@ javax.validation.Valid
 
 @Valid
 @JsonIgnore
-private List<Object> getInvalidCompositionDtos() {
+private List<Object> getInvalidOneOfDtos() {
   final List<Object> dtos = new ArrayList<>();
   if(getOneOfValidCount() != 1) {
     dtos.add(asSampleObjectPojo1Dto());
@@ -33,4 +64,5 @@ private List<Object> getInvalidCompositionDtos() {
   }
   return dtos;
 }
+
 ]

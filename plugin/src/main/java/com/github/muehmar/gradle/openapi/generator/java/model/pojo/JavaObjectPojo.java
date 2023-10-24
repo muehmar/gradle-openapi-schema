@@ -39,10 +39,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.With;
 
 @PojoBuilder(packagePrivateBuilder = true)
 @EqualsAndHashCode
 @ToString
+@With
 public class JavaObjectPojo implements JavaPojo {
   private final JavaPojoName name;
   private final SchemaName schemaName;
