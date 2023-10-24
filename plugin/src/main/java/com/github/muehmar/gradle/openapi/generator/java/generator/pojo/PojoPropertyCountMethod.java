@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.getPropertyCountMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -27,7 +28,7 @@ public class PojoPropertyCountMethod {
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("int")
-            .methodName("getPropertyCount")
+            .methodName(getPropertyCountMethodName().asString())
             .noArguments()
             .content(propertyCountMethodContent())
             .build();

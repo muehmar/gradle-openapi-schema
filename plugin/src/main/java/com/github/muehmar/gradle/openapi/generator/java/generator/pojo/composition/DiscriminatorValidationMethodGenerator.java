@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.isValidAgainstTheCorrectSchemaMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.ofWriterFunction;
 
@@ -10,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Setting
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -32,7 +34,7 @@ public class DiscriminatorValidationMethodGenerator {
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
-            .methodName("isValidAgainstTheCorrectSchema")
+            .methodName(isValidAgainstTheCorrectSchemaMethodName().asString())
             .noArguments()
             .content(methodContent())
             .build();
@@ -96,7 +98,7 @@ public class DiscriminatorValidationMethodGenerator {
     }
 
     Name isValidAgainstMethodName() {
-      return CompositionNames.isValidAgainstMethodName(pojo);
+      return MethodNames.Composition.isValidAgainstMethodName(pojo);
     }
   }
 }

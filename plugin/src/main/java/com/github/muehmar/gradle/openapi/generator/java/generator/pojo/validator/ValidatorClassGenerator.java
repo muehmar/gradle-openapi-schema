@@ -3,13 +3,13 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validato
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValueValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.requiredAdditionalPropertyGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.getPropertyCountMethodName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.CompositionNames;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
@@ -17,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
@@ -119,7 +120,9 @@ public class ValidatorClassGenerator {
         .map(
             allOfPojo ->
                 (p, s, w) ->
-                    w.print("%s().isValid()", CompositionNames.asConversionMethodName(allOfPojo)));
+                    w.print(
+                        "%s().isValid()",
+                        MethodNames.Composition.asConversionMethodName(allOfPojo)));
   }
 
   private static Condition methodContentOneOfCondition() {
@@ -152,7 +155,7 @@ public class ValidatorClassGenerator {
             p.getConstraints()
                 .getPropertyCount()
                 .flatMap(PropertyCount::getMinProperties)
-                .map(min -> w.print("%d <= getPropertyCount()", min)));
+                .map(min -> w.print("%d <= %s()", min, getPropertyCountMethodName())));
   }
 
   private static Condition maxPropertyCountCondition() {
@@ -161,7 +164,7 @@ public class ValidatorClassGenerator {
             p.getConstraints()
                 .getPropertyCount()
                 .flatMap(PropertyCount::getMaxProperties)
-                .map(max -> w.print("getPropertyCount() <= %d", max)));
+                .map(max -> w.print("%s() <= %d", getPropertyCountMethodName(), max)));
   }
 
   private static Condition noAdditionalPropertiesCondition() {

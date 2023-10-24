@@ -1,5 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ANY_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ONE_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.isValidAgainstMoreThanOneSchemaMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.getValidCountMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.isValidAgainstNoSchemaMethodName;
+
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
@@ -9,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Validat
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -24,9 +31,9 @@ public class ValidCountValidationMethod {
   public static Generator<JavaObjectPojo, PojoSettings> validCountValidationMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(
-            isValidAgainstNoSchemaMethod("OneOf"), ValidCountValidationMethod::getOneOfPojos)
+            isValidAgainstNoSchemaMethod(ONE_OF), ValidCountValidationMethod::getOneOfPojos)
         .appendOptional(
-            isValidAgainstNoSchemaMethod("AnyOf"), ValidCountValidationMethod::getAnyOfPojos)
+            isValidAgainstNoSchemaMethod(ANY_OF), ValidCountValidationMethod::getAnyOfPojos)
         .appendOptional(
             isValidAgainstMoreThanOneSchema(), ValidCountValidationMethod::getOneOfPojos)
         .filter(Filters.isValidationEnabled());
@@ -41,7 +48,7 @@ public class ValidCountValidationMethod {
   }
 
   private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> isValidAgainstNoSchemaMethod(
-      String oneOfOrAnyOf) {
+      MethodNames.Composition.CompositionType type) {
     final Function<NonEmptyList<JavaObjectPojo>, String> message =
         pojos ->
             String.format(
@@ -54,9 +61,9 @@ public class ValidCountValidationMethod {
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
-            .methodName(String.format("isValidAgainstNo%sSchema", oneOfOrAnyOf))
+            .methodName(isValidAgainstNoSchemaMethodName(type).asString())
             .noArguments()
-            .content(String.format("return get%sValidCount() == 0;", oneOfOrAnyOf))
+            .content(String.format("return %s() == 0;", getValidCountMethodName(type)))
             .build();
     return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(annotation)
@@ -79,9 +86,9 @@ public class ValidCountValidationMethod {
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
-            .methodName("isValidAgainstMoreThanOneSchema")
+            .methodName(isValidAgainstMoreThanOneSchemaMethodName().asString())
             .noArguments()
-            .content("return getOneOfValidCount() > 1;")
+            .content(String.format("return %s() > 1;", getValidCountMethodName(ONE_OF)))
             .build();
     return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(annotation)

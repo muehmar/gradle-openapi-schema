@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.foldAnyOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.foldOneOfMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -8,6 +10,7 @@ import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -98,15 +101,16 @@ public class FoldMethodGenerator {
     return String.format(
         JAVA_DOC_EXAMPLE,
         ep.getSchemaName().getOriginalName(),
-        CompositionNames.dtoMappingArgumentName(ep),
+        MethodNames.Composition.dtoMappingArgumentName(ep),
         ep.getClassName());
   }
 
   private static String getJavaDocFullFoldString(OneOfPojo oneOf) {
     final String unsafeFoldRef =
         String.format(
-            "{@link %s#foldOneOf(%s)}",
+            "{@link %s#%s(%s)}",
             oneOf.getPojo().getClassName(),
+            foldOneOfMethodName(),
             oneOf.getMemberPojos().map(ignore -> "Function").toPList().mkString(", "));
     return String.format(JAVA_DOC_ONE_OF_FULL_FOLD, unsafeFoldRef);
   }
@@ -116,7 +120,7 @@ public class FoldMethodGenerator {
         .modifiers(PUBLIC)
         .genericTypes("T")
         .returnType("T")
-        .methodName("foldOneOf")
+        .methodName(foldOneOfMethodName().asString())
         .arguments(p -> fullFoldMethodArguments(p.getComposition().getPojos()).toPList())
         .content(fullFoldMethodContent())
         .build()
@@ -129,7 +133,7 @@ public class FoldMethodGenerator {
         .modifiers(PUBLIC)
         .genericTypes("T")
         .returnType("T")
-        .methodName("foldOneOf")
+        .methodName(foldOneOfMethodName().asString())
         .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
         .content(standardOneOfFoldMethodContent())
         .build()
@@ -141,7 +145,7 @@ public class FoldMethodGenerator {
         .modifiers(PUBLIC)
         .genericTypes("T")
         .returnType("List<T>")
-        .methodName("foldAnyOf")
+        .methodName(foldAnyOfMethodName().asString())
         .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
         .content(standardAnyOfFoldMethodContent())
         .build()
@@ -159,7 +163,7 @@ public class FoldMethodGenerator {
 
   private static Generator<OneOfPojo, PojoSettings> standardOneOfFoldMethodContent() {
     return Generator.<OneOfPojo, PojoSettings>emptyGen()
-        .append(constant("return foldOneOf("))
+        .append(w -> w.println("return %s(", foldOneOfMethodName()))
         .appendList(
             (p, s, w) -> w.tab(1).println("%s,", p.dtoMappingArgument()),
             OneOfPojo::getOneOfMembers)
@@ -228,7 +232,7 @@ public class FoldMethodGenerator {
         pojo ->
             new Argument(
                 String.format("Function<%s, T>", pojo.getClassName()),
-                CompositionNames.dtoMappingArgumentName(pojo).asString()));
+                MethodNames.Composition.dtoMappingArgumentName(pojo).asString()));
   }
 
   @Value
@@ -273,15 +277,15 @@ public class FoldMethodGenerator {
     }
 
     private Name isValidAgainstMethodName() {
-      return CompositionNames.isValidAgainstMethodName(memberPojo);
+      return MethodNames.Composition.isValidAgainstMethodName(memberPojo);
     }
 
     private Name asConversionMethodName() {
-      return CompositionNames.asConversionMethodName(memberPojo);
+      return MethodNames.Composition.asConversionMethodName(memberPojo);
     }
 
     private Name dtoMappingArgument() {
-      return CompositionNames.dtoMappingArgumentName(memberPojo);
+      return MethodNames.Composition.dtoMappingArgumentName(memberPojo);
     }
   }
 
@@ -309,15 +313,15 @@ public class FoldMethodGenerator {
     JavaObjectPojo memberPojo;
 
     private Name isValidAgainstMethodName() {
-      return CompositionNames.isValidAgainstMethodName(memberPojo);
+      return MethodNames.Composition.isValidAgainstMethodName(memberPojo);
     }
 
     private Name asConversionMethodName() {
-      return CompositionNames.asConversionMethodName(memberPojo);
+      return MethodNames.Composition.asConversionMethodName(memberPojo);
     }
 
     private Name dtoMappingArgument() {
-      return CompositionNames.dtoMappingArgumentName(memberPojo);
+      return MethodNames.Composition.dtoMappingArgumentName(memberPojo);
     }
   }
 }

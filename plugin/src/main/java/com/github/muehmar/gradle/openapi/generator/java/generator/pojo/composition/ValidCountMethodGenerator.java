@@ -1,10 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.getAnyOfValidCountMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.getOneOfValidCountMethodName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -29,7 +32,7 @@ public class ValidCountMethodGenerator {
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("int")
-        .methodName("getAnyOfValidCount")
+        .methodName(getAnyOfValidCountMethodName().asString())
         .noArguments()
         .content(validCountMethodContent())
         .build();
@@ -40,7 +43,7 @@ public class ValidCountMethodGenerator {
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("int")
-        .methodName("getOneOfValidCount")
+        .methodName(getOneOfValidCountMethodName().asString())
         .noArguments()
         .content(validCountMethodContent())
         .build();
@@ -85,7 +88,7 @@ public class ValidCountMethodGenerator {
     private String validCountLine() {
       return String.format(
           "(%s() ? 1 : 0)%s",
-          CompositionNames.isValidAgainstMethodName(memberPojo), isLast() ? ";" : " +");
+          MethodNames.Composition.isValidAgainstMethodName(memberPojo), isLast() ? ";" : " +");
     }
   }
 }

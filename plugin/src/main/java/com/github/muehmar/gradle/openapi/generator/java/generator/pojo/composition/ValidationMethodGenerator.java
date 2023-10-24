@@ -8,6 +8,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -41,7 +42,7 @@ public class ValidationMethodGenerator {
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType("boolean")
-        .methodName(p -> CompositionNames.isValidAgainstMethodName(p).asString())
+        .methodName(p -> MethodNames.Composition.isValidAgainstMethodName(p).asString())
         .noArguments()
         .content(isValidAgainstMethodContent())
         .build()
@@ -52,6 +53,7 @@ public class ValidationMethodGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(
             (p, s, w) ->
-                w.println("return %s().isValid();", CompositionNames.asConversionMethodName(p)));
+                w.println(
+                    "return %s().isValid();", MethodNames.Composition.asConversionMethodName(p)));
   }
 }
