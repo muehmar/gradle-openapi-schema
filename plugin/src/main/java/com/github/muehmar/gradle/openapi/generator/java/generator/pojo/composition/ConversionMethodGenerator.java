@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAl
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -44,7 +45,8 @@ public class ConversionMethodGenerator {
         .modifiers(PRIVATE)
         .noGenericTypes()
         .returnType(pc -> pc.getComposedPojo().getClassName().asString())
-        .methodName(pc -> CompositionNames.asConversionMethodName(pc.getComposedPojo()).asString())
+        .methodName(
+            pc -> MethodNames.Composition.asConversionMethodName(pc.getComposedPojo()).asString())
         .noArguments()
         .content(asDtoMethodContent())
         .build();

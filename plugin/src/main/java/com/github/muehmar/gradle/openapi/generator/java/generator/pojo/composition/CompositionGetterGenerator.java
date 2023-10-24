@@ -2,6 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.foldAnyOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.foldOneOfMethodName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -103,11 +105,11 @@ public class CompositionGetterGenerator {
 
     String getMethodCall() {
       if (type.equals(Type.ONE_OF)) {
-        return String.format("foldOneOf(%s)", getArguments());
+        return String.format("%s(%s)", foldOneOfMethodName(), getArguments());
       } else {
         return String.format(
-            "this.<Optional<%s>>foldAnyOf(%s).stream().findFirst().flatMap(Function.identity())",
-            pojo.getClassName(), getArguments());
+            "this.<Optional<%s>>%s(%s).stream().findFirst().flatMap(Function.identity())",
+            pojo.getClassName(), foldAnyOfMethodName(), getArguments());
       }
     }
   }

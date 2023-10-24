@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.foldAnyOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.getAnyOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.getAnyOfValidCountMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -31,7 +34,7 @@ public class AnyOfFoldValidationGenerator {
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("List<Object>")
-            .methodName("getAnyOf")
+            .methodName(getAnyOfMethodName().asString())
             .noArguments()
             .content(methodContent())
             .build();
@@ -45,13 +48,14 @@ public class AnyOfFoldValidationGenerator {
 
   private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> methodContent() {
     return Generator.<NonEmptyList<JavaObjectPojo>, PojoSettings>emptyGen()
-        .append(constant("if (getAnyOfValidCount() == 0) {"))
+        .append(w -> w.println("if (%s() == 0) {", getAnyOfValidCountMethodName()))
         .append(constant("return null;"), 1)
         .append(constant("}"))
         .append(
             (pojos, s, w) ->
                 w.println(
-                    "return foldAnyOf(%s);",
+                    "return %s(%s);",
+                    foldAnyOfMethodName(),
                     pojos.map(name -> "dto -> dto").toPList().mkString(", ")));
   }
 }

@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.foldOneOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.getOneOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.getOneOfValidCountMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -31,7 +34,7 @@ public class OneOfFoldValidationGenerator {
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("Object")
-            .methodName("getOneOf")
+            .methodName(getOneOfMethodName().asString())
             .noArguments()
             .content(methodContent())
             .build();
@@ -45,13 +48,14 @@ public class OneOfFoldValidationGenerator {
 
   private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> methodContent() {
     return Generator.<NonEmptyList<JavaObjectPojo>, PojoSettings>emptyGen()
-        .append(constant("if (getOneOfValidCount() != 1) {"))
+        .append(w -> w.println("if (%s() != 1) {", getOneOfValidCountMethodName()))
         .append(constant("return null;"), 1)
         .append(constant("}"))
         .append(
             (pojos, s, w) ->
                 w.println(
-                    "return foldOneOf(%s, () -> null);",
+                    "return %s(%s, () -> null);",
+                    foldOneOfMethodName(),
                     pojos.map(name -> "dto -> dto").toPList().mkString(", ")));
   }
 }

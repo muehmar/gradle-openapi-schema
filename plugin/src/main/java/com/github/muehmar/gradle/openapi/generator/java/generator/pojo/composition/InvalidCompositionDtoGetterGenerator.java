@@ -3,12 +3,16 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators.deprecatedValidationMethodJavaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.getAnyOfValidCountMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.getOneOfValidCountMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.getInvalidCompositionDtosMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -23,7 +27,7 @@ public class InvalidCompositionDtoGetterGenerator {
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("List<Object>")
-            .methodName("getInvalidCompositionDtos")
+            .methodName(getInvalidCompositionDtosMethodName().asString())
             .noArguments()
             .content(invalidCompositionDtoGetterContent())
             .build()
@@ -49,7 +53,7 @@ public class InvalidCompositionDtoGetterGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> addInvalidOneOfDtos() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(constant("if(getOneOfValidCount() != 1) {"))
+        .append(w -> w.println("if(%s() != 1) {", getOneOfValidCountMethodName()))
         .appendList(addSingleInvalidDto(), JavaObjectPojo::getOneOfPojos)
         .append(constant("}"))
         .filter(pojo -> pojo.getOneOfComposition().isPresent());
@@ -57,7 +61,7 @@ public class InvalidCompositionDtoGetterGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> addInvalidAnyOfDtos() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(constant("if(getAnyOfValidCount() == 0) {"))
+        .append(constant("if(%s() == 0) {", getAnyOfValidCountMethodName()))
         .appendList(addSingleInvalidDto(), JavaObjectPojo::getAnyOfPojos)
         .append(constant("}"))
         .filter(pojo -> pojo.getAnyOfComposition().isPresent());
@@ -65,7 +69,8 @@ public class InvalidCompositionDtoGetterGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> addSingleInvalidDto() {
     return Generator.<JavaObjectPojo, PojoSettings>of(
-            (p, s, w) -> w.println("dtos.add(%s());", CompositionNames.asConversionMethodName(p)))
+            (p, s, w) ->
+                w.println("dtos.add(%s());", MethodNames.Composition.asConversionMethodName(p)))
         .indent(1);
   }
 }
