@@ -1,18 +1,21 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.array.FactoryMethodGenerator.factoryMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.array.ValidatorClassGenerator.validationClassGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator.witherGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator.pojoConstructorGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator.toStringMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.IsValidMethodGenerator.isValidMethodGenerator;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -47,28 +50,38 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
 
   private Generator<JavaArrayPojo, PojoSettings> content() {
     return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
-        .append(MemberGenerator.memberGenerator(), JavaArrayPojo::getMemberContent)
+        .append(memberGenerator(), JavaArrayPojo::getMemberContent)
         .appendSingleBlankLine()
-        .append(
-            PojoConstructorGenerator.pojoConstructorGenerator(),
-            JavaArrayPojo::getConstructorContent)
+        .append(pojoConstructorGenerator(), JavaArrayPojo::getConstructorContent)
         .appendSingleBlankLine()
-        .append(FactoryMethodGenerator.factoryMethodGenerator())
+        .append(factoryMethodGenerator())
         .appendSingleBlankLine()
         .appendOptional(EnumGenerator.nested(), pojo -> pojo.getArrayPojoMember().asEnumContent())
         .appendSingleBlankLine()
-        .append(GetterGenerator.getterGenerator(), JavaArrayPojo::getArrayPojoMember)
+        .append(getterGenerator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
-        .append(WitherGenerator.witherGenerator(), JavaArrayPojo::getWitherContent)
+        .append(witherGenerator(), JavaArrayPojo::getWitherContent)
         .appendSingleBlankLine()
-        .append(
-            UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator(),
-            JavaArrayPojo::getArrayPojoMember)
+        .append(validationContent())
         .appendSingleBlankLine()
-        .append(EqualsGenerator.equalsMethod(), JavaArrayPojo::getEqualsContent)
+        .append(equalsHashCodeAndToString());
+  }
+
+  private static Generator<JavaArrayPojo, PojoSettings> validationContent() {
+    return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
+        .append(uniqueItemsValidationMethodGenerator(), JavaArrayPojo::getArrayPojoMember)
         .appendSingleBlankLine()
-        .append(HashCodeGenerator.hashCodeMethod(), JavaArrayPojo::getHashCodeContent)
+        .append(isValidMethodGenerator())
         .appendSingleBlankLine()
-        .append(ToStringGenerator.toStringMethod(), JavaArrayPojo::getToStringContent);
+        .append(validationClassGenerator());
+  }
+
+  private static Generator<JavaArrayPojo, PojoSettings> equalsHashCodeAndToString() {
+    return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
+        .append(equalsMethod(), JavaArrayPojo::getEqualsContent)
+        .appendSingleBlankLine()
+        .append(hashCodeMethod(), JavaArrayPojo::getHashCodeContent)
+        .appendSingleBlankLine()
+        .append(toStringMethod(), JavaArrayPojo::getToStringContent);
   }
 }

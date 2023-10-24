@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
 import java.util.function.Function;
 
 public interface JavaType {
@@ -49,6 +50,49 @@ public interface JavaType {
       Function<JavaIntegerType, T> onIntegerType,
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType);
+
+  default boolean isArrayType() {
+    return fold(
+        javaArrayType -> true,
+        javaBooleanType -> false,
+        javaEnumType -> false,
+        javaMapType -> false,
+        javaAnyType -> false,
+        javaNumericType -> false,
+        javaIntegerType -> false,
+        javaObjectType -> false,
+        javaStringType -> false);
+  }
+
+  default boolean isMapType() {
+    return fold(
+        javaArrayType -> false,
+        javaBooleanType -> false,
+        javaEnumType -> false,
+        javaMapType -> true,
+        javaAnyType -> false,
+        javaNumericType -> false,
+        javaIntegerType -> false,
+        javaObjectType -> false,
+        javaStringType -> false);
+  }
+
+  default boolean isObjectType() {
+    return onObjectType().isPresent();
+  }
+
+  default Optional<JavaObjectType> onObjectType() {
+    return fold(
+        javaArrayType -> Optional.empty(),
+        javaBooleanType -> Optional.empty(),
+        javaEnumType -> Optional.empty(),
+        javaMapType -> Optional.empty(),
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        Optional::of,
+        javaStringType -> Optional.empty());
+  }
 
   default PList<Name> getImports() {
     return getAllQualifiedClassNames()

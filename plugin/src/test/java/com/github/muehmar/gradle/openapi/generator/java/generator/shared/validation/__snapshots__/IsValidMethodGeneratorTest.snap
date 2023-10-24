@@ -1,0 +1,5 @@
+sampleObjectPojo1=[
+boolean isValid() {
+  return new Validator().isValid();
+}
+]

@@ -40,6 +40,28 @@ public class PosologyDto {
     return new PosologyDto(value);
   }
 
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isValueValid() {
+      if(value != null) {
+        return value.stream().allMatch(this::isValueValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isValueValueValid(Double valueValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isValueValid();
+    }
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -95,6 +117,10 @@ public enum GenderDto {
     return value;
   }
 
+  boolean isValid() {
+    return true;
+  }
+
   @Override
   public String toString() {
     return value;
@@ -129,6 +155,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -203,6 +230,18 @@ public class SampleObjectPojo1Dto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (stringVal != null ? 1 : 0) +
+      (intVal != null ? 1 : 0) +
+      (doubleVal != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * stringVal
    */
   public SampleObjectPojo1Dto withStringVal(String stringVal) {
@@ -223,30 +262,55 @@ public class SampleObjectPojo1Dto {
     return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (stringVal != null ? 1 : 0) +
-      (intVal != null ? 1 : 0) +
-      (doubleVal != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      stringVal != null &&
-      intVal != null &&
-      doubleVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  private class Validator {
+    private boolean isStringValValid() {
+      if(stringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", stringVal);
+      }
+
+      return false;
+    }
+
+    private boolean isIntValValid() {
+      if(intVal != null) {
+        return 10 <= intVal
+            && intVal <= 50;
+      }
+
+      return false;
+    }
+
+    private boolean isDoubleValValid() {
+      if(doubleVal != null) {
+        return 0 <= BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("12.5"))
+            && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1")) < 0;
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isStringValValid()
+          && isIntValValid()
+          && isDoubleValValid()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override

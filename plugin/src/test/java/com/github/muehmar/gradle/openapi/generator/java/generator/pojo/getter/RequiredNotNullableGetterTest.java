@@ -106,7 +106,7 @@ class RequiredNotNullableGetterTest {
 
     final JavaPojoMember member =
         JavaPojoMembers.list(
-            itemType, Constraints.empty(), Necessity.REQUIRED, Nullability.NOT_NULLABLE);
+            itemType, Necessity.REQUIRED, Nullability.NOT_NULLABLE, Constraints.empty());
 
     final Writer writer =
         generator.generate(member, defaultTestSettings().withEnableValidation(true), javaWriter());

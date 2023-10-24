@@ -88,13 +88,6 @@ public class PersonDto {
   }
 
   /**
-   * RequiredStringVal
-   */
-  public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
-  }
-
-  /**
    * Returns the number of present properties of this object.
    */
   @JsonIgnore
@@ -104,6 +97,13 @@ public class PersonDto {
       (birthdate != null ? 1 : 0) +
       (username != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   private AdminDto asAdminDto() {
@@ -134,16 +134,37 @@ public class PersonDto {
     );
   }
 
-  boolean validateBasic() {
-    return
-      requiredStringVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isRequiredStringValValid() {
+      if(requiredStringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isRequiredStringValValid()
+          && asAdminDto().isValid()
+          && asUserDto().isValid()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -511,10 +532,21 @@ public class PersonDto {
   }
 
   /**
-   * RequiredStringVal
+   * Returns {@link AdminDto} of the anyOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
-  public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+  @JsonIgnore
+  public Optional<AdminDto> getAdminDto() {
+    return this.<Optional<AdminDto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
+  }
+
+  /**
+   * Returns {@link UserDto} of the anyOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  @JsonIgnore
+  public Optional<UserDto> getUserDto() {
+    return this.<Optional<UserDto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
   }
 
   /**
@@ -527,6 +559,13 @@ public class PersonDto {
       (birthdate != null ? 1 : 0) +
       (username != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   /**
@@ -554,24 +593,6 @@ public class PersonDto {
       result.add(onUserDto.apply(asUserDto()));
     }
     return result;
-  }
-
-  /**
-   * Returns {@link AdminDto} of the anyOf composition in case it is valid against
-   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<AdminDto> getAdminDto() {
-    return this.<Optional<AdminDto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
-  }
-
-  /**
-   * Returns {@link UserDto} of the anyOf composition in case it is valid against the
-   * schema User wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<UserDto> getUserDto() {
-    return this.<Optional<UserDto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
   }
 
   private AdminDto asAdminDto() {
@@ -614,11 +635,11 @@ public class PersonDto {
   }
 
   private boolean isValidAgainstAdminDto() {
-    return asAdminDto().validateBasic();
+    return asAdminDto().isValid();
   }
 
   private boolean isValidAgainstUserDto() {
-    return asUserDto().validateBasic();
+    return asUserDto().isValid();
   }
 
   private int getAnyOfValidCount() {
@@ -642,16 +663,36 @@ public class PersonDto {
     return foldAnyOf(dto -> dto, dto -> dto);
   }
 
-  boolean validateBasic() {
-    return
-      requiredStringVal != null &&
-      true &&
-      true &&
-      getAnyOfValidCount() >= 1 &&
-      true &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isRequiredStringValValid() {
+      if(requiredStringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isRequiredStringValValid()
+          && getAnyOfValidCount() >= 1
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -1046,15 +1087,27 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -1185,6 +1238,8 @@ public class ObjectPojo1Dto {
 enableValidation[jakarta-2]=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.EmailValidator;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -1386,6 +1441,26 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(15)
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (lastName != null ? 1 : 0) +
+      (nickName != null ? 1 : 0) +
+      (email != null ? 1 : 0) +
+      (height != null ? 1 : 0) +
+      (level != null ? 1 : 0) +
+      (uppercase != null ? 1 : 0) +
+      (multipleOfValue != null ? 1 : 0) +
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -1483,41 +1558,125 @@ public class UserDto {
     return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @Min(5)
-  @Max(15)
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (lastName != null ? 1 : 0) +
-      (nickName != null ? 1 : 0) +
-      (email != null ? 1 : 0) +
-      (height != null ? 1 : 0) +
-      (level != null ? 1 : 0) +
-      (uppercase != null ? 1 : 0) +
-      (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      id != null &&
-      name != null &&
-      lastName != null &&
-      nickName != null &&
-      email != null &&
-      height != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      5 <= getPropertyCount() &&
-      getPropertyCount() <= 15 &&
-      true;
+  private class Validator {
+    private boolean isIdValid() {
+      if(id != null) {
+        return id <= 50;
+      }
+
+      return false;
+    }
+
+    private boolean isNameValid() {
+      if(name != null) {
+        return 10 <= name.length()
+            && name.length() <= 15;
+      }
+
+      return false;
+    }
+
+    private boolean isLastNameValid() {
+      if(lastName != null) {
+        return 10 <= lastName.length();
+      }
+
+      return false;
+    }
+
+    private boolean isNickNameValid() {
+      if(nickName != null) {
+        return nickName.length() <= 50;
+      }
+
+      return false;
+    }
+
+    private boolean isEmailValid() {
+      if(email != null) {
+        return EmailValidator.isValid(email);
+      }
+
+      return false;
+    }
+
+    private boolean isHeightValid() {
+      if(height != null) {
+        return 0 <= BigDecimal.valueOf(height).compareTo(new BigDecimal("120.0"))
+            && BigDecimal.valueOf(height).compareTo(new BigDecimal("199")) < 0;
+      }
+
+      return false;
+    }
+
+    private boolean isLevelValid() {
+      if(level != null) {
+        return 5 <= level;
+      }
+
+      return true;
+    }
+
+    private boolean isUppercaseValid() {
+      if(uppercase != null) {
+        return java.util.regex.Pattern.matches("^(\\d[A-Z]*)", uppercase);
+      }
+
+      return true;
+    }
+
+    private boolean isMultipleOfValueValid() {
+      if(multipleOfValue != null) {
+        return isMultipleOfValueMultipleOfValid();
+      }
+
+      return true;
+    }
+
+    private boolean isAnotherPojoValid() {
+      if(anotherPojo != null) {
+        return anotherPojo.isValid();
+      }
+
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isIdValid()
+          && isNameValid()
+          && isLastNameValid()
+          && isNickNameValid()
+          && isEmailValid()
+          && isHeightValid()
+          && isLevelValid()
+          && isUppercaseValid()
+          && isMultipleOfValueValid()
+          && isAnotherPojoValid()
+          && 5 <= getPropertyCount()
+          && getPropertyCount() <= 15
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
+  private boolean isMultipleOfValueMultipleOfValid() {
+    return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
 
   @Override
@@ -1570,11 +1729,6 @@ public class UserDto {
       "anotherPojo=" + anotherPojo + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
-  private boolean isMultipleOfValueMultipleOfValid() {
-    return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
 
   public static Builder newBuilder() {
@@ -1729,6 +1883,7 @@ public class UserDto {
 enableValidation[jakarta-3]=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.EmailValidator;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
@@ -1739,6 +1894,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -1930,6 +2086,26 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @Min(5)
+  @Max(15)
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (lastName != null ? 1 : 0) +
+      (nickName != null ? 1 : 0) +
+      (email != null ? 1 : 0) +
+      (height != null ? 1 : 0) +
+      (level != null ? 1 : 0) +
+      (uppercase != null ? 1 : 0) +
+      (multipleOfValue != null ? 1 : 0) +
+      (anotherPojo != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -2027,41 +2203,125 @@ public class UserDto {
     return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @Min(5)
-  @Max(15)
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (lastName != null ? 1 : 0) +
-      (nickName != null ? 1 : 0) +
-      (email != null ? 1 : 0) +
-      (height != null ? 1 : 0) +
-      (level != null ? 1 : 0) +
-      (uppercase != null ? 1 : 0) +
-      (multipleOfValue != null ? 1 : 0) +
-      (anotherPojo != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      id != null &&
-      name != null &&
-      lastName != null &&
-      nickName != null &&
-      email != null &&
-      height != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      5 <= getPropertyCount() &&
-      getPropertyCount() <= 15 &&
-      true;
+  private class Validator {
+    private boolean isIdValid() {
+      if(id != null) {
+        return id <= 50;
+      }
+
+      return false;
+    }
+
+    private boolean isNameValid() {
+      if(name != null) {
+        return 10 <= name.length()
+            && name.length() <= 15;
+      }
+
+      return false;
+    }
+
+    private boolean isLastNameValid() {
+      if(lastName != null) {
+        return 10 <= lastName.length();
+      }
+
+      return false;
+    }
+
+    private boolean isNickNameValid() {
+      if(nickName != null) {
+        return nickName.length() <= 50;
+      }
+
+      return false;
+    }
+
+    private boolean isEmailValid() {
+      if(email != null) {
+        return EmailValidator.isValid(email);
+      }
+
+      return false;
+    }
+
+    private boolean isHeightValid() {
+      if(height != null) {
+        return 0 <= BigDecimal.valueOf(height).compareTo(new BigDecimal("120.0"))
+            && BigDecimal.valueOf(height).compareTo(new BigDecimal("199")) < 0;
+      }
+
+      return false;
+    }
+
+    private boolean isLevelValid() {
+      if(level != null) {
+        return 5 <= level;
+      }
+
+      return true;
+    }
+
+    private boolean isUppercaseValid() {
+      if(uppercase != null) {
+        return java.util.regex.Pattern.matches("^(\\d[A-Z]*)", uppercase);
+      }
+
+      return true;
+    }
+
+    private boolean isMultipleOfValueValid() {
+      if(multipleOfValue != null) {
+        return isMultipleOfValueMultipleOfValid();
+      }
+
+      return true;
+    }
+
+    private boolean isAnotherPojoValid() {
+      if(anotherPojo != null) {
+        return anotherPojo.isValid();
+      }
+
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isIdValid()
+          && isNameValid()
+          && isLastNameValid()
+          && isNickNameValid()
+          && isEmailValid()
+          && isHeightValid()
+          && isLevelValid()
+          && isUppercaseValid()
+          && isMultipleOfValueValid()
+          && isAnotherPojoValid()
+          && 5 <= getPropertyCount()
+          && getPropertyCount() <= 15
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
+  private boolean isMultipleOfValueMultipleOfValid() {
+    return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
 
   @Override
@@ -2114,11 +2374,6 @@ public class UserDto {
       "anotherPojo=" + anotherPojo + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "multipleOfValue is not a multiple of 5")
-  private boolean isMultipleOfValueMultipleOfValid() {
-    return multipleOfValue == null || multipleOfValue % 5L == 0;
   }
 
   public static Builder newBuilder() {
@@ -2322,6 +2577,10 @@ public class UserDto {
       return value;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -2385,6 +2644,17 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -2412,28 +2682,43 @@ public class UserDto {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      id != null &&
-      name != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      2 <= getPropertyCount() &&
-      getPropertyCount() <= 10 &&
-      true;
+  private class Validator {
+    private boolean isIdValid() {
+      return id != null;
+    }
+
+    private boolean isNameValid() {
+      return name != null;
+    }
+
+    private boolean isLanguageValid() {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isIdValid()
+          && isNameValid()
+          && isLanguageValid()
+          && 2 <= getPropertyCount()
+          && getPropertyCount() <= 10
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -2742,10 +3027,6 @@ public class ObjectPojo1Dto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
-  public static ObjectPojo1Dto fromProperties(Map<String, ColorEnum> properties) {
-    return new ObjectPojo1Dto(new HashMap<>(properties));
-  }
-
   /**
    * Additional property enum
    */
@@ -2765,6 +3046,10 @@ public class ObjectPojo1Dto {
     @JsonValue
     public String getValue() {
       return value;
+    }
+
+    boolean isValid() {
+      return true;
     }
 
     @Override
@@ -2788,6 +3073,10 @@ public class ObjectPojo1Dto {
           + possibleValues
           + "]");
     }
+  }
+
+  public static ObjectPojo1Dto fromProperties(Map<String, ColorEnum> properties) {
+    return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
   @JsonAnyGetter
@@ -2824,15 +3113,34 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(ColorEnum additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @Override
@@ -2855,12 +3163,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @JsonIgnore
-  @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -3034,15 +3336,34 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Integer additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of Integer")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @Override
@@ -3065,12 +3386,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @JsonIgnore
-  @AssertTrue(message = "Not all additional properties are instances of Integer")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -3244,6 +3559,10 @@ public class UserDto {
       return value;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -3317,6 +3636,18 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -3344,29 +3675,43 @@ public class UserDto {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      id != null &&
-      name != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      2 <= getPropertyCount() &&
-      getPropertyCount() <= 10 &&
-      true;
+  private class Validator {
+    private boolean isIdValid() {
+      return id != null;
+    }
+
+    private boolean isNameValid() {
+      return name != null;
+    }
+
+    private boolean isLanguageValid() {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isIdValid()
+          && isNameValid()
+          && isLanguageValid()
+          && 2 <= getPropertyCount()
+          && getPropertyCount() <= 10
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -3519,6 +3864,10 @@ public class UserDto {
       return value;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -3582,6 +3931,17 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * ID of this user
    */
   public UserDto withId(Long id) {
@@ -3609,28 +3969,43 @@ public class UserDto {
     return new UserDto(id, name, language.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  public int getPropertyCount() {
-    return
-      (id != null ? 1 : 0) +
-      (name != null ? 1 : 0) +
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      id != null &&
-      name != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      2 <= getPropertyCount() &&
-      getPropertyCount() <= 10 &&
-      true;
+  private class Validator {
+    private boolean isIdValid() {
+      return id != null;
+    }
+
+    private boolean isNameValid() {
+      return name != null;
+    }
+
+    private boolean isLanguageValid() {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isIdValid()
+          && isNameValid()
+          && isLanguageValid()
+          && 2 <= getPropertyCount()
+          && getPropertyCount() <= 10
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -3870,6 +4245,19 @@ public class NecessityAndNullabilityDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (requiredStringVal != null ? 1 : 0) +
+      (isRequiredNullableStringValPresent ? 1 : 0) +
+      (optionalStringVal != null ? 1 : 0) +
+      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
@@ -3918,30 +4306,62 @@ public class NecessityAndNullabilityDto {
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (requiredStringVal != null ? 1 : 0) +
-      (isRequiredNullableStringValPresent ? 1 : 0) +
-      (optionalStringVal != null ? 1 : 0) +
-      ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      requiredStringVal != null &&
-      isRequiredNullableStringValPresent &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  private class Validator {
+    private boolean isRequiredStringValValid() {
+      if(requiredStringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
+      }
+
+      return false;
+    }
+
+    private boolean isRequiredNullableStringValValid() {
+      if(requiredNullableStringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredNullableStringVal);
+      }
+
+      return isRequiredNullableStringValPresent;
+    }
+
+    private boolean isOptionalStringValValid() {
+      if(optionalStringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalStringVal);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalNullableStringValValid() {
+      if(optionalNullableStringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalNullableStringVal);
+      }
+
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isRequiredStringValValid()
+          && isRequiredNullableStringValValid()
+          && isOptionalStringValValid()
+          && isOptionalNullableStringValValid()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -4355,15 +4775,20 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      additionalProperties.isEmpty();
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isValid() {
+      return additionalProperties.isEmpty();
+    }
+  }
+
+  @AssertTrue(message = "No additional properties allowed")
+  private boolean hasNoAdditionalProperties() {
+    return additionalProperties.size() == 0;
   }
 
   @Override
@@ -4386,11 +4811,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "No additional properties allowed")
-  private boolean hasNoAdditionalProperties() {
-    return additionalProperties.size() == 0;
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -4539,15 +4959,38 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return additionalPropertiesValue.isValid();
+      }
+
+      return true;
+    }
+
+    private boolean isValid() {
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @JsonIgnore
+  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @Override
@@ -4570,12 +5013,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @JsonIgnore
-  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -4748,15 +5185,32 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return additionalPropertiesValue.isValid();
+      }
+
+      return true;
+    }
+
+    private boolean isValid() {
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -4945,15 +5399,37 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      isAllAdditionalPropertiesHaveCorrectType() &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(HelloDto additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return additionalPropertiesValue.isValid();
+      }
+
+      return true;
+    }
+
+    private boolean isValid() {
+      return isAllAdditionalPropertiesHaveCorrectType()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   @Override
@@ -4976,11 +5452,6 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "Not all additional properties are instances of HelloDto")
-  private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
   }
 
   public static final class Builder {
@@ -5143,13 +5614,6 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * List
-   */
-  public ObjectPojo1Dto withListVal(List<String> listVal) {
-    return new ObjectPojo1Dto(listVal, additionalProperties);
-  }
-
-  /**
    * Returns the number of present properties of this object.
    */
   @JsonIgnore
@@ -5159,16 +5623,52 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      listVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  /**
+   * List
+   */
+  public ObjectPojo1Dto withListVal(List<String> listVal) {
+    return new ObjectPojo1Dto(listVal, additionalProperties);
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isListValValid() {
+      if(listVal != null) {
+        return hasListValUniqueItems()
+            && listVal.stream().allMatch(this::isListValValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isListValValueValid(String listValValue) {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isListValValid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @AssertTrue(message = "listVal does not contain unique items")
+  private boolean hasListValUniqueItems() {
+    return new HashSet<>(listVal).size() == listVal.size();
   }
 
   @Override
@@ -5194,11 +5694,6 @@ public class ObjectPojo1Dto {
       "listVal=" + listVal + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
-  }
-
-  @AssertTrue(message = "listVal does not contain unique items")
-  private boolean hasListValUniqueItems() {
-    return new HashSet<>(listVal).size() == listVal.size();
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
@@ -5400,13 +5895,6 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Map
-   */
-  public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
-    return new ObjectPojo1Dto(mapVal, additionalProperties);
-  }
-
-  /**
    * Returns the number of present properties of this object.
    */
   @JsonIgnore
@@ -5416,16 +5904,48 @@ public class ObjectPojo1Dto {
       additionalProperties.size();
   }
 
-  boolean validateBasic() {
-    return
-      mapVal != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  /**
+   * Map
+   */
+  public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
+    return new ObjectPojo1Dto(mapVal, additionalProperties);
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isMapValValid() {
+      if(mapVal != null) {
+        return 3 <= mapVal.size()
+            && mapVal.size() <= 8
+            && mapVal.values().stream().allMatch(this::isMapValValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isMapValValueValid(UUID mapValValue) {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isMapValValid()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -5680,10 +6200,21 @@ public class PersonDto {
   }
 
   /**
-   * RequiredStringVal
+   * Returns {@link AdminDto} of the oneOf composition in case it is valid against
+   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
-  public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+  @JsonIgnore
+  public Optional<AdminDto> getAdminDto() {
+    return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+  }
+
+  /**
+   * Returns {@link UserDto} of the oneOf composition in case it is valid against the
+   * schema User wrapped in an {@link Optional}, empty otherwise.
+   */
+  @JsonIgnore
+  public Optional<UserDto> getUserDto() {
+    return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
   }
 
   /**
@@ -5696,6 +6227,13 @@ public class PersonDto {
       (birthdate != null ? 1 : 0) +
       (username != null ? 1 : 0) +
       additionalProperties.size();
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PersonDto withRequiredStringVal(String requiredStringVal) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
   /**
@@ -5746,24 +6284,6 @@ public class PersonDto {
     );
   }
 
-  /**
-   * Returns {@link AdminDto} of the oneOf composition in case it is valid against
-   * the schema Admin wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<AdminDto> getAdminDto() {
-    return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
-  }
-
-  /**
-   * Returns {@link UserDto} of the oneOf composition in case it is valid against the
-   * schema User wrapped in an {@link Optional}, empty otherwise.
-   */
-  @JsonIgnore
-  public Optional<UserDto> getUserDto() {
-    return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
-  }
-
   private AdminDto asAdminDto() {
     Map<String, Object> props = new HashMap<>(additionalProperties);
     if (requiredStringVal != null) {
@@ -5804,11 +6324,11 @@ public class PersonDto {
   }
 
   private boolean isValidAgainstAdminDto() {
-    return asAdminDto().validateBasic();
+    return asAdminDto().isValid();
   }
 
   private boolean isValidAgainstUserDto() {
-    return asUserDto().validateBasic();
+    return asUserDto().isValid();
   }
 
   private int getOneOfValidCount() {
@@ -5838,16 +6358,36 @@ public class PersonDto {
     return foldOneOf(dto -> dto, dto -> dto, () -> null);
   }
 
-  boolean validateBasic() {
-    return
-      requiredStringVal != null &&
-      getOneOfValidCount() == 1 &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isRequiredStringValValid() {
+      if(requiredStringVal != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredStringVal);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isRequiredStringValValid()
+          && getOneOfValidCount() == 1
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -6163,6 +6703,10 @@ public class UserDto {
       return description;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -6220,6 +6764,15 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * Preferred language of this user<br>
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
@@ -6237,24 +6790,31 @@ public class UserDto {
     return new UserDto(language.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  public int getPropertyCount() {
-    return
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  private class Validator {
+    private boolean isLanguageValid() {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isLanguageValid()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -6393,6 +6953,10 @@ public class UserDto {
       return description;
     }
 
+    boolean isValid() {
+      return true;
+    }
+
     @Override
     public String toString() {
       return value;
@@ -6456,6 +7020,16 @@ public class UserDto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * Preferred language of this user<br>
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
@@ -6473,25 +7047,31 @@ public class UserDto {
     return new UserDto(language.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (language != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  private class Validator {
+    private boolean isLanguageValid() {
+      return true;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isLanguageValid()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override
@@ -6580,6 +7160,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.EmailValidator;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -6672,6 +7253,17 @@ public class ObjectPojo1Dto {
   }
 
   /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (email != null ? 1 : 0) +
+      (birthdate != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
    * email
    */
   public ObjectPojo1Dto withEmail(String email) {
@@ -6692,27 +7284,45 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(email, birthdate.orElse(null), additionalProperties);
   }
 
-  /**
-   * Returns the number of present properties of this object.
-   */
-  @JsonIgnore
-  public int getPropertyCount() {
-    return
-      (email != null ? 1 : 0) +
-      (birthdate != null ? 1 : 0) +
-      additionalProperties.size();
+  boolean isValid() {
+    return new Validator().isValid();
   }
 
-  boolean validateBasic() {
-    return
-      email != null &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true &&
-      true;
+  private class Validator {
+    private boolean isEmailValid() {
+      if(email != null) {
+        return EmailValidator.isValid(email);
+      }
+
+      return false;
+    }
+
+    private boolean isBirthdateValid() {
+      return true;
+    }
+
+    private boolean isNameValid() {
+      return getName() != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties() != null) {
+        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isEmailValid()
+          && isBirthdateValid()
+          && isNameValid()
+          && isAdditionalPropertiesValid();
+    }
   }
 
   @Override

@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.BasicValidationMethodGenerator.basicValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.ValidatorClassGenerator.validationClassGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -22,18 +22,45 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCou
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
-class BasicValidationMethodGeneratorTest {
+class ValidatorClassGeneratorTest {
   private Expect expect;
+
+  @Test
+  @SnapshotName("sampleObjectPojo2")
+  void generate_when_sampleObjectPojo2_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final Writer writer =
+        generator.generate(sampleObjectPojo2(), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("allOfPojoWithMembers")
+  void generate_when_allOfPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaObjectPojo pojo =
+        JavaPojos.withMembers(
+            JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            PList.of(JavaPojoMembers.requiredColorEnum()));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
 
   @Test
   @SnapshotName("oneOfPojoWithMembers")
   void generate_when_oneOfPojoWithMembers_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
         JavaPojos.withMembers(
@@ -48,7 +75,7 @@ class BasicValidationMethodGeneratorTest {
   @Test
   @SnapshotName("oneOfPojoWithDiscriminator")
   void generate_when_oneOfPojoWithDiscriminator_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfComposition.fromPojosAndDiscriminator(
@@ -65,7 +92,7 @@ class BasicValidationMethodGeneratorTest {
   @Test
   @SnapshotName("anyOfPojoWithMembers")
   void generate_when_anyOfPojoWithMembers_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
         JavaPojos.withMembers(
@@ -80,7 +107,7 @@ class BasicValidationMethodGeneratorTest {
   @Test
   @SnapshotName("emptyPojo")
   void generate_when_emptyPojo_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo();
 
@@ -92,7 +119,7 @@ class BasicValidationMethodGeneratorTest {
   @Test
   @SnapshotName("objectPojoWithMinPropertyCountConstraint")
   void generate_when_objectPojoWithMinPropertyCountConstraint_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
         JavaPojos.allNecessityAndNullabilityVariants(
@@ -106,7 +133,7 @@ class BasicValidationMethodGeneratorTest {
   @Test
   @SnapshotName("objectPojoWithMaxPropertyCountConstraint")
   void generate_when_objectPojoWithMaxPropertyCountConstraint_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
         JavaPojos.allNecessityAndNullabilityVariants(
@@ -120,7 +147,7 @@ class BasicValidationMethodGeneratorTest {
   @Test
   @SnapshotName("objectPojoWithNotAnyValueTypeForAdditionalProperties")
   void generate_when_objectPojoWithNotAnyValueTypeForAdditionalProperties_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
         JavaPojos.withAdditionalProperties(
@@ -134,7 +161,7 @@ class BasicValidationMethodGeneratorTest {
   @Test
   @SnapshotName("objectPojoWithNotAllowedAdditionalProperties")
   void generate_when_objectPojoWithNotAllowedAdditionalProperties_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = basicValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
 
     final JavaObjectPojo pojo =
         JavaPojos.withAdditionalProperties(

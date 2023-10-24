@@ -41,6 +41,10 @@ public class QualifiedClassNames {
       QualifiedClassName.ofPackageAndName(PackageNames.JAVA_UTIL, Name.ofString("UUID"));
   public static final QualifiedClassName LIST =
       QualifiedClassName.ofPackageAndName(PackageNames.JAVA_UTIL, Name.ofString("List"));
+  public static final QualifiedClassName ARRAY_LIST =
+      QualifiedClassName.ofPackageAndName(PackageNames.JAVA_UTIL, Name.ofString("ArrayList"));
+  public static final QualifiedClassName LINKED_LIST =
+      QualifiedClassName.ofPackageAndName(PackageNames.JAVA_UTIL, Name.ofString("LinkedList"));
   public static final QualifiedClassName MAP =
       QualifiedClassName.ofPackageAndName(PackageNames.JAVA_UTIL, Name.ofString("Map"));
 

@@ -47,6 +47,29 @@ public class PosologyDto {
     return new HashSet<>(value).size() == value.size();
   }
 
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isValueValid() {
+      if(value != null) {
+        return hasValueUniqueItems()
+            && value.stream().allMatch(this::isValueValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isValueValueValid(Double valueValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isValueValid();
+    }
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;

@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.p
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import java.util.Comparator;
@@ -24,6 +25,7 @@ class JavaObjectTypeTest {
             .getAllQualifiedClassNames()
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
+    assertEquals(JavaObjectType.TypeOrigin.OPENAPI, javaType.getOrigin());
   }
 
   @Test
@@ -39,5 +41,18 @@ class JavaObjectTypeTest {
             .getAllQualifiedClassNames()
             .map(Name::asString)
             .sort(Comparator.comparing(Function.identity())));
+    assertEquals(JavaObjectType.TypeOrigin.OPENAPI, javaType.getOrigin());
+  }
+
+  @Test
+  void fromClassName_when_calledForClassname_then_correctType() {
+    final JavaObjectType javaType =
+        JavaObjectType.fromClassName(QualifiedClassName.ofName("com.github.muehmar.CustomObject"));
+
+    assertEquals("com.github.muehmar.CustomObject", javaType.getFullClassName().asString());
+    assertEquals(
+        "com.github.muehmar.CustomObject",
+        javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(JavaObjectType.TypeOrigin.CUSTOM, javaType.getOrigin());
   }
 }
