@@ -40,8 +40,8 @@ class NormalBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojos.withRequiredAdditionalProperties(
-                allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
+            allNecessityAndNullabilityVariants()
+                .withRequiredAdditionalProperties(requiredAdditionalProperties),
             defaultTestSettings(),
             javaWriter());
 

@@ -37,8 +37,8 @@ class FinalRequiredMemberBuilderGeneratorTest {
             JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), javaAnyType()));
     final Writer writer =
         gen.generate(
-            JavaPojos.withRequiredAdditionalProperties(
-                JavaPojos.allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
+            JavaPojos.allNecessityAndNullabilityVariants()
+                .withRequiredAdditionalProperties(requiredAdditionalProperties),
             TestPojoSettings.defaultTestSettings(),
             javaWriter());
 

@@ -57,8 +57,8 @@ class RequiredMemberBuilderGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            JavaPojos.withRequiredAdditionalProperties(
-                JavaPojos.allNecessityAndNullabilityVariants(), requiredAdditionalProperties),
+            JavaPojos.allNecessityAndNullabilityVariants()
+                .withRequiredAdditionalProperties(requiredAdditionalProperties),
             TestPojoSettings.defaultTestSettings(),
             javaWriter());
 

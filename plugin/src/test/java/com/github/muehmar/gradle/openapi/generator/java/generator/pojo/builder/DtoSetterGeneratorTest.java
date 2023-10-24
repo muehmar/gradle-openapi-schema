@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.DtoSetterGenerator.dtoSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
-import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withAdditionalProperties;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -91,7 +90,7 @@ class DtoSetterGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
 
     final JavaObjectPojo samplePojo1 =
-        withAdditionalProperties(sampleObjectPojo1(), JavaAdditionalProperties.notAllowed());
+        sampleObjectPojo1().withAdditionalProperties(JavaAdditionalProperties.notAllowed());
 
     final Writer writer =
         generator.generate(

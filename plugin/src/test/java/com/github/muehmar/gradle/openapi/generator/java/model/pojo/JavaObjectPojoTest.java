@@ -3,18 +3,17 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.fromNameAndSuffix;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
-import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withMembers;
-import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withName;
-import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.withRequiredAdditionalProperties;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
-import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
@@ -25,7 +24,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -51,7 +49,7 @@ class JavaObjectPojoTest {
             PList.single(JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NOT_NULLABLE)));
     final JavaObjectPojoBuilder.Builder builder =
         JavaObjectPojoBuilder.create()
-            .name(JavaPojoNames.fromNameAndSuffix("Object", "Dto"))
+            .name(fromNameAndSuffix("Object", "Dto"))
             .schemaName(SchemaName.ofString("Object"))
             .description("")
             .members(PList.of(requiredEmail()))
@@ -163,12 +161,12 @@ class JavaObjectPojoTest {
   void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsed() {
     final JavaObjectPojo oneOfPojoWithEnum =
         oneOfPojo(
-            withName(
-                objectPojo(JavaPojoMembers.requiredColorEnum()), pojoName("ColorPojo", "Dto")));
+            objectPojo(JavaPojoMembers.requiredColorEnum())
+                .withName(fromNameAndSuffix("ColorPojo", "Dto")));
 
     final JavaObjectPojo pojo =
-        withMembers(
-            JavaPojos.anyOfPojo(oneOfPojoWithEnum), JavaPojoMembers.requiredDirectionEnum());
+        JavaPojos.anyOfPojo(oneOfPojoWithEnum)
+            .withMembers(PList.single(JavaPojoMembers.requiredDirectionEnum()));
 
     final PList<JavaPojoMember> members = pojo.getAllMembers();
 
@@ -194,8 +192,8 @@ class JavaObjectPojoTest {
     final JavaObjectPojo noRequiredAdditionalProperties =
         objectPojo(requiredEmail(), requiredInteger(), optionalString());
     final JavaObjectPojo javaObjectPojo =
-        withRequiredAdditionalProperties(
-            noRequiredAdditionalProperties, PList.single(requiredAdditionalProperty));
+        noRequiredAdditionalProperties.withRequiredAdditionalProperties(
+            PList.single(requiredAdditionalProperty));
 
     assertEquals(3, javaObjectPojo.getRequiredMemberCount());
   }
