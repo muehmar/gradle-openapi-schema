@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.1.0"
+    id "com.github.muehmar.openapischema" version "2.1.1"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -18,6 +18,27 @@ dependencies {
     implementation group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
     implementation group: 'org.glassfish', name: 'javax.el', version: '3.0.0'
 }
+
+def specifications =
+        [
+                [name: 'v1', file: 'openapi-v1.yml'],
+                [name: 'v2', file: 'openapi-v2.yml'],
+                [name: 'inlineobject', file: 'openapi-inline-object.yml'],
+                [name: 'nullability', file: 'openapi-nullability.yml'],
+                [name: 'array', file: 'openapi-array.yml'],
+                [name: 'remoteref', file: 'openapi-remote-ref-main.yml'],
+                [name: 'freeform', file: 'openapi-freeform.yml'],
+                [name: 'validation', file: 'openapi-validation.yml'],
+                [name: 'oneof', file: 'openapi-oneof.yml'],
+                [name: 'anyof', file: 'openapi-anyof.yml'],
+                [name: 'allof', file: 'openapi-allof.yml'],
+                [name: 'identifiers', file: 'openapi-identifiers.yml'],
+                [name: 'readwriteonly', file: 'openapi-read-only-write-only.yml'],
+                [name: 'specv21', file: 'openapi-spec-version-v31.yml'],
+                [name: 'fullobject', file: 'openapi-full-object.yml'],
+                [name: 'additionalproperties', file: 'openapi-additional-properties.yml'],
+                [name: 'sasis', file: 'sasis-api.json']
+        ]
 
 openApiGenerator {
     enumDescriptionExtraction {
@@ -278,6 +299,45 @@ openApiGenerator {
                 replacement = ""
             }
         }
+
+        specifications.forEach {spec -> {
+            "noValidation${spec.name}" {
+                sourceSet = 'main'
+                inputSpec = "$projectDir/src/main/resources/${spec.file}"
+                outputDir = "$buildDir/generated/openapi"
+                packageName = "${project.group}.${project.name}.api.novalidation.${spec.name}.model"
+                jsonSupport = "jackson"
+                suffix = "Dto"
+                enableValidation = false
+                builderMethodPrefix = "set"
+            }
+        }}
+
+        specifications.forEach {spec -> {
+            "noJsonSupport${spec.name}" {
+                sourceSet = 'main'
+                inputSpec = "$projectDir/src/main/resources/${spec.file}"
+                outputDir = "$buildDir/generated/openapi"
+                packageName = "${project.group}.${project.name}.api.nojsonsupport.${spec.name}.model"
+                jsonSupport = "none"
+                suffix = "Dto"
+                enableValidation = true
+                builderMethodPrefix = "set"
+            }
+        }}
+
+        specifications.forEach {spec -> {
+            "noJsonSupportAndValidation${spec.name}" {
+                sourceSet = 'main'
+                inputSpec = "$projectDir/src/main/resources/${spec.file}"
+                outputDir = "$buildDir/generated/openapi"
+                packageName = "${project.group}.${project.name}.api.nojsonsupportandvalidation.${spec.name}.model"
+                jsonSupport = "none"
+                suffix = "Dto"
+                enableValidation = false
+                builderMethodPrefix = "set"
+            }
+        }}
     }
 }
 

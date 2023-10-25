@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.1.0"
+    id "com.github.muehmar.openapischema" version "2.1.1"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
