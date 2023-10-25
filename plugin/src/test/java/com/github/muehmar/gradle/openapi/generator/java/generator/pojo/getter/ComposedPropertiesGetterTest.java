@@ -47,7 +47,8 @@ class ComposedPropertiesGetterTest {
   }
 
   @Test
-  void generate_when_anyOfMemberAndNoJsonSupport_then_noOutput() {
+  @SnapshotName("anyOfMemberAndNoJsonSupport")
+  void generate_when_anyOfMemberAndNoJsonSupport_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -57,12 +58,12 @@ class ComposedPropertiesGetterTest {
             defaultTestSettings().withJsonSupport(JsonSupport.NONE),
             javaWriter());
 
-    assertEquals("", writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("requiredOneOfMember")
-  void generate_when_requiredOneOfMember_then_correctOutput() {
+  void generate_when_requiredOneOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -77,7 +78,7 @@ class ComposedPropertiesGetterTest {
 
   @Test
   @SnapshotName("requiredAnyOfMember")
-  void generate_when_requiredAnyOfMember_then_correctOutput() {
+  void generate_when_requiredAnyOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -92,7 +93,7 @@ class ComposedPropertiesGetterTest {
 
   @Test
   @SnapshotName("requiredNullableOneOfMember")
-  void generate_when_requiredNullableOneOfMember_then_correctOutput() {
+  void generate_when_requiredNullableOneOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -107,7 +108,7 @@ class ComposedPropertiesGetterTest {
 
   @Test
   @SnapshotName("requiredNullableAnyOfMember")
-  void generate_when_requiredNullableAnyOfMember_then_correctOutput() {
+  void generate_when_requiredNullableAnyOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -122,7 +123,7 @@ class ComposedPropertiesGetterTest {
 
   @Test
   @SnapshotName("optionalOneOfMember")
-  void generate_when_optionalOneOfMember_then_correctOutput() {
+  void generate_when_optionalOneOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -137,7 +138,7 @@ class ComposedPropertiesGetterTest {
 
   @Test
   @SnapshotName("optionalAnyOfMember")
-  void generate_when_optionalAnyOfMember_then_correctOutput() {
+  void generate_when_optionalAnyOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -152,7 +153,7 @@ class ComposedPropertiesGetterTest {
 
   @Test
   @SnapshotName("optionalNullableOneOfMember")
-  void generate_when_optionalNullableOneOfMember_then_correctOutput() {
+  void generate_when_optionalNullableOneOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
@@ -167,7 +168,7 @@ class ComposedPropertiesGetterTest {
 
   @Test
   @SnapshotName("optionalNullableAnyOfMember")
-  void generate_when_optionalNullableAnyOfMember_then_correctOutput() {
+  void generate_when_optionalNullableAnyOfMember_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
         ComposedPropertiesGetter.composedPropertiesGetterGenerator();
 
