@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
@@ -21,7 +20,6 @@ public class AdditionalPropertiesTypeValidationGenerator {
     return annotatedCorrectTypeMethod()
         .filter(JavaAdditionalProperties::isAllowed)
         .filter(JavaAdditionalProperties::isNotValueAnyType)
-        .filter(Filters.isValidationEnabled())
         .contraMap(JavaObjectPojo::getAdditionalProperties);
   }
 

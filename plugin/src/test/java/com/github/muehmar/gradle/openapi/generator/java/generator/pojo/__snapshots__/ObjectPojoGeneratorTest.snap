@@ -4763,6 +4763,11 @@ public class ObjectPojo1Dto {
       "}";
   }
 
+  @JsonIgnore
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
+  }
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 

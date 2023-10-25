@@ -5,7 +5,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -44,8 +43,7 @@ public class ValidationMethodGenerator {
         .methodName(p -> CompositionNames.isValidAgainstMethodName(p).asString())
         .noArguments()
         .content(isValidAgainstMethodContent())
-        .build()
-        .filter(Filters.isValidationEnabled());
+        .build();
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> isValidAgainstMethodContent() {
