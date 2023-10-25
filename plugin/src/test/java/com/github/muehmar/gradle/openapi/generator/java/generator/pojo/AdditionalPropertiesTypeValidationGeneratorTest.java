@@ -52,7 +52,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
 
   @Test
   @SnapshotName("sampleObjectPojo1WithNonObjectValueType")
-  void generate_when_sampleObjectPojo1WithNonObjectValueType_then_noOutput() {
+  void generate_when_sampleObjectPojo1WithNonObjectValueType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         additionalPropertiesTypeValidationGenerator();
 
@@ -67,7 +67,8 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
   }
 
   @Test
-  void generate_when_validationDisabled_then_noOutput() {
+  @SnapshotName("validationDisabled")
+  void generate_when_validationDisabled_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         additionalPropertiesTypeValidationGenerator();
 
@@ -78,6 +79,6 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
             defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
-    assertEquals("", writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

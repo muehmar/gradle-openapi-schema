@@ -17,14 +17,17 @@ import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @SnapshotTest
 class ValidationMethodGeneratorTest {
   private Expect expect;
 
-  @Test
+  @ParameterizedTest
   @SnapshotName("oneOf")
-  void generate_when_oneOf_then_correctOutput() {
+  @ValueSource(booleans = {true, false})
+  void generate_when_oneOf_then_correctOutput(boolean validationEnabled) {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         ValidationMethodGenerator.validationMethodGenerator();
     final Writer writer =
@@ -33,15 +36,16 @@ class ValidationMethodGeneratorTest {
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
                 JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
-            defaultTestSettings(),
+            defaultTestSettings().withEnableValidation(validationEnabled),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
-  @Test
+  @ParameterizedTest
   @SnapshotName("anyOf")
-  void generate_when_anyOf_then_correctOutput() {
+  @ValueSource(booleans = {true, false})
+  void generate_when_anyOf_then_correctOutput(boolean validationEnabled) {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         ValidationMethodGenerator.validationMethodGenerator();
     final Writer writer =
@@ -50,7 +54,7 @@ class ValidationMethodGeneratorTest {
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
                 JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
-            defaultTestSettings(),
+            defaultTestSettings().withEnableValidation(validationEnabled),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
