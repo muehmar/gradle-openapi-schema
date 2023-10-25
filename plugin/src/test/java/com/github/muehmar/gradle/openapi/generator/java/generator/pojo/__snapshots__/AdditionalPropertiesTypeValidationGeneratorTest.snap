@@ -8,3 +8,13 @@ private boolean isAllAdditionalPropertiesHaveCorrectType() {
   return getAdditionalProperties().size() == additionalProperties.size();
 }
 ]
+
+
+validationDisabled=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+@JsonIgnore
+private boolean isAllAdditionalPropertiesHaveCorrectType() {
+  return getAdditionalProperties().size() == additionalProperties.size();
+}
+]

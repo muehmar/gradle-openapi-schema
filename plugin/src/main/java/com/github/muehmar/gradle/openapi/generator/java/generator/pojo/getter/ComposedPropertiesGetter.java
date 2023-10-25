@@ -27,8 +27,7 @@ class ComposedPropertiesGetter {
 
   private static boolean composedPropertiesGetterFilter(
       JavaPojoMember member, PojoSettings settings) {
-    return (member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER))
-        && settings.isJacksonJson();
+    return (member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> method() {

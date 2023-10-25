@@ -5640,6 +5640,11 @@ public class ObjectPojo1Dto {
     }
   }
 
+  @JsonIgnore
+  private boolean isAllAdditionalPropertiesHaveCorrectType() {
+    return getAdditionalProperties().size() == additionalProperties.size();
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
