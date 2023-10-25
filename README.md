@@ -35,7 +35,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '2.1.0'
+    id 'com.github.muehmar.openapischema' version '2.1.1'
 }
 ```
 
@@ -1006,6 +1006,7 @@ afterEvaluate {
   client code. There exists a factory method `fromProperties` now.
 
 ## Change Log
+* 2.1.1 - Fix code generation for disabled validation and compositions (issue `#167`)
 * 2.1.0
     * Support deviation of oneOf discriminator defined in a common parent schema (issue `#136`)
     * Add `toOptional` method in `Tristate` class (issue `#140`)
