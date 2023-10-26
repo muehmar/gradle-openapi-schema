@@ -1,13 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
+import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -28,7 +28,7 @@ class UniqueItemsValidationMethodGeneratorTest {
   @Test
   void generate_when_notArrayType_then_noOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
+        uniqueItemsValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -42,7 +42,7 @@ class UniqueItemsValidationMethodGeneratorTest {
   @Test
   void generate_when_noUniqueItemsConstraint_then_noOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
+        uniqueItemsValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -54,9 +54,10 @@ class UniqueItemsValidationMethodGeneratorTest {
   }
 
   @Test
-  void generate_when_validationDisabled_then_noOutput() {
+  @SnapshotName("validationDisabled")
+  void generate_when_validationDisabled_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
+        uniqueItemsValidationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojoMembers.list(
@@ -67,14 +68,14 @@ class UniqueItemsValidationMethodGeneratorTest {
             defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
-    assertEquals("", writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("uniqueItemsConstraint")
-  void generate_when_uniqueItemsConstraint_then_correctOutput() {
+  void generate_when_uniqueItemsConstraint_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator();
+        uniqueItemsValidationMethodGenerator();
     final Writer writer =
         generator.generate(
             JavaPojoMembers.list(
@@ -85,7 +86,6 @@ class UniqueItemsValidationMethodGeneratorTest {
             defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_HASH_SET::equals));
-    expect.toMatchSnapshot(writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

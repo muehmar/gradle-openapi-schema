@@ -1,5 +1,17 @@
 uniqueItemsConstraint=[
+java.util.HashSet
+javax.validation.constraints.AssertTrue
+
 @AssertTrue(message = "listVal does not contain unique items")
+private boolean hasListValUniqueItems() {
+  return new HashSet<>(listVal).size() == listVal.size();
+}
+]
+
+
+validationDisabled=[
+java.util.HashSet
+
 private boolean hasListValUniqueItems() {
   return new HashSet<>(listVal).size() == listVal.size();
 }
