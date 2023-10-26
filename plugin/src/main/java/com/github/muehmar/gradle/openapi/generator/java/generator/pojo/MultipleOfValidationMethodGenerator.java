@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
@@ -19,8 +18,7 @@ public class MultipleOfValidationMethodGenerator {
 
   public static Generator<JavaObjectPojo, PojoSettings> multipleOfValidationMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(memberGenerator().appendSingleBlankLine(), MemberAndConstraint::fromPojo)
-        .filter(Filters.isValidationEnabled());
+        .appendList(memberGenerator().appendSingleBlankLine(), MemberAndConstraint::fromPojo);
   }
 
   private static Generator<MemberAndConstraint, PojoSettings> memberGenerator() {

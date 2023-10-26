@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -101,8 +102,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   @Test
   void generate_when_integerAndDoubleWithoutMultipleOfConstraint_then_noOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -115,21 +115,20 @@ class MultipleOfValidationMethodGeneratorTest {
   }
 
   @Test
-  void generate_when_validationDisabled_then_noOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
+  @SnapshotName("validationDisabled")
+  void generate_when_validationDisabled_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(POJO, defaultTestSettings().withEnableValidation(false), javaWriter());
 
-    assertEquals("", writer.asString());
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("integerMember")
-  void generate_when_integer_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
+  void generate_when_integer_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -142,9 +141,8 @@ class MultipleOfValidationMethodGeneratorTest {
 
   @Test
   @SnapshotName("longMember")
-  void generate_when_long_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
+  void generate_when_long_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -157,9 +155,8 @@ class MultipleOfValidationMethodGeneratorTest {
 
   @Test
   @SnapshotName("floatMember")
-  void generate_when_float_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
+  void generate_when_float_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(
@@ -173,9 +170,8 @@ class MultipleOfValidationMethodGeneratorTest {
 
   @Test
   @SnapshotName("doubleMember")
-  void generate_when_double_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator();
+  void generate_when_double_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = multipleOfValidationMethodGenerator();
 
     final Writer writer =
         generator.generate(

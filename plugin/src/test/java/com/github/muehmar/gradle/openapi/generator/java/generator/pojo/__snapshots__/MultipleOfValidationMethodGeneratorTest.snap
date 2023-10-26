@@ -42,3 +42,25 @@ private boolean isLongValMultipleOfValid() {
 }
 
 ]
+
+
+validationDisabled=[
+java.math.BigDecimal
+
+private boolean isIntValMultipleOfValid() {
+  return intVal == null || intVal % 50L == 0;
+}
+
+private boolean isLongValMultipleOfValid() {
+  return longVal == null || longVal % 12L == 0;
+}
+
+private boolean isFloatValMultipleOfValid() {
+  return floatVal == null || BigDecimal.valueOf(floatVal).divideAndRemainder(new BigDecimal("50.5"))[1].signum() == 0;
+}
+
+private boolean isDoubleValMultipleOfValid() {
+  return doubleVal == null || BigDecimal.valueOf(doubleVal).divideAndRemainder(new BigDecimal("12.25"))[1].signum() == 0;
+}
+
+]
