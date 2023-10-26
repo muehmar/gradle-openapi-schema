@@ -1011,6 +1011,7 @@ afterEvaluate {
     * Support deviation of oneOf discriminator defined in a common parent schema (issue `#136`)
     * Add `toOptional` method in `Tristate` class (issue `#140`)
     * Add methods to get a component from a oneOf or anyOf composition  (issue `#143`)
+* 2.0.3 - Fix code generation for disabled validation and compositions (issue `#167`)
 * 2.0.2 - Fix inlining of simple non-object schemas (issue `#134`)
 * 2.0.1 - Fix serialisation of composed DTO's (issue `#130`)
 * 2.0.0 
