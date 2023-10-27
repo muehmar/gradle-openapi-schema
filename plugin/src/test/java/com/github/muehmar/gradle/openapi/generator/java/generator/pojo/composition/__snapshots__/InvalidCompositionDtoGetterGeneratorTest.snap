@@ -1,27 +1,27 @@
 anyOfAndOneOfPojo=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.ArrayList
-java.util.List
+java.util.HashMap
+java.util.Map
 javax.validation.Valid
 
 @Valid
 @JsonIgnore
-private List<Object> getInvalidOneOfDtos() {
-  final List<Object> dtos = new ArrayList<>();
+private Map<String, Object> getInvalidOneOf() {
+  final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1) {
-    dtos.add(asSampleObjectPojo1Dto());
-    dtos.add(asSampleObjectPojo2Dto());
+    dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+    dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
   return dtos;
 }
 
 @Valid
 @JsonIgnore
-private List<Object> getInvalidAnyOfDtos() {
-  final List<Object> dtos = new ArrayList<>();
+private Map<String, Object> getInvalidAnyOf() {
+  final Map<String, Object> dtos = new HashMap<>();
   if(getAnyOfValidCount() == 0) {
-    dtos.add(asSampleObjectPojo1Dto());
-    dtos.add(asSampleObjectPojo2Dto());
+    dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+    dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
   return dtos;
 }
@@ -30,18 +30,18 @@ private List<Object> getInvalidAnyOfDtos() {
 
 anyOfPojo=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.ArrayList
-java.util.List
+java.util.HashMap
+java.util.Map
 javax.validation.Valid
 .
 .
 @Valid
 @JsonIgnore
-private List<Object> getInvalidAnyOfDtos() {
-  final List<Object> dtos = new ArrayList<>();
+private Map<String, Object> getInvalidAnyOf() {
+  final Map<String, Object> dtos = new HashMap<>();
   if(getAnyOfValidCount() == 0) {
-    dtos.add(asSampleObjectPojo1Dto());
-    dtos.add(asSampleObjectPojo2Dto());
+    dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+    dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
   return dtos;
 }
@@ -50,17 +50,47 @@ private List<Object> getInvalidAnyOfDtos() {
 
 oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.ArrayList
-java.util.List
+java.util.HashMap
+java.util.Map
 javax.validation.Valid
 
 @Valid
 @JsonIgnore
-private List<Object> getInvalidOneOfDtos() {
-  final List<Object> dtos = new ArrayList<>();
+private Map<String, Object> getInvalidOneOf() {
+  final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1) {
-    dtos.add(asSampleObjectPojo1Dto());
-    dtos.add(asSampleObjectPojo2Dto());
+    dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+    dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
+  }
+  return dtos;
+}
+
+]
+
+
+oneOfPojoWithDiscriminator=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.HashMap
+java.util.Map
+javax.validation.Valid
+
+@Valid
+@JsonIgnore
+private Map<String, Object> getInvalidOneOf() {
+  final Map<String, Object> dtos = new HashMap<>();
+  if(getOneOfValidCount() != 1) {
+    if(type != null) {
+      switch(type) {
+        case "SampleObjectPojo1":
+          dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+          return dtos;
+        case "SampleObjectPojo2":
+          dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
+          return dtos;
+      }
+    }
+    dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+    dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
   return dtos;
 }

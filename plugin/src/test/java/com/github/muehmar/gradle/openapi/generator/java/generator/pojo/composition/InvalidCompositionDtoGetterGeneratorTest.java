@@ -12,8 +12,11 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
@@ -34,6 +37,26 @@ class InvalidCompositionDtoGetterGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("oneOfPojoWithDiscriminator")
+  void generate_when_oneOfPojoWithDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        invalidCompositionDtoGetterGenerator();
+
+    final JavaOneOfComposition oneOfComposition =
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
+            Discriminator.fromPropertyName(Name.ofString("type")));
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.objectPojo().withOneOfComposition(Optional.of(oneOfComposition)),
             defaultTestSettings(),
             javaWriter());
 

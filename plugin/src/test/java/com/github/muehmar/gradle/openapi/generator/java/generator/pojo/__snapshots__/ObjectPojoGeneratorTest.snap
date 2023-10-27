@@ -625,11 +625,11 @@ public class PersonDto {
 
   @Valid
   @JsonIgnore
-  private List<Object> getInvalidAnyOfDtos() {
-    final List<Object> dtos = new ArrayList<>();
+  private Map<String, Object> getInvalidAnyOf() {
+    final Map<String, Object> dtos = new HashMap<>();
     if(getAnyOfValidCount() == 0) {
-      dtos.add(asAdminDto());
-      dtos.add(asUserDto());
+      dtos.put("Admin", asAdminDto());
+      dtos.put("User", asUserDto());
     }
     return dtos;
   }
@@ -6561,10 +6561,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -6746,11 +6744,11 @@ public class PersonDto {
 
   @Valid
   @JsonIgnore
-  private List<Object> getInvalidOneOfDtos() {
-    final List<Object> dtos = new ArrayList<>();
+  private Map<String, Object> getInvalidOneOf() {
+    final Map<String, Object> dtos = new HashMap<>();
     if(getOneOfValidCount() != 1) {
-      dtos.add(asAdminDto());
-      dtos.add(asUserDto());
+      dtos.put("Admin", asAdminDto());
+      dtos.put("User", asUserDto());
     }
     return dtos;
   }
