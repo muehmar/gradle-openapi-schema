@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetter.optionalNotNullableGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -10,8 +11,6 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
@@ -26,16 +25,17 @@ import org.junit.jupiter.api.Test;
 
 @SnapshotTest
 class OptionalNotNullableGetterTest {
-
   private Expect expect;
+
+  private static final JavaPojoMember POJO_MEMBER =
+      JavaPojoMembers.requiredString().withNecessity(OPTIONAL).withNullability(NOT_NULLABLE);
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNotNullableGetter.optionalNotNullableGetterGenerator(STANDARD);
-    final JavaPojoMember pojoMember = JavaPojoMembers.birthdate(OPTIONAL, NOT_NULLABLE);
+        optionalNotNullableGetterGenerator(STANDARD);
 
-    final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
+    final Writer writer = generator.generate(POJO_MEMBER, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -43,16 +43,11 @@ class OptionalNotNullableGetterTest {
   @Test
   void generator_when_disabledJacksonAndEnabledValidation_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNotNullableGetter.optionalNotNullableGetterGenerator(STANDARD);
-    final JavaPojoMember pojoMember =
-        JavaPojoMembers.birthdate(
-            Constraints.ofPattern(Pattern.ofUnescapedString("DatePattern")),
-            OPTIONAL,
-            NOT_NULLABLE);
+        optionalNotNullableGetterGenerator(STANDARD);
 
     final Writer writer =
         generator.generate(
-            pojoMember, defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
+            POJO_MEMBER, defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -60,12 +55,11 @@ class OptionalNotNullableGetterTest {
   @Test
   void generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNotNullableGetter.optionalNotNullableGetterGenerator(STANDARD);
-    final JavaPojoMember pojoMember = JavaPojoMembers.birthdate(OPTIONAL, NOT_NULLABLE);
+        optionalNotNullableGetterGenerator(STANDARD);
 
     final Writer writer =
         generator.generate(
-            pojoMember,
+            POJO_MEMBER,
             defaultTestSettings().withJsonSupport(JsonSupport.NONE).withEnableValidation(false),
             javaWriter());
 
@@ -75,8 +69,7 @@ class OptionalNotNullableGetterTest {
   @Test
   void generator_when_suffixForOptionalNotNullable_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNotNullableGetter.optionalNotNullableGetterGenerator(STANDARD);
-    final JavaPojoMember pojoMember = JavaPojoMembers.birthdate(OPTIONAL, NOT_NULLABLE);
+        optionalNotNullableGetterGenerator(STANDARD);
 
     final GetterSuffixes getterSuffixes =
         GetterSuffixesBuilder.create()
@@ -88,7 +81,7 @@ class OptionalNotNullableGetterTest {
 
     final Writer writer =
         generator.generate(
-            pojoMember,
+            POJO_MEMBER,
             defaultTestSettings()
                 .withJsonSupport(JsonSupport.NONE)
                 .withEnableValidation(false)
@@ -101,8 +94,7 @@ class OptionalNotNullableGetterTest {
   @Test
   void generator_when_deprecatedAnnotation_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        OptionalNotNullableGetter.optionalNotNullableGetterGenerator(STANDARD);
-    final JavaPojoMember pojoMember = JavaPojoMembers.birthdate(OPTIONAL, NOT_NULLABLE);
+        optionalNotNullableGetterGenerator(STANDARD);
 
     final ValidationMethods validationMethods =
         TestPojoSettings.defaultValidationMethods()
@@ -111,7 +103,7 @@ class OptionalNotNullableGetterTest {
 
     final Writer writer =
         generator.generate(
-            pojoMember,
+            POJO_MEMBER,
             defaultTestSettings()
                 .withJsonSupport(JsonSupport.JACKSON)
                 .withValidationMethods(validationMethods),

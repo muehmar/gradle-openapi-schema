@@ -1,3 +1,6 @@
 arrayType=[
-List<@Min(value = 5) @Max(value = 10) String>
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+List<@Size(min = 5) @Pattern(regexp="pattern") String>
 ]

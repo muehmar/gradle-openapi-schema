@@ -1,15 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MULTIPLE_OF;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.validation.JavaConstraints;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
@@ -22,7 +24,7 @@ public class MultipleOfValidationMethodGenerator {
   }
 
   private static Generator<MemberAndConstraint, PojoSettings> memberGenerator() {
-    final MethodGen<MemberAndConstraint, PojoSettings> method =
+    final Generator<MemberAndConstraint, PojoSettings> method =
         MethodGenBuilder.<MemberAndConstraint, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
@@ -30,7 +32,8 @@ public class MultipleOfValidationMethodGenerator {
             .methodName(MemberAndConstraint::getIsMultipleOfValidMethodName)
             .noArguments()
             .content(content())
-            .build();
+            .build()
+            .filter(mac -> JavaConstraints.isSupported(mac.getMember().getJavaType(), MULTIPLE_OF));
 
     final Generator<MemberAndConstraint, PojoSettings> assertTrueAnnotation =
         ValidationAnnotationGenerator.assertTrue(

@@ -10,34 +10,45 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIR
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
+import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaNumericType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
-import com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @SnapshotTest
 class PropertyValidationGeneratorTest {
@@ -59,7 +70,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -78,7 +89,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -97,7 +108,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -116,7 +127,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -127,7 +138,7 @@ class PropertyValidationGeneratorTest {
     final Writer writer =
         generator.generate(requiredInteger(), defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -144,7 +155,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -157,7 +168,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -170,7 +181,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -188,7 +199,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -206,7 +217,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -224,7 +235,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(byteArrayType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -244,7 +255,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -264,7 +275,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -274,7 +285,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(requiredString(), defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -292,7 +303,7 @@ class PropertyValidationGeneratorTest {
             defaultTestSettings(),
             javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -314,7 +325,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(mapType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -327,7 +338,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -340,7 +351,7 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
@@ -359,6 +370,57 @@ class PropertyValidationGeneratorTest {
 
     final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @MethodSource("unsupportedConstraintsForType")
+  @SnapshotName("unsupportedConstraintsForType")
+  void generate_when_unsupportedTypeAndConstraintsCombination_then_noConstraintValidation(
+      JavaType javaType) {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember doubleMember =
+        requiredString().withName(JavaName.fromString("unsupported")).withJavaType(javaType);
+
+    final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  public static Stream<Arguments> unsupportedConstraintsForType() {
+    final Constraints minConstraint = Constraints.ofMin(new Min(5));
+    final Constraints maxConstraint = Constraints.ofMax(new Max(5));
+    final Constraints decimalMinConstraint =
+        Constraints.ofDecimalMin(DecimalMin.exclusive("20.25"));
+    final Constraints decimalMaxConstraint =
+        Constraints.ofDecimalMax(DecimalMax.exclusive("20.25"));
+    final Constraints sizeConstraint = Constraints.ofSize(Size.ofMin(5));
+    final Constraints patternConstraint =
+        Constraints.ofPattern(Pattern.ofUnescapedString("pattern"));
+    final Constraints emailConstraint = Constraints.ofEmail();
+    final Constraints multipleOfConstraint =
+        Constraints.ofMultipleOf(new MultipleOf(BigDecimal.ONE));
+
+    return Stream.of(
+            createStringType(minConstraint),
+            createStringType(maxConstraint),
+            createStringType(decimalMinConstraint),
+            createStringType(decimalMaxConstraint),
+            createStringType(multipleOfConstraint),
+            createIntegerType(sizeConstraint),
+            createIntegerType(emailConstraint),
+            createIntegerType(patternConstraint))
+        .map(Arguments::of);
+  }
+
+  private static JavaStringType createStringType(Constraints constraints) {
+    return JavaStringType.wrap(
+        StringType.noFormat().withConstraints(constraints), TypeMappings.empty());
+  }
+
+  private static JavaIntegerType createIntegerType(Constraints constraints) {
+    return JavaIntegerType.wrap(
+        IntegerType.formatInteger().withConstraints(constraints), TypeMappings.empty());
   }
 }

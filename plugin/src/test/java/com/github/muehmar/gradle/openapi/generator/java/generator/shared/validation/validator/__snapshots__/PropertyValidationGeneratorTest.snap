@@ -278,3 +278,12 @@ private boolean isStringValValid() {
   return false;
 }
 ]
+
+
+unsupportedConstraintsForType=[
+.
+.
+private boolean isUnsupportedValid() {
+  return unsupported != null;
+}
+]

@@ -12,9 +12,17 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
@@ -25,6 +33,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -274,5 +283,50 @@ class ValidationAnnotationGeneratorTest {
 
     assertEquals(PList.single(Jakarta2ValidationRefs.PATTERN), writer.getRefs());
     assertEquals("@Pattern(regexp=\"Hello\")", writer.asString());
+  }
+
+  @ParameterizedTest
+  @MethodSource("unsupportedConstraintsForType")
+  void validationAnnotationsForType_when_unsupportedConstraintForType_then_notOutput(
+      JavaType javaType) {
+    final Generator<JavaType, PojoSettings> generator =
+        ValidationAnnotationGenerator.validationAnnotationsForType();
+
+    final Writer writer = generator.generate(javaType, defaultTestSettings(), javaWriter());
+
+    assertEquals("", writer.asString());
+  }
+
+  public static Stream<Arguments> unsupportedConstraintsForType() {
+    final Constraints minConstraint = Constraints.ofMin(new Min(5));
+    final Constraints maxConstraint = Constraints.ofMax(new Max(5));
+    final Constraints decimalMinConstraint =
+        Constraints.ofDecimalMin(DecimalMin.exclusive("20.25"));
+    final Constraints decimalMaxConstraint =
+        Constraints.ofDecimalMax(DecimalMax.exclusive("20.25"));
+    final Constraints sizeConstraint = Constraints.ofSize(Size.ofMin(5));
+    final Constraints patternConstraint =
+        Constraints.ofPattern(Pattern.ofUnescapedString("pattern"));
+    final Constraints emailConstraint = Constraints.ofEmail();
+
+    return Stream.of(
+            createStringType(minConstraint),
+            createStringType(maxConstraint),
+            createStringType(decimalMinConstraint),
+            createStringType(decimalMaxConstraint),
+            createIntegerType(sizeConstraint),
+            createIntegerType(emailConstraint),
+            createIntegerType(patternConstraint))
+        .map(Arguments::of);
+  }
+
+  private static JavaStringType createStringType(Constraints constraints) {
+    return JavaStringType.wrap(
+        StringType.noFormat().withConstraints(constraints), TypeMappings.empty());
+  }
+
+  private static JavaIntegerType createIntegerType(Constraints constraints) {
+    return JavaIntegerType.wrap(
+        IntegerType.formatInteger().withConstraints(constraints), TypeMappings.empty());
   }
 }

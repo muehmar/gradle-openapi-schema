@@ -12,15 +12,13 @@ import lombok.ToString;
 @ToString
 public class ObjectType implements Type {
   private final PojoName name;
-  private final Constraints constraints;
 
-  private ObjectType(PojoName name, Constraints constraints) {
+  private ObjectType(PojoName name) {
     this.name = name;
-    this.constraints = constraints;
   }
 
   public static ObjectType ofName(PojoName name) {
-    return new ObjectType(name, Constraints.empty());
+    return new ObjectType(name);
   }
 
   public PojoName getName() {
@@ -29,12 +27,12 @@ public class ObjectType implements Type {
 
   @Override
   public ObjectType applyMapping(PojoNameMapping pojoNameMapping) {
-    return new ObjectType(pojoNameMapping.map(name), constraints);
+    return new ObjectType(pojoNameMapping.map(name));
   }
 
   @Override
   public Constraints getConstraints() {
-    return constraints;
+    return Constraints.empty();
   }
 
   @Override
