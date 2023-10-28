@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;

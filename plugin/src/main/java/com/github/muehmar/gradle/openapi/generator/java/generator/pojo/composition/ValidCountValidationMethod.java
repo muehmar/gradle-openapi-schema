@@ -11,8 +11,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGe
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;

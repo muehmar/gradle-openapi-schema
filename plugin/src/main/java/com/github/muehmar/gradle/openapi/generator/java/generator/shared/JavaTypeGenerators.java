@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotationsForType;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator.validationAnnotationsForType;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.type.AnnotatedClassName;

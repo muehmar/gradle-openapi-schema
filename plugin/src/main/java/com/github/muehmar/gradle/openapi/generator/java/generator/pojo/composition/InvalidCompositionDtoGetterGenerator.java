@@ -14,7 +14,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;

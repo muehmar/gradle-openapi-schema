@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;

@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validAnnotation;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator.validAnnotation;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
