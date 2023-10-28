@@ -1,14 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
-import com.github.muehmar.gradle.openapi.generator.java.Jakarta3ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.java.ref.Jakarta2ValidationRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.Jakarta3ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.*;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;

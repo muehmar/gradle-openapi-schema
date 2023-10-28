@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
-import com.github.muehmar.gradle.openapi.generator.java.JacksonRefs;
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import io.github.muehmar.codegenerator.Generator;
 
 public class JacksonNullContainerGenerator {
