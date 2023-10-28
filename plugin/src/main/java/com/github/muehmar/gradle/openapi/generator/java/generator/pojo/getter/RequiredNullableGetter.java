@@ -4,8 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noS
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator.assertTrue;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator.validationAnnotationsForMember;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;

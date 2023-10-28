@@ -9,7 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGe
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -27,7 +27,7 @@ public class DiscriminatorValidationMethodGenerator {
 
   public static Generator<JavaObjectPojo, PojoSettings> discriminatorValidationMethodGenerator() {
     final Generator<PojoAndDiscriminator, PojoSettings> annotation =
-        ValidationGenerator.assertTrue(
+        ValidationAnnotationGenerator.assertTrue(
             pojo -> "Not valid against the schema described by the discriminator");
     final MethodGen<PojoAndDiscriminator, PojoSettings> method =
         MethodGenBuilder.<PojoAndDiscriminator, PojoSettings>create()

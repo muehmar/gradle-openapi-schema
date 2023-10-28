@@ -12,7 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Annotat
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
@@ -55,7 +55,7 @@ public class ValidCountValidationMethod {
                 "Is not valid against one of the schemas [%s]",
                 pojos.map(JavaObjectPojo::getSchemaName).toPList().mkString(", "));
     final Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> annotation =
-        ValidationGenerator.assertFalse(message);
+        ValidationAnnotationGenerator.assertFalse(message);
     final MethodGen<NonEmptyList<JavaObjectPojo>, PojoSettings> method =
         MethodGenBuilder.<NonEmptyList<JavaObjectPojo>, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
@@ -80,7 +80,7 @@ public class ValidCountValidationMethod {
                 "Is valid against more than one of the schemas [%s]",
                 pojos.map(JavaPojo::getSchemaName).toPList().mkString(", "));
     final Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> annotation =
-        ValidationGenerator.assertFalse(message);
+        ValidationAnnotationGenerator.assertFalse(message);
     final MethodGen<NonEmptyList<JavaObjectPojo>, PojoSettings> method =
         MethodGenBuilder.<NonEmptyList<JavaObjectPojo>, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)

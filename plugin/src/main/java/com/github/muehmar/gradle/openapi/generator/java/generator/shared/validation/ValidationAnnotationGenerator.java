@@ -18,8 +18,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import lombok.Value;
 
-public class ValidationGenerator {
-  private ValidationGenerator() {}
+public class ValidationAnnotationGenerator {
+  private ValidationAnnotationGenerator() {}
 
   public static <T> Generator<T, PojoSettings> assertTrue(Function<T, String> message) {
     return Generator.<T, PojoSettings>emptyGen()
@@ -70,8 +70,8 @@ public class ValidationGenerator {
   }
 
   public static Generator<JavaType, PojoSettings> validAnnotationForType() {
-    return ValidationGenerator.<JavaType>validAnnotation()
-        .filter(ValidationGenerator::shouldValidateDeep);
+    return ValidationAnnotationGenerator.<JavaType>validAnnotation()
+        .filter(ValidationAnnotationGenerator::shouldValidateDeep);
   }
 
   private static boolean shouldValidateDeep(JavaType javaType) {

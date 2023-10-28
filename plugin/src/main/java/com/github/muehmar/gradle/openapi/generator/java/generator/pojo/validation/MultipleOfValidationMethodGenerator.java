@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validati
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
@@ -33,7 +33,7 @@ public class MultipleOfValidationMethodGenerator {
             .build();
 
     final Generator<MemberAndConstraint, PojoSettings> assertTrueAnnotation =
-        ValidationGenerator.assertTrue(
+        ValidationAnnotationGenerator.assertTrue(
             mc ->
                 String.format(
                     "%s is not a multiple of %s",

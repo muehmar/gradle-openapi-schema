@@ -7,7 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -33,8 +33,12 @@ public class PojoPropertyCountMethod {
             .content(propertyCountMethodContent())
             .build();
     return JavaDocGenerator.<JavaObjectPojo, PojoSettings>ofJavaDocString(JAVA_DOC)
-        .append(ValidationGenerator.minAnnotationForPropertyCount(), JavaObjectPojo::getConstraints)
-        .append(ValidationGenerator.maxAnnotationForPropertyCount(), JavaObjectPojo::getConstraints)
+        .append(
+            ValidationAnnotationGenerator.minAnnotationForPropertyCount(),
+            JavaObjectPojo::getConstraints)
+        .append(
+            ValidationAnnotationGenerator.maxAnnotationForPropertyCount(),
+            JavaObjectPojo::getConstraints)
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
