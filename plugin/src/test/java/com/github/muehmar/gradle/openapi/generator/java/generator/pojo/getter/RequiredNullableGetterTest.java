@@ -9,8 +9,14 @@ import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnap
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
+import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
+import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
@@ -108,6 +114,25 @@ class RequiredNullableGetterTest {
                 .withJsonSupport(JsonSupport.JACKSON)
                 .withValidationMethods(validationMethods),
             javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("valueTypeOfArrayHasConstraints")
+  void generator_when_valueTypeOfArrayHasConstraints_then_correctOutputAndRefs() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        requiredNullableGetterGenerator(STANDARD);
+
+    final IntegerType itemType =
+        IntegerType.formatInteger()
+            .withConstraints(Constraints.ofMinAndMax(new Min(5), new Max(10)));
+
+    final JavaPojoMember member =
+        JavaPojoMembers.list(itemType, REQUIRED, NULLABLE, Constraints.ofSize(Size.ofMin(5)));
+
+    final Writer writer =
+        generator.generate(member, defaultTestSettings().withEnableValidation(true), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

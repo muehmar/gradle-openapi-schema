@@ -17,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
@@ -102,7 +103,8 @@ class RequiredNotNullableGetterTest {
             .withConstraints(Constraints.ofMinAndMax(new Min(5), new Max(10)));
 
     final JavaPojoMember member =
-        JavaPojoMembers.list(itemType, REQUIRED, Nullability.NOT_NULLABLE, Constraints.empty());
+        JavaPojoMembers.list(
+            itemType, REQUIRED, Nullability.NOT_NULLABLE, Constraints.ofSize(Size.ofMin(5)));
 
     final Writer writer =
         generator.generate(member, defaultTestSettings().withEnableValidation(true), javaWriter());

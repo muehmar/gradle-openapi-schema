@@ -83,3 +83,35 @@ public Tristate<String> getStringValOptNull() {
   return Tristate.ofNullableAndNullFlag(stringVal, isStringValNull);
 }
 ]
+
+
+valueTypeOfArrayHasConstraints=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
+java.util.List
+javax.validation.constraints.Max
+javax.validation.constraints.Min
+javax.validation.constraints.Size
+
+/**
+ * List
+ */
+@JsonIgnore
+public Tristate<List<Integer>> getListVal() {
+  return Tristate.ofNullableAndNullFlag(listVal, isListValNull);
+}
+
+@JsonProperty("listVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getListValJackson() {
+  return isListValNull ? new JacksonNullContainer<>(listVal) : listVal;
+}
+
+@Size(min = 5)
+private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
+  return listVal;
+}
+]
