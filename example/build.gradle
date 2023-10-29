@@ -193,6 +193,11 @@ openApiGenerator {
             suffix = "Dto"
             enableValidation = true
             builderMethodPrefix = "set"
+
+            formatTypeMapping {
+                formatType = "name"
+                classType = "com.github.muehmar.gradle.openapi.validation.Name"
+            }
         }
         oneOf {
             sourceSet = 'main'

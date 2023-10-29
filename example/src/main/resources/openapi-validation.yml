@@ -185,3 +185,13 @@ components:
     Email:
       type: string
       format: email
+
+    CustomTypeObject:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          format: name
+          maxLength: 10
