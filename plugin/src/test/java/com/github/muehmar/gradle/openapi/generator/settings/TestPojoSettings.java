@@ -1,13 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder.fullPojoSettingsBuilder;
+
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Collections;
+import java.util.UUID;
 
 public class TestPojoSettings {
   private TestPojoSettings() {}
 
   public static PojoSettings defaultTestSettings() {
-    return PojoSettingsBuilder.create()
+    return fullPojoSettingsBuilder()
         .jsonSupport(JsonSupport.JACKSON)
         .packageName("com.github.muehmar")
         .suffix("Dto")
@@ -22,7 +26,7 @@ public class TestPojoSettings {
         .validationMethods(defaultValidationMethods())
         .excludeSchemas(Collections.emptyList())
         .pojoNameMappings(PojoNameMappings.noMappings())
-        .andAllOptionals()
+        .taskIdentifier(TaskIdentifier.fromString(UUID.randomUUID().toString()))
         .build();
   }
 

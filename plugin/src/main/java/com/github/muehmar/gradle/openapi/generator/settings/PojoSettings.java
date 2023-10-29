@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.settings;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.pojobuilder.annotations.FieldBuilder;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
@@ -28,6 +29,8 @@ public class PojoSettings implements Serializable {
   ValidationMethods validationMethods;
   List<String> excludeSchemas;
   PojoNameMappings pojoNameMappings;
+
+  TaskIdentifier taskIdentifier;
 
   public boolean isJacksonJson() {
     return jsonSupport.equals(JsonSupport.JACKSON);

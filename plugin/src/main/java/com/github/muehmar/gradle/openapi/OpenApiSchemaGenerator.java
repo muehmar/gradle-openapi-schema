@@ -70,7 +70,12 @@ public class OpenApiSchemaGenerator implements Plugin<Project> {
 
     return project
         .getTasks()
-        .register(generateModelTaskName, GenerateSchemasTask.class, project, extension);
+        .register(
+            generateModelTaskName,
+            GenerateSchemasTask.class,
+            project,
+            extension,
+            generateModelTaskName);
   }
 
   private static String capitalize(String input) {
