@@ -48,6 +48,7 @@ public class SingleSchemaExtension implements Serializable {
   private final List<FormatTypeMapping> formatTypeMappings;
   private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private List<String> excludeSchemas;
+  private WarningsConfig warnings;
 
   @Inject
   public SingleSchemaExtension(String name) {
@@ -58,6 +59,7 @@ public class SingleSchemaExtension implements Serializable {
     this.validationMethods = ValidationMethods.allUndefined();
     this.constantSchemaNameMappings = new ArrayList<>();
     this.excludeSchemas = new ArrayList<>();
+    this.warnings = WarningsConfig.allUndefined();
   }
 
   public String getName() {
@@ -199,6 +201,14 @@ public class SingleSchemaExtension implements Serializable {
 
   public List<String> getExcludeSchemas() {
     return excludeSchemas;
+  }
+
+  public void warnings(Action<WarningsConfig> action) {
+    action.execute(warnings);
+  }
+
+  public WarningsConfig getWarnings() {
+    return warnings;
   }
 
   public void classMapping(Action<ClassMapping> action) {
