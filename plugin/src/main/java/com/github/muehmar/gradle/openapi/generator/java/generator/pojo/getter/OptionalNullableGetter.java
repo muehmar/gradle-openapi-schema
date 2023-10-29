@@ -85,6 +85,7 @@ class OptionalNullableGetter {
         .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
         .append(validationAnnotationsForMember())
         .append(deprecatedValidationMethod())
+        .append(jsonIgnore())
         .append(CommonGetter.rawGetterMethod())
         .filter(isValidationEnabled())
         .filter(option.validationFilter());

@@ -26,6 +26,7 @@ private Object getStringValJackson() {
  */
 @Pattern(regexp="Hello")
 @Deprecated
+@JsonIgnore
 public String getStringValRaw() {
   return stringVal;
 }
@@ -111,6 +112,7 @@ private Object getListValJackson() {
 }
 
 @Size(min = 5)
+@JsonIgnore
 private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
   return listVal;
 }
