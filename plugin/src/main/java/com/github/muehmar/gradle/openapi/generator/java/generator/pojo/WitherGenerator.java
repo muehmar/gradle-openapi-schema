@@ -4,11 +4,11 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaDocGenerator;

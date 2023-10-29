@@ -1,16 +1,14 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
@@ -19,12 +17,14 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaNumericType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
@@ -164,7 +164,6 @@ class MultipleOfValidationMethodGeneratorTest {
             defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_MATH_BIG_DECIMAL::equals));
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
@@ -179,7 +178,25 @@ class MultipleOfValidationMethodGeneratorTest {
             defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_MATH_BIG_DECIMAL::equals));
     expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  void generate_when_stringWithUnsupportedMultipleOfConstraint_then_noOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = multipleOfValidationMethodGenerator();
+
+    final JavaStringType stringType =
+        JavaStringType.wrap(
+            StringType.noFormat()
+                .withConstraints(Constraints.ofMultipleOf(new MultipleOf(BigDecimal.ONE))),
+            TypeMappings.empty());
+    final Writer writer =
+        generator.generate(
+            JavaPojos.objectPojo(
+                PList.of(JavaPojoMembers.requiredString().withJavaType(stringType))),
+            defaultTestSettings().withEnableValidation(true),
+            javaWriter());
+
+    assertEquals("", writer.asString());
   }
 }

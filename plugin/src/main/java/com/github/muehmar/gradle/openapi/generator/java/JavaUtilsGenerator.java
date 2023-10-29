@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.TristateG
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonNullContainerGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.email.EmailValidatorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaFileName;
+import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;

@@ -11,16 +11,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -61,7 +61,9 @@ class AdditionalPropertiesGetterTest {
         JavaAdditionalProperties.allowedFor(
             JavaStringType.wrap(
                 StringType.noFormat()
-                    .withConstraints(Constraints.ofMinAndMax(new Min(3), new Max(5))),
+                    .withConstraints(
+                        Constraints.ofSize(Size.ofMin(5))
+                            .and(Constraints.ofPattern(Pattern.ofUnescapedString("pattern")))),
                 TypeMappings.empty()));
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 

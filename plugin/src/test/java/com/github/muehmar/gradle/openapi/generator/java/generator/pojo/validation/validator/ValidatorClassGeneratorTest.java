@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.validator;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validator.ValidatorClassGenerator.validationClassGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.validator.ValidatorClassGenerator.validationClassGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;

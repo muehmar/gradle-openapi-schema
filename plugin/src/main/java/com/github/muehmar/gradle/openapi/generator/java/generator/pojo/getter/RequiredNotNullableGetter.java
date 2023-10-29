@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedFullClassName;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.validationAnnotationsForMember;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 

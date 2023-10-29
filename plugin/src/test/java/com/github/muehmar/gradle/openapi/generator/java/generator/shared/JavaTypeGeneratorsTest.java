@@ -1,16 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
+import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import com.github.muehmar.gradle.openapi.generator.java.Jakarta2ValidationRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
-import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -32,14 +31,13 @@ class JavaTypeGeneratorsTest {
     final ArrayType arrayType =
         ArrayType.ofItemType(
             StringType.noFormat()
-                .withConstraints(Constraints.ofMinAndMax(new Min(5), new Max(10))));
+                .withConstraints(
+                    Constraints.ofSize(Size.ofMin(5))
+                        .and(Constraints.ofPattern(Pattern.ofUnescapedString("pattern")))));
     final JavaType javaType = JavaType.wrap(arrayType, TypeMappings.empty());
 
     final Writer writer = generator.generate(javaType, defaultTestSettings(), javaWriter());
 
-    expect.toMatchSnapshot(writer.asString());
-
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
-    assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

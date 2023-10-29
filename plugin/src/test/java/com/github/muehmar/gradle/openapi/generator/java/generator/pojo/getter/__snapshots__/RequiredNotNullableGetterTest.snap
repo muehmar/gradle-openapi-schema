@@ -1,49 +1,50 @@
 requiredAndNotNullableField=[
-java.time.LocalDate
 javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
 
 /**
- * Birthdate
+ * stringVal
  */
 @NotNull
-public LocalDate getBirthdate() {
-  return birthdate;
+@Pattern(regexp="Hello")
+public String getStringVal() {
+  return stringVal;
 }
 ]
 
 
 requiredAndNotNullableFieldNoValidationOption=[
-java.time.LocalDate
-
+.
+.
 /**
- * Birthdate
+ * stringVal
  */
-public LocalDate getBirthdate() {
-  return birthdate;
+public String getStringVal() {
+  return stringVal;
 }
 ]
 
 
 requiredSuffix=[
-java.time.LocalDate
-
+.
+.
 /**
- * Birthdate
+ * stringVal
  */
-public LocalDate getBirthdateReq() {
-  return birthdate;
+public String getStringValReq() {
+  return stringVal;
 }
 ]
 
 
 validationDisabled=[
-java.time.LocalDate
-
+.
+.
 /**
- * Birthdate
+ * stringVal
  */
-public LocalDate getBirthdate() {
-  return birthdate;
+public String getStringVal() {
+  return stringVal;
 }
 ]
 

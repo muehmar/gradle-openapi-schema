@@ -1,96 +1,95 @@
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_deprecatedAnnotation_then_correctOutputAndRefs=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.time.LocalDate
-java.util.Optional
-javax.validation.constraints.AssertTrue
-
-/**
- * Birthdate
- */
-@JsonIgnore
-public Optional<LocalDate> getBirthdate() {
-  return Optional.ofNullable(birthdate);
-}
-
-/**
- * Birthdate
- */
-@JsonIgnore
-public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return this.birthdate == null ? defaultValue : this.birthdate;
-}
-
-/**
- * @deprecated This method is intended to be used only by frameworks for validation
- * or serialisation.
- */
-@JsonProperty("birthdate")
-@Deprecated
-public LocalDate getBirthdateRaw() {
-  return birthdate;
-}
-
-/**
- * @deprecated This method is intended to be used only by frameworks for validation
- * or serialisation.
- */
-@AssertTrue(message = "birthdate is required but it is not present")
-@Deprecated
-public boolean isBirthdatePresent() {
-  return isBirthdatePresent;
-}
-]
-
-
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs=[
-java.time.LocalDate
-java.util.Optional
-
-/**
- * Birthdate
- */
-public Optional<LocalDate> getBirthdate() {
-  return Optional.ofNullable(birthdate);
-}
-
-/**
- * Birthdate
- */
-public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return this.birthdate == null ? defaultValue : this.birthdate;
-}
-]
-
-
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_disabledJackson_then_correctOutputAndRefs=[
-java.time.LocalDate
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 
 /**
- * Birthdate
+ * stringVal
  */
-public Optional<LocalDate> getBirthdate() {
-  return Optional.ofNullable(birthdate);
+@JsonIgnore
+public Optional<String> getStringVal() {
+  return Optional.ofNullable(stringVal);
 }
 
 /**
- * Birthdate
+ * stringVal
  */
-public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return this.birthdate == null ? defaultValue : this.birthdate;
+@JsonIgnore
+public String getStringValOr(String defaultValue) {
+  return this.stringVal == null ? defaultValue : this.stringVal;
 }
 
-@Pattern(regexp="DatePattern")
-private LocalDate getBirthdateRaw() {
-  return birthdate;
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@Pattern(regexp="Hello")
+@JsonProperty("stringVal")
+@Deprecated
+public String getStringValRaw() {
+  return stringVal;
 }
 
-@AssertTrue(message = "birthdate is required but it is not present")
-private boolean isBirthdatePresent() {
-  return isBirthdatePresent;
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@AssertTrue(message = "stringVal is required but it is not present")
+@Deprecated
+public boolean isStringValPresent() {
+  return isStringValPresent;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs=[
+java.util.Optional
+
+/**
+ * stringVal
+ */
+public Optional<String> getStringVal() {
+  return Optional.ofNullable(stringVal);
+}
+
+/**
+ * stringVal
+ */
+public String getStringValOr(String defaultValue) {
+  return this.stringVal == null ? defaultValue : this.stringVal;
+}
+]
+
+
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_disabledJackson_then_correctOutputAndRefs=[
+java.util.Optional
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.Pattern
+
+/**
+ * stringVal
+ */
+public Optional<String> getStringVal() {
+  return Optional.ofNullable(stringVal);
+}
+
+/**
+ * stringVal
+ */
+public String getStringValOr(String defaultValue) {
+  return this.stringVal == null ? defaultValue : this.stringVal;
+}
+
+@Pattern(regexp="Hello")
+private String getStringValRaw() {
+  return stringVal;
+}
+
+@AssertTrue(message = "stringVal is required but it is not present")
+private boolean isStringValPresent() {
+  return isStringValPresent;
 }
 ]
 
@@ -98,53 +97,53 @@ private boolean isBirthdatePresent() {
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_enabledJackson_then_correctOutputAndRefs=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.time.LocalDate
 java.util.Optional
 javax.validation.constraints.AssertTrue
+javax.validation.constraints.Pattern
 
 /**
- * Birthdate
+ * stringVal
  */
 @JsonIgnore
-public Optional<LocalDate> getBirthdate() {
-  return Optional.ofNullable(birthdate);
+public Optional<String> getStringVal() {
+  return Optional.ofNullable(stringVal);
 }
 
 /**
- * Birthdate
+ * stringVal
  */
 @JsonIgnore
-public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return this.birthdate == null ? defaultValue : this.birthdate;
+public String getStringValOr(String defaultValue) {
+  return this.stringVal == null ? defaultValue : this.stringVal;
 }
 
-@JsonProperty("birthdate")
-private LocalDate getBirthdateRaw() {
-  return birthdate;
+@Pattern(regexp="Hello")
+@JsonProperty("stringVal")
+private String getStringValRaw() {
+  return stringVal;
 }
 
-@AssertTrue(message = "birthdate is required but it is not present")
-private boolean isBirthdatePresent() {
-  return isBirthdatePresent;
+@AssertTrue(message = "stringVal is required but it is not present")
+private boolean isStringValPresent() {
+  return isStringValPresent;
 }
 ]
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_requiredNullableSuffix_then_correctOutputAndRefs=[
-java.time.LocalDate
 java.util.Optional
 
 /**
- * Birthdate
+ * stringVal
  */
-public Optional<LocalDate> getBirthdateReqNull() {
-  return Optional.ofNullable(birthdate);
+public Optional<String> getStringValReqNull() {
+  return Optional.ofNullable(stringVal);
 }
 
 /**
- * Birthdate
+ * stringVal
  */
-public LocalDate getBirthdateOr(LocalDate defaultValue) {
-  return this.birthdate == null ? defaultValue : this.birthdate;
+public String getStringValOr(String defaultValue) {
+  return this.stringVal == null ? defaultValue : this.stringVal;
 }
 ]

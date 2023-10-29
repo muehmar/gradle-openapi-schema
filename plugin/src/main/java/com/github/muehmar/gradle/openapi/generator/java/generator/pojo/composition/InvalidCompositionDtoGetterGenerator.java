@@ -12,14 +12,14 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.name.Method
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -53,7 +53,7 @@ public class InvalidCompositionDtoGetterGenerator {
 
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(deprecatedValidationMethodJavaDoc())
-        .append(ValidationGenerator.validAnnotation())
+        .append(ValidationAnnotationGenerator.validAnnotation())
         .append(jsonIgnore())
         .append(method)
         .filter(p -> createInvalidCompositionDtoGetter(type, p))

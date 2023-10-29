@@ -1,7 +1,8 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation;
 
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
@@ -24,7 +25,7 @@ public class UniqueItemsValidationMethodGenerator {
                         "return new HashSet<>(%s).size() == %s.size();",
                         member.getName(), member.getName()))
             .build();
-    return ValidationGenerator.<JavaPojoMember>assertTrue(
+    return ValidationAnnotationGenerator.<JavaPojoMember>assertTrue(
             member -> String.format("%s does not contain unique items", member.getName()))
         .append(method)
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_HASH_SET))

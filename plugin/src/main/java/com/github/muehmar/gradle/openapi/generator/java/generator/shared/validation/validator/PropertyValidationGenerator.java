@@ -1,22 +1,30 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.DECIMAL_MAX;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.DECIMAL_MIN;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.EMAIL;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MAX;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MIN;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MULTIPLE_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.PATTERN;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.SIZE;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.java.model.validation.JavaConstraints;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -28,7 +36,6 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.writer.Writer;
-import java.util.HashMap;
 import java.util.Optional;
 import lombok.Value;
 
@@ -153,6 +160,7 @@ public class PropertyValidationGenerator {
             .getConstraints()
             .getMin()
             .map(min -> writer.print("%d <= %s", min.getValue(), propertyValue.getAccessor()))
+            .filter(ignore -> JavaConstraints.isSupported(propertyValue.getType(), MIN))
             .orElse(writer);
   }
 
@@ -163,6 +171,7 @@ public class PropertyValidationGenerator {
             .getConstraints()
             .getMax()
             .map(max -> writer.print("%s <= %d", propertyValue.getAccessor(), max.getValue()))
+            .filter(ignore -> JavaConstraints.isSupported(propertyValue.getType(), MAX))
             .orElse(writer);
   }
 
@@ -189,13 +198,14 @@ public class PropertyValidationGenerator {
   private static Condition maxSizeCondition() {
     return (propertyValue, settings, writer) -> {
       final Optional<String> sizeAccessor = sizeAccessorForProperty(propertyValue);
-      final Constraints constraints = propertyValue.getType().getConstraints();
+      final JavaType propertyValueType = propertyValue.getType();
+      final Constraints constraints = propertyValueType.getConstraints();
       final Optional<Integer> maxSize = constraints.getSize().flatMap(Size::getMax);
       final Optional<Integer> maxPropertyCountForMap =
           constraints
               .getPropertyCount()
               .flatMap(PropertyCount::getMaxProperties)
-              .filter(ignore -> propertyValue.getType().isMapType());
+              .filter(ignore -> propertyValueType.isMapType());
       return Optionals.or(maxSize, maxPropertyCountForMap)
           .flatMap(
               max ->
@@ -207,18 +217,29 @@ public class PropertyValidationGenerator {
   }
 
   private static Optional<String> sizeAccessorForProperty(PropertyValue propertyValue) {
-    if (propertyValue.getType().isJavaArray()) {
+    final JavaType propertyValueType = propertyValue.getType();
+    if (propertyValueType.isJavaArray()) {
       return Optional.of("length");
     }
 
-    final HashMap<QualifiedClassName, String> methodName = new HashMap<>();
-    methodName.put(QualifiedClassNames.LIST, "size()");
-    methodName.put(QualifiedClassNames.ARRAY_LIST, "size()");
-    methodName.put(QualifiedClassNames.LINKED_LIST, "size()");
-    methodName.put(QualifiedClassNames.MAP, "size()");
-    methodName.put(QualifiedClassNames.STRING, "length()");
+    if (JavaConstraints.isSupported(propertyValueType, SIZE)) {
 
-    return Optional.ofNullable(methodName.get(propertyValue.getType().getQualifiedClassName()));
+      if (propertyValueType.getQualifiedClassName().equals(QualifiedClassNames.STRING)) {
+        return Optional.of("length()");
+      }
+
+      if (QualifiedClassNames.ALL_MAP_CLASSNAMES.exists(
+          propertyValueType.getQualifiedClassName()::equals)) {
+        return Optional.of("size()");
+      }
+
+      if (QualifiedClassNames.ALL_LIST_CLASSNAMES.exists(
+          propertyValueType.getQualifiedClassName()::equals)) {
+        return Optional.of("size()");
+      }
+    }
+
+    return Optional.empty();
   }
 
   private static Condition decimalMinCondition() {
@@ -236,6 +257,7 @@ public class PropertyValidationGenerator {
                             propertyValue.getAccessor(),
                             decimalMin.getValue())
                         .ref(JavaRefs.JAVA_MATH_BIG_DECIMAL))
+            .filter(ignore -> JavaConstraints.isSupported(propertyValue.getType(), DECIMAL_MIN))
             .orElse(writer);
   }
 
@@ -254,6 +276,7 @@ public class PropertyValidationGenerator {
                             decimalMax.getValue(),
                             decimalMax.isInclusiveMax() ? "=" : "")
                         .ref(JavaRefs.JAVA_MATH_BIG_DECIMAL))
+            .filter(ignore -> JavaConstraints.isSupported(propertyValue.getType(), DECIMAL_MAX))
             .orElse(writer);
   }
 
@@ -266,9 +289,11 @@ public class PropertyValidationGenerator {
             .map(
                 pattern ->
                     writer.print(
-                        "java.util.regex.Pattern.matches(\"%s\", %s)",
+                        "%s.matches(\"%s\", %s)",
+                        JavaRefs.JAVA_UTIL_REGEX_PATTERN,
                         pattern.getPatternEscaped(JavaEscaper::escape),
                         propertyValue.getAccessor()))
+            .filter(ignore -> JavaConstraints.isSupported(propertyValue.getType(), PATTERN))
             .orElse(writer);
   }
 
@@ -283,6 +308,7 @@ public class PropertyValidationGenerator {
                     writer
                         .print("EmailValidator.isValid(%s)", propertyValue.getAccessor())
                         .ref(OpenApiUtilRefs.EMAIL_VALIDATOR))
+            .filter(ignore -> JavaConstraints.isSupported(propertyValue.getType(), EMAIL))
             .orElse(writer);
   }
 
@@ -309,6 +335,7 @@ public class PropertyValidationGenerator {
           .getConstraints()
           .getMultipleOf()
           .map(ignore -> writer.print("%s()", methodName))
+          .filter(ignore -> JavaConstraints.isSupported(propertyValue.getType(), MULTIPLE_OF))
           .orElse(writer);
     };
   }

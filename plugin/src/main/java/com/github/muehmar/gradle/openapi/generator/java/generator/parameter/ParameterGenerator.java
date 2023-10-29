@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.JavaRefs.JAVA_UTIL_REGEX_PATTERN;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_REGEX_PATTERN;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;

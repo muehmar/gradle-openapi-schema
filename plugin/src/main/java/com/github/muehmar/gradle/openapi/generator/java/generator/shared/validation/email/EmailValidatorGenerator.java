@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.email;
 
-import com.github.muehmar.gradle.openapi.generator.java.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import io.github.muehmar.codegenerator.Generator;
 
 public class EmailValidatorGenerator {

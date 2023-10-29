@@ -4,48 +4,48 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-java.time.LocalDate
+javax.validation.constraints.Pattern
 
 /**
- * Birthdate
+ * stringVal
  */
 @JsonIgnore
-public Tristate<LocalDate> getBirthdate() {
-  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+public Tristate<String> getStringVal() {
+  return Tristate.ofNullableAndNullFlag(stringVal, isStringValNull);
 }
 
-@JsonProperty("birthdate")
+@JsonProperty("stringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getBirthdateJackson() {
-  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+private Object getStringValJackson() {
+  return isStringValNull ? new JacksonNullContainer<>(stringVal) : stringVal;
 }
 
 /**
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
+@Pattern(regexp="Hello")
 @Deprecated
-public LocalDate getBirthdateRaw() {
-  return birthdate;
+public String getStringValRaw() {
+  return stringVal;
 }
 ]
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNullableGetterTest.generator_when_disabledJacksonAndEnabledValidation_then_correctOutputAndRefs=[
 com.github.muehmar.openapi.util.Tristate
-java.time.LocalDate
 javax.validation.constraints.Pattern
 
 /**
- * Birthdate
+ * stringVal
  */
-public Tristate<LocalDate> getBirthdate() {
-  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+public Tristate<String> getStringVal() {
+  return Tristate.ofNullableAndNullFlag(stringVal, isStringValNull);
 }
 
-@Pattern(regexp="DatePattern")
-private LocalDate getBirthdateRaw() {
-  return birthdate;
+@Pattern(regexp="Hello")
+private String getStringValRaw() {
+  return stringVal;
 }
 ]
 
@@ -56,32 +56,30 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-java.time.LocalDate
 
 /**
- * Birthdate
+ * stringVal
  */
 @JsonIgnore
-public Tristate<LocalDate> getBirthdate() {
-  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+public Tristate<String> getStringVal() {
+  return Tristate.ofNullableAndNullFlag(stringVal, isStringValNull);
 }
 
-@JsonProperty("birthdate")
+@JsonProperty("stringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getBirthdateJackson() {
-  return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+private Object getStringValJackson() {
+  return isStringValNull ? new JacksonNullContainer<>(stringVal) : stringVal;
 }
 ]
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNullableGetterTest.generator_when_optionalNullableSuffix_then_correctOutputAndRefs=[
 com.github.muehmar.openapi.util.Tristate
-java.time.LocalDate
 
 /**
- * Birthdate
+ * stringVal
  */
-public Tristate<LocalDate> getBirthdateOptNull() {
-  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
+public Tristate<String> getStringValOptNull() {
+  return Tristate.ofNullableAndNullFlag(stringVal, isStringValNull);
 }
 ]

@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.ValidationGenerator.assertTrue;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 

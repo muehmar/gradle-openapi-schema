@@ -4,10 +4,10 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import io.github.muehmar.codegenerator.Generator;
 
 class MemberDeclarationGenerator {

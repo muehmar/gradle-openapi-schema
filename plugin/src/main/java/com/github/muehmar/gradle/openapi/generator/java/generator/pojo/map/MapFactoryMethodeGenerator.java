@@ -4,8 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;

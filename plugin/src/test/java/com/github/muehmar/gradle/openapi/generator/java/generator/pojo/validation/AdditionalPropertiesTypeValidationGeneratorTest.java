@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.AdditionalPropertiesTypeValidationGenerator.additionalPropertiesTypeValidationGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.AdditionalPropertiesTypeValidationGenerator.additionalPropertiesTypeValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;

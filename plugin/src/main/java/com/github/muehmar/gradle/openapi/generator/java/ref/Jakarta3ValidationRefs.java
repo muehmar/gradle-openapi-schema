@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java;
+package com.github.muehmar.gradle.openapi.generator.java.ref;
 
 public class Jakarta3ValidationRefs {
   private Jakarta3ValidationRefs() {}
