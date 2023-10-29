@@ -3052,6 +3052,7 @@ public class Illegal_IdentifierDto {
     return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
   }
 
+  @JsonIgnore
   private String getSwitchRaw() {
     return switch_;
   }
@@ -3070,6 +3071,7 @@ public class Illegal_IdentifierDto {
     return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
   }
 
+  @JsonIgnore
   private String getPoint_Raw() {
     return point_;
   }
@@ -4654,6 +4656,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @Pattern(regexp="Hello")
+  @JsonIgnore
   private String getOptionalNullableStringValRaw() {
     return optionalNullableStringVal;
   }
