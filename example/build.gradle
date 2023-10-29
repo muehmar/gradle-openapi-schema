@@ -130,6 +130,12 @@ openApiGenerator {
             suffix = "Dto"
             enableValidation = true
             builderMethodPrefix = "set"
+
+            validationMethods {
+                getterSuffix = "Raw"
+                modifier = "public"
+                deprecatedAnnotation = true
+            }
         }
         array {
             sourceSet = 'main'
