@@ -128,3 +128,38 @@ public String getStringValOr(String defaultValue) {
   return this.stringVal == null ? defaultValue : this.stringVal;
 }
 ]
+
+
+valueTypeOfArrayHasConstraints=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+java.util.Optional
+javax.validation.constraints.Max
+javax.validation.constraints.Min
+javax.validation.constraints.Size
+
+/**
+ * List
+ */
+@JsonIgnore
+public Optional<List<Integer>> getListVal() {
+  return Optional.ofNullable(listVal);
+}
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<Integer> getListValOr(List<Integer> defaultValue) {
+  return this.listVal == null ? defaultValue : this.listVal;
+}
+
+@JsonProperty("listVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Size(min = 5)
+private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
+  return listVal;
+}
+]

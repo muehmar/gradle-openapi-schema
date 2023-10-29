@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedFullClassName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
@@ -50,7 +51,7 @@ class CommonGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
-        .returnType(f -> f.getJavaType().getFullClassName().asString())
+        .returnType(deepAnnotatedFullClassName().contraMap(JavaPojoMember::getJavaType))
         .methodName((f, s) -> f.getValidationGetterName(s).asString())
         .noArguments()
         .content(f -> String.format("return %s;", f.getName()))
