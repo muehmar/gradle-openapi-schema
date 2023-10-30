@@ -74,6 +74,7 @@ public class RequiredMemberBuilderGenerator {
               .map(
                   rp ->
                       JavaPojoMemberBuilder.create()
+                          .pojoName(pojo.getJavaPojoName())
                           .name(rp.getName())
                           .description(rp.getDescription())
                           .javaType(rp.getJavaType())

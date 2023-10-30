@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumG
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -32,6 +33,7 @@ import lombok.With;
 @PojoBuilder
 @With
 public class JavaPojoMember {
+  private final JavaPojoName pojoName;
   private final JavaName name;
   private final String description;
   private final JavaType javaType;
@@ -45,12 +47,14 @@ public class JavaPojoMember {
       "onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false)";
 
   JavaPojoMember(
+      JavaPojoName pojoName,
       JavaName name,
       String description,
       JavaType javaType,
       Necessity necessity,
       Nullability nullability,
       MemberType type) {
+    this.pojoName = pojoName;
     this.javaType = javaType;
     this.name = name;
     this.description = description;
@@ -59,9 +63,11 @@ public class JavaPojoMember {
     this.type = type;
   }
 
-  public static JavaPojoMember wrap(PojoMember pojoMember, TypeMappings typeMappings) {
+  public static JavaPojoMember wrap(
+      PojoMember pojoMember, JavaPojoName pojoName, TypeMappings typeMappings) {
     final JavaType javaType = JavaType.wrap(pojoMember.getType(), typeMappings);
     return new JavaPojoMember(
+        pojoName,
         JavaName.fromName(pojoMember.getName()),
         pojoMember.getDescription(),
         javaType,
@@ -95,51 +101,19 @@ public class JavaPojoMember {
   }
 
   public JavaPojoMember asObjectMember() {
-    return JavaPojoMemberBuilder.create()
-        .name(name)
-        .description(description)
-        .javaType(javaType)
-        .necessity(necessity)
-        .nullability(nullability)
-        .type(MemberType.OBJECT_MEMBER)
-        .andAllOptionals()
-        .build();
+    return withType(MemberType.OBJECT_MEMBER);
   }
 
   public JavaPojoMember asAllOfMember() {
-    return JavaPojoMemberBuilder.create()
-        .name(name)
-        .description(description)
-        .javaType(javaType)
-        .necessity(necessity)
-        .nullability(nullability)
-        .type(MemberType.ALL_OF_MEMBER)
-        .andAllOptionals()
-        .build();
+    return withType(MemberType.ALL_OF_MEMBER);
   }
 
   public JavaPojoMember asOneOfMember() {
-    return JavaPojoMemberBuilder.create()
-        .name(name)
-        .description(description)
-        .javaType(javaType)
-        .necessity(necessity)
-        .nullability(nullability)
-        .type(MemberType.ONE_OF_MEMBER)
-        .andAllOptionals()
-        .build();
+    return withType(MemberType.ONE_OF_MEMBER);
   }
 
   public JavaPojoMember asAnyOfMember() {
-    return JavaPojoMemberBuilder.create()
-        .name(name)
-        .description(description)
-        .javaType(javaType)
-        .necessity(necessity)
-        .nullability(nullability)
-        .type(MemberType.ANY_OF_MEMBER)
-        .andAllOptionals()
-        .build();
+    return withType(MemberType.ANY_OF_MEMBER);
   }
 
   public boolean isOptional() {
@@ -275,7 +249,7 @@ public class JavaPojoMember {
             integerType -> integerType,
             objectType -> objectType,
             stringType -> stringType);
-    return new JavaPojoMember(name, description, newType, necessity, nullability, type);
+    return new JavaPojoMember(pojoName, name, description, newType, necessity, nullability, type);
   }
 
   public enum MemberType {

@@ -61,9 +61,10 @@ public class JavaArrayPojo implements JavaPojo {
 
   public static JavaArrayPojo wrap(ArrayPojo arrayPojo, TypeMappings typeMappings) {
     final JavaType itemType = JavaType.wrap(arrayPojo.getItemType(), typeMappings);
-    final JavaPojoMember arrayPojoMember = createItemTypeMember(arrayPojo, typeMappings);
+    final JavaPojoName pojoName = JavaPojoName.fromPojoName(arrayPojo.getName().getPojoName());
+    final JavaPojoMember arrayPojoMember = createItemTypeMember(arrayPojo, pojoName, typeMappings);
     return new JavaArrayPojo(
-        JavaPojoName.fromPojoName(arrayPojo.getName().getPojoName()),
+        pojoName,
         arrayPojo.getName().getSchemaName(),
         arrayPojo.getDescription(),
         itemType,
@@ -72,12 +73,13 @@ public class JavaArrayPojo implements JavaPojo {
   }
 
   private static JavaPojoMember createItemTypeMember(
-      ArrayPojo arrayPojo, TypeMappings typeMappings) {
+      ArrayPojo arrayPojo, JavaPojoName pojoName, TypeMappings typeMappings) {
     final ArrayType arrayType =
         ArrayType.ofItemType(arrayPojo.getItemType()).withConstraints(arrayPojo.getConstraints());
     final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, typeMappings);
     final JavaName name = JavaName.fromString("value");
     return javaPojoMemberBuilder()
+        .pojoName(pojoName)
         .name(name)
         .description(arrayPojo.getDescription())
         .javaType(javaArrayType)

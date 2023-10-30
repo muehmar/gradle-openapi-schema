@@ -135,15 +135,17 @@ public class JavaObjectPojo implements JavaPojo {
 
   private static JavaObjectPojo createForType(
       ObjectPojo objectPojo, TypeMappings typeMappings, PojoType type) {
+    final JavaPojoName pojoName =
+        JavaPojoName.fromPojoName(type.mapName(objectPojo.getName().getPojoName()));
     final PList<JavaPojoMember> members =
         objectPojo
             .getMembers()
             .filter(member -> type.includesPropertyScope(member.getPropertyScope()))
-            .map(member -> JavaPojoMember.wrap(member, typeMappings));
+            .map(member -> JavaPojoMember.wrap(member, pojoName, typeMappings));
     final JavaAdditionalProperties javaAdditionalProperties =
         JavaAdditionalProperties.wrap(objectPojo.getAdditionalProperties(), typeMappings);
     return new JavaObjectPojo(
-        JavaPojoName.fromPojoName(type.mapName(objectPojo.getName().getPojoName())),
+        pojoName,
         objectPojo.getName().getSchemaName(),
         objectPojo.getDescription(),
         members,

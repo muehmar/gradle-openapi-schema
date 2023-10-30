@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Wi
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder.javaPojoMemberBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
@@ -80,6 +81,7 @@ class WitherGeneratorTest {
       generate_when_pojoContainsPropertyNameWhichMatchesSubstringOfOtherProperty_then_correctOutput() {
     final JavaPojoMember surnameMember =
         javaPojoMemberBuilder()
+            .pojoName(invoiceName())
             .name(JavaName.fromString("surname"))
             .description("desc")
             .javaType(stringType())
@@ -90,6 +92,7 @@ class WitherGeneratorTest {
 
     final JavaPojoMember nameMember =
         javaPojoMemberBuilder()
+            .pojoName(invoiceName())
             .name(JavaName.fromString("name"))
             .description("desc")
             .javaType(stringType())

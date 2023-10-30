@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validati
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder.javaPojoMemberBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -39,6 +40,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember INTEGER_MEMBER =
       javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("intVal"))
           .description("Description")
           .javaType(
@@ -54,6 +56,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember LONG_MEMBER =
       javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("longVal"))
           .description("Description")
           .javaType(
@@ -69,6 +72,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember FLOAT_MEMBER =
       javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("floatVal"))
           .description("Description")
           .javaType(
@@ -84,6 +88,7 @@ class MultipleOfValidationMethodGeneratorTest {
 
   private static final JavaPojoMember DOUBLE_MEMBER =
       javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("doubleVal"))
           .description("Description")
           .javaType(
