@@ -118,6 +118,7 @@ private String getRequiredNullableStringValRaw() {
 }
 
 @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
+@JsonIgnore
 private boolean isRequiredNullableStringValPresent() {
   return isRequiredNullableStringValPresent;
 }

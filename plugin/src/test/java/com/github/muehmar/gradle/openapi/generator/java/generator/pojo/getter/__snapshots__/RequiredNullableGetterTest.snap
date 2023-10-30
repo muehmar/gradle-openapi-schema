@@ -38,6 +38,7 @@ public String getStringValRaw() {
  */
 @AssertTrue(message = "stringVal is required but it is not present")
 @Deprecated
+@JsonIgnore
 public boolean isStringValPresent() {
   return isStringValPresent;
 }
@@ -124,6 +125,7 @@ private String getStringValRaw() {
 }
 
 @AssertTrue(message = "stringVal is required but it is not present")
+@JsonIgnore
 private boolean isStringValPresent() {
   return isStringValPresent;
 }
@@ -182,6 +184,7 @@ private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
 }
 
 @AssertTrue(message = "listVal is required but it is not present")
+@JsonIgnore
 private boolean isListValPresent() {
   return isListValPresent;
 }

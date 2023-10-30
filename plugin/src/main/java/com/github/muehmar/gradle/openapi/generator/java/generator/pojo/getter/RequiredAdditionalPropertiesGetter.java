@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedValidationMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.*;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
@@ -86,7 +86,7 @@ public class RequiredAdditionalPropertiesGetter {
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
       notNullValidationGetterForSpecificType() {
     return JavaDocGenerators.<JavaRequiredAdditionalProperty>deprecatedValidationMethodJavaDoc()
-        .append(deprecatedValidationMethod())
+        .append(deprecatedAnnotationForValidationMethod())
         .append(notNullAnnotation())
         .append(
             MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
@@ -108,7 +108,7 @@ public class RequiredAdditionalPropertiesGetter {
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
       correctTypeValidationGetterForSpecificType() {
     return JavaDocGenerators.<JavaRequiredAdditionalProperty>deprecatedValidationMethodJavaDoc()
-        .append(deprecatedValidationMethod())
+        .append(deprecatedAnnotationForValidationMethod())
         .append(
             assertTrue(
                 prop ->

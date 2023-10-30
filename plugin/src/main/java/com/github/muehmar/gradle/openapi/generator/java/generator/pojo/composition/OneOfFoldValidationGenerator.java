@@ -41,7 +41,7 @@ public class OneOfFoldValidationGenerator {
 
     return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(ValidationAnnotationGenerator.validAnnotation())
-        .append(AnnotationGenerator.deprecatedValidationMethod())
+        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }

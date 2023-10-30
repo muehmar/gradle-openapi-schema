@@ -17,7 +17,7 @@ class AnnotationGeneratorTest {
   @Test
   void deprecatedValidationMethod_when_disabledAnnotation_then_notOutput() {
     final Generator<Void, PojoSettings> generator =
-        AnnotationGenerator.deprecatedValidationMethod();
+        AnnotationGenerator.deprecatedAnnotationForValidationMethod();
     final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
@@ -26,7 +26,7 @@ class AnnotationGeneratorTest {
   @Test
   void deprecatedValidationMethod_when_enabledAnnotation_then_deprecatedAnnotation() {
     final Generator<Void, PojoSettings> generator =
-        AnnotationGenerator.deprecatedValidationMethod();
+        AnnotationGenerator.deprecatedAnnotationForValidationMethod();
     final PojoSettings settings =
         defaultTestSettings()
             .withValidationMethods(
