@@ -21,6 +21,7 @@ private Object getOptionalNullableStringValJackson() {
 }
 
 @Pattern(regexp="Hello")
+@JsonIgnore
 private String getOptionalNullableStringValRaw() {
   return optionalNullableStringVal;
 }
@@ -80,6 +81,7 @@ private Object getPoint_Jackson() {
   return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
 }
 
+@JsonIgnore
 private String getPoint_Raw() {
   return point_;
 }
@@ -116,6 +118,7 @@ private String getRequiredNullableStringValRaw() {
 }
 
 @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
+@JsonIgnore
 private boolean isRequiredNullableStringValPresent() {
   return isRequiredNullableStringValPresent;
 }
@@ -158,6 +161,7 @@ private Object getSwitchJackson() {
   return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
 }
 
+@JsonIgnore
 private String getSwitchRaw() {
   return switch_;
 }

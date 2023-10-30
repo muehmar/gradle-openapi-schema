@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedValidationMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
@@ -58,7 +58,7 @@ class RequiredNullableGetter {
         .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
         .append(validationAnnotationsForMember().filter(option.validationFilter()))
         .append(jsonProperty())
-        .append(deprecatedValidationMethod())
+        .append(deprecatedAnnotationForValidationMethod())
         .append(CommonGetter.rawGetterMethod())
         .filter(isJacksonJsonOrValidation);
   }
@@ -68,7 +68,8 @@ class RequiredNullableGetter {
         .appendNewLine()
         .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
         .append(assertTrue(f -> String.format("%s is required but it is not present", f.getName())))
-        .append(deprecatedValidationMethod())
+        .append(deprecatedAnnotationForValidationMethod())
+        .append(jsonIgnore())
         .append(requiredValidationMethod())
         .filter(Filters.isValidationEnabled());
   }

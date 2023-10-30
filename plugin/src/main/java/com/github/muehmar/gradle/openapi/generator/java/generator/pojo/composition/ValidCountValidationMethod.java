@@ -67,7 +67,7 @@ public class ValidCountValidationMethod {
             .build();
     return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(annotation)
-        .append(AnnotationGenerator.deprecatedValidationMethod())
+        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
@@ -92,7 +92,7 @@ public class ValidCountValidationMethod {
             .build();
     return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
         .append(annotation)
-        .append(AnnotationGenerator.deprecatedValidationMethod())
+        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
         .prependNewLine();

@@ -42,7 +42,7 @@ public class DiscriminatorValidationMethodGenerator {
     final Generator<PojoAndDiscriminator, PojoSettings> completeMethodGen =
         JavaDocGenerators.<PojoAndDiscriminator>deprecatedValidationMethodJavaDoc()
             .append(annotation)
-            .append(AnnotationGenerator.deprecatedValidationMethod())
+            .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
             .append(JacksonAnnotationGenerator.jsonIgnore())
             .append(method);
 
