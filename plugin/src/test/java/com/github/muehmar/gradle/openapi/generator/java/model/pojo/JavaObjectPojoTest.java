@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.optionalString;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.fromNameAndSuffix;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
@@ -19,10 +19,10 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;

@@ -1,6 +1,7 @@
-package com.github.muehmar.gradle.openapi.generator.java.model;
+package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember.MemberType.OBJECT_MEMBER;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.OBJECT_MEMBER;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder.javaPojoMemberBuilder;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
@@ -30,7 +31,7 @@ public class JavaPojoMembers {
   public JavaPojoMembers() {}
 
   public static JavaPojoMember byteArrayMember() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("data"))
         .description("data")
         .javaType(
@@ -43,7 +44,7 @@ public class JavaPojoMembers {
 
   public static JavaPojoMember birthdate(
       Constraints constraints, Necessity necessity, Nullability nullability) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("birthdate"))
         .description("Birthdate")
         .javaType(
@@ -81,7 +82,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember reference(Necessity necessity, Nullability nullability) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("ref"))
         .description("ref")
         .javaType(
@@ -97,7 +98,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember email(Necessity necessity, Nullability nullability) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("email"))
         .description("email")
         .javaType(
@@ -115,7 +116,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember integer(Necessity necessity, Nullability nullability) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("intVal"))
         .description("intVal")
         .javaType(
@@ -134,7 +135,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember doubleMember(Necessity necessity, Nullability nullability) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("doubleVal"))
         .description("doubleVal")
         .javaType(
@@ -152,7 +153,7 @@ public class JavaPojoMembers {
 
   public static JavaPojoMember list(
       Type itemType, Necessity necessity, Nullability nullability, Constraints constraints) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("listVal"))
         .description("List")
         .javaType(
@@ -175,7 +176,7 @@ public class JavaPojoMembers {
       Necessity necessity,
       Nullability nullability,
       Constraints constraints) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("mapVal"))
         .description("Map")
         .javaType(
@@ -193,7 +194,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember string(Necessity necessity, Nullability nullability) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("stringVal"))
         .description("stringVal")
         .javaType(
@@ -208,7 +209,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember requiredNullableString() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("requiredNullableStringVal"))
         .description("RequiredNullableStringVal")
         .javaType(
@@ -223,7 +224,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember optionalString() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("optionalStringVal"))
         .description("OptionalStringVal")
         .javaType(
@@ -238,7 +239,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember optionalNullableString() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("optionalNullableStringVal"))
         .description("OptionalNullableStringVal")
         .javaType(
@@ -253,7 +254,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember requiredColorEnum() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("color"))
         .description("Color")
         .javaType(
@@ -268,7 +269,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember requiredDirectionEnum() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("direction"))
         .description("Direction")
         .javaType(
@@ -283,7 +284,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember keywordNameString() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("switch"))
         .description("Switch")
         .javaType(JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))
@@ -294,7 +295,7 @@ public class JavaPojoMembers {
   }
 
   public static JavaPojoMember illegalCharacterString() {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("point."))
         .description("Point")
         .javaType(JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))
@@ -313,7 +314,7 @@ public class JavaPojoMembers {
   }
 
   private static JavaPojoMember object(JavaObjectType objectType) {
-    return JavaPojoMemberBuilder.create()
+    return javaPojoMemberBuilder()
         .name(JavaName.fromString("object"))
         .description("Object")
         .javaType(objectType)

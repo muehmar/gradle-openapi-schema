@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static io.github.muehmar.codegenerator.Generator.newLine;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;

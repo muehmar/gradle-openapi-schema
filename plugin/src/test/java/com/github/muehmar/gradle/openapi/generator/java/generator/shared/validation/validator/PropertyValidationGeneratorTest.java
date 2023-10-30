@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.list;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.map;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredInteger;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.list;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.map;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
@@ -15,8 +15,8 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;

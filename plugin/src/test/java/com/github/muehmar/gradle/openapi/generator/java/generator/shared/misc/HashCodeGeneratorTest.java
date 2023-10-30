@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.byteArrayMember;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.byteArrayMember;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -11,8 +11,8 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.HashCodeContent;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
