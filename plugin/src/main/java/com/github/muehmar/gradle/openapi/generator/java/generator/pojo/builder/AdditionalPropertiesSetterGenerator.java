@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditio
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
@@ -51,7 +52,7 @@ class AdditionalPropertiesSetterGenerator {
                         new Argument(
                             forObjectType
                                 ? "Object"
-                                : props.getType().getFullClassName().asString(),
+                                : props.getType().getParameterizedClassName().asString(),
                             "value")))
             .content(
                 (props, s, w) ->
@@ -78,9 +79,9 @@ class AdditionalPropertiesSetterGenerator {
         .methodName("setAdditionalProperties")
         .singleArgument(
             props ->
-                new Argument(
-                    String.format("Map<String, %s>", props.getType().getFullClassName()),
-                    additionalPropertiesName().asString()))
+                argument(
+                    props.getMapContainerType().getParameterizedClassName(),
+                    additionalPropertiesName()))
         .content(
             (props, s, w) ->
                 w.println(

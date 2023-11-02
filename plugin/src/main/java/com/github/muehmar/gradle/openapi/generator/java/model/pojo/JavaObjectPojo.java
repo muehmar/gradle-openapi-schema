@@ -18,12 +18,12 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Ha
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
-import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
@@ -115,8 +115,7 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   private static boolean sameNameButDifferentAttributes(JavaPojoMember m1, JavaPojoMember m2) {
-    return m1.getName().equals(m2.getName())
-        && not(m1.asObjectMember().equals(m2.asObjectMember()));
+    return m1.getName().equals(m2.getName()) && not(m1.isTechnicallyEquals(m2));
   }
 
   public static JavaPojoWrapResult wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
@@ -135,15 +134,17 @@ public class JavaObjectPojo implements JavaPojo {
 
   private static JavaObjectPojo createForType(
       ObjectPojo objectPojo, TypeMappings typeMappings, PojoType type) {
+    final JavaPojoName pojoName =
+        JavaPojoName.fromPojoName(type.mapName(objectPojo.getName().getPojoName()));
     final PList<JavaPojoMember> members =
         objectPojo
             .getMembers()
             .filter(member -> type.includesPropertyScope(member.getPropertyScope()))
-            .map(member -> JavaPojoMember.wrap(member, typeMappings));
+            .map(member -> JavaPojoMember.wrap(member, pojoName, typeMappings));
     final JavaAdditionalProperties javaAdditionalProperties =
         JavaAdditionalProperties.wrap(objectPojo.getAdditionalProperties(), typeMappings);
     return new JavaObjectPojo(
-        JavaPojoName.fromPojoName(type.mapName(objectPojo.getName().getPojoName())),
+        pojoName,
         objectPojo.getName().getSchemaName(),
         objectPojo.getDescription(),
         members,
@@ -228,18 +229,21 @@ public class JavaObjectPojo implements JavaPojo {
         .concat(getComposedMembers());
   }
 
-  public PList<JavaPojoMember> getComposedMembers() {
+  PList<JavaPojoMember> getComposedMembers() {
     final PList<JavaPojoMember> allOfMembers =
         allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> oneOfMembers =
         oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> anyOfMembers =
         anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
-    return allOfMembers.concat(oneOfMembers).concat(anyOfMembers).distinct(Function.identity());
+    return allOfMembers
+        .concat(oneOfMembers)
+        .concat(anyOfMembers)
+        .distinct(JavaPojoMember::getTechnicalMemberKey);
   }
 
   public PList<JavaPojoMember> getAllMembers() {
-    return members.concat(getComposedMembers()).distinct(Function.identity());
+    return members.concat(getComposedMembers()).distinct(JavaPojoMember::getTechnicalMemberKey);
   }
 
   public PList<TechnicalPojoMember> getTechnicalMembers() {

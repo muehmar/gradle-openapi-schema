@@ -13,9 +13,9 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -51,8 +51,7 @@ public class ValidatorClassGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(memberValidationGenerator(), JavaObjectPojo::getMembers, newLine())
         .appendSingleBlankLine()
-        .appendList(
-            requiredAdditionalPropertyGenerator(), JavaObjectPojo::getRequiredAdditionalProperties)
+        .append(requiredAdditionalPropertyGenerator())
         .appendSingleBlankLine()
         .append(additionalPropertiesValidationMethods())
         .appendSingleBlankLine()
@@ -61,9 +60,7 @@ public class ValidatorClassGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesValidationMethods() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            propertyValueValidationGenerator(),
-            pojo -> PropertyValue.fromAdditionalProperties(pojo.getAdditionalProperties()))
+        .append(propertyValueValidationGenerator(), PropertyValue::fromAdditionalProperties)
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 

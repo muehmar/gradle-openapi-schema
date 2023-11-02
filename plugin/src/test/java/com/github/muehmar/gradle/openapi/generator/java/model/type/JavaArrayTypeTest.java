@@ -18,7 +18,7 @@ class JavaArrayTypeTest {
     final ArrayType arrayType = ArrayType.ofItemType(StringType.uuid());
     final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, TypeMappings.empty());
 
-    assertEquals("List<UUID>", javaArrayType.getFullClassName().asString());
+    assertEquals("List<UUID>", javaArrayType.getParameterizedClassName().asString());
     assertEquals("List", javaArrayType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.util.List", "java.util.UUID"),
@@ -37,7 +37,7 @@ class JavaArrayTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("List", "com.custom.CustomList")));
 
-    assertEquals("CustomList<UUID>", javaArrayType.getFullClassName().asString());
+    assertEquals("CustomList<UUID>", javaArrayType.getParameterizedClassName().asString());
     assertEquals("CustomList", javaArrayType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomList", "java.util.UUID"),
@@ -45,39 +45,5 @@ class JavaArrayTypeTest {
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
-  }
-
-  @Test
-  void
-      getFullAnnotatedClassName_when_calledWithCreatorWithAnnotations_then_correctClassNameAndImportsReturned() {
-    final JavaArrayType arrayType =
-        JavaArrayType.wrap(ArrayType.ofItemType(StringType.noFormat()), TypeMappings.empty());
-
-    final AnnotationsCreator annotationsCreator =
-        ignore -> new AnnotationsCreator.Annotations("@Annotation", PList.of("package.Annotation"));
-
-    // method call
-    final AnnotatedClassName fullAnnotatedClassName =
-        arrayType.getFullAnnotatedClassName(annotationsCreator);
-
-    assertEquals("List<@Annotation String>", fullAnnotatedClassName.getClassName().asString());
-    assertEquals(PList.of("package.Annotation"), fullAnnotatedClassName.getImports());
-  }
-
-  @Test
-  void
-      getFullAnnotatedClassName_when_calledWithCreatorWithoutAnnotations_then_correctClassNameAndImportsReturned() {
-    final JavaArrayType arrayType =
-        JavaArrayType.wrap(ArrayType.ofItemType(StringType.noFormat()), TypeMappings.empty());
-
-    final AnnotationsCreator annotationsCreator =
-        ignore -> new AnnotationsCreator.Annotations("", PList.empty());
-
-    // method call
-    final AnnotatedClassName fullAnnotatedClassName =
-        arrayType.getFullAnnotatedClassName(annotationsCreator);
-
-    assertEquals("List<String>", fullAnnotatedClassName.getClassName().asString());
-    assertEquals(PList.empty(), fullAnnotatedClassName.getImports());
   }
 }

@@ -1,16 +1,19 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MULTIPLE_OF;
-
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType;
 import com.github.muehmar.gradle.openapi.generator.java.model.validation.JavaConstraints;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.Warning;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
@@ -32,8 +35,7 @@ public class MultipleOfValidationMethodGenerator {
             .methodName(MemberAndConstraint::getIsMultipleOfValidMethodName)
             .noArguments()
             .content(content())
-            .build()
-            .filter(mac -> JavaConstraints.isSupported(mac.getMember().getJavaType(), MULTIPLE_OF));
+            .build();
 
     final Generator<MemberAndConstraint, PojoSettings> assertTrueAnnotation =
         ValidationAnnotationGenerator.assertTrue(
@@ -50,7 +52,23 @@ public class MultipleOfValidationMethodGenerator {
     return Generator.<MemberAndConstraint, PojoSettings>emptyGen()
         .append(assertTrueAnnotation)
         .append(method)
-        .filter(MemberAndConstraint::isIntegerOrNumericType);
+        .filter(MultipleOfValidationMethodGenerator::isSupportedConstraint);
+  }
+
+  private static boolean isSupportedConstraint(
+      MemberAndConstraint memberAndConstraint, PojoSettings settings) {
+    final JavaPojoMember member = memberAndConstraint.getMember();
+    final ConstraintType constraintType = ConstraintType.MULTIPLE_OF;
+    if (JavaConstraints.isSupported(member.getJavaType(), constraintType)) {
+      return true;
+    } else {
+      final TaskIdentifier taskIdentifier = settings.getTaskIdentifier();
+      final Warning warning =
+          Warning.unsupportedValidation(
+              member.getPropertyInfoName(), member.getJavaType(), constraintType);
+      WarningsContext.addWarningForTask(taskIdentifier, warning);
+      return false;
+    }
   }
 
   private static Generator<MemberAndConstraint, PojoSettings> content() {
@@ -97,7 +115,7 @@ public class MultipleOfValidationMethodGenerator {
     }
 
     public String getIsMultipleOfValidMethodName() {
-      return member.getName().startUpperCase().prefix("is").append("MultipleOfValid").asString();
+      return MethodNames.getIsMultipleOfValidMethodName(member.getName()).asString();
     }
 
     public boolean isIntegerType() {

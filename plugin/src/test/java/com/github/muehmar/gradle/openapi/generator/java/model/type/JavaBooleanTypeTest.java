@@ -15,7 +15,7 @@ class JavaBooleanTypeTest {
   void wrap_when_noTypeMappings_then_correctWrapped() {
     final JavaBooleanType javaType = JavaBooleanType.wrap(TypeMappings.empty());
 
-    assertEquals("Boolean", javaType.getFullClassName().asString());
+    assertEquals("Boolean", javaType.getParameterizedClassName().asString());
     assertEquals("Boolean", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang.Boolean"),
@@ -32,7 +32,7 @@ class JavaBooleanTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Boolean", "com.custom.CustomBoolean")));
 
-    assertEquals("CustomBoolean", javaType.getFullClassName().asString());
+    assertEquals("CustomBoolean", javaType.getParameterizedClassName().asString());
     assertEquals("CustomBoolean", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomBoolean"),

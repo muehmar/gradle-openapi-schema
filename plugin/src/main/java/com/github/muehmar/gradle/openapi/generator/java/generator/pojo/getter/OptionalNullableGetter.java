@@ -15,7 +15,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -40,7 +40,7 @@ class OptionalNullableGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(f -> String.format("Tristate<%s>", f.getJavaType().getFullClassName()))
+        .returnType(f -> String.format("Tristate<%s>", f.getJavaType().getParameterizedClassName()))
         .methodName((f, settings) -> f.getGetterNameWithSuffix(settings).asString())
         .noArguments()
         .content(

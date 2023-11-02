@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -18,7 +19,7 @@ class JavaMapTypeTest {
     final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), StringType.uuid());
     final JavaMapType javaType = JavaMapType.wrap(mapType, TypeMappings.empty());
 
-    assertEquals("Map<String, UUID>", javaType.getFullClassName().asString());
+    assertEquals("Map<String, UUID>", javaType.getParameterizedClassName().asString());
     assertEquals("Map", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang.String", "java.util.Map", "java.util.UUID"),
@@ -37,7 +38,7 @@ class JavaMapTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Map", "com.custom.CustomMap")));
 
-    assertEquals("CustomMap<String, UUID>", javaType.getFullClassName().asString());
+    assertEquals("CustomMap<String, UUID>", javaType.getParameterizedClassName().asString());
     assertEquals("CustomMap", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomMap", "java.lang.String", "java.util.UUID"),
@@ -49,35 +50,33 @@ class JavaMapTypeTest {
 
   @Test
   void
-      getFullAnnotatedClassName_when_calledWithCreatorWithAnnotations_then_correctClassNameAndImportsReturned() {
+      getParameterizedClassName_when_suppliedFunctionCreatesAnnotation_then_correctClassNameAndImportsReturned() {
     final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), StringType.uuid());
     final JavaMapType javaType = JavaMapType.wrap(mapType, TypeMappings.empty());
 
-    final AnnotationsCreator annotationsCreator =
-        ignore -> new AnnotationsCreator.Annotations("@Annotation", PList.of("package.Annotation"));
+    final Function<JavaType, String> createAnnotations = ignore -> "@Annotation";
 
     // method call
-    final AnnotatedClassName fullAnnotatedClassName =
-        javaType.getFullAnnotatedClassName(annotationsCreator);
+    final ParameterizedClassName parameterizedClassName = javaType.getParameterizedClassName();
 
-    assertEquals("Map<String, @Annotation UUID>", fullAnnotatedClassName.getClassName().asString());
-    assertEquals(PList.of("package.Annotation"), fullAnnotatedClassName.getImports());
+    assertEquals(
+        "Map<String, @Annotation UUID>",
+        parameterizedClassName.asStringWithValueTypeAnnotations(createAnnotations));
   }
 
   @Test
   void
-      getFullAnnotatedClassName_when_calledWithCreatorWithoutAnnotations_then_correctClassNameAndImportsReturned() {
+      getFullAnnotatedClassName_when_suppliedFunctionCreatesNoAnnotations_then_correctClassNameAndImportsReturned() {
     final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), StringType.uuid());
     final JavaMapType javaType = JavaMapType.wrap(mapType, TypeMappings.empty());
 
-    final AnnotationsCreator annotationsCreator =
-        ignore -> new AnnotationsCreator.Annotations("", PList.empty());
+    final Function<JavaType, String> createAnnotations = ignore -> "";
 
     // method call
-    final AnnotatedClassName fullAnnotatedClassName =
-        javaType.getFullAnnotatedClassName(annotationsCreator);
+    final ParameterizedClassName parameterizedClassName = javaType.getParameterizedClassName();
 
-    assertEquals("Map<String, UUID>", fullAnnotatedClassName.getClassName().asString());
-    assertEquals(PList.empty(), fullAnnotatedClassName.getImports());
+    assertEquals(
+        "Map<String, UUID>",
+        parameterizedClassName.asStringWithValueTypeAnnotations(createAnnotations));
   }
 }

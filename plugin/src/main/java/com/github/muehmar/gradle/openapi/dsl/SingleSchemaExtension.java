@@ -1,8 +1,15 @@
 package com.github.muehmar.gradle.openapi.dsl;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder.fullPojoSettingsBuilder;
+
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.settings.*;
+import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +48,7 @@ public class SingleSchemaExtension implements Serializable {
   private final List<FormatTypeMapping> formatTypeMappings;
   private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private List<String> excludeSchemas;
+  private WarningsConfig warnings;
 
   @Inject
   public SingleSchemaExtension(String name) {
@@ -51,6 +59,7 @@ public class SingleSchemaExtension implements Serializable {
     this.validationMethods = ValidationMethods.allUndefined();
     this.constantSchemaNameMappings = new ArrayList<>();
     this.excludeSchemas = new ArrayList<>();
+    this.warnings = WarningsConfig.allUndefined();
   }
 
   public String getName() {
@@ -194,6 +203,14 @@ public class SingleSchemaExtension implements Serializable {
     return excludeSchemas;
   }
 
+  public void warnings(Action<WarningsConfig> action) {
+    action.execute(warnings);
+  }
+
+  public WarningsConfig getWarnings() {
+    return warnings;
+  }
+
   public void classMapping(Action<ClassMapping> action) {
     final ClassMapping classMapping = new ClassMapping();
     action.execute(classMapping);
@@ -271,7 +288,7 @@ public class SingleSchemaExtension implements Serializable {
             .toArrayList());
   }
 
-  public PojoSettings toPojoSettings(Project project) {
+  public PojoSettings toPojoSettings(Project project, String taskName) {
     final com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes
         settingsGetterSuffixes =
             GetterSuffixesBuilder.create()
@@ -291,7 +308,7 @@ public class SingleSchemaExtension implements Serializable {
                 .andAllOptionals()
                 .build();
 
-    return PojoSettingsBuilder.create()
+    return fullPojoSettingsBuilder()
         .jsonSupport(getJsonSupport())
         .packageName(getPackageName(project))
         .suffix(getSuffix())
@@ -310,7 +327,8 @@ public class SingleSchemaExtension implements Serializable {
         .validationMethods(settingsValidationMethods)
         .excludeSchemas(getExcludeSchemas())
         .pojoNameMappings(getPojoNameMappings())
-        .andAllOptionals()
+        .taskIdentifier(
+            TaskIdentifier.fromString(String.format("%s-%s", project.getName(), taskName)))
         .build();
   }
 }

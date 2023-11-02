@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
@@ -18,12 +18,7 @@ public abstract class NonGenericJavaType extends BaseJavaType {
   }
 
   @Override
-  public Name getFullClassName() {
-    return qualifiedClassName.getClassName();
-  }
-
-  @Override
-  public AnnotatedClassName getFullAnnotatedClassName(AnnotationsCreator creator) {
-    return AnnotatedClassName.fromClassName(getFullClassName());
+  public ParameterizedClassName getParameterizedClassName() {
+    return ParameterizedClassName.fromNonGenericClass(qualifiedClassName);
   }
 }

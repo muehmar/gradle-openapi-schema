@@ -1,11 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -18,7 +19,7 @@ class RefsGeneratorTest {
   void fieldRefs_when_calledForBirthdate_then_correctRefs() {
     final Generator<JavaPojoMember, PojoSettings> gen = RefsGenerator.fieldRefs();
     final JavaPojoMember javaPojoMember =
-        JavaPojoMember.wrap(PojoMembers.requiredBirthdate(), TypeMappings.empty());
+        JavaPojoMember.wrap(PojoMembers.requiredBirthdate(), invoiceName(), TypeMappings.empty());
 
     final Writer writer = gen.generate(javaPojoMember, defaultTestSettings(), javaWriter());
 

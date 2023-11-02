@@ -97,4 +97,8 @@ public class MethodNames {
   public static JavaName getPropertyCountMethodName() {
     return JavaName.fromString("getPropertyCount");
   }
+
+  public static JavaName getIsMultipleOfValidMethodName(JavaName memberName) {
+    return memberName.startUpperCase().prefix("is").append("MultipleOfValid");
+  }
 }

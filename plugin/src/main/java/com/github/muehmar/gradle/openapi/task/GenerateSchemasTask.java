@@ -1,7 +1,10 @@
 package com.github.muehmar.gradle.openapi.task;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
+import com.github.muehmar.gradle.openapi.dsl.WarningsConfig;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.Generators;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
@@ -15,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Suppliers;
+import com.github.muehmar.gradle.openapi.warnings.WarningsHandler;
 import com.github.muehmar.gradle.openapi.writer.BaseDirFileWriter;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
@@ -34,18 +38,18 @@ import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.OutputDirectory;
 
 public class GenerateSchemasTask extends DefaultTask {
-
   private final String inputSpec;
   private final MainDirectory mainDirectory;
   private final Provider<FileCollection> usedSpecifications;
   private final Provider<String> outputDir;
   private final Provider<PojoSettings> pojoSettings;
+  private final Provider<WarningsConfig> warningsConfig;
   private final Provider<String> sourceSet;
   private final Supplier<MapResult> cachedMapping;
 
   @Inject
   @SuppressWarnings("java:S1604")
-  public GenerateSchemasTask(Project project, SingleSchemaExtension extension) {
+  public GenerateSchemasTask(Project project, SingleSchemaExtension extension, String taskName) {
     setGroup("openapi schema generator");
 
     inputSpec = extension.getInputSpec();
@@ -56,7 +60,9 @@ public class GenerateSchemasTask extends DefaultTask {
     sourceSet = project.getProviders().provider(extension::getSourceSet);
     usedSpecifications = usedSpecificationsProvider(project, extension);
     outputDir = project.getProviders().provider(() -> extension.getOutputDir(project));
-    pojoSettings = project.getProviders().provider(() -> extension.toPojoSettings(project));
+    pojoSettings =
+        project.getProviders().provider(() -> extension.toPojoSettings(project, taskName));
+    warningsConfig = project.getProviders().provider(extension::getWarnings);
 
     // Use an inner class instead of a lambda to support incremental build properly
     doLast(
@@ -80,6 +86,15 @@ public class GenerateSchemasTask extends DefaultTask {
         .forEach(this::writeFile);
 
     generators.getUtilsGenerator().generateUtils().forEach(this::writeFile);
+
+    handleWarnings();
+  }
+
+  private void handleWarnings() {
+    if (not(warningsConfig.get().getDisableWarnings())) {
+      WarningsHandler.handleWarnings(
+          pojoSettings.get().getTaskIdentifier(), warningsConfig.get().getFailingWarningTypes());
+    }
   }
 
   private NonEmptyList<GeneratedFile> createPojo(Pojo pojo, Generators generators) {

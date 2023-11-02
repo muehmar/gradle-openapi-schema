@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -15,7 +15,7 @@ public class BuildMethodGenerator {
     return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnTypeName(JavaObjectPojo::getClassName)
+        .returnType(JavaObjectPojo::getClassName)
         .methodName("build")
         .noArguments()
         .content(buildMethodContent())

@@ -1,22 +1,23 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.list;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.map;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredDouble;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredInteger;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.list;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.map;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
@@ -41,9 +42,12 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.UUID;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -380,12 +384,16 @@ class PropertyValidationGeneratorTest {
       JavaType javaType) {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
-    final JavaPojoMember doubleMember =
+    final JavaPojoMember javaPojoMember =
         requiredString().withName(JavaName.fromString("unsupported")).withJavaType(javaType);
+    final TaskIdentifier taskIdentifier = TaskIdentifier.fromString(UUID.randomUUID().toString());
 
-    final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            javaPojoMember, defaultTestSettings().withTaskIdentifier(taskIdentifier), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
+    assertEquals(1, WarningsContext.getWarnings(taskIdentifier).getWarnings().size());
   }
 
   public static Stream<Arguments> unsupportedConstraintsForType() {

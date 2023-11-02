@@ -7,7 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Construct
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
@@ -58,7 +58,8 @@ public class PojoConstructorGenerator {
   }
 
   private static String createArgument(TechnicalPojoMember member) {
-    return String.format("%s %s", member.getJavaType().getFullClassName(), member.getName());
+    return String.format(
+        "%s %s", member.getJavaType().getParameterizedClassName(), member.getName());
   }
 
   private static PList<String> createAdditionalPropertyArgument(ConstructorContent content) {

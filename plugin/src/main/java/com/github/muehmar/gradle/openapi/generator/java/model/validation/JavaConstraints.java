@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.validation.
 import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MIN;
 import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MULTIPLE_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.PATTERN;
+import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.PROPERTY_COUNT;
 import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.SIZE;
 
 import ch.bluecare.commons.data.PList;
@@ -33,7 +34,7 @@ public class JavaConstraints {
         listClassName -> map.put(listClassName, PList.of(SIZE)));
 
     QualifiedClassNames.ALL_MAP_CLASSNAMES.forEach(
-        mapClassName -> map.put(mapClassName, PList.of(SIZE)));
+        mapClassName -> map.put(mapClassName, PList.of(SIZE, PROPERTY_COUNT)));
 
     return Collections.unmodifiableMap(map);
   }
@@ -44,7 +45,7 @@ public class JavaConstraints {
     return isSupported(javaType.getQualifiedClassName(), constraintType);
   }
 
-  public static boolean isSupported(QualifiedClassName className, ConstraintType constraintType) {
+  private static boolean isSupported(QualifiedClassName className, ConstraintType constraintType) {
     return SUPPORTED_CONSTRAINTS
         .getOrDefault(className, PList.empty())
         .exists(constraintType::equals);

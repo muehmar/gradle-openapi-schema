@@ -1,8 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator.witherGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredBirthdate;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder.javaPojoMemberBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
@@ -11,8 +13,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -79,7 +80,8 @@ class WitherGeneratorTest {
   void
       generate_when_pojoContainsPropertyNameWhichMatchesSubstringOfOtherProperty_then_correctOutput() {
     final JavaPojoMember surnameMember =
-        JavaPojoMemberBuilder.create()
+        javaPojoMemberBuilder()
+            .pojoName(invoiceName())
             .name(JavaName.fromString("surname"))
             .description("desc")
             .javaType(stringType())
@@ -89,7 +91,8 @@ class WitherGeneratorTest {
             .build();
 
     final JavaPojoMember nameMember =
-        JavaPojoMemberBuilder.create()
+        javaPojoMemberBuilder()
+            .pojoName(invoiceName())
             .name(JavaName.fromString("name"))
             .description("desc")
             .javaType(stringType())

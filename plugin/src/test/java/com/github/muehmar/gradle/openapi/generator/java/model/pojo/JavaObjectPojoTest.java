@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.optionalString;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredEmail;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.fromNameAndSuffix;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
@@ -19,10 +19,11 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -34,7 +35,9 @@ import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 
 class JavaObjectPojoTest {
@@ -149,12 +152,21 @@ class JavaObjectPojoTest {
   }
 
   @Test
-  void getComposedMembers_when_anyOfPojosHaveSameProperties_then_propertiesOnlyOnceReturned() {
-    final JavaObjectPojo anyOfPojo = JavaPojos.anyOfPojo(sampleObjectPojo2(), sampleObjectPojo2());
+  void
+      getComposedMembers_when_composedPojoWithSameMemberInDifferentPojo_then_stringValMemberReturnedOnlyOnce() {
+    final JavaObjectPojo pojo =
+        JavaPojos.anyOfPojo(sampleObjectPojo1())
+            .withOneOfComposition(
+                Optional.of(JavaOneOfComposition.fromPojos(NonEmptyList.of(sampleObjectPojo2()))));
 
-    final PList<JavaPojoMember> composedMembers = anyOfPojo.getComposedMembers();
+    final PList<JavaPojoMember> composedMembers = pojo.getComposedMembers();
 
-    assertEquals(sampleObjectPojo2().getAllMembers().size(), composedMembers.size());
+    assertEquals(
+        PList.of("birthdate", "doubleVal", "email", "intVal", "stringVal"),
+        composedMembers
+            .map(JavaPojoMember::getName)
+            .map(JavaName::asString)
+            .sort(Comparator.comparing(Function.identity())));
   }
 
   @Test
@@ -173,7 +185,7 @@ class JavaObjectPojoTest {
     assertEquals(2, members.size());
     assertEquals(
         PList.of("Direction", "ColorPojoDto.Color"),
-        members.map(m -> m.getJavaType().getFullClassName().asString()));
+        members.map(m -> m.getJavaType().getParameterizedClassName().asString()));
   }
 
   @Test

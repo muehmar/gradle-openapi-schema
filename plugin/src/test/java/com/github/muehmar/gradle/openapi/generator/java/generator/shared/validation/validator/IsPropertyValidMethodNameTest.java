@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.valida
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import org.junit.jupiter.api.Test;
 
 class IsPropertyValidMethodNameTest {

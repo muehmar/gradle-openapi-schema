@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
@@ -60,18 +60,8 @@ public class JavaArrayType implements JavaType {
   }
 
   @Override
-  public Name getFullClassName() {
-    return getFullAnnotatedClassName(AnnotationsCreator.empty()).getClassName();
-  }
-
-  @Override
-  public AnnotatedClassName getFullAnnotatedClassName(AnnotationsCreator creator) {
-    final AnnotationsCreator.Annotations annotations = creator.createForType(itemType);
-    final String annotatedType =
-        String.format("%s %s", annotations.getAnnotations(), itemType.getFullClassName()).trim();
-    final Name fullClassName =
-        qualifiedClassName.getClassNameWithGenerics(Name.ofString(annotatedType));
-    return AnnotatedClassName.fromClassNameAndImports(fullClassName, annotations.getImports());
+  public ParameterizedClassName getParameterizedClassName() {
+    return ParameterizedClassName.fromGenericClass(qualifiedClassName, PList.single(itemType));
   }
 
   @Override

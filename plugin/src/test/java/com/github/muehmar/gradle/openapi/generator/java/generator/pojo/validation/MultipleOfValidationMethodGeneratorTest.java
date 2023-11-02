@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder.javaPojoMemberBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -9,9 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMemberBuilder;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -28,9 +29,12 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
@@ -38,7 +42,8 @@ class MultipleOfValidationMethodGeneratorTest {
   private Expect expect;
 
   private static final JavaPojoMember INTEGER_MEMBER =
-      JavaPojoMemberBuilder.create()
+      javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("intVal"))
           .description("Description")
           .javaType(
@@ -53,7 +58,8 @@ class MultipleOfValidationMethodGeneratorTest {
           .build();
 
   private static final JavaPojoMember LONG_MEMBER =
-      JavaPojoMemberBuilder.create()
+      javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("longVal"))
           .description("Description")
           .javaType(
@@ -68,7 +74,8 @@ class MultipleOfValidationMethodGeneratorTest {
           .build();
 
   private static final JavaPojoMember FLOAT_MEMBER =
-      JavaPojoMemberBuilder.create()
+      javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("floatVal"))
           .description("Description")
           .javaType(
@@ -83,7 +90,8 @@ class MultipleOfValidationMethodGeneratorTest {
           .build();
 
   private static final JavaPojoMember DOUBLE_MEMBER =
-      JavaPojoMemberBuilder.create()
+      javaPojoMemberBuilder()
+          .pojoName(invoiceName())
           .name(JavaName.fromString("doubleVal"))
           .description("Description")
           .javaType(
@@ -190,13 +198,16 @@ class MultipleOfValidationMethodGeneratorTest {
             StringType.noFormat()
                 .withConstraints(Constraints.ofMultipleOf(new MultipleOf(BigDecimal.ONE))),
             TypeMappings.empty());
+    final TaskIdentifier taskIdentifier = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
     final Writer writer =
         generator.generate(
             JavaPojos.objectPojo(
                 PList.of(JavaPojoMembers.requiredString().withJavaType(stringType))),
-            defaultTestSettings().withEnableValidation(true),
+            defaultTestSettings().withEnableValidation(true).withTaskIdentifier(taskIdentifier),
             javaWriter());
 
     assertEquals("", writer.asString());
+    assertEquals(1, WarningsContext.getWarnings(taskIdentifier).getWarnings().size());
   }
 }

@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import lombok.Value;
 

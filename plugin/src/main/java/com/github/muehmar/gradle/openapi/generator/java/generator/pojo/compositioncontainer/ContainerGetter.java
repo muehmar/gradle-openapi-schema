@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static io.github.muehmar.codegenerator.Generator.newLine;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -34,7 +34,7 @@ public class ContainerGetter {
     return MethodGenBuilder.<TechnicalPojoMember, PojoSettings>create()
         .modifiers()
         .noGenericTypes()
-        .returnType(member -> member.getJavaType().getFullClassName().asString())
+        .returnType(member -> member.getJavaType().getParameterizedClassName())
         .methodName(
             member ->
                 String.format("get%s", Name.ofString(member.getName().asString()).startUpperCase()))

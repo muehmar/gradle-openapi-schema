@@ -24,7 +24,7 @@ class JavaNumericTypeTest {
     final NumericType numericType = NumericType.ofFormat(format);
     final JavaNumericType javaType = JavaNumericType.wrap(numericType, TypeMappings.empty());
 
-    assertEquals(className, javaType.getFullClassName().asString());
+    assertEquals(className, javaType.getParameterizedClassName().asString());
     assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang." + className),
@@ -49,7 +49,7 @@ class JavaNumericTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Double", "com.custom.CustomDouble")));
 
-    assertEquals("CustomDouble", javaType.getFullClassName().asString());
+    assertEquals("CustomDouble", javaType.getParameterizedClassName().asString());
     assertEquals("CustomDouble", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomDouble"),
@@ -68,7 +68,7 @@ class JavaNumericTypeTest {
             TypeMappings.ofSingleFormatTypeMapping(
                 new FormatTypeMapping("double", "com.custom.CustomDouble")));
 
-    assertEquals("CustomDouble", javaType.getFullClassName().asString());
+    assertEquals("CustomDouble", javaType.getParameterizedClassName().asString());
     assertEquals("CustomDouble", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomDouble"),

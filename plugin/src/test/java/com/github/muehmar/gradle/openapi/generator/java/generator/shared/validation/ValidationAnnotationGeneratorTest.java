@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForPropertyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -10,8 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
@@ -35,8 +40,11 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -94,8 +102,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_validationDisabled_then_noOutput() {
     final JavaPojoMember member = JavaPojoMembers.requiredBirthdate();
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer =
         generator.generate(member, defaultTestSettings().withEnableValidation(false), javaWriter());
@@ -107,8 +114,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForRequiredField_then_notNullWithRef() {
     final JavaPojoMember member = JavaPojoMembers.requiredBirthdate();
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -119,8 +125,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForRequiredButNullableField_then_noAnnotation() {
     final JavaPojoMember member = JavaPojoMembers.requiredNullableBirthdate();
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -131,8 +136,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForOptionalReferenceField_then_validWithRef() {
     final JavaPojoMember member = JavaPojoMembers.reference(OPTIONAL, NOT_NULLABLE);
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -144,8 +148,7 @@ class ValidationAnnotationGeneratorTest {
   void validationAnnotations_when_calledForStringList_then_noValidAnnotation() {
     final JavaPojoMember member =
         JavaPojoMembers.list(StringType.noFormat(), OPTIONAL, NOT_NULLABLE, Constraints.empty());
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -161,8 +164,7 @@ class ValidationAnnotationGeneratorTest {
             OPTIONAL,
             NOT_NULLABLE,
             Constraints.empty());
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -175,8 +177,7 @@ class ValidationAnnotationGeneratorTest {
   void validationAnnotations_when_calledForMapWithObjectTypes_then_validAnnotation(
       Type keyType, Type valueType) {
     final JavaPojoMember member = JavaPojoMembers.map(keyType, valueType, OPTIONAL, NOT_NULLABLE);
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -199,8 +200,7 @@ class ValidationAnnotationGeneratorTest {
   void validationAnnotations_when_calledForMapWithNonObjectTypes_then_noValidAnnotation(
       Type keyType, Type valueType) {
     final JavaPojoMember member = JavaPojoMembers.map(keyType, valueType, OPTIONAL, NOT_NULLABLE);
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -221,8 +221,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForOptionalEmailField_then_emailWithRef() {
     final JavaPojoMember member = JavaPojoMembers.email(OPTIONAL, NOT_NULLABLE);
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -233,8 +232,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForOptionalIntegerField_then_minAndMaxWithRefs() {
     final JavaPojoMember member = JavaPojoMembers.integer(OPTIONAL, NOT_NULLABLE);
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -246,8 +244,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForOptionalDoubleField_then_minAndMaxWithRefs() {
     final JavaPojoMember member = JavaPojoMembers.doubleMember(OPTIONAL, NOT_NULLABLE);
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -264,8 +261,7 @@ class ValidationAnnotationGeneratorTest {
     final JavaPojoMember member =
         JavaPojoMembers.list(
             StringType.noFormat(), OPTIONAL, NOT_NULLABLE, Constraints.ofSize(Size.of(1, 50)));
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -276,8 +272,7 @@ class ValidationAnnotationGeneratorTest {
   @Test
   void validationAnnotations_when_calledForOptionalStringField_then_minAndMaxWithRefs() {
     final JavaPojoMember member = JavaPojoMembers.string(OPTIONAL, NOT_NULLABLE);
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForMember();
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -289,12 +284,21 @@ class ValidationAnnotationGeneratorTest {
   @MethodSource("unsupportedConstraintsForType")
   void validationAnnotationsForType_when_unsupportedConstraintForType_then_notOutput(
       JavaType javaType) {
-    final Generator<JavaType, PojoSettings> generator =
-        ValidationAnnotationGenerator.validationAnnotationsForType();
+    final Generator<ValidationAnnotationGenerator.PropertyType, PojoSettings> generator =
+        validationAnnotationsForPropertyType();
+    final TaskIdentifier taskIdentifier = TaskIdentifier.fromString(UUID.randomUUID().toString());
 
-    final Writer writer = generator.generate(javaType, defaultTestSettings(), javaWriter());
+    final PropertyInfoName propertyInfoName =
+        PropertyInfoName.fromPojoNameAndMemberName(invoiceName(), JavaName.fromString("property"));
+    final ValidationAnnotationGenerator.PropertyType propertyType =
+        new ValidationAnnotationGenerator.PropertyType(propertyInfoName, javaType);
+
+    final Writer writer =
+        generator.generate(
+            propertyType, defaultTestSettings().withTaskIdentifier(taskIdentifier), javaWriter());
 
     assertEquals("", writer.asString());
+    assertEquals(1, WarningsContext.getWarnings(taskIdentifier).getWarnings().size());
   }
 
   public static Stream<Arguments> unsupportedConstraintsForType() {
