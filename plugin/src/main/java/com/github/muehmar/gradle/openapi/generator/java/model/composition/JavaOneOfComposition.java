@@ -13,18 +13,17 @@ import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
-import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
 public class JavaOneOfComposition {
-  private final NonEmptyList<JavaObjectPojo> pojos;
+  private final JavaComposition javaComposition;
   private final Optional<JavaDiscriminator> discriminator;
 
-  JavaOneOfComposition(NonEmptyList<JavaPojo> pojos, Optional<JavaDiscriminator> discriminator) {
-    this.pojos = assertAllObjectPojos(pojos);
+  JavaOneOfComposition(JavaComposition javaComposition, Optional<JavaDiscriminator> discriminator) {
+    this.javaComposition = javaComposition;
     this.discriminator = discriminator;
   }
 
@@ -37,32 +36,30 @@ public class JavaOneOfComposition {
         oneOfComposition
             .determineDiscriminator(objectPojoDiscriminator)
             .map(JavaDiscriminator::wrap);
-    return new JavaOneOfComposition(
+    final NonEmptyList<JavaPojo> javaPojos =
         oneOfComposition
             .getPojos()
             .map(pojo -> JavaPojo.wrap(pojo, typeMappings))
-            .map(result -> result.getTypeOrDefault(type)),
-        javaDiscriminator);
+            .map(result -> result.getTypeOrDefault(type));
+    final JavaComposition javaComposition = new JavaComposition(assertAllObjectPojos(javaPojos));
+    return new JavaOneOfComposition(javaComposition, javaDiscriminator);
   }
 
   public static JavaOneOfComposition fromPojos(NonEmptyList<JavaPojo> pojos) {
-    return new JavaOneOfComposition(pojos, Optional.empty());
+    return new JavaOneOfComposition(
+        new JavaComposition(assertAllObjectPojos(pojos)), Optional.empty());
   }
 
   public NonEmptyList<JavaObjectPojo> getPojos() {
-    return pojos;
+    return javaComposition.getPojos();
   }
 
   public PList<JavaPojoMember> getMembers() {
-    return pojos
-        .toPList()
-        .flatMap(JavaObjectPojo::getAllMembersForComposition)
-        .map(JavaPojoMember::asOneOfMember)
-        .distinct(Function.identity());
+    return javaComposition.getMembers(JavaPojoMember::asOneOfMember);
   }
 
   public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
-    return pojos.toPList().map(TechnicalPojoMember::wrapJavaObjectPojo);
+    return javaComposition.getPojosAsTechnicalMembers();
   }
 
   public Optional<JavaDiscriminator> getDiscriminator() {

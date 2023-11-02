@@ -105,8 +105,12 @@ public class JavaPojoMember {
     return type;
   }
 
-  public JavaPojoMember asObjectMember() {
-    return withType(MemberType.OBJECT_MEMBER);
+  public boolean isTechnicallyEquals(JavaPojoMember other) {
+    return this.getTechnicalMemberKey().equals(other.getTechnicalMemberKey());
+  }
+
+  public TechnicalMemberKey getTechnicalMemberKey() {
+    return new TechnicalMemberKey(name, javaType, necessity, nullability);
   }
 
   public JavaPojoMember asAllOfMember() {
@@ -258,20 +262,10 @@ public class JavaPojoMember {
   }
 
   public enum MemberType {
-    OBJECT_MEMBER(false),
-    ALL_OF_MEMBER(true),
-    ONE_OF_MEMBER(true),
-    ANY_OF_MEMBER(true),
-    ARRAY_VALUE(false);
-
-    private final boolean isComposedMember;
-
-    MemberType(boolean isComposedMember) {
-      this.isComposedMember = isComposedMember;
-    }
-
-    public boolean isComposedMember() {
-      return isComposedMember;
-    }
+    OBJECT_MEMBER,
+    ALL_OF_MEMBER,
+    ONE_OF_MEMBER,
+    ANY_OF_MEMBER,
+    ARRAY_VALUE
   }
 }

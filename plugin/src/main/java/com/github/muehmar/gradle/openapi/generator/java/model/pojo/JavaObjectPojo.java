@@ -115,8 +115,7 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   private static boolean sameNameButDifferentAttributes(JavaPojoMember m1, JavaPojoMember m2) {
-    return m1.getName().equals(m2.getName())
-        && not(m1.asObjectMember().equals(m2.asObjectMember()));
+    return m1.getName().equals(m2.getName()) && not(m1.isTechnicallyEquals(m2));
   }
 
   public static JavaPojoWrapResult wrap(ObjectPojo objectPojo, TypeMappings typeMappings) {
@@ -230,18 +229,21 @@ public class JavaObjectPojo implements JavaPojo {
         .concat(getComposedMembers());
   }
 
-  public PList<JavaPojoMember> getComposedMembers() {
+  PList<JavaPojoMember> getComposedMembers() {
     final PList<JavaPojoMember> allOfMembers =
         allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> oneOfMembers =
         oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
     final PList<JavaPojoMember> anyOfMembers =
         anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
-    return allOfMembers.concat(oneOfMembers).concat(anyOfMembers).distinct(Function.identity());
+    return allOfMembers
+        .concat(oneOfMembers)
+        .concat(anyOfMembers)
+        .distinct(JavaPojoMember::getTechnicalMemberKey);
   }
 
   public PList<JavaPojoMember> getAllMembers() {
-    return members.concat(getComposedMembers()).distinct(Function.identity());
+    return members.concat(getComposedMembers()).distinct(JavaPojoMember::getTechnicalMemberKey);
   }
 
   public PList<TechnicalPojoMember> getTechnicalMembers() {

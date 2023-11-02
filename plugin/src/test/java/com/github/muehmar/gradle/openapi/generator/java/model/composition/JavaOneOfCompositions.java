@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.Assertion.assertAllObjectPojos;
+
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
@@ -10,6 +12,8 @@ public class JavaOneOfCompositions {
 
   public static JavaOneOfComposition fromPojosAndDiscriminator(
       NonEmptyList<JavaPojo> pojos, Discriminator discriminator) {
-    return new JavaOneOfComposition(pojos, Optional.of(JavaDiscriminator.wrap(discriminator)));
+    return new JavaOneOfComposition(
+        new JavaComposition(assertAllObjectPojos(pojos)),
+        Optional.of(JavaDiscriminator.wrap(discriminator)));
   }
 }

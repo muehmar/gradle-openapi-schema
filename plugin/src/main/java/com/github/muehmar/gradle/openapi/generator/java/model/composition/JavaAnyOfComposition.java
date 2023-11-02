@@ -11,45 +11,42 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
-import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
 public class JavaAnyOfComposition {
-  private final NonEmptyList<JavaObjectPojo> pojos;
+  private final JavaComposition javaComposition;
 
-  private JavaAnyOfComposition(NonEmptyList<JavaPojo> pojos) {
-    this.pojos = assertAllObjectPojos(pojos);
+  private JavaAnyOfComposition(JavaComposition javaComposition) {
+    this.javaComposition = javaComposition;
   }
 
   public static JavaAnyOfComposition wrap(
       AnyOfComposition anyOfComposition, PojoType type, TypeMappings typeMappings) {
-    return new JavaAnyOfComposition(
+    final NonEmptyList<JavaPojo> javaPojos =
         anyOfComposition
             .getPojos()
             .map(pojo -> JavaPojo.wrap(pojo, typeMappings))
-            .map(result -> result.getTypeOrDefault(type)));
+            .map(result -> result.getTypeOrDefault(type));
+    final JavaComposition javaComposition = new JavaComposition(assertAllObjectPojos(javaPojos));
+    return new JavaAnyOfComposition(javaComposition);
   }
 
   public static JavaAnyOfComposition fromPojos(NonEmptyList<JavaPojo> pojos) {
-    return new JavaAnyOfComposition(pojos);
+    return new JavaAnyOfComposition(new JavaComposition(assertAllObjectPojos(pojos)));
   }
 
   public NonEmptyList<JavaObjectPojo> getPojos() {
-    return pojos;
+    return javaComposition.getPojos();
   }
 
   public PList<JavaPojoMember> getMembers() {
-    return pojos
-        .toPList()
-        .flatMap(JavaObjectPojo::getAllMembersForComposition)
-        .map(JavaPojoMember::asAnyOfMember)
-        .distinct(Function.identity());
+    return javaComposition.getMembers(JavaPojoMember::asAnyOfMember);
   }
 
   public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
-    return pojos.toPList().map(TechnicalPojoMember::wrapJavaObjectPojo);
+    return javaComposition.getPojosAsTechnicalMembers();
   }
 }
