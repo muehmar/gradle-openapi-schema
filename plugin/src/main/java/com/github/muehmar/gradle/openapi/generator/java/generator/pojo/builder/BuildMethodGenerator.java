@@ -15,7 +15,7 @@ public class BuildMethodGenerator {
     return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnTypeName(JavaObjectPojo::getClassName)
+        .returnType(JavaObjectPojo::getClassName)
         .methodName("build")
         .noArguments()
         .content(buildMethodContent())

@@ -16,7 +16,7 @@ class JavaObjectTypeTest {
     final ObjectType objectType = ObjectType.ofName(pojoName("User", "Dto"));
     final JavaObjectType javaType = JavaObjectType.wrap(objectType);
 
-    assertEquals("UserDto", javaType.getFullClassName().asString());
+    assertEquals("UserDto", javaType.getParameterizedClassName().asString());
     assertEquals("UserDto", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("UserDto"),
@@ -32,7 +32,7 @@ class JavaObjectTypeTest {
     final ObjectType objectType = ObjectType.ofName(pojoName("Prefixed.User", "Dto"));
     final JavaObjectType javaType = JavaObjectType.wrap(objectType);
 
-    assertEquals("Prefixed_UserDto", javaType.getFullClassName().asString());
+    assertEquals("Prefixed_UserDto", javaType.getParameterizedClassName().asString());
     assertEquals("Prefixed_UserDto", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("Prefixed_UserDto"),
@@ -48,7 +48,8 @@ class JavaObjectTypeTest {
     final JavaObjectType javaType =
         JavaObjectType.fromClassName(QualifiedClassName.ofName("com.github.muehmar.CustomObject"));
 
-    assertEquals("com.github.muehmar.CustomObject", javaType.getFullClassName().asString());
+    assertEquals(
+        "com.github.muehmar.CustomObject", javaType.getParameterizedClassName().asString());
     assertEquals(
         "com.github.muehmar.CustomObject",
         javaType.getQualifiedClassName().getClassName().asString());

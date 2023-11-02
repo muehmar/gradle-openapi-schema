@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
@@ -60,9 +61,9 @@ public class FinalOptionalMemberBuilderGenerator {
         .arguments(
             p ->
                 PList.of(
-                    new Argument("String", "key"),
-                    new Argument(
-                        p.getAdditionalProperties().getType().getFullClassName().asString(),
+                    argument("String", "key"),
+                    argument(
+                        p.getAdditionalProperties().getType().getParameterizedClassName(),
                         "value")))
         .content(
             p ->
@@ -84,7 +85,7 @@ public class FinalOptionalMemberBuilderGenerator {
                 new Argument(
                     String.format(
                         "Map<String, %s>",
-                        p.getAdditionalProperties().getType().getFullClassName()),
+                        p.getAdditionalProperties().getType().getParameterizedClassName()),
                     additionalPropertiesName().asString()))
         .content(
             p ->

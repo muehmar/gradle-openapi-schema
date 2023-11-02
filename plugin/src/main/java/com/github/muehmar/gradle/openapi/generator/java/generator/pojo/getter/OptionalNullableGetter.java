@@ -40,7 +40,7 @@ class OptionalNullableGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(f -> String.format("Tristate<%s>", f.getJavaType().getFullClassName()))
+        .returnType(f -> String.format("Tristate<%s>", f.getJavaType().getParameterizedClassName()))
         .methodName((f, settings) -> f.getGetterNameWithSuffix(settings).asString())
         .noArguments()
         .content(

@@ -29,9 +29,12 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
@@ -195,13 +198,16 @@ class MultipleOfValidationMethodGeneratorTest {
             StringType.noFormat()
                 .withConstraints(Constraints.ofMultipleOf(new MultipleOf(BigDecimal.ONE))),
             TypeMappings.empty());
+    final TaskIdentifier taskIdentifier = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
     final Writer writer =
         generator.generate(
             JavaPojos.objectPojo(
                 PList.of(JavaPojoMembers.requiredString().withJavaType(stringType))),
-            defaultTestSettings().withEnableValidation(true),
+            defaultTestSettings().withEnableValidation(true).withTaskIdentifier(taskIdentifier),
             javaWriter());
 
     assertEquals("", writer.asString());
+    assertEquals(1, WarningsContext.getWarnings(taskIdentifier).getWarnings().size());
   }
 }

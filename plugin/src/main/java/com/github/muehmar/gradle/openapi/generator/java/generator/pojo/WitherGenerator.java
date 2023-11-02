@@ -85,7 +85,7 @@ public class WitherGenerator {
     PList<MethodGen.Argument> argument() {
       return PList.single(
           new MethodGen.Argument(
-              String.format(typeFormat(), pojoMember.getJavaType().getFullClassName()),
+              String.format(typeFormat(), pojoMember.getJavaType().getParameterizedClassName()),
               pojoMember.getName().asString()));
     }
 

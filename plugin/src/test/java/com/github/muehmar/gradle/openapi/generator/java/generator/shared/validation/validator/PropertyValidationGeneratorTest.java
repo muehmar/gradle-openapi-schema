@@ -12,6 +12,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -41,9 +42,12 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.UUID;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -380,12 +384,16 @@ class PropertyValidationGeneratorTest {
       JavaType javaType) {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
-    final JavaPojoMember doubleMember =
+    final JavaPojoMember javaPojoMember =
         requiredString().withName(JavaName.fromString("unsupported")).withJavaType(javaType);
+    final TaskIdentifier taskIdentifier = TaskIdentifier.fromString(UUID.randomUUID().toString());
 
-    final Writer writer = generator.generate(doubleMember, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            javaPojoMember, defaultTestSettings().withTaskIdentifier(taskIdentifier), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
+    assertEquals(1, WarningsContext.getWarnings(taskIdentifier).getWarnings().size());
   }
 
   public static Stream<Arguments> unsupportedConstraintsForType() {

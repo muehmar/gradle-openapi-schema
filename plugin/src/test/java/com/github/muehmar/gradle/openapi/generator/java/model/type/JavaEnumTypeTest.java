@@ -20,7 +20,7 @@ class JavaEnumTypeTest {
         EnumType.ofNameAndMembers(Name.ofString("Gender"), PList.of("male", "female", "divers"));
     final JavaEnumType javaType = JavaEnumType.wrap(enumType);
 
-    assertEquals("Gender", javaType.getFullClassName().asString());
+    assertEquals("Gender", javaType.getParameterizedClassName().asString());
     assertEquals("Gender", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("Gender"),
@@ -40,7 +40,7 @@ class JavaEnumTypeTest {
             new FormatTypeMapping("Gender", "com.github.muehmar.gradle.openapi.CustomGender"));
     final JavaType javaType = JavaEnumType.wrap(enumType, typeMappings);
 
-    assertEquals("CustomGender", javaType.getFullClassName().asString());
+    assertEquals("CustomGender", javaType.getParameterizedClassName().asString());
     assertEquals(
         "com.github.muehmar.gradle.openapi.CustomGender",
         javaType.getQualifiedClassName().asName().asString());
@@ -59,7 +59,7 @@ class JavaEnumTypeTest {
             Name.ofString("Gender"), PList.of("male", "female", "divers"), "Gender");
     final JavaType javaType = JavaEnumType.wrap(enumType, TypeMappings.empty());
 
-    assertEquals("Gender", javaType.getFullClassName().asString());
+    assertEquals("Gender", javaType.getParameterizedClassName().asString());
     assertEquals("Gender", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("Gender"),

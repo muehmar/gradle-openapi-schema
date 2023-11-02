@@ -44,7 +44,7 @@ public class RequiredAdditionalPropertiesGetter {
     return MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(prop -> prop.getJavaType().getFullClassName().asString())
+        .returnType(prop -> prop.getJavaType().getParameterizedClassName())
         .methodName(prop -> String.format("get%s", prop.getName().startUpperCase()))
         .noArguments()
         .content(getterContent())
@@ -72,7 +72,7 @@ public class RequiredAdditionalPropertiesGetter {
             (prop, s, w) ->
                 w.println(
                     "return (%s) %s.get(\"%s\");",
-                    prop.getJavaType().getFullClassName(),
+                    prop.getJavaType().getParameterizedClassName(),
                     additionalPropertiesName(),
                     prop.getName()),
             1)

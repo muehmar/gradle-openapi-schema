@@ -42,7 +42,9 @@ class ComposedPropertiesGetter {
   }
 
   private static String returnType(JavaPojoMember member) {
-    return member.isNullable() ? "Object" : member.getJavaType().getFullClassName().asString();
+    return member.isNullable()
+        ? "Object"
+        : member.getJavaType().getParameterizedClassName().asString();
   }
 
   private static Generator<JavaPojoMember, PojoSettings> methodContent() {

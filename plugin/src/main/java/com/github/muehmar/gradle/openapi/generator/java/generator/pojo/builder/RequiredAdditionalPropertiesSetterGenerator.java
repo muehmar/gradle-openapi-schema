@@ -3,13 +3,13 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
-import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class RequiredAdditionalPropertiesSetterGenerator {
@@ -31,10 +31,7 @@ public class RequiredAdditionalPropertiesSetterGenerator {
         .noGenericTypes()
         .returnType("Builder")
         .methodName(RequiredAdditionalPropertiesSetterGenerator::createMethodName)
-        .singleArgument(
-            rp ->
-                new Argument(
-                    rp.getJavaType().getFullClassName().asString(), rp.getName().asString()))
+        .singleArgument(rp -> argument(rp.getJavaType().getParameterizedClassName(), rp.getName()))
         .content(
             rp ->
                 String.format(

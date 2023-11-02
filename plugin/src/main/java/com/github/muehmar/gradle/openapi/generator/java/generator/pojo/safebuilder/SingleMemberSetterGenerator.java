@@ -48,7 +48,8 @@ public class SingleMemberSetterGenerator {
                 m ->
                     new Argument(
                         String.format(
-                            argumentFormat, m.getMember().getJavaType().getFullClassName()),
+                            argumentFormat,
+                            m.getMember().getJavaType().getParameterizedClassName()),
                         m.getMember().getName().asString()))
             .content(
                 (m, s, w) ->

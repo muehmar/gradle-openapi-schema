@@ -51,8 +51,7 @@ public class ValidatorClassGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(memberValidationGenerator(), JavaObjectPojo::getMembers, newLine())
         .appendSingleBlankLine()
-        .appendList(
-            requiredAdditionalPropertyGenerator(), JavaObjectPojo::getRequiredAdditionalProperties)
+        .append(requiredAdditionalPropertyGenerator())
         .appendSingleBlankLine()
         .append(additionalPropertiesValidationMethods())
         .appendSingleBlankLine()
@@ -61,9 +60,7 @@ public class ValidatorClassGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesValidationMethods() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            propertyValueValidationGenerator(),
-            pojo -> PropertyValue.fromAdditionalProperties(pojo.getAdditionalProperties()))
+        .append(propertyValueValidationGenerator(), PropertyValue::fromAdditionalProperties)
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 

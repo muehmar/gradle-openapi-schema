@@ -30,7 +30,7 @@ public class MemberGenerator {
             (field, settings, writer) ->
                 writer.println(
                     "private final %s %s;",
-                    field.getJavaType().getFullClassName(), field.getName()))
+                    field.getJavaType().getParameterizedClassName(), field.getName()))
         .append(RefsGenerator.javaTypeRefs(), TechnicalPojoMember::getJavaType);
   }
 

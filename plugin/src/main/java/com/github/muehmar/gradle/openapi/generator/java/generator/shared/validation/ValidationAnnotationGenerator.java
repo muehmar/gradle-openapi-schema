@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
@@ -15,6 +16,9 @@ import com.github.muehmar.gradle.openapi.generator.java.ref.Jakarta3ValidationRe
 import com.github.muehmar.gradle.openapi.generator.model.constraints.*;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.Warning;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.codegenerator.Generator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -42,13 +46,13 @@ public class ValidationAnnotationGenerator {
   public static Generator<JavaPojoMember, PojoSettings> validationAnnotationsForMember() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(notNullAnnotationForMember())
-        .append(validationAnnotationsForType(), JavaPojoMember::getJavaType)
+        .append(validationAnnotationsForPropertyType(), PropertyType::fromMember)
         .filter(Filters.isValidationEnabled());
   }
 
-  public static Generator<JavaType, PojoSettings> validationAnnotationsForType() {
-    return Generator.<JavaType, PojoSettings>emptyGen()
-        .append(validAnnotationForType())
+  public static Generator<PropertyType, PojoSettings> validationAnnotationsForPropertyType() {
+    return Generator.<PropertyType, PojoSettings>emptyGen()
+        .append(validAnnotationForType(), PropertyType::getType)
         .append(emailAnnotation())
         .append(minAnnotation())
         .append(maxAnnotation())
@@ -58,10 +62,6 @@ public class ValidationAnnotationGenerator {
         .append(sizeAnnotationForPropertyCount())
         .append(patternAnnotation())
         .filter(Filters.isValidationEnabled());
-  }
-
-  public static <T> Generator<T, PojoSettings> validAnnotation(Class<T> clazz) {
-    return validAnnotation();
   }
 
   public static <T> Generator<T, PojoSettings> validAnnotation() {
@@ -103,40 +103,34 @@ public class ValidationAnnotationGenerator {
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Generator<JavaType, PojoSettings> emailAnnotation() {
+  private static Generator<PropertyType, PojoSettings> emailAnnotation() {
     final Generator<Email, PojoSettings> gen =
         Generator.<Email, PojoSettings>emptyGen()
             .append(w -> w.println("@Email"))
             .append(jakarta2Ref(Jakarta2ValidationRefs.EMAIL))
             .append(jakarta3Ref(Jakarta3ValidationRefs.EMAIL));
-    return fromOptional(gen, Constraints::getEmail)
-        .contraMap(JavaType::getConstraints)
-        .filter(javaType -> JavaConstraints.isSupported(javaType, ConstraintType.EMAIL));
+    return constraintsCheckingGenerator(gen, Constraints::getEmail, ConstraintType.EMAIL);
   }
 
-  private static Generator<JavaType, PojoSettings> minAnnotation() {
+  private static Generator<PropertyType, PojoSettings> minAnnotation() {
     final Generator<Min, PojoSettings> gen =
         Generator.<Min, PojoSettings>emptyGen()
             .append((min, s, w) -> w.println("@Min(value = %d)", min.getValue()))
             .append(jakarta2Ref(Jakarta2ValidationRefs.MIN))
             .append(jakarta3Ref(Jakarta3ValidationRefs.MIN));
-    return fromOptional(gen, Constraints::getMin)
-        .contraMap(JavaType::getConstraints)
-        .filter(javaType -> JavaConstraints.isSupported(javaType, ConstraintType.MIN));
+    return constraintsCheckingGenerator(gen, Constraints::getMin, ConstraintType.MIN);
   }
 
-  private static Generator<JavaType, PojoSettings> maxAnnotation() {
+  private static Generator<PropertyType, PojoSettings> maxAnnotation() {
     final Generator<Max, PojoSettings> gen =
         Generator.<Max, PojoSettings>emptyGen()
             .append((max, s, w) -> w.println("@Max(value = %d)", max.getValue()))
             .append(jakarta2Ref(Jakarta2ValidationRefs.MAX))
             .append(jakarta3Ref(Jakarta3ValidationRefs.MAX));
-    return fromOptional(gen, Constraints::getMax)
-        .contraMap(JavaType::getConstraints)
-        .filter(javaType -> JavaConstraints.isSupported(javaType, ConstraintType.MAX));
+    return constraintsCheckingGenerator(gen, Constraints::getMax, ConstraintType.MAX);
   }
 
-  private static Generator<JavaType, PojoSettings> decimalMinAnnotation() {
+  private static Generator<PropertyType, PojoSettings> decimalMinAnnotation() {
     final Generator<DecimalMin, PojoSettings> gen =
         Generator.<DecimalMin, PojoSettings>emptyGen()
             .append(
@@ -146,12 +140,11 @@ public class ValidationAnnotationGenerator {
                         decMin.getValue(), decMin.isInclusiveMin()))
             .append(jakarta2Ref(Jakarta2ValidationRefs.DECIMAL_MIN))
             .append(jakarta3Ref(Jakarta3ValidationRefs.DECIMAL_MIN));
-    return fromOptional(gen, Constraints::getDecimalMin)
-        .contraMap(JavaType::getConstraints)
-        .filter(javaType -> JavaConstraints.isSupported(javaType, ConstraintType.DECIMAL_MIN));
+    return constraintsCheckingGenerator(
+        gen, Constraints::getDecimalMin, ConstraintType.DECIMAL_MIN);
   }
 
-  private static Generator<JavaType, PojoSettings> decimalMaxAnnotation() {
+  private static Generator<PropertyType, PojoSettings> decimalMaxAnnotation() {
     final Generator<DecimalMax, PojoSettings> gen =
         Generator.<DecimalMax, PojoSettings>emptyGen()
             .append(
@@ -161,24 +154,22 @@ public class ValidationAnnotationGenerator {
                         decMax.getValue(), decMax.isInclusiveMax()))
             .append(jakarta2Ref(Jakarta2ValidationRefs.DECIMAL_MAX))
             .append(jakarta3Ref(Jakarta3ValidationRefs.DECIMAL_MAX));
-    return fromOptional(gen, Constraints::getDecimalMax)
-        .contraMap(JavaType::getConstraints)
-        .filter(javaType -> JavaConstraints.isSupported(javaType, ConstraintType.DECIMAL_MAX));
+    return constraintsCheckingGenerator(
+        gen, Constraints::getDecimalMax, ConstraintType.DECIMAL_MAX);
   }
 
-  private static Generator<JavaType, PojoSettings> sizeAnnotationForSizeConstraint() {
-    return fromOptional(
-            sizeAnnotation().contraMap(SizeAnnotationValues::fromSize), Constraints::getSize)
-        .contraMap(JavaType::getConstraints)
-        .filter(javaType -> JavaConstraints.isSupported(javaType, ConstraintType.SIZE));
+  private static Generator<PropertyType, PojoSettings> sizeAnnotationForSizeConstraint() {
+    return constraintsCheckingGenerator(
+        sizeAnnotation().contraMap(SizeAnnotationValues::fromSize),
+        Constraints::getSize,
+        ConstraintType.SIZE);
   }
 
-  private static Generator<JavaType, PojoSettings> sizeAnnotationForPropertyCount() {
-    return fromOptional(
-            sizeAnnotation().contraMap(SizeAnnotationValues::fromPropertyCount),
-            Constraints::getPropertyCount)
-        .contraMap(JavaType::getConstraints)
-        .filter(type -> type.getType().isMapType());
+  private static Generator<PropertyType, PojoSettings> sizeAnnotationForPropertyCount() {
+    return constraintsCheckingGenerator(
+        sizeAnnotation().contraMap(SizeAnnotationValues::fromPropertyCount),
+        Constraints::getPropertyCount,
+        ConstraintType.PROPERTY_COUNT);
   }
 
   private static Generator<SizeAnnotationValues, PojoSettings> sizeAnnotation() {
@@ -219,7 +210,7 @@ public class ValidationAnnotationGenerator {
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Generator<JavaType, PojoSettings> patternAnnotation() {
+  private static Generator<PropertyType, PojoSettings> patternAnnotation() {
     final Generator<Pattern, PojoSettings> gen =
         Generator.<Pattern, PojoSettings>emptyGen()
             .append(
@@ -228,9 +219,7 @@ public class ValidationAnnotationGenerator {
                         "@Pattern(regexp=\"%s\")", pattern.getPatternEscaped(JavaEscaper::escape)))
             .append(jakarta2Ref(Jakarta2ValidationRefs.PATTERN))
             .append(jakarta3Ref(Jakarta3ValidationRefs.PATTERN));
-    return fromOptional(gen, Constraints::getPattern)
-        .contraMap(JavaType::getConstraints)
-        .filter(javaType -> JavaConstraints.isSupported(javaType, ConstraintType.PATTERN));
+    return constraintsCheckingGenerator(gen, Constraints::getPattern, ConstraintType.PATTERN);
   }
 
   private static <A> Generator<A, PojoSettings> jakarta2Ref(String ref) {
@@ -248,6 +237,42 @@ public class ValidationAnnotationGenerator {
   private static <A, B, C> Generator<A, C> fromOptional(
       Generator<B, C> gen, Function<A, Optional<B>> getOptional) {
     return (a, c, w) -> getOptional.apply(a).map(b -> gen.generate(b, c, w)).orElse(w);
+  }
+
+  private static <T> Generator<PropertyType, PojoSettings> constraintsCheckingGenerator(
+      Generator<T, PojoSettings> gen,
+      Function<Constraints, Optional<T>> getConstraint,
+      ConstraintType constraintType) {
+    return (propertyType, settings, writer) ->
+        getConstraint
+            .apply(propertyType.getType().getConstraints())
+            .filter(ignore -> isSupportedConstraint(propertyType, constraintType, settings))
+            .map(t -> gen.generate(t, settings, writer))
+            .orElse(writer);
+  }
+
+  private static boolean isSupportedConstraint(
+      PropertyType propertyType, ConstraintType constraintType, PojoSettings settings) {
+    if (JavaConstraints.isSupported(propertyType.getType(), constraintType)) {
+      return true;
+    } else {
+      final TaskIdentifier taskIdentifier = settings.getTaskIdentifier();
+      final Warning warning =
+          Warning.unsupportedValidation(
+              propertyType.propertyInfoName, propertyType.getType(), constraintType);
+      WarningsContext.addWarningForTask(taskIdentifier, warning);
+      return false;
+    }
+  }
+
+  @Value
+  public static class PropertyType {
+    PropertyInfoName propertyInfoName;
+    JavaType type;
+
+    public static PropertyType fromMember(JavaPojoMember member) {
+      return new PropertyType(member.getPropertyInfoName(), member.getJavaType());
+    }
   }
 
   @Value

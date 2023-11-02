@@ -3,10 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,14 +22,7 @@ public interface JavaType {
    */
   PList<QualifiedClassName> getAllQualifiedClassNames();
 
-  /** Returns the full classname, i.e. including possible type parameters. */
-  Name getFullClassName();
-
-  /**
-   * Returns the full classname, where the 'value type' for generic container types like lists and
-   * maps is annotated using the given {@link AnnotationsCreator}.
-   */
-  AnnotatedClassName getFullAnnotatedClassName(AnnotationsCreator creator);
+  ParameterizedClassName getParameterizedClassName();
 
   /**
    * Returns true in case this class is a java array (not to be confused with the openapi

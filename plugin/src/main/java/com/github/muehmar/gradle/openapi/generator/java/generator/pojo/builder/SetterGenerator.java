@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
+import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -49,9 +50,7 @@ class SetterGenerator {
                     member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 member ->
-                    new Argument(
-                        member.getJavaType().getFullClassName().asString(),
-                        member.getName().asString()))
+                    argument(member.getJavaType().getParameterizedClassName(), member.getName()))
             .content(setterMethodContent())
             .build();
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
@@ -91,10 +90,10 @@ class SetterGenerator {
                     member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 member ->
-                    new Argument(
+                    argument(
                         String.format(
-                            "Optional<%s>", member.getJavaType().getFullClassName().asString()),
-                        member.getName().asString()))
+                            "Optional<%s>", member.getJavaType().getParameterizedClassName()),
+                        member.getName()))
             .content(
                 (member, settings, writer) ->
                     writer
@@ -122,10 +121,10 @@ class SetterGenerator {
                     member.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
             .singleArgument(
                 member ->
-                    new Argument(
+                    Argument.argument(
                         String.format(
-                            "Optional<%s>", member.getJavaType().getFullClassName().asString()),
-                        member.getName().asString()))
+                            "Optional<%s>", member.getJavaType().getParameterizedClassName()),
+                        member.getName()))
             .content(
                 (member, settings, writer) ->
                     writer
@@ -153,7 +152,8 @@ class SetterGenerator {
             .singleArgument(
                 member ->
                     new Argument(
-                        String.format("Tristate<%s>", member.getJavaType().getFullClassName()),
+                        String.format(
+                            "Tristate<%s>", member.getJavaType().getParameterizedClassName()),
                         member.getName().asString()))
             .content(
                 (member, settings, writer) ->

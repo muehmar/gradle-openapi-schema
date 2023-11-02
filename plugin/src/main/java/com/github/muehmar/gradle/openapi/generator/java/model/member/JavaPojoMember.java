@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagNam
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -74,6 +75,10 @@ public class JavaPojoMember {
         pojoMember.getNecessity(),
         pojoMember.getNullability(),
         MemberType.OBJECT_MEMBER);
+  }
+
+  public PropertyInfoName getPropertyInfoName() {
+    return PropertyInfoName.fromPojoNameAndMemberName(pojoName, name);
   }
 
   public JavaName getName() {

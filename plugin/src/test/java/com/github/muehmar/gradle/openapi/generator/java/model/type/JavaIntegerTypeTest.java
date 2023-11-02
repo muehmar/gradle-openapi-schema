@@ -24,7 +24,7 @@ class JavaIntegerTypeTest {
     final IntegerType integerType = IntegerType.ofFormat(format);
     final JavaIntegerType javaType = JavaIntegerType.wrap(integerType, TypeMappings.empty());
 
-    assertEquals(className, javaType.getFullClassName().asString());
+    assertEquals(className, javaType.getParameterizedClassName().asString());
     assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang." + className),
@@ -49,7 +49,7 @@ class JavaIntegerTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Long", "com.custom.CustomLong")));
 
-    assertEquals("CustomLong", javaType.getFullClassName().asString());
+    assertEquals("CustomLong", javaType.getParameterizedClassName().asString());
     assertEquals("CustomLong", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomLong"),
@@ -68,7 +68,7 @@ class JavaIntegerTypeTest {
             TypeMappings.ofSingleFormatTypeMapping(
                 new FormatTypeMapping("int64", "com.custom.CustomLong")));
 
-    assertEquals("CustomLong", javaType.getFullClassName().asString());
+    assertEquals("CustomLong", javaType.getParameterizedClassName().asString());
     assertEquals("CustomLong", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomLong"),

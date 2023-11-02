@@ -95,8 +95,12 @@ public class QualifiedClassName {
   }
 
   public Name getClassNameWithGenerics(Name className, Name... more) {
-    final PList<Name> generics = PList.fromArray(more).cons(className);
-    final String genericsCommaSeparated = generics.map(Name::asString).mkString(", ");
+    final PList<Name> genericTypes = PList.fromArray(more).cons(className);
+    return getClassNameWithGenerics(genericTypes);
+  }
+
+  public Name getClassNameWithGenerics(PList<Name> genericTypes) {
+    final String genericsCommaSeparated = genericTypes.map(Name::asString).mkString(", ");
     final String genericString =
         genericsCommaSeparated.isEmpty() ? "" : String.format("<%s>", genericsCommaSeparated);
     return getClassName().append(genericString);

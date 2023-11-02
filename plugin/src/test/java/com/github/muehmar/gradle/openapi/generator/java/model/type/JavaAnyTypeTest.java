@@ -13,7 +13,7 @@ class JavaAnyTypeTest {
   void create_when_created_then_correctType() {
     final JavaAnyType javaType = JavaAnyType.create();
 
-    assertEquals("Object", javaType.getFullClassName().asString());
+    assertEquals("Object", javaType.getParameterizedClassName().asString());
     assertEquals("Object", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang.Object"),

@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedFullClassName;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
@@ -11,16 +11,12 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;
@@ -34,37 +30,41 @@ public class AdditionalPropertiesGetter {
 
   private AdditionalPropertiesGetter() {}
 
-  public static <T extends JavaPojo>
-      Generator<T, PojoSettings> additionalPropertiesGetterGenerator() {
-    final Generator<JavaObjectPojo, PojoSettings> getterGenerator =
-        standardGetter()
-            .appendSingleBlankLine()
-            .append(singlePropGetter())
-            .appendSingleBlankLine()
-            .append(additionalPropertyCastMethod())
-            .contraMap(JavaObjectPojo::getAdditionalProperties)
-            .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
-    return Generator.<T, PojoSettings>emptyGen()
-        .appendOptional(getterGenerator, JavaPojo::asObjectPojo);
+  public static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesGetterGenerator() {
+    return standardGetter()
+        .appendSingleBlankLine()
+        .append(singlePropGetter(), JavaObjectPojo::getAdditionalProperties)
+        .appendSingleBlankLine()
+        .append(additionalPropertyCastMethod(), JavaObjectPojo::getAdditionalProperties)
+        .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 
-  private static Generator<JavaAdditionalProperties, PojoSettings> standardGetter() {
-    final Generator<JavaAdditionalProperties, PojoSettings> method =
-        MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
+  private static Generator<JavaObjectPojo, PojoSettings> standardGetter() {
+    final Generator<JavaObjectPojo, PojoSettings> method =
+        MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType(
-                deepAnnotatedFullClassName()
-                    .contraMap(AdditionalPropertiesGetter::createMapTypeFromValueType))
+                deepAnnotatedParameterizedClassName()
+                    .contraMap(
+                        AdditionalPropertiesGetter::createPropertyTypeForAdditionalProperties))
             .methodName("getAdditionalProperties")
             .noArguments()
-            .content(standardGetterContent())
+            .content(standardGetterContent().contraMap(JavaObjectPojo::getAdditionalProperties))
             .build()
-            .append(ref(JavaRefs.JAVA_UTIL_MAP))
-            .append(javaTypeRefs(), JavaAdditionalProperties::getType);
-    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+            .append(javaTypeRefs(), pojo -> pojo.getAdditionalProperties().getMapContainerType());
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(JacksonAnnotationGenerator.jsonAnyGetter())
         .append(method);
+  }
+
+  private static ValidationAnnotationGenerator.PropertyType
+      createPropertyTypeForAdditionalProperties(JavaObjectPojo pojo) {
+    final PropertyInfoName propertyInfoName =
+        PropertyInfoName.fromPojoNameAndMemberName(
+            pojo.getJavaPojoName(), additionalPropertiesName());
+    return new ValidationAnnotationGenerator.PropertyType(
+        propertyInfoName, pojo.getAdditionalProperties().getMapContainerType());
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> standardGetterContent() {
@@ -81,7 +81,7 @@ public class AdditionalPropertiesGetter {
             (p, s, w) ->
                 w.println(
                     "final Map<String, %s> props = new HashMap<>();",
-                    p.getType().getFullClassName()))
+                    p.getType().getParameterizedClassName()))
         .append(constant("%s.forEach(", additionalPropertiesName()))
         .append(
             constant(
@@ -95,18 +95,13 @@ public class AdditionalPropertiesGetter {
         .filter(AdditionalPropertiesGetter::isNotObjectAdditionalPropertiesType);
   }
 
-  private static JavaType createMapTypeFromValueType(JavaAdditionalProperties props) {
-    final MapType mapType =
-        MapType.ofKeyAndValueType(StringType.noFormat(), props.getType().getType());
-    return JavaMapType.wrap(mapType, TypeMappings.empty());
-  }
-
   private static Generator<JavaAdditionalProperties, PojoSettings> singlePropGetter() {
     final Generator<JavaAdditionalProperties, PojoSettings> method =
         MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
-            .returnType(props -> String.format("Optional<%s>", props.getType().getFullClassName()))
+            .returnType(
+                props -> String.format("Optional<%s>", props.getType().getParameterizedClassName()))
             .methodName("getAdditionalProperty")
             .singleArgument(ignore -> new Argument("String", "key"))
             .content(singlePropGetterContent())
@@ -140,7 +135,7 @@ public class AdditionalPropertiesGetter {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
-        .returnType(p -> String.format("Optional<%s>", p.getType().getFullClassName()))
+        .returnType(p -> String.format("Optional<%s>", p.getType().getParameterizedClassName()))
         .methodName(CAST_ADDITIONAL_PROPERTY_METHOD_NAME)
         .singleArgument(p -> new Argument("Object", "property"))
         .content(additionalPropertyCastMethodContent())
@@ -155,7 +150,8 @@ public class AdditionalPropertiesGetter {
         .append(constant("try {"))
         .append(
             (p, s, w) ->
-                w.println("return Optional.of((%s) property);", p.getType().getFullClassName()),
+                w.println(
+                    "return Optional.of((%s) property);", p.getType().getParameterizedClassName()),
             1)
         .append(constant("} catch (ClassCastException e) {"))
         .append(constant("return Optional.empty();"), 1)

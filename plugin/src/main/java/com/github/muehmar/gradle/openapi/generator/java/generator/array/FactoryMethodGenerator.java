@@ -2,12 +2,12 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
+import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class FactoryMethodGenerator {
@@ -25,8 +25,7 @@ public class FactoryMethodGenerator {
         .methodName("fromItems")
         .singleArgument(
             p ->
-                new Argument(
-                    p.getArrayPojoMember().getJavaType().getFullClassName().asString(), "items"))
+                argument(p.getArrayPojoMember().getJavaType().getParameterizedClassName(), "items"))
         .content(p -> String.format("return new %s(items);", p.getClassName()))
         .build()
         .append(RefsGenerator.fieldRefs(), JavaArrayPojo::getArrayPojoMember);

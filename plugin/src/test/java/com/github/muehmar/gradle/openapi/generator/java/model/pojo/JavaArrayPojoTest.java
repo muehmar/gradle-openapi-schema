@@ -9,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -31,7 +30,8 @@ class JavaArrayPojoTest {
     assertEquals(JavaName.fromString("value"), arrayPojoMember.getName());
     assertEquals(arrayPojo.getDescription(), arrayPojoMember.getDescription());
     assertEquals(arrayPojo.getConstraints(), arrayPojoMember.getJavaType().getConstraints());
-    assertEquals(Name.ofString("List<Double>"), arrayPojoMember.getJavaType().getFullClassName());
+    assertEquals(
+        "List<Double>", arrayPojoMember.getJavaType().getParameterizedClassName().asString());
     assertEquals(Necessity.REQUIRED, arrayPojoMember.getNecessity());
     assertEquals(Nullability.NOT_NULLABLE, arrayPojoMember.getNullability());
   }

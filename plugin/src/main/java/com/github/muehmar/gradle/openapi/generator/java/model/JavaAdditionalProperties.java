@@ -8,8 +8,11 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumG
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.function.Function;
@@ -42,6 +45,12 @@ public class JavaAdditionalProperties {
 
   public static JavaName additionalPropertiesName() {
     return MAP_PROPERTY_NAME;
+  }
+
+  /** Returns a map type containing the property value type as value type in the map. */
+  public JavaType getMapContainerType() {
+    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), type.getType());
+    return JavaMapType.wrap(mapType, TypeMappings.empty());
   }
 
   public boolean isNotAllowed() {
