@@ -35,7 +35,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '2.1.1'
+    id 'com.github.muehmar.openapischema' version '2.2.0'
 }
 ```
 
@@ -1006,6 +1006,15 @@ afterEvaluate {
   client code. There exists a factory method `fromProperties` now.
 
 ## Change Log
+* 2.2.0
+    * Support full validation for compositions (issue `#139`)
+    * Fix escaping for discriminator property name (issue `#153`)
+    * Enhance validation message for invalid compositions (issue `#151` and `#152`)
+    * Avoid runtime exception for unsupported validation of custom types (issue `#155`)
+    * Add warnings for unsupported validation of custom types (issue `#156`)
+    * Fix validation of constraints of array items (issue `#174`)
+    * Prevent serialisation of additional properties when framework validation methods are public (issue `#173`)
+    * Add wither-methods for allOf properties (issue `#180`)
 * 2.1.1 - Fix code generation for disabled validation and compositions (issue `#167`)
 * 2.1.0
     * Support deviation of oneOf discriminator defined in a common parent schema (issue `#136`)
