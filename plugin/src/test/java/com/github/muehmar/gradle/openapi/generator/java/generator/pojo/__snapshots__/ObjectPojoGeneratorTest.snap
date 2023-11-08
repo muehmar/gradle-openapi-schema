@@ -106,6 +106,20 @@ public class PersonDto {
     return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
   }
 
+  /**
+   * Birthdate
+   */
+  public PersonDto withBirthdate(LocalDate birthdate) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+  }
+
+  /**
+   * Username
+   */
+  public PersonDto withUsername(String username) {
+    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+  }
+
   private AdminDto asAdminDto() {
     Map<String, Object> props = new HashMap<>(additionalProperties);
     if (requiredStringVal != null) {
