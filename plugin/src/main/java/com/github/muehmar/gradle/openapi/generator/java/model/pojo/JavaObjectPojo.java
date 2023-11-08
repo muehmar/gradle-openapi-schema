@@ -6,6 +6,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder.fullHashCodeContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder.fullToStringContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.OBJECT_MEMBER;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -335,9 +337,12 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public WitherGenerator.WitherContent getWitherContent() {
+    final PList<JavaPojoMember> membersForWithers =
+        getAllMembers()
+            .filter(m -> m.getType().equals(OBJECT_MEMBER) || m.getType().equals(ALL_OF_MEMBER));
     return fullWitherContentBuilder()
         .className(getClassName())
-        .membersForWithers(getMembers())
+        .membersForWithers(membersForWithers)
         .technicalPojoMembers(getTechnicalMembers())
         .build();
   }
