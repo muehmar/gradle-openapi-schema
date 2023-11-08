@@ -1,19 +1,19 @@
 package com.github.muehmar.gradle.openapi.additionalproperties;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
-import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.additionalproperties.model.ArrayAdditionalPropertiesDto;
-import openapischema.example.api.additionalproperties.model.ArrayAdditionalPropertiesPropertyDto;
 import org.junit.jupiter.api.Test;
 
 class ArrayAdditionalPropertiesTest {
@@ -31,10 +31,10 @@ class ArrayAdditionalPropertiesTest {
         Optional.of(new ArrayList<>(Arrays.asList("hello", "world"))),
         dto.getAdditionalProperty("data").map(ArrayAdditionalPropertiesPropertyDto::getValue));
 
-    final Set<ConstraintViolation<ArrayAdditionalPropertiesDto>> violations =
-        ValidationUtil.validate(dto);
+    final Set<ConstraintViolation<ArrayAdditionalPropertiesDto>> violations = validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 
   @Test
@@ -44,12 +44,12 @@ class ArrayAdditionalPropertiesTest {
             "{\"name\":\"martin\",\"data\":[\"hello\",\"world\",\"!\"]}",
             ArrayAdditionalPropertiesDto.class);
 
-    final Set<ConstraintViolation<ArrayAdditionalPropertiesDto>> violations =
-        ValidationUtil.validate(dto);
+    final Set<ConstraintViolation<ArrayAdditionalPropertiesDto>> violations = validate(dto);
 
     assertEquals(1, violations.size());
     assertEquals(
         "size must be between 1 and 2", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   @Test

@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
-import openapischema.example.api.v1.model.InlineEnumDto;
-import openapischema.example.api.v1.model.RootEnumDto;
 import org.junit.jupiter.api.Test;
 
 class EnumTest {

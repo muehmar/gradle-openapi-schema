@@ -1,14 +1,14 @@
 package com.github.muehmar.gradle.openapi.additionalproperties;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
-import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.additionalproperties.model.RequiredAdditionalPropertiesDto;
 import org.junit.jupiter.api.Test;
 
 class RequiredAdditionalPropertiesTest {
@@ -67,10 +67,27 @@ class RequiredAdditionalPropertiesTest {
         MAPPER.readValue(
             "{\"name\":\"name\",\"street\":\"waldweg\"}", RequiredAdditionalPropertiesDto.class);
 
-    final Set<ConstraintViolation<RequiredAdditionalPropertiesDto>> violations =
-        ValidationUtil.validate(dto);
+    final Set<ConstraintViolation<RequiredAdditionalPropertiesDto>> violations = validate(dto);
 
     assertEquals(1, violations.size());
     assertEquals("must not be null", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
+  }
+
+  @Test
+  void validate_when_requiredAdditionalPropertyTooShort_then_violation()
+      throws JsonProcessingException {
+    final RequiredAdditionalPropertiesDto dto =
+        MAPPER.readValue(
+            "{\"name\":\"name\",\"street\":\"waldweg\",\"lastname\":\"ln\"}",
+            RequiredAdditionalPropertiesDto.class);
+
+    final Set<ConstraintViolation<RequiredAdditionalPropertiesDto>> violations = validate(dto);
+
+    assertEquals(1, violations.size());
+    assertEquals(
+        "size must be between 5 and 2147483647",
+        violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 }

@@ -53,13 +53,41 @@ components:
     IntegerMemberArray:
       type: object
       required:
-        - numbers
+        - numbers1
+        - numbers2
       properties:
-        numbers:
+        numbers1:
           type: array
           items:
             type: integer
             format: int32
+            maximum: 100
+          minItems: 3
+          maxItems: 5
+        numbers2:
+          type: array
+          items:
+            type: integer
+            format: int32
+            maximum: 100
+          nullable: true
+          minItems: 3
+          maxItems: 5
+        numbers3:
+          type: array
+          items:
+            type: integer
+            format: int32
+            maximum: 100
+          minItems: 3
+          maxItems: 5
+        numbers4:
+          type: array
+          items:
+            type: integer
+            format: int32
+            maximum: 100
+          nullable: true
           minItems: 3
           maxItems: 5
 
@@ -82,6 +110,7 @@ components:
           items:
             type: integer
             format: int64
+            maximum: 100
           uniqueItems: true
 
     LongPojoArray:
@@ -89,6 +118,7 @@ components:
       items:
         type: integer
         format: int64
+        maximum: 100
       uniqueItems: true
 
     RequiredProperties:
@@ -185,3 +215,13 @@ components:
     Email:
       type: string
       format: email
+
+    CustomTypeObject:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          format: name
+          maxLength: 10

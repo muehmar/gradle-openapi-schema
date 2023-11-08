@@ -7,9 +7,6 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.identifiers.model.User1;
-import openapischema.example.api.identifiers.model.User1OrUser2;
-import openapischema.example.api.identifiers.model.User2;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -23,6 +20,7 @@ class TestValidation {
     final Set<ConstraintViolation<User1>> constraintViolations = validate(dto);
 
     assertEquals(value.length() < 3, constraintViolations.size() == 1);
+    assertEquals(dto.isValid(), constraintViolations.isEmpty());
   }
 
   @ParameterizedTest
@@ -34,6 +32,7 @@ class TestValidation {
 
     final Set<ConstraintViolation<User1OrUser2>> constraintViolations = validate(dto);
 
-    assertEquals(value.length() < 6, constraintViolations.size() == 1);
+    assertEquals(value.length() < 6, constraintViolations.size() >= 1);
+    assertEquals(dto.isValid(), constraintViolations.isEmpty());
   }
 }

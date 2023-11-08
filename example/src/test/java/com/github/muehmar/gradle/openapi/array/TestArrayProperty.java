@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
-import openapischema.example.api.array.model.PosologyDto;
-import openapischema.example.api.array.model.ReferenceArrayPropertyDto;
 import org.junit.jupiter.api.Test;
 
 class TestArrayProperty {

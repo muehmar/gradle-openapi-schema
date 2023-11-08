@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import openapischema.example.api.allof.model.ReportDto;
 import org.junit.jupiter.api.Test;
 
 class AllOfArrayTest {

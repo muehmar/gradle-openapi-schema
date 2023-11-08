@@ -9,10 +9,6 @@ import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import openapischema.example.api.fullobject.model.AdminDto;
-import openapischema.example.api.fullobject.model.BaseDataDto;
-import openapischema.example.api.fullobject.model.FullObjectDto;
-import openapischema.example.api.fullobject.model.NestedFullObjectDto;
 import org.junit.jupiter.api.Test;
 
 class NestedFullObjectSerialisationTest {

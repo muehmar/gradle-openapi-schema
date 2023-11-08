@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.1.1"
+    id "com.github.muehmar.openapischema" version "2.2.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
@@ -71,7 +71,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.v1.model"
+            packageName = "com.github.muehmar.gradle.openapi.v1"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -102,7 +102,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.v2.model"
+            packageName = "com.github.muehmar.gradle.openapi.v2"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -115,7 +115,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-inline-object.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.inlineobject.model"
+            packageName = "com.github.muehmar.gradle.openapi.inlineobject"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -125,17 +125,23 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-nullability.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.nullability.model"
+            packageName = "com.github.muehmar.gradle.openapi.nullability"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
             builderMethodPrefix = "set"
+
+            validationMethods {
+                getterSuffix = "Raw"
+                modifier = "public"
+                deprecatedAnnotation = true
+            }
         }
         array {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-array.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.array.model"
+            packageName = "com.github.muehmar.gradle.openapi.array"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -145,7 +151,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-remote-ref-main.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.remoteref.model"
+            packageName = "com.github.muehmar.gradle.openapi.remoteref"
             jsonSupport = "jackson"
             suffix = "Dto"
             resolveInputSpecs = false
@@ -156,7 +162,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-excluded-schema.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.excludedschema.model"
+            packageName = "com.github.muehmar.gradle.openapi.excludedschema"
             jsonSupport = "jackson"
             suffix = "Dto"
             excludeSchemas = ["User"] // This schema contains an unsupported URL-reference
@@ -167,7 +173,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-parameters.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.parameters.model"
+            packageName = "com.github.muehmar.gradle.openapi.parameters"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -177,7 +183,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-freeform.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.freeform.model"
+            packageName = "com.github.muehmar.gradle.openapi.freeform"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -187,18 +193,23 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-validation.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.validation.model"
+            packageName = "com.github.muehmar.gradle.openapi.validation"
 
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
             builderMethodPrefix = "set"
+
+            formatTypeMapping {
+                formatType = "name"
+                classType = "com.github.muehmar.gradle.openapi.validation.Name"
+            }
         }
         oneOf {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-oneof.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.oneof.model"
+            packageName = "com.github.muehmar.gradle.openapi.oneof"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -208,7 +219,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-anyof.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.anyof.model"
+            packageName = "com.github.muehmar.gradle.openapi.anyof"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -218,7 +229,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-allof.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.allof.model"
+            packageName = "com.github.muehmar.gradle.openapi.allof"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -228,7 +239,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-identifiers.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.identifiers.model"
+            packageName = "com.github.muehmar.gradle.openapi.identifiers"
             jsonSupport = "jackson"
             suffix = ""
             enableValidation = true
@@ -238,7 +249,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-read-only-write-only.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.readwriteonly.model"
+            packageName = "com.github.muehmar.gradle.openapi.readwriteonly"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -248,7 +259,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-spec-version-v31.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.specversionv31.model"
+            packageName = "com.github.muehmar.gradle.openapi.specversionv31"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -258,7 +269,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-full-object.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.fullobject.model"
+            packageName = "com.github.muehmar.gradle.openapi.fullobject"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -268,7 +279,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-additional-properties.yml"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.additionalproperties.model"
+            packageName = "com.github.muehmar.gradle.openapi.additionalproperties"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
@@ -278,7 +289,7 @@ openApiGenerator {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/sasis-api.json"
             outputDir = "$buildDir/generated/openapi"
-            packageName = "${project.group}.${project.name}.api.sasis.model"
+            packageName = "com.github.muehmar.gradle.openapi.sasis"
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true

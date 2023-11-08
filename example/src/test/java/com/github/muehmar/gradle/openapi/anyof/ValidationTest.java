@@ -1,7 +1,10 @@
 package com.github.muehmar.gradle.openapi.anyof;
 
+import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,18 +12,10 @@ import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import openapischema.example.api.anyof.model.AdminOrUserDto;
-import openapischema.example.api.anyof.model.InlinedAnyOfDto;
 import org.junit.jupiter.api.Test;
 
 class ValidationTest {
 
-  private static final ValidatorFactory VALIDATOR_FACTORY =
-      Validation.buildDefaultValidatorFactory();
-  private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
@@ -30,9 +25,10 @@ class ValidationTest {
             "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
             AdminOrUserDto.class);
 
-    final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
+    final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
 
     assertEquals(0, violations.size());
+    assertTrue(adminOrUserDto.isValid());
   }
 
   @Test
@@ -43,10 +39,10 @@ class ValidationTest {
             "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}}",
             InlinedAnyOfDto.class);
 
-    final Set<ConstraintViolation<InlinedAnyOfDto>> violations =
-        VALIDATOR.validate(inlinedAnyOfDto);
+    final Set<ConstraintViolation<InlinedAnyOfDto>> violations = validate(inlinedAnyOfDto);
 
     assertEquals(0, violations.size());
+    assertTrue(inlinedAnyOfDto.isValid());
   }
 
   @Test
@@ -57,11 +53,16 @@ class ValidationTest {
             "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":200,\"email\":null}",
             AdminOrUserDto.class);
 
-    final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
+    final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<AdminOrUserDto> violation = violations.iterator().next();
-    assertEquals("anyOf[0].ageRaw", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "invalidAnyOf[Admin].adminname -> must not be null",
+            "invalidAnyOf[User].ageRaw -> must be less than or equal to 199",
+            "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+        formatViolations(violations),
+        String.join("\n", formatViolations(violations)));
+    assertFalse(adminOrUserDto.isValid());
   }
 
   @Test
@@ -72,27 +73,33 @@ class ValidationTest {
             "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":200,\"email\":null}}",
             InlinedAnyOfDto.class);
 
-    final Set<ConstraintViolation<InlinedAnyOfDto>> violations = VALIDATOR.validate(inlinedDto);
+    final Set<ConstraintViolation<InlinedAnyOfDto>> violations = validate(inlinedDto);
 
-    assertEquals(1, violations.size());
-    final ConstraintViolation<InlinedAnyOfDto> violation = violations.iterator().next();
-    assertEquals("adminOrUser.anyOf[0].ageRaw", violation.getPropertyPath().toString());
+    assertEquals(
+        Arrays.asList(
+            "adminOrUser.invalidAnyOf[Admin].adminname -> must not be null",
+            "adminOrUser.invalidAnyOf[User].ageRaw -> must be less than or equal to 199",
+            "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+        formatViolations(violations),
+        String.join("\n", formatViolations(violations)));
+    assertFalse(inlinedDto.isValid());
   }
 
   @Test
   void validate_when_matchesNoSchema_then_violation() throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto = MAPPER.readValue("{}", AdminOrUserDto.class);
 
-    final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
+    final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
 
     assertEquals(
         Arrays.asList(
-            "invalidCompositionDtos[0].adminname -> must not be null",
-            "invalidCompositionDtos[0].id -> must not be null",
-            "invalidCompositionDtos[1].id -> must not be null",
-            "invalidCompositionDtos[1].username -> must not be null",
+            "invalidAnyOf[Admin].adminname -> must not be null",
+            "invalidAnyOf[Admin].id -> must not be null",
+            "invalidAnyOf[User].id -> must not be null",
+            "invalidAnyOf[User].username -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
+    assertFalse(adminOrUserDto.isValid());
   }
 
   @Test
@@ -100,16 +107,17 @@ class ValidationTest {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue("{\"adminOrUser\":{}}", InlinedAnyOfDto.class);
 
-    final Set<ConstraintViolation<InlinedAnyOfDto>> violations = VALIDATOR.validate(inlinedDto);
+    final Set<ConstraintViolation<InlinedAnyOfDto>> violations = validate(inlinedDto);
 
     assertEquals(
         Arrays.asList(
-            "adminOrUser.invalidCompositionDtos[0].adminname -> must not be null",
-            "adminOrUser.invalidCompositionDtos[0].id -> must not be null",
-            "adminOrUser.invalidCompositionDtos[1].id -> must not be null",
-            "adminOrUser.invalidCompositionDtos[1].username -> must not be null",
+            "adminOrUser.invalidAnyOf[Admin].adminname -> must not be null",
+            "adminOrUser.invalidAnyOf[Admin].id -> must not be null",
+            "adminOrUser.invalidAnyOf[User].id -> must not be null",
+            "adminOrUser.invalidAnyOf[User].username -> must not be null",
             "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
+    assertFalse(inlinedDto.isValid());
   }
 
   @Test
@@ -119,9 +127,10 @@ class ValidationTest {
             "{\"id\":\"id\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}",
             AdminOrUserDto.class);
 
-    final Set<ConstraintViolation<AdminOrUserDto>> violations = VALIDATOR.validate(adminOrUserDto);
+    final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
 
     assertEquals(0, violations.size());
+    assertTrue(adminOrUserDto.isValid());
   }
 
   @Test
@@ -132,8 +141,9 @@ class ValidationTest {
             "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}}",
             InlinedAnyOfDto.class);
 
-    final Set<ConstraintViolation<InlinedAnyOfDto>> violations = VALIDATOR.validate(inlinedDto);
+    final Set<ConstraintViolation<InlinedAnyOfDto>> violations = validate(inlinedDto);
 
     assertEquals(0, violations.size());
+    assertTrue(inlinedDto.isValid());
   }
 }

@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import openapischema.example.api.anyof.model.AdminDto;
-import openapischema.example.api.anyof.model.AdminOrUserDto;
-import openapischema.example.api.anyof.model.InlinedAnyOfDto;
-import openapischema.example.api.anyof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class DeserialisationTest {

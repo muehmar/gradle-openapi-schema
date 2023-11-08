@@ -2,9 +2,6 @@ package com.github.muehmar.gradle.openapi.readwriteonly;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import openapischema.example.api.readwriteonly.model.ReadWriteDto;
-import openapischema.example.api.readwriteonly.model.ReadWriteRequestDto;
-import openapischema.example.api.readwriteonly.model.ReadWriteResponseDto;
 import org.junit.jupiter.api.Test;
 
 class ReadWriteOnlyTest {

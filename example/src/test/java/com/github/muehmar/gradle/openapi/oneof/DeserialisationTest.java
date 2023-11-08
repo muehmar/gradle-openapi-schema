@@ -7,9 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
-import openapischema.example.api.oneof.model.AdminDto;
-import openapischema.example.api.oneof.model.AdminOrUserDto;
-import openapischema.example.api.oneof.model.UserDto;
 import org.junit.jupiter.api.Test;
 
 class DeserialisationTest {

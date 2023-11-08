@@ -2,14 +2,13 @@ package com.github.muehmar.gradle.openapi.additionalproperties;
 
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.additionalproperties.model.ObjectAdditionalPropertiesDto;
-import openapischema.example.api.additionalproperties.model.ObjectAdditionalPropertiesPropertyDto;
 import org.junit.jupiter.api.Test;
 
 class ObjectAdditionalPropertiesTest {
@@ -51,6 +50,7 @@ class ObjectAdditionalPropertiesTest {
   void validate_when_dto_then_noViolation() {
     final Set<ConstraintViolation<ObjectAdditionalPropertiesDto>> violations = validate(DTO);
     assertEquals(0, violations.size());
+    assertTrue(DTO.isValid());
   }
 
   @Test

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Optional;
-import openapischema.example.api.v1.model.SampleDto;
 import org.junit.jupiter.api.Test;
 
 class BuilderTest {

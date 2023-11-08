@@ -1,13 +1,14 @@
 package com.github.muehmar.gradle.openapi.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
-import openapischema.example.api.validation.model.MultipleOfObjectDto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -25,6 +26,7 @@ class MultipleOfValidationTest {
     assertEquals(1, violations.size());
     assertEquals(
         "intValue is not a multiple of 11", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   public static Stream<Arguments> notMultipleOfInts() {
@@ -40,6 +42,7 @@ class MultipleOfValidationTest {
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -53,6 +56,7 @@ class MultipleOfValidationTest {
     assertEquals(1, violations.size());
     assertEquals(
         "longValue is not a multiple of 22", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   public static Stream<Arguments> notMultipleOfLongs() {
@@ -71,6 +75,7 @@ class MultipleOfValidationTest {
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -84,6 +89,7 @@ class MultipleOfValidationTest {
     assertEquals(1, violations.size());
     assertEquals(
         "floatValue is not a multiple of 2.25", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   public static Stream<Arguments> notMultipleOfFloats() {
@@ -103,6 +109,7 @@ class MultipleOfValidationTest {
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 
   @ParameterizedTest
@@ -116,6 +123,7 @@ class MultipleOfValidationTest {
     assertEquals(1, violations.size());
     assertEquals(
         "doubleValue is not a multiple of 5.5", violations.stream().findFirst().get().getMessage());
+    assertFalse(dto.isValid());
   }
 
   public static Stream<Arguments> notMultipleOfDoubles() {
@@ -134,5 +142,6 @@ class MultipleOfValidationTest {
     final Set<ConstraintViolation<MultipleOfObjectDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(0, violations.size());
+    assertTrue(dto.isValid());
   }
 }

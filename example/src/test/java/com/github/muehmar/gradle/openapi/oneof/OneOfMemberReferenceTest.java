@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Optional;
 import java.util.UUID;
-import openapischema.example.api.oneof.model.BaseOneOfMemberReferenceDto;
-import openapischema.example.api.oneof.model.OneOfMemberReferenceDto;
 import org.junit.jupiter.api.Test;
 
 class OneOfMemberReferenceTest {
