@@ -70,6 +70,10 @@ openApiGenerator {
             enableValidation = true
             validationApi = "jakarta-3.0"
             builderMethodPrefix = "set"
+            
+            warnings {
+                failOnWarnings = true
+            }
 
             // This would overwrite any global configuration
             enumDescriptionExtraction {
@@ -333,6 +337,23 @@ validationMethods {
 
 See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes use of this configuration.
 
+### Warnings
+[Warnings](#warnings) can be configured within a `warnings` block:
+```
+warnings {
+    disableWarnings = false
+    failOnWarnings = true
+    failOnUnsupportedValidation = true
+}
+```
+
+| Key                         | Data Type | Default                   | Description                                                                                                      |
+|-----------------------------|-----------|:--------------------------|:-----------------------------------------------------------------------------------------------------------------|
+| disableWarnings             | boolean   | false                     | Disables the generation of the warnings, i.e. emits no warnings in the gradle output                             |
+| failOnWarnings              | boolean   | false                     | Global setting to fail on warnings. Will be used as default for every warning type if not configured explicitly. |
+| failOnUnsupportedValidation | boolean   | value of `failOnWarnings` | Fail on unsupported validations. Uses `failOnWarnings` if omitted.                                               |
+
+
 ## OpenAPI v3.0.x vs v3.1.0
 The version 3.1.0 of the OpenAPI specification is not backwards compatible with 3.0.x, i.e. has some breaking changes. 
 The most obvious change is the specification of the type, in 3.0.x it is a single property, whereas in 3.1.0 the type
@@ -357,6 +378,22 @@ The OpenAPI specification supports the composition of schemas via `oneOf`, `anyO
 all three keywords. 
 
 Validation is supported for all three compositions.
+
+## Warnings
+The plugin emit warnings for certain scenarios. These warnings are printed to the console of
+the gradle build. These warnings can also be turned off completely if necessary via configuration of
+the plugin.
+
+The plugin can also be configured to let the generation fail in case warnings occurred (similar to the -Werror flag for 
+the Java compiler). This can be done globally for every warning or selective for any warning type, see the
+[Configuration](#configuration) section.
+
+The plugin generates the following warnings:
+
+| Type                   | Description                                                                                                                                                                                                                                                                                                                      |
+|------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| UNSUPPORTED_VALIDATION | Validation of custom types is currently not supported. This means, if a property has some constraints but is mapped to a custom type, no validation will be performed for this property. This may be supported in a future version of the plugin, see issue [#160](https://github.com/muehmar/gradle-openapi-schema/issues/160). |
+
 
 ### AllOf
 With `allOf`, the plugin will generate a DTO with all properties of the specified schemas. Consider the following 
