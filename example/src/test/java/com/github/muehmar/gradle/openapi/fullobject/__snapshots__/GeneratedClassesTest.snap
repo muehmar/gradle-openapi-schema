@@ -1,0 +1,10 @@
+allGeneratedClasses=[
+AdminDto
+BaseDataDto
+FullObjectDto
+FullObjectOneOfContainerDto
+MemberDto
+NestedFullObjectAnyOfContainerDto
+NestedFullObjectDto
+UserDto
+]

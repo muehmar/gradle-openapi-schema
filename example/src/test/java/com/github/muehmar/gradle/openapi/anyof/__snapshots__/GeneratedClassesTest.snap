@@ -1,0 +1,13 @@
+allGeneratedClasses=[
+AdminDto
+AdminOrUserAnyOfContainerDto
+AdminOrUserDto
+AnyOfMemberReferenceAnyOfContainerDto
+AnyOfMemberReferenceAnyOfDto
+AnyOfMemberReferenceDto
+BaseAnyOfMemberReferenceDto
+InlinedAnyOfAdminOrUserAnyOfContainerDto
+InlinedAnyOfAdminOrUserDto
+InlinedAnyOfDto
+UserDto
+]

@@ -1,0 +1,17 @@
+allGeneratedClasses=[
+AllValueObjectDto
+CustomTypeObjectDto
+IntegerMemberArrayDto
+IntegerPojoArrayDto
+LongMemberArrayDto
+LongPojoArrayDto
+ManualAllValueObjectDto
+MultipleOfObjectDto
+Name
+NestedDto
+NoAdditionalPropertiesDto
+NumbersObjectDto
+ObjectMapDto
+RequiredPropertiesDto
+StringMapDto
+]

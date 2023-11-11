@@ -1,5 +1,6 @@
 plugins {
     id 'java-gradle-plugin'
+    id 'java-test-fixtures'
     id 'maven-publish'
     id 'com.gradle.plugin-publish' version '0.19.0'
     id 'openapischema.java'
@@ -28,7 +29,7 @@ dependencies {
 
     implementation "io.github.muehmar:code-generator:0.18.0"
 
-    implementation 'io.github.origin-energy:java-snapshot-testing-junit5:4.0.6'
+    testImplementation testFixtures(project(":java-snapshot"))
 
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.11.0'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.11.0'
@@ -57,28 +58,10 @@ gradlePlugin {
     }
 }
 
-def snapshotPropertiesFile = "$projectDir/src/test/resources/snapshot.properties"
-
-tasks.register("enableUpdateAllSnapshots") {
-    doFirst {
-        exec {
-            commandLine 'sed', '-i', 's/update-snapshot=none/update-snapshot=all/', snapshotPropertiesFile
-        }
-    }
-}
-
-tasks.register("updateSnapshots", Test) {
-    group 'verification'
-    dependsOn(tasks.enableUpdateAllSnapshots)
-    dependsOn(tasks.test) {
-        useJUnitPlatform() {
-            includeTags 'snapshot-test'
-        }
-    }
-    doLast {
-        exec {
-            commandLine 'sed', '-i', 's/update-snapshot=all/update-snapshot=none/', snapshotPropertiesFile
-        }
+test {
+    def updateSnapshot = project.properties["updateSnapshot"]
+    if (updateSnapshot != null) {
+        systemProperties.put("updateSnapshot", updateSnapshot)
     }
 }
 
