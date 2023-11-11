@@ -2,6 +2,7 @@ plugins {
     id "com.github.muehmar.openapischema" version "2.2.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
+    id 'java-test-fixtures'
 }
 
 dependencies {
@@ -17,6 +18,9 @@ dependencies {
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.2.5.Final'
     implementation group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
     implementation group: 'org.glassfish', name: 'javax.el', version: '3.0.0'
+
+    testImplementation 'org.reflections:reflections:0.10.2'
+    testImplementation testFixtures(project(":java-snapshot"))
 }
 
 def specifications =
@@ -355,6 +359,13 @@ openApiGenerator {
 afterEvaluate {
     tasks.named("generateRemoteRefModel") {
         inputs.file("$projectDir/src/main/resources/openapi-remote-ref-sub.yml")
+    }
+}
+
+test {
+    def updateSnapshot = project.properties["updateSnapshot"]
+    if (updateSnapshot != null) {
+        systemProperties.put("updateSnapshot", updateSnapshot)
     }
 }
 
