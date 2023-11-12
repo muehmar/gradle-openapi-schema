@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.promotion.P
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
 import lombok.Value;
@@ -29,6 +30,16 @@ public class PromotableMembers {
    * the corresponding members in the oneOf and anyOf subpojos.
    */
   PList<JavaPojoMember> dynamicallyPromotableMembers;
+
+  public static PromotableMembers fromPojo(JavaObjectPojo pojo) {
+    final StaticProperties staticProperties = StaticProperties.extractDeep(pojo);
+    final DynamicProperties dynamicProperties = DynamicProperties.extractDeep(pojo);
+    return fullPromotableMembersBuilder()
+        .staticallyPromotableMembers(staticProperties.getStaticallyPromotableMembers())
+        .dynamicallyPromotableMembers(
+            dynamicProperties.getDynamicallyPromotableMembers(staticProperties))
+        .build();
+  }
 
   public Optional<JavaPojoMember> findStaticByName(JavaName name) {
     return staticallyPromotableMembers.find(member -> member.getName().equals(name));

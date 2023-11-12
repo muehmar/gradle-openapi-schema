@@ -196,7 +196,7 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public PojoPromotionResult promoteAsRoot() {
-    return promote(Optional.empty(), new PromotableMembers(PList.empty(), PList.empty()));
+    return promote(Optional.empty(), PromotableMembers.fromPojo(this));
   }
 
   public PojoPromotionResult promote(JavaPojoName rootName, PromotableMembers promotableMembers) {
