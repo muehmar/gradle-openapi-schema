@@ -6,12 +6,15 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.Value;
 
 @EqualsAndHashCode
 @ToString
@@ -43,5 +46,19 @@ public class JavaAllOfComposition {
 
   public PList<JavaPojoMember> getMembers() {
     return javaComposition.getMembers(JavaPojoMember::asAllOfMember);
+  }
+
+  public AllOfCompositionPromotionResult promote(
+      JavaPojoName rootName, PromotableMembers promotableMembers) {
+    final JavaComposition.CompositionPromotionResult result =
+        javaComposition.promote(rootName, promotableMembers);
+    return new AllOfCompositionPromotionResult(
+        new JavaAllOfComposition(result.getComposition()), result.getNewPojos());
+  }
+
+  @Value
+  public static class AllOfCompositionPromotionResult {
+    JavaAllOfComposition composition;
+    PList<JavaObjectPojo> newPojos;
   }
 }
