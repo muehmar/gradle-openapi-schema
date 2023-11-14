@@ -106,11 +106,11 @@ public class JavaPojoMember {
   }
 
   public boolean isTechnicallyEquals(JavaPojoMember other) {
-    return this.getTechnicalMemberKey().equals(other.getTechnicalMemberKey());
+    return this.getMemberKey().equals(other.getMemberKey());
   }
 
-  public TechnicalMemberKey getTechnicalMemberKey() {
-    return new TechnicalMemberKey(name, javaType, necessity, nullability);
+  public MemberKey getMemberKey() {
+    return new MemberKey(name, javaType);
   }
 
   public JavaPojoMember asAllOfMember() {

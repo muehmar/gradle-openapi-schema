@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
@@ -27,7 +27,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredBirthdate(), defaultTestSettings(), javaWriter());
+            TestJavaPojoMembers.requiredBirthdate(), defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
   }
@@ -39,7 +39,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredBirthdate().asAllOfMember(),
+            TestJavaPojoMembers.requiredBirthdate().asAllOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -54,7 +54,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredBirthdate().asAnyOfMember(),
+            TestJavaPojoMembers.requiredBirthdate().asAnyOfMember(),
             defaultTestSettings().withJsonSupport(JsonSupport.NONE),
             javaWriter());
 
@@ -69,7 +69,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredBirthdate().asOneOfMember(),
+            TestJavaPojoMembers.requiredBirthdate().asOneOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -84,7 +84,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredBirthdate().asAnyOfMember(),
+            TestJavaPojoMembers.requiredBirthdate().asAnyOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -99,7 +99,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredNullableBirthdate().asOneOfMember(),
+            TestJavaPojoMembers.requiredNullableBirthdate().asOneOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -114,7 +114,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredNullableBirthdate().asAnyOfMember(),
+            TestJavaPojoMembers.requiredNullableBirthdate().asAnyOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -129,7 +129,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.optionalBirthdate().asOneOfMember(),
+            TestJavaPojoMembers.optionalBirthdate().asOneOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -144,7 +144,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.optionalBirthdate().asOneOfMember(),
+            TestJavaPojoMembers.optionalBirthdate().asOneOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -159,7 +159,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.optionalNullableBirthdate().asOneOfMember(),
+            TestJavaPojoMembers.optionalNullableBirthdate().asOneOfMember(),
             defaultTestSettings(),
             javaWriter());
 
@@ -174,7 +174,7 @@ class ComposedPropertiesGetterTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.optionalNullableBirthdate().asOneOfMember(),
+            TestJavaPojoMembers.optionalNullableBirthdate().asOneOfMember(),
             defaultTestSettings(),
             javaWriter());
 

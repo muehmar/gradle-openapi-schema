@@ -9,6 +9,10 @@ public enum Nullability {
     return nullable ? NULLABLE : NOT_NULLABLE;
   }
 
+  public static Nullability leastRestrictive(Nullability n1, Nullability n2) {
+    return n1 == NULLABLE ? n1 : n2;
+  }
+
   public boolean isNullable() {
     return this == NULLABLE;
   }

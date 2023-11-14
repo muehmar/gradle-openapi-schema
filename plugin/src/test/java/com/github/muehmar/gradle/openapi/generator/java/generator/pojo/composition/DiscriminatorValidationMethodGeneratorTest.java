@@ -12,7 +12,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
@@ -52,7 +52,7 @@ class DiscriminatorValidationMethodGeneratorTest {
 
     final Discriminator noMappingDiscriminator =
         Discriminator.fromPropertyName(
-            JavaPojoMembers.requiredString().getName().getOriginalName());
+            TestJavaPojoMembers.requiredString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
@@ -72,7 +72,7 @@ class DiscriminatorValidationMethodGeneratorTest {
 
     final Discriminator noMappingDiscriminator =
         Discriminator.fromPropertyName(
-            JavaPojoMembers.keywordNameString().getName().getOriginalName());
+            TestJavaPojoMembers.keywordNameString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
@@ -95,7 +95,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     mapping.put("obj1", sampleObjectPojo1().getSchemaName().getOriginalName());
     mapping.put("obj2", sampleObjectPojo2().getSchemaName().getOriginalName());
 
-    final Name propertyName = JavaPojoMembers.requiredString().getName().getOriginalName();
+    final Name propertyName = TestJavaPojoMembers.requiredString().getName().getOriginalName();
     final Discriminator discriminator =
         Discriminator.fromPropertyNameAndMapping(propertyName, mapping);
 
@@ -119,7 +119,7 @@ class DiscriminatorValidationMethodGeneratorTest {
     mapping.put("obj1", sampleObjectPojo1().getSchemaName().getOriginalName());
     mapping.put("obj2", sampleObjectPojo2().getSchemaName().getOriginalName());
 
-    final Name propertyName = JavaPojoMembers.requiredString().getName().getOriginalName();
+    final Name propertyName = TestJavaPojoMembers.requiredString().getName().getOriginalName();
     final Discriminator discriminator =
         Discriminator.fromPropertyNameAndMapping(propertyName, mapping);
 

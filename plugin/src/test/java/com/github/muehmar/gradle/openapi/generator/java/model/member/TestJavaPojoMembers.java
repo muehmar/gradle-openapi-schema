@@ -28,8 +28,8 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.*;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 
-public class JavaPojoMembers {
-  public JavaPojoMembers() {}
+public class TestJavaPojoMembers {
+  public TestJavaPojoMembers() {}
 
   public static JavaPojoMember byteArrayMember() {
     return javaPojoMemberBuilder()

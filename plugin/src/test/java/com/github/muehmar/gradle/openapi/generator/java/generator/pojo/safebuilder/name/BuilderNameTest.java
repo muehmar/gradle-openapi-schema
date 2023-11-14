@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuil
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant.FULL;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant.STANDARD;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.optionalBirthdate;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.optionalString;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredEmail;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static org.junit.jupiter.api.Assertions.assertTrue;

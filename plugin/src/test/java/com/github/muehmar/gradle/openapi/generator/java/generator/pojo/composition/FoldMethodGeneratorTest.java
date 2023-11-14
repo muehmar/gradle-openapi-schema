@@ -13,7 +13,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
@@ -48,7 +48,7 @@ class FoldMethodGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
     final Discriminator discriminator =
         Discriminator.fromPropertyName(
-            JavaPojoMembers.requiredString().getName().getOriginalName());
+            TestJavaPojoMembers.requiredString().getName().getOriginalName());
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
@@ -67,7 +67,7 @@ class FoldMethodGeneratorTest {
 
     final Discriminator noMappingDiscriminator =
         Discriminator.fromPropertyName(
-            JavaPojoMembers.keywordNameString().getName().getOriginalName());
+            TestJavaPojoMembers.keywordNameString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
@@ -92,7 +92,7 @@ class FoldMethodGeneratorTest {
     mapping.put("obj2", sampleObjectPojo2.getSchemaName().getOriginalName());
     final Discriminator discriminator =
         Discriminator.fromPropertyNameAndMapping(
-            JavaPojoMembers.requiredString().getName().getOriginalName(), mapping);
+            TestJavaPojoMembers.requiredString().getName().getOriginalName(), mapping);
 
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(

@@ -8,6 +8,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -32,7 +33,8 @@ class AnyOfBuilderGeneratorTest {
     final JavaObjectPojo anyOfPojo =
         JavaPojos.anyOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2());
     final JavaObjectPojo anyOfPojoWithMembers =
-        anyOfPojo.withMembers(PList.single(JavaPojoMembers.requiredNullableString()));
+        anyOfPojo.withMembers(
+            JavaPojoMembers.fromList(PList.single(TestJavaPojoMembers.requiredNullableString())));
     final Writer writer =
         generator.generate(
             anyOfPojoWithMembers, TestPojoSettings.defaultTestSettings(), javaWriter());

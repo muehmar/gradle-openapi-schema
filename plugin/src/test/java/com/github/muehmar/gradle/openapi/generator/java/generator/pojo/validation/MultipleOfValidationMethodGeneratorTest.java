@@ -12,7 +12,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -115,7 +115,8 @@ class MultipleOfValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.objectPojo(
-                PList.of(JavaPojoMembers.requiredDouble(), JavaPojoMembers.requiredInteger())),
+                PList.of(
+                    TestJavaPojoMembers.requiredDouble(), TestJavaPojoMembers.requiredInteger())),
             defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
@@ -203,7 +204,7 @@ class MultipleOfValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.objectPojo(
-                PList.of(JavaPojoMembers.requiredString().withJavaType(stringType))),
+                PList.of(TestJavaPojoMembers.requiredString().withJavaType(stringType))),
             defaultTestSettings().withEnableValidation(true).withTaskIdentifier(taskIdentifier),
             javaWriter());
 

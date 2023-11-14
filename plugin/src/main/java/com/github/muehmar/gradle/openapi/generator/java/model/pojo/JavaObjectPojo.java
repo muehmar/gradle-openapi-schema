@@ -31,6 +31,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition.OneOfCompositionPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
@@ -59,7 +60,7 @@ public class JavaObjectPojo implements JavaPojo {
   private final JavaPojoName name;
   private final SchemaName schemaName;
   private final String description;
-  private final PList<JavaPojoMember> members;
+  private final JavaPojoMembers members;
   private final Optional<JavaAllOfComposition> allOfComposition;
   private final Optional<JavaOneOfComposition> oneOfComposition;
   private final Optional<JavaAnyOfComposition> anyOfComposition;
@@ -72,7 +73,7 @@ public class JavaObjectPojo implements JavaPojo {
       JavaPojoName name,
       SchemaName schemaName,
       String description,
-      PList<JavaPojoMember> members,
+      JavaPojoMembers members,
       Optional<JavaAllOfComposition> allOfComposition,
       Optional<JavaOneOfComposition> oneOfComposition,
       Optional<JavaAnyOfComposition> anyOfComposition,
@@ -97,15 +98,25 @@ public class JavaObjectPojo implements JavaPojo {
 
   private static void assertPropertiesHaveNotSameNameAndDifferentAttributes(
       JavaPojoName name,
-      PList<JavaPojoMember> members,
+      JavaPojoMembers members,
       Optional<JavaAllOfComposition> allOfComposition,
       Optional<JavaOneOfComposition> oneOfComposition,
       Optional<JavaAnyOfComposition> anyOfComposition) {
     final PList<JavaPojoMember> allMembers =
         members
-            .concat(allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty))
-            .concat(oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty))
-            .concat(anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty));
+            .add(
+                allOfComposition
+                    .map(JavaAllOfComposition::getMembers)
+                    .orElseGet(JavaPojoMembers::empty))
+            .add(
+                oneOfComposition
+                    .map(JavaOneOfComposition::getMembers)
+                    .orElseGet(JavaPojoMembers::empty))
+            .add(
+                anyOfComposition
+                    .map(JavaAnyOfComposition::getMembers)
+                    .orElseGet(JavaPojoMembers::empty))
+            .asList();
 
     final PList<JavaPojoMember> invalidMembers =
         allMembers
@@ -184,7 +195,7 @@ public class JavaObjectPojo implements JavaPojo {
         .name(pojoName)
         .schemaName(objectPojo.getName().getSchemaName())
         .description(objectPojo.getDescription())
-        .members(members)
+        .members(JavaPojoMembers.fromList(members))
         .type(type)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .additionalProperties(javaAdditionalProperties)
@@ -205,7 +216,7 @@ public class JavaObjectPojo implements JavaPojo {
 
   private PojoPromotionResult promote(
       Optional<JavaPojoName> rootName, PromotableMembers promotableMembers) {
-    final PList<JavaPojoMember> promotedMembers =
+    final JavaPojoMembers promotedMembers =
         members.map(
             originalMember ->
                 promotableMembers
@@ -235,7 +246,7 @@ public class JavaObjectPojo implements JavaPojo {
             .name(deviatedPromotionName)
             .schemaName(schemaName)
             .description(description)
-            .members(promotedMembers.concat(promotedRequiredAdditionalProperties))
+            .members(promotedMembers.add(promotedRequiredAdditionalProperties))
             .type(type)
             .requiredAdditionalProperties(remainingRequiredAdditionalProperties)
             .additionalProperties(additionalProperties)
@@ -258,7 +269,8 @@ public class JavaObjectPojo implements JavaPojo {
                 promotedOneOfComposition.map(OneOfCompositionPromotionResult::getNewPojos),
                 promotedAnyOfComposition.map(AnyOfCompositionPromotionResult::getNewPojos))
             .flatMapOptional(Function.identity())
-            .flatMap(pojos -> pojos);
+            .flatMap(pojos -> pojos)
+            .cons(promotedPojo);
 
     return new PojoPromotionResult(promotedPojo, newPojos);
   }
@@ -299,7 +311,7 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public boolean hasRequiredMembers() {
-    return members.exists(JavaPojoMember::isRequired);
+    return members.hasRequiredMembers();
   }
 
   public boolean hasNotRequiredMembers() {
@@ -307,35 +319,33 @@ public class JavaObjectPojo implements JavaPojo {
   }
 
   public PList<JavaPojoMember> getMembers() {
-    return members;
+    return members.asList();
   }
 
   /** This includes also any possible required additional property. */
   public int getRequiredMemberCount() {
-    return members.filter(JavaPojoMember::isRequired).size() + requiredAdditionalProperties.size();
+    return members.getRequiredMemberCount() + requiredAdditionalProperties.size();
   }
 
   public PList<JavaPojoMember> getAllMembersForComposition() {
-    return getMembers()
+    return members
         .map(member -> member.asInnerEnumOf(getClassName()))
-        .concat(getComposedMembers());
+        .add(getComposedMembers())
+        .asList();
   }
 
   PList<JavaPojoMember> getComposedMembers() {
-    final PList<JavaPojoMember> allOfMembers =
-        allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(PList::empty);
-    final PList<JavaPojoMember> oneOfMembers =
-        oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(PList::empty);
-    final PList<JavaPojoMember> anyOfMembers =
-        anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(PList::empty);
-    return allOfMembers
-        .concat(oneOfMembers)
-        .concat(anyOfMembers)
-        .distinct(JavaPojoMember::getTechnicalMemberKey);
+    final JavaPojoMembers allOfMembers =
+        allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
+    final JavaPojoMembers oneOfMembers =
+        oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
+    final JavaPojoMembers anyOfMembers =
+        anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
+    return allOfMembers.add(oneOfMembers).add(anyOfMembers).asList();
   }
 
   public PList<JavaPojoMember> getAllMembers() {
-    return members.concat(getComposedMembers()).distinct(JavaPojoMember::getTechnicalMemberKey);
+    return members.add(getComposedMembers()).asList();
   }
 
   public PList<TechnicalPojoMember> getTechnicalMembers() {

@@ -6,6 +6,7 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
@@ -44,7 +45,7 @@ public class JavaAllOfComposition {
     return javaComposition.getPojos();
   }
 
-  public PList<JavaPojoMember> getMembers() {
+  public JavaPojoMembers getMembers() {
     return javaComposition.getMembers(JavaPojoMember::asAllOfMember);
   }
 

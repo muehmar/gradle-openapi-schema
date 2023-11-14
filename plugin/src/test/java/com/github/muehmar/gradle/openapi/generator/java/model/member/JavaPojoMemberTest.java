@@ -28,13 +28,13 @@ class JavaPojoMemberTest {
 
   @Test
   void getGetterName_when_called_then_correctGetter() {
-    final JavaPojoMember javaPojoMember = JavaPojoMembers.requiredString();
+    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.requiredString();
     assertEquals("getStringVal", javaPojoMember.getGetterName().asString());
   }
 
   @Test
   void getWitherName_when_called_then_correctGetter() {
-    final JavaPojoMember javaPojoMember = JavaPojoMembers.requiredString();
+    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.requiredString();
     assertEquals("withStringVal", javaPojoMember.getWitherName().asString());
   }
 
@@ -42,7 +42,7 @@ class JavaPojoMemberTest {
   @MethodSource("getterNameWithSuffix")
   void getGetterNameWithSuffix_when_calledForAllVariants_then_suffixedWithCorrespondingGetterSuffix(
       Necessity necessity, Nullability nullability, String getterName) {
-    final JavaPojoMember javaPojoMember = JavaPojoMembers.string(necessity, nullability);
+    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.string(necessity, nullability);
 
     assertEquals(
         getterName,
@@ -63,27 +63,27 @@ class JavaPojoMemberTest {
   @CsvSource({"is, isStringVal", "get, getStringVal", "set, setStringVal", "'', stringVal"})
   void prefixedMethodName_when_called_then_matchExpectedMethodName(
       String prefix, String expectedMethodName) {
-    final JavaPojoMember member = JavaPojoMembers.requiredString();
+    final JavaPojoMember member = TestJavaPojoMembers.requiredString();
     assertEquals(expectedMethodName, member.prefixedMethodName(prefix).asString());
   }
 
   @Test
   void getValidationGetterName_when_calledWithDefaultSettings_then_correctMethodName() {
-    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaPojoMember member = TestJavaPojoMembers.requiredString();
     JavaName validationGetterName = member.getValidationGetterName(defaultTestSettings());
     assertEquals("getStringValRaw", validationGetterName.asString());
   }
 
   @Test
   void getIsNullFlagName_when_called_then_correctMethodName() {
-    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaPojoMember member = TestJavaPojoMembers.requiredString();
     JavaName validationGetterName = member.getIsNullFlagName();
     assertEquals("isStringValNull", validationGetterName.asString());
   }
 
   @Test
   void getIsPresentFlagName_when_called_then_correctMethodName() {
-    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaPojoMember member = TestJavaPojoMembers.requiredString();
     JavaName validationGetterName = member.getIsPresentFlagName();
     assertEquals("isStringValPresent", validationGetterName.asString());
   }
@@ -100,25 +100,25 @@ class JavaPojoMemberTest {
 
   public static Stream<Arguments> membersForCreatingTechnicalMembers() {
     return Stream.of(
-        arguments(JavaPojoMembers.requiredBirthdate(), "birthdate"),
-        arguments(JavaPojoMembers.optionalString(), "optionalStringVal"),
+        arguments(TestJavaPojoMembers.requiredBirthdate(), "birthdate"),
+        arguments(TestJavaPojoMembers.optionalString(), "optionalStringVal"),
         arguments(
-            JavaPojoMembers.requiredNullableString(),
+            TestJavaPojoMembers.requiredNullableString(),
             "requiredNullableStringVal,isRequiredNullableStringValPresent"),
         arguments(
-            JavaPojoMembers.optionalNullableString(),
+            TestJavaPojoMembers.optionalNullableString(),
             "optionalNullableStringVal,isOptionalNullableStringValNull"));
   }
 
   @Test
   void asInnerEnumOf_when_calledForStringMember_then_unchanged() {
-    final JavaPojoMember member = JavaPojoMembers.requiredString();
+    final JavaPojoMember member = TestJavaPojoMembers.requiredString();
     assertEquals(member, member.asInnerEnumOf(JavaName.fromString("AdminDto")));
   }
 
   @Test
   void asInnerEnumOf_when_calledForEnumMember_then_classNameReferencedWithOuterClass() {
-    final JavaPojoMember member = JavaPojoMembers.requiredColorEnum();
+    final JavaPojoMember member = TestJavaPojoMembers.requiredColorEnum();
     final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaName.fromString("AdminDto"));
     assertEquals(
         "AdminDto.Color",

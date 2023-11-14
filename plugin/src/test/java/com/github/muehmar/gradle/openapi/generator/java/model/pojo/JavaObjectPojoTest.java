@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.optionalString;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredEmail;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.fromNameAndSuffix;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
@@ -24,9 +24,9 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
@@ -43,19 +43,16 @@ import org.junit.jupiter.api.Test;
 class JavaObjectPojoTest {
 
   @Test
-  void create_when_pojosHaveMembersWithSameNameButDifferentAttributes_then_throwsException() {
-    final JavaObjectPojo pojo1 =
-        JavaPojos.objectPojo(
-            PList.single(JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE)));
-    final JavaObjectPojo pojo2 =
-        JavaPojos.objectPojo(
-            PList.single(JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NOT_NULLABLE)));
+  void create_when_pojosHaveMembersWithSameNameButDifferentJavaType_then_throwsException() {
+    final JavaPojoMember member = requiredInteger();
+    final JavaObjectPojo pojo1 = JavaPojos.objectPojo(PList.single(member));
+    final JavaObjectPojo pojo2 = JavaPojos.objectPojo(member.withJavaType(JavaTypes.stringType()));
     final JavaObjectPojoBuilder.Builder builder =
         JavaObjectPojoBuilder.create()
             .name(fromNameAndSuffix("Object", "Dto"))
             .schemaName(SchemaName.ofString("Object"))
             .description("")
-            .members(PList.of(requiredEmail()))
+            .members(JavaPojoMembers.fromList(PList.of(requiredEmail())))
             .type(PojoType.DEFAULT)
             .requiredAdditionalProperties(PList.empty())
             .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -173,12 +170,14 @@ class JavaObjectPojoTest {
   void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsed() {
     final JavaObjectPojo oneOfPojoWithEnum =
         oneOfPojo(
-            objectPojo(JavaPojoMembers.requiredColorEnum())
+            objectPojo(TestJavaPojoMembers.requiredColorEnum())
                 .withName(fromNameAndSuffix("ColorPojo", "Dto")));
 
     final JavaObjectPojo pojo =
         JavaPojos.anyOfPojo(oneOfPojoWithEnum)
-            .withMembers(PList.single(JavaPojoMembers.requiredDirectionEnum()));
+            .withMembers(
+                JavaPojoMembers.fromList(
+                    PList.single(TestJavaPojoMembers.requiredDirectionEnum())));
 
     final PList<JavaPojoMember> members = pojo.getAllMembers();
 

@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.hashCodeMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.byteArrayMember;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.byteArrayMember;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;

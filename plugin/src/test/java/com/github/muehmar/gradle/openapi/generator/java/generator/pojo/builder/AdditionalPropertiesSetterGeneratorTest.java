@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.AdditionalPropertiesSetterGenerator.additionalPropertiesSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.objectType;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;

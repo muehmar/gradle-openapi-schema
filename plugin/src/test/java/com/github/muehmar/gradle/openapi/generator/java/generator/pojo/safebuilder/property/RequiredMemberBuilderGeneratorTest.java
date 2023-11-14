@@ -11,7 +11,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
@@ -75,7 +75,7 @@ class RequiredMemberBuilderGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            JavaPojos.objectPojo(JavaPojoMembers.requiredNullableBirthdate()),
+            JavaPojos.objectPojo(TestJavaPojoMembers.requiredNullableBirthdate()),
             TestPojoSettings.defaultTestSettings(),
             javaWriter());
 
@@ -91,7 +91,7 @@ class RequiredMemberBuilderGeneratorTest {
 
     final Writer writer =
         gen.generate(
-            JavaPojos.objectPojo(JavaPojoMembers.optionalBirthdate()),
+            JavaPojos.objectPojo(TestJavaPojoMembers.optionalBirthdate()),
             TestPojoSettings.defaultTestSettings(),
             javaWriter());
 

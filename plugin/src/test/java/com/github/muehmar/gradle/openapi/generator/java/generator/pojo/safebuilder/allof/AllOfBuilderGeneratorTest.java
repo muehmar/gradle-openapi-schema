@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuil
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant.FULL;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant.STANDARD;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof.AllOfBuilderGenerator.allOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDirectionEnum;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -11,7 +12,6 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -34,7 +34,7 @@ class AllOfBuilderGeneratorTest {
             JavaPojos.allOfPojo(
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
-                JavaPojos.objectPojo(JavaPojoMembers.requiredDirectionEnum())),
+                JavaPojos.objectPojo(requiredDirectionEnum())),
             defaultTestSettings(),
             javaWriter());
 
@@ -51,7 +51,7 @@ class AllOfBuilderGeneratorTest {
             JavaPojos.allOfPojo(
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
-                JavaPojos.objectPojo(JavaPojoMembers.requiredDirectionEnum())),
+                JavaPojos.objectPojo(requiredDirectionEnum())),
             defaultTestSettings(),
             javaWriter());
 
