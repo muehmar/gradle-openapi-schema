@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredPropertyBuilderName;
@@ -19,6 +20,17 @@ class OneOfBuilderNameTest {
   @EnumSource(SafeBuilderVariant.class)
   void initial_when_oneOfPojo_then_instanceOfOneOfBuilderNameReturned(SafeBuilderVariant variant) {
     final JavaObjectPojo oneOfPojo = JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
+
+    final BuilderName builderName = OneOfBuilderName.initial(variant, oneOfPojo);
+
+    assertTrue(builderName instanceof OneOfBuilderName);
+  }
+
+  @ParameterizedTest
+  @EnumSource(SafeBuilderVariant.class)
+  void initial_when_oneOfPojoWithoutMembersInSubschema_then_instanceOfOneOfBuilderNameReturned(
+      SafeBuilderVariant variant) {
+    final JavaObjectPojo oneOfPojo = JavaPojos.oneOfPojo(JavaPojos.objectPojo(PList.empty()));
 
     final BuilderName builderName = OneOfBuilderName.initial(variant, oneOfPojo);
 

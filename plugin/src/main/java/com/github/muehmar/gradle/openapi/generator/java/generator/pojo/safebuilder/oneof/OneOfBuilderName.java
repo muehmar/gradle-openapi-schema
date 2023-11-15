@@ -17,14 +17,7 @@ public class OneOfBuilderName implements BuilderName {
   public static BuilderName initial(SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
     return parentPojo
         .getOneOfComposition()
-        .<BuilderName>flatMap(
-            oneOfComposition ->
-                oneOfComposition
-                    .getPojos()
-                    .head()
-                    .getAllMembers()
-                    .headOption()
-                    .map(member -> new OneOfBuilderName(builderVariant, parentPojo)))
+        .<BuilderName>map(oneOfComposition -> new OneOfBuilderName(builderVariant, parentPojo))
         .orElse(AnyOfBuilderName.initial(builderVariant, parentPojo));
   }
 
