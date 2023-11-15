@@ -1,6 +1,10 @@
 anyOfMemberAndNoJsonSupport=[
 java.time.LocalDate
 
+LocalDate getBirthdateJson() {
+  return birthdate;
+}
+
 LocalDate getBirthdate() {
   return birthdate;
 }
@@ -8,66 +12,100 @@ LocalDate getBirthdate() {
 
 
 optionalAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.time.LocalDate
+java.util.Optional
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-LocalDate getBirthdate() {
+LocalDate getBirthdateJson() {
   return birthdate;
+}
+
+@JsonIgnore
+Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
 }
 ]
 
 
 optionalNullableAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
 java.time.LocalDate
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getBirthdate() {
+Object getBirthdateJson() {
   return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+}
+
+@JsonIgnore
+Tristate<LocalDate> getBirthdate() {
+  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
 }
 ]
 
 
 optionalNullableOneOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
 java.time.LocalDate
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getBirthdate() {
+Object getBirthdateJson() {
   return isBirthdateNull ? new JacksonNullContainer<>(birthdate) : birthdate;
+}
+
+@JsonIgnore
+Tristate<LocalDate> getBirthdate() {
+  return Tristate.ofNullableAndNullFlag(birthdate, isBirthdateNull);
 }
 ]
 
 
 optionalOneOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.time.LocalDate
+java.util.Optional
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-LocalDate getBirthdate() {
+LocalDate getBirthdateJson() {
   return birthdate;
+}
+
+@JsonIgnore
+Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
 }
 ]
 
 
 requiredAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.time.LocalDate
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+LocalDate getBirthdateJson() {
+  return birthdate;
+}
+
+@JsonIgnore
 LocalDate getBirthdate() {
   return birthdate;
 }
@@ -75,40 +113,60 @@ LocalDate getBirthdate() {
 
 
 requiredNullableAnyOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.time.LocalDate
+java.util.Optional
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getBirthdate() {
+Object getBirthdateJson() {
   return isBirthdatePresent ? new JacksonNullContainer<>(birthdate) : null;
+}
+
+@JsonIgnore
+Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
 }
 ]
 
 
 requiredNullableOneOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.time.LocalDate
+java.util.Optional
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getBirthdate() {
+Object getBirthdateJson() {
   return isBirthdatePresent ? new JacksonNullContainer<>(birthdate) : null;
+}
+
+@JsonIgnore
+Optional<LocalDate> getBirthdate() {
+  return Optional.ofNullable(birthdate);
 }
 ]
 
 
 requiredOneOfMember=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.time.LocalDate
 
 @JsonProperty("birthdate")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+LocalDate getBirthdateJson() {
+  return birthdate;
+}
+
+@JsonIgnore
 LocalDate getBirthdate() {
   return birthdate;
 }

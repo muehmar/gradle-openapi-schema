@@ -522,12 +522,22 @@ public class PersonDto {
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
+  @JsonIgnore
   LocalDate getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  String getUsernameJson() {
+    return username;
+  }
+
+  @JsonIgnore
   String getUsername() {
     return username;
   }
@@ -6624,12 +6634,22 @@ public class PersonDto {
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
+  @JsonIgnore
   LocalDate getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  String getUsernameJson() {
+    return username;
+  }
+
+  @JsonIgnore
   String getUsername() {
     return username;
   }

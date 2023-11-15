@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.tristateGetterMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isValidationEnabled;
@@ -29,27 +30,11 @@ class OptionalNullableGetter {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(jsonIgnore())
-        .append(tristateGetterMethod())
+        .append(tristateGetterMethod(PUBLIC))
         .append(jacksonSerializerMethodWithAnnotations())
         .append(validationMethod(option))
         .append(RefsGenerator.fieldRefs())
         .filter(JavaPojoMember::isOptionalAndNullable);
-  }
-
-  private static Generator<JavaPojoMember, PojoSettings> tristateGetterMethod() {
-    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnType(f -> String.format("Tristate<%s>", f.getJavaType().getParameterizedClassName()))
-        .methodName((f, settings) -> f.getGetterNameWithSuffix(settings).asString())
-        .noArguments()
-        .content(
-            f ->
-                String.format(
-                    "return Tristate.ofNullableAndNullFlag(%s, %s);",
-                    f.getName(), f.getIsNullFlagName()))
-        .build()
-        .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> jacksonSerializerMethodWithAnnotations() {
