@@ -52,7 +52,7 @@ class JavaObjectPojoTest {
             .name(fromNameAndSuffix("Object", "Dto"))
             .schemaName(SchemaName.ofString("Object"))
             .description("")
-            .members(JavaPojoMembers.fromList(PList.of(requiredEmail())))
+            .members(JavaPojoMembers.leastRestrictive(PList.of(requiredEmail())))
             .type(PojoType.DEFAULT)
             .requiredAdditionalProperties(PList.empty())
             .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -176,7 +176,7 @@ class JavaObjectPojoTest {
     final JavaObjectPojo pojo =
         JavaPojos.anyOfPojo(oneOfPojoWithEnum)
             .withMembers(
-                JavaPojoMembers.fromList(
+                JavaPojoMembers.leastRestrictive(
                     PList.single(TestJavaPojoMembers.requiredDirectionEnum())));
 
     final PList<JavaPojoMember> members = pojo.getAllMembers();

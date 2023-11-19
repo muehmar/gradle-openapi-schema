@@ -57,8 +57,7 @@ public class JavaAnyOfComposition {
   public AnyOfCompositionPromotionResult promote(
       JavaPojoName rootName, PromotableMembers promotableMembers) {
     final JavaComposition.CompositionPromotionResult result =
-        javaComposition.promote(
-            rootName, promotableMembers.integrateDynamicallyPromotableMembers());
+        javaComposition.promote(rootName, promotableMembers::addSubPojo);
     return new AnyOfCompositionPromotionResult(
         new JavaAnyOfComposition(result.getComposition()), result.getNewPojos());
   }

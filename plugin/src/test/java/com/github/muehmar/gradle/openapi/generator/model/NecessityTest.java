@@ -32,4 +32,16 @@ class NecessityTest {
       Necessity n1, Necessity n2, Necessity expected) {
     assertEquals(expected, Necessity.leastRestrictive(n1, n2));
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "OPTIONAL,OPTIONAL,OPTIONAL",
+    "REQUIRED,OPTIONAL,REQUIRED",
+    "OPTIONAL,REQUIRED,REQUIRED",
+    "REQUIRED,REQUIRED,REQUIRED"
+  })
+  void mostRestrictive_when_twoValues_then_matchExpected(
+      Necessity n1, Necessity n2, Necessity expected) {
+    assertEquals(expected, Necessity.mostRestrictive(n1, n2));
+  }
 }

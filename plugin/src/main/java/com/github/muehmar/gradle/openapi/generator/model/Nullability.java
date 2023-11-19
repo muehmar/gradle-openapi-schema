@@ -13,6 +13,10 @@ public enum Nullability {
     return n1 == NULLABLE ? n1 : n2;
   }
 
+  public static Nullability mostRestrictive(Nullability n1, Nullability n2) {
+    return n1 == NOT_NULLABLE ? n1 : n2;
+  }
+
   public boolean isNullable() {
     return this == NULLABLE;
   }

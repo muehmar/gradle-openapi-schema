@@ -21,7 +21,7 @@ class JavaPojoMembersTest {
   @Test
   void add_when_calledMultipleTimesForDifferentMembers_then_allAdded() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.empty()
+        JavaPojoMembers.emptyLeastRestrictive()
             .add(requiredEmail())
             .add(requiredInteger())
             .add(optionalBirthdate());
@@ -33,7 +33,8 @@ class JavaPojoMembersTest {
   @Test
   void fromList_when_calledMultipleTimesForDifferentMembers_then_allAdded() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.fromList(PList.of(requiredEmail(), requiredInteger(), optionalBirthdate()));
+        JavaPojoMembers.leastRestrictive(
+            PList.of(requiredEmail(), requiredInteger(), optionalBirthdate()));
 
     assertEquals(
         PList.of(requiredEmail(), requiredInteger(), optionalBirthdate()), pojoMembers.asList());
@@ -42,7 +43,7 @@ class JavaPojoMembersTest {
   @Test
   void add_when_calledMultipleTimesForSameMembers_then_distinctAdded() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.empty()
+        JavaPojoMembers.emptyLeastRestrictive()
             .add(requiredEmail())
             .add(requiredEmail())
             .add(requiredInteger())
@@ -56,7 +57,7 @@ class JavaPojoMembersTest {
   @Test
   void fromList_when_calledMultipleTimesForSameMembers_then_distinctAdded() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.fromList(
+        JavaPojoMembers.leastRestrictive(
             PList.of(
                 requiredEmail(),
                 requiredEmail(),
@@ -76,7 +77,7 @@ class JavaPojoMembersTest {
     final JavaPojoMember member2 =
         requiredInteger().withNecessity(REQUIRED).withNullability(NOT_NULLABLE);
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.empty()
+        JavaPojoMembers.emptyLeastRestrictive()
             .add(member1)
             .add(member1.withNecessity(OPTIONAL))
             .add(member1.withNullability(NULLABLE))
@@ -93,7 +94,7 @@ class JavaPojoMembersTest {
   @Test
   void hasRequiredMembers_when_containsOnlyOptionalMembers_then_false() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.empty().add(optionalString()).add(optionalBirthdate());
+        JavaPojoMembers.emptyLeastRestrictive().add(optionalString()).add(optionalBirthdate());
 
     assertFalse(pojoMembers.hasRequiredMembers());
   }
@@ -101,7 +102,7 @@ class JavaPojoMembersTest {
   @Test
   void hasRequiredMembers_when_containsAtLeastOneRequiredMember_then_true() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.empty().add(requiredInteger()).add(optionalBirthdate());
+        JavaPojoMembers.emptyLeastRestrictive().add(requiredInteger()).add(optionalBirthdate());
 
     assertTrue(pojoMembers.hasRequiredMembers());
   }
@@ -109,7 +110,7 @@ class JavaPojoMembersTest {
   @Test
   void getRequiredMemberCount_when_containsOnlyOptionalMembers_then_zero() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.empty().add(optionalString()).add(optionalBirthdate());
+        JavaPojoMembers.emptyLeastRestrictive().add(optionalString()).add(optionalBirthdate());
 
     assertEquals(0, pojoMembers.getRequiredMemberCount());
   }
@@ -117,7 +118,7 @@ class JavaPojoMembersTest {
   @Test
   void getRequiredMemberCount_when_containsTwoRequiredMembers_then_two() {
     final JavaPojoMembers pojoMembers =
-        JavaPojoMembers.empty()
+        JavaPojoMembers.emptyLeastRestrictive()
             .add(requiredInteger())
             .add(optionalBirthdate())
             .add(requiredString());

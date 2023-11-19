@@ -53,7 +53,8 @@ class ValidatorClassGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
             .withMembers(
-                JavaPojoMembers.fromList(PList.of(TestJavaPojoMembers.requiredColorEnum())));
+                JavaPojoMembers.leastRestrictive(
+                    PList.of(TestJavaPojoMembers.requiredColorEnum())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -68,7 +69,8 @@ class ValidatorClassGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
             .withMembers(
-                JavaPojoMembers.fromList(PList.of(TestJavaPojoMembers.requiredColorEnum())));
+                JavaPojoMembers.leastRestrictive(
+                    PList.of(TestJavaPojoMembers.requiredColorEnum())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -100,7 +102,8 @@ class ValidatorClassGeneratorTest {
     final JavaObjectPojo pojo =
         JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
             .withMembers(
-                JavaPojoMembers.fromList(PList.of(TestJavaPojoMembers.requiredColorEnum())));
+                JavaPojoMembers.leastRestrictive(
+                    PList.of(TestJavaPojoMembers.requiredColorEnum())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

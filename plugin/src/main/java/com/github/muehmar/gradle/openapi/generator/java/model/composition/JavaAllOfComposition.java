@@ -52,7 +52,7 @@ public class JavaAllOfComposition {
   public AllOfCompositionPromotionResult promote(
       JavaPojoName rootName, PromotableMembers promotableMembers) {
     final JavaComposition.CompositionPromotionResult result =
-        javaComposition.promote(rootName, promotableMembers);
+        javaComposition.promote(rootName, ignore -> promotableMembers);
     return new AllOfCompositionPromotionResult(
         new JavaAllOfComposition(result.getComposition()), result.getNewPojos());
   }

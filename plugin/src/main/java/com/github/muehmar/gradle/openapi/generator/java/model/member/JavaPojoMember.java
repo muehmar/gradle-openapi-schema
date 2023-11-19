@@ -220,6 +220,33 @@ public class JavaPojoMember {
     return TRISTATE_TO_ISNULL_FLAG;
   }
 
+  public Optional<JavaPojoMember> mergeToLeastRestrictive(JavaPojoMember other) {
+    if (this.getMemberKey().equals(other.getMemberKey())) {
+      final Nullability leastRestrictiveNullability =
+          Nullability.leastRestrictive(this.getNullability(), other.getNullability());
+      final Necessity leastRestrictiveNecessity =
+          Necessity.leastRestrictive(this.getNecessity(), other.getNecessity());
+      return Optional.of(
+          this.withNullability(leastRestrictiveNullability)
+              .withNecessity(leastRestrictiveNecessity));
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  public Optional<JavaPojoMember> mergeToMostRestrictive(JavaPojoMember other) {
+    if (this.getMemberKey().equals(other.getMemberKey())) {
+      final Nullability mostRestrictiveNullability =
+          Nullability.mostRestrictive(this.getNullability(), other.getNullability());
+      final Necessity mostRestrictiveNecessity =
+          Necessity.mostRestrictive(this.getNecessity(), other.getNecessity());
+      return Optional.of(
+          this.withNullability(mostRestrictiveNullability).withNecessity(mostRestrictiveNecessity));
+    } else {
+      return Optional.empty();
+    }
+  }
+
   /** Creates {@link EnumContent} for this member in case its type is an {@link EnumType}. */
   public Optional<EnumContent> asEnumContent() {
     final Function<JavaEnumType, Optional<EnumContent>> toEnumPojo =

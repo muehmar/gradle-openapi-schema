@@ -33,4 +33,16 @@ class NullabilityTest {
       Nullability n1, Nullability n2, Nullability expected) {
     assertEquals(expected, Nullability.leastRestrictive(n1, n2));
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "NULLABLE,NULLABLE,NULLABLE",
+    "NOT_NULLABLE,NULLABLE,NOT_NULLABLE",
+    "NULLABLE,NOT_NULLABLE,NOT_NULLABLE",
+    "NOT_NULLABLE,NOT_NULLABLE,NOT_NULLABLE"
+  })
+  void mostRestrictive_when_twoValues_then_matchExpected(
+      Nullability n1, Nullability n2, Nullability expected) {
+    assertEquals(expected, Nullability.mostRestrictive(n1, n2));
+  }
 }

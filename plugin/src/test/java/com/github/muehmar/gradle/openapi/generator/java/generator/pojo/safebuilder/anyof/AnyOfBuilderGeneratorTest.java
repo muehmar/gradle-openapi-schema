@@ -34,7 +34,8 @@ class AnyOfBuilderGeneratorTest {
         JavaPojos.anyOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2());
     final JavaObjectPojo anyOfPojoWithMembers =
         anyOfPojo.withMembers(
-            JavaPojoMembers.fromList(PList.single(TestJavaPojoMembers.requiredNullableString())));
+            JavaPojoMembers.leastRestrictive(
+                PList.single(TestJavaPojoMembers.requiredNullableString())));
     final Writer writer =
         generator.generate(
             anyOfPojoWithMembers, TestPojoSettings.defaultTestSettings(), javaWriter());

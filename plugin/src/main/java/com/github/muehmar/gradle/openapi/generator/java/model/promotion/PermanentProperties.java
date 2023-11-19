@@ -9,31 +9,35 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredA
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import lombok.Value;
 
+/**
+ * Properties and required additional properties of a pojo which are permanent, i.e. either defined
+ * in the pojo itself or one of the allOf subpojos.
+ */
 @Value
-class StaticProperties {
+class PermanentProperties {
   PList<JavaPojoMember> members;
   PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties;
 
-  static StaticProperties extractDeep(JavaObjectPojo pojo) {
+  static PermanentProperties extractDeep(JavaObjectPojo pojo) {
     final PList<JavaPojoMember> staticMembers = pojo.getMembers();
     final PList<JavaRequiredAdditionalProperty> staticAddProps =
         pojo.getRequiredAdditionalProperties();
-    final StaticProperties initial = new StaticProperties(staticMembers, staticAddProps);
+    final PermanentProperties initial = new PermanentProperties(staticMembers, staticAddProps);
     return pojo.getAllOfComposition()
         .map(JavaAllOfComposition::getPojos)
         .map(NonEmptyList::toPList)
-        .map(pojos -> pojos.map(StaticProperties::extractDeep))
+        .map(pojos -> pojos.map(PermanentProperties::extractDeep))
         .orElse(PList.empty())
-        .foldLeft(initial, StaticProperties::concat);
+        .foldLeft(initial, PermanentProperties::concat);
   }
 
-  private StaticProperties concat(StaticProperties other) {
-    return new StaticProperties(
+  public PermanentProperties concat(PermanentProperties other) {
+    return new PermanentProperties(
         this.members.concat(other.members),
         this.requiredAdditionalProperties.concat(other.requiredAdditionalProperties));
   }
 
-  PList<JavaPojoMember> getStaticallyPromotableMembers() {
+  PList<JavaPojoMember> determinePromotableMembers() {
     return requiredAdditionalProperties
         .filter(JavaRequiredAdditionalProperty::isAnyType)
         .flatMapOptional(props -> members.find(member -> member.getName().equals(props.getName())))

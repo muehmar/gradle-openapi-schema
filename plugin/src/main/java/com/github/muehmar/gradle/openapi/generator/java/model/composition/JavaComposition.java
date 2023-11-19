@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import lombok.Value;
 
@@ -20,10 +21,10 @@ class JavaComposition {
     return pojos
         .toPList()
         .map(JavaObjectPojo::getAllMembersForComposition)
-        .map(JavaPojoMembers::fromList)
+        .map(JavaPojoMembers::leastRestrictive)
         .map(members -> members.map(deviateMember))
         .reduce(JavaPojoMembers::add)
-        .orElse(JavaPojoMembers.empty());
+        .orElse(JavaPojoMembers.emptyLeastRestrictive());
   }
 
   public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
@@ -31,9 +32,9 @@ class JavaComposition {
   }
 
   public CompositionPromotionResult promote(
-      JavaPojoName rootName, PromotableMembers promotableMembers) {
+      JavaPojoName rootName, Function<JavaObjectPojo, PromotableMembers> promotableMembers) {
     final NonEmptyList<PojoPromotionResult> promotedPojoResults =
-        pojos.map(pojo -> pojo.promote(rootName, promotableMembers));
+        pojos.map(pojo -> pojo.promote(rootName, promotableMembers.apply(pojo)));
     final JavaComposition promotedComposition =
         new JavaComposition(promotedPojoResults.map(PojoPromotionResult::getPromotedPojo));
     final PList<JavaObjectPojo> newPojos =

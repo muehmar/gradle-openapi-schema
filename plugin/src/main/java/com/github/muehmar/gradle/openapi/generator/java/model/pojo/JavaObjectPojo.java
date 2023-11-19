@@ -104,19 +104,22 @@ public class JavaObjectPojo implements JavaPojo {
       Optional<JavaAnyOfComposition> anyOfComposition) {
     final PList<JavaPojoMember> allMembers =
         members
-            .add(
+            .asList()
+            .concat(
                 allOfComposition
                     .map(JavaAllOfComposition::getMembers)
-                    .orElseGet(JavaPojoMembers::empty))
-            .add(
+                    .map(JavaPojoMembers::asList)
+                    .orElseGet(PList::empty))
+            .concat(
                 oneOfComposition
                     .map(JavaOneOfComposition::getMembers)
-                    .orElseGet(JavaPojoMembers::empty))
-            .add(
+                    .map(JavaPojoMembers::asList)
+                    .orElseGet(PList::empty))
+            .concat(
                 anyOfComposition
                     .map(JavaAnyOfComposition::getMembers)
-                    .orElseGet(JavaPojoMembers::empty))
-            .asList();
+                    .map(JavaPojoMembers::asList)
+                    .orElseGet(PList::empty));
 
     final PList<JavaPojoMember> invalidMembers =
         allMembers
@@ -195,7 +198,7 @@ public class JavaObjectPojo implements JavaPojo {
         .name(pojoName)
         .schemaName(objectPojo.getName().getSchemaName())
         .description(objectPojo.getDescription())
-        .members(JavaPojoMembers.fromList(members))
+        .members(JavaPojoMembers.leastRestrictive(members))
         .type(type)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .additionalProperties(javaAdditionalProperties)
@@ -219,15 +222,13 @@ public class JavaObjectPojo implements JavaPojo {
     final JavaPojoMembers promotedMembers =
         members.map(
             originalMember ->
-                promotableMembers
-                    .findStaticByName(originalMember.getName())
-                    .orElse(originalMember));
+                promotableMembers.findByName(originalMember.getName()).orElse(originalMember));
     final PList<JavaPojoMember> promotedRequiredAdditionalProperties =
         requiredAdditionalProperties.flatMapOptional(
-            prop -> promotableMembers.findStaticByName(prop.getName()));
+            prop -> promotableMembers.findByName(prop.getName()));
     final PList<JavaRequiredAdditionalProperty> remainingRequiredAdditionalProperties =
         requiredAdditionalProperties.filter(
-            prop -> not(promotableMembers.hasStaticPromotable(prop.getName())));
+            prop -> not(promotableMembers.isPromotable(prop.getName())));
     final Optional<AllOfCompositionPromotionResult> promotedAllOfComposition =
         allOfComposition.map(
             composition -> composition.promote(rootName.orElse(name), promotableMembers));
@@ -336,11 +337,17 @@ public class JavaObjectPojo implements JavaPojo {
 
   PList<JavaPojoMember> getComposedMembers() {
     final JavaPojoMembers allOfMembers =
-        allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
+        allOfComposition
+            .map(JavaAllOfComposition::getMembers)
+            .orElseGet(JavaPojoMembers::emptyLeastRestrictive);
     final JavaPojoMembers oneOfMembers =
-        oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
+        oneOfComposition
+            .map(JavaOneOfComposition::getMembers)
+            .orElseGet(JavaPojoMembers::emptyLeastRestrictive);
     final JavaPojoMembers anyOfMembers =
-        anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
+        anyOfComposition
+            .map(JavaAnyOfComposition::getMembers)
+            .orElseGet(JavaPojoMembers::emptyLeastRestrictive);
     return allOfMembers.add(oneOfMembers).add(anyOfMembers).asList();
   }
 

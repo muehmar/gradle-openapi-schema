@@ -73,8 +73,7 @@ public class JavaOneOfComposition {
   public OneOfCompositionPromotionResult promote(
       JavaPojoName rootName, PromotableMembers promotableMembers) {
     final JavaComposition.CompositionPromotionResult result =
-        javaComposition.promote(
-            rootName, promotableMembers.integrateDynamicallyPromotableMembers());
+        javaComposition.promote(rootName, promotableMembers::addSubPojo);
     return new OneOfCompositionPromotionResult(
         new JavaOneOfComposition(result.getComposition(), discriminator), result.getNewPojos());
   }
