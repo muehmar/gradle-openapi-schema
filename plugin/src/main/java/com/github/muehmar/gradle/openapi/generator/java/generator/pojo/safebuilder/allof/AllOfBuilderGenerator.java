@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -46,7 +47,7 @@ public class AllOfBuilderGenerator {
             .typeFormat("%s")
             .addRefs(writer -> writer)
             .build();
-    return singleMemberSetterGenerator(setter);
+    return singleMemberSetterGenerator(setter).filter(AllOfMember::hasNoCompositions);
   }
 
   private static Generator<AllOfMember, PojoSettings> optionalSetter() {
@@ -56,7 +57,7 @@ public class AllOfBuilderGenerator {
             .typeFormat("Optional<%s>")
             .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
-    return singleMemberSetterGenerator(setter);
+    return singleMemberSetterGenerator(setter).filter(AllOfMember::hasNoCompositions);
   }
 
   private static Generator<AllOfMember, PojoSettings> tristateSetter() {
@@ -66,7 +67,7 @@ public class AllOfBuilderGenerator {
             .typeFormat("Tristate<%s>")
             .addRefs(writer -> writer.ref(OpenApiUtilRefs.TRISTATE))
             .build();
-    return singleMemberSetterGenerator(setter);
+    return singleMemberSetterGenerator(setter).filter(AllOfMember::hasNoCompositions);
   }
 
   private static Generator<AllOfMember, PojoSettings> dtoSetter() {
@@ -150,6 +151,10 @@ public class AllOfBuilderGenerator {
 
     public String nextPojoBuilderClassName() {
       return allOfBuilderName.getNextPojoBuilderName().currentName();
+    }
+
+    public boolean hasNoCompositions() {
+      return not(allOfPojo.hasCompositions());
     }
 
     private boolean isFirstMember() {

@@ -71,7 +71,7 @@ public class AllOfBuilderName implements BuilderName {
   }
 
   public BuilderName getNextBuilderName() {
-    return memberIndex + 1 >= allOfPojo.getAllMembers().size()
+    return allOfPojo.hasCompositions() || memberIndex + 1 >= allOfPojo.getAllMembers().size()
         ? getNextPojoBuilderName()
         : incrementMemberIndex();
   }

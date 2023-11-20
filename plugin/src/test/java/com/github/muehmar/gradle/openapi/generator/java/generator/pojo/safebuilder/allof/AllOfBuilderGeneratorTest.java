@@ -42,6 +42,23 @@ class AllOfBuilderGeneratorTest {
   }
 
   @Test
+  @SnapshotName("allOfPojoWithCompositionsInAllOfSubPojos")
+  void generate_when_allOfPojoWithCompositionsInAllOfSubPojos_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = allOfBuilderGenerator(STANDARD);
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.allOfPojo(
+                sampleObjectPojo1(),
+                sampleObjectPojo2(),
+                JavaPojos.oneOfPojo(JavaPojos.objectPojo(requiredDirectionEnum()))),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("allOfPojoFullBuilder")
   void generate_when_allOfPojoFullBuilder_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = allOfBuilderGenerator(FULL);

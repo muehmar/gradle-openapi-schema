@@ -361,6 +361,12 @@ public class JavaObjectPojo implements JavaPojo {
         .add(additionalProperties.asTechnicalPojoMember());
   }
 
+  public boolean hasCompositions() {
+    return allOfComposition.isPresent()
+        || oneOfComposition.isPresent()
+        || anyOfComposition.isPresent();
+  }
+
   public Optional<JavaAllOfComposition> getAllOfComposition() {
     return allOfComposition;
   }
