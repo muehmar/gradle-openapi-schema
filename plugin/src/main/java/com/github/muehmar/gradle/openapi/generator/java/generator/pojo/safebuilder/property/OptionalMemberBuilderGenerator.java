@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.sa
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SetterBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator;
@@ -45,7 +46,7 @@ public class OptionalMemberBuilderGenerator {
     final Generator<OptionalMember, PojoSettings> singleMemberSetterGenerator =
         singleMemberSetterGenerator(setters);
     final Generator<OptionalMember, PojoSettings> singleBuilderClassGenerator =
-        singleBuilderClassGenerator(OptionalMember::builderClassName, singleMemberSetterGenerator);
+        singleBuilderClassGenerator(OptionalMember::stageClassName, singleMemberSetterGenerator);
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(
             singleBuilderClassGenerator,
@@ -55,39 +56,37 @@ public class OptionalMemberBuilderGenerator {
 
   @Value
   private static class OptionalMember implements SingleMemberSetterGenerator.Member {
-    OptionalPropertyBuilderName builderName;
-    JavaPojoMember member;
-    int idx;
+    OptionalPropertyBuilderStage stage;
 
-    private static PList<OptionalMember> fromObjectPojo(
+    public static Iterable<OptionalMember> fromObjectPojo(
         SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
-      return pojo.getMembers()
-          .filter(JavaPojoMember::isOptional)
-          .zipWithIndex()
-          .map(
-              p ->
-                  new OptionalMember(
-                      OptionalPropertyBuilderName.from(builderVariant, pojo, p.second()),
-                      p.first(),
-                      p.second()));
+      return BuilderStage.createStages(builderVariant, pojo)
+          .toPList()
+          .flatMapOptional(BuilderStage::asOptionalPropertyBuilderStage)
+          .map(OptionalMember::new);
     }
 
     @Override
-    public String builderClassName() {
-      return builderName.currentName();
+    public String stageClassName() {
+      return stage.getName();
     }
 
     @Override
-    public String nextBuilderClassName() {
-      return builderName.incrementIndex().currentName();
+    public String nextStageClassName() {
+      return stage.getNextStage().getName();
+    }
+
+    @Override
+    public JavaPojoMember getMember() {
+      return stage.getMember();
     }
 
     public boolean isNullable() {
-      return member.isNullable();
+      return getMember().isNullable();
     }
 
     public boolean isNotNullable() {
-      return member.isNotNullable();
+      return getMember().isNotNullable();
     }
   }
 }

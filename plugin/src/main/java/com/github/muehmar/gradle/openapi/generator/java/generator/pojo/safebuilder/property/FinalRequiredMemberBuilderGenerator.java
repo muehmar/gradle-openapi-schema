@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property;
 
 import static io.github.muehmar.codegenerator.Generator.constant;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -13,43 +15,48 @@ public class FinalRequiredMemberBuilderGenerator {
   public static Generator<JavaObjectPojo, PojoSettings> finalRequiredMemberBuilderGenerator(
       SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) ->
-                w.println("public static final class %s {", builderName(builderVariant, p)))
+        .appendList(
+            finalRequiredMemberBuilderGenerator(),
+            pojo ->
+                BuilderStage.createStages(builderVariant, pojo)
+                    .toPList()
+                    .flatMapOptional(BuilderStage::asLastRequiredPropertyBuilderStage),
+            newLine());
+  }
+
+  public static Generator<LastRequiredPropertyBuilderStage, PojoSettings>
+      finalRequiredMemberBuilderGenerator() {
+    return Generator.<LastRequiredPropertyBuilderStage, PojoSettings>emptyGen()
+        .append((stage, s, w) -> w.println("public static final class %s {", stage.getName()))
         .append(constant("private final Builder builder;"), 1)
         .appendNewLine()
-        .append(
-            (p, s, w) -> w.println("private %s(Builder builder) {", builderName(builderVariant, p)),
-            1)
+        .append((stage, s, w) -> w.println("private %s(Builder builder) {", stage.getName()), 1)
         .append(constant("this.builder = builder;"), 2)
         .append(constant("}"), 1)
         .appendNewLine()
-        .append(builderMethods(), 1)
+        .append(builderMethodsForLastRequiredPropertyBuilderStage(), 1)
         .append(constant("}"))
-        .filter(ignore -> builderVariant.equals(SafeBuilderVariant.STANDARD));
+        .filter(stage -> stage.getBuilderVariant().equals(SafeBuilderVariant.STANDARD));
   }
 
-  public static Generator<JavaObjectPojo, PojoSettings> builderMethods() {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append((p, s, w) -> w.println("public %s andAllOptionals(){", nextBuilderName(p)))
-        .append((p, s, w) -> w.println("return new %s(builder);", nextBuilderName(p)), 1)
+  public static Generator<LastRequiredPropertyBuilderStage, PojoSettings>
+      builderMethodsForLastRequiredPropertyBuilderStage() {
+    return Generator.<LastRequiredPropertyBuilderStage, PojoSettings>emptyGen()
+        .append(
+            (stage, s, w) ->
+                w.println("public %s andAllOptionals(){", stage.getNextStage().getName()))
+        .append(
+            (stage, s, w) -> w.println("return new %s(builder);", stage.getNextStage().getName()),
+            1)
         .append(constant("}"))
         .appendNewLine()
         .append(constant("public Builder andOptionals(){"))
         .append(constant("return builder;"), 1)
         .append(constant("}"))
         .appendNewLine()
-        .append((p, s, w) -> w.println("public %s build(){", p.getClassName()))
+        .append(
+            (stage, s, w) -> w.println("public %s build(){", stage.getParentPojo().getClassName()))
         .append(constant("return builder.build();"), 1)
         .append(constant("}"));
-  }
-
-  private static String builderName(SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
-    final int size = pojo.getRequiredMemberCount();
-    return RequiredPropertyBuilderName.from(builderVariant, pojo, size).currentName();
-  }
-
-  private static String nextBuilderName(JavaObjectPojo pojo) {
-    return OptionalPropertyBuilderName.initial(SafeBuilderVariant.STANDARD, pojo).currentName();
   }
 }

@@ -20,7 +20,7 @@ public class RequiredAdditionalPropertiesSetterGenerator {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(
             requiredAdditionalPropertiesSetter(),
-            JavaObjectPojo::getRequiredAdditionalProperties,
+            JavaObjectPojo::getAllPermanentRequiredAdditionalProperties,
             newLine());
   }
 

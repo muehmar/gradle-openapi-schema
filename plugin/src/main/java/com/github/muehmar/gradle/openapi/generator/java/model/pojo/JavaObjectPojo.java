@@ -315,10 +315,6 @@ public class JavaObjectPojo implements JavaPojo {
     return members.hasRequiredMembers();
   }
 
-  public boolean hasNotRequiredMembers() {
-    return not(hasRequiredMembers());
-  }
-
   public PList<JavaPojoMember> getMembers() {
     return members.asList();
   }
@@ -361,12 +357,6 @@ public class JavaObjectPojo implements JavaPojo {
         .add(additionalProperties.asTechnicalPojoMember());
   }
 
-  public boolean hasCompositions() {
-    return allOfComposition.isPresent()
-        || oneOfComposition.isPresent()
-        || anyOfComposition.isPresent();
-  }
-
   public Optional<JavaAllOfComposition> getAllOfComposition() {
     return allOfComposition;
   }
@@ -403,6 +393,13 @@ public class JavaObjectPojo implements JavaPojo {
 
   public PList<JavaRequiredAdditionalProperty> getRequiredAdditionalProperties() {
     return requiredAdditionalProperties;
+  }
+
+  public PList<JavaRequiredAdditionalProperty> getAllPermanentRequiredAdditionalProperties() {
+    return PList.fromOptional(allOfComposition)
+        .flatMap(JavaAllOfComposition::getPojos)
+        .flatMap(JavaObjectPojo::getAllPermanentRequiredAdditionalProperties)
+        .concat(requiredAdditionalProperties);
   }
 
   public JavaAdditionalProperties getAdditionalProperties() {

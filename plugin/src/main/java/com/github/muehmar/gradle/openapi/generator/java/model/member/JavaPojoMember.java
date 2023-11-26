@@ -290,6 +290,7 @@ public class JavaPojoMember {
 
   public enum MemberType {
     OBJECT_MEMBER,
+    ADDITIONAL_PROPERTY_MEMBER,
     ALL_OF_MEMBER,
     ONE_OF_MEMBER,
     ANY_OF_MEMBER,

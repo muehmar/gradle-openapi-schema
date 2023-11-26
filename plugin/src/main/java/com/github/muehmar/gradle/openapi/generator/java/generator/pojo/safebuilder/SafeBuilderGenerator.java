@@ -9,7 +9,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.sa
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.name.BuilderName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -55,13 +54,13 @@ public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSetti
             (pojo, s, w) ->
                 w.println(
                     "public static %s %s() {",
-                    BuilderName.initial(builderVariant, pojo).currentName(),
+                    BuilderStage.createStages(builderVariant, pojo).head().getName(),
                     builderName.apply(pojo)))
         .append(
             (pojo, s, w) ->
                 w.println(
                     "return new %s(new Builder());",
-                    BuilderName.initial(builderVariant, pojo).currentName()),
+                    BuilderStage.createStages(builderVariant, pojo).head().getName()),
             1)
         .append(constant("}"));
   }
