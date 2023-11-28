@@ -20,7 +20,7 @@ class NestedFullObjectValidationTest {
   void validate_when_allOk_then_noViolations() throws JsonProcessingException {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
-            "{\"amount\":15,\"route\":\"route\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
+            "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
     final Set<ConstraintViolation<NestedFullObjectDto>> violations = validate(dto);
@@ -45,7 +45,7 @@ class NestedFullObjectValidationTest {
       throws JsonProcessingException {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
-            "{\"amount\":15,\"route\":\"route\",\"color\":\"red\",\"type\":\"Admin\",\"adminname\":\"adminname\",\"message\":\"message\",\"hello\":\"world!\"}",
+            "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"Admin\",\"adminname\":\"adminname\",\"message\":\"message\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
     final Set<ConstraintViolation<NestedFullObjectDto>> violations = validate(dto);
@@ -65,14 +65,14 @@ class NestedFullObjectValidationTest {
   void validate_when_tooMuchProperties_then_violation() throws JsonProcessingException {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
-            "{\"amount\":15,\"route\":\"route\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\",\"too-much\":\"properties\"}",
+            "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\",\"too-much\":\"properties\"}",
             NestedFullObjectDto.class);
 
     final Set<ConstraintViolation<NestedFullObjectDto>> violations = validate(dto);
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].invalidOneOf[User].propertyCount -> must be less than or equal to 7",
+            "invalidAnyOf[FullObject].invalidOneOf[User].propertyCount -> must be less than or equal to 8",
             "invalidAnyOf[FullObject].validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "invalidAnyOf[FullObject].validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator",
             "invalidAnyOf[Member].membername -> must not be null",
@@ -85,7 +85,7 @@ class NestedFullObjectValidationTest {
   void validate_when_wrongDiscriminator_then_violation() throws JsonProcessingException {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
-            "{\"amount\":15,\"route\":\"route\",\"color\":\"red\",\"type\":\"Admin\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
+            "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"Admin\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
     final Set<ConstraintViolation<NestedFullObjectDto>> violations = validate(dto);
@@ -103,7 +103,7 @@ class NestedFullObjectValidationTest {
   void validate_when_requiredAllOfMemberMissing_then_violation() throws JsonProcessingException {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
-            "{\"amount\":15,\"route\":\"route\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
+            "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
     final Set<ConstraintViolation<NestedFullObjectDto>> violations = validate(dto);
@@ -122,7 +122,7 @@ class NestedFullObjectValidationTest {
   void validate_when_propertyTooLong_then_violation() throws JsonProcessingException {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
-            "{\"amount\":15,\"route\":\"route\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message-too-long\",\"hello\":\"world!\"}",
+            "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message-too-long\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
     final Set<ConstraintViolation<NestedFullObjectDto>> violations = validate(dto);
@@ -141,7 +141,7 @@ class NestedFullObjectValidationTest {
   void validate_when_anyOfPropertyTooLong_then_violation() throws JsonProcessingException {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
-            "{\"amount\":15,\"route\":\"route\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username-too-long\",\"message\":\"message\",\"hello\":\"world!\"}",
+            "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username-too-long\",\"message\":\"message\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
     final Set<ConstraintViolation<NestedFullObjectDto>> violations = validate(dto);

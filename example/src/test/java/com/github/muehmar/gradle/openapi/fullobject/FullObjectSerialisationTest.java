@@ -20,7 +20,7 @@ class FullObjectSerialisationTest {
   @Test
   void serialize_when_adminDto_then_correctJson() throws JsonProcessingException {
     final BaseDataDto baseDataDto =
-        baseDataDtoBuilder().setColor(BaseDataDto.ColorEnum.RED).build();
+        baseDataDtoBuilder().setColor(BaseDataDto.ColorEnum.RED).setSchema("schema").build();
     final AdminDto adminDto =
         adminDtoBuilder()
             .setType("type")
@@ -42,7 +42,7 @@ class FullObjectSerialisationTest {
     final String json = MAPPER.writeValueAsString(dto);
 
     assertEquals(
-        "{\"adminname\":\"adminname\",\"color\":\"red\",\"message\":\"message\",\"type\":\"Admin\",\"admin-prop\":\"value\",\"route\":\"route\",\"hello\":\"world!\"}",
+        "{\"adminname\":\"adminname\",\"color\":\"red\",\"message\":\"message\",\"type\":\"Admin\",\"schema\":\"schema\",\"admin-prop\":\"value\",\"route\":\"route\",\"hello\":\"world!\"}",
         json);
   }
 
@@ -63,6 +63,7 @@ class FullObjectSerialisationTest {
     final BaseDataDto expectedBaseDataDto =
         baseDataDtoBuilder()
             .setColor(BaseDataDto.ColorEnum.RED)
+            .setSchema("schema")
             .andAllOptionals()
             .setAdditionalProperties(new HashMap<>(additionalProperties))
             .addAdditionalProperty("type", "User")
