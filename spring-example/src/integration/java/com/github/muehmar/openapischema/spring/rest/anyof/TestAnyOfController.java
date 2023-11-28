@@ -51,7 +51,7 @@ public class TestAnyOfController extends ControllerUnitTest {
     final String contentAsString = mvcResult.getResponse().getContentAsString();
 
     assertEquals(
-        "{\"id\":\"admin-id\",\"type\":\"admin\",\"adminname\":\"admin-name\",\"level\":5}",
+        "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5,\"type\":\"admin\"}",
         contentAsString);
   }
 
