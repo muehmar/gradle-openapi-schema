@@ -4,15 +4,13 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.sa
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SetterBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import lombok.Value;
@@ -39,7 +37,7 @@ public class RequiredMemberBuilderGenerator {
     final Generator<RequiredMember, PojoSettings> singleMemberSetterMethods =
         singleMemberSetterMethods();
     final Generator<RequiredMember, PojoSettings> singleBuilderClass =
-        singleBuilderClassGenerator(RequiredMember::builderClassName, singleMemberSetterMethods);
+        singleBuilderClassGenerator(RequiredMember::stageClassName, singleMemberSetterMethods);
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(
             singleBuilderClass,
@@ -47,12 +45,10 @@ public class RequiredMemberBuilderGenerator {
             Generator.newLine());
   }
 
-  public static Generator<JavaObjectPojo, PojoSettings>
-      builderMethodsOfFirstRequiredMemberGenerator(SafeBuilderVariant builderVariant) {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(
-            singleMemberSetterMethods(),
-            pojo -> RequiredMember.fromObjectPojo(builderVariant, pojo).headOption());
+  public static Generator<RequiredPropertyBuilderStage, PojoSettings>
+      builderMethodsOfFirstRequiredMemberGenerator() {
+    return Generator.<RequiredPropertyBuilderStage, PojoSettings>emptyGen()
+        .append(singleMemberSetterMethods(), RequiredMember::new);
   }
 
   private static Generator<RequiredMember, PojoSettings> singleMemberSetterMethods() {
@@ -63,50 +59,33 @@ public class RequiredMemberBuilderGenerator {
 
   @Value
   private static class RequiredMember implements SingleMemberSetterGenerator.Member {
-    RequiredPropertyBuilderName builderName;
-    JavaPojoMember member;
-    int idx;
+    RequiredPropertyBuilderStage stage;
 
-    private static PList<RequiredMember> fromObjectPojo(
+    public static PList<RequiredMember> fromObjectPojo(
         SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
-      final PList<JavaPojoMember> requiredAdditionalPropertiesAsMember =
-          pojo.getRequiredAdditionalProperties()
-              .map(
-                  rp ->
-                      JavaPojoMemberBuilder.create()
-                          .pojoName(pojo.getJavaPojoName())
-                          .name(rp.getName())
-                          .description(rp.getDescription())
-                          .javaType(rp.getJavaType())
-                          .necessity(Necessity.REQUIRED)
-                          .nullability(Nullability.NOT_NULLABLE)
-                          .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
-                          .andAllOptionals()
-                          .build());
-      return pojo.getMembers()
-          .filter(JavaPojoMember::isRequired)
-          .concat(requiredAdditionalPropertiesAsMember)
-          .zipWithIndex()
-          .map(
-              p ->
-                  new RequiredMember(
-                      RequiredPropertyBuilderName.from(builderVariant, pojo, p.second()),
-                      p.first(),
-                      p.second()));
+      return BuilderStage.createStages(builderVariant, pojo)
+          .toPList()
+          .flatMapOptional(BuilderStage::asRequiredPropertyBuilderStage)
+          .map(RequiredMember::new);
     }
 
     @Override
-    public String builderClassName() {
-      return builderName.currentName();
+    public String stageClassName() {
+      return stage.getName();
     }
 
     @Override
-    public String nextBuilderClassName() {
-      return builderName.nextBuilderName();
+    public String nextStageClassName() {
+      return stage.getNextStage().getName();
+    }
+
+    @Override
+    public JavaPojoMember getMember() {
+      return stage.getMember();
     }
 
     public boolean isNullable() {
-      return member.isNullable();
+      return getMember().isNullable();
     }
   }
 }

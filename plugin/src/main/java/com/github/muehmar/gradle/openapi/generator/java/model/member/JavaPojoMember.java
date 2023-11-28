@@ -106,11 +106,11 @@ public class JavaPojoMember {
   }
 
   public boolean isTechnicallyEquals(JavaPojoMember other) {
-    return this.getTechnicalMemberKey().equals(other.getTechnicalMemberKey());
+    return this.getMemberKey().equals(other.getMemberKey());
   }
 
-  public TechnicalMemberKey getTechnicalMemberKey() {
-    return new TechnicalMemberKey(name, javaType, necessity, nullability);
+  public MemberKey getMemberKey() {
+    return new MemberKey(name, javaType);
   }
 
   public JavaPojoMember asAllOfMember() {
@@ -220,6 +220,33 @@ public class JavaPojoMember {
     return TRISTATE_TO_ISNULL_FLAG;
   }
 
+  public Optional<JavaPojoMember> mergeToLeastRestrictive(JavaPojoMember other) {
+    if (this.getMemberKey().equals(other.getMemberKey())) {
+      final Nullability leastRestrictiveNullability =
+          Nullability.leastRestrictive(this.getNullability(), other.getNullability());
+      final Necessity leastRestrictiveNecessity =
+          Necessity.leastRestrictive(this.getNecessity(), other.getNecessity());
+      return Optional.of(
+          this.withNullability(leastRestrictiveNullability)
+              .withNecessity(leastRestrictiveNecessity));
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  public Optional<JavaPojoMember> mergeToMostRestrictive(JavaPojoMember other) {
+    if (this.getMemberKey().equals(other.getMemberKey())) {
+      final Nullability mostRestrictiveNullability =
+          Nullability.mostRestrictive(this.getNullability(), other.getNullability());
+      final Necessity mostRestrictiveNecessity =
+          Necessity.mostRestrictive(this.getNecessity(), other.getNecessity());
+      return Optional.of(
+          this.withNullability(mostRestrictiveNullability).withNecessity(mostRestrictiveNecessity));
+    } else {
+      return Optional.empty();
+    }
+  }
+
   /** Creates {@link EnumContent} for this member in case its type is an {@link EnumType}. */
   public Optional<EnumContent> asEnumContent() {
     final Function<JavaEnumType, Optional<EnumContent>> toEnumPojo =
@@ -263,6 +290,7 @@ public class JavaPojoMember {
 
   public enum MemberType {
     OBJECT_MEMBER,
+    ADDITIONAL_PROPERTY_MEMBER,
     ALL_OF_MEMBER,
     ONE_OF_MEMBER,
     ANY_OF_MEMBER,

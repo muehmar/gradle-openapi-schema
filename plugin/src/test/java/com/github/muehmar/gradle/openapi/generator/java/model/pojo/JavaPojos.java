@@ -16,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
@@ -35,10 +36,11 @@ public class JavaPojos {
         .schemaName(SchemaName.ofString("SampleObjectPojo1"))
         .description("")
         .members(
-            PList.of(
-                JavaPojoMembers.requiredString(),
-                JavaPojoMembers.requiredInteger(),
-                JavaPojoMembers.requiredDouble()))
+            JavaPojoMembers.fromMembers(
+                PList.of(
+                    TestJavaPojoMembers.requiredString(),
+                    TestJavaPojoMembers.requiredInteger(),
+                    TestJavaPojoMembers.requiredDouble())))
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -52,10 +54,11 @@ public class JavaPojos {
         .schemaName(SchemaName.ofString("SampleObjectPojo2"))
         .description("")
         .members(
-            PList.of(
-                JavaPojoMembers.requiredString(),
-                JavaPojoMembers.requiredBirthdate(),
-                JavaPojoMembers.requiredEmail()))
+            JavaPojoMembers.fromMembers(
+                PList.of(
+                    TestJavaPojoMembers.requiredString(),
+                    TestJavaPojoMembers.requiredBirthdate(),
+                    TestJavaPojoMembers.requiredEmail())))
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -69,7 +72,10 @@ public class JavaPojos {
         .schemaName(SchemaName.ofString("Illegal?Identifier"))
         .description("")
         .members(
-            PList.of(JavaPojoMembers.keywordNameString(), JavaPojoMembers.illegalCharacterString()))
+            JavaPojoMembers.fromMembers(
+                PList.of(
+                    TestJavaPojoMembers.keywordNameString(),
+                    TestJavaPojoMembers.illegalCharacterString())))
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -83,7 +89,7 @@ public class JavaPojos {
         .name(JavaPojoNames.fromNameAndSuffix("ObjectPojo1", "Dto"))
         .schemaName(SchemaName.ofString("ObjectPojo1"))
         .description("")
-        .members(members)
+        .members(JavaPojoMembers.fromMembers(members))
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(additionalProperties)
@@ -96,7 +102,7 @@ public class JavaPojos {
         .name(JavaPojoNames.fromNameAndSuffix("OneOfPojo1", "Dto"))
         .schemaName(SchemaName.ofString("OneOfPojo1"))
         .description("")
-        .members(PList.empty())
+        .members(JavaPojoMembers.empty())
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -119,7 +125,7 @@ public class JavaPojos {
         .name(JavaPojoNames.fromNameAndSuffix("OneOfPojo1", "Dto"))
         .schemaName(SchemaName.ofString("OneOfPojo1"))
         .description("")
-        .members(PList.empty())
+        .members(JavaPojoMembers.empty())
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -142,7 +148,7 @@ public class JavaPojos {
         .name(JavaPojoNames.fromNameAndSuffix("AnyOfPojo1", "Dto"))
         .schemaName(SchemaName.ofString("AnyOfPojo1"))
         .description("")
-        .members(PList.empty())
+        .members(JavaPojoMembers.empty())
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())

@@ -41,7 +41,7 @@ public class SingleMemberSetterGenerator {
         MethodGenBuilder.<T, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
-            .returnType(T::nextBuilderClassName)
+            .returnType(T::nextStageClassName)
             .methodName(
                 (m, s) -> m.getMember().prefixedMethodName(s.getBuilderMethodPrefix()).asString())
             .singleArgument(
@@ -55,7 +55,7 @@ public class SingleMemberSetterGenerator {
                 (m, s, w) ->
                     w.println(
                         "return new %s(builder.%s(%s));",
-                        m.nextBuilderClassName(),
+                        m.nextStageClassName(),
                         m.getMember().prefixedMethodName(s.getBuilderMethodPrefix()),
                         m.getMember().getName()))
             .build()
@@ -66,9 +66,9 @@ public class SingleMemberSetterGenerator {
   }
 
   public interface Member {
-    String builderClassName();
+    String stageClassName();
 
-    String nextBuilderClassName();
+    String nextStageClassName();
 
     JavaPojoMember getMember();
   }

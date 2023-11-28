@@ -522,12 +522,22 @@ public class PersonDto {
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
+  @JsonIgnore
   LocalDate getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  String getUsernameJson() {
+    return username;
+  }
+
+  @JsonIgnore
   String getUsername() {
     return username;
   }
@@ -1204,26 +1214,6 @@ public class ObjectPojo1Dto {
 
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
-  }
-
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
-
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
-
-    public Builder andOptionals(){
-      return builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
   }
 
   public static final class OptPropertyBuilder0 {
@@ -3673,26 +3663,6 @@ public class ObjectPojo1Dto {
     return new OptPropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
-
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
-
-    public Builder andOptionals(){
-      return builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
-  }
-
   public static final class OptPropertyBuilder0 {
     private final Builder builder;
 
@@ -3894,26 +3864,6 @@ public class ObjectPojo1Dto {
 
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
-  }
-
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
-
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
-
-    public Builder andOptionals(){
-      return builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
   }
 
   public static final class OptPropertyBuilder0 {
@@ -5305,26 +5255,6 @@ public class ObjectPojo1Dto {
     return new OptPropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
-
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
-
-    public Builder andOptionals(){
-      return builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
-  }
-
   public static final class OptPropertyBuilder0 {
     private final Builder builder;
 
@@ -5523,26 +5453,6 @@ public class ObjectPojo1Dto {
 
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
-  }
-
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
-
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
-
-    public Builder andOptionals(){
-      return builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
   }
 
   public static final class OptPropertyBuilder0 {
@@ -5750,26 +5660,6 @@ public class ObjectPojo1Dto {
     return new OptPropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
-
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
-
-    public Builder andOptionals(){
-      return builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
-  }
-
   public static final class OptPropertyBuilder0 {
     private final Builder builder;
 
@@ -5965,26 +5855,6 @@ public class ObjectPojo1Dto {
 
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
-  }
-
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
-
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
-
-    public Builder andOptionals(){
-      return builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
   }
 
   public static final class OptPropertyBuilder0 {
@@ -6624,12 +6494,22 @@ public class PersonDto {
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
+  @JsonIgnore
   LocalDate getBirthdate() {
     return birthdate;
   }
 
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  String getUsernameJson() {
+    return username;
+  }
+
+  @JsonIgnore
   String getUsername() {
     return username;
   }

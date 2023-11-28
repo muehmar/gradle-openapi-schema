@@ -3,13 +3,14 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuil
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -23,82 +24,100 @@ public class FinalOptionalMemberBuilderGenerator {
   public static Generator<JavaObjectPojo, PojoSettings> finalOptionalMemberBuilderGenerator(
       SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) ->
-                w.println("public static final class %s {", builderName(builderVariant, p)))
+        .appendList(
+            finalOptionalMemberBuilderGenerator(),
+            pojo ->
+                BuilderStage.createStages(builderVariant, pojo)
+                    .toPList()
+                    .flatMapOptional(BuilderStage::asLastOptionalPropertyBuilderStage),
+            newLine());
+  }
+
+  public static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
+      finalOptionalMemberBuilderGenerator() {
+    return Generator.<LastOptionalPropertyBuilderStage, PojoSettings>emptyGen()
+        .append((stage, s, w) -> w.println("public static final class %s {", stage.getName()))
         .append(constant("private final Builder builder;"), 1)
         .appendNewLine()
-        .append(
-            (p, s, w) -> w.println("private %s(Builder builder) {", builderName(builderVariant, p)),
-            1)
+        .append((stage, s, w) -> w.println("private %s(Builder builder) {", stage.getName()), 1)
         .append(constant("this.builder = builder;"), 2)
         .append(constant("}"), 1)
-        .appendSingleBlankLine()
-        .append(additionalPropertiesSetters(builderVariant).indent(1))
-        .appendSingleBlankLine()
-        .append((p, s, w) -> w.println("public %s build(){", p.getClassName()), 1)
-        .append(constant("return builder.build();"), 2)
-        .append(constant("}"), 1)
+        .append(finalOptionalMemberBuilderSetterMethods().indent(1))
         .append(constant("}"));
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesSetters(
-      SafeBuilderVariant builderVariant) {
-    return singleAdditionalPropertySetter(builderVariant)
+  public static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
+      finalOptionalMemberBuilderSetterMethods() {
+    return Generator.<LastOptionalPropertyBuilderStage, PojoSettings>emptyGen()
         .appendSingleBlankLine()
-        .append(allAdditionalPropertiesSetter(builderVariant))
-        .append(RefsGenerator.javaTypeRefs(), p -> p.getAdditionalProperties().getType())
-        .filter(p -> p.getAdditionalProperties().isAllowed());
+        .append(additionalPropertiesSetters())
+        .appendSingleBlankLine()
+        .append(
+            (stage, s, w) -> w.println("public %s build(){", stage.getParentPojo().getClassName()))
+        .append(constant("return builder.build();"), 1)
+        .append(constant("}"));
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> singleAdditionalPropertySetter(
-      SafeBuilderVariant builderVariant) {
-    return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
+  private static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
+      additionalPropertiesSetters() {
+    return singleAdditionalPropertySetter()
+        .appendSingleBlankLine()
+        .append(allAdditionalPropertiesSetter())
+        .append(
+            RefsGenerator.javaTypeRefs(),
+            stage -> stage.getParentPojo().getAdditionalProperties().getType())
+        .filter(stage -> stage.getParentPojo().getAdditionalProperties().isAllowed());
+  }
+
+  private static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
+      singleAdditionalPropertySetter() {
+    return MethodGenBuilder.<LastOptionalPropertyBuilderStage, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(pojo -> builderName(builderVariant, pojo))
+        .returnType(LastOptionalPropertyBuilderStage::getName)
         .methodName("addAdditionalProperty")
         .arguments(
-            p ->
+            stage ->
                 PList.of(
                     argument("String", "key"),
                     argument(
-                        p.getAdditionalProperties().getType().getParameterizedClassName(),
+                        stage
+                            .getParentPojo()
+                            .getAdditionalProperties()
+                            .getType()
+                            .getParameterizedClassName(),
                         "value")))
         .content(
-            p ->
+            stage ->
                 String.format(
-                    "return new %s(builder.addAdditionalProperty(key, value));",
-                    builderName(builderVariant, p)))
+                    "return new %s(builder.addAdditionalProperty(key, value));", stage.getName()))
         .build();
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> allAdditionalPropertiesSetter(
-      SafeBuilderVariant builderVariant) {
-    return MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
+  private static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
+      allAdditionalPropertiesSetter() {
+    return MethodGenBuilder.<LastOptionalPropertyBuilderStage, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(pojo -> builderName(builderVariant, pojo))
+        .returnType(LastOptionalPropertyBuilderStage::getName)
         .methodName("setAdditionalProperties")
         .singleArgument(
-            p ->
+            stage ->
                 new Argument(
                     String.format(
                         "Map<String, %s>",
-                        p.getAdditionalProperties().getType().getParameterizedClassName()),
+                        stage
+                            .getParentPojo()
+                            .getAdditionalProperties()
+                            .getType()
+                            .getParameterizedClassName()),
                     additionalPropertiesName().asString()))
         .content(
-            p ->
+            stage ->
                 String.format(
                     "return new %s(builder.setAdditionalProperties(%s));",
-                    builderName(builderVariant, p), additionalPropertiesName()))
+                    stage.getName(), additionalPropertiesName()))
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_MAP));
-  }
-
-  private static String builderName(SafeBuilderVariant builderVariant, JavaObjectPojo pojo) {
-    return OptionalPropertyBuilderName.from(
-            builderVariant, pojo, pojo.getMembers().filter(JavaPojoMember::isOptional).size())
-        .currentName();
   }
 }

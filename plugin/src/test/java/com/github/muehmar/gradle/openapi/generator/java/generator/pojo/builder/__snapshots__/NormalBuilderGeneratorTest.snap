@@ -347,6 +347,105 @@ public static final class Builder {
 ]
 
 
+nestedRequiredAdditionalPropertiesInAllOfSubPojos=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+java.util.HashMap
+java.util.Map
+
+@JsonPOJOBuilder(withPrefix = "set")
+public static final class Builder {
+
+  private Builder() {
+  }
+
+  private String stringVal;
+  private Integer intVal;
+  private Double doubleVal;
+  private LocalDate birthdate;
+  private String email;
+  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  /**
+   * stringVal
+   */
+  @JsonProperty("stringVal")
+  private Builder setStringVal(String stringVal) {
+    this.stringVal = stringVal;
+    return this;
+  }
+
+  /**
+   * intVal
+   */
+  @JsonProperty("intVal")
+  private Builder setIntVal(Integer intVal) {
+    this.intVal = intVal;
+    return this;
+  }
+
+  /**
+   * doubleVal
+   */
+  @JsonProperty("doubleVal")
+  private Builder setDoubleVal(Double doubleVal) {
+    this.doubleVal = doubleVal;
+    return this;
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonProperty("birthdate")
+  private Builder setBirthdate(LocalDate birthdate) {
+    this.birthdate = birthdate;
+    return this;
+  }
+
+  /**
+   * email
+   */
+  @JsonProperty("email")
+  private Builder setEmail(String email) {
+    this.email = email;
+    return this;
+  }
+
+  private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    setStringVal(dto.getStringVal());
+    setBirthdate(dto.getBirthdate());
+    setEmail(dto.getEmail());
+    dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+    return this;
+  }
+
+  @JsonAnySetter
+  public Builder addAdditionalProperty(String key, Object value) {
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+    this.additionalProperties = new HashMap<>(additionalProperties);
+    return this;
+  }
+
+  private Builder setProp2(Integer prop2) {
+    return addAdditionalProperty("prop2", prop2);
+  }
+
+  private Builder setProp1(String prop1) {
+    return addAdditionalProperty("prop1", prop1);
+  }
+
+  public SampleObjectPojo1Dto build() {
+    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, birthdate, email, additionalProperties);
+  }
+}
+]
+
+
 oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonProperty

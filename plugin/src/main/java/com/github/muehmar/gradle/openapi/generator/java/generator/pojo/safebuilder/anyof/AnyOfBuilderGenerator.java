@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalRequiredMemberBuilderGenerator.builderMethods;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalOptionalMemberBuilderGenerator.finalOptionalMemberBuilderSetterMethods;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredMemberBuilderGenerator.builderMethodsOfFirstRequiredMemberGenerator;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
@@ -8,8 +8,10 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalRequiredMemberBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
@@ -28,88 +30,101 @@ public class AnyOfBuilderGenerator {
       SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(
-            anyOfBuilder(builderVariant),
-            pojo -> AnyOfBuilderClass.fromPojo(builderVariant, pojo),
+            anyOfBuilder(),
+            pojo ->
+                BuilderStage.createStages(builderVariant, pojo)
+                    .toPList()
+                    .flatMapOptional(BuilderStage::asAnyOfBuilderStage),
             newLine());
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfBuilder(
-      SafeBuilderVariant builderVariant) {
+  private static Generator<AnyOfBuilderStage, PojoSettings> anyOfBuilder() {
     return SingleBuilderClassGenerator.singleBuilderClassGenerator(
-        AnyOfBuilderClass::builderClassName, dtoSetters(builderVariant));
+        AnyOfBuilderStage::getName, dtoSetters());
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> dtoSetters(
-      SafeBuilderVariant builderVariant) {
-    return Generator.<AnyOfBuilderClass, PojoSettings>emptyGen()
-        .appendList(singleAnyOfDtoSetter(), AnyOfBuilderClass::getNameAndPojos, newLine())
-        .filter(AnyOfBuilderClass::isNotLastBuilder)
+  private static Generator<AnyOfBuilderStage, PojoSettings> dtoSetters() {
+    return Generator.<AnyOfStageWrapper, PojoSettings>emptyGen()
+        .appendList(singleAnyOfDtoSetter(), AnyOfStageWrapper::getNameAndPojos, newLine())
+        .filter(AnyOfStageWrapper::isNotLastStage)
         .appendSingleBlankLine()
-        .append(firstPropertySetters(builderVariant))
+        .append(firstPropertySetters())
         .appendSingleBlankLine()
-        .append(anyOfContainerSetter(builderVariant));
+        .append(anyOfContainerSetter())
+        .contraMap(AnyOfStageWrapper::new);
   }
 
-  private static Generator<AnyOfPojoAndBuilderName, PojoSettings> singleAnyOfDtoSetter() {
-    return MethodGenBuilder.<AnyOfPojoAndBuilderName, PojoSettings>create()
+  private static Generator<SingleAnyOfSubPojoWrapper, PojoSettings> singleAnyOfDtoSetter() {
+    return MethodGenBuilder.<SingleAnyOfSubPojoWrapper, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(AnyOfPojoAndBuilderName::nextBuilderClassName)
+        .returnType(SingleAnyOfSubPojoWrapper::nextStageClassName)
         .methodName(
-            (anyOfPojoAndBuilderName, settings) ->
-                anyOfPojoAndBuilderName
+            (pojoWrapper, settings) ->
+                pojoWrapper
                     .anyOfPojo
                     .prefixedClassNameForMethod(settings.getBuilderMethodPrefix())
                     .asString())
         .singleArgument(m -> new Argument(m.anyOfPojo.getClassName().asString(), "dto"))
         .content(
-            (m, s, w) ->
+            (pojoWrapper, s, w) ->
                 w.println(
                     "return new %s(builder.%s(dto));",
-                    m.nextBuilderClassName(),
-                    m.anyOfPojo.prefixedClassNameForMethod(s.getBuilderMethodPrefix())))
+                    pojoWrapper.nextStageClassName(),
+                    pojoWrapper.anyOfPojo.prefixedClassNameForMethod(s.getBuilderMethodPrefix())))
         .build();
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> firstPropertySetters(
-      SafeBuilderVariant builderVariant) {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(
-            builderMethodsOfFirstRequiredMemberGenerator(builderVariant)
-                .filter(JavaObjectPojo::hasRequiredMembers))
-        .append(builderMethods().filter(JavaObjectPojo::hasNotRequiredMembers))
-        .contraMap(AnyOfBuilderClass::getPojo)
-        .filter(AnyOfBuilderClass::isNotFirstBuilder);
+  private static Generator<AnyOfStageWrapper, PojoSettings> firstPropertySetters() {
+    return Generator.<AnyOfStageWrapper, PojoSettings>emptyGen()
+        .appendOptional(
+            builderMethodsOfFirstRequiredMemberGenerator(),
+            stageWrapper ->
+                stageWrapper
+                    .getStage()
+                    .getNextPropertyBuilderStage()
+                    .asRequiredPropertyBuilderStage())
+        .appendOptional(
+            FinalRequiredMemberBuilderGenerator.builderMethodsForLastRequiredPropertyBuilderStage(),
+            stageWrapper ->
+                stageWrapper
+                    .getStage()
+                    .getNextPropertyBuilderStage()
+                    .asLastRequiredPropertyBuilderStage())
+        .appendOptional(
+            finalOptionalMemberBuilderSetterMethods(),
+            stageWrapper ->
+                stageWrapper
+                    .getStage()
+                    .getNextPropertyBuilderStage()
+                    .asLastOptionalPropertyBuilderStage())
+        .filter(AnyOfStageWrapper::isNotFirstStage);
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfContainerSetter(
-      SafeBuilderVariant builderVariant) {
-    return MethodGenBuilder.<AnyOfBuilderClass, PojoSettings>create()
+  private static Generator<AnyOfStageWrapper, PojoSettings> anyOfContainerSetter() {
+    return MethodGenBuilder.<AnyOfStageWrapper, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(AnyOfBuilderName.last(builderVariant).currentName())
+        .returnType(stageWrapper -> stageWrapper.getStage().getLastStage().getName())
         .methodName(
-            (pojo, settings) ->
+            (stageWrapper, settings) ->
                 CONTAINER_NAME.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
-        .singleArgument(
-            pojo -> new Argument(pojo.container.getContainerName().asString(), "container"))
-        .content(anyOfContainerSetterContent(builderVariant))
+        .singleArgument(pojo -> new Argument(pojo.getContainerName(), "container"))
+        .content(anyOfContainerSetterContent())
         .build()
-        .filter(AnyOfBuilderClass::isFirstBuilder);
+        .filter(AnyOfStageWrapper::isFirstStage);
   }
 
-  private static Generator<AnyOfBuilderClass, PojoSettings> anyOfContainerSetterContent(
-      SafeBuilderVariant builderVariant) {
-    return Generator.<AnyOfBuilderClass, PojoSettings>emptyGen()
+  private static Generator<AnyOfStageWrapper, PojoSettings> anyOfContainerSetterContent() {
+    return Generator.<AnyOfStageWrapper, PojoSettings>emptyGen()
         .appendList(
             singleContainerPropertySetter(),
-            oneOfPojo -> oneOfPojo.getContainer().getComposition().getPojos(),
+            stageWrapper -> stageWrapper.getStage().getAnyOfComposition().getPojos(),
             newLine())
         .append(
-            (p, s, w) ->
+            (stageWrapper, s, w) ->
                 w.println(
-                    "return new %s(builder);",
-                    AnyOfBuilderName.last(builderVariant).currentName()));
+                    "return new %s(builder);", stageWrapper.getStage().getLastStage().getName()));
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> singleContainerPropertySetter() {
@@ -128,62 +143,48 @@ public class AnyOfBuilderGenerator {
   }
 
   @Value
-  private static class AnyOfBuilderClass {
-    AnyOfBuilderName anyOfBuilderName;
-    AnyOfContainer container;
-    JavaObjectPojo pojo;
+  private static class AnyOfStageWrapper {
+    AnyOfBuilderStage stage;
 
-    private static PList<AnyOfBuilderClass> fromPojo(
-        SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
-      return parentPojo
-          .getAnyOfContainer()
-          .map(
-              container ->
-                  PList.of(
-                          AnyOfBuilderName.first(builderVariant),
-                          AnyOfBuilderName.remaining(builderVariant),
-                          AnyOfBuilderName.last(builderVariant))
-                      .map(
-                          builderName -> new AnyOfBuilderClass(builderName, container, parentPojo)))
-          .orElseGet(PList::empty);
-    }
-
-    public PList<AnyOfPojoAndBuilderName> getNameAndPojos() {
-      return container
-          .getComposition()
+    public PList<SingleAnyOfSubPojoWrapper> getNameAndPojos() {
+      return stage
+          .getAnyOfComposition()
           .getPojos()
-          .map(anyOfPojo -> new AnyOfPojoAndBuilderName(anyOfBuilderName, anyOfPojo))
+          .map(anyOfPojo -> new SingleAnyOfSubPojoWrapper(stage, anyOfPojo))
           .toPList();
     }
 
-    public String builderClassName() {
-      return anyOfBuilderName.currentName();
+    public String getContainerName() {
+      return new AnyOfContainer(
+              stage.getParentPojo().getJavaPojoName(), stage.getAnyOfComposition())
+          .getContainerName()
+          .asString();
     }
 
-    public boolean isFirstBuilder() {
-      return anyOfBuilderName.getBuilderType().equals(AnyOfBuilderName.BuilderType.FIRST_BUILDER);
+    public boolean isFirstStage() {
+      return stage.getStageType().equals(AnyOfBuilderStage.StageType.FIRST_STAGE);
     }
 
-    public boolean isNotFirstBuilder() {
-      return not(isFirstBuilder());
+    public boolean isNotFirstStage() {
+      return not(isFirstStage());
     }
 
-    public boolean isLastBuilder() {
-      return anyOfBuilderName.getBuilderType().equals(AnyOfBuilderName.BuilderType.LAST_BUILDER);
+    public boolean isLastStage() {
+      return stage.getStageType().equals(AnyOfBuilderStage.StageType.LAST_STAGE);
     }
 
-    public boolean isNotLastBuilder() {
-      return not(isLastBuilder());
+    public boolean isNotLastStage() {
+      return not(isLastStage());
     }
   }
 
   @Value
-  private static class AnyOfPojoAndBuilderName {
-    AnyOfBuilderName builderName;
+  private static class SingleAnyOfSubPojoWrapper {
+    AnyOfBuilderStage stage;
     JavaObjectPojo anyOfPojo;
 
-    String nextBuilderClassName() {
-      return builderName.getNextBuilderName().currentName();
+    String nextStageClassName() {
+      return stage.getNextAnyOfStage().getName();
     }
   }
 }

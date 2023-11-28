@@ -171,8 +171,8 @@ public static final class AnyOfBuilder2 {
 
 
 anyOfPojoWithoutRequiredProperties[FULL]=[
-.
-.
+java.util.Map
+
 public static final class FullAnyOfBuilder0 {
   private final Builder builder;
 
@@ -215,12 +215,12 @@ public static final class FullAnyOfBuilder1 {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public OptPropertyBuilder0 andAllOptionals(){
-    return new OptPropertyBuilder0(builder);
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
   }
 
-  public Builder andOptionals(){
-    return builder;
+  public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
   }
 
   public AnyOfPojo1Dto build(){
@@ -236,12 +236,12 @@ public static final class FullAnyOfBuilder2 {
     this.builder = builder;
   }
 
-  public OptPropertyBuilder0 andAllOptionals(){
-    return new OptPropertyBuilder0(builder);
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
   }
 
-  public Builder andOptionals(){
-    return builder;
+  public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
   }
 
   public AnyOfPojo1Dto build(){

@@ -6,20 +6,24 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.Value;
 
 @EqualsAndHashCode
 @ToString
 public class JavaAnyOfComposition {
   private final JavaComposition javaComposition;
 
-  private JavaAnyOfComposition(JavaComposition javaComposition) {
+  JavaAnyOfComposition(JavaComposition javaComposition) {
     this.javaComposition = javaComposition;
   }
 
@@ -42,11 +46,25 @@ public class JavaAnyOfComposition {
     return javaComposition.getPojos();
   }
 
-  public PList<JavaPojoMember> getMembers() {
+  public JavaPojoMembers getMembers() {
     return javaComposition.getMembers(JavaPojoMember::asAnyOfMember);
   }
 
   public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
     return javaComposition.getPojosAsTechnicalMembers();
+  }
+
+  public AnyOfCompositionPromotionResult promote(
+      JavaPojoName rootName, PromotableMembers promotableMembers) {
+    final JavaComposition.CompositionPromotionResult result =
+        javaComposition.promote(rootName, promotableMembers::addSubPojo);
+    return new AnyOfCompositionPromotionResult(
+        new JavaAnyOfComposition(result.getComposition()), result.getNewPojos());
+  }
+
+  @Value
+  public static class AnyOfCompositionPromotionResult {
+    JavaAnyOfComposition composition;
+    PList<JavaObjectPojo> newPojos;
   }
 }

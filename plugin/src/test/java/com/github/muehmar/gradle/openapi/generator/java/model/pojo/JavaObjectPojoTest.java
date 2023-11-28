@@ -1,15 +1,19 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.optionalString;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredEmail;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.byteArrayMember;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.fromNameAndSuffix;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,13 +24,18 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
+import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
@@ -43,19 +52,16 @@ import org.junit.jupiter.api.Test;
 class JavaObjectPojoTest {
 
   @Test
-  void create_when_pojosHaveMembersWithSameNameButDifferentAttributes_then_throwsException() {
-    final JavaObjectPojo pojo1 =
-        JavaPojos.objectPojo(
-            PList.single(JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NOT_NULLABLE)));
-    final JavaObjectPojo pojo2 =
-        JavaPojos.objectPojo(
-            PList.single(JavaPojoMembers.birthdate(Necessity.OPTIONAL, Nullability.NOT_NULLABLE)));
+  void create_when_pojosHaveMembersWithSameNameButDifferentJavaType_then_throwsException() {
+    final JavaPojoMember member = requiredInteger();
+    final JavaObjectPojo pojo1 = JavaPojos.objectPojo(PList.single(member));
+    final JavaObjectPojo pojo2 = JavaPojos.objectPojo(member.withJavaType(JavaTypes.stringType()));
     final JavaObjectPojoBuilder.Builder builder =
         JavaObjectPojoBuilder.create()
             .name(fromNameAndSuffix("Object", "Dto"))
             .schemaName(SchemaName.ofString("Object"))
             .description("")
-            .members(PList.of(requiredEmail()))
+            .members(JavaPojoMembers.fromMembers(PList.of(requiredEmail())))
             .type(PojoType.DEFAULT)
             .requiredAdditionalProperties(PList.empty())
             .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
@@ -173,12 +179,14 @@ class JavaObjectPojoTest {
   void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsed() {
     final JavaObjectPojo oneOfPojoWithEnum =
         oneOfPojo(
-            objectPojo(JavaPojoMembers.requiredColorEnum())
+            objectPojo(TestJavaPojoMembers.requiredColorEnum())
                 .withName(fromNameAndSuffix("ColorPojo", "Dto")));
 
     final JavaObjectPojo pojo =
         JavaPojos.anyOfPojo(oneOfPojoWithEnum)
-            .withMembers(PList.single(JavaPojoMembers.requiredDirectionEnum()));
+            .withMembers(
+                JavaPojoMembers.fromMembers(
+                    PList.single(TestJavaPojoMembers.requiredDirectionEnum())));
 
     final PList<JavaPojoMember> members = pojo.getAllMembers();
 
@@ -208,5 +216,115 @@ class JavaObjectPojoTest {
             PList.single(requiredAdditionalProperty));
 
     assertEquals(3, javaObjectPojo.getRequiredMemberCount());
+  }
+
+  @Test
+  void promote_when_emptyPromotableProperties_then_noPromotionApplied() {
+    final JavaObjectPojo pojo = sampleObjectPojo1();
+
+    final PromotableMembers emptyPromotableProperties = PromotableMembers.fromPojo(objectPojo());
+
+    final PojoPromotionResult promotionResult =
+        pojo.promote(JavaPojoNames.patientName(), emptyPromotableProperties);
+
+    assertEquals(new PojoPromotionResult(pojo, PList.empty()), promotionResult);
+  }
+
+  @Test
+  void promote_when_pojoWithAllCompositions_then_promotedCorrectly() {
+    final JavaRequiredAdditionalProperty requiredBirthdateAddProp =
+        new JavaRequiredAdditionalProperty(optionalBirthdate().getName(), javaAnyType());
+    final JavaRequiredAdditionalProperty requiredStringAddProp =
+        new JavaRequiredAdditionalProperty(optionalString().getName(), javaAnyType());
+
+    final JavaObjectPojo allOfSubPojo =
+        JavaPojos.objectPojo(optionalString(), requiredEmail())
+            .withName(JavaPojoNames.fromNameAndSuffix("AllOfSub", "Dto"))
+            .withRequiredAdditionalProperties(PList.of(requiredBirthdateAddProp));
+
+    final JavaObjectPojo oneOfSubPojo =
+        JavaPojos.objectPojo(requiredInteger())
+            .withName(JavaPojoNames.fromNameAndSuffix("OneOfSub", "Dto"))
+            .withRequiredAdditionalProperties(PList.of(requiredBirthdateAddProp));
+
+    final JavaObjectPojo anyOfSubPojo =
+        JavaPojos.objectPojo(byteArrayMember())
+            .withName(JavaPojoNames.fromNameAndSuffix("AnyOfSub", "Dto"))
+            .withRequiredAdditionalProperties(PList.of(JavaRequiredAdditionalProperties.prop4()));
+
+    final JavaObjectPojo pojo =
+        JavaPojos.objectPojo(optionalBirthdate())
+            .withName(JavaPojoNames.fromNameAndSuffix("Parent", "Dto"))
+            .withRequiredAdditionalProperties(
+                PList.of(JavaRequiredAdditionalProperties.prop2(), requiredStringAddProp))
+            .withAllOfComposition(
+                Optional.of(JavaAllOfComposition.fromPojos(NonEmptyList.single(allOfSubPojo))))
+            .withOneOfComposition(
+                Optional.of(JavaOneOfComposition.fromPojos(NonEmptyList.single(oneOfSubPojo))))
+            .withAnyOfComposition(
+                Optional.of(JavaAnyOfComposition.fromPojos(NonEmptyList.single(anyOfSubPojo))));
+
+    // method call
+    final PojoPromotionResult pojoPromotionResult = pojo.promoteAsRoot();
+
+    final JavaObjectPojo promotedPojo = pojoPromotionResult.getPromotedPojo();
+
+    // verify promoted pojo
+    assertEquals(
+        PList.of(JavaRequiredAdditionalProperties.prop2()),
+        promotedPojo.getRequiredAdditionalProperties());
+    assertEquals(
+        PList.of(
+                optionalBirthdate().withNecessity(REQUIRED),
+                optionalString().withNecessity(REQUIRED))
+            .toHashSet(),
+        promotedPojo.getMembers().toHashSet());
+    assertEquals(JavaPojoNames.fromNameAndSuffix("Parent", "Dto"), promotedPojo.getJavaPojoName());
+
+    // verify newly created pojos
+    assertEquals(
+        PList.of("ParentAllOfSubDto", "ParentOneOfSubDto"),
+        pojoPromotionResult
+            .getNewPojosWithPromotedPojoExcluded()
+            .map(JavaObjectPojo::getJavaPojoName)
+            .map(JavaPojoName::asString)
+            .sort(Comparator.comparing(Function.identity())));
+
+    // verify AnyOfPojo
+    assertEquals(PList.of(anyOfSubPojo), promotedPojo.getAnyOfPojos());
+
+    // verify AllOfPojo
+    final PList<JavaObjectPojo> allOfPojos =
+        PList.fromOptional(promotedPojo.getAllOfComposition())
+            .flatMap(JavaAllOfComposition::getPojos);
+    assertEquals(1, allOfPojos.size());
+    final JavaObjectPojo promotedAllOfPojo = allOfPojos.apply(0);
+
+    assertEquals(PList.of(), promotedAllOfPojo.getRequiredAdditionalProperties());
+    assertEquals(
+        PList.of(
+                requiredEmail(),
+                optionalString().withNecessity(REQUIRED),
+                optionalBirthdate().withNecessity(REQUIRED))
+            .toHashSet(),
+        promotedAllOfPojo.getMembers().toHashSet());
+    assertEquals(
+        JavaPojoNames.fromNameAndSuffix("ParentAllOfSub", "Dto"),
+        promotedAllOfPojo.getJavaPojoName());
+
+    // verify OneOfPojo
+    final PList<JavaObjectPojo> oneOfPojos =
+        PList.fromOptional(promotedPojo.getOneOfComposition())
+            .flatMap(JavaOneOfComposition::getPojos);
+    assertEquals(1, oneOfPojos.size());
+    final JavaObjectPojo promotedOneOfPojo = oneOfPojos.apply(0);
+
+    assertEquals(PList.of(), promotedOneOfPojo.getRequiredAdditionalProperties());
+    assertEquals(
+        PList.of(requiredInteger(), optionalBirthdate().withNecessity(REQUIRED)).toHashSet(),
+        promotedOneOfPojo.getMembers().toHashSet());
+    assertEquals(
+        JavaPojoNames.fromNameAndSuffix("ParentOneOfSub", "Dto"),
+        promotedOneOfPojo.getJavaPojoName());
   }
 }

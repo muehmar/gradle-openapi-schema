@@ -9,7 +9,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -35,7 +35,7 @@ class ValidationMethodGeneratorTest {
             JavaPojos.oneOfPojo(
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
-                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
+                JavaPojos.objectPojo(PList.single(TestJavaPojoMembers.requiredNullableString()))),
             defaultTestSettings().withEnableValidation(validationEnabled),
             javaWriter());
 
@@ -53,7 +53,7 @@ class ValidationMethodGeneratorTest {
             JavaPojos.anyOfPojo(
                 sampleObjectPojo1(),
                 sampleObjectPojo2(),
-                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
+                JavaPojos.objectPojo(PList.single(TestJavaPojoMembers.requiredNullableString()))),
             defaultTestSettings().withEnableValidation(validationEnabled),
             javaWriter());
 
@@ -69,7 +69,7 @@ class ValidationMethodGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(
                 JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
-                JavaPojos.objectPojo(PList.single(JavaPojoMembers.requiredNullableString()))),
+                JavaPojos.objectPojo(PList.single(TestJavaPojoMembers.requiredNullableString()))),
             defaultTestSettings(),
             javaWriter());
 
@@ -83,7 +83,7 @@ class ValidationMethodGeneratorTest {
         ValidationMethodGenerator.validationMethodGenerator();
     final Writer writer =
         generator.generate(
-            JavaPojos.oneOfPojo(JavaPojos.objectPojo(JavaPojoMembers.optionalBirthdate())),
+            JavaPojos.oneOfPojo(JavaPojos.objectPojo(TestJavaPojoMembers.optionalBirthdate())),
             defaultTestSettings(),
             javaWriter());
 

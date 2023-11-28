@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -32,7 +32,7 @@ class UniqueItemsValidationMethodGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.requiredDouble(),
+            TestJavaPojoMembers.requiredDouble(),
             defaultTestSettings().withEnableValidation(true),
             javaWriter());
 
@@ -60,7 +60,7 @@ class UniqueItemsValidationMethodGeneratorTest {
         uniqueItemsValidationMethodGenerator();
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.list(
+            TestJavaPojoMembers.list(
                 StringType.noFormat(),
                 Necessity.REQUIRED,
                 Nullability.NOT_NULLABLE,
@@ -78,7 +78,7 @@ class UniqueItemsValidationMethodGeneratorTest {
         uniqueItemsValidationMethodGenerator();
     final Writer writer =
         generator.generate(
-            JavaPojoMembers.list(
+            TestJavaPojoMembers.list(
                 StringType.noFormat(),
                 Necessity.REQUIRED,
                 Nullability.NOT_NULLABLE,

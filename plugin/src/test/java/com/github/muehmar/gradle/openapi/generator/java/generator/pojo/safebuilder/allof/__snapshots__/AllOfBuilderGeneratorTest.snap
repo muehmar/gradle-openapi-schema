@@ -248,3 +248,122 @@ public static final class FullAllOfBuilderObjectPojo10 {
   }
 }
 ]
+
+
+allOfPojoWithCompositionsInAllOfSubPojos=[
+java.time.LocalDate
+
+public static final class AllOfBuilderSampleObjectPojo10 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo10(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * stringVal
+   */
+  public AllOfBuilderSampleObjectPojo11 setStringVal(String stringVal) {
+    return new AllOfBuilderSampleObjectPojo11(builder.setStringVal(stringVal));
+  }
+
+  public AllOfBuilderSampleObjectPojo20 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AllOfBuilderSampleObjectPojo20(builder.setSampleObjectPojo1Dto(dto));
+  }
+}
+
+public static final class AllOfBuilderSampleObjectPojo11 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo11(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * intVal
+   */
+  public AllOfBuilderSampleObjectPojo12 setIntVal(Integer intVal) {
+    return new AllOfBuilderSampleObjectPojo12(builder.setIntVal(intVal));
+  }
+
+}
+
+public static final class AllOfBuilderSampleObjectPojo12 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo12(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * doubleVal
+   */
+  public AllOfBuilderSampleObjectPojo20 setDoubleVal(Double doubleVal) {
+    return new AllOfBuilderSampleObjectPojo20(builder.setDoubleVal(doubleVal));
+  }
+
+}
+
+public static final class AllOfBuilderSampleObjectPojo20 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo20(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * stringVal
+   */
+  public AllOfBuilderSampleObjectPojo21 setStringVal(String stringVal) {
+    return new AllOfBuilderSampleObjectPojo21(builder.setStringVal(stringVal));
+  }
+
+  public AllOfBuilderOneOfPojo10 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AllOfBuilderOneOfPojo10(builder.setSampleObjectPojo2Dto(dto));
+  }
+}
+
+public static final class AllOfBuilderSampleObjectPojo21 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo21(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Birthdate
+   */
+  public AllOfBuilderSampleObjectPojo22 setBirthdate(LocalDate birthdate) {
+    return new AllOfBuilderSampleObjectPojo22(builder.setBirthdate(birthdate));
+  }
+
+}
+
+public static final class AllOfBuilderSampleObjectPojo22 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo22(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * email
+   */
+  public AllOfBuilderOneOfPojo10 setEmail(String email) {
+    return new AllOfBuilderOneOfPojo10(builder.setEmail(email));
+  }
+
+}
+
+public static final class AllOfBuilderOneOfPojo10 {
+  private final Builder builder;
+
+  private AllOfBuilderOneOfPojo10(Builder builder) {
+    this.builder = builder;
+  }
+
+  public PropertyBuilder0 setOneOfPojo1Dto(OneOfPojo1Dto dto) {
+    return new PropertyBuilder0(builder.setOneOfPojo1Dto(dto));
+  }
+}
+]

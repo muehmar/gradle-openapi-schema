@@ -9,7 +9,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator.ToStringContent;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
@@ -76,7 +76,7 @@ class ToStringGeneratorTest {
 
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo(
-            PList.of(JavaPojoMembers.byteArrayMember(), JavaPojoMembers.requiredDouble()));
+            PList.of(TestJavaPojoMembers.byteArrayMember(), TestJavaPojoMembers.requiredDouble()));
     final Writer writer =
         generator.generate(pojo.getToStringContent(), defaultTestSettings(), javaWriter());
 

@@ -12,7 +12,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
@@ -32,7 +32,7 @@ class RequiredNotNullableGetterTest {
   private Expect expect;
 
   private static final JavaPojoMember POJO_MEMBER =
-      JavaPojoMembers.requiredString().withNecessity(REQUIRED).withNullability(NOT_NULLABLE);
+      TestJavaPojoMembers.requiredString().withNecessity(REQUIRED).withNullability(NOT_NULLABLE);
 
   @Test
   @SnapshotName("requiredAndNotNullableField")
@@ -103,7 +103,7 @@ class RequiredNotNullableGetterTest {
             .withConstraints(Constraints.ofMinAndMax(new Min(5), new Max(10)));
 
     final JavaPojoMember member =
-        JavaPojoMembers.list(
+        TestJavaPojoMembers.list(
             itemType, REQUIRED, Nullability.NOT_NULLABLE, Constraints.ofSize(Size.ofMin(5)));
 
     final Writer writer =

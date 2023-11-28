@@ -14,7 +14,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -47,7 +47,7 @@ class ConversionMethodGeneratorTest {
 
     final JavaObjectPojo pojo2 =
         JavaPojos.objectPojo(
-            PList.single(JavaPojoMembers.requiredBirthdate()),
+            PList.single(TestJavaPojoMembers.requiredBirthdate()),
             JavaAdditionalProperties.allowedFor(
                 JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty())));
 

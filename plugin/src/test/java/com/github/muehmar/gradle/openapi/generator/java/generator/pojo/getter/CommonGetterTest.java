@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -18,8 +18,7 @@ class CommonGetterTest {
   @Test
   void rawGetterMethod_when_defaultSettings_then_correctOutput() {
     final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod();
-    final Writer writer =
-        generator.generate(JavaPojoMembers.optionalString(), defaultTestSettings(), javaWriter());
+    final Writer writer = generator.generate(optionalString(), defaultTestSettings(), javaWriter());
 
     assertEquals(
         "private String getOptionalStringValRaw() {\n" + "  return optionalStringVal;\n" + "}",
@@ -36,8 +35,7 @@ class CommonGetterTest {
                 TestPojoSettings.defaultValidationMethods()
                     .withModifier(JavaModifier.PUBLIC)
                     .withGetterSuffix("CustomSuffix"));
-    final Writer writer =
-        generator.generate(JavaPojoMembers.optionalString(), settings, javaWriter());
+    final Writer writer = generator.generate(optionalString(), settings, javaWriter());
 
     assertEquals(
         "public String getOptionalStringValCustomSuffix() {\n"

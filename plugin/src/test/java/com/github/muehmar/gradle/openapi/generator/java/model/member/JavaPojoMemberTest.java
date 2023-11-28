@@ -1,5 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -10,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,13 +35,13 @@ class JavaPojoMemberTest {
 
   @Test
   void getGetterName_when_called_then_correctGetter() {
-    final JavaPojoMember javaPojoMember = JavaPojoMembers.requiredString();
+    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.requiredString();
     assertEquals("getStringVal", javaPojoMember.getGetterName().asString());
   }
 
   @Test
   void getWitherName_when_called_then_correctGetter() {
-    final JavaPojoMember javaPojoMember = JavaPojoMembers.requiredString();
+    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.requiredString();
     assertEquals("withStringVal", javaPojoMember.getWitherName().asString());
   }
 
@@ -42,7 +49,7 @@ class JavaPojoMemberTest {
   @MethodSource("getterNameWithSuffix")
   void getGetterNameWithSuffix_when_calledForAllVariants_then_suffixedWithCorrespondingGetterSuffix(
       Necessity necessity, Nullability nullability, String getterName) {
-    final JavaPojoMember javaPojoMember = JavaPojoMembers.string(necessity, nullability);
+    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.string(necessity, nullability);
 
     assertEquals(
         getterName,
@@ -54,36 +61,36 @@ class JavaPojoMemberTest {
   public static Stream<Arguments> getterNameWithSuffix() {
     return Stream.of(
         Arguments.of(Necessity.REQUIRED, Nullability.NOT_NULLABLE, "getStringValRequired"),
-        Arguments.of(Necessity.REQUIRED, Nullability.NULLABLE, "getStringValNullable"),
-        Arguments.of(Necessity.OPTIONAL, Nullability.NOT_NULLABLE, "getStringValOptional"),
-        Arguments.of(Necessity.OPTIONAL, Nullability.NULLABLE, "getStringValTristate"));
+        Arguments.of(Necessity.REQUIRED, NULLABLE, "getStringValNullable"),
+        Arguments.of(OPTIONAL, Nullability.NOT_NULLABLE, "getStringValOptional"),
+        Arguments.of(OPTIONAL, NULLABLE, "getStringValTristate"));
   }
 
   @ParameterizedTest
   @CsvSource({"is, isStringVal", "get, getStringVal", "set, setStringVal", "'', stringVal"})
   void prefixedMethodName_when_called_then_matchExpectedMethodName(
       String prefix, String expectedMethodName) {
-    final JavaPojoMember member = JavaPojoMembers.requiredString();
+    final JavaPojoMember member = TestJavaPojoMembers.requiredString();
     assertEquals(expectedMethodName, member.prefixedMethodName(prefix).asString());
   }
 
   @Test
   void getValidationGetterName_when_calledWithDefaultSettings_then_correctMethodName() {
-    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaPojoMember member = TestJavaPojoMembers.requiredString();
     JavaName validationGetterName = member.getValidationGetterName(defaultTestSettings());
     assertEquals("getStringValRaw", validationGetterName.asString());
   }
 
   @Test
   void getIsNullFlagName_when_called_then_correctMethodName() {
-    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaPojoMember member = TestJavaPojoMembers.requiredString();
     JavaName validationGetterName = member.getIsNullFlagName();
     assertEquals("isStringValNull", validationGetterName.asString());
   }
 
   @Test
   void getIsPresentFlagName_when_called_then_correctMethodName() {
-    JavaPojoMember member = JavaPojoMembers.requiredString();
+    JavaPojoMember member = TestJavaPojoMembers.requiredString();
     JavaName validationGetterName = member.getIsPresentFlagName();
     assertEquals("isStringValPresent", validationGetterName.asString());
   }
@@ -100,28 +107,83 @@ class JavaPojoMemberTest {
 
   public static Stream<Arguments> membersForCreatingTechnicalMembers() {
     return Stream.of(
-        arguments(JavaPojoMembers.requiredBirthdate(), "birthdate"),
-        arguments(JavaPojoMembers.optionalString(), "optionalStringVal"),
+        arguments(requiredBirthdate(), "birthdate"),
+        arguments(TestJavaPojoMembers.optionalString(), "optionalStringVal"),
         arguments(
-            JavaPojoMembers.requiredNullableString(),
+            TestJavaPojoMembers.requiredNullableString(),
             "requiredNullableStringVal,isRequiredNullableStringValPresent"),
         arguments(
-            JavaPojoMembers.optionalNullableString(),
+            TestJavaPojoMembers.optionalNullableString(),
             "optionalNullableStringVal,isOptionalNullableStringValNull"));
   }
 
   @Test
   void asInnerEnumOf_when_calledForStringMember_then_unchanged() {
-    final JavaPojoMember member = JavaPojoMembers.requiredString();
+    final JavaPojoMember member = TestJavaPojoMembers.requiredString();
     assertEquals(member, member.asInnerEnumOf(JavaName.fromString("AdminDto")));
   }
 
   @Test
   void asInnerEnumOf_when_calledForEnumMember_then_classNameReferencedWithOuterClass() {
-    final JavaPojoMember member = JavaPojoMembers.requiredColorEnum();
+    final JavaPojoMember member = TestJavaPojoMembers.requiredColorEnum();
     final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaName.fromString("AdminDto"));
     assertEquals(
         "AdminDto.Color",
         mappedMember.getJavaType().getQualifiedClassName().getClassName().asString());
+  }
+
+  @ParameterizedTest
+  @MethodSource("mergeToLeastRestrictiveArguments")
+  void mergeToLeastRestrictive_when_arguments_then_matchExpectedMergedMember(
+      JavaPojoMember originalMember,
+      JavaPojoMember memberToMerge,
+      Optional<JavaPojoMember> expectedMergedMember) {
+    final Optional<JavaPojoMember> mergedMember =
+        originalMember.mergeToLeastRestrictive(memberToMerge);
+
+    assertEquals(expectedMergedMember, mergedMember);
+  }
+
+  private static Stream<Arguments> mergeToLeastRestrictiveArguments() {
+    final JavaPojoMember birthdate = requiredBirthdate();
+    return Stream.of(
+        arguments(birthdate, requiredDouble(), Optional.empty()),
+        arguments(birthdate, birthdate.withDescription("Other desc"), Optional.of(birthdate)),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNullability(NULLABLE),
+            Optional.of(birthdate.withNullability(NULLABLE))),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNecessity(OPTIONAL),
+            Optional.of(birthdate.withNecessity(OPTIONAL))));
+  }
+
+  @ParameterizedTest
+  @MethodSource("mergeToMostRestrictiveArguments")
+  void mergeToMostRestrictive_when_arguments_then_matchExpectedMergedMember(
+      JavaPojoMember originalMember,
+      JavaPojoMember memberToMerge,
+      Optional<JavaPojoMember> expectedMergedMember) {
+    final Optional<JavaPojoMember> mergedMember =
+        originalMember.mergeToMostRestrictive(memberToMerge);
+
+    assertEquals(expectedMergedMember, mergedMember);
+  }
+
+  private static Stream<Arguments> mergeToMostRestrictiveArguments() {
+    final JavaPojoMember birthdate =
+        requiredBirthdate().withNullability(NULLABLE).withNecessity(OPTIONAL);
+    return Stream.of(
+        arguments(birthdate, requiredDouble(), Optional.empty()),
+        arguments(birthdate, birthdate.withDescription("Other desc"), Optional.of(birthdate)),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNullability(NOT_NULLABLE),
+            Optional.of(birthdate.withNullability(NOT_NULLABLE))),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNecessity(REQUIRED),
+            Optional.of(birthdate.withNecessity(REQUIRED))));
   }
 }

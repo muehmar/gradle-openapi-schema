@@ -18,6 +18,10 @@ public class JavaPojoName {
     return new JavaPojoName(pojoName.getName(), pojoName.getSuffix());
   }
 
+  public JavaPojoName append(JavaPojoName next) {
+    return new JavaPojoName(this.name.append(next.name), this.suffix);
+  }
+
   public PojoName asPojoName() {
     return PojoName.ofNameAndSuffix(name, suffix);
   }

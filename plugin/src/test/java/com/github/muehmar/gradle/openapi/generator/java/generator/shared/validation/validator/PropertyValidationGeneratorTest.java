@@ -1,11 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.list;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.map;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredDouble;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredInteger;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.list;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.map;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredInteger;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
@@ -338,7 +338,7 @@ class PropertyValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember objectMember =
-        JavaPojoMembers.object(QualifiedClassName.ofName("CustomObject"));
+        TestJavaPojoMembers.object(QualifiedClassName.ofName("CustomObject"));
 
     final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
 
@@ -351,7 +351,8 @@ class PropertyValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember objectMember =
-        JavaPojoMembers.object(ObjectType.ofName(PojoName.ofNameAndSuffix("OpenapiObject", "Dto")));
+        TestJavaPojoMembers.object(
+            ObjectType.ofName(PojoName.ofNameAndSuffix("OpenapiObject", "Dto")));
 
     final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
 

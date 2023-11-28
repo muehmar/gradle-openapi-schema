@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
@@ -51,7 +52,8 @@ class ValidatorClassGeneratorTest {
 
     final JavaObjectPojo pojo =
         JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
-            .withMembers(PList.of(JavaPojoMembers.requiredColorEnum()));
+            .withMembers(
+                JavaPojoMembers.fromMembers(PList.of(TestJavaPojoMembers.requiredColorEnum())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -65,7 +67,8 @@ class ValidatorClassGeneratorTest {
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
-            .withMembers(PList.of(JavaPojoMembers.requiredColorEnum()));
+            .withMembers(
+                JavaPojoMembers.fromMembers(PList.of(TestJavaPojoMembers.requiredColorEnum())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -96,7 +99,8 @@ class ValidatorClassGeneratorTest {
 
     final JavaObjectPojo pojo =
         JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
-            .withMembers(PList.of(JavaPojoMembers.requiredColorEnum()));
+            .withMembers(
+                JavaPojoMembers.fromMembers(PList.of(TestJavaPojoMembers.requiredColorEnum())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

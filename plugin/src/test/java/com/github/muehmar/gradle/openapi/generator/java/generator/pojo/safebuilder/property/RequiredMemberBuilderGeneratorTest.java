@@ -5,13 +5,15 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.sa
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
@@ -21,6 +23,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -70,31 +73,24 @@ class RequiredMemberBuilderGeneratorTest {
   @SnapshotName("builderMethodsOfFirstRequiredMemberGeneratorWithRequiredProperty")
   void builderMethodsOfFirstRequiredMemberGenerator_when_hasRequiredProperty_then_correctOutput(
       SafeBuilderVariant variant) {
-    final Generator<JavaObjectPojo, PojoSettings> gen =
-        builderMethodsOfFirstRequiredMemberGenerator(variant);
+    final Generator<RequiredPropertyBuilderStage, PojoSettings> gen =
+        builderMethodsOfFirstRequiredMemberGenerator();
+
+    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.requiredNullableBirthdate();
+    final BuilderStage stage =
+        RequiredPropertyBuilderStage.createStages(variant, JavaPojos.objectPojo(javaPojoMember))
+            .head();
+    final Optional<RequiredPropertyBuilderStage> requiredPropertyBuilderStage =
+        stage.asRequiredPropertyBuilderStage();
+
+    assertTrue(requiredPropertyBuilderStage.isPresent());
 
     final Writer writer =
         gen.generate(
-            JavaPojos.objectPojo(JavaPojoMembers.requiredNullableBirthdate()),
+            requiredPropertyBuilderStage.get(),
             TestPojoSettings.defaultTestSettings(),
             javaWriter());
 
     expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
-  }
-
-  @ParameterizedTest
-  @EnumSource(SafeBuilderVariant.class)
-  void builderMethodsOfFirstRequiredMemberGenerator_when_hasNoRequiredProperty_then_noOutput(
-      SafeBuilderVariant variant) {
-    final Generator<JavaObjectPojo, PojoSettings> gen =
-        builderMethodsOfFirstRequiredMemberGenerator(variant);
-
-    final Writer writer =
-        gen.generate(
-            JavaPojos.objectPojo(JavaPojoMembers.optionalBirthdate()),
-            TestPojoSettings.defaultTestSettings(),
-            javaWriter());
-
-    assertEquals("", writer.asString());
   }
 }

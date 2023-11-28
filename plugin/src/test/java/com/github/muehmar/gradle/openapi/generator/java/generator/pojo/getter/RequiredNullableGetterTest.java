@@ -11,7 +11,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
@@ -34,7 +34,7 @@ class RequiredNullableGetterTest {
   private Expect expect;
 
   private static final JavaPojoMember POJO_MEMBER =
-      JavaPojoMembers.requiredString().withNecessity(REQUIRED).withNullability(NULLABLE);
+      TestJavaPojoMembers.requiredString().withNecessity(REQUIRED).withNullability(NULLABLE);
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {
@@ -129,7 +129,7 @@ class RequiredNullableGetterTest {
             .withConstraints(Constraints.ofMinAndMax(new Min(5), new Max(10)));
 
     final JavaPojoMember member =
-        JavaPojoMembers.list(itemType, REQUIRED, NULLABLE, Constraints.ofSize(Size.ofMin(5)));
+        TestJavaPojoMembers.list(itemType, REQUIRED, NULLABLE, Constraints.ofSize(Size.ofMin(5)));
 
     final Writer writer =
         generator.generate(member, defaultTestSettings().withEnableValidation(true), javaWriter());

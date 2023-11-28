@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -47,7 +47,7 @@ class JacksonAnnotationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         JacksonAnnotationGenerator.jsonProperty();
     final JavaPojoMember pojoMember =
-        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
+        TestJavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
     final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
 
@@ -61,7 +61,7 @@ class JacksonAnnotationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         JacksonAnnotationGenerator.jsonProperty();
     final JavaPojoMember pojoMember =
-        JavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
+        TestJavaPojoMembers.birthdate(Necessity.REQUIRED, Nullability.NULLABLE);
 
     final Writer writer =
         generator.generate(

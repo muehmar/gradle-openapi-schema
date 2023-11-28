@@ -6,15 +6,19 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.Value;
 
 @EqualsAndHashCode
 @ToString
@@ -54,7 +58,7 @@ public class JavaOneOfComposition {
     return javaComposition.getPojos();
   }
 
-  public PList<JavaPojoMember> getMembers() {
+  public JavaPojoMembers getMembers() {
     return javaComposition.getMembers(JavaPojoMember::asOneOfMember);
   }
 
@@ -64,5 +68,19 @@ public class JavaOneOfComposition {
 
   public Optional<JavaDiscriminator> getDiscriminator() {
     return discriminator;
+  }
+
+  public OneOfCompositionPromotionResult promote(
+      JavaPojoName rootName, PromotableMembers promotableMembers) {
+    final JavaComposition.CompositionPromotionResult result =
+        javaComposition.promote(rootName, promotableMembers::addSubPojo);
+    return new OneOfCompositionPromotionResult(
+        new JavaOneOfComposition(result.getComposition(), discriminator), result.getNewPojos());
+  }
+
+  @Value
+  public static class OneOfCompositionPromotionResult {
+    JavaOneOfComposition composition;
+    PList<JavaObjectPojo> newPojos;
   }
 }
