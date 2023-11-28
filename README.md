@@ -1050,6 +1050,7 @@ afterEvaluate {
     * Fix missing required additional properties stages in case no normal properties are defined (issue `#193`)
     * Fix missing oneOf builder stage in case the first subschema contains no properties (issue `#191`)
     * Fix nested anyOf or oneOf schema definitions (issue `#190`)
+    * Fix invalid single properties in alOf stages of builder (issue `#192`)
 * 2.2.0
     * Support full validation for compositions (issue `#139`)
     * Fix escaping for discriminator property name (issue `#153`)
