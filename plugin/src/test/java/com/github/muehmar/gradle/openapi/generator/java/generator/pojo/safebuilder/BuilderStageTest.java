@@ -55,7 +55,7 @@ class BuilderStageTest {
                     .withRequiredAdditionalProperties(PROP_2_ADDITIONAL_PROPERTIES),
                 JavaPojos.sampleObjectPojo1())
             .withMembers(
-                JavaPojoMembers.leastRestrictive(PList.of(byteArrayMember(), optionalString())));
+                JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
 
@@ -72,7 +72,7 @@ class BuilderStageTest {
         JavaPojos.oneOfPojo(
                 JavaPojos.allNecessityAndNullabilityVariants(), JavaPojos.sampleObjectPojo1())
             .withMembers(
-                JavaPojoMembers.leastRestrictive(PList.of(byteArrayMember(), optionalString())));
+                JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
 
@@ -89,7 +89,7 @@ class BuilderStageTest {
         JavaPojos.anyOfPojo(
                 JavaPojos.allNecessityAndNullabilityVariants(), JavaPojos.sampleObjectPojo1())
             .withMembers(
-                JavaPojoMembers.leastRestrictive(PList.of(byteArrayMember(), optionalString())));
+                JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
 

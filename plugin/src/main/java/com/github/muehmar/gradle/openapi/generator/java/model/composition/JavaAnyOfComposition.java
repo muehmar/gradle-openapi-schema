@@ -23,7 +23,7 @@ import lombok.Value;
 public class JavaAnyOfComposition {
   private final JavaComposition javaComposition;
 
-  private JavaAnyOfComposition(JavaComposition javaComposition) {
+  JavaAnyOfComposition(JavaComposition javaComposition) {
     this.javaComposition = javaComposition;
   }
 

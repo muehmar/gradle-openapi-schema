@@ -1,5 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -10,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,9 +61,9 @@ class JavaPojoMemberTest {
   public static Stream<Arguments> getterNameWithSuffix() {
     return Stream.of(
         Arguments.of(Necessity.REQUIRED, Nullability.NOT_NULLABLE, "getStringValRequired"),
-        Arguments.of(Necessity.REQUIRED, Nullability.NULLABLE, "getStringValNullable"),
-        Arguments.of(Necessity.OPTIONAL, Nullability.NOT_NULLABLE, "getStringValOptional"),
-        Arguments.of(Necessity.OPTIONAL, Nullability.NULLABLE, "getStringValTristate"));
+        Arguments.of(Necessity.REQUIRED, NULLABLE, "getStringValNullable"),
+        Arguments.of(OPTIONAL, Nullability.NOT_NULLABLE, "getStringValOptional"),
+        Arguments.of(OPTIONAL, NULLABLE, "getStringValTristate"));
   }
 
   @ParameterizedTest
@@ -100,7 +107,7 @@ class JavaPojoMemberTest {
 
   public static Stream<Arguments> membersForCreatingTechnicalMembers() {
     return Stream.of(
-        arguments(TestJavaPojoMembers.requiredBirthdate(), "birthdate"),
+        arguments(requiredBirthdate(), "birthdate"),
         arguments(TestJavaPojoMembers.optionalString(), "optionalStringVal"),
         arguments(
             TestJavaPojoMembers.requiredNullableString(),
@@ -123,5 +130,60 @@ class JavaPojoMemberTest {
     assertEquals(
         "AdminDto.Color",
         mappedMember.getJavaType().getQualifiedClassName().getClassName().asString());
+  }
+
+  @ParameterizedTest
+  @MethodSource("mergeToLeastRestrictiveArguments")
+  void mergeToLeastRestrictive_when_arguments_then_matchExpectedMergedMember(
+      JavaPojoMember originalMember,
+      JavaPojoMember memberToMerge,
+      Optional<JavaPojoMember> expectedMergedMember) {
+    final Optional<JavaPojoMember> mergedMember =
+        originalMember.mergeToLeastRestrictive(memberToMerge);
+
+    assertEquals(expectedMergedMember, mergedMember);
+  }
+
+  private static Stream<Arguments> mergeToLeastRestrictiveArguments() {
+    final JavaPojoMember birthdate = requiredBirthdate();
+    return Stream.of(
+        arguments(birthdate, requiredDouble(), Optional.empty()),
+        arguments(birthdate, birthdate.withDescription("Other desc"), Optional.of(birthdate)),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNullability(NULLABLE),
+            Optional.of(birthdate.withNullability(NULLABLE))),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNecessity(OPTIONAL),
+            Optional.of(birthdate.withNecessity(OPTIONAL))));
+  }
+
+  @ParameterizedTest
+  @MethodSource("mergeToMostRestrictiveArguments")
+  void mergeToMostRestrictive_when_arguments_then_matchExpectedMergedMember(
+      JavaPojoMember originalMember,
+      JavaPojoMember memberToMerge,
+      Optional<JavaPojoMember> expectedMergedMember) {
+    final Optional<JavaPojoMember> mergedMember =
+        originalMember.mergeToMostRestrictive(memberToMerge);
+
+    assertEquals(expectedMergedMember, mergedMember);
+  }
+
+  private static Stream<Arguments> mergeToMostRestrictiveArguments() {
+    final JavaPojoMember birthdate =
+        requiredBirthdate().withNullability(NULLABLE).withNecessity(OPTIONAL);
+    return Stream.of(
+        arguments(birthdate, requiredDouble(), Optional.empty()),
+        arguments(birthdate, birthdate.withDescription("Other desc"), Optional.of(birthdate)),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNullability(NOT_NULLABLE),
+            Optional.of(birthdate.withNullability(NOT_NULLABLE))),
+        arguments(
+            birthdate,
+            birthdate.withDescription("Other desc").withNecessity(REQUIRED),
+            Optional.of(birthdate.withNecessity(REQUIRED))));
   }
 }

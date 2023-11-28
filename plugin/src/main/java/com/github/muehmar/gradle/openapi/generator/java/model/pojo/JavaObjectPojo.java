@@ -198,7 +198,7 @@ public class JavaObjectPojo implements JavaPojo {
         .name(pojoName)
         .schemaName(objectPojo.getName().getSchemaName())
         .description(objectPojo.getDescription())
-        .members(JavaPojoMembers.leastRestrictive(members))
+        .members(JavaPojoMembers.fromMembers(members))
         .type(type)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .additionalProperties(javaAdditionalProperties)
@@ -333,17 +333,11 @@ public class JavaObjectPojo implements JavaPojo {
 
   PList<JavaPojoMember> getComposedMembers() {
     final JavaPojoMembers allOfMembers =
-        allOfComposition
-            .map(JavaAllOfComposition::getMembers)
-            .orElseGet(JavaPojoMembers::emptyLeastRestrictive);
+        allOfComposition.map(JavaAllOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
     final JavaPojoMembers oneOfMembers =
-        oneOfComposition
-            .map(JavaOneOfComposition::getMembers)
-            .orElseGet(JavaPojoMembers::emptyLeastRestrictive);
+        oneOfComposition.map(JavaOneOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
     final JavaPojoMembers anyOfMembers =
-        anyOfComposition
-            .map(JavaAnyOfComposition::getMembers)
-            .orElseGet(JavaPojoMembers::emptyLeastRestrictive);
+        anyOfComposition.map(JavaAnyOfComposition::getMembers).orElseGet(JavaPojoMembers::empty);
     return allOfMembers.add(oneOfMembers).add(anyOfMembers).asList();
   }
 

@@ -21,10 +21,10 @@ class JavaComposition {
     return pojos
         .toPList()
         .map(JavaObjectPojo::getAllMembersForComposition)
-        .map(JavaPojoMembers::leastRestrictive)
+        .map(JavaPojoMembers::fromMembers)
         .map(members -> members.map(deviateMember))
         .reduce(JavaPojoMembers::add)
-        .orElse(JavaPojoMembers.emptyLeastRestrictive());
+        .orElse(JavaPojoMembers.empty());
   }
 
   public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {

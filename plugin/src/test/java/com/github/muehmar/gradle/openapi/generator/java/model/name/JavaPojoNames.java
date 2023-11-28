@@ -11,6 +11,10 @@ public class JavaPojoNames {
     return JavaPojoName.fromPojoName(pojoName("Invoice", "Dto"));
   }
 
+  public static JavaPojoName patientName() {
+    return JavaPojoName.fromPojoName(pojoName("Patient", "Dto"));
+  }
+
   public static JavaPojoName fromNameAndSuffix(String name, String suffix) {
     return JavaPojoName.fromPojoName(PojoName.ofNameAndSuffix(name, suffix));
   }
