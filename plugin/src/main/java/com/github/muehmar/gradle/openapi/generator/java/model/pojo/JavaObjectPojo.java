@@ -459,6 +459,12 @@ public class JavaObjectPojo implements JavaPojo {
     return anyOfComposition.map(composition -> new AnyOfContainer(name, composition));
   }
 
+  public boolean hasCompositions() {
+    return allOfComposition.isPresent()
+        || oneOfComposition.isPresent()
+        || anyOfComposition.isPresent();
+  }
+
   @Override
   public <T> T fold(
       Function<JavaArrayPojo, T> onArrayPojo,

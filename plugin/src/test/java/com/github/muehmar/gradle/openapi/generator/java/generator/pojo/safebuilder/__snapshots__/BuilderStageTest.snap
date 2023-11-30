@@ -50,6 +50,29 @@ LastOptionalPropertyBuilderStage - OptPropertyBuilder1
 ]
 
 
+allOfPojoWithOneOfSubPojo[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability0 for Optional[requiredStringVal](0), next stage FullAllOfBuilderOneOfPojo10, next member stage: FullAllOfBuilderNecessityAndNullability1
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability1 for Optional[requiredNullableStringVal](1), next stage FullAllOfBuilderOneOfPojo10, next member stage: FullAllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability2 for Optional[optionalStringVal](2), next stage FullAllOfBuilderOneOfPojo10, next member stage: FullAllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability3 for Optional[optionalNullableStringVal](3), next stage FullAllOfBuilderOneOfPojo10, next member stage: FullAllOfBuilderOneOfPojo10
+AllOfBuilderStage - FullAllOfBuilderOneOfPojo10 for Optional.empty(0), next stage FullPropertyBuilder0, next member stage: FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for stringVal(0), next stage FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+allOfPojoWithOneOfSubPojo[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability0 for Optional[requiredStringVal](0), next stage AllOfBuilderOneOfPojo10, next member stage: AllOfBuilderNecessityAndNullability1
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability1 for Optional[requiredNullableStringVal](1), next stage AllOfBuilderOneOfPojo10, next member stage: AllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability2 for Optional[optionalStringVal](2), next stage AllOfBuilderOneOfPojo10, next member stage: AllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability3 for Optional[optionalNullableStringVal](3), next stage AllOfBuilderOneOfPojo10, next member stage: AllOfBuilderOneOfPojo10
+AllOfBuilderStage - AllOfBuilderOneOfPojo10 for Optional.empty(0), next stage PropertyBuilder0, next member stage: PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for stringVal(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
 allOfPojoWithRequiredProperties[FULL]=[
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability0 for Optional[requiredStringVal](0), next stage FullAllOfBuilderSampleObjectPojo10, next member stage: FullAllOfBuilderNecessityAndNullability1
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability1 for Optional[requiredNullableStringVal](1), next stage FullAllOfBuilderSampleObjectPojo10, next member stage: FullAllOfBuilderNecessityAndNullability2

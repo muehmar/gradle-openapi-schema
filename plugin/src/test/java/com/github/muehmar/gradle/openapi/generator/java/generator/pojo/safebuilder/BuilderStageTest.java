@@ -2,6 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuil
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.byteArrayMember;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredEmail;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -56,6 +59,26 @@ class BuilderStageTest {
                 JavaPojos.sampleObjectPojo1())
             .withMembers(
                 JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
+
+    final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
+
+    expect
+        .scenario(builderVariant.name())
+        .toMatchSnapshot(stages.map(BuilderStageTest::formatStage).toPList().mkString("\n"));
+  }
+
+  @ParameterizedTest
+  @EnumSource(SafeBuilderVariant.class)
+  @SnapshotName(("allOfPojoWithOneOfSubPojo"))
+  void createStages_when_allOfPojoWithOneOfAndAnyOfSubSchema_matchStages(
+      SafeBuilderVariant builderVariant) {
+    final JavaObjectPojo oneOfSubPojo =
+        JavaPojos.oneOfPojo(JavaPojos.sampleObjectPojo2())
+            .withMembers(JavaPojoMembers.empty().add(requiredDouble()).add(requiredEmail()));
+    final JavaObjectPojo pojo =
+        JavaPojos.allOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), oneOfSubPojo)
+            .withMembers(JavaPojoMembers.empty().add(requiredString()));
+    ;
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
 
