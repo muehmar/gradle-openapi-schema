@@ -325,6 +325,18 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
+        ['190', '191', '192', '193', '195'].forEach {issueNumber -> {
+            "${issueNumber}" {
+                sourceSet = 'main'
+                inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
+                outputDir = "$buildDir/generated/openapi"
+                packageName = "com.github.muehmar.gradle.openapi.issue${issueNumber}"
+                jsonSupport = "jackson"
+                suffix = "Dto"
+                enableValidation = false
+                builderMethodPrefix = "set"
+            }
+        }}
 
         specifications.forEach {spec -> {
             "noValidation${spec.name}" {
