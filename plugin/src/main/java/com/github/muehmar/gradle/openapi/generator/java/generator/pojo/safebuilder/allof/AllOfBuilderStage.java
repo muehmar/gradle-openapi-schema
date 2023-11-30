@@ -83,7 +83,7 @@ public class AllOfBuilderStage implements BuilderStage {
             .zipWithIndex()
             .map(p -> new IndexedPojoMember(p.first(), p.second()))
             .reverse();
-    if (reversedMembersForStages.isEmpty()) {
+    if (reversedMembersForStages.isEmpty() || objects.getAllOfSubPojo().hasCompositions()) {
       return PList.single(createPojoMemberStage(objects, Optional.empty(), nextStage, nextStage));
     } else {
       return createPojoMemberStages(objects, reversedMembersForStages, nextStage, nextStage);
