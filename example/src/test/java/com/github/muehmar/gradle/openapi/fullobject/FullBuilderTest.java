@@ -17,12 +17,14 @@ class FullBuilderTest {
     final FullObjectDto dto =
         FullObjectDto.fullBuilder()
             .setColor(BaseDataDto.ColorEnum.GREEN)
-            .setAdminDto(AdminDto.fullBuilder().setType("tyüe").setAdminname("adminname").build())
+            .setSchema("schema")
+            .setAdminDto(AdminDto.fullBuilder().setType("type").setAdminname("adminname").build())
+            .setRoute("route")
             .setMessage("message")
             .build();
 
     assertEquals(
-        "{\"adminname\":\"adminname\",\"color\":\"green\",\"message\":\"message\",\"type\":\"Admin\"}",
+        "{\"adminname\":\"adminname\",\"color\":\"green\",\"message\":\"message\",\"type\":\"Admin\",\"schema\":\"schema\",\"route\":\"route\"}",
         MAPPER.writeValueAsString(dto));
   }
 }

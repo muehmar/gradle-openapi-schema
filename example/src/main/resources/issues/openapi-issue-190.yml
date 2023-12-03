@@ -1,0 +1,42 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Root2:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Leaf1A'
+        - $ref: '#/components/schemas/Leaf1B'
+      properties:
+        prop1:
+          type: integer
+        prop2:
+          type: integer
+
+    Leaf1A:
+      type: object
+
+    Leaf1B:
+      type: object
+      anyOf:
+        - $ref: '#/components/schemas/Leaf2B'
+        - $ref: '#/components/schemas/Leaf2C'
+      properties:
+        prop3:
+          type: string
+        prop4:
+          type: string
+
+    Leaf2B:
+      type: object
+      required:
+        - prop4
+
+    Leaf2C:
+      type: object
+      properties:
+        prop5:
+          type: string

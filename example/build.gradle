@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.2.0"
+    id "com.github.muehmar.openapischema" version "2.3.1"
     id "com.diffplug.spotless"
     id 'openapischema.java'
     id 'java-test-fixtures'
@@ -41,7 +41,8 @@ def specifications =
                 [name: 'specv21', file: 'openapi-spec-version-v31.yml'],
                 [name: 'fullobject', file: 'openapi-full-object.yml'],
                 [name: 'additionalproperties', file: 'openapi-additional-properties.yml'],
-                [name: 'sasis', file: 'sasis-api.json']
+                [name: 'sasis', file: 'sasis-api.json'],
+                [name: 'promotion', file: 'openapi-promotion.yml']
         ]
 
 openApiGenerator {
@@ -314,6 +315,28 @@ openApiGenerator {
                 replacement = ""
             }
         }
+        promotion {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-promotion.yml"
+            outputDir = "$buildDir/generated/openapi"
+            packageName = "com.github.muehmar.gradle.openapi.promotion"
+            jsonSupport = "jackson"
+            suffix = "Dto"
+            enableValidation = true
+            builderMethodPrefix = "set"
+        }
+        ['190', '191', '192', '193', '195'].forEach {issueNumber -> {
+            "${issueNumber}" {
+                sourceSet = 'main'
+                inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
+                outputDir = "$buildDir/generated/openapi"
+                packageName = "com.github.muehmar.gradle.openapi.issue${issueNumber}"
+                jsonSupport = "jackson"
+                suffix = "Dto"
+                enableValidation = false
+                builderMethodPrefix = "set"
+            }
+        }}
 
         specifications.forEach {spec -> {
             "noValidation${spec.name}" {

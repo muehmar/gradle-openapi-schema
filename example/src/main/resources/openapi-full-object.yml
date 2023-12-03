@@ -43,13 +43,12 @@ components:
         username:
           type: string
           maxLength: 9
-      maxProperties: 7
+      maxProperties: 8
 
     Admin:
       required:
         - type
         - adminname
-        - type
       properties:
         type:
           type: string
@@ -62,6 +61,7 @@ components:
     BaseData:
       required:
         - color
+        - schema
       properties:
         color:
           type: string

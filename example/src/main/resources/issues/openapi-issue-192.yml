@@ -1,0 +1,50 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    RootObject1:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AllOfObjectWithOneOf'
+      properties:
+        id:
+          type: string
+
+    AllOfObjectWithOneOf:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/OneOfObject'
+      properties:
+        allofprop:
+          type: string
+
+    OneOfObject:
+      type: object
+      properties:
+        oneofprop:
+          type: string
+
+    RootObject2:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AllOfObjectWithAnyOf'
+      properties:
+        id:
+          type: string
+
+    AllOfObjectWithAnyOf:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/AnyOfObject'
+      properties:
+        allofprop:
+          type: string
+
+    AnyOfObject:
+      type: object
+      properties:
+        anyofprop:
+          type: string

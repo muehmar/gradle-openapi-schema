@@ -1,0 +1,114 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    Root1:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Prop2Required'
+      oneOf:
+        - $ref: '#/components/schemas/Prop3Required'
+        - $ref: '#/components/schemas/Prop4Required'
+      required:
+        - prop1
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: string
+        prop3:
+          type: string
+
+    Prop2Required:
+      type: object
+      required:
+        - prop2
+
+    Prop3Required:
+      type: object
+      required:
+        - prop3
+
+    Prop4Required:
+      type: object
+      required:
+        - prop4
+
+    Patient:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+
+    NamedPatient:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Patient'
+      required:
+        - lastName
+
+    Root2:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Prop2Required'
+      oneOf:
+        - $ref: '#/components/schemas/Leaf1A'
+        - $ref: '#/components/schemas/Leaf1B'
+      properties:
+        prop1:
+          type: integer
+        prop2:
+          type: integer
+
+    Leaf1A:
+      type: object
+      required:
+        - prop5
+      properties:
+        prop5:
+          type: string
+
+
+
+    Leaf1B:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Leaf2A'
+      anyOf:
+        - $ref: '#/components/schemas/Leaf2B'
+        - $ref: '#/components/schemas/Leaf2C'
+      properties:
+        prop3:
+          type: string
+        prop4:
+          type: string
+
+    Leaf2A:
+      type: object
+      required:
+        - prop3
+
+    Leaf2B:
+      type: object
+      required:
+        - prop4
+
+    Leaf2C:
+      type: object
+      required:
+        - prop1
+      properties:
+        prop5:
+          type: string
+          nullable: true
+
+
+
+
+
