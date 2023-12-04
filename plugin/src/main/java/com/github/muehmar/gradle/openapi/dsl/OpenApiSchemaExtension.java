@@ -22,6 +22,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private final GetterSuffixes getterSuffixes;
   private final ValidationMethods validationMethods;
+  private final WarningsConfig warnings;
 
   @Inject
   public OpenApiSchemaExtension(ObjectFactory objectFactory) {
@@ -31,6 +32,7 @@ public class OpenApiSchemaExtension implements Serializable {
     this.constantSchemaNameMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.validationMethods = ValidationMethods.allUndefined();
+    this.warnings = WarningsConfig.allUndefined();
   }
 
   public void schemas(Closure<SingleSchemaExtension> closure) {
@@ -68,6 +70,10 @@ public class OpenApiSchemaExtension implements Serializable {
     constantSchemaNameMappings.add(constantSchemaNameMapping);
   }
 
+  public void warnings(Action<WarningsConfig> action) {
+    action.execute(warnings);
+  }
+
   private Optional<EnumDescriptionExtension> getCommonEnumDescription() {
     return Optional.ofNullable(enumDescriptionExtension);
   }
@@ -92,6 +98,10 @@ public class OpenApiSchemaExtension implements Serializable {
     return constantSchemaNameMappings;
   }
 
+  public WarningsConfig getCommonWarnings() {
+    return warnings;
+  }
+
   public PList<SingleSchemaExtension> getSchemaExtensions() {
     return PList.fromIter(schemaExtensions)
         .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
@@ -99,8 +109,8 @@ public class OpenApiSchemaExtension implements Serializable {
         .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()))
         .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()))
         .map(ext -> ext.withCommonValidationMethods(getCommonValidationMethods()))
-        .map(
-            ext -> ext.withCommonConstantSchemaNameMappings(getCommonConstantSchemaNameMappings()));
+        .map(ext -> ext.withCommonConstantSchemaNameMappings(getCommonConstantSchemaNameMappings()))
+        .map(ext -> ext.withCommonWarnings(getCommonWarnings()));
   }
 
   @Override
@@ -120,6 +130,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + getterSuffixes
         + ", validationMethods="
         + validationMethods
+        + ", warnings="
+        + warnings
         + '}';
   }
 }

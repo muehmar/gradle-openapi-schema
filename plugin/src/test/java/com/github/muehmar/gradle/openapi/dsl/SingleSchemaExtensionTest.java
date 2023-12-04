@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.dsl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
@@ -155,5 +157,30 @@ class SingleSchemaExtensionTest {
             .map(ConstantSchemaNameMapping::toConstantNameMapping)
             .toArrayList(),
         pojoNameMappings.getConstantNameMappings());
+  }
+
+  @Test
+  void withCommonWarnings_when_oneAdditionalMappingPresent_then_concatenated() {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final Action<WarningsConfig> warningsConfigAction =
+        config -> {
+          config.setDisableWarnings(false);
+          config.setFailOnUnsupportedValidation(false);
+        };
+    extension.warnings(warningsConfigAction);
+
+    final WarningsConfig commonWarnings = new WarningsConfig();
+    commonWarnings.setDisableWarnings(true);
+    commonWarnings.setFailOnWarnings(true);
+    commonWarnings.setFailOnUnsupportedValidation(true);
+
+    // method call
+    extension.withCommonWarnings(commonWarnings);
+
+    final WarningsConfig resultingWarnings = extension.getWarnings();
+
+    assertFalse(resultingWarnings.getDisableWarnings());
+    assertTrue(resultingWarnings.getFailOnWarnings());
+    assertFalse(resultingWarnings.getFailOnUnsupportedValidation());
   }
 }
