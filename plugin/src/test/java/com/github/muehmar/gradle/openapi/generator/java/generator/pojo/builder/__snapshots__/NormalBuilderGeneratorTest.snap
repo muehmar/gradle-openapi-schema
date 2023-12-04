@@ -27,6 +27,7 @@ public static final class Builder {
   @JsonProperty("requiredStringVal")
   private Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
+    this.additionalProperties.remove("requiredStringVal");
     return this;
   }
 
@@ -37,6 +38,7 @@ public static final class Builder {
   private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
+    this.additionalProperties.remove("requiredNullableStringVal");
     return this;
   }
 
@@ -46,6 +48,7 @@ public static final class Builder {
   private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
     this.isRequiredNullableStringValPresent = true;
+    this.additionalProperties.remove("requiredNullableStringVal");
     return this;
   }
 
@@ -55,6 +58,7 @@ public static final class Builder {
   @JsonProperty("optionalStringVal")
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
+    this.additionalProperties.remove("optionalStringVal");
     return this;
   }
 
@@ -63,6 +67,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
+    this.additionalProperties.remove("optionalStringVal");
     return this;
   }
 
@@ -73,6 +78,7 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    this.additionalProperties.remove("optionalNullableStringVal");
     return this;
   }
 
@@ -82,6 +88,7 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    this.additionalProperties.remove("optionalNullableStringVal");
     return this;
   }
 
@@ -131,6 +138,7 @@ public static final class Builder {
    */
   private Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
+    this.additionalProperties.remove("requiredStringVal");
     return this;
   }
 
@@ -140,6 +148,7 @@ public static final class Builder {
   private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
+    this.additionalProperties.remove("requiredNullableStringVal");
     return this;
   }
 
@@ -149,6 +158,7 @@ public static final class Builder {
   private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
     this.isRequiredNullableStringValPresent = true;
+    this.additionalProperties.remove("requiredNullableStringVal");
     return this;
   }
 
@@ -157,6 +167,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
+    this.additionalProperties.remove("optionalStringVal");
     return this;
   }
 
@@ -165,6 +176,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
+    this.additionalProperties.remove("optionalStringVal");
     return this;
   }
 
@@ -174,6 +186,7 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    this.additionalProperties.remove("optionalNullableStringVal");
     return this;
   }
 
@@ -183,6 +196,7 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    this.additionalProperties.remove("optionalNullableStringVal");
     return this;
   }
 
@@ -233,6 +247,7 @@ public static final class Builder {
   @JsonProperty("requiredStringVal")
   public Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
+    this.additionalProperties.remove("requiredStringVal");
     return this;
   }
 
@@ -243,6 +258,7 @@ public static final class Builder {
   public Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
+    this.additionalProperties.remove("requiredNullableStringVal");
     return this;
   }
 
@@ -252,6 +268,7 @@ public static final class Builder {
   public Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
     this.isRequiredNullableStringValPresent = true;
+    this.additionalProperties.remove("requiredNullableStringVal");
     return this;
   }
 
@@ -261,6 +278,7 @@ public static final class Builder {
   @JsonProperty("optionalStringVal")
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
+    this.additionalProperties.remove("optionalStringVal");
     return this;
   }
 
@@ -269,6 +287,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
+    this.additionalProperties.remove("optionalStringVal");
     return this;
   }
 
@@ -279,6 +298,7 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    this.additionalProperties.remove("optionalNullableStringVal");
     return this;
   }
 
@@ -288,6 +308,7 @@ public static final class Builder {
   public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    this.additionalProperties.remove("optionalNullableStringVal");
     return this;
   }
 
@@ -373,6 +394,7 @@ public static final class Builder {
   @JsonProperty("stringVal")
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
+    this.additionalProperties.remove("stringVal");
     return this;
   }
 
@@ -382,6 +404,7 @@ public static final class Builder {
   @JsonProperty("intVal")
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
+    this.additionalProperties.remove("intVal");
     return this;
   }
 
@@ -391,6 +414,7 @@ public static final class Builder {
   @JsonProperty("doubleVal")
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
+    this.additionalProperties.remove("doubleVal");
     return this;
   }
 
@@ -400,6 +424,7 @@ public static final class Builder {
   @JsonProperty("birthdate")
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
+    this.additionalProperties.remove("birthdate");
     return this;
   }
 
@@ -409,6 +434,7 @@ public static final class Builder {
   @JsonProperty("email")
   private Builder setEmail(String email) {
     this.email = email;
+    this.additionalProperties.remove("email");
     return this;
   }
 
@@ -472,6 +498,7 @@ public static final class Builder {
   @JsonProperty("stringVal")
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
+    this.additionalProperties.remove("stringVal");
     return this;
   }
 
@@ -481,6 +508,7 @@ public static final class Builder {
   @JsonProperty("intVal")
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
+    this.additionalProperties.remove("intVal");
     return this;
   }
 
@@ -490,6 +518,7 @@ public static final class Builder {
   @JsonProperty("doubleVal")
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
+    this.additionalProperties.remove("doubleVal");
     return this;
   }
 
@@ -499,6 +528,7 @@ public static final class Builder {
   @JsonProperty("birthdate")
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
+    this.additionalProperties.remove("birthdate");
     return this;
   }
 
@@ -508,6 +538,7 @@ public static final class Builder {
   @JsonProperty("email")
   private Builder setEmail(String email) {
     this.email = email;
+    this.additionalProperties.remove("email");
     return this;
   }
 

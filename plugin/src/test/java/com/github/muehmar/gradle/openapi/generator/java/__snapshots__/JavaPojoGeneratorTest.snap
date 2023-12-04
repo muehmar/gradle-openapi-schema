@@ -361,6 +361,7 @@ public class SampleObjectPojo1Dto {
     @JsonProperty("stringVal")
     private Builder setStringVal(String stringVal) {
       this.stringVal = stringVal;
+      this.additionalProperties.remove("stringVal");
       return this;
     }
 
@@ -370,6 +371,7 @@ public class SampleObjectPojo1Dto {
     @JsonProperty("intVal")
     private Builder setIntVal(Integer intVal) {
       this.intVal = intVal;
+      this.additionalProperties.remove("intVal");
       return this;
     }
 
@@ -379,6 +381,7 @@ public class SampleObjectPojo1Dto {
     @JsonProperty("doubleVal")
     private Builder setDoubleVal(Double doubleVal) {
       this.doubleVal = doubleVal;
+      this.additionalProperties.remove("doubleVal");
       return this;
     }
 
