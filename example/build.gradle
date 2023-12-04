@@ -71,6 +71,12 @@ openApiGenerator {
         getterSuffix = "Raw"
     }
 
+    warnings {
+        disableWarnings = false
+        failOnWarnings = true
+        failOnUnsupportedValidation = true
+    }
+
     schemas {
         apiV1 {
             sourceSet = 'main'
@@ -208,6 +214,10 @@ openApiGenerator {
             formatTypeMapping {
                 formatType = "name"
                 classType = "com.github.muehmar.gradle.openapi.validation.Name"
+            }
+
+            warnings {
+                failOnUnsupportedValidation = false
             }
         }
         oneOf {
