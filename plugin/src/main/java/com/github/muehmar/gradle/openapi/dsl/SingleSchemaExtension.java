@@ -281,6 +281,11 @@ public class SingleSchemaExtension implements Serializable {
     return this;
   }
 
+  public SingleSchemaExtension withCommonWarnings(WarningsConfig commonWarnings) {
+    this.warnings = this.warnings.withCommonWarnings(commonWarnings);
+    return this;
+  }
+
   public PojoNameMappings getPojoNameMappings() {
     return new PojoNameMappings(
         PList.fromIter(constantSchemaNameMappings)

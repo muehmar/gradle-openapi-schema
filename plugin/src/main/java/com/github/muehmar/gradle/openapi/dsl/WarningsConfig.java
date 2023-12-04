@@ -1,16 +1,23 @@
 package com.github.muehmar.gradle.openapi.dsl;
 
+import static com.github.muehmar.gradle.openapi.dsl.WarningsConfigBuilder.fullWarningsConfigBuilder;
+
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import com.github.muehmar.gradle.openapi.warnings.FailingWarningTypes;
 import com.github.muehmar.gradle.openapi.warnings.WarningType;
 import io.github.muehmar.pojobuilder.annotations.Nullable;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import lombok.ToString;
 
+@PojoBuilder
+@Setter
 @EqualsAndHashCode
 @ToString
 public class WarningsConfig implements Serializable {
@@ -31,6 +38,23 @@ public class WarningsConfig implements Serializable {
 
   public static WarningsConfig allUndefined() {
     return new WarningsConfig();
+  }
+
+  public WarningsConfig withCommonWarnings(WarningsConfig commonWarnings) {
+    return fullWarningsConfigBuilder()
+        .disableWarnings(
+            Optionals.or(
+                Optional.ofNullable(disableWarnings),
+                Optional.ofNullable(commonWarnings.disableWarnings)))
+        .failOnWarnings(
+            Optionals.or(
+                Optional.ofNullable(failOnWarnings),
+                Optional.ofNullable(commonWarnings.failOnWarnings)))
+        .failOnUnsupportedValidation(
+            Optionals.or(
+                Optional.ofNullable(failOnUnsupportedValidation),
+                Optional.ofNullable(commonWarnings.failOnUnsupportedValidation)))
+        .build();
   }
 
   public boolean getDisableWarnings() {
