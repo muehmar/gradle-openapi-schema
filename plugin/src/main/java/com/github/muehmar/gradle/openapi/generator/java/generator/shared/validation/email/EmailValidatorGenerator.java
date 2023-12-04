@@ -21,7 +21,7 @@ public class EmailValidatorGenerator {
                         + "import java.util.regex.Pattern;\n"
                         + "\n"
                         + "/**\n"
-                        + " * This validator is extracted from the hibernate validator v6.2.5 and consolidated into a single\n"
+                        + " * This validator is extracted from the hibernate validator v8.0.0 and consolidated into a single\n"
                         + " * class.\n"
                         + " */\n"
                         + "public class EmailValidator {\n"
