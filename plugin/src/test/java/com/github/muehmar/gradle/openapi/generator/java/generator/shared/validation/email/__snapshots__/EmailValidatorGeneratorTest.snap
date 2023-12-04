@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This validator is extracted from the hibernate validator v6.2.5 and consolidated into a single
+ * This validator is extracted from the hibernate validator v8.0.0 and consolidated into a single
  * class.
  */
 public class EmailValidator {
