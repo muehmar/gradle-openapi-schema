@@ -267,12 +267,23 @@ public class PersonDto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("requiredStringVal".equals(key) && requiredStringVal != null) {
+        return this;
+      }
+      if ("birthdate".equals(key) && birthdate != null) {
+        return this;
+      }
+      if ("username".equals(key) && username != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -832,12 +843,23 @@ public class PersonDto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("requiredStringVal".equals(key) && requiredStringVal != null) {
+        return this;
+      }
+      if ("birthdate".equals(key) && birthdate != null) {
+        return this;
+      }
+      if ("username".equals(key) && username != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -1225,7 +1247,8 @@ public class ObjectPojo1Dto {
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -1958,12 +1981,44 @@ public class UserDto {
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("id".equals(key) && id != null) {
+        return this;
+      }
+      if ("name".equals(key) && name != null) {
+        return this;
+      }
+      if ("lastName".equals(key) && lastName != null) {
+        return this;
+      }
+      if ("nickName".equals(key) && nickName != null) {
+        return this;
+      }
+      if ("email".equals(key) && email != null) {
+        return this;
+      }
+      if ("height".equals(key) && height != null) {
+        return this;
+      }
+      if ("level".equals(key) && level != null) {
+        return this;
+      }
+      if ("uppercase".equals(key) && uppercase != null) {
+        return this;
+      }
+      if ("multipleOfValue".equals(key) && multipleOfValue != null) {
+        return this;
+      }
+      if ("anotherPojo".equals(key) && anotherPojo != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -2617,12 +2672,44 @@ public class UserDto {
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("id".equals(key) && id != null) {
+        return this;
+      }
+      if ("name".equals(key) && name != null) {
+        return this;
+      }
+      if ("lastName".equals(key) && lastName != null) {
+        return this;
+      }
+      if ("nickName".equals(key) && nickName != null) {
+        return this;
+      }
+      if ("email".equals(key) && email != null) {
+        return this;
+      }
+      if ("height".equals(key) && height != null) {
+        return this;
+      }
+      if ("level".equals(key) && level != null) {
+        return this;
+      }
+      if ("uppercase".equals(key) && uppercase != null) {
+        return this;
+      }
+      if ("multipleOfValue".equals(key) && multipleOfValue != null) {
+        return this;
+      }
+      if ("anotherPojo".equals(key) && anotherPojo != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -2909,12 +2996,23 @@ public class UserDto {
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("id".equals(key) && id != null) {
+        return this;
+      }
+      if ("name".equals(key) && name != null) {
+        return this;
+      }
+      if ("language".equals(key) && language != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -3388,12 +3486,20 @@ public class Illegal_IdentifierDto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("switch".equals(key) && (isSwitchNull || switch_ != null)) {
+        return this;
+      }
+      if ("point.".equals(key) && (isPoint_Null || point_ != null)) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -3780,7 +3886,8 @@ public class ObjectPojo1Dto {
     }
 
     public Builder setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -4007,7 +4114,8 @@ public class ObjectPojo1Dto {
     }
 
     public Builder setAdditionalProperties(Map<String, Integer> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -4401,12 +4509,23 @@ public class UserDto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("id".equals(key) && id != null) {
+        return this;
+      }
+      if ("name".equals(key) && name != null) {
+        return this;
+      }
+      if ("language".equals(key) && language != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -4694,12 +4813,23 @@ public class UserDto {
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("id".equals(key) && id != null) {
+        return this;
+      }
+      if ("name".equals(key) && name != null) {
+        return this;
+      }
+      if ("language".equals(key) && language != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -5104,12 +5234,26 @@ public class NecessityAndNullabilityDto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("requiredStringVal".equals(key) && requiredStringVal != null) {
+        return this;
+      }
+      if ("requiredNullableStringVal".equals(key) && isRequiredNullableStringValPresent) {
+        return this;
+      }
+      if ("optionalStringVal".equals(key) && optionalStringVal != null) {
+        return this;
+      }
+      if ("optionalNullableStringVal".equals(key) && (isOptionalNullableStringValNull || optionalNullableStringVal != null)) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -5683,7 +5827,8 @@ public class ObjectPojo1Dto {
     }
 
     public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -5912,7 +6057,8 @@ public class ObjectPojo1Dto {
     }
 
     public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -6133,7 +6279,8 @@ public class ObjectPojo1Dto {
     }
 
     public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -6382,12 +6529,17 @@ public class ObjectPojo1Dto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("listVal".equals(key) && listVal != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -6684,12 +6836,17 @@ public class ObjectPojo1Dto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("mapVal".equals(key) && mapVal != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -7199,12 +7356,23 @@ public class PersonDto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("requiredStringVal".equals(key) && requiredStringVal != null) {
+        return this;
+      }
+      if ("birthdate".equals(key) && birthdate != null) {
+        return this;
+      }
+      if ("username".equals(key) && username != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -7624,12 +7792,17 @@ public class UserDto {
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("language".equals(key) && language != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -7886,12 +8059,17 @@ public class UserDto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("language".equals(key) && language != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
@@ -8148,12 +8326,20 @@ public class ObjectPojo1Dto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("email".equals(key) && email != null) {
+        return this;
+      }
+      if ("birthdate".equals(key) && birthdate != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 

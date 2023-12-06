@@ -94,12 +94,26 @@ public static final class Builder {
 
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, Object value) {
+    if ("requiredStringVal".equals(key) && requiredStringVal != null) {
+      return this;
+    }
+    if ("requiredNullableStringVal".equals(key) && isRequiredNullableStringValPresent) {
+      return this;
+    }
+    if ("optionalStringVal".equals(key) && optionalStringVal != null) {
+      return this;
+    }
+    if ("optionalNullableStringVal".equals(key) && (isOptionalNullableStringValNull || optionalNullableStringVal != null)) {
+      return this;
+    }
+
     this.additionalProperties.put(key, value);
     return this;
   }
 
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-    this.additionalProperties = new HashMap<>(additionalProperties);
+    this.additionalProperties.clear();
+    additionalProperties.forEach(this::addAdditionalProperty);
     return this;
   }
 
@@ -201,12 +215,26 @@ public static final class Builder {
   }
 
   public Builder addAdditionalProperty(String key, Object value) {
+    if ("requiredStringVal".equals(key) && requiredStringVal != null) {
+      return this;
+    }
+    if ("requiredNullableStringVal".equals(key) && isRequiredNullableStringValPresent) {
+      return this;
+    }
+    if ("optionalStringVal".equals(key) && optionalStringVal != null) {
+      return this;
+    }
+    if ("optionalNullableStringVal".equals(key) && (isOptionalNullableStringValNull || optionalNullableStringVal != null)) {
+      return this;
+    }
+
     this.additionalProperties.put(key, value);
     return this;
   }
 
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-    this.additionalProperties = new HashMap<>(additionalProperties);
+    this.additionalProperties.clear();
+    additionalProperties.forEach(this::addAdditionalProperty);
     return this;
   }
 
@@ -314,12 +342,26 @@ public static final class Builder {
 
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, Object value) {
+    if ("requiredStringVal".equals(key) && requiredStringVal != null) {
+      return this;
+    }
+    if ("requiredNullableStringVal".equals(key) && isRequiredNullableStringValPresent) {
+      return this;
+    }
+    if ("optionalStringVal".equals(key) && optionalStringVal != null) {
+      return this;
+    }
+    if ("optionalNullableStringVal".equals(key) && (isOptionalNullableStringValNull || optionalNullableStringVal != null)) {
+      return this;
+    }
+
     this.additionalProperties.put(key, value);
     return this;
   }
 
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-    this.additionalProperties = new HashMap<>(additionalProperties);
+    this.additionalProperties.clear();
+    additionalProperties.forEach(this::addAdditionalProperty);
     return this;
   }
 
@@ -357,7 +399,8 @@ public static final class Builder {
   }
 
   public Builder setAdditionalProperties(Map<String, List<String>> additionalProperties) {
-    this.additionalProperties = new HashMap<>(additionalProperties);
+    this.additionalProperties.clear();
+    additionalProperties.forEach(this::addAdditionalProperty);
     return this;
   }
 
@@ -448,12 +491,29 @@ public static final class Builder {
 
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, Object value) {
+    if ("stringVal".equals(key) && stringVal != null) {
+      return this;
+    }
+    if ("intVal".equals(key) && intVal != null) {
+      return this;
+    }
+    if ("doubleVal".equals(key) && doubleVal != null) {
+      return this;
+    }
+    if ("birthdate".equals(key) && birthdate != null) {
+      return this;
+    }
+    if ("email".equals(key) && email != null) {
+      return this;
+    }
+
     this.additionalProperties.put(key, value);
     return this;
   }
 
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-    this.additionalProperties = new HashMap<>(additionalProperties);
+    this.additionalProperties.clear();
+    additionalProperties.forEach(this::addAdditionalProperty);
     return this;
   }
 
@@ -560,12 +620,29 @@ public static final class Builder {
 
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, Object value) {
+    if ("stringVal".equals(key) && stringVal != null) {
+      return this;
+    }
+    if ("intVal".equals(key) && intVal != null) {
+      return this;
+    }
+    if ("doubleVal".equals(key) && doubleVal != null) {
+      return this;
+    }
+    if ("birthdate".equals(key) && birthdate != null) {
+      return this;
+    }
+    if ("email".equals(key) && email != null) {
+      return this;
+    }
+
     this.additionalProperties.put(key, value);
     return this;
   }
 
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-    this.additionalProperties = new HashMap<>(additionalProperties);
+    this.additionalProperties.clear();
+    additionalProperties.forEach(this::addAdditionalProperty);
     return this;
   }
 

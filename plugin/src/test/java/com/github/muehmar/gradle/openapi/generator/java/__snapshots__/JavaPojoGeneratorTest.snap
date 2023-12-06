@@ -387,12 +387,23 @@ public class SampleObjectPojo1Dto {
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
+      if ("stringVal".equals(key) && stringVal != null) {
+        return this;
+      }
+      if ("intVal".equals(key) && intVal != null) {
+        return this;
+      }
+      if ("doubleVal".equals(key) && doubleVal != null) {
+        return this;
+      }
+
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties.clear();
+      additionalProperties.forEach(this::addAdditionalProperty);
       return this;
     }
 
