@@ -21,8 +21,7 @@ import java.util.function.Function;
 public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
   private static final String FACTORY_JAVA_DOC =
       "Instantiates a new staged builder. Explicit properties have precedence over additional properties, i.e. an "
-          + "additional property with the same name as an explicit property will be discarded if the explicit "
-          + "property is set or if it gets set.";
+          + "additional property with the same name as an explicit property will be discarded.";
   private final Generator<JavaObjectPojo, PojoSettings> delegate;
 
   public SafeBuilderGenerator(SafeBuilderVariant builderVariant) {

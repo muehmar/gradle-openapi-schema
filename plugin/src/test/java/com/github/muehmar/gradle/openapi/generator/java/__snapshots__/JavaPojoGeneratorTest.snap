@@ -361,7 +361,6 @@ public class SampleObjectPojo1Dto {
     @JsonProperty("stringVal")
     private Builder setStringVal(String stringVal) {
       this.stringVal = stringVal;
-      this.additionalProperties.remove("stringVal");
       return this;
     }
 
@@ -371,7 +370,6 @@ public class SampleObjectPojo1Dto {
     @JsonProperty("intVal")
     private Builder setIntVal(Integer intVal) {
       this.intVal = intVal;
-      this.additionalProperties.remove("intVal");
       return this;
     }
 
@@ -381,33 +379,25 @@ public class SampleObjectPojo1Dto {
     @JsonProperty("doubleVal")
     private Builder setDoubleVal(Double doubleVal) {
       this.doubleVal = doubleVal;
-      this.additionalProperties.remove("doubleVal");
       return this;
     }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
-      if ("stringVal".equals(key) && stringVal != null) {
-        return this;
-      }
-      if ("intVal".equals(key) && intVal != null) {
-        return this;
-      }
-      if ("doubleVal".equals(key) && doubleVal != null) {
-        return this;
-      }
-
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-      this.additionalProperties.clear();
-      additionalProperties.forEach(this::addAdditionalProperty);
+      this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
     }
 
     public SampleObjectPojo1Dto build() {
+      additionalProperties.remove("stringVal");
+      additionalProperties.remove("intVal");
+      additionalProperties.remove("doubleVal");
+
       return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
     }
   }
@@ -415,8 +405,7 @@ public class SampleObjectPojo1Dto {
   /**
    * Instantiates a new staged builder. Explicit properties have precedence over
    * additional properties, i.e. an additional property with the same name as an
-   * explicit property will be discarded if the explicit property is set or if it
-   * gets set.
+   * explicit property will be discarded.
    */
   public static FullPropertyBuilder0 fullBuilder() {
     return new FullPropertyBuilder0(new Builder());
@@ -425,8 +414,7 @@ public class SampleObjectPojo1Dto {
   /**
    * Instantiates a new staged builder. Explicit properties have precedence over
    * additional properties, i.e. an additional property with the same name as an
-   * explicit property will be discarded if the explicit property is set or if it
-   * gets set.
+   * explicit property will be discarded.
    */
   public static FullPropertyBuilder0 fullSampleObjectPojo1DtoBuilder() {
     return new FullPropertyBuilder0(new Builder());
@@ -503,8 +491,7 @@ public class SampleObjectPojo1Dto {
   /**
    * Instantiates a new staged builder. Explicit properties have precedence over
    * additional properties, i.e. an additional property with the same name as an
-   * explicit property will be discarded if the explicit property is set or if it
-   * gets set.
+   * explicit property will be discarded.
    */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
@@ -513,8 +500,7 @@ public class SampleObjectPojo1Dto {
   /**
    * Instantiates a new staged builder. Explicit properties have precedence over
    * additional properties, i.e. an additional property with the same name as an
-   * explicit property will be discarded if the explicit property is set or if it
-   * gets set.
+   * explicit property will be discarded.
    */
   public static PropertyBuilder0 sampleObjectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());

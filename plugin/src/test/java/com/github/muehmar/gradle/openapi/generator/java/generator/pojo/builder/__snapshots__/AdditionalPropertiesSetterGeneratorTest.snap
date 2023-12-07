@@ -6,26 +6,12 @@ java.util.Map
 .
 @JsonAnySetter
 public Builder addAdditionalProperty(String key, Object value) {
-  if ("requiredStringVal".equals(key) && requiredStringVal != null) {
-    return this;
-  }
-  if ("requiredNullableStringVal".equals(key) && isRequiredNullableStringValPresent) {
-    return this;
-  }
-  if ("optionalStringVal".equals(key) && optionalStringVal != null) {
-    return this;
-  }
-  if ("optionalNullableStringVal".equals(key) && (isOptionalNullableStringValNull || optionalNullableStringVal != null)) {
-    return this;
-  }
-
   this.additionalProperties.put(key, value);
   return this;
 }
 
 public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-  this.additionalProperties.clear();
-  additionalProperties.forEach(this::addAdditionalProperty);
+  this.additionalProperties = new HashMap<>(additionalProperties);
   return this;
 }
 ]
@@ -39,17 +25,12 @@ java.util.Map
 .
 @JsonAnySetter
 public Builder addAdditionalProperty(String key, Object value) {
-  if ("birthdate".equals(key) && birthdate != null) {
-    return this;
-  }
-
   this.additionalProperties.put(key, value);
   return this;
 }
 
 public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
-  this.additionalProperties.clear();
-  additionalProperties.forEach(this::addAdditionalProperty);
+  this.additionalProperties = new HashMap<>(additionalProperties);
   return this;
 }
 ]
@@ -61,27 +42,18 @@ java.util.HashMap
 java.util.Map
 
 private Builder addAdditionalProperty(String key, Object value) {
-  if ("birthdate".equals(key) && birthdate != null) {
-    return this;
-  }
-
   this.additionalProperties.put(key, value);
   return this;
 }
 
 @JsonAnySetter
 public Builder addAdditionalProperty(String key, UserDto value) {
-  if ("birthdate".equals(key) && birthdate != null) {
-    return this;
-  }
-
   this.additionalProperties.put(key, value);
   return this;
 }
 
 public Builder setAdditionalProperties(Map<String, UserDto> additionalProperties) {
-  this.additionalProperties.clear();
-  additionalProperties.forEach(this::addAdditionalProperty);
+  this.additionalProperties = new HashMap<>(additionalProperties);
   return this;
 }
 ]

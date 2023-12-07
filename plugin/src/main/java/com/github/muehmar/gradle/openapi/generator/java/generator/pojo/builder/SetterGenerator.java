@@ -73,7 +73,6 @@ class SetterGenerator {
                 writer.println(
                     "this.%s = %s == null;", member.getIsNullFlagName(), member.getName()),
             JavaPojoMember::isOptionalAndNullable)
-        .append((m, s, w) -> w.println("%s", removeAdditionalPropertyLine(m)))
         .append(w -> w.println("return this;"));
   }
 
@@ -100,7 +99,6 @@ class SetterGenerator {
                     writer
                         .println("this.%s = %s.orElse(null);", member.getName(), member.getName())
                         .println("this.%s = true;", member.getIsPresentFlagName())
-                        .println("%s", removeAdditionalPropertyLine(member))
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
@@ -131,7 +129,6 @@ class SetterGenerator {
                 (member, settings, writer) ->
                     writer
                         .println("this.%s = %s.orElse(null);", member.getName(), member.getName())
-                        .println("%s", removeAdditionalPropertyLine(member))
                         .println("return this;")
                         .ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
@@ -169,7 +166,6 @@ class SetterGenerator {
                             member.getIsNullFlagName(),
                             member.getName(),
                             member.tristateToIsNullFlag())
-                        .println("%s", removeAdditionalPropertyLine(member))
                         .println("return this;")
                         .ref(OpenApiUtilRefs.TRISTATE))
             .build();
@@ -179,10 +175,5 @@ class SetterGenerator {
         .append(method)
         .appendNewLine()
         .filter(JavaPojoMember::isOptionalAndNullable);
-  }
-
-  private static String removeAdditionalPropertyLine(JavaPojoMember member) {
-    return String.format(
-        "this.additionalProperties.remove(\"%s\");", member.getName().getOriginalName());
   }
 }
