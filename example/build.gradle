@@ -335,7 +335,7 @@ openApiGenerator {
             enableValidation = true
             builderMethodPrefix = "set"
         }
-        ['190', '191', '192', '193', '195'].forEach {issueNumber -> {
+        ['185', '190', '191', '192', '193', '195'].forEach {issueNumber -> {
             "${issueNumber}" {
                 sourceSet = 'main'
                 inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
