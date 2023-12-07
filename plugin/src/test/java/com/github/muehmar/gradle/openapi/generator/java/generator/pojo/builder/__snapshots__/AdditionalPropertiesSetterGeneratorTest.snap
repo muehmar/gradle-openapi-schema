@@ -1,3 +1,22 @@
+allNecessityAndNullabilityVariantsPojo=[
+com.fasterxml.jackson.annotation.JsonAnySetter
+java.util.HashMap
+java.util.Map
+.
+.
+@JsonAnySetter
+public Builder addAdditionalProperty(String key, Object value) {
+  this.additionalProperties.put(key, value);
+  return this;
+}
+
+public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+  this.additionalProperties = new HashMap<>(additionalProperties);
+  return this;
+}
+]
+
+
 objectPojoAnyTypeAdditionalProperties=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 java.util.HashMap

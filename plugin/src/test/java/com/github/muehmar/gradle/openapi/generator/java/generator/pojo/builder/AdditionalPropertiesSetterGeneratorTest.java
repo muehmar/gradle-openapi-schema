@@ -36,6 +36,18 @@ class AdditionalPropertiesSetterGeneratorTest {
   }
 
   @Test
+  @SnapshotName("allNecessityAndNullabilityVariantsPojo")
+  void generate_when_allNecessityAndNullabilityVariantsPojo_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = additionalPropertiesSetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.allNecessityAndNullabilityVariants(), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("objectPojoSpecificTypeAdditionalProperties")
   void generate_when_objectPojoSpecificTypeAdditionalProperties_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = additionalPropertiesSetterGenerator();

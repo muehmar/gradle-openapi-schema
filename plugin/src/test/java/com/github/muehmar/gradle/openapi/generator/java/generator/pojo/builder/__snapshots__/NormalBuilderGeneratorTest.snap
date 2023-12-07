@@ -101,6 +101,11 @@ public static final class Builder {
   }
 
   public NecessityAndNullabilityDto build() {
+    additionalProperties.remove("requiredStringVal");
+    additionalProperties.remove("requiredNullableStringVal");
+    additionalProperties.remove("optionalStringVal");
+    additionalProperties.remove("optionalNullableStringVal");
+
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 }
@@ -197,6 +202,11 @@ public static final class Builder {
   }
 
   public NecessityAndNullabilityDto build() {
+    additionalProperties.remove("requiredStringVal");
+    additionalProperties.remove("requiredNullableStringVal");
+    additionalProperties.remove("optionalStringVal");
+    additionalProperties.remove("optionalNullableStringVal");
+
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 }
@@ -303,6 +313,11 @@ public static final class Builder {
   }
 
   public NecessityAndNullabilityDto build() {
+    additionalProperties.remove("requiredStringVal");
+    additionalProperties.remove("requiredNullableStringVal");
+    additionalProperties.remove("optionalStringVal");
+    additionalProperties.remove("optionalNullableStringVal");
+
     return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 }
@@ -440,6 +455,12 @@ public static final class Builder {
   }
 
   public SampleObjectPojo1Dto build() {
+    additionalProperties.remove("stringVal");
+    additionalProperties.remove("intVal");
+    additionalProperties.remove("doubleVal");
+    additionalProperties.remove("birthdate");
+    additionalProperties.remove("email");
+
     return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, birthdate, email, additionalProperties);
   }
 }
@@ -539,6 +560,12 @@ public static final class Builder {
   }
 
   public OneOfPojo1Dto build() {
+    additionalProperties.remove("stringVal");
+    additionalProperties.remove("intVal");
+    additionalProperties.remove("doubleVal");
+    additionalProperties.remove("birthdate");
+    additionalProperties.remove("email");
+
     return new OneOfPojo1Dto(stringVal, intVal, doubleVal, birthdate, email, additionalProperties);
   }
 }

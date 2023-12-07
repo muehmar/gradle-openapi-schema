@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
@@ -23,6 +24,20 @@ public class BuildMethodGenerator {
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> buildMethodContent() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendList(
+            (m, s, w) ->
+                w.println(
+                    "%s.remove(\"%s\");",
+                    additionalPropertiesName(), m.getName().getOriginalName()),
+            JavaObjectPojo::getAllMembers)
+        .append(
+            Generator.<JavaObjectPojo, PojoSettings>newLine()
+                .filter(p -> p.getAllMembers().nonEmpty()))
+        .append(buildMethodCall());
+  }
+
+  private static Generator<JavaObjectPojo, PojoSettings> buildMethodCall() {
     return (pojo, settings, writer) ->
         writer.print(
             "return new %s(%s);",

@@ -14,16 +14,22 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.function.Function;
 
 public class SafeBuilderGenerator implements Generator<JavaObjectPojo, PojoSettings> {
+  private static final String FACTORY_JAVA_DOC =
+      "Instantiates a new staged builder. Explicit properties have precedence over additional properties, i.e. an "
+          + "additional property with the same name as an explicit property will be discarded.";
   private final Generator<JavaObjectPojo, PojoSettings> delegate;
 
   public SafeBuilderGenerator(SafeBuilderVariant builderVariant) {
     this.delegate =
-        factoryMethod(builderVariant, simpleBuilderMethodName(builderVariant))
+        JavaDocGenerator.<JavaObjectPojo, PojoSettings>ofJavaDocString(FACTORY_JAVA_DOC)
+            .append(factoryMethod(builderVariant, simpleBuilderMethodName(builderVariant)))
             .appendSingleBlankLine()
+            .append(JavaDocGenerator.ofJavaDocString(FACTORY_JAVA_DOC))
             .append(factoryMethod(builderVariant, pojoBuilderMethodName(builderVariant)))
             .appendSingleBlankLine()
             .append(allOfBuilderGenerator(builderVariant))

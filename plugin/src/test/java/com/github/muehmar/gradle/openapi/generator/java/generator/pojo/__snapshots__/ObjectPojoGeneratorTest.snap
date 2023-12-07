@@ -274,14 +274,28 @@ public class PersonDto {
     }
 
     public PersonDto build() {
+      additionalProperties.remove("requiredStringVal");
+      additionalProperties.remove("birthdate");
+      additionalProperties.remove("username");
+
       return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullAllOfBuilderAdmin0 fullBuilder() {
     return new FullAllOfBuilderAdmin0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullAllOfBuilderAdmin0 fullPersonDtoBuilder() {
     return new FullAllOfBuilderAdmin0(new Builder());
   }
@@ -360,10 +374,20 @@ public class PersonDto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static AllOfBuilderAdmin0 builder() {
     return new AllOfBuilderAdmin0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static AllOfBuilderAdmin0 personDtoBuilder() {
     return new AllOfBuilderAdmin0(new Builder());
   }
@@ -812,14 +836,28 @@ public class PersonDto {
     }
 
     public PersonDto build() {
+      additionalProperties.remove("requiredStringVal");
+      additionalProperties.remove("birthdate");
+      additionalProperties.remove("username");
+
       return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullAnyOfBuilder0 fullBuilder() {
     return new FullAnyOfBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullAnyOfBuilder0 fullPersonDtoBuilder() {
     return new FullAnyOfBuilder0(new Builder());
   }
@@ -927,10 +965,20 @@ public class PersonDto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static AnyOfBuilder0 builder() {
     return new AnyOfBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static AnyOfBuilder0 personDtoBuilder() {
     return new AnyOfBuilder0(new Builder());
   }
@@ -1180,10 +1228,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -1208,10 +1266,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 builder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
@@ -1876,6 +1944,17 @@ public class UserDto {
     }
 
     public UserDto build() {
+      additionalProperties.remove("id");
+      additionalProperties.remove("name");
+      additionalProperties.remove("lastName");
+      additionalProperties.remove("nickName");
+      additionalProperties.remove("email");
+      additionalProperties.remove("height");
+      additionalProperties.remove("level");
+      additionalProperties.remove("uppercase");
+      additionalProperties.remove("multipleOfValue");
+      additionalProperties.remove("anotherPojo");
+
       return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
     }
   }
@@ -2521,6 +2600,17 @@ public class UserDto {
     }
 
     public UserDto build() {
+      additionalProperties.remove("id");
+      additionalProperties.remove("name");
+      additionalProperties.remove("lastName");
+      additionalProperties.remove("nickName");
+      additionalProperties.remove("email");
+      additionalProperties.remove("height");
+      additionalProperties.remove("level");
+      additionalProperties.remove("uppercase");
+      additionalProperties.remove("multipleOfValue");
+      additionalProperties.remove("anotherPojo");
+
       return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
     }
   }
@@ -2809,14 +2899,28 @@ public class UserDto {
     }
 
     public UserDto build() {
+      additionalProperties.remove("id");
+      additionalProperties.remove("name");
+      additionalProperties.remove("language");
+
       return new UserDto(id, name, language, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullUserDtoBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
@@ -2896,10 +3000,20 @@ public class UserDto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 userDtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
@@ -3260,14 +3374,27 @@ public class Illegal_IdentifierDto {
     }
 
     public Illegal_IdentifierDto build() {
+      additionalProperties.remove("switch");
+      additionalProperties.remove("point.");
+
       return new Illegal_IdentifierDto(switch_, isSwitchNull, point_, isPoint_Null, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullIllegal_IdentifierDtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -3336,10 +3463,20 @@ public class Illegal_IdentifierDto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 illegal_IdentifierDtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
@@ -3627,10 +3764,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -3655,10 +3802,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 builder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
@@ -3830,10 +3987,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -3858,10 +4025,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 builder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
@@ -4197,6 +4374,10 @@ public class UserDto {
     }
 
     public UserDto build() {
+      additionalProperties.remove("id");
+      additionalProperties.remove("name");
+      additionalProperties.remove("language");
+
       return new UserDto(id, name, language, additionalProperties);
     }
   }
@@ -4486,6 +4667,10 @@ public class UserDto {
     }
 
     public UserDto build() {
+      additionalProperties.remove("id");
+      additionalProperties.remove("name");
+      additionalProperties.remove("language");
+
       return new UserDto(id, name, language, additionalProperties);
     }
   }
@@ -4889,14 +5074,29 @@ public class NecessityAndNullabilityDto {
     }
 
     public NecessityAndNullabilityDto build() {
+      additionalProperties.remove("requiredStringVal");
+      additionalProperties.remove("requiredNullableStringVal");
+      additionalProperties.remove("optionalStringVal");
+      additionalProperties.remove("optionalNullableStringVal");
+
       return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullNecessityAndNullabilityDtoBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
@@ -5004,10 +5204,20 @@ public class NecessityAndNullabilityDto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 necessityAndNullabilityDtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
@@ -5227,10 +5437,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -5247,10 +5467,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 builder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
@@ -5419,10 +5649,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -5447,10 +5687,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 builder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
@@ -5624,10 +5874,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -5652,10 +5912,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 builder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
@@ -5821,10 +6091,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullOptPropertyBuilder0(new Builder());
   }
@@ -5849,10 +6129,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 builder() {
     return new OptPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
     return new OptPropertyBuilder0(new Builder());
   }
@@ -6046,14 +6336,26 @@ public class ObjectPojo1Dto {
     }
 
     public ObjectPojo1Dto build() {
+      additionalProperties.remove("listVal");
+
       return new ObjectPojo1Dto(listVal, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
@@ -6094,10 +6396,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 objectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
@@ -6323,14 +6635,26 @@ public class ObjectPojo1Dto {
     }
 
     public ObjectPojo1Dto build() {
+      additionalProperties.remove("mapVal");
+
       return new ObjectPojo1Dto(mapVal, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
@@ -6371,10 +6695,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 objectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }
@@ -6811,14 +7145,28 @@ public class PersonDto {
     }
 
     public PersonDto build() {
+      additionalProperties.remove("requiredStringVal");
+      additionalProperties.remove("birthdate");
+      additionalProperties.remove("username");
+
       return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOneOfBuilder fullBuilder() {
     return new FullOneOfBuilder(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullOneOfBuilder fullPersonDtoBuilder() {
     return new FullOneOfBuilder(new Builder());
   }
@@ -6886,10 +7234,20 @@ public class PersonDto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OneOfBuilder builder() {
     return new OneOfBuilder(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static OneOfBuilder personDtoBuilder() {
     return new OneOfBuilder(new Builder());
   }
@@ -7210,6 +7568,8 @@ public class UserDto {
     }
 
     public UserDto build() {
+      additionalProperties.remove("language");
+
       return new UserDto(language, additionalProperties);
     }
   }
@@ -7470,6 +7830,8 @@ public class UserDto {
     }
 
     public UserDto build() {
+      additionalProperties.remove("language");
+
       return new UserDto(language, additionalProperties);
     }
   }
@@ -7733,14 +8095,27 @@ public class ObjectPojo1Dto {
     }
 
     public ObjectPojo1Dto build() {
+      additionalProperties.remove("email");
+      additionalProperties.remove("birthdate");
+
       return new ObjectPojo1Dto(email, birthdate, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
@@ -7820,10 +8195,20 @@ public class ObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 objectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }

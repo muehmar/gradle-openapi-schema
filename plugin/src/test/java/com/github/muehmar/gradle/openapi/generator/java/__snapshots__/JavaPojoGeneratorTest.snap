@@ -394,14 +394,28 @@ public class SampleObjectPojo1Dto {
     }
 
     public SampleObjectPojo1Dto build() {
+      additionalProperties.remove("stringVal");
+      additionalProperties.remove("intVal");
+      additionalProperties.remove("doubleVal");
+
       return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static FullPropertyBuilder0 fullSampleObjectPojo1DtoBuilder() {
     return new FullPropertyBuilder0(new Builder());
   }
@@ -474,10 +488,20 @@ public class SampleObjectPojo1Dto {
     }
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 builder() {
     return new PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
   public static PropertyBuilder0 sampleObjectPojo1DtoBuilder() {
     return new PropertyBuilder0(new Builder());
   }

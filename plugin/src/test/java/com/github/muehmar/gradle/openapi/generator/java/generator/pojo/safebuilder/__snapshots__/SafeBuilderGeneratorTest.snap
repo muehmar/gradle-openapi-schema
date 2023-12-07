@@ -3,10 +3,20 @@ com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.Optional
 
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
 public static FullPropertyBuilder0 fullBuilder() {
   return new FullPropertyBuilder0(new Builder());
 }
 
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
 public static FullPropertyBuilder0 fullNecessityAndNullabilityDtoBuilder() {
   return new FullPropertyBuilder0(new Builder());
 }
@@ -121,10 +131,20 @@ com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.Optional
 
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
 public static PropertyBuilder0 builder() {
   return new PropertyBuilder0(new Builder());
 }
 
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
 public static PropertyBuilder0 necessityAndNullabilityDtoBuilder() {
   return new PropertyBuilder0(new Builder());
 }
