@@ -90,6 +90,7 @@ public class AllOfBuilderGenerator {
         .singleArgument(
             stage ->
                 new MethodGen.Argument(stage.getAllOfSubPojo().getClassName().asString(), "dto"))
+        .doesNotThrow()
         .content(
             (stage, s, w) ->
                 w.println(

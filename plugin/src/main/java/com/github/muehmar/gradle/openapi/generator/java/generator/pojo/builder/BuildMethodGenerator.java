@@ -19,6 +19,7 @@ public class BuildMethodGenerator {
         .returnType(JavaObjectPojo::getClassName)
         .methodName("build")
         .noArguments()
+        .doesNotThrow()
         .content(buildMethodContent())
         .build();
   }

@@ -32,6 +32,7 @@ public class NoAdditionalPropertiesValidationMethodGenerator {
         .returnType("boolean")
         .methodName("hasNoAdditionalProperties")
         .noArguments()
+        .doesNotThrow()
         .content(constant("return %s.size() == 0;", additionalPropertiesName()))
         .build();
   }

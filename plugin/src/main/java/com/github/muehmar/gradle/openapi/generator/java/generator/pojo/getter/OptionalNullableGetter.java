@@ -53,6 +53,7 @@ class OptionalNullableGetter {
         .returnType("Object")
         .methodName(f -> String.format("%sJackson", f.getGetterName()))
         .noArguments()
+        .doesNotThrow()
         .content(
             f ->
                 String.format(

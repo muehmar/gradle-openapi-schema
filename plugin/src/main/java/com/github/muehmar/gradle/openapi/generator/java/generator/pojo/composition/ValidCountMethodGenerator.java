@@ -34,6 +34,7 @@ public class ValidCountMethodGenerator {
         .returnType("int")
         .methodName(getAnyOfValidCountMethodName().asString())
         .noArguments()
+        .doesNotThrow()
         .content(validCountMethodContent())
         .build();
   }
@@ -45,6 +46,7 @@ public class ValidCountMethodGenerator {
         .returnType("int")
         .methodName(getOneOfValidCountMethodName().asString())
         .noArguments()
+        .doesNotThrow()
         .content(validCountMethodContent())
         .build();
   }

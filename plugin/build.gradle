@@ -2,7 +2,7 @@ plugins {
     id 'java-gradle-plugin'
     id 'java-test-fixtures'
     id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '0.19.0'
+    id 'com.gradle.plugin-publish' version '1.2.1'
     id 'openapischema.java'
 }
 
@@ -19,15 +19,15 @@ task createClasspathManifest {
 }
 
 dependencies {
-    implementation group: 'io.swagger.parser.v3', name: 'swagger-parser-v3', version: '2.1.12'
+    implementation group: 'io.swagger.parser.v3', name: 'swagger-parser-v3', version: '2.1.19'
 
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    implementation "io.github.muehmar:pojo-builder-annotations:1.3.0"
-    annotationProcessor "io.github.muehmar:pojo-builder:1.3.0"
+    implementation "io.github.muehmar:pojo-builder-annotations:1.4.2"
+    annotationProcessor "io.github.muehmar:pojo-builder:1.4.2"
 
-    implementation "io.github.muehmar:code-generator:0.18.0"
+    implementation "io.github.muehmar:code-generator:0.19.0"
 
     testImplementation testFixtures(project(":java-snapshot"))
 
@@ -35,7 +35,7 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.11.0'
     testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.11.0'
 
-    def junitVersion = "5.9.2"
+    def junitVersion = "5.10.1"
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junitVersion
     testRuntimeOnly files(createClasspathManifest)
 }

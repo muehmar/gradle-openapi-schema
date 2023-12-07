@@ -48,6 +48,7 @@ class ComposedPropertiesGetter {
         .returnType(ComposedPropertiesGetter::jsonMethodReturnType)
         .methodName(m -> m.getGetterName().append("Json").asString())
         .noArguments()
+        .doesNotThrow()
         .content(jsonMethodContent())
         .build();
   }

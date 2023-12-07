@@ -87,6 +87,7 @@ public class FinalOptionalMemberBuilderGenerator {
                             .getType()
                             .getParameterizedClassName(),
                         "value")))
+        .doesNotThrow()
         .content(
             stage ->
                 String.format(
@@ -112,6 +113,7 @@ public class FinalOptionalMemberBuilderGenerator {
                             .getType()
                             .getParameterizedClassName()),
                     additionalPropertiesName().asString()))
+        .doesNotThrow()
         .content(
             stage ->
                 String.format(

@@ -39,6 +39,7 @@ public class ContainerGetter {
             member ->
                 String.format("get%s", Name.ofString(member.getName().asString()).startUpperCase()))
         .noArguments()
+        .doesNotThrow()
         .content(member -> String.format("return %s;", member.getName()))
         .build();
   }

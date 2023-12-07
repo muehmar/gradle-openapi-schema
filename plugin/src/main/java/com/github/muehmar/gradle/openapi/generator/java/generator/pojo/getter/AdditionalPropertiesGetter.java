@@ -50,6 +50,7 @@ public class AdditionalPropertiesGetter {
                         AdditionalPropertiesGetter::createPropertyTypeForAdditionalProperties))
             .methodName("getAdditionalProperties")
             .noArguments()
+            .doesNotThrow()
             .content(standardGetterContent().contraMap(JavaObjectPojo::getAdditionalProperties))
             .build()
             .append(javaTypeRefs(), pojo -> pojo.getAdditionalProperties().getMapContainerType());
@@ -104,6 +105,7 @@ public class AdditionalPropertiesGetter {
                 props -> String.format("Optional<%s>", props.getType().getParameterizedClassName()))
             .methodName("getAdditionalProperty")
             .singleArgument(ignore -> new Argument("String", "key"))
+            .doesNotThrow()
             .content(singlePropGetterContent())
             .build()
             .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL))
@@ -138,6 +140,7 @@ public class AdditionalPropertiesGetter {
         .returnType(p -> String.format("Optional<%s>", p.getType().getParameterizedClassName()))
         .methodName(CAST_ADDITIONAL_PROPERTY_METHOD_NAME)
         .singleArgument(p -> new Argument("Object", "property"))
+        .doesNotThrow()
         .content(additionalPropertyCastMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL))

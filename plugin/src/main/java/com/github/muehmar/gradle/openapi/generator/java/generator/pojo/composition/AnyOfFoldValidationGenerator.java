@@ -36,6 +36,7 @@ public class AnyOfFoldValidationGenerator {
             .returnType("List<Object>")
             .methodName(getAnyOfMethodName().asString())
             .noArguments()
+            .doesNotThrow()
             .content(methodContent())
             .build();
 

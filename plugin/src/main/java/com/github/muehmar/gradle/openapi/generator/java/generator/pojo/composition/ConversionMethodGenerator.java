@@ -48,6 +48,7 @@ public class ConversionMethodGenerator {
         .methodName(
             pc -> MethodNames.Composition.asConversionMethodName(pc.getComposedPojo()).asString())
         .noArguments()
+        .doesNotThrow()
         .content(asDtoMethodContent())
         .build();
   }

@@ -47,6 +47,7 @@ public class RequiredAdditionalPropertiesGetter {
         .returnType(prop -> prop.getJavaType().getParameterizedClassName())
         .methodName(prop -> String.format("get%s", prop.getName().startUpperCase()))
         .noArguments()
+        .doesNotThrow()
         .content(getterContent())
         .build()
         .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType);
@@ -95,6 +96,7 @@ public class RequiredAdditionalPropertiesGetter {
                 .returnType("Object")
                 .methodName(prop -> String.format("get%sAsObject", prop.getName().startUpperCase()))
                 .noArguments()
+                .doesNotThrow()
                 .content(
                     (prop, s, w) ->
                         w.println(
@@ -123,6 +125,7 @@ public class RequiredAdditionalPropertiesGetter {
                 .methodName(
                     prop -> String.format("is%sCorrectType", prop.getName().startUpperCase()))
                 .noArguments()
+                .doesNotThrow()
                 .content(
                     Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
                         .append(

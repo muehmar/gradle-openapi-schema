@@ -28,6 +28,7 @@ public class AnyOfMergeMethodGenerator {
             .methodName("merge")
             .singleArgument(
                 container -> new Argument(container.getContainerName().asString(), "other"))
+            .doesNotThrow()
             .content(methodContent())
             .build();
     return javaDoc().append(method);

@@ -82,6 +82,7 @@ class RequiredNullableGetter {
         .returnType("boolean")
         .methodName(field -> field.getIsPresentFlagName().asString())
         .noArguments()
+        .doesNotThrow()
         .content(field -> String.format("return %s;", field.getIsPresentFlagName()))
         .build();
   }

@@ -27,6 +27,7 @@ public class EqualsGenerator {
             .returnType("boolean")
             .methodName("equals")
             .singleArgument(pojo -> new Argument("Object", "obj"))
+            .doesNotThrow()
             .content(equalsMethodContent())
             .build();
     return AnnotationGenerator.<EqualsContent, PojoSettings>override().append(method);

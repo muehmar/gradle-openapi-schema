@@ -16,6 +16,7 @@ public class IsValidMethodGenerator {
         .returnType("boolean")
         .methodName("isValid")
         .noArguments()
+        .doesNotThrow()
         .content(constant("return new Validator().isValid();"))
         .build();
   }

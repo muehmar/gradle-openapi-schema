@@ -38,6 +38,7 @@ public class ComposedDtoGetterGenerator {
         .returnType(p -> p.getClassName().asString())
         .methodName(p -> String.format("get%s", p.getClassName()))
         .noArguments()
+        .doesNotThrow()
         .content(p -> String.format("return as%s();", p.getClassName()))
         .build();
   }

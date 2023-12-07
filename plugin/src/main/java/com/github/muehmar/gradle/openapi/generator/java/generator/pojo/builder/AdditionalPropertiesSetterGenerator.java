@@ -54,6 +54,7 @@ class AdditionalPropertiesSetterGenerator {
                                 ? "Object"
                                 : props.getType().getParameterizedClassName().asString(),
                             "value")))
+            .doesNotThrow()
             .content(
                 (props, s, w) ->
                     w.println("this.%s.put(key, value);", additionalPropertiesName())
@@ -82,6 +83,7 @@ class AdditionalPropertiesSetterGenerator {
                 argument(
                     props.getMapContainerType().getParameterizedClassName(),
                     additionalPropertiesName()))
+        .doesNotThrow()
         .content(
             (props, s, w) ->
                 w.println(

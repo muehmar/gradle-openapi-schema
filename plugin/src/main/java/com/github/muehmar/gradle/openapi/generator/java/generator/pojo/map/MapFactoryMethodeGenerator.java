@@ -27,6 +27,7 @@ public class MapFactoryMethodeGenerator {
                         "Map<String, %s>",
                         pojo.getAdditionalProperties().getType().getParameterizedClassName()),
                     "properties"))
+        .doesNotThrow()
         .content(methodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_MAP))

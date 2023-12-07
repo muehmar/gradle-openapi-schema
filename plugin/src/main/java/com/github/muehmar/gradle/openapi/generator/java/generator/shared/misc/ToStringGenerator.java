@@ -29,6 +29,7 @@ public class ToStringGenerator {
             .returnType("String")
             .methodName("toString")
             .noArguments()
+            .doesNotThrow()
             .content(toStringMethodContent())
             .build();
     return AnnotationGenerator.<ToStringContent, PojoSettings>override()

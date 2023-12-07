@@ -122,6 +122,7 @@ public class FoldMethodGenerator {
         .returnType("T")
         .methodName(foldOneOfMethodName().asString())
         .arguments(p -> fullFoldMethodArguments(p.getComposition().getPojos()).toPList())
+        .doesNotThrow()
         .content(fullFoldMethodContent())
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_FUNCTION))
@@ -135,6 +136,7 @@ public class FoldMethodGenerator {
         .returnType("T")
         .methodName(foldOneOfMethodName().asString())
         .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
+        .doesNotThrow()
         .content(standardOneOfFoldMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_FUNCTION));
@@ -147,6 +149,7 @@ public class FoldMethodGenerator {
         .returnType("List<T>")
         .methodName(foldAnyOfMethodName().asString())
         .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
+        .doesNotThrow()
         .content(standardAnyOfFoldMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_FUNCTION))

@@ -125,6 +125,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .returnType("String")
         .methodName("getValue")
         .noArguments()
+        .doesNotThrow()
         .content("return value;")
         .build();
   }
@@ -137,6 +138,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
             .returnType("String")
             .methodName("getDescription")
             .noArguments()
+            .doesNotThrow()
             .content("return description;")
             .build();
     return Generator.<T, PojoSettings>newLine()
@@ -152,6 +154,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .returnType("boolean")
         .methodName("isValid")
         .noArguments()
+        .doesNotThrow()
         .content("return true;")
         .build();
   }
@@ -163,6 +166,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .returnType("String")
         .methodName("toString")
         .noArguments()
+        .doesNotThrow()
         .content("return value;")
         .build();
   }
@@ -174,6 +178,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .returnType(javaEnumPojo -> javaEnumPojo.getClassName().asString())
         .methodName("fromValue")
         .singleArgument(javaEnumPojo -> new MethodGen.Argument("String", "value"))
+        .doesNotThrow()
         .content(this::fromValueContent)
         .build();
   }

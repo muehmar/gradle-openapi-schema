@@ -63,6 +63,7 @@ public class ValidCountValidationMethod {
             .returnType("boolean")
             .methodName(isValidAgainstNoSchemaMethodName(type).asString())
             .noArguments()
+            .doesNotThrow()
             .content(String.format("return %s() == 0;", getValidCountMethodName(type)))
             .build();
     return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
@@ -88,6 +89,7 @@ public class ValidCountValidationMethod {
             .returnType("boolean")
             .methodName(isValidAgainstMoreThanOneSchemaMethodName().asString())
             .noArguments()
+            .doesNotThrow()
             .content(String.format("return %s() > 1;", getValidCountMethodName(ONE_OF)))
             .build();
     return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()

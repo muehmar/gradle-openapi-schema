@@ -30,6 +30,7 @@ public class PojoPropertyCountMethod {
             .returnType("int")
             .methodName(getPropertyCountMethodName().asString())
             .noArguments()
+            .doesNotThrow()
             .content(propertyCountMethodContent())
             .build();
     return JavaDocGenerator.<JavaObjectPojo, PojoSettings>ofJavaDocString(JAVA_DOC)

@@ -51,6 +51,7 @@ class SetterGenerator {
             .singleArgument(
                 member ->
                     argument(member.getJavaType().getParameterizedClassName(), member.getName()))
+            .doesNotThrow()
             .content(setterMethodContent())
             .build();
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
@@ -94,6 +95,7 @@ class SetterGenerator {
                         String.format(
                             "Optional<%s>", member.getJavaType().getParameterizedClassName()),
                         member.getName()))
+            .doesNotThrow()
             .content(
                 (member, settings, writer) ->
                     writer
@@ -125,6 +127,7 @@ class SetterGenerator {
                         String.format(
                             "Optional<%s>", member.getJavaType().getParameterizedClassName()),
                         member.getName()))
+            .doesNotThrow()
             .content(
                 (member, settings, writer) ->
                     writer
@@ -155,6 +158,7 @@ class SetterGenerator {
                         String.format(
                             "Tristate<%s>", member.getJavaType().getParameterizedClassName()),
                         member.getName().asString()))
+            .doesNotThrow()
             .content(
                 (member, settings, writer) ->
                     writer

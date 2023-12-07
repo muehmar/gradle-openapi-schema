@@ -35,6 +35,7 @@ public class AnyOfWitherMethodsGenerator {
                     new Argument(
                         pojos.pojo.getClassName().asString(),
                         pojos.pojo.getClassName().startLowerCase().asString()))
+            .doesNotThrow()
             .content(fromMethodContent())
             .build();
     final Generator<ContainerAndPojo, PojoSettings> javaDoc =

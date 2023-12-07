@@ -25,6 +25,7 @@ public class HashCodeGenerator {
             .returnType("int")
             .methodName("hashCode")
             .noArguments()
+            .doesNotThrow()
             .content(hashCodeMethodContent())
             .build();
     return AnnotationGenerator.<HashCodeContent, PojoSettings>override()

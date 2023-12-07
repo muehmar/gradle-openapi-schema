@@ -36,6 +36,7 @@ public class OneOfFoldValidationGenerator {
             .returnType("Object")
             .methodName(getOneOfMethodName().asString())
             .noArguments()
+            .doesNotThrow()
             .content(methodContent())
             .build();
 

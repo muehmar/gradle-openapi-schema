@@ -57,6 +57,7 @@ public class CompositionGetterGenerator {
             .returnType(CompositionAndPojo::getReturnType)
             .methodName(CompositionAndPojo::getMethodName)
             .noArguments()
+            .doesNotThrow()
             .content(singleGetterContent())
             .build();
     return JavaDocGenerator.<PojoSettings>javaDoc()

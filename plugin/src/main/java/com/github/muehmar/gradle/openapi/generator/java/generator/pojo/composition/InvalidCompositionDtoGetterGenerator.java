@@ -46,6 +46,7 @@ public class InvalidCompositionDtoGetterGenerator {
             .returnType("Map<String, Object>")
             .methodName(getInvalidCompositionMethodName(type).asString())
             .noArguments()
+            .doesNotThrow()
             .content(invalidCompositionDtoGetterContent(type))
             .build()
             .append(ref(JavaRefs.JAVA_UTIL_MAP))

@@ -19,6 +19,7 @@ public class UniqueItemsValidationMethodGenerator {
             .returnType("boolean")
             .methodName(UniqueItemsValidationMethodGenerator::uniqueItemsMethodName)
             .noArguments()
+            .doesNotThrow()
             .content(
                 member ->
                     String.format(

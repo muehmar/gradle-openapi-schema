@@ -54,6 +54,7 @@ public class OneOfBuilderGenerator {
             (pojo, settings) ->
                 CONTAINER_NAME.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(stage -> new Argument(stage.getContainerName(), "container"))
+        .doesNotThrow()
         .content(oneOfContainerSetterContent())
         .build();
   }
@@ -86,6 +87,7 @@ public class OneOfBuilderGenerator {
         .returnType(SingleOneOfPojoWrapper::nextStageClassName)
         .methodName(SingleOneOfPojoWrapper::getPrefixedClassNameForMethod)
         .singleArgument(m -> new Argument(m.oneOfSubPojo.getClassName().asString(), "dto"))
+        .doesNotThrow()
         .content(
             (pojoWrapper, s, w) ->
                 w.println(

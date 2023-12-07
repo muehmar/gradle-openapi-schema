@@ -45,6 +45,7 @@ public class DtoSetterGenerator {
                 pojo.prefixedClassNameForMethod(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(
             pojo -> new Argument(pojo.getComposedPojo().getClassName().asString(), "dto"))
+        .doesNotThrow()
         .content(dtoSetterContent())
         .build();
   }

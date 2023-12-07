@@ -34,6 +34,7 @@ public class MultipleOfValidationMethodGenerator {
             .returnType("boolean")
             .methodName(MemberAndConstraint::getIsMultipleOfValidMethodName)
             .noArguments()
+            .doesNotThrow()
             .content(content())
             .build();
 

@@ -34,6 +34,7 @@ public class WitherGenerator {
             .returnType(WitherMethod::className)
             .methodName(WitherMethod::witherName)
             .arguments(WitherMethod::argument)
+            .doesNotThrow()
             .content(methodContent())
             .build();
     return JavaDocGenerator.<PojoSettings>javaDoc()

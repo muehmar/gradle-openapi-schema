@@ -66,6 +66,7 @@ public class AnyOfBuilderGenerator {
                     .prefixedClassNameForMethod(settings.getBuilderMethodPrefix())
                     .asString())
         .singleArgument(m -> new Argument(m.anyOfPojo.getClassName().asString(), "dto"))
+        .doesNotThrow()
         .content(
             (pojoWrapper, s, w) ->
                 w.println(
@@ -110,6 +111,7 @@ public class AnyOfBuilderGenerator {
             (stageWrapper, settings) ->
                 CONTAINER_NAME.prefixedMethodName(settings.getBuilderMethodPrefix()).asString())
         .singleArgument(pojo -> new Argument(pojo.getContainerName(), "container"))
+        .doesNotThrow()
         .content(anyOfContainerSetterContent())
         .build()
         .filter(AnyOfStageWrapper::isFirstStage);

@@ -26,6 +26,7 @@ public class FactoryMethodGenerator {
         .singleArgument(
             p ->
                 argument(p.getArrayPojoMember().getJavaType().getParameterizedClassName(), "items"))
+        .doesNotThrow()
         .content(p -> String.format("return new %s(items);", p.getClassName()))
         .build()
         .append(RefsGenerator.fieldRefs(), JavaArrayPojo::getArrayPojoMember);

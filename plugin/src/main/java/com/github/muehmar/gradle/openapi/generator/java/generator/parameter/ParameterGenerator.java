@@ -199,6 +199,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .returnType("boolean")
         .methodName("matchesPattern")
         .singleArgument(parameter -> new Argument(parameter.getTypeClassName().asString(), "val"))
+        .doesNotThrow()
         .content(
             parameter -> {
               final String condition =
@@ -256,6 +257,7 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
         .returnType("boolean")
         .methodName("matchesLimits")
         .singleArgument(parameter -> new Argument(parameter.getTypeClassName().asString(), "val"))
+        .doesNotThrow()
         .content(
             parameter -> {
               final Constraints constraints = parameter.getJavaType().getConstraints();

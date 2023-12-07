@@ -30,6 +30,7 @@ class CommonGetter {
                 .contraMap(ValidationAnnotationGenerator.PropertyType::fromMember))
         .methodName(getterName())
         .noArguments()
+        .doesNotThrow()
         .content(f -> String.format("return %s;", f.getName()))
         .build()
         .append(RefsGenerator.fieldRefs());
@@ -43,6 +44,7 @@ class CommonGetter {
         .returnType(f -> String.format("Optional<%s>", f.getJavaType().getParameterizedClassName()))
         .methodName(getterName())
         .noArguments()
+        .doesNotThrow()
         .content(f -> String.format("return Optional.ofNullable(%s);", f.getName()))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
@@ -55,6 +57,7 @@ class CommonGetter {
         .returnType(f -> f.getJavaType().getParameterizedClassName())
         .methodName(f -> String.format("%sOr", f.getGetterName()))
         .singleArgument(f -> argument(f.getJavaType().getParameterizedClassName(), "defaultValue"))
+        .doesNotThrow()
         .content(
             f ->
                 String.format(
@@ -71,6 +74,7 @@ class CommonGetter {
         .returnType(f -> String.format("Tristate<%s>", f.getJavaType().getParameterizedClassName()))
         .methodName(getterName())
         .noArguments()
+        .doesNotThrow()
         .content(
             f ->
                 String.format(
@@ -93,6 +97,7 @@ class CommonGetter {
                 .contraMap(ValidationAnnotationGenerator.PropertyType::fromMember))
         .methodName((f, s) -> f.getValidationGetterName(s).asString())
         .noArguments()
+        .doesNotThrow()
         .content(f -> String.format("return %s;", f.getName()))
         .build();
   }

@@ -45,6 +45,7 @@ public class ValidatorClassGenerator {
         .returnType("boolean")
         .methodName("isValid")
         .noArguments()
+        .doesNotThrow()
         .content(isValidMethodContent(valueValidationCondition()))
         .build();
   }

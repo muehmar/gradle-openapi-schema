@@ -43,6 +43,7 @@ public class ValidationMethodGenerator {
         .returnType("boolean")
         .methodName(p -> MethodNames.Composition.isValidAgainstMethodName(p).asString())
         .noArguments()
+        .doesNotThrow()
         .content(isValidAgainstMethodContent())
         .build();
   }

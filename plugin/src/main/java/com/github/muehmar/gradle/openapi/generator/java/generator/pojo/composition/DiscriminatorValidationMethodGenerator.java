@@ -36,6 +36,7 @@ public class DiscriminatorValidationMethodGenerator {
             .returnType("boolean")
             .methodName(isValidAgainstTheCorrectSchemaMethodName().asString())
             .noArguments()
+            .doesNotThrow()
             .content(methodContent())
             .build();
 

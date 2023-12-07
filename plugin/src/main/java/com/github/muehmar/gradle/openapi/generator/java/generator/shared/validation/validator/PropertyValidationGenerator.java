@@ -78,6 +78,7 @@ public class PropertyValidationGenerator {
                         ? PList.single(
                             argument(pv.getType().getParameterizedClassName(), pv.getName()))
                         : PList.empty())
+            .doesNotThrow()
             .content(singlePropertyValueValidationGenerator())
             .build();
     return (propertyValue, settings, writer) -> {

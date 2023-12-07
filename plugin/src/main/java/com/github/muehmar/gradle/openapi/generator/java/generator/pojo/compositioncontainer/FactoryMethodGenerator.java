@@ -39,6 +39,7 @@ public class FactoryMethodGenerator {
             .returnType(cap -> cap.getContainerName().asString())
             .methodName(pojos -> String.format("from%s", pojos.pojo.getSchemaName()))
             .singleArgument(pojos -> new Argument(pojos.pojo.getClassName().asString(), "dto"))
+            .doesNotThrow()
             .content(fromMethodContent())
             .build();
     final Generator<ContainerAndPojo, PojoSettings> javaDoc =

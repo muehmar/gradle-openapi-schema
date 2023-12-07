@@ -32,6 +32,7 @@ public class RequiredAdditionalPropertiesSetterGenerator {
         .returnType("Builder")
         .methodName(RequiredAdditionalPropertiesSetterGenerator::createMethodName)
         .singleArgument(rp -> argument(rp.getJavaType().getParameterizedClassName(), rp.getName()))
+        .doesNotThrow()
         .content(
             rp ->
                 String.format(

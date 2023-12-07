@@ -41,6 +41,7 @@ public class AdditionalPropertiesTypeValidationGenerator {
         .returnType("boolean")
         .methodName("isAllAdditionalPropertiesHaveCorrectType")
         .noArguments()
+        .doesNotThrow()
         .content(
             constant(
                 String.format(
