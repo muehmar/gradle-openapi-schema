@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UserName'
+        - $ref: '#/components/schemas/UserData'
+      required:
+        -  id
+      properties:
+        id:
+          type: integer
+
+    UserName:
+      type: object
+      required:
+        - firstname
+        - lastname
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+
+    UserData:
+      type: object
