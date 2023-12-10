@@ -21,6 +21,8 @@ import lombok.ToString;
 import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Project;
+import org.gradle.api.file.Directory;
+import org.gradle.api.provider.Provider;
 
 @EqualsAndHashCode
 @ToString
@@ -88,11 +90,18 @@ public class SingleSchemaExtension implements Serializable {
 
   public String getOutputDir(Project project) {
     return Optional.ofNullable(outputDir)
-        .orElseGet(() -> String.format("%s/generated/openapi", project.getBuildDir().toString()));
+        .orElseGet(
+            () ->
+                project.getLayout().getBuildDirectory().dir("generated/openapi").get().toString());
   }
 
   public void setOutputDir(String outputDir) {
     this.outputDir = outputDir;
+  }
+
+  public void setOutputDir(Provider<Directory> outputDir) {
+    this.outputDir =
+        Optional.ofNullable(outputDir).map(Provider::get).map(Directory::toString).orElse(null);
   }
 
   public boolean getResolveInputSpecs() {
