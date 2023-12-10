@@ -28,7 +28,7 @@ openApiGenerator {
         api {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi.yml"
-            outputDir = "$buildDir/generated/openapi"
+            outputDir = project.layout.buildDirectory.dir("generated/openapi")
             packageName = "${project.group}.${project.name}.api.model"
             jsonSupport = "jackson"
             suffix = "Dto"
