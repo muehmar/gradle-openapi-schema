@@ -1,7 +1,26 @@
 arrayPojo=[
+java.util.Collections
 java.util.List
 
 public static PosologyDto fromItems(List<Double> items) {
   return new PosologyDto(items);
+}
+
+public static PosologyDto empty() {
+  return fromItems(Collections.emptyList());
+}
+]
+
+
+arrayPojoWithMappedListType=[
+java.util.Collections
+java.util.List
+
+public static PosologyDto fromItems(List<Double> items) {
+  return new PosologyDto(items);
+}
+
+public static PosologyDto empty() {
+  return fromItems(Collections.emptyList());
 }
 ]

@@ -3,6 +3,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,10 @@ public class PosologyDto {
 
   public static PosologyDto fromItems(List<Double> items) {
     return new PosologyDto(items);
+  }
+
+  public static PosologyDto empty() {
+    return fromItems(Collections.emptyList());
   }
 
   /**
