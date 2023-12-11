@@ -72,6 +72,7 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(sourceSet).orElse(DEFAULT_SOURCE_SET);
   }
 
+  // DSL API
   public void setSourceSet(String sourceSet) {
     this.sourceSet = sourceSet;
   }
@@ -84,6 +85,7 @@ public class SingleSchemaExtension implements Serializable {
                     "Could not generate schema, no input spec defined: Declare a correct path to a valid openapi spec."));
   }
 
+  // DSL API
   public void setInputSpec(String inputSpec) {
     this.inputSpec = inputSpec;
   }
@@ -95,10 +97,12 @@ public class SingleSchemaExtension implements Serializable {
                 project.getLayout().getBuildDirectory().dir("generated/openapi").get().toString());
   }
 
+  // DSL API
   public void setOutputDir(String outputDir) {
     this.outputDir = outputDir;
   }
 
+  // DSL API
   public void setOutputDir(Provider<Directory> outputDir) {
     this.outputDir =
         Optional.ofNullable(outputDir).map(Provider::get).map(Directory::toString).orElse(null);
@@ -108,6 +112,7 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(resolveInputSpecs).orElse(DEFAULT_RESOLVE_INPUT_SPECS);
   }
 
+  // DSL API
   public void setResolveInputSpecs(Boolean resolveInputSpecs) {
     this.resolveInputSpecs = resolveInputSpecs;
   }
@@ -116,10 +121,12 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(suffix).orElse("");
   }
 
+  // DSL API
   public void setSuffix(String suffix) {
     this.suffix = suffix;
   }
 
+  // DSL API
   public void getterSuffixes(Action<GetterSuffixes> action) {
     action.execute(getterSuffixes);
   }
@@ -128,6 +135,7 @@ public class SingleSchemaExtension implements Serializable {
     return getterSuffixes;
   }
 
+  // DSL API
   public void validationMethods(Action<ValidationMethods> action) {
     action.execute(validationMethods);
   }
@@ -142,6 +150,7 @@ public class SingleSchemaExtension implements Serializable {
         .replace("-", "");
   }
 
+  // DSL API
   public void setPackageName(String packageName) {
     this.packageName = packageName;
   }
@@ -159,6 +168,7 @@ public class SingleSchemaExtension implements Serializable {
         .orElse(JsonSupport.NONE);
   }
 
+  // DSL API
   public void setJsonSupport(String jsonSupport) {
     this.jsonSupport = jsonSupport;
   }
@@ -167,6 +177,7 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(enableSafeBuilder).orElse(true);
   }
 
+  // DSL API
   public void setEnableSafeBuilder(Boolean enableSafeBuilder) {
     this.enableSafeBuilder = enableSafeBuilder;
   }
@@ -175,6 +186,7 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(enableValidation).orElse(false);
   }
 
+  // DSL API
   public void setValidationApi(String validationApi) {
     this.validationApi = validationApi;
   }
@@ -196,14 +208,17 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(builderMethodPrefix).orElse("");
   }
 
+  // DSL API
   public void setBuilderMethodPrefix(String builderMethodPrefix) {
     this.builderMethodPrefix = builderMethodPrefix;
   }
 
+  // DSL API
   public void setEnableValidation(Boolean enableValidation) {
     this.enableValidation = enableValidation;
   }
 
+  // DSL API
   public void setExcludeSchemas(List<String> excludeSchemas) {
     this.excludeSchemas = excludeSchemas;
   }
@@ -212,6 +227,7 @@ public class SingleSchemaExtension implements Serializable {
     return excludeSchemas;
   }
 
+  // DSL API
   public void warnings(Action<WarningsConfig> action) {
     action.execute(warnings);
   }
@@ -220,6 +236,7 @@ public class SingleSchemaExtension implements Serializable {
     return warnings;
   }
 
+  // DSL API
   public void classMapping(Action<ClassMapping> action) {
     final ClassMapping classMapping = new ClassMapping();
     action.execute(classMapping);
@@ -230,23 +247,24 @@ public class SingleSchemaExtension implements Serializable {
     return PList.fromIter(classMappings);
   }
 
-  public SingleSchemaExtension withCommonClassMappings(List<ClassMapping> other) {
+  SingleSchemaExtension withCommonClassMappings(List<ClassMapping> other) {
     classMappings.addAll(other);
     return this;
   }
 
+  // DSL API
   public void formatTypeMapping(Action<FormatTypeMapping> action) {
     final FormatTypeMapping formatTypeMapping = new FormatTypeMapping();
     action.execute(formatTypeMapping);
     formatTypeMappings.add(formatTypeMapping);
   }
 
-  public SingleSchemaExtension withCommonFormatTypeMappings(List<FormatTypeMapping> other) {
+  SingleSchemaExtension withCommonFormatTypeMappings(List<FormatTypeMapping> other) {
     formatTypeMappings.addAll(other);
     return this;
   }
 
-  public PList<FormatTypeMapping> getFormatTypeMappings() {
+  PList<FormatTypeMapping> getFormatTypeMappings() {
     return PList.fromIter(formatTypeMappings);
   }
 
@@ -255,11 +273,11 @@ public class SingleSchemaExtension implements Serializable {
     action.execute(enumDescriptionExtension);
   }
 
-  public Optional<EnumDescriptionExtension> getEnumDescriptionExtension() {
+  Optional<EnumDescriptionExtension> getEnumDescriptionExtension() {
     return Optional.ofNullable(enumDescriptionExtension);
   }
 
-  public SingleSchemaExtension withCommonEnumDescription(
+  SingleSchemaExtension withCommonEnumDescription(
       Optional<EnumDescriptionExtension> enumDescriptionExtension) {
     if (this.enumDescriptionExtension == null) {
       this.enumDescriptionExtension = enumDescriptionExtension.orElse(null);
@@ -267,35 +285,35 @@ public class SingleSchemaExtension implements Serializable {
     return this;
   }
 
-  public SingleSchemaExtension withCommonGetterSuffixes(GetterSuffixes commonSuffixes) {
+  SingleSchemaExtension withCommonGetterSuffixes(GetterSuffixes commonSuffixes) {
     this.getterSuffixes = getterSuffixes.withCommonSuffixes(commonSuffixes);
     return this;
   }
 
-  public SingleSchemaExtension withCommonValidationMethods(
-      ValidationMethods commonValidationMethods) {
+  SingleSchemaExtension withCommonValidationMethods(ValidationMethods commonValidationMethods) {
     this.validationMethods = this.validationMethods.withCommonRawGetter(commonValidationMethods);
     return this;
   }
 
+  // DSL API
   public void constantSchemaNameMapping(Action<ConstantSchemaNameMapping> action) {
     final ConstantSchemaNameMapping constantSchemaNameMapping = new ConstantSchemaNameMapping();
     action.execute(constantSchemaNameMapping);
     constantSchemaNameMappings.add(constantSchemaNameMapping);
   }
 
-  public SingleSchemaExtension withCommonConstantSchemaNameMappings(
+  SingleSchemaExtension withCommonConstantSchemaNameMappings(
       List<ConstantSchemaNameMapping> other) {
     constantSchemaNameMappings.addAll(other);
     return this;
   }
 
-  public SingleSchemaExtension withCommonWarnings(WarningsConfig commonWarnings) {
+  SingleSchemaExtension withCommonWarnings(WarningsConfig commonWarnings) {
     this.warnings = this.warnings.withCommonWarnings(commonWarnings);
     return this;
   }
 
-  public PojoNameMappings getPojoNameMappings() {
+  PojoNameMappings getPojoNameMappings() {
     return new PojoNameMappings(
         PList.fromIter(constantSchemaNameMappings)
             .map(ConstantSchemaNameMapping::toConstantNameMapping)
@@ -344,5 +362,61 @@ public class SingleSchemaExtension implements Serializable {
         .taskIdentifier(
             TaskIdentifier.fromString(String.format("%s-%s", project.getName(), taskName)))
         .build();
+  }
+
+  SingleSchemaExtension withCommonSourceSet(Optional<String> commonSourceSet) {
+    if (sourceSet == null) {
+      commonSourceSet.ifPresent(this::setSourceSet);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonOutputDir(Optional<String> commonOutputDir) {
+    if (outputDir == null) {
+      commonOutputDir.ifPresent(this::setOutputDir);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonSuffix(Optional<String> commonSuffix) {
+    if (suffix == null) {
+      commonSuffix.ifPresent(this::setSuffix);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonJsonSupport(Optional<String> commonJsonSupport) {
+    if (jsonSupport == null) {
+      commonJsonSupport.ifPresent(this::setJsonSupport);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonEnableSafeBuilder(Optional<Boolean> commonEnableSafeBuilder) {
+    if (enableSafeBuilder == null) {
+      commonEnableSafeBuilder.ifPresent(this::setEnableSafeBuilder);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonEnableValidation(Optional<Boolean> commonEnableValidation) {
+    if (enableValidation == null) {
+      commonEnableValidation.ifPresent(this::setEnableValidation);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonValidationApi(Optional<String> commonValidationApi) {
+    if (validationApi == null) {
+      commonValidationApi.ifPresent(this::setValidationApi);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonBuilderMethodPrefix(Optional<String> commonBuilderMethodPrefix) {
+    if (builderMethodPrefix == null) {
+      commonBuilderMethodPrefix.ifPresent(this::setBuilderMethodPrefix);
+    }
+    return this;
   }
 }

@@ -10,12 +10,22 @@ import javax.inject.Inject;
 import lombok.EqualsAndHashCode;
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
+import org.gradle.api.file.Directory;
 import org.gradle.api.model.ObjectFactory;
+import org.gradle.api.provider.Provider;
 
 @EqualsAndHashCode
 public class OpenApiSchemaExtension implements Serializable {
   private final NamedDomainObjectContainer<SingleSchemaExtension> schemaExtensions;
 
+  private String sourceSet;
+  private String outputDir;
+  private String suffix;
+  private String jsonSupport;
+  private Boolean enableSafeBuilder;
+  private Boolean enableValidation;
+  private String validationApi;
+  private String builderMethodPrefix;
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
@@ -35,41 +45,95 @@ public class OpenApiSchemaExtension implements Serializable {
     this.warnings = WarningsConfig.allUndefined();
   }
 
+  // DSL API
+  public void setSourceSet(String sourceSet) {
+    this.sourceSet = sourceSet;
+  }
+
+  // DSL API
+  public void setOutputDir(String outputDir) {
+    this.outputDir = outputDir;
+  }
+
+  // DSL API
+  public void setOutputDir(Provider<Directory> outputDir) {
+    this.outputDir =
+        Optional.ofNullable(outputDir).map(Provider::get).map(Directory::toString).orElse(null);
+  }
+
+  // DSL API
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
+  }
+
+  // DSL API
+  public void setJsonSupport(String jsonSupport) {
+    this.jsonSupport = jsonSupport;
+  }
+
+  // DSL API
+  public void setEnableSafeBuilder(Boolean enableSafeBuilder) {
+    this.enableSafeBuilder = enableSafeBuilder;
+  }
+
+  // DSL API
+  public void setEnableValidation(Boolean enableValidation) {
+    this.enableValidation = enableValidation;
+  }
+
+  // DSL API
+  public void setValidationApi(String validationApi) {
+    this.validationApi = validationApi;
+  }
+
+  // DSL API
+  public void setBuilderMethodPrefix(String builderMethodPrefix) {
+    this.builderMethodPrefix = builderMethodPrefix;
+  }
+
+  // DSL API
   public void schemas(Closure<SingleSchemaExtension> closure) {
     schemaExtensions.configure(closure);
   }
 
+  // DSL API
   public void classMapping(Action<ClassMapping> action) {
     final ClassMapping classMapping = new ClassMapping();
     action.execute(classMapping);
     classMappings.add(classMapping);
   }
 
+  // DSL API
   public void formatTypeMapping(Action<FormatTypeMapping> action) {
     final FormatTypeMapping formatTypeMapping = new FormatTypeMapping();
     action.execute(formatTypeMapping);
     formatTypeMappings.add(formatTypeMapping);
   }
 
+  // DSL API
   public void enumDescriptionExtraction(Action<EnumDescriptionExtension> action) {
     enumDescriptionExtension = new EnumDescriptionExtension();
     action.execute(enumDescriptionExtension);
   }
 
+  // DSL API
   public void getterSuffixes(Action<GetterSuffixes> action) {
     action.execute(getterSuffixes);
   }
 
+  // DSL API
   public void validationMethods(Action<ValidationMethods> action) {
     action.execute(validationMethods);
   }
 
+  // DSL API
   public void constantSchemaNameMapping(Action<ConstantSchemaNameMapping> action) {
     final ConstantSchemaNameMapping constantSchemaNameMapping = new ConstantSchemaNameMapping();
     action.execute(constantSchemaNameMapping);
     constantSchemaNameMappings.add(constantSchemaNameMapping);
   }
 
+  // DSL API
   public void warnings(Action<WarningsConfig> action) {
     action.execute(warnings);
   }
@@ -86,11 +150,11 @@ public class OpenApiSchemaExtension implements Serializable {
     return formatTypeMappings;
   }
 
-  public GetterSuffixes getCommonGetterSuffixes() {
+  private GetterSuffixes getCommonGetterSuffixes() {
     return getterSuffixes;
   }
 
-  public ValidationMethods getCommonValidationMethods() {
+  private ValidationMethods getCommonValidationMethods() {
     return validationMethods;
   }
 
@@ -98,12 +162,52 @@ public class OpenApiSchemaExtension implements Serializable {
     return constantSchemaNameMappings;
   }
 
-  public WarningsConfig getCommonWarnings() {
+  private WarningsConfig getCommonWarnings() {
     return warnings;
+  }
+
+  private Optional<String> getCommonSourceSet() {
+    return Optional.ofNullable(sourceSet);
+  }
+
+  private Optional<String> getCommonOutputDir() {
+    return Optional.ofNullable(outputDir);
+  }
+
+  private Optional<String> getCommonSuffix() {
+    return Optional.ofNullable(suffix);
+  }
+
+  private Optional<String> getCommonJsonSupport() {
+    return Optional.ofNullable(jsonSupport);
+  }
+
+  private Optional<Boolean> getCommonEnableSafeBuilder() {
+    return Optional.ofNullable(enableSafeBuilder);
+  }
+
+  private Optional<Boolean> getCommonEnableValidation() {
+    return Optional.ofNullable(enableValidation);
+  }
+
+  private Optional<String> getCommonValidationApi() {
+    return Optional.ofNullable(validationApi);
+  }
+
+  private Optional<String> getCommonBuilderMethodPrefix() {
+    return Optional.ofNullable(builderMethodPrefix);
   }
 
   public PList<SingleSchemaExtension> getSchemaExtensions() {
     return PList.fromIter(schemaExtensions)
+        .map(ext -> ext.withCommonSourceSet(getCommonSourceSet()))
+        .map(ext -> ext.withCommonOutputDir(getCommonOutputDir()))
+        .map(ext -> ext.withCommonSuffix(getCommonSuffix()))
+        .map(ext -> ext.withCommonJsonSupport(getCommonJsonSupport()))
+        .map(ext -> ext.withCommonEnableSafeBuilder(getCommonEnableSafeBuilder()))
+        .map(ext -> ext.withCommonEnableValidation(getCommonEnableValidation()))
+        .map(ext -> ext.withCommonValidationApi(getCommonValidationApi()))
+        .map(ext -> ext.withCommonBuilderMethodPrefix(getCommonBuilderMethodPrefix()))
         .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
         .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
         .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()))
@@ -118,6 +222,28 @@ public class OpenApiSchemaExtension implements Serializable {
     return "OpenApiSchemaExtension{"
         + "schemaExtensions="
         + PList.fromIter(schemaExtensions)
+        + ", sourceSet='"
+        + sourceSet
+        + '\''
+        + ", outputDir='"
+        + outputDir
+        + '\''
+        + ", suffix='"
+        + suffix
+        + '\''
+        + ", jsonSupport='"
+        + jsonSupport
+        + '\''
+        + ", enableSafeBuilder="
+        + enableSafeBuilder
+        + ", enableValidation="
+        + enableValidation
+        + ", validationApi='"
+        + validationApi
+        + '\''
+        + ", builderMethodPrefix='"
+        + builderMethodPrefix
+        + '\''
         + ", enumDescriptionExtension="
         + enumDescriptionExtension
         + ", classMappings="
