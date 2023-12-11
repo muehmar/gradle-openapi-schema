@@ -85,7 +85,7 @@ public class GenerateSchemasTask extends DefaultTask {
         .map(parameter -> createParameter(parameter, generators))
         .forEach(this::writeFile);
 
-    generators.getUtilsGenerator().generateUtils().forEach(this::writeFile);
+    generators.getUtilsGenerator().generateUtils(pojoSettings.get()).forEach(this::writeFile);
 
     handleWarnings();
   }

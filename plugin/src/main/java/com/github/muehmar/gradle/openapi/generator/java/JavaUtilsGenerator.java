@@ -9,14 +9,17 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.email.EmailValidatorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaFileName;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
 
 public class JavaUtilsGenerator implements UtilsGenerator {
   @Override
-  public PList<GeneratedFile> generateUtils() {
-    return PList.of(tristateClass(), jacksonContainerClass(), emailValidator());
+  public PList<GeneratedFile> generateUtils(PojoSettings settings) {
+    return PList.of(tristateClass(), emailValidator())
+        .concat(PList.fromOptional(jacksonContainerClass(settings)));
   }
 
   private static GeneratedFile tristateClass() {
@@ -26,12 +29,17 @@ public class JavaUtilsGenerator implements UtilsGenerator {
     return new GeneratedFile(javaFileName.asPath(), writer.asString());
   }
 
-  private static GeneratedFile jacksonContainerClass() {
-    final Generator<Void, Void> jacksonContainerGen =
-        JacksonNullContainerGenerator.containerClass();
-    final Writer writer = jacksonContainerGen.generate(noData(), noSettings(), javaWriter());
-    final JavaFileName javaFileName = JavaFileName.fromRef(OpenApiUtilRefs.JACKSON_NULL_CONTAINER);
-    return new GeneratedFile(javaFileName.asPath(), writer.asString());
+  private static Optional<GeneratedFile> jacksonContainerClass(PojoSettings settings) {
+    if (settings.isJacksonJson()) {
+      final Generator<Void, Void> jacksonContainerGen =
+          JacksonNullContainerGenerator.containerClass();
+      final Writer writer = jacksonContainerGen.generate(noData(), noSettings(), javaWriter());
+      final JavaFileName javaFileName =
+          JavaFileName.fromRef(OpenApiUtilRefs.JACKSON_NULL_CONTAINER);
+      return Optional.of(new GeneratedFile(javaFileName.asPath(), writer.asString()));
+    } else {
+      return Optional.empty();
+    }
   }
 
   private static GeneratedFile emailValidator() {
