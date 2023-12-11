@@ -1,10 +1,7 @@
 anyOfMemberAndNoJsonSupport=[
 java.time.LocalDate
-
-LocalDate getBirthdateJson() {
-  return birthdate;
-}
-
+.
+.
 LocalDate getBirthdate() {
   return birthdate;
 }
