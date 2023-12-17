@@ -79,6 +79,9 @@ public class ObjectSchema implements OpenApiSchema {
     if (schema.getProperties() != null) {
       return true;
     }
+    if (schema.getRequired() != null) {
+      return true;
+    }
     if (schema.getAdditionalProperties() != null) {
       return true;
     }

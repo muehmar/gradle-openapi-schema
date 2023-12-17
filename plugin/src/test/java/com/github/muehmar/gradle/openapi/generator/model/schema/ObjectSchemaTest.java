@@ -330,6 +330,24 @@ class ObjectSchemaTest {
   }
 
   @Test
+  void mapToPojo_when_schemaWithOnlyRequiredProperties_then_objectSchemaDetected() {
+    final Schema<Object> objectSchema = new Schema<>();
+    objectSchema.setRequired(Collections.singletonList("name"));
+    objectSchema.setDescription("Test description");
+
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+
+    // method call
+    final MapContext mapContext = pojoSchema.mapToPojo();
+
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+  }
+
+  @Test
   void mapToMemberType_when_mapSchemaWithReferenceInAdditionalProperties_then_correctType() {
     final MapSchema mapSchema = new MapSchema();
     final Schema<Object> additionalProperties = new Schema<>();
