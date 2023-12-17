@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.3.1"
+    id "com.github.muehmar.openapischema" version "2.4.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
     id 'idea'
@@ -39,7 +39,7 @@ openApiGenerator {
         apiV1 {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
-            outputDir = "$buildDir/generated/openapi"
+            outputDir = project.layout.buildDirectory.dir("generated/openapi")
             packageName = "${project.group}.${project.name}.api.v1.model"
             jsonSupport = "jackson"
             suffix = "Dto"

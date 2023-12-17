@@ -1,0 +1,23 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UserBase'
+      required:
+        -  name
+      properties:
+        name:
+          type: string
+
+    UserBase:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer

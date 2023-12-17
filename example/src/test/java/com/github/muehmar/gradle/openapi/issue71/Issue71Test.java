@@ -1,22 +1,22 @@
-package com.github.muehmar.gradle.openapi.identifiers;
+package com.github.muehmar.gradle.openapi.issue71;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-/** Tests for issue 71 */
-class SchemaWithPropertyNameOtherTest {
+public class Issue71Test {
+
   @Test
   void equals_when_dtoHasPropertyNamedOther_then_dtoIsEqualsWithSameProperties() {
-    final SchemaWithPropertyNameOther dto1 =
-        SchemaWithPropertyNameOther.builder()
+    final SchemaWithPropertyNameOtherDto dto1 =
+        SchemaWithPropertyNameOtherDto.builder()
             .andAllOptionals()
             .setFoo("foo")
             .setOther("other")
             .build();
-    final SchemaWithPropertyNameOther dto2 =
-        SchemaWithPropertyNameOther.builder()
+    final SchemaWithPropertyNameOtherDto dto2 =
+        SchemaWithPropertyNameOtherDto.builder()
             .andAllOptionals()
             .setFoo("foo")
             .setOther("other")
@@ -26,14 +26,14 @@ class SchemaWithPropertyNameOtherTest {
 
   @Test
   void equals_when_dtoHasPropertyNamedOther_then_dtoIsNotEqualsWithDifferentProperties() {
-    final SchemaWithPropertyNameOther dto1 =
-        SchemaWithPropertyNameOther.builder()
+    final SchemaWithPropertyNameOtherDto dto1 =
+        SchemaWithPropertyNameOtherDto.builder()
             .andAllOptionals()
             .setFoo("foo1")
             .setOther("other")
             .build();
-    final SchemaWithPropertyNameOther dto2 =
-        SchemaWithPropertyNameOther.builder()
+    final SchemaWithPropertyNameOtherDto dto2 =
+        SchemaWithPropertyNameOtherDto.builder()
             .andAllOptionals()
             .setFoo("foo2")
             .setOther("other")

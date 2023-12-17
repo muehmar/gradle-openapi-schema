@@ -1,0 +1,13 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    SchemaWithPropertyNameOther:
+      properties:
+        foo:
+          type: string
+        other:
+          type: string

@@ -1,8 +1,28 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.3.1"
+    id "com.github.muehmar.openapischema" version "2.4.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
     id 'java-test-fixtures'
+}
+
+sourceSets {
+    generated {
+        java {}
+    }
+    noJsonAndValidation {
+        java {}
+    }
+    noJson {
+        java {}
+    }
+    noValidation {
+        java {}
+    }
+    test {
+        compileClasspath += generated.output
+        runtimeClasspath += generated.output
+    }
+
 }
 
 dependencies {
@@ -11,6 +31,9 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.15.3'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.3'
 
+    noValidationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.3'
+    noValidationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.15.3'
+
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.10.1'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.10.1'
 
@@ -18,6 +41,8 @@ dependencies {
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.2.5.Final'
     implementation group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
     implementation group: 'org.glassfish', name: 'javax.el', version: '3.0.0'
+
+    noJsonImplementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 
     testImplementation 'org.reflections:reflections:0.10.2'
     testImplementation testFixtures(project(":java-snapshot"))
@@ -42,10 +67,23 @@ def specifications =
                 [name: 'fullobject', file: 'openapi-full-object.yml'],
                 [name: 'additionalproperties', file: 'openapi-additional-properties.yml'],
                 [name: 'sasis', file: 'sasis-api.json'],
-                [name: 'promotion', file: 'openapi-promotion.yml']
+                [name: 'promotion', file: 'openapi-promotion.yml'],
+                [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml']
         ]
 
+compileJava.dependsOn compileGeneratedJava
+compileJava.dependsOn compileNoJsonJava
+compileJava.dependsOn compileNoValidationJava
+compileJava.dependsOn compileNoJsonAndValidationJava
+
 openApiGenerator {
+    sourceSet = 'main'
+    outputDir = project.layout.buildDirectory.dir("generated/openapi")
+    jsonSupport = "jackson"
+    suffix = "Dto"
+    enableValidation = true
+    builderMethodPrefix = "set"
+
     enumDescriptionExtraction {
         enabled = true
         prefixMatcher = "`__ENUM__`:"
@@ -62,36 +100,20 @@ openApiGenerator {
         classType = "com.package.Password"
     }
 
-    classMapping {
-        fromClass = "List"
-        toClass = "java.util.ArrayList"
-    }
-
     validationMethods {
         getterSuffix = "Raw"
     }
 
+    warnings {
+        disableWarnings = false
+        failOnWarnings = true
+        failOnUnsupportedValidation = true
+    }
+
     schemas {
         apiV1 {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.v1"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
-
-            enumDescriptionExtraction {
-                enabled = true
-                prefixMatcher = "`__ENUM__`:"
-                failOnIncompleteDescriptions = true
-            }
-
-            formatTypeMapping {
-                formatType = "username"
-                classType = "com.package.UserName"
-            }
 
             formatTypeMapping {
                 formatType = "MedicationKind"
@@ -104,37 +126,17 @@ openApiGenerator {
             }
         }
         apiV2 {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.v2"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-
-            getterSuffixes {
-                optionalSuffix = "Opt"
-            }
+            builderMethodPrefix = ""
         }
         inlineObject {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-inline-object.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.inlineobject"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         nullability {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-nullability.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.nullability"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
 
             validationMethods {
                 getterSuffix = "Raw"
@@ -143,162 +145,75 @@ openApiGenerator {
             }
         }
         array {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-array.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.array"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         remoteRef {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-remote-ref-main.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.remoteref"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            resolveInputSpecs = false
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         excludeSchema {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-excluded-schema.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.excludedschema"
-            jsonSupport = "jackson"
-            suffix = "Dto"
             excludeSchemas = ["User"] // This schema contains an unsupported URL-reference
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         parameters {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-parameters.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.parameters"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         freeForm {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-freeform.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.freeform"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         validation {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-validation.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.validation"
-
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
 
             formatTypeMapping {
                 formatType = "name"
                 classType = "com.github.muehmar.gradle.openapi.validation.Name"
             }
+
+            warnings {
+                failOnUnsupportedValidation = false
+            }
         }
         oneOf {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-oneof.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.oneof"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         anyOf {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-anyof.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.anyof"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         allOf {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-allof.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.allof"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         identifiers {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-identifiers.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.identifiers"
-            jsonSupport = "jackson"
             suffix = ""
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         readOnlyWriteOnly {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-read-only-write-only.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.readwriteonly"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         specVersionV31 {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-spec-version-v31.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.specversionv31"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         fullObject {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-full-object.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.fullobject"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         additionalProperties {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-additional-properties.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.additionalproperties"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
         sasis {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/sasis-api.json"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.sasis"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
 
             formatTypeMapping {
                 formatType = "date-time"
@@ -316,64 +231,55 @@ openApiGenerator {
             }
         }
         promotion {
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-promotion.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "com.github.muehmar.gradle.openapi.promotion"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
-            builderMethodPrefix = "set"
         }
-        ['190', '191', '192', '193', '195'].forEach {issueNumber -> {
+        overrideGlobalConfig {
+            sourceSet = "generated"
+            inputSpec = "$projectDir/src/main/resources/openapi-override-global-config.yml"
+            outputDir = project.layout.buildDirectory.dir("generated/openapi-override")
+            packageName = "com.github.muehmar.gradle.openapi.overrideglobalconfig"
+            suffix = ""
+            jsonSupport = "none"
+            enableValidation = false
+            builderMethodPrefix = ""
+
+        }
+        ['71', '182', '185', '190', '191', '192', '193', '195', '209'].forEach {issueNumber -> {
             "${issueNumber}" {
-                sourceSet = 'main'
                 inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
-                outputDir = "$buildDir/generated/openapi"
                 packageName = "com.github.muehmar.gradle.openapi.issue${issueNumber}"
-                jsonSupport = "jackson"
-                suffix = "Dto"
-                enableValidation = false
-                builderMethodPrefix = "set"
             }
         }}
 
         specifications.forEach {spec -> {
             "noValidation${spec.name}" {
-                sourceSet = 'main'
+                sourceSet = "noValidation"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-no-validation")
                 inputSpec = "$projectDir/src/main/resources/${spec.file}"
-                outputDir = "$buildDir/generated/openapi"
                 packageName = "${project.group}.${project.name}.api.novalidation.${spec.name}.model"
-                jsonSupport = "jackson"
-                suffix = "Dto"
                 enableValidation = false
-                builderMethodPrefix = "set"
             }
         }}
 
         specifications.forEach {spec -> {
             "noJsonSupport${spec.name}" {
-                sourceSet = 'main'
+                sourceSet = "noJson"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-no-json")
                 inputSpec = "$projectDir/src/main/resources/${spec.file}"
-                outputDir = "$buildDir/generated/openapi"
                 packageName = "${project.group}.${project.name}.api.nojsonsupport.${spec.name}.model"
                 jsonSupport = "none"
-                suffix = "Dto"
-                enableValidation = true
-                builderMethodPrefix = "set"
             }
         }}
 
         specifications.forEach {spec -> {
             "noJsonSupportAndValidation${spec.name}" {
-                sourceSet = 'main'
+                sourceSet = "noJsonAndValidation"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-no-json-no-validation")
                 inputSpec = "$projectDir/src/main/resources/${spec.file}"
-                outputDir = "$buildDir/generated/openapi"
                 packageName = "${project.group}.${project.name}.api.nojsonsupportandvalidation.${spec.name}.model"
                 jsonSupport = "none"
-                suffix = "Dto"
                 enableValidation = false
-                builderMethodPrefix = "set"
             }
         }}
     }
