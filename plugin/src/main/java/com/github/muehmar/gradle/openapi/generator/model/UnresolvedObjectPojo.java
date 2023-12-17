@@ -70,6 +70,18 @@ public class UnresolvedObjectPojo {
     }
   }
 
+  public Optional<UnresolvedAllOfComposition> getAllOfComposition() {
+    return allOfComposition;
+  }
+
+  public Optional<UnresolvedOneOfComposition> getOneOfComposition() {
+    return oneOfComposition;
+  }
+
+  public Optional<UnresolvedAnyOfComposition> getAnyOfComposition() {
+    return anyOfComposition;
+  }
+
   private static boolean bothPresentOrAbsent(Optional<?> a, Optional<?> b) {
     return not(a.isPresent() ^ b.isPresent());
   }
