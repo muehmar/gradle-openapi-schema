@@ -35,7 +35,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '2.3.1'
+    id 'com.github.muehmar.openapischema' version '2.4.0'
 }
 ```
 
@@ -57,17 +57,18 @@ or a full example:
 
 ```
 openApiGenerator {
+    sourceSet = "main"
+    outputDir = project.layout.buildDirectory.dir("generated/openapi")
+    suffix = "Dto"
+    jsonSupport = "jackson"
+    enableValidation = true
+    
     schemas {    
     
         // Custom name for this schema
         apiV1 {         
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "${project.group}.${project.name}.api.v1.model"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
             validationApi = "jakarta-3.0"
             builderMethodPrefix = "set"
             
@@ -122,13 +123,8 @@ openApiGenerator {
         
         // Custom name for this schema
         apiV2 {         
-            sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
-            outputDir = "$buildDir/generated/openapi"
             packageName = "${project.group}.${project.name}.api.v2.model"
-            jsonSupport = "jackson"
-            suffix = "Dto"
-            enableValidation = true
             
             // No specific config for enum description extraction
             // or mappings. Will inherit the global configuration
@@ -180,20 +176,24 @@ openApiGenerator {
 Add in the `schemas` block for each specification a new block with custom name (`apiV1` and `apiV2` in the example
 above) and configure the generation with the following attributes for each schema:
 
-| Key                 | Data Type    | Default                                    | Description                                                                                                                                                                                                                                                                          |
-|---------------------|--------------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| sourceSet           | String       | main                                       | Source set to which the generated classes should be added.                                                                                                                                                                                                                           |
-| inputSpec           | String       |                                            | The OpenApi 3.x specification location.                                                                                                                                                                                                                                              |
-| outputDir           | String       | $buildDir/generated/openapi                | The location in which the generated sources should be stored.                                                                                                                                                                                                                        |
-| resolveInputSpecs   | boolean      | true                                       | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
-| packageName         | String       | ${project.group}.${project.name}.api.model | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
-| suffix              | String       |                                            | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
-| jsonSupport         | String       | jackson                                    | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
-| enableSafeBuilder   | Boolean      | true                                       | Enables creating the safe builder.                                                                                                                                                                                                                                                   |
-| enableValidation    | Boolean      | false                                      | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                            |
-| validationApi       | String       | jakarta-2                                  | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                              |
-| builderMethodPrefix | String       |                                            | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
-| excludeSchemas      | List[String] | []                                         | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
+Some options are configurable globally, that means they can be configured on the root level (see the example above)
+which applies automatically to all configured specifications. The globally configured options can be overridden for each
+specification if necessary.
+
+| Key                 | Configurable globally | Data Type                    | Default                                                | Description                                                                                                                                                                                                                                                                          |
+|---------------------|:----------------------|------------------------------|--------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sourceSet           | &check;               | String                       | main                                                   | Source set to which the generated classes should be added.                                                                                                                                                                                                                           |
+| inputSpec           | &cross;               | String                       |                                                        | The OpenApi 3.x specification location.                                                                                                                                                                                                                                              |
+| outputDir           | &check;               | String / Provider[Directory] | project.layout.buildDirectory.dir("generated/openapi") | The location in which the generated sources should be stored. Can either be set as String or as Provider[Directory], which is the result of calling `project.layout.buildDirectory.dir("directory/inside/the/build/directory")`.                                                     |
+| resolveInputSpecs   | &cross;               | boolean                      | true                                                   | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
+| packageName         | &cross;               | String                       | ${project.group}.${project.name}.api.model             | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
+| suffix              | &check;               | String                       |                                                        | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
+| jsonSupport         | &check;               | String                       | jackson                                                | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
+| enableSafeBuilder   | &check;               | Boolean                      | true                                                   | Enables creating the safe builder.                                                                                                                                                                                                                                                   |
+| enableValidation    | &check;               | Boolean                      | false                                                  | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                            |
+| validationApi       | &check;               | String                       | jakarta-2                                              | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                              |
+| builderMethodPrefix | &check;               | String                       |                                                        | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
+| excludeSchemas      | &cross;               | List[String]                 | []                                                     | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
 
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
 the schema, in the example above a task `generateApiV1Model` and a task `generateApiV2Model` would get created. The
@@ -1044,6 +1044,14 @@ afterEvaluate {
   client code. There exists a factory method `fromProperties` now.
 
 ## Change Log
+* 2.4.0
+    * Support making nested optional properties required with compositions (issue `#209`)
+    * Inherit implicit `type: object` for schemas with only required properties (issue `#208`)
+    * Prevent the generation of jackson helper utilities when jackson is disabled (issue `#205`)
+    * Support the configuration of more options globally (issue `#204` and `#184`)
+    * Add factory method for empty arrays (issue `#188`)
+    * Overload setter for output directory to support using `project.layout.buildDirectory` (issue `#194`)
+    * Fix builder for additional property with same name as normal property (issue `#185`)
 * 2.3.1 - Fix invalid single properties in alOf stages of builder (issue `#192`)
 * 2.3.0
     * Support making optional properties required with compositions (issue `#179`)
