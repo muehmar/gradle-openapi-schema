@@ -25,6 +25,7 @@ public class NoTypeSchema implements OpenApiSchema {
         && schema.getTypes() == null
         && schema.getFormat() == null
         && schema.getProperties() == null
+        && schema.getRequired() == null
         && schema.getAdditionalProperties() == null
         && schema.get$ref() == null) {
 
