@@ -22,6 +22,10 @@ public class UnresolvedAnyOfComposition {
     return new UnresolvedAnyOfComposition(componentNames);
   }
 
+  public PList<ComponentName> getComponentNames() {
+    return componentNames;
+  }
+
   public Optional<AnyOfComposition> resolve(
       Function<PList<ComponentName>, Optional<PList<Pojo>>> resolve) {
     return resolve

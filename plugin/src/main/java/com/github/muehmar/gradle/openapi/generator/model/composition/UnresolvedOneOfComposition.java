@@ -22,6 +22,10 @@ public class UnresolvedOneOfComposition {
     return new UnresolvedOneOfComposition(componentNames);
   }
 
+  public PList<ComponentName> getComponentNames() {
+    return componentNames;
+  }
+
   public Optional<OneOfComposition> resolve(
       Function<PList<ComponentName>, Optional<PList<Pojo>>> resolve) {
     return resolve.apply(componentNames).flatMap(NonEmptyList::fromIter).map(OneOfComposition::new);

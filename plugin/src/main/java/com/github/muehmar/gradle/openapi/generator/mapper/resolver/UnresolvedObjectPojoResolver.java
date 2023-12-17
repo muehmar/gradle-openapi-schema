@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedComposedPojo;
@@ -101,10 +103,7 @@ public class UnresolvedObjectPojoResolver {
     public PList<Pojo> resolveNext(
         BiFunction<ResolveContext, UnresolvedObjectPojo, PList<Pojo>> resolveNext) {
       if (failedResolveAttempts > objectPojos.size()) {
-        final String message =
-            String.format(
-                "Unable to resolve %d composed schemas: '%s'",
-                objectPojos.size(), objectPojos.map(UnresolvedObjectPojo::getName).mkString(", "));
+        final String message = createUnresolvableMessage();
         throw new IllegalStateException(message);
       }
       return objectPojos
@@ -123,6 +122,39 @@ public class UnresolvedObjectPojoResolver {
 
     public ResolveContext successfullyResolved(Pojo pojo) {
       return new ResolveContext(objectPojos, pojos.add(pojo), 0);
+    }
+
+    private String createUnresolvableMessage() {
+      final String singleMessages =
+          objectPojos.map(this::createUnresolvableMessageForPojo).mkString("\n");
+      return String.format(
+          "%s\nIf the schema is present in the specification, it may not be detected properly as object type, adding 'type: object' explicitly to the definition may help.",
+          singleMessages);
+    }
+
+    private String createUnresolvableMessageForPojo(UnresolvedObjectPojo pojo) {
+      final PList<ComponentName> missingComponentNames =
+          pojo.getAllOfComposition()
+              .map(UnresolvedAllOfComposition::getComponentNames)
+              .orElse(PList.empty())
+              .concat(
+                  pojo.getOneOfComposition()
+                      .map(UnresolvedOneOfComposition::getComponentNames)
+                      .orElse(PList.empty()))
+              .concat(
+                  pojo.getAnyOfComposition()
+                      .map(UnresolvedAnyOfComposition::getComponentNames)
+                      .orElse(PList.empty()))
+              .filter(
+                  componentName ->
+                      not(
+                          pojos.exists(
+                              p -> p.getName().getPojoName().equals(componentName.getPojoName()))));
+
+      return String.format(
+          "For schema %s the following schemas could not be resolved: [%s]",
+          pojo.getName().getSchemaName(),
+          missingComponentNames.map(ComponentName::getSchemaName).mkString(", "));
     }
   }
 }
