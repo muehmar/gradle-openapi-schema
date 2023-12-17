@@ -57,6 +57,10 @@ public interface Type {
         ignore -> Optional.empty());
   }
 
+  default boolean isObjectType() {
+    return asObjectType().isPresent();
+  }
+
   default Optional<NumericType> asNumericType() {
     return fold(
         Optional::of,
@@ -132,5 +136,18 @@ public interface Type {
 
   default boolean isEnumType() {
     return asEnumType().isPresent();
+  }
+
+  default boolean isAnyType() {
+    return fold(
+        numericType -> false,
+        integerType -> false,
+        stringType -> false,
+        arrayType -> false,
+        booleanType -> false,
+        objectType -> false,
+        enumType -> false,
+        mapType -> false,
+        anyType -> true);
   }
 }

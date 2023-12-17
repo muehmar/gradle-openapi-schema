@@ -30,7 +30,9 @@ public class MapResultResolverImpl implements MapResultResolver {
             .map(this::addEnumDescription)
             .orElse(PList.empty());
     return MapResult.of(
-        resolvedPojos, unresolvedMapResult.getParameters(), unresolvedMapResult.getUsedSpecs());
+        NestedRequiredPropertyResolver.resolve(resolvedPojos),
+        unresolvedMapResult.getParameters(),
+        unresolvedMapResult.getUsedSpecs());
   }
 
   private PList<Pojo> inlineMemberReferences(
