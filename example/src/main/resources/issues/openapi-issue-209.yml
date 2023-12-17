@@ -1,0 +1,75 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - lastName
+      properties:
+        firstName:
+          type: string
+        middleName:
+          type: string
+        lastName:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+
+    Address:
+      required:
+        - street
+      properties:
+        street:
+          type: string
+        houseNumber:
+          type: integer
+        city:
+          $ref: '#/components/schemas/City'
+
+    City:
+      required:
+        - cityName
+      properties:
+        zip:
+          type: integer
+        cityCode:
+          type: string
+        cityName:
+          type: string
+
+    RequiredNewUserProperties:
+      required:
+        - address
+        - firstName
+      properties:
+        address:
+          required:
+            - housenumber
+          properties:
+            city:
+              required:
+                - zip
+
+    NewUser:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/RequiredNewUserProperties"
+
+    UpdateUser:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - type: object
+          required:
+            - middleName
+          properties:
+            address:
+              required:
+                - housenumber
+                - city
+              properties:
+                city:
+                  required:
+                    - cityCode

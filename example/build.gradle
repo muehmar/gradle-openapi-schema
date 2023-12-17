@@ -245,7 +245,7 @@ openApiGenerator {
             builderMethodPrefix = ""
 
         }
-        ['71', '182', '185', '190', '191', '192', '193', '195'].forEach {issueNumber -> {
+        ['71', '182', '185', '190', '191', '192', '193', '195', '209'].forEach {issueNumber -> {
             "${issueNumber}" {
                 inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
                 packageName = "com.github.muehmar.gradle.openapi.issue${issueNumber}"
