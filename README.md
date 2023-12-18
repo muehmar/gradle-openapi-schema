@@ -373,18 +373,12 @@ type:
 
 Any other combination of types is currently not supported.
 
-## Compositions
-The OpenAPI specification supports the composition of schemas via `oneOf`, `anyOf` and `allOf` keyword. This plugin supports 
-all three keywords. 
-
-Validation is supported for all three compositions.
-
 ## Warnings
 The plugin emit warnings for certain scenarios. These warnings are printed to the console of
 the gradle build. These warnings can also be turned off completely if necessary via configuration of
 the plugin.
 
-The plugin can also be configured to let the generation fail in case warnings occurred (similar to the -Werror flag for 
+The plugin can also be configured to let the generation fail in case warnings occurred (similar to the -Werror flag for
 the Java compiler). This can be done globally for every warning or selective for any warning type, see the
 [Configuration](#configuration) section.
 
@@ -394,6 +388,11 @@ The plugin generates the following warnings:
 |------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | UNSUPPORTED_VALIDATION | Validation of custom types is currently not supported. This means, if a property has some constraints but is mapped to a custom type, no validation will be performed for this property. This may be supported in a future version of the plugin, see issue [#160](https://github.com/muehmar/gradle-openapi-schema/issues/160). |
 
+## Compositions
+The OpenAPI specification supports the composition of schemas via `oneOf`, `anyOf` and `allOf` keyword. This plugin supports 
+all three keywords. 
+
+Validation is supported for all three compositions.
 
 ### AllOf
 With `allOf`, the plugin will generate a DTO with all properties of the specified schemas. Consider the following 
