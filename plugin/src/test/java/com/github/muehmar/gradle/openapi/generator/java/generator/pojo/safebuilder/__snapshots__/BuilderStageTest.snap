@@ -100,6 +100,27 @@ LastOptionalPropertyBuilderStage - OptPropertyBuilder0
 ]
 
 
+allOfPojoWithSameMemberInAllOfSubPojos[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo10 for Optional[stringVal](0), next stage FullAllOfBuilderSampleObjectPojo20, next member stage: FullAllOfBuilderSampleObjectPojo11
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo11 for Optional[intVal](1), next stage FullAllOfBuilderSampleObjectPojo20, next member stage: FullAllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo12 for Optional[doubleVal](2), next stage FullAllOfBuilderSampleObjectPojo20, next member stage: FullAllOfBuilderSampleObjectPojo20
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo20 for Optional[birthdate](0), next stage FullOptPropertyBuilder0, next member stage: FullAllOfBuilderSampleObjectPojo21
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo21 for Optional[email](1), next stage FullOptPropertyBuilder0, next member stage: FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+allOfPojoWithSameMemberInAllOfSubPojos[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo10 for Optional[stringVal](0), next stage AllOfBuilderSampleObjectPojo20, next member stage: AllOfBuilderSampleObjectPojo11
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo11 for Optional[intVal](1), next stage AllOfBuilderSampleObjectPojo20, next member stage: AllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo12 for Optional[doubleVal](2), next stage AllOfBuilderSampleObjectPojo20, next member stage: AllOfBuilderSampleObjectPojo20
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo20 for Optional[birthdate](0), next stage PropertyBuilder0, next member stage: AllOfBuilderSampleObjectPojo21
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo21 for Optional[email](1), next stage PropertyBuilder0, next member stage: PropertyBuilder0
+LastRequiredPropertyBuilderStage - PropertyBuilder0, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
 allOfPojoWithSubschemaWithoutProperties[FULL]=[
 AllOfBuilderStage - FullAllOfBuilderObjectPojo10 for Optional.empty(0), next stage FullOptPropertyBuilder0, next member stage: FullOptPropertyBuilder0
 LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
