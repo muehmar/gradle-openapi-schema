@@ -5,6 +5,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Test
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredEmail;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -56,7 +58,7 @@ class BuilderStageTest {
         JavaPojos.allOfPojo(
                 JavaPojos.allNecessityAndNullabilityVariants()
                     .withRequiredAdditionalProperties(PROP_2_ADDITIONAL_PROPERTIES),
-                JavaPojos.sampleObjectPojo1())
+                sampleObjectPojo1())
             .withMembers(
                 JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
 
@@ -73,7 +75,7 @@ class BuilderStageTest {
   void createStages_when_allOfPojoWithOneOfAndAnyOfSubSchema_matchStages(
       SafeBuilderVariant builderVariant) {
     final JavaObjectPojo oneOfSubPojo =
-        JavaPojos.oneOfPojo(JavaPojos.sampleObjectPojo2())
+        JavaPojos.oneOfPojo(sampleObjectPojo2())
             .withMembers(JavaPojoMembers.empty().add(requiredDouble()).add(requiredEmail()));
     final JavaObjectPojo pojo =
         JavaPojos.allOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), oneOfSubPojo)
@@ -89,11 +91,25 @@ class BuilderStageTest {
 
   @ParameterizedTest
   @EnumSource(SafeBuilderVariant.class)
+  @SnapshotName(("allOfPojoWithSameMemberInAllOfSubPojos"))
+  void createStages_when_allOfPojoWithSameMemberInAllOfSubPojos_matchStages(
+      SafeBuilderVariant builderVariant) {
+    final JavaObjectPojo allOfPojo = JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
+    ;
+
+    final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, allOfPojo);
+
+    expect
+        .scenario(builderVariant.name())
+        .toMatchSnapshot(stages.map(BuilderStageTest::formatStage).toPList().mkString("\n"));
+  }
+
+  @ParameterizedTest
+  @EnumSource(SafeBuilderVariant.class)
   @SnapshotName(("oneOfPojoWithMembers"))
   void createStages_when_oneOfPojoWithMembers_matchStages(SafeBuilderVariant builderVariant) {
     final JavaObjectPojo pojo =
-        JavaPojos.oneOfPojo(
-                JavaPojos.allNecessityAndNullabilityVariants(), JavaPojos.sampleObjectPojo1())
+        JavaPojos.oneOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), sampleObjectPojo1())
             .withMembers(
                 JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
 
@@ -109,8 +125,7 @@ class BuilderStageTest {
   @SnapshotName(("anyOfPojoWithMembers"))
   void createStages_when_anyOfPojoWithMembers_matchStages(SafeBuilderVariant builderVariant) {
     final JavaObjectPojo pojo =
-        JavaPojos.anyOfPojo(
-                JavaPojos.allNecessityAndNullabilityVariants(), JavaPojos.sampleObjectPojo1())
+        JavaPojos.anyOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), sampleObjectPojo1())
             .withMembers(
                 JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
 
@@ -127,8 +142,7 @@ class BuilderStageTest {
   void createStages_when_allOfPojoWithRequiredProperties_matchStages(
       SafeBuilderVariant builderVariant) {
     final JavaObjectPojo pojo =
-        JavaPojos.allOfPojo(
-                JavaPojos.allNecessityAndNullabilityVariants(), JavaPojos.sampleObjectPojo1())
+        JavaPojos.allOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), sampleObjectPojo1())
             .withRequiredAdditionalProperties(PROP_2_ADDITIONAL_PROPERTIES);
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
@@ -144,8 +158,7 @@ class BuilderStageTest {
   void createStages_when_oneOfPojoWithRequiredProperties_matchStages(
       SafeBuilderVariant builderVariant) {
     final JavaObjectPojo pojo =
-        JavaPojos.oneOfPojo(
-                JavaPojos.allNecessityAndNullabilityVariants(), JavaPojos.sampleObjectPojo1())
+        JavaPojos.oneOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), sampleObjectPojo1())
             .withRequiredAdditionalProperties(PROP_2_ADDITIONAL_PROPERTIES);
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
@@ -161,8 +174,7 @@ class BuilderStageTest {
   void createStages_when_anyOfPojoWithRequiredProperties_matchStages(
       SafeBuilderVariant builderVariant) {
     final JavaObjectPojo pojo =
-        JavaPojos.anyOfPojo(
-                JavaPojos.allNecessityAndNullabilityVariants(), JavaPojos.sampleObjectPojo1())
+        JavaPojos.anyOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), sampleObjectPojo1())
             .withRequiredAdditionalProperties(PROP_2_ADDITIONAL_PROPERTIES);
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
