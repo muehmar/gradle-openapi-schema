@@ -25,9 +25,9 @@ public String getStringValOr(String defaultValue) {
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
+@Deprecated
 @Pattern(regexp="Hello")
 @JsonProperty("stringVal")
-@Deprecated
 public String getStringValRaw() {
   return stringVal;
 }
@@ -36,8 +36,8 @@ public String getStringValRaw() {
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
-@AssertTrue(message = "stringVal is required but it is not present")
 @Deprecated
+@AssertTrue(message = "stringVal is required but it is not present")
 @JsonIgnore
 public boolean isStringValPresent() {
   return isStringValPresent;

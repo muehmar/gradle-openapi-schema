@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.tristateGetterMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedAnnotationForValidationMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isValidationEnabled;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
@@ -13,7 +13,6 @@ import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -68,9 +67,8 @@ class OptionalNullableGetter {
   private static Generator<JavaPojoMember, PojoSettings> validationMethod(GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
-        .append(JavaDocGenerators.deprecatedValidationMethodJavaDoc())
+        .append(deprecatedJavaDocAndAnnotationForValidationMethod())
         .append(validationAnnotationsForMember())
-        .append(deprecatedAnnotationForValidationMethod())
         .append(jsonIgnore())
         .append(CommonGetter.rawGetterMethod())
         .filter(isValidationEnabled())

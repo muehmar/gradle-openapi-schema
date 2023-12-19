@@ -1,15 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator.deprecatedAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.*;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.notNullAnnotation;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validAnnotationForType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -86,8 +87,8 @@ public class RequiredAdditionalPropertiesGetter {
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
       notNullValidationGetterForSpecificType() {
-    return JavaDocGenerators.<JavaRequiredAdditionalProperty>deprecatedValidationMethodJavaDoc()
-        .append(deprecatedAnnotationForValidationMethod())
+    return DeprecatedMethodGenerator
+        .<JavaRequiredAdditionalProperty>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(notNullAnnotation())
         .append(
             MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
@@ -109,8 +110,8 @@ public class RequiredAdditionalPropertiesGetter {
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
       correctTypeValidationGetterForSpecificType() {
-    return JavaDocGenerators.<JavaRequiredAdditionalProperty>deprecatedValidationMethodJavaDoc()
-        .append(deprecatedAnnotationForValidationMethod())
+    return DeprecatedMethodGenerator
+        .<JavaRequiredAdditionalProperty>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(
             assertTrue(
                 prop ->

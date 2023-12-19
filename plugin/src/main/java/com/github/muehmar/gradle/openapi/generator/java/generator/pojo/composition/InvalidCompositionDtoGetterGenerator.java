@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators.deprecatedValidationMethodJavaDoc;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.getAnyOfValidCountMethodName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ANY_OF;
@@ -12,7 +12,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.name.Method
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
@@ -54,10 +53,9 @@ public class InvalidCompositionDtoGetterGenerator {
             .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
 
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(deprecatedValidationMethodJavaDoc())
+        .append(deprecatedJavaDocAndAnnotationForValidationMethod())
         .append(ValidationAnnotationGenerator.validAnnotation())
         .append(jsonIgnore())
-        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(method)
         .filter(p -> createInvalidCompositionDtoGetter(type, p))
         .filter(Filters.isValidationEnabled());

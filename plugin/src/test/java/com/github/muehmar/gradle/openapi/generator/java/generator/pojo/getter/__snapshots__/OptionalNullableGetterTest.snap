@@ -24,8 +24,8 @@ private Object getStringValJackson() {
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
-@Pattern(regexp="Hello")
 @Deprecated
+@Pattern(regexp="Hello")
 @JsonIgnore
 public String getStringValRaw() {
   return stringVal;

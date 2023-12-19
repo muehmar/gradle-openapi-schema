@@ -1,0 +1,9 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGeneratorTest.generate_when_enabledDeprecationAnnotation_then_matchSnapshot=[
+.
+.
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@Deprecated
+]

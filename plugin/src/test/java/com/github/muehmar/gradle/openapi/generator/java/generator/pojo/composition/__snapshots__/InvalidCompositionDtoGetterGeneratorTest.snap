@@ -108,9 +108,9 @@ javax.validation.Valid
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
+@Deprecated
 @Valid
 @JsonIgnore
-@Deprecated
 public Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1) {

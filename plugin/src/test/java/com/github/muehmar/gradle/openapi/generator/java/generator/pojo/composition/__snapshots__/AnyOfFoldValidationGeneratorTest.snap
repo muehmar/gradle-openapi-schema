@@ -21,8 +21,8 @@ javax.validation.Valid
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
-@Valid
 @Deprecated
+@Valid
 @JsonIgnore
 protected List<Object> getAnyOf() {
   if (getAnyOfValidCount() == 0) {
