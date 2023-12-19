@@ -1,4 +1,5 @@
 ## Change Log
+* 2.4.1 - Fix missing deprecated annotation for oneOf compositions (issue `#218`)
 * 2.4.0
     * Support making nested optional properties required with compositions (issue `#209`)
     * Inherit implicit `type: object` for schemas with only required properties (issue `#208`)
