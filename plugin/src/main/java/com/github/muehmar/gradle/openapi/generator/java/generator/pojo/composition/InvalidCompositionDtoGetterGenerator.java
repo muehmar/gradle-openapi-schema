@@ -12,6 +12,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.name.Method
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import ch.bluecare.commons.data.NonEmptyList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
@@ -56,6 +57,7 @@ public class InvalidCompositionDtoGetterGenerator {
         .append(deprecatedValidationMethodJavaDoc())
         .append(ValidationAnnotationGenerator.validAnnotation())
         .append(jsonIgnore())
+        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(method)
         .filter(p -> createInvalidCompositionDtoGetter(type, p))
         .filter(Filters.isValidationEnabled());
