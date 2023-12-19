@@ -6,8 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.name.Method
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
@@ -40,9 +39,9 @@ public class AnyOfFoldValidationGenerator {
             .content(methodContent())
             .build();
 
-    return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
+    return DeprecatedMethodGenerator
+        .<NonEmptyList<JavaObjectPojo>>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(ValidationAnnotationGenerator.validAnnotation())
-        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }

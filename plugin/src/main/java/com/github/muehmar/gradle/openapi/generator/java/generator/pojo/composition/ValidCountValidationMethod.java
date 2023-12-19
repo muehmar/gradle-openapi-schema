@@ -7,8 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.name.Method
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.isValidAgainstNoSchemaMethodName;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.JavaDocGenerators;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
@@ -66,9 +65,9 @@ public class ValidCountValidationMethod {
             .doesNotThrow()
             .content(String.format("return %s() == 0;", getValidCountMethodName(type)))
             .build();
-    return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
+    return DeprecatedMethodGenerator
+        .<NonEmptyList<JavaObjectPojo>>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(annotation)
-        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
@@ -92,9 +91,9 @@ public class ValidCountValidationMethod {
             .doesNotThrow()
             .content(String.format("return %s() > 1;", getValidCountMethodName(ONE_OF)))
             .build();
-    return JavaDocGenerators.<NonEmptyList<JavaObjectPojo>>deprecatedValidationMethodJavaDoc()
+    return DeprecatedMethodGenerator
+        .<NonEmptyList<JavaObjectPojo>>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(annotation)
-        .append(AnnotationGenerator.deprecatedAnnotationForValidationMethod())
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
         .prependNewLine();
