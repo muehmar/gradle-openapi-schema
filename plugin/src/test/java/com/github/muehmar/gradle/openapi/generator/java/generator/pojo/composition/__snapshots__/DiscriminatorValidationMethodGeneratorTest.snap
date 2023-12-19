@@ -44,8 +44,8 @@ javax.validation.constraints.AssertTrue
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
 @Deprecated
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
 @JsonIgnore
 protected boolean isValidAgainstTheCorrectSchema() {
   if (stringVal == null) {

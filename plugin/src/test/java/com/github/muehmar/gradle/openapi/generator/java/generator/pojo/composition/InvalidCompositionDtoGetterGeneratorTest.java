@@ -17,7 +17,9 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationMethods;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -38,6 +40,22 @@ class InvalidCompositionDtoGetterGeneratorTest {
         generator.generate(
             JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("oneOfPojoWithPublicDeprecatedValidationMethods")
+  void generate_when_oneOfPojoWithPublicDeprecatedValidationMethods_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        invalidCompositionDtoGetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            defaultTestSettings()
+                .withValidationMethods(new ValidationMethods(JavaModifier.PUBLIC, "Raw", true)),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
