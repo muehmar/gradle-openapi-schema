@@ -96,3 +96,28 @@ private Map<String, Object> getInvalidOneOf() {
 }
 
 ]
+
+
+oneOfPojoWithPublicDeprecatedValidationMethods=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.HashMap
+java.util.Map
+javax.validation.Valid
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@Deprecated
+@Valid
+@JsonIgnore
+public Map<String, Object> getInvalidOneOf() {
+  final Map<String, Object> dtos = new HashMap<>();
+  if(getOneOfValidCount() != 1) {
+    dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+    dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
+  }
+  return dtos;
+}
+
+]

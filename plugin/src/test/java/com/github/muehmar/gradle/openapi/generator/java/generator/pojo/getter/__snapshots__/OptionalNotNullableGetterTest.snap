@@ -25,10 +25,10 @@ public String getStringValOr(String defaultValue) {
  * @deprecated This method is intended to be used only by frameworks for validation
  * or serialisation.
  */
+@Deprecated
 @JsonProperty("stringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Pattern(regexp="Hello")
-@Deprecated
 public String getStringValRaw() {
   return stringVal;
 }
