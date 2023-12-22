@@ -16,7 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOn
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
@@ -46,8 +46,8 @@ class FoldMethodGeneratorTest {
   @SnapshotName("OneOfDiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctContent() {
     final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
-    final Discriminator discriminator =
-        Discriminator.fromPropertyName(
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyName(
             TestJavaPojoMembers.requiredString().getName().getOriginalName());
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(
@@ -65,8 +65,8 @@ class FoldMethodGeneratorTest {
   void generate_when_illegalIdentifierPojo_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
 
-    final Discriminator noMappingDiscriminator =
-        Discriminator.fromPropertyName(
+    final UntypedDiscriminator noMappingDiscriminator =
+        UntypedDiscriminator.fromPropertyName(
             TestJavaPojoMembers.keywordNameString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
@@ -90,8 +90,8 @@ class FoldMethodGeneratorTest {
     final HashMap<String, Name> mapping = new HashMap<>();
     mapping.put("obj1", sampleObjectPojo1.getSchemaName().getOriginalName());
     mapping.put("obj2", sampleObjectPojo2.getSchemaName().getOriginalName());
-    final Discriminator discriminator =
-        Discriminator.fromPropertyNameAndMapping(
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyNameAndMapping(
             TestJavaPojoMembers.requiredString().getName().getOriginalName(), mapping);
 
     final JavaOneOfComposition javaOneOfComposition =

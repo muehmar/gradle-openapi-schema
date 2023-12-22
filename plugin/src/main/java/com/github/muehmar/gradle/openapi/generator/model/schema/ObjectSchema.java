@@ -9,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PropertyScopeMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -20,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -113,7 +113,7 @@ public class ObjectSchema implements OpenApiSchema {
         schemaCompositions.getOneOf(name);
     final CompositionMapResult<UnresolvedAnyOfComposition> anyOfResult =
         schemaCompositions.getAnyOf(name);
-    final Optional<Discriminator> discriminator =
+    final Optional<UntypedDiscriminator> discriminator =
         DiscriminatorDefinition.extractFromSchema(delegate);
 
     final UnresolvedObjectPojo unresolvedObjectPojo =

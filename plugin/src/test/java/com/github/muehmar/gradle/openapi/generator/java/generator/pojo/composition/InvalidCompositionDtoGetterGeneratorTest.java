@@ -15,7 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -70,7 +70,7 @@ class InvalidCompositionDtoGetterGeneratorTest {
     final JavaOneOfComposition oneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
-            Discriminator.fromPropertyName(Name.ofString("type")));
+            UntypedDiscriminator.fromPropertyName(Name.ofString("type")));
 
     final Writer writer =
         generator.generate(

@@ -16,7 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOn
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -56,8 +56,8 @@ class DtoSetterGeneratorTest {
   void generator_when_calledWithOneOfPojoWithDiscriminator_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
 
-    final Discriminator discriminator =
-        Discriminator.fromPropertyName(
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyName(
             TestJavaPojoMembers.requiredString().getName().getOriginalName());
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(

@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
@@ -25,20 +24,20 @@ public class OneOfComposition {
     this.pojos = pojos;
   }
 
-  public Optional<Discriminator> determineDiscriminator(
-      Optional<Discriminator> objectPojoDiscriminator) {
+  public Optional<UntypedDiscriminator> determineDiscriminator(
+      Optional<UntypedDiscriminator> objectPojoDiscriminator) {
     if (objectPojoDiscriminator.isPresent()) {
       assertRequiredDiscriminatorMember(pojos, objectPojoDiscriminator);
       return objectPojoDiscriminator;
     }
 
-    final Optional<Discriminator> discriminatorFromPojos =
+    final Optional<UntypedDiscriminator> discriminatorFromPojos =
         determineDiscriminatorFromComposedPojos();
     assertRequiredDiscriminatorMember(pojos, discriminatorFromPojos);
     return discriminatorFromPojos;
   }
 
-  private Optional<Discriminator> determineDiscriminatorFromComposedPojos() {
+  private Optional<UntypedDiscriminator> determineDiscriminatorFromComposedPojos() {
     final CompositionDiscriminators compositionDiscriminators =
         new CompositionDiscriminators(
             pojos.map(OneOfComposition::findDiscriminatorsForPojo).toPList());
@@ -46,7 +45,7 @@ public class OneOfComposition {
   }
 
   private static PojoDiscriminators findDiscriminatorsForPojo(Pojo pojo) {
-    final Optional<Discriminator> objectPojoDiscriminator =
+    final Optional<UntypedDiscriminator> objectPojoDiscriminator =
         pojo.asObjectPojo().flatMap(ObjectPojo::getDiscriminator);
     final PojoDiscriminators nestedDiscriminators =
         pojo.asObjectPojo()
@@ -82,7 +81,7 @@ public class OneOfComposition {
   }
 
   private static void assertRequiredDiscriminatorMember(
-      NonEmptyList<Pojo> pojos, Optional<Discriminator> discriminator) {
+      NonEmptyList<Pojo> pojos, Optional<UntypedDiscriminator> discriminator) {
     discriminator.ifPresent(
         disc ->
             pojos.forEach(
@@ -109,13 +108,13 @@ public class OneOfComposition {
 
   @Value
   private static class PojoDiscriminators {
-    PList<Discriminator> discriminators;
+    PList<UntypedDiscriminator> discriminators;
 
     static PojoDiscriminators empty() {
       return new PojoDiscriminators(PList.empty());
     }
 
-    static PojoDiscriminators fromOptional(Optional<Discriminator> discriminator) {
+    static PojoDiscriminators fromOptional(Optional<UntypedDiscriminator> discriminator) {
       return new PojoDiscriminators(PList.fromOptional(discriminator));
     }
 
@@ -128,13 +127,13 @@ public class OneOfComposition {
   private static class CompositionDiscriminators {
     PList<PojoDiscriminators> discriminators;
 
-    public Optional<Discriminator> findCommonDiscriminator() {
+    public Optional<UntypedDiscriminator> findCommonDiscriminator() {
       return discriminators
           .headOption()
           .flatMap(
               pojoDiscriminators -> {
                 final PList<PojoDiscriminators> remaining = discriminators.tail();
-                for (Discriminator discriminator : pojoDiscriminators.getDiscriminators()) {
+                for (UntypedDiscriminator discriminator : pojoDiscriminators.getDiscriminators()) {
                   final boolean existsInAll =
                       remaining.forall(
                           other -> other.getDiscriminators().exists(discriminator::equals));

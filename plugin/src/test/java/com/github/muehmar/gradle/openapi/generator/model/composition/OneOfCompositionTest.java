@@ -11,7 +11,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojos;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -29,12 +28,12 @@ class OneOfCompositionTest {
   void
       determineDiscriminator_when_pojosAndParentObjectDiscriminator_then_matchExpectedDiscriminator(
           NonEmptyList<Pojo> pojos,
-          Optional<Discriminator> parentObjectDiscriminator,
-          Optional<Discriminator> expectedDiscriminator) {
+          Optional<UntypedDiscriminator> parentObjectDiscriminator,
+          Optional<UntypedDiscriminator> expectedDiscriminator) {
     final OneOfComposition oneOfComposition = new OneOfComposition(pojos);
 
     // Method call
-    final Optional<Discriminator> determinedDiscriminator =
+    final Optional<UntypedDiscriminator> determinedDiscriminator =
         assertDoesNotThrow(
             () -> oneOfComposition.determineDiscriminator(parentObjectDiscriminator));
 
@@ -43,10 +42,10 @@ class OneOfCompositionTest {
   }
 
   public static Stream<Arguments> pojosAndParentObjectDiscriminator() {
-    final Optional<Discriminator> discriminator1 =
-        Optional.of(Discriminator.fromPropertyName(requiredString().getName()));
-    final Optional<Discriminator> discriminator2 =
-        Optional.of(Discriminator.fromPropertyName(requiredBirthdate().getName()));
+    final Optional<UntypedDiscriminator> discriminator1 =
+        Optional.of(UntypedDiscriminator.fromPropertyName(requiredString().getName()));
+    final Optional<UntypedDiscriminator> discriminator2 =
+        Optional.of(UntypedDiscriminator.fromPropertyName(requiredBirthdate().getName()));
 
     final ObjectPojo pojo1 =
         Pojos.objectPojo(PList.of(requiredString(), requiredBirthdate(), optionalNullableString()));
@@ -97,8 +96,8 @@ class OneOfCompositionTest {
     final ObjectPojo pojo2 = Pojos.objectPojo(PList.of(requiredUsername()));
 
     final NonEmptyList<Pojo> pojos = NonEmptyList.of(pojo1, pojo2);
-    final Optional<Discriminator> discriminator =
-        Optional.of(Discriminator.fromPropertyName(requiredString().getName()));
+    final Optional<UntypedDiscriminator> discriminator =
+        Optional.of(UntypedDiscriminator.fromPropertyName(requiredString().getName()));
 
     final OneOfComposition oneOfComposition = new OneOfComposition(pojos);
 
@@ -115,8 +114,8 @@ class OneOfCompositionTest {
     final ObjectPojo pojo2 = Pojos.objectPojo(PList.of(requiredString(), optionalNullableString()));
 
     final NonEmptyList<Pojo> pojos = NonEmptyList.of(pojo1, pojo2);
-    final Optional<Discriminator> discriminator =
-        Optional.of(Discriminator.fromPropertyName(optionalNullableString().getName()));
+    final Optional<UntypedDiscriminator> discriminator =
+        Optional.of(UntypedDiscriminator.fromPropertyName(optionalNullableString().getName()));
 
     final OneOfComposition oneOfComposition = new OneOfComposition(pojos);
 

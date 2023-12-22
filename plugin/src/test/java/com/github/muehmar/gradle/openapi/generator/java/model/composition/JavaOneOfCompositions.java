@@ -4,14 +4,14 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.composition
 
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import java.util.Optional;
 
 public class JavaOneOfCompositions {
   private JavaOneOfCompositions() {}
 
   public static JavaOneOfComposition fromPojosAndDiscriminator(
-      NonEmptyList<JavaPojo> pojos, Discriminator discriminator) {
+      NonEmptyList<JavaPojo> pojos, UntypedDiscriminator discriminator) {
     return new JavaOneOfComposition(
         new JavaComposition(assertAllObjectPojos(pojos)),
         Optional.of(JavaDiscriminator.wrap(discriminator)));

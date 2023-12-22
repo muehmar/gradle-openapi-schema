@@ -2,17 +2,18 @@ package com.github.muehmar.gradle.openapi.generator.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class DiscriminatorTest {
+class UntypedDiscriminatorTest {
 
   private static final Name USER_SCHEMA_NAME = Name.ofString("User");
   private static final Name CLIENT_SCHEMA_NAME = Name.ofString("Client");
-  private static final Discriminator DISCRIMINATOR =
-      Discriminator.fromPropertyName(Name.ofString("prop"))
+  private static final UntypedDiscriminator DISCRIMINATOR =
+      UntypedDiscriminator.fromPropertyName(Name.ofString("prop"))
           .withMapping(Optional.of(Collections.singletonMap("-user-", USER_SCHEMA_NAME)));
 
   @Test
