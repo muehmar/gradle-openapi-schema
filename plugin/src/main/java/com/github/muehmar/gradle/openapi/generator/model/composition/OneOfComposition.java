@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -128,11 +129,17 @@ public class OneOfComposition {
   }
 
   private static DiscriminatorType extractType(SchemaName schemaName, PojoMember member) {
-    return member
-        .getType()
-        .asStringType()
-        .filter(strType -> strType.getFormat().equals(StringType.Format.NONE))
-        .map(DiscriminatorType::fromStringType)
+    final Type type = member.getType();
+
+    final Optional<DiscriminatorType> stringTypeDiscriminator =
+        type.asStringType()
+            .filter(strType -> strType.getFormat().equals(StringType.Format.NONE))
+            .map(DiscriminatorType::fromStringType);
+
+    final Optional<DiscriminatorType> enumTypeDiscriminator =
+        type.asEnumType().map(DiscriminatorType::fromEnumType);
+
+    return Optionals.or(stringTypeDiscriminator, enumTypeDiscriminator)
         .orElseThrow(
             () ->
                 new OpenApiGeneratorException(

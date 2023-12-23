@@ -2,10 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.model.composition;
 
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
+import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.util.function.Function;
 
 @EqualsAndHashCode
 @ToString
