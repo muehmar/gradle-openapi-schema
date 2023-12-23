@@ -4,11 +4,15 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -24,17 +28,15 @@ public class OneOfComposition {
     this.pojos = pojos;
   }
 
-  public Optional<UntypedDiscriminator> determineDiscriminator(
+  public Optional<Discriminator> determineDiscriminator(
       Optional<UntypedDiscriminator> objectPojoDiscriminator) {
     if (objectPojoDiscriminator.isPresent()) {
-      assertRequiredDiscriminatorMember(pojos, objectPojoDiscriminator);
-      return objectPojoDiscriminator;
+      return typeDiscriminator(pojos, objectPojoDiscriminator);
     }
 
     final Optional<UntypedDiscriminator> discriminatorFromPojos =
         determineDiscriminatorFromComposedPojos();
-    assertRequiredDiscriminatorMember(pojos, discriminatorFromPojos);
-    return discriminatorFromPojos;
+    return typeDiscriminator(pojos, discriminatorFromPojos);
   }
 
   private Optional<UntypedDiscriminator> determineDiscriminatorFromComposedPojos() {
@@ -80,30 +82,70 @@ public class OneOfComposition {
     return new OneOfComposition(mappedPojos);
   }
 
-  private static void assertRequiredDiscriminatorMember(
+  private static Optional<Discriminator> typeDiscriminator(
       NonEmptyList<Pojo> pojos, Optional<UntypedDiscriminator> discriminator) {
-    discriminator.ifPresent(
-        disc ->
-            pojos.forEach(
+    return discriminator.map(disc -> typeDiscriminator(pojos, disc));
+  }
+
+  private static Discriminator typeDiscriminator(
+      NonEmptyList<Pojo> pojos, UntypedDiscriminator discriminator) {
+    final Name propertyName = discriminator.getPropertyName();
+    final NonEmptyList<DiscriminatorType> types =
+        pojos
+            .map(
                 pojo ->
                     pojo.asObjectPojo()
-                        .ifPresent(
-                            objectPojo -> {
-                              final Optional<PojoMember> discriminatorMember =
-                                  objectPojo
-                                      .getMembersAndAllOfMembers()
-                                      .find(
-                                          pojoMember ->
-                                              pojoMember.getName().equals(disc.getPropertyName()))
-                                      .filter(PojoMember::isRequired);
-                              if (not(discriminatorMember.isPresent())) {
-                                throw new IllegalArgumentException(
-                                    String.format(
-                                        "Invalid schema: Pojo %s does not have a required property named %s used by the discriminator.",
-                                        objectPojo.getName().getSchemaName(),
-                                        disc.getPropertyName()));
-                              }
-                            })));
+                        .orElseThrow(
+                            () ->
+                                new OpenApiGeneratorException(
+                                    "Only schemas of type object are supported for compositions, but %s is not of type object",
+                                    pojo.getName().getSchemaName())))
+            .map(objectPojo -> getDiscriminatorType(objectPojo, propertyName));
+
+    final boolean allSameType = types.toPList().forall(types.head()::equals);
+    if (not(allSameType)) {
+      throw new OpenApiGeneratorException(
+          "Property for discriminator %s of schemas [%s] are required to have the same type",
+          propertyName, pojos.map(p -> p.getName().getSchemaName()).toPList().mkString(", "));
+    }
+
+    return Discriminator.typeDiscriminator(discriminator, types.head());
+  }
+
+  private static DiscriminatorType getDiscriminatorType(ObjectPojo objectPojo, Name propertyName) {
+    final SchemaName schemaName = objectPojo.getName().getSchemaName();
+    final PojoMember discriminatorMember =
+        objectPojo
+            .getMembersAndAllOfMembers()
+            .find(pojoMember -> pojoMember.getName().equals(propertyName))
+            .orElseThrow(
+                () ->
+                    new OpenApiGeneratorException(
+                        "Invalid schema: Pojo %s does not have a property named %s used by the discriminator.",
+                        schemaName, propertyName));
+    assertNecessity(schemaName, discriminatorMember);
+    return extractType(schemaName, discriminatorMember);
+  }
+
+  private static DiscriminatorType extractType(SchemaName schemaName, PojoMember member) {
+    return member
+        .getType()
+        .asStringType()
+        .filter(strType -> strType.getFormat().equals(StringType.Format.NONE))
+        .map(DiscriminatorType::fromStringType)
+        .orElseThrow(
+            () ->
+                new OpenApiGeneratorException(
+                    "Invalid schema: The type of property %s of schema %s is not supported as discriminator",
+                    member.getName(), schemaName));
+  }
+
+  private static void assertNecessity(SchemaName schemaName, PojoMember member) {
+    if (member.isOptional()) {
+      throw new OpenApiGeneratorException(
+          "Invalid schema: Property %s of schema %s is not required.",
+          member.getName(), schemaName);
+    }
   }
 
   @Value

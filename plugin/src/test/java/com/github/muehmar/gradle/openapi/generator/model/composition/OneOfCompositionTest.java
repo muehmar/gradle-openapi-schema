@@ -11,9 +11,11 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojos;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -29,11 +31,11 @@ class OneOfCompositionTest {
       determineDiscriminator_when_pojosAndParentObjectDiscriminator_then_matchExpectedDiscriminator(
           NonEmptyList<Pojo> pojos,
           Optional<UntypedDiscriminator> parentObjectDiscriminator,
-          Optional<UntypedDiscriminator> expectedDiscriminator) {
+          Optional<Discriminator> expectedDiscriminator) {
     final OneOfComposition oneOfComposition = new OneOfComposition(pojos);
 
     // Method call
-    final Optional<UntypedDiscriminator> determinedDiscriminator =
+    final Optional<Discriminator> determinedDiscriminator =
         assertDoesNotThrow(
             () -> oneOfComposition.determineDiscriminator(parentObjectDiscriminator));
 
@@ -42,49 +44,59 @@ class OneOfCompositionTest {
   }
 
   public static Stream<Arguments> pojosAndParentObjectDiscriminator() {
-    final Optional<UntypedDiscriminator> discriminator1 =
+    final Optional<UntypedDiscriminator> untypedDiscriminator1 =
         Optional.of(UntypedDiscriminator.fromPropertyName(requiredString().getName()));
-    final Optional<UntypedDiscriminator> discriminator2 =
+    final Optional<UntypedDiscriminator> untypedDiscriminator2 =
         Optional.of(UntypedDiscriminator.fromPropertyName(requiredBirthdate().getName()));
+
+    final DiscriminatorType discriminatorType =
+        DiscriminatorType.fromStringType((StringType) requiredString().getType());
+    final Optional<Discriminator> discriminator1 =
+        untypedDiscriminator1.map(d -> Discriminator.typeDiscriminator(d, discriminatorType));
 
     final ObjectPojo pojo1 =
         Pojos.objectPojo(PList.of(requiredString(), requiredBirthdate(), optionalNullableString()));
     final ObjectPojo pojo2 = Pojos.objectPojo(PList.of(requiredString(), requiredUsername()));
     final ObjectPojo pojo3 =
         Pojos.oneOfPojo(
-            pojo1.withDiscriminator(discriminator1), pojo2.withDiscriminator(discriminator1));
+            pojo1.withDiscriminator(untypedDiscriminator1),
+            pojo2.withDiscriminator(untypedDiscriminator1));
     final ObjectPojo pojo4 =
         Pojos.allOfPojo(
-            pojo1.withDiscriminator(discriminator1), pojo2.withDiscriminator(discriminator1));
+            pojo1.withDiscriminator(untypedDiscriminator1),
+            pojo2.withDiscriminator(untypedDiscriminator1));
 
     return Stream.of(
         arguments(NonEmptyList.of(pojo1, pojo2), Optional.empty(), Optional.empty()),
-        arguments(NonEmptyList.of(pojo1, pojo2), discriminator1, discriminator1),
+        arguments(NonEmptyList.of(pojo1, pojo2), untypedDiscriminator1, discriminator1),
         arguments(
             NonEmptyList.of(
-                pojo1.withDiscriminator(discriminator1), pojo2.withDiscriminator(discriminator2)),
+                pojo1.withDiscriminator(untypedDiscriminator1),
+                pojo2.withDiscriminator(untypedDiscriminator2)),
             Optional.empty(),
             Optional.empty()),
         arguments(
             NonEmptyList.of(
-                pojo1.withDiscriminator(discriminator1), pojo2.withDiscriminator(discriminator1)),
+                pojo1.withDiscriminator(untypedDiscriminator1),
+                pojo2.withDiscriminator(untypedDiscriminator1)),
             Optional.empty(),
             discriminator1),
         arguments(
             NonEmptyList.of(
-                pojo1.withDiscriminator(discriminator2), pojo2.withDiscriminator(discriminator2)),
-            discriminator1,
+                pojo1.withDiscriminator(untypedDiscriminator2),
+                pojo2.withDiscriminator(untypedDiscriminator2)),
+            untypedDiscriminator1,
             discriminator1),
         arguments(
-            NonEmptyList.of(pojo3, pojo2.withDiscriminator(discriminator1)),
+            NonEmptyList.of(pojo3, pojo2.withDiscriminator(untypedDiscriminator1)),
             Optional.empty(),
             Optional.empty()),
         arguments(
-            NonEmptyList.of(pojo3, pojo2.withDiscriminator(discriminator1)),
+            NonEmptyList.of(pojo3, pojo2.withDiscriminator(untypedDiscriminator1)),
             Optional.empty(),
             Optional.empty()),
         arguments(
-            NonEmptyList.of(pojo4, pojo2.withDiscriminator(discriminator1)),
+            NonEmptyList.of(pojo4, pojo2.withDiscriminator(untypedDiscriminator1)),
             Optional.empty(),
             discriminator1));
   }
@@ -103,7 +115,7 @@ class OneOfCompositionTest {
 
     // Method call
     assertThrows(
-        IllegalArgumentException.class,
+        OpenApiGeneratorException.class,
         () -> oneOfComposition.determineDiscriminator(discriminator));
   }
 
@@ -121,7 +133,7 @@ class OneOfCompositionTest {
 
     // Method call
     assertThrows(
-        IllegalArgumentException.class,
+        OpenApiGeneratorException.class,
         () -> oneOfComposition.determineDiscriminator(discriminator));
   }
 

@@ -9,34 +9,30 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class UntypedDiscriminator {
+public class Discriminator {
   private final Name propertyName;
+  private final DiscriminatorType type;
   private final Optional<Map<String, Name>> mapping;
 
-  private UntypedDiscriminator(Name propertyName, Optional<Map<String, Name>> mapping) {
+  private Discriminator(
+      Name propertyName, DiscriminatorType type, Optional<Map<String, Name>> mapping) {
     this.propertyName = propertyName;
+    this.type = type;
     this.mapping = mapping;
   }
 
-  public static UntypedDiscriminator fromPropertyName(Name propertyName) {
-    return new UntypedDiscriminator(propertyName, Optional.empty());
-  }
-
-  public static UntypedDiscriminator fromPropertyNameAndMapping(
-      Name propertyName, Map<String, Name> mapping) {
-    return new UntypedDiscriminator(propertyName, Optional.of(mapping));
-  }
-
-  public UntypedDiscriminator withMapping(Optional<Map<String, Name>> mapping) {
-    return new UntypedDiscriminator(propertyName, mapping);
+  public static Discriminator typeDiscriminator(
+      UntypedDiscriminator untypedDiscriminator, DiscriminatorType type) {
+    return new Discriminator(
+        untypedDiscriminator.getPropertyName(), type, untypedDiscriminator.getMapping());
   }
 
   public Name getPropertyName() {
     return propertyName;
   }
 
-  Optional<Map<String, Name>> getMapping() {
-    return mapping;
+  public DiscriminatorType getType() {
+    return type;
   }
 
   public String getValueForSchemaName(Name schemaName) {
