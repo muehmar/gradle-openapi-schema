@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
@@ -129,8 +129,8 @@ class ResourceComposedPojoMapperTest {
     assertEquals(2, personPojos.size());
     assertEquals(PList.of(adminDto, userDto), personPojos);
 
-    final Discriminator expectedDiscriminator =
-        Discriminator.fromPropertyName(Name.ofString("personType"));
+    final UntypedDiscriminator expectedDiscriminator =
+        UntypedDiscriminator.fromPropertyName(Name.ofString("personType"));
     assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
   }
 
@@ -169,8 +169,8 @@ class ResourceComposedPojoMapperTest {
     final Map<String, Name> mapping = new HashMap<>();
     mapping.put("usr", Name.ofString("User"));
     mapping.put("adm", Name.ofString("Admin"));
-    final Discriminator expectedDiscriminator =
-        Discriminator.fromPropertyNameAndMapping(Name.ofString("personType"), mapping);
+    final UntypedDiscriminator expectedDiscriminator =
+        UntypedDiscriminator.fromPropertyNameAndMapping(Name.ofString("personType"), mapping);
     assertEquals(Optional.of(expectedDiscriminator), personDto.getDiscriminator());
   }
 

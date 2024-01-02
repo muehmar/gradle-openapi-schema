@@ -88,3 +88,24 @@ private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
 }
 
 ]
+
+
+oneOfPojoWithEnumDiscriminator=[
+.
+.
+
+private Builder setYellowDto(YellowDto dto) {
+  setStringVal(dto.getStringVal());
+  setColor(BaseDto.Color.YELLOW);
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+
+private Builder setOrangeDto(OrangeDto dto) {
+  setBirthdate(dto.getBirthdate());
+  setColor(BaseDto.Color.ORANGE);
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+
+]

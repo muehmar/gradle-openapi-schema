@@ -19,7 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -83,7 +83,7 @@ class ValidatorClassGeneratorTest {
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(
             NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
-            Discriminator.fromPropertyName(Name.ofString("type")));
+            UntypedDiscriminator.fromPropertyName(Name.ofString("type")));
 
     final JavaObjectPojo pojo = JavaPojos.oneOfPojo(javaOneOfComposition);
 

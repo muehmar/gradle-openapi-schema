@@ -150,4 +150,21 @@ public interface Type {
         mapType -> false,
         anyType -> true);
   }
+
+  default Optional<StringType> asStringType() {
+    return fold(
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        Optional::of,
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
+        ignore -> Optional.empty());
+  }
+
+  default boolean isStringType() {
+    return asStringType().isPresent();
+  }
 }

@@ -12,8 +12,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -33,7 +33,7 @@ public class JavaOneOfComposition {
 
   public static JavaOneOfComposition wrap(
       OneOfComposition oneOfComposition,
-      Optional<Discriminator> objectPojoDiscriminator,
+      Optional<UntypedDiscriminator> objectPojoDiscriminator,
       PojoType type,
       TypeMappings typeMappings) {
     final Optional<JavaDiscriminator> javaDiscriminator =

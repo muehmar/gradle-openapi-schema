@@ -15,7 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOn
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -45,13 +45,26 @@ class DiscriminatorValidationMethodGeneratorTest {
   }
 
   @Test
+  @SnapshotName("EnumDiscriminator")
+  void generate_when_enumDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        discriminatorValidationMethodGenerator();
+
+    final JavaObjectPojo pojo = JavaPojos.oneOfPojoWithEnumDiscriminator();
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("DiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         discriminatorValidationMethodGenerator();
 
-    final Discriminator noMappingDiscriminator =
-        Discriminator.fromPropertyName(
+    final UntypedDiscriminator noMappingDiscriminator =
+        UntypedDiscriminator.fromPropertyName(
             TestJavaPojoMembers.requiredString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
@@ -70,8 +83,8 @@ class DiscriminatorValidationMethodGeneratorTest {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         discriminatorValidationMethodGenerator();
 
-    final Discriminator noMappingDiscriminator =
-        Discriminator.fromPropertyName(
+    final UntypedDiscriminator noMappingDiscriminator =
+        UntypedDiscriminator.fromPropertyName(
             TestJavaPojoMembers.keywordNameString().getName().getOriginalName());
 
     final JavaObjectPojo pojo =
@@ -96,8 +109,8 @@ class DiscriminatorValidationMethodGeneratorTest {
     mapping.put("obj2", sampleObjectPojo2().getSchemaName().getOriginalName());
 
     final Name propertyName = TestJavaPojoMembers.requiredString().getName().getOriginalName();
-    final Discriminator discriminator =
-        Discriminator.fromPropertyNameAndMapping(propertyName, mapping);
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyNameAndMapping(propertyName, mapping);
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(
@@ -120,8 +133,8 @@ class DiscriminatorValidationMethodGeneratorTest {
     mapping.put("obj2", sampleObjectPojo2().getSchemaName().getOriginalName());
 
     final Name propertyName = TestJavaPojoMembers.requiredString().getName().getOriginalName();
-    final Discriminator discriminator =
-        Discriminator.fromPropertyNameAndMapping(propertyName, mapping);
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyNameAndMapping(propertyName, mapping);
 
     final JavaObjectPojo pojo =
         JavaPojos.oneOfPojo(

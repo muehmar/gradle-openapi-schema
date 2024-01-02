@@ -6,13 +6,13 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -41,7 +41,7 @@ public class ObjectPojo implements Pojo {
   Optional<AnyOfComposition> anyOfComposition;
   Constraints constraints;
   AdditionalProperties additionalProperties;
-  Optional<Discriminator> discriminator;
+  Optional<UntypedDiscriminator> discriminator;
 
   @Override
   public Pojo addObjectTypeDescription(PojoName objectTypeName, String description) {

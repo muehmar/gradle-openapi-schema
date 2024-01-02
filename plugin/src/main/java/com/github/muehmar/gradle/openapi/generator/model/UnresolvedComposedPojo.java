@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
@@ -21,7 +22,7 @@ public class UnresolvedComposedPojo {
   private final CompositionType type;
   private final PList<PojoName> pojoNames;
   private final Constraints constraints;
-  private final Optional<Discriminator> discriminator;
+  private final Optional<UntypedDiscriminator> discriminator;
 
   public enum CompositionType {
     ALL_OF("AllOf"),
@@ -45,7 +46,7 @@ public class UnresolvedComposedPojo {
       CompositionType type,
       PList<PojoName> pojoNames,
       Constraints constraints,
-      Optional<Discriminator> discriminator) {
+      Optional<UntypedDiscriminator> discriminator) {
     this.name = name;
     this.description = description;
     this.type = type;
@@ -78,7 +79,7 @@ public class UnresolvedComposedPojo {
     return constraints;
   }
 
-  public Optional<Discriminator> getDiscriminator() {
+  public Optional<UntypedDiscriminator> getDiscriminator() {
     return discriminator;
   }
 }
