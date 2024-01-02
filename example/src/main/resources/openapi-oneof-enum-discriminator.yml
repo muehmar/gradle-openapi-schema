@@ -1,0 +1,69 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - id
+        - username
+      allOf:
+        - $ref: '#/components/schemas/BaseUser'
+      properties:
+        id:
+          type: string
+          minLength: 5
+        username:
+          type: string
+        age:
+          type: integer
+          format: int32
+          minimum: 18
+          maximum: 199
+          writeOnly: true
+        email:
+          type: string
+          nullable: true
+    Admin:
+      required:
+        - id
+        - adminname
+      allOf:
+        - $ref: '#/components/schemas/BaseUser'
+      properties:
+        id:
+          type: string
+          minLength: 5
+        adminname:
+          type: string
+        level:
+          type: integer
+          format: int64
+          minimum: 1
+
+    BaseUser:
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - user
+            - admin
+
+    AdminOrUser:
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+      discriminator:
+        propertyName: type
+        mapping:
+          admin: '#/components/schemas/Admin'
+          user: '#/components/schemas/User'
+
+
+
+
+
