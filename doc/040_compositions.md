@@ -69,6 +69,18 @@ The plugin will generate the following DTO's:
 * `AdminOrUserDto`: DTO for the `oneOf` composition
 * `AdminAndOrUserDto`: DTO for the `anyOf` composition
 
+#### OneOf Discriminator
+Currently, only the oneOf composition with a discriminator is supported (issue #150 for anyOf and discriminator exists). 
+The discriminator must either be a plain string without any format:
+```
+properties
+  type:
+    type: string
+```
+
+or an enum, which is defined in a parent schema (inline definitions are not supported), see 
+[openapi enum discriminator](../example/src/main/resources/openapi-oneof-enum-discriminator.yml).
+
 #### Construction
 The generated composition class will contain factory methods to create an instance. An instance can be created
 from a DTO of the composition, i.e. from the `UserDto` or the `AdminDto`.

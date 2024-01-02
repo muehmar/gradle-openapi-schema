@@ -1,4 +1,7 @@
 ## Change Log
+* 2.5.0
+    * Support enum as discriminator (issue `#219`)
+    * Improve error validation message for oneOf compositions with mappings (issue `#224`)
 * 2.4.1 - Fix missing deprecated annotation for oneOf compositions (issue `#218`)
 * 2.4.0
     * Support making nested optional properties required with compositions (issue `#209`)
