@@ -57,6 +57,16 @@ components:
       discriminator:
         propertyName: type
 
+    AdminOrUserDiscriminatorMapping:
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+      discriminator:
+        propertyName: type
+        mapping:
+          adm: '#/components/schemas/Admin'
+          usr: '#/components/schemas/User'
+
     OneOfMemberReference:
       oneOf:
         - $ref: '#/components/schemas/BaseOneOfMemberReference'

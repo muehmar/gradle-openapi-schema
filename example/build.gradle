@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.4.1"
+    id "com.github.muehmar.openapischema" version "2.5.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
     id 'java-test-fixtures'
@@ -59,6 +59,7 @@ def specifications =
                 [name: 'freeform', file: 'openapi-freeform.yml'],
                 [name: 'validation', file: 'openapi-validation.yml'],
                 [name: 'oneof', file: 'openapi-oneof.yml'],
+                [name: 'oneofenumdiscriminator', file: 'openapi-oneof-enum-discriminator.yml'],
                 [name: 'anyof', file: 'openapi-anyof.yml'],
                 [name: 'allof', file: 'openapi-allof.yml'],
                 [name: 'identifiers', file: 'openapi-identifiers.yml'],
@@ -244,6 +245,10 @@ openApiGenerator {
             enableValidation = false
             builderMethodPrefix = ""
 
+        }
+        oneOfEnumDiscriminator {
+            inputSpec = "$projectDir/src/main/resources/openapi-oneof-enum-discriminator.yml"
+            packageName = "com.github.muehmar.gradle.openapi.oneofenumdiscriminator"
         }
         ['71', '182', '185', '190', '191', '192', '193', '195', '209'].forEach {issueNumber -> {
             "${issueNumber}" {
