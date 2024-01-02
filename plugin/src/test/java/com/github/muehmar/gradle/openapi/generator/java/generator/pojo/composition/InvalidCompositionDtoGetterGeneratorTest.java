@@ -82,6 +82,19 @@ class InvalidCompositionDtoGetterGeneratorTest {
   }
 
   @Test
+  @SnapshotName("oneOfPojoWithEnumDiscriminator")
+  void generate_when_oneOfPojoWithEnumDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        invalidCompositionDtoGetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojoWithEnumDiscriminator(), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("anyOfPojo")
   void generate_when_anyOfPojo_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =

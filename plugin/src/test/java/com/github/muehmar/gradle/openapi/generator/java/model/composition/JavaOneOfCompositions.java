@@ -17,6 +17,13 @@ public class JavaOneOfCompositions {
       NonEmptyList<JavaPojo> pojos, UntypedDiscriminator discriminator) {
     final DiscriminatorType discriminatorType =
         DiscriminatorType.fromStringType(StringType.noFormat());
+    return fromPojosAndDiscriminator(pojos, discriminator, discriminatorType);
+  }
+
+  public static JavaOneOfComposition fromPojosAndDiscriminator(
+      NonEmptyList<JavaPojo> pojos,
+      UntypedDiscriminator discriminator,
+      DiscriminatorType discriminatorType) {
     return new JavaOneOfComposition(
         new JavaComposition(assertAllObjectPojos(pojos)),
         Optional.of(

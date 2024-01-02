@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.composition;
 
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -37,13 +36,5 @@ public class UntypedDiscriminator {
 
   Optional<Map<String, Name>> getMapping() {
     return mapping;
-  }
-
-  public String getValueForSchemaName(Name schemaName) {
-    return mapping.orElse(Collections.emptyMap()).entrySet().stream()
-        .filter(e -> e.getValue().equals(schemaName))
-        .findFirst()
-        .map(Map.Entry::getKey)
-        .orElse(schemaName.asString());
   }
 }

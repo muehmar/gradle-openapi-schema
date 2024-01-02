@@ -269,9 +269,9 @@ public class FoldMethodGenerator {
               discriminator ->
                   String.format(
                       "\"%s\".equals(%s) && ",
-                      discriminator.getValueForSchemaName(
+                      discriminator.getStringValueForSchemaName(
                           memberPojo.getSchemaName().getOriginalName()),
-                      discriminator.getPropertyName()))
+                      discriminator.discriminatorPropertyToStringValue()))
           .orElse("");
     }
 

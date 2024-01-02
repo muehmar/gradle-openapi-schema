@@ -55,7 +55,10 @@ public class DiscriminatorValidationMethodGenerator {
             (p, s, w) -> w.println("if (%s == null) {", p.getDiscriminator().getPropertyName()))
         .append(ofWriterFunction(w -> w.tab(1).println("return false;")))
         .append(constant("}"))
-        .append((p, s, w) -> w.println("switch(%s) {", p.getDiscriminator().getPropertyName()))
+        .append(
+            (p, s, w) ->
+                w.println(
+                    "switch(%s) {", p.getDiscriminator().discriminatorPropertyToStringValue()))
         .appendList(gen().indent(1), PojoAndDiscriminator::getPojos)
         .append(constant("}"))
         .append(constant("return false;"));
@@ -94,7 +97,7 @@ public class DiscriminatorValidationMethodGenerator {
     JavaDiscriminator discriminator;
 
     String getDiscriminatorValue() {
-      return discriminator.getValueForSchemaName(pojo.getSchemaName().getOriginalName());
+      return discriminator.getStringValueForSchemaName(pojo.getSchemaName().getOriginalName());
     }
 
     Name isValidAgainstMethodName() {

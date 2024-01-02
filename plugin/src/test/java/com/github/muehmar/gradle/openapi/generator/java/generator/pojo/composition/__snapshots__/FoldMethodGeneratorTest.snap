@@ -260,3 +260,58 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
 }
 
 ]
+
+
+OneOfPojoWithEnumDiscriminator=[
+java.util.function.Function
+java.util.function.Supplier
+
+/**
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br>
+ * <br>
+ * I.e. if the JSON was valid against the schema 'Yellow', the mapping method
+ * {@code onYellowDto} gets executed with the {@link YellowDto} as argument.<br>
+ * <br>
+ * Unlike {@link OneOfDto#foldOneOf(Function, Function)}, this method accepts as
+ * last parameter a {@link Supplier} which gets called in case this instance is not
+ * valid against exactly one of the defined oneOf schemas and its value is
+ * returned.
+ */
+public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto, Supplier<T> onInvalid) {
+  if ("yellow".equals(color.getValue()) && isValidAgainstYellowDto()) {
+    return onYellowDto.apply(asYellowDto());
+  }
+  else if ("orange".equals(color.getValue()) && isValidAgainstOrangeDto()) {
+    return onOrangeDto.apply(asOrangeDto());
+  }
+  else {
+    return onInvalid.get();
+  }
+}
+
+/**
+ * Folds the oneOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against exactly one of the specified schemas,
+ * its corresponding mapping function gets executed with the DTO as input and its
+ * result is returned.<br>
+ * <br>
+ * I.e. if the JSON was valid against the schema 'Yellow', the mapping method
+ * {@code onYellowDto} gets executed with the {@link YellowDto} as argument.<br>
+ * <br>
+ * This method assumes this instance is either manually or automatically validated,
+ * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
+ * valid against no schema or multiple schemas, it will throw an {@link
+ * IllegalStateException}.
+ */
+public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto) {
+  return foldOneOf(
+    onYellowDto,
+    onOrangeDto,
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfDto: Not valid against one of the schemas [YellowDto, OrangeDto].");}
+  );
+}
+
+]

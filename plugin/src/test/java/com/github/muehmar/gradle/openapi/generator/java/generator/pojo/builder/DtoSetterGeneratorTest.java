@@ -71,6 +71,18 @@ class DtoSetterGeneratorTest {
   }
 
   @Test
+  @SnapshotName("oneOfPojoWithEnumDiscriminator")
+  void generator_when_calledWithOneOfPojoWithEnumDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    final JavaObjectPojo oneOfPojo = JavaPojos.oneOfPojoWithEnumDiscriminator();
+
+    final Writer writer = generator.generate(oneOfPojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("noBuilderSetMethodPrefix")
   void generator_when_noBuilderSetMethodPrefix_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();

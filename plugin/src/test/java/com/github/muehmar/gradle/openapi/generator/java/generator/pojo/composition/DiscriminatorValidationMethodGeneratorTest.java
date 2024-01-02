@@ -45,6 +45,19 @@ class DiscriminatorValidationMethodGeneratorTest {
   }
 
   @Test
+  @SnapshotName("EnumDiscriminator")
+  void generate_when_enumDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        discriminatorValidationMethodGenerator();
+
+    final JavaObjectPojo pojo = JavaPojos.oneOfPojoWithEnumDiscriminator();
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("DiscriminatorWithoutMapping")
   void generate_when_calledWithDiscriminator_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =

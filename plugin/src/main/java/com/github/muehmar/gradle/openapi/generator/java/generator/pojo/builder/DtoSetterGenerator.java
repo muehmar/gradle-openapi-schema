@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOn
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;
@@ -75,7 +76,7 @@ public class DtoSetterGenerator {
         .append(
             (member, s, w) ->
                 w.println(
-                    "%s(\"%s\");",
+                    "%s(%s);",
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getDiscriminatorValue()))
         .filter(PojosAndMember::isDiscriminatorMember);
@@ -157,13 +158,20 @@ public class DtoSetterGenerator {
     }
 
     public String getDiscriminatorValue() {
+      final Name schemaName = composedPojo.getSchemaName().getOriginalName();
       return parentPojo
           .getOneOfComposition()
           .flatMap(JavaOneOfComposition::getDiscriminator)
           .map(
               discriminator ->
                   discriminator.getValueForSchemaName(
-                      composedPojo.getSchemaName().getOriginalName()))
+                      schemaName,
+                      strValue -> String.format("\"%s\"", strValue),
+                      enumName ->
+                          String.format(
+                              "%s.%s",
+                              member.getJavaType().getQualifiedClassName().getClassName(),
+                              enumName)))
           .orElse("");
     }
 

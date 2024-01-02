@@ -60,6 +60,25 @@ protected boolean isValidAgainstTheCorrectSchema() {
 ]
 
 
+EnumDiscriminator=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+
+@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@JsonIgnore
+private boolean isValidAgainstTheCorrectSchema() {
+  if (color == null) {
+    return false;
+  }
+  switch(color.getValue()) {
+    case "yellow": return isValidAgainstYellowDto();
+    case "orange": return isValidAgainstOrangeDto();
+  }
+  return false;
+}
+]
+
+
 IllegalIdentifierPojoDiscriminatorWithoutMapping=[
 com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue

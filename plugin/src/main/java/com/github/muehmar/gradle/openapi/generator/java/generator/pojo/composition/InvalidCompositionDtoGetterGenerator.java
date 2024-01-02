@@ -91,9 +91,7 @@ public class InvalidCompositionDtoGetterGenerator {
       oneOfDiscriminatorHandling() {
     final Generator<DiscriminatorAndMemberPojo, PojoSettings> singleCaseStatement =
         Generator.<DiscriminatorAndMemberPojo, PojoSettings>emptyGen()
-            .append(
-                (dm, s, w) ->
-                    w.println("case \"%s\":", dm.getMemberPojo().getSchemaName().getOriginalName()))
+            .append((dm, s, w) -> w.println("case \"%s\":", dm.getDiscriminatorStringValue()))
             .append(
                 (dm, s, w) ->
                     w.tab(1)
@@ -109,7 +107,10 @@ public class InvalidCompositionDtoGetterGenerator {
                 w.println("if(%s != null) {", l.head().getDiscriminator().getPropertyName()))
         .append(
             (l, s, w) ->
-                w.tab(1).println("switch(%s) {", l.head().getDiscriminator().getPropertyName()))
+                w.tab(1)
+                    .println(
+                        "switch(%s) {",
+                        l.head().discriminator.discriminatorPropertyToStringValue()))
         .appendList(singleCaseStatement, Function.identity())
         .append(constant("}"), 1)
         .append(constant("}"));
@@ -154,6 +155,11 @@ public class InvalidCompositionDtoGetterGenerator {
       return composition
           .getPojos()
           .map(memberPojo -> new DiscriminatorAndMemberPojo(discriminator, memberPojo));
+    }
+
+    public String getDiscriminatorStringValue() {
+      return discriminator.getStringValueForSchemaName(
+          memberPojo.getSchemaName().getOriginalName());
     }
   }
 }

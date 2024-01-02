@@ -106,6 +106,17 @@ class FoldMethodGeneratorTest {
   }
 
   @Test
+  @SnapshotName("OneOfPojoWithEnumDiscriminator")
+  void generate_when_oneOfPojoWithEnumDiscriminator_then_correctContent() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
+
+    final JavaObjectPojo pojo = JavaPojos.oneOfPojoWithEnumDiscriminator();
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("AnyOf")
   void generate_when_anyOf_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
