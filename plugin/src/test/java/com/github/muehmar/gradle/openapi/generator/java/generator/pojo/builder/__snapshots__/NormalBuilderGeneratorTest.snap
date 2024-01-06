@@ -17,6 +17,7 @@ public static final class Builder {
   private String requiredNullableStringVal;
   private boolean isRequiredNullableStringValPresent = false;
   private String optionalStringVal;
+  private boolean isOptionalStringValNotNull = true;
   private String optionalNullableStringVal;
   private boolean isOptionalNullableStringValNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
@@ -55,6 +56,7 @@ public static final class Builder {
   @JsonProperty("optionalStringVal")
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = optionalStringVal != null;
     return this;
   }
 
@@ -106,7 +108,7 @@ public static final class Builder {
     additionalProperties.remove("optionalStringVal");
     additionalProperties.remove("optionalNullableStringVal");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 }
 ]
@@ -127,6 +129,7 @@ public static final class Builder {
   private String requiredNullableStringVal;
   private boolean isRequiredNullableStringValPresent = false;
   private String optionalStringVal;
+  private boolean isOptionalStringValNotNull = true;
   private String optionalNullableStringVal;
   private boolean isOptionalNullableStringValNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
@@ -162,6 +165,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = optionalStringVal != null;
     return this;
   }
 
@@ -207,7 +211,7 @@ public static final class Builder {
     additionalProperties.remove("optionalStringVal");
     additionalProperties.remove("optionalNullableStringVal");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 }
 ]
@@ -233,6 +237,7 @@ public static final class Builder {
   private String requiredNullableStringVal;
   private boolean isRequiredNullableStringValPresent = false;
   private String optionalStringVal;
+  private boolean isOptionalStringValNotNull = true;
   private String optionalNullableStringVal;
   private boolean isOptionalNullableStringValNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
@@ -271,6 +276,7 @@ public static final class Builder {
   @JsonProperty("optionalStringVal")
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = optionalStringVal != null;
     return this;
   }
 
@@ -318,7 +324,7 @@ public static final class Builder {
     additionalProperties.remove("optionalStringVal");
     additionalProperties.remove("optionalNullableStringVal");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 }
 ]

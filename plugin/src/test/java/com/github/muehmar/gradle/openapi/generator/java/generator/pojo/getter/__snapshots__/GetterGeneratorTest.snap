@@ -33,6 +33,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 
 /**
@@ -56,6 +57,12 @@ public String getOptionalStringValOr(String defaultValue) {
 @Pattern(regexp="Hello")
 private String getOptionalStringValRaw() {
   return optionalStringVal;
+}
+
+@AssertTrue(message = "optionalStringVal is required to be non-null but is null")
+@JsonIgnore
+private boolean isOptionalStringValNotNull() {
+  return isOptionalStringValNotNull;
 }
 ]
 

@@ -7,6 +7,10 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTION
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 
 import ch.bluecare.commons.data.PList;
@@ -27,6 +31,8 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.*;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.provider.Arguments;
 
 public class TestJavaPojoMembers {
   public TestJavaPojoMembers() {}
@@ -340,5 +346,14 @@ public class TestJavaPojoMembers {
         .nullability(NOT_NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
+  }
+
+  private static PList<JavaPojoMember> allNecessityAndNullabilityVariants() {
+    return PList.of(
+        requiredString(), requiredNullableString(), optionalString(), optionalNullableString());
+  }
+
+  private static Stream<Arguments> allNecessityAndNullabilityVariantsTestSource() {
+    return allNecessityAndNullabilityVariants().map(Arguments::of).toStream();
   }
 }

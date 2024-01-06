@@ -39,6 +39,10 @@ public class TechnicalPojoMember {
     return new TechnicalPojoMember(name, JavaBooleanType.createPrimitive());
   }
 
+  public static TechnicalPojoMember isNotNullFlagMember(JavaName name) {
+    return new TechnicalPojoMember(name, JavaBooleanType.createPrimitive());
+  }
+
   public static TechnicalPojoMember wrapPojoMember(JavaPojoMember member) {
     return new TechnicalPojoMember(member.getName(), member.getJavaType());
   }

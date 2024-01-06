@@ -6,6 +6,7 @@ public String toString() {
     "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
     "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
     "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+    "isOptionalStringValNotNull=" + isOptionalStringValNotNull + ", " +
     "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
     "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
     "additionalProperties=" + additionalProperties +

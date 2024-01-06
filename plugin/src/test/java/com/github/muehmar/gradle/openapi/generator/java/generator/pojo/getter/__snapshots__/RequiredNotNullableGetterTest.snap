@@ -1,3 +1,39 @@
+allNecessityAndNullabilityVariants[NOT_NULLABLE_OPTIONAL]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NOT_NULLABLE_REQUIRED]=[
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+/**
+ * stringVal
+ */
+@NotNull
+@Pattern(regexp="Hello")
+public String getStringVal() {
+  return stringVal;
+}
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_OPTIONAL]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_REQUIRED]=[
+.
+.
+
+]
+
+
 requiredAndNotNullableField=[
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern

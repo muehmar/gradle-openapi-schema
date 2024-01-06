@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.member;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator.EnumContent;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNotNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -169,6 +170,10 @@ public class JavaPojoMember {
     return IsNullFlagName.fromName(name).getName();
   }
 
+  public JavaName getIsNotNullFlagName() {
+    return IsNotNullFlagName.fromName(name).getName();
+  }
+
   public JavaName getGetterName() {
     return prefixedMethodName("get");
   }
@@ -204,6 +209,9 @@ public class JavaPojoMember {
     if (isRequiredAndNullable()) {
       return PList.of(
           technicalPojoMember, TechnicalPojoMember.isPresentFlagMember(getIsPresentFlagName()));
+    } else if (isOptionalAndNotNullable()) {
+      return PList.of(
+          technicalPojoMember, TechnicalPojoMember.isNotNullFlagMember(getIsNotNullFlagName()));
     } else if (isOptionalAndNullable()) {
       return PList.of(
           technicalPojoMember, TechnicalPojoMember.isNullFlagMember(getIsNullFlagName()));

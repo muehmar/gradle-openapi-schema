@@ -8,6 +8,7 @@ public int hashCode() {
     requiredNullableStringVal,
     isRequiredNullableStringValPresent,
     optionalStringVal,
+    isOptionalStringValNotNull,
     optionalNullableStringVal,
     isOptionalNullableStringValNull,
     additionalProperties
