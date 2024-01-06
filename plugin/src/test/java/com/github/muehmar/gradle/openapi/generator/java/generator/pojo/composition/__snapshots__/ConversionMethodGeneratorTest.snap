@@ -40,6 +40,7 @@ private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
     requiredNullableStringVal,
     isRequiredNullableStringValPresent,
     optionalStringVal,
+    isOptionalStringValNotNull,
     optionalNullableStringVal,
     isOptionalNullableStringValNull,
     props

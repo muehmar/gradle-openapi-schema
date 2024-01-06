@@ -1,8 +1,69 @@
+allNecessityAndNullabilityVariants[NOT_NULLABLE_OPTIONAL]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.Pattern
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public Optional<String> getOptionalStringVal() {
+  return Optional.ofNullable(optionalStringVal);
+}
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public String getOptionalStringValOr(String defaultValue) {
+  return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
+}
+
+@JsonProperty("optionalStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Pattern(regexp="Hello")
+private String getOptionalStringValRaw() {
+  return optionalStringVal;
+}
+
+@AssertTrue(message = "optionalStringVal is required to be non-null but is null")
+@JsonIgnore
+private boolean isOptionalStringValNotNull() {
+  return isOptionalStringValNotNull;
+}
+]
+
+
+allNecessityAndNullabilityVariants[NOT_NULLABLE_REQUIRED]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_OPTIONAL]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_REQUIRED]=[
+.
+.
+
+]
+
+
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_deprecatedAnnotation_then_correctOutputAndRefs=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 
 /**
@@ -32,11 +93,23 @@ public String getStringValOr(String defaultValue) {
 public String getStringValRaw() {
   return stringVal;
 }
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@Deprecated
+@AssertTrue(message = "stringVal is required to be non-null but is null")
+@JsonIgnore
+public boolean isStringValNotNull() {
+  return isStringValNotNull;
+}
 ]
 
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_disabledJacksonAndEnabledValidation_then_correctOutputAndRefs=[
 java.util.Optional
+javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 
 /**
@@ -56,6 +129,11 @@ public String getStringValOr(String defaultValue) {
 @Pattern(regexp="Hello")
 private String getStringValRaw() {
   return stringVal;
+}
+
+@AssertTrue(message = "stringVal is required to be non-null but is null")
+private boolean isStringValNotNull() {
+  return isStringValNotNull;
 }
 ]
 
@@ -84,6 +162,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 
 /**
@@ -107,6 +186,12 @@ public String getStringValOr(String defaultValue) {
 @Pattern(regexp="Hello")
 private String getStringValRaw() {
   return stringVal;
+}
+
+@AssertTrue(message = "stringVal is required to be non-null but is null")
+@JsonIgnore
+private boolean isStringValNotNull() {
+  return isStringValNotNull;
 }
 ]
 
@@ -136,6 +221,7 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
+javax.validation.constraints.AssertTrue
 javax.validation.constraints.Max
 javax.validation.constraints.Min
 javax.validation.constraints.Size
@@ -161,5 +247,11 @@ public List<Integer> getListValOr(List<Integer> defaultValue) {
 @Size(min = 5)
 private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
   return listVal;
+}
+
+@AssertTrue(message = "listVal is required to be non-null but is null")
+@JsonIgnore
+private boolean isListValNotNull() {
+  return isListValNotNull;
 }
 ]

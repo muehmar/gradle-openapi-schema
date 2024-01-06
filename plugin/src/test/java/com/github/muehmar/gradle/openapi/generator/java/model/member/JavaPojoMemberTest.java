@@ -108,7 +108,8 @@ class JavaPojoMemberTest {
   public static Stream<Arguments> membersForCreatingTechnicalMembers() {
     return Stream.of(
         arguments(requiredBirthdate(), "birthdate"),
-        arguments(TestJavaPojoMembers.optionalString(), "optionalStringVal"),
+        arguments(
+            TestJavaPojoMembers.optionalString(), "optionalStringVal,isOptionalStringValNotNull"),
         arguments(
             TestJavaPojoMembers.requiredNullableString(),
             "requiredNullableStringVal,isRequiredNullableStringValPresent"),

@@ -1339,9 +1339,13 @@ public class UserDto {
   private final String email;
   private final Double height;
   private final Long level;
+  private final boolean isLevelNotNull;
   private final String uppercase;
+  private final boolean isUppercaseNotNull;
   private final Long multipleOfValue;
+  private final boolean isMultipleOfValueNotNull;
   private final AnotherPojo anotherPojo;
+  private final boolean isAnotherPojoNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
@@ -1352,9 +1356,13 @@ public class UserDto {
       String email,
       Double height,
       Long level,
+      boolean isLevelNotNull,
       String uppercase,
+      boolean isUppercaseNotNull,
       Long multipleOfValue,
+      boolean isMultipleOfValueNotNull,
       AnotherPojo anotherPojo,
+      boolean isAnotherPojoNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.id = id;
@@ -1364,9 +1372,13 @@ public class UserDto {
     this.email = email;
     this.height = height;
     this.level = level;
+    this.isLevelNotNull = isLevelNotNull;
     this.uppercase = uppercase;
+    this.isUppercaseNotNull = isUppercaseNotNull;
     this.multipleOfValue = multipleOfValue;
+    this.isMultipleOfValueNotNull = isMultipleOfValueNotNull;
     this.anotherPojo = anotherPojo;
+    this.isAnotherPojoNotNull = isAnotherPojoNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -1444,6 +1456,11 @@ public class UserDto {
     return level;
   }
 
+  @AssertTrue(message = "level is required to be non-null but is null")
+  private boolean isLevelNotNull() {
+    return isLevelNotNull;
+  }
+
   /**
    * Something uppercase
    */
@@ -1461,6 +1478,11 @@ public class UserDto {
   @Pattern(regexp="^(\\d[A-Z]*)")
   private String getUppercaseRaw() {
     return uppercase;
+  }
+
+  @AssertTrue(message = "uppercase is required to be non-null but is null")
+  private boolean isUppercaseNotNull() {
+    return isUppercaseNotNull;
   }
 
   /**
@@ -1481,6 +1503,11 @@ public class UserDto {
     return multipleOfValue;
   }
 
+  @AssertTrue(message = "multipleOfValue is required to be non-null but is null")
+  private boolean isMultipleOfValueNotNull() {
+    return isMultipleOfValueNotNull;
+  }
+
   /**
    * Another Pojo
    */
@@ -1498,6 +1525,11 @@ public class UserDto {
   @Valid
   private AnotherPojo getAnotherPojoRaw() {
     return anotherPojo;
+  }
+
+  @AssertTrue(message = "anotherPojo is required to be non-null but is null")
+  private boolean isAnotherPojoNotNull() {
+    return isAnotherPojoNotNull;
   }
 
   public Map<String, Object> getAdditionalProperties() {
@@ -1536,98 +1568,98 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase.orElse(null), isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue.orElse(null), isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo.orElse(null), isAnotherPojoNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -1690,7 +1722,7 @@ public class UserDto {
         return 5 <= level;
       }
 
-      return true;
+      return isLevelNotNull;
     }
 
     private boolean isUppercaseValid() {
@@ -1698,7 +1730,7 @@ public class UserDto {
         return java.util.regex.Pattern.matches("^(\\d[A-Z]*)", uppercase);
       }
 
-      return true;
+      return isUppercaseNotNull;
     }
 
     private boolean isMultipleOfValueValid() {
@@ -1706,7 +1738,7 @@ public class UserDto {
         return isMultipleOfValueMultipleOfValid();
       }
 
-      return true;
+      return isMultipleOfValueNotNull;
     }
 
     private boolean isAnotherPojoValid() {
@@ -1714,7 +1746,7 @@ public class UserDto {
         return anotherPojo.isValid();
       }
 
-      return true;
+      return isAnotherPojoNotNull;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -1763,9 +1795,13 @@ public class UserDto {
         && Objects.deepEquals(this.email, other.email)
         && Objects.deepEquals(this.height, other.height)
         && Objects.deepEquals(this.level, other.level)
+        && Objects.deepEquals(this.isLevelNotNull, other.isLevelNotNull)
         && Objects.deepEquals(this.uppercase, other.uppercase)
+        && Objects.deepEquals(this.isUppercaseNotNull, other.isUppercaseNotNull)
         && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
+        && Objects.deepEquals(this.isMultipleOfValueNotNull, other.isMultipleOfValueNotNull)
         && Objects.deepEquals(this.anotherPojo, other.anotherPojo)
+        && Objects.deepEquals(this.isAnotherPojoNotNull, other.isAnotherPojoNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -1779,9 +1815,13 @@ public class UserDto {
       email,
       height,
       level,
+      isLevelNotNull,
       uppercase,
+      isUppercaseNotNull,
       multipleOfValue,
+      isMultipleOfValueNotNull,
       anotherPojo,
+      isAnotherPojoNotNull,
       additionalProperties
     );
   }
@@ -1796,9 +1836,13 @@ public class UserDto {
       "email=" + "'" + email + "'" + ", " +
       "height=" + height + ", " +
       "level=" + level + ", " +
+      "isLevelNotNull=" + isLevelNotNull + ", " +
       "uppercase=" + "'" + uppercase + "'" + ", " +
+      "isUppercaseNotNull=" + isUppercaseNotNull + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
+      "isMultipleOfValueNotNull=" + isMultipleOfValueNotNull + ", " +
       "anotherPojo=" + anotherPojo + ", " +
+      "isAnotherPojoNotNull=" + isAnotherPojoNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -1816,9 +1860,13 @@ public class UserDto {
     private String email;
     private Double height;
     private Long level;
+    private boolean isLevelNotNull = true;
     private String uppercase;
+    private boolean isUppercaseNotNull = true;
     private Long multipleOfValue;
+    private boolean isMultipleOfValueNotNull = true;
     private AnotherPojo anotherPojo;
+    private boolean isAnotherPojoNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -1874,6 +1922,7 @@ public class UserDto {
      */
     public Builder setLevel(Long level) {
       this.level = level;
+      this.isLevelNotNull = level != null;
       return this;
     }
 
@@ -1890,6 +1939,7 @@ public class UserDto {
      */
     public Builder setUppercase(String uppercase) {
       this.uppercase = uppercase;
+      this.isUppercaseNotNull = uppercase != null;
       return this;
     }
 
@@ -1906,6 +1956,7 @@ public class UserDto {
      */
     public Builder setMultipleOfValue(Long multipleOfValue) {
       this.multipleOfValue = multipleOfValue;
+      this.isMultipleOfValueNotNull = multipleOfValue != null;
       return this;
     }
 
@@ -1922,6 +1973,7 @@ public class UserDto {
      */
     public Builder setAnotherPojo(AnotherPojo anotherPojo) {
       this.anotherPojo = anotherPojo;
+      this.isAnotherPojoNotNull = anotherPojo != null;
       return this;
     }
 
@@ -1955,7 +2007,7 @@ public class UserDto {
       additionalProperties.remove("multipleOfValue");
       additionalProperties.remove("anotherPojo");
 
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+      return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
     }
   }
 
@@ -1995,9 +2047,13 @@ public class UserDto {
   private final String email;
   private final Double height;
   private final Long level;
+  private final boolean isLevelNotNull;
   private final String uppercase;
+  private final boolean isUppercaseNotNull;
   private final Long multipleOfValue;
+  private final boolean isMultipleOfValueNotNull;
   private final AnotherPojo anotherPojo;
+  private final boolean isAnotherPojoNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
@@ -2008,9 +2064,13 @@ public class UserDto {
       String email,
       Double height,
       Long level,
+      boolean isLevelNotNull,
       String uppercase,
+      boolean isUppercaseNotNull,
       Long multipleOfValue,
+      boolean isMultipleOfValueNotNull,
       AnotherPojo anotherPojo,
+      boolean isAnotherPojoNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.id = id;
@@ -2020,9 +2080,13 @@ public class UserDto {
     this.email = email;
     this.height = height;
     this.level = level;
+    this.isLevelNotNull = isLevelNotNull;
     this.uppercase = uppercase;
+    this.isUppercaseNotNull = isUppercaseNotNull;
     this.multipleOfValue = multipleOfValue;
+    this.isMultipleOfValueNotNull = isMultipleOfValueNotNull;
     this.anotherPojo = anotherPojo;
+    this.isAnotherPojoNotNull = isAnotherPojoNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -2100,6 +2164,11 @@ public class UserDto {
     return level;
   }
 
+  @AssertTrue(message = "level is required to be non-null but is null")
+  private boolean isLevelNotNull() {
+    return isLevelNotNull;
+  }
+
   /**
    * Something uppercase
    */
@@ -2117,6 +2186,11 @@ public class UserDto {
   @Pattern(regexp="^(\\d[A-Z]*)")
   private String getUppercaseRaw() {
     return uppercase;
+  }
+
+  @AssertTrue(message = "uppercase is required to be non-null but is null")
+  private boolean isUppercaseNotNull() {
+    return isUppercaseNotNull;
   }
 
   /**
@@ -2137,6 +2211,11 @@ public class UserDto {
     return multipleOfValue;
   }
 
+  @AssertTrue(message = "multipleOfValue is required to be non-null but is null")
+  private boolean isMultipleOfValueNotNull() {
+    return isMultipleOfValueNotNull;
+  }
+
   /**
    * Another Pojo
    */
@@ -2154,6 +2233,11 @@ public class UserDto {
   @Valid
   private AnotherPojo getAnotherPojoRaw() {
     return anotherPojo;
+  }
+
+  @AssertTrue(message = "anotherPojo is required to be non-null but is null")
+  private boolean isAnotherPojoNotNull() {
+    return isAnotherPojoNotNull;
   }
 
   public Map<String, Object> getAdditionalProperties() {
@@ -2192,98 +2276,98 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase.orElse(null), multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase.orElse(null), isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue.orElse(null), anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue.orElse(null), isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo.orElse(null), additionalProperties);
+    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo.orElse(null), isAnotherPojoNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -2346,7 +2430,7 @@ public class UserDto {
         return 5 <= level;
       }
 
-      return true;
+      return isLevelNotNull;
     }
 
     private boolean isUppercaseValid() {
@@ -2354,7 +2438,7 @@ public class UserDto {
         return java.util.regex.Pattern.matches("^(\\d[A-Z]*)", uppercase);
       }
 
-      return true;
+      return isUppercaseNotNull;
     }
 
     private boolean isMultipleOfValueValid() {
@@ -2362,7 +2446,7 @@ public class UserDto {
         return isMultipleOfValueMultipleOfValid();
       }
 
-      return true;
+      return isMultipleOfValueNotNull;
     }
 
     private boolean isAnotherPojoValid() {
@@ -2370,7 +2454,7 @@ public class UserDto {
         return anotherPojo.isValid();
       }
 
-      return true;
+      return isAnotherPojoNotNull;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -2419,9 +2503,13 @@ public class UserDto {
         && Objects.deepEquals(this.email, other.email)
         && Objects.deepEquals(this.height, other.height)
         && Objects.deepEquals(this.level, other.level)
+        && Objects.deepEquals(this.isLevelNotNull, other.isLevelNotNull)
         && Objects.deepEquals(this.uppercase, other.uppercase)
+        && Objects.deepEquals(this.isUppercaseNotNull, other.isUppercaseNotNull)
         && Objects.deepEquals(this.multipleOfValue, other.multipleOfValue)
+        && Objects.deepEquals(this.isMultipleOfValueNotNull, other.isMultipleOfValueNotNull)
         && Objects.deepEquals(this.anotherPojo, other.anotherPojo)
+        && Objects.deepEquals(this.isAnotherPojoNotNull, other.isAnotherPojoNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -2435,9 +2523,13 @@ public class UserDto {
       email,
       height,
       level,
+      isLevelNotNull,
       uppercase,
+      isUppercaseNotNull,
       multipleOfValue,
+      isMultipleOfValueNotNull,
       anotherPojo,
+      isAnotherPojoNotNull,
       additionalProperties
     );
   }
@@ -2452,9 +2544,13 @@ public class UserDto {
       "email=" + "'" + email + "'" + ", " +
       "height=" + height + ", " +
       "level=" + level + ", " +
+      "isLevelNotNull=" + isLevelNotNull + ", " +
       "uppercase=" + "'" + uppercase + "'" + ", " +
+      "isUppercaseNotNull=" + isUppercaseNotNull + ", " +
       "multipleOfValue=" + multipleOfValue + ", " +
+      "isMultipleOfValueNotNull=" + isMultipleOfValueNotNull + ", " +
       "anotherPojo=" + anotherPojo + ", " +
+      "isAnotherPojoNotNull=" + isAnotherPojoNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -2472,9 +2568,13 @@ public class UserDto {
     private String email;
     private Double height;
     private Long level;
+    private boolean isLevelNotNull = true;
     private String uppercase;
+    private boolean isUppercaseNotNull = true;
     private Long multipleOfValue;
+    private boolean isMultipleOfValueNotNull = true;
     private AnotherPojo anotherPojo;
+    private boolean isAnotherPojoNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -2530,6 +2630,7 @@ public class UserDto {
      */
     public Builder setLevel(Long level) {
       this.level = level;
+      this.isLevelNotNull = level != null;
       return this;
     }
 
@@ -2546,6 +2647,7 @@ public class UserDto {
      */
     public Builder setUppercase(String uppercase) {
       this.uppercase = uppercase;
+      this.isUppercaseNotNull = uppercase != null;
       return this;
     }
 
@@ -2562,6 +2664,7 @@ public class UserDto {
      */
     public Builder setMultipleOfValue(Long multipleOfValue) {
       this.multipleOfValue = multipleOfValue;
+      this.isMultipleOfValueNotNull = multipleOfValue != null;
       return this;
     }
 
@@ -2578,6 +2681,7 @@ public class UserDto {
      */
     public Builder setAnotherPojo(AnotherPojo anotherPojo) {
       this.anotherPojo = anotherPojo;
+      this.isAnotherPojoNotNull = anotherPojo != null;
       return this;
     }
 
@@ -2611,7 +2715,7 @@ public class UserDto {
       additionalProperties.remove("multipleOfValue");
       additionalProperties.remove("anotherPojo");
 
-      return new UserDto(id, name, lastName, nickName, email, height, level, uppercase, multipleOfValue, anotherPojo, additionalProperties);
+      return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
     }
   }
 
@@ -2638,17 +2742,20 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
       LanguageEnum language,
+      boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.isLanguageNotNull = isLanguageNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -2752,28 +2859,28 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null), additionalProperties);
+    return new UserDto(id, name, language.orElse(null), isLanguageNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -2790,7 +2897,7 @@ public class UserDto {
     }
 
     private boolean isLanguageValid() {
-      return true;
+      return isLanguageNotNull;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -2823,6 +2930,7 @@ public class UserDto {
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
         && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.isLanguageNotNull, other.isLanguageNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -2832,6 +2940,7 @@ public class UserDto {
       id,
       name,
       language,
+      isLanguageNotNull,
       additionalProperties
     );
   }
@@ -2842,6 +2951,7 @@ public class UserDto {
       "id=" + id + ", " +
       "name=" + "'" + name + "'" + ", " +
       "language=" + language + ", " +
+      "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -2854,6 +2964,7 @@ public class UserDto {
     private Long id;
     private String name;
     private LanguageEnum language;
+    private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -2877,6 +2988,7 @@ public class UserDto {
      */
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
+      this.isLanguageNotNull = language != null;
       return this;
     }
 
@@ -2903,7 +3015,7 @@ public class UserDto {
       additionalProperties.remove("name");
       additionalProperties.remove("language");
 
-      return new UserDto(id, name, language, additionalProperties);
+      return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
     }
   }
 
@@ -4095,17 +4207,20 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
       LanguageEnum language,
+      boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.isLanguageNotNull = isLanguageNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -4221,28 +4336,28 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null), additionalProperties);
+    return new UserDto(id, name, language.orElse(null), isLanguageNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -4259,7 +4374,7 @@ public class UserDto {
     }
 
     private boolean isLanguageValid() {
-      return true;
+      return isLanguageNotNull;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -4292,6 +4407,7 @@ public class UserDto {
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
         && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.isLanguageNotNull, other.isLanguageNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -4301,6 +4417,7 @@ public class UserDto {
       id,
       name,
       language,
+      isLanguageNotNull,
       additionalProperties
     );
   }
@@ -4311,6 +4428,7 @@ public class UserDto {
       "id=" + id + ", " +
       "name=" + "'" + name + "'" + ", " +
       "language=" + language + ", " +
+      "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -4325,6 +4443,7 @@ public class UserDto {
     private Long id;
     private String name;
     private LanguageEnum language;
+    private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -4351,6 +4470,7 @@ public class UserDto {
     @JsonProperty("language")
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
+      this.isLanguageNotNull = language != null;
       return this;
     }
 
@@ -4378,7 +4498,7 @@ public class UserDto {
       additionalProperties.remove("name");
       additionalProperties.remove("language");
 
-      return new UserDto(id, name, language, additionalProperties);
+      return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
     }
   }
 
@@ -4405,17 +4525,20 @@ public class UserDto {
   private final Long id;
   private final String name;
   private final LanguageEnum language;
+  private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
       LanguageEnum language,
+      boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.id = id;
     this.name = name;
     this.language = language;
+    this.isLanguageNotNull = isLanguageNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -4519,28 +4642,28 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language, additionalProperties);
+    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null), additionalProperties);
+    return new UserDto(id, name, language.orElse(null), isLanguageNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -4557,7 +4680,7 @@ public class UserDto {
     }
 
     private boolean isLanguageValid() {
-      return true;
+      return isLanguageNotNull;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -4590,6 +4713,7 @@ public class UserDto {
     return Objects.deepEquals(this.id, other.id)
         && Objects.deepEquals(this.name, other.name)
         && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.isLanguageNotNull, other.isLanguageNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -4599,6 +4723,7 @@ public class UserDto {
       id,
       name,
       language,
+      isLanguageNotNull,
       additionalProperties
     );
   }
@@ -4609,6 +4734,7 @@ public class UserDto {
       "id=" + id + ", " +
       "name=" + "'" + name + "'" + ", " +
       "language=" + language + ", " +
+      "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -4622,6 +4748,7 @@ public class UserDto {
     private Long id;
     private String name;
     private LanguageEnum language;
+    private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -4645,6 +4772,7 @@ public class UserDto {
      */
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
+      this.isLanguageNotNull = language != null;
       return this;
     }
 
@@ -4671,7 +4799,7 @@ public class UserDto {
       additionalProperties.remove("name");
       additionalProperties.remove("language");
 
-      return new UserDto(id, name, language, additionalProperties);
+      return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
     }
   }
 
@@ -4709,6 +4837,7 @@ public class NecessityAndNullabilityDto {
   private final String requiredNullableStringVal;
   private final boolean isRequiredNullableStringValPresent;
   private final String optionalStringVal;
+  private final boolean isOptionalStringValNotNull;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
   private final Map<String, Object> additionalProperties;
@@ -4718,6 +4847,7 @@ public class NecessityAndNullabilityDto {
       String requiredNullableStringVal,
       boolean isRequiredNullableStringValPresent,
       String optionalStringVal,
+      boolean isOptionalStringValNotNull,
       String optionalNullableStringVal,
       boolean isOptionalNullableStringValNull,
       Map<String, Object> additionalProperties
@@ -4726,6 +4856,7 @@ public class NecessityAndNullabilityDto {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
     this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = isOptionalStringValNotNull;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
@@ -4791,6 +4922,12 @@ public class NecessityAndNullabilityDto {
     return optionalStringVal;
   }
 
+  @AssertTrue(message = "optionalStringVal is required to be non-null but is null")
+  @JsonIgnore
+  private boolean isOptionalStringValNotNull() {
+    return isOptionalStringValNotNull;
+  }
+
   /**
    * OptionalNullableStringVal
    */
@@ -4841,49 +4978,49 @@ public class NecessityAndNullabilityDto {
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, false, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, false, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
   }
 
   boolean isValid() {
@@ -4912,7 +5049,7 @@ public class NecessityAndNullabilityDto {
         return java.util.regex.Pattern.matches("Hello", optionalStringVal);
       }
 
-      return true;
+      return isOptionalStringValNotNull;
     }
 
     private boolean isOptionalNullableStringValValid() {
@@ -4953,6 +5090,7 @@ public class NecessityAndNullabilityDto {
         && Objects.deepEquals(this.requiredNullableStringVal, other.requiredNullableStringVal)
         && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
         && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
+        && Objects.deepEquals(this.isOptionalStringValNotNull, other.isOptionalStringValNotNull)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
         && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
@@ -4965,6 +5103,7 @@ public class NecessityAndNullabilityDto {
       requiredNullableStringVal,
       isRequiredNullableStringValPresent,
       optionalStringVal,
+      isOptionalStringValNotNull,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       additionalProperties
@@ -4978,6 +5117,7 @@ public class NecessityAndNullabilityDto {
       "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
       "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
       "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+      "isOptionalStringValNotNull=" + isOptionalStringValNotNull + ", " +
       "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
       "additionalProperties=" + additionalProperties +
@@ -4994,6 +5134,7 @@ public class NecessityAndNullabilityDto {
     private String requiredNullableStringVal;
     private boolean isRequiredNullableStringValPresent = false;
     private String optionalStringVal;
+    private boolean isOptionalStringValNotNull = true;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
     private Map<String, Object> additionalProperties = new HashMap<>();
@@ -5032,6 +5173,7 @@ public class NecessityAndNullabilityDto {
     @JsonProperty("optionalStringVal")
     public Builder setOptionalStringVal(String optionalStringVal) {
       this.optionalStringVal = optionalStringVal;
+      this.isOptionalStringValNotNull = optionalStringVal != null;
       return this;
     }
 
@@ -5079,7 +5221,7 @@ public class NecessityAndNullabilityDto {
       additionalProperties.remove("optionalStringVal");
       additionalProperties.remove("optionalNullableStringVal");
 
-      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
     }
   }
 
@@ -7348,19 +7490,23 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.constraints.AssertTrue;
 
 /**
  * User of the Application
  */
 public class UserDto {
   private final LanguageEnum language;
+  private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       LanguageEnum language,
+      boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.language = language;
+    this.isLanguageNotNull = isLanguageNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -7437,6 +7583,11 @@ public class UserDto {
     return language;
   }
 
+  @AssertTrue(message = "language is required to be non-null but is null")
+  private boolean isLanguageNotNull() {
+    return isLanguageNotNull;
+  }
+
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
   }
@@ -7464,7 +7615,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language, additionalProperties);
+    return new UserDto(language, isLanguageNotNull, additionalProperties);
   }
 
   /**
@@ -7473,7 +7624,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null), additionalProperties);
+    return new UserDto(language.orElse(null), isLanguageNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -7482,7 +7633,7 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
-      return true;
+      return isLanguageNotNull;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -7509,6 +7660,7 @@ public class UserDto {
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.isLanguageNotNull, other.isLanguageNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -7516,6 +7668,7 @@ public class UserDto {
   public int hashCode() {
     return Objects.hash(
       language,
+      isLanguageNotNull,
       additionalProperties
     );
   }
@@ -7524,6 +7677,7 @@ public class UserDto {
   public String toString() {
     return "UserDto{" +
       "language=" + language + ", " +
+      "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -7535,6 +7689,7 @@ public class UserDto {
   public static final class Builder {
 
     private LanguageEnum language;
+    private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -7544,6 +7699,7 @@ public class UserDto {
      */
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
+      this.isLanguageNotNull = language != null;
       return this;
     }
 
@@ -7570,7 +7726,7 @@ public class UserDto {
     public UserDto build() {
       additionalProperties.remove("language");
 
-      return new UserDto(language, additionalProperties);
+      return new UserDto(language, isLanguageNotNull, additionalProperties);
     }
   }
 
@@ -7597,6 +7753,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.constraints.AssertTrue;
 
 /**
  * User of the Application
@@ -7604,13 +7761,16 @@ import java.util.stream.Stream;
 @JsonDeserialize(builder = UserDto.Builder.class)
 public class UserDto {
   private final LanguageEnum language;
+  private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       LanguageEnum language,
+      boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.language = language;
+    this.isLanguageNotNull = isLanguageNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -7694,6 +7854,12 @@ public class UserDto {
     return language;
   }
 
+  @AssertTrue(message = "language is required to be non-null but is null")
+  @JsonIgnore
+  private boolean isLanguageNotNull() {
+    return isLanguageNotNull;
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -7723,7 +7889,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language, additionalProperties);
+    return new UserDto(language, isLanguageNotNull, additionalProperties);
   }
 
   /**
@@ -7732,7 +7898,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null), additionalProperties);
+    return new UserDto(language.orElse(null), isLanguageNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -7741,7 +7907,7 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
-      return true;
+      return isLanguageNotNull;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -7768,6 +7934,7 @@ public class UserDto {
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final UserDto other = (UserDto) obj;
     return Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.isLanguageNotNull, other.isLanguageNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -7775,6 +7942,7 @@ public class UserDto {
   public int hashCode() {
     return Objects.hash(
       language,
+      isLanguageNotNull,
       additionalProperties
     );
   }
@@ -7783,6 +7951,7 @@ public class UserDto {
   public String toString() {
     return "UserDto{" +
       "language=" + language + ", " +
+      "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -7795,6 +7964,7 @@ public class UserDto {
   public static final class Builder {
 
     private LanguageEnum language;
+    private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -7805,6 +7975,7 @@ public class UserDto {
     @JsonProperty("language")
     public Builder setLanguage(LanguageEnum language) {
       this.language = language;
+      this.isLanguageNotNull = language != null;
       return this;
     }
 
@@ -7832,7 +8003,7 @@ public class UserDto {
     public UserDto build() {
       additionalProperties.remove("language");
 
-      return new UserDto(language, additionalProperties);
+      return new UserDto(language, isLanguageNotNull, additionalProperties);
     }
   }
 
@@ -7865,15 +8036,18 @@ import javax.validation.constraints.NotNull;
 public class ObjectPojo1Dto {
   private final String email;
   private final LocalDate birthdate;
+  private final boolean isBirthdateNotNull;
   private final Map<String, Object> additionalProperties;
 
   public ObjectPojo1Dto(
       String email,
       LocalDate birthdate,
+      boolean isBirthdateNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.email = email;
     this.birthdate = birthdate;
+    this.isBirthdateNotNull = isBirthdateNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -7906,6 +8080,12 @@ public class ObjectPojo1Dto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalDate getBirthdateRaw() {
     return birthdate;
+  }
+
+  @AssertTrue(message = "birthdate is required to be non-null but is null")
+  @JsonIgnore
+  private boolean isBirthdateNotNull() {
+    return isBirthdateNotNull;
   }
 
   @JsonIgnore
@@ -7957,21 +8137,21 @@ public class ObjectPojo1Dto {
    * email
    */
   public ObjectPojo1Dto withEmail(String email) {
-    return new ObjectPojo1Dto(email, birthdate, additionalProperties);
+    return new ObjectPojo1Dto(email, birthdate, isBirthdateNotNull, additionalProperties);
   }
 
   /**
    * Birthdate
    */
   public ObjectPojo1Dto withBirthdate(LocalDate birthdate) {
-    return new ObjectPojo1Dto(email, birthdate, additionalProperties);
+    return new ObjectPojo1Dto(email, birthdate, isBirthdateNotNull, additionalProperties);
   }
 
   /**
    * Birthdate
    */
   public ObjectPojo1Dto withBirthdate(Optional<LocalDate> birthdate) {
-    return new ObjectPojo1Dto(email, birthdate.orElse(null), additionalProperties);
+    return new ObjectPojo1Dto(email, birthdate.orElse(null), isBirthdateNotNull, additionalProperties);
   }
 
   boolean isValid() {
@@ -7988,7 +8168,7 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isBirthdateValid() {
-      return true;
+      return isBirthdateNotNull;
     }
 
     private boolean isNameValid() {
@@ -8022,6 +8202,7 @@ public class ObjectPojo1Dto {
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
     return Objects.deepEquals(this.email, other.email)
         && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.isBirthdateNotNull, other.isBirthdateNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -8030,6 +8211,7 @@ public class ObjectPojo1Dto {
     return Objects.hash(
       email,
       birthdate,
+      isBirthdateNotNull,
       additionalProperties
     );
   }
@@ -8039,6 +8221,7 @@ public class ObjectPojo1Dto {
     return "ObjectPojo1Dto{" +
       "email=" + "'" + email + "'" + ", " +
       "birthdate=" + birthdate + ", " +
+      "isBirthdateNotNull=" + isBirthdateNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -8051,6 +8234,7 @@ public class ObjectPojo1Dto {
 
     private String email;
     private LocalDate birthdate;
+    private boolean isBirthdateNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -8068,6 +8252,7 @@ public class ObjectPojo1Dto {
     @JsonProperty("birthdate")
     public Builder setBirthdate(LocalDate birthdate) {
       this.birthdate = birthdate;
+      this.isBirthdateNotNull = birthdate != null;
       return this;
     }
 
@@ -8098,7 +8283,7 @@ public class ObjectPojo1Dto {
       additionalProperties.remove("email");
       additionalProperties.remove("birthdate");
 
-      return new ObjectPojo1Dto(email, birthdate, additionalProperties);
+      return new ObjectPojo1Dto(email, birthdate, isBirthdateNotNull, additionalProperties);
     }
   }
 

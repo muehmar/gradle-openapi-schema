@@ -1,3 +1,61 @@
+allNecessityAndNullabilityVariants[NOT_NULLABLE_OPTIONAL]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NOT_NULLABLE_REQUIRED]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_OPTIONAL]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_REQUIRED]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.Pattern
+
+/**
+ * RequiredNullableStringVal
+ */
+@JsonIgnore
+public Optional<String> getRequiredNullableStringVal() {
+  return Optional.ofNullable(requiredNullableStringVal);
+}
+
+/**
+ * RequiredNullableStringVal
+ */
+@JsonIgnore
+public String getRequiredNullableStringValOr(String defaultValue) {
+  return this.requiredNullableStringVal == null ? defaultValue : this.requiredNullableStringVal;
+}
+
+@Pattern(regexp="Hello")
+@JsonProperty("requiredNullableStringVal")
+private String getRequiredNullableStringValRaw() {
+  return requiredNullableStringVal;
+}
+
+@AssertTrue(message = "requiredNullableStringVal is required but it is not present")
+@JsonIgnore
+private boolean isRequiredNullableStringValPresent() {
+  return isRequiredNullableStringValPresent;
+}
+]
+
+
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_deprecatedAnnotation_then_correctOutputAndRefs=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty

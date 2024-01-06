@@ -129,7 +129,7 @@ private class Validator {
       return java.util.regex.Pattern.matches("Hello", optionalStringVal);
     }
 
-    return true;
+    return isOptionalStringValNotNull;
   }
 
   private boolean isOptionalNullableStringValValid() {
@@ -187,7 +187,7 @@ private class Validator {
       return java.util.regex.Pattern.matches("Hello", optionalStringVal);
     }
 
-    return true;
+    return isOptionalStringValNotNull;
   }
 
   private boolean isOptionalNullableStringValValid() {

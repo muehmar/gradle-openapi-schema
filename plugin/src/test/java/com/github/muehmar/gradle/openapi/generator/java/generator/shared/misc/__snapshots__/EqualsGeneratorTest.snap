@@ -10,6 +10,7 @@ public boolean equals(Object obj) {
       && Objects.deepEquals(this.requiredNullableStringVal, other.requiredNullableStringVal)
       && Objects.deepEquals(this.isRequiredNullableStringValPresent, other.isRequiredNullableStringValPresent)
       && Objects.deepEquals(this.optionalStringVal, other.optionalStringVal)
+      && Objects.deepEquals(this.isOptionalStringValNotNull, other.isOptionalStringValNotNull)
       && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
       && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
       && Objects.deepEquals(this.additionalProperties, other.additionalProperties);

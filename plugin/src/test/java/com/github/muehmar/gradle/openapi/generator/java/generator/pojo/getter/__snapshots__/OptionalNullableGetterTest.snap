@@ -1,3 +1,54 @@
+allNecessityAndNullabilityVariants[NOT_NULLABLE_OPTIONAL]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NOT_NULLABLE_REQUIRED]=[
+.
+.
+
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_OPTIONAL]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
+javax.validation.constraints.Pattern
+
+/**
+ * OptionalNullableStringVal
+ */
+@JsonIgnore
+public Tristate<String> getOptionalNullableStringVal() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+
+@JsonProperty("optionalNullableStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringValJackson() {
+  return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+}
+
+@Pattern(regexp="Hello")
+@JsonIgnore
+private String getOptionalNullableStringValRaw() {
+  return optionalNullableStringVal;
+}
+]
+
+
+allNecessityAndNullabilityVariants[NULLABLE_REQUIRED]=[
+.
+.
+
+]
+
+
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNullableGetterTest.generator_when_deprecatedAnnotation_then_correctOutputAndRefs=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude

@@ -77,10 +77,10 @@ class RequiredNullableGetter {
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType("boolean")
-        .methodName(field -> field.getIsPresentFlagName().asString())
+        .methodName(member -> member.getIsPresentFlagName().asString())
         .noArguments()
         .doesNotThrow()
-        .content(field -> String.format("return %s;", field.getIsPresentFlagName()))
+        .content(member -> String.format("return %s;", member.getIsPresentFlagName()))
         .build();
   }
 }

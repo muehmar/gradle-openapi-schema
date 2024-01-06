@@ -18,6 +18,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNotNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
@@ -155,8 +156,7 @@ public class PropertyValidationGenerator {
           return writer.print("%s", isPresentFlagName);
         }
       } else if (propertyValue.isOptionalAndNotNullable()) {
-        // Implement with #142 when the flag is present
-        return writer;
+        return writer.print("%s", IsNotNullFlagName.fromName(propertyValue.getName()).getName());
       } else {
         return writer;
       }
