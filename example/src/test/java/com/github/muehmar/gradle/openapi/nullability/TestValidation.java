@@ -110,14 +110,17 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_emailIsNull_then_noViolation() throws JsonProcessingException {
+  void validate_when_emailIsNull_then_singleViolation() throws JsonProcessingException {
     final UserDto dto =
         MAPPER.readValue("{\"id\":\"123abc\",\"username\":null,\"email\":null}", UserDto.class);
 
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
 
-    assertEquals(0, violations.size());
-    assertTrue(dto.isValid());
+    assertEquals(
+        Collections.singletonList("emailNotNull -> email is required to be non-null but is null"),
+        formatViolations(violations),
+        String.join("\n", formatViolations(violations)));
+    assertFalse(dto.isValid());
   }
 
   @Test
