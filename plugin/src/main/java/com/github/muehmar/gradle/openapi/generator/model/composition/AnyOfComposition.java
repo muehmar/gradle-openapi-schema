@@ -11,7 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class AnyOfComposition {
-  NonEmptyList<Pojo> pojos;
+  private final NonEmptyList<Pojo> pojos;
 
   private AnyOfComposition(NonEmptyList<Pojo> pojos) {
     this.pojos = pojos;
