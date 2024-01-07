@@ -1,4 +1,5 @@
 ## Change Log
+* 2.5.1 - Fix determination of enum origin for discriminator (issue `#231`)
 * 2.5.0
     * Support enum as discriminator (issue `#219`)
     * Improve error validation message for oneOf compositions with mappings (issue `#224`)
