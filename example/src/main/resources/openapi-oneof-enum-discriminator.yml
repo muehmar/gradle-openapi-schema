@@ -65,5 +65,46 @@ components:
 
 
 
+    Pet:
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          minLength: 5
+        type:
+          type: string
+          enum: ['Cat', 'Dog']
+      discriminator:
+        propertyName: type
+
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - name
+          properties:
+            name:
+              type: string
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - bark
+          properties:
+            bark:
+              type: string
+
+    MyPet:
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+
+
+
 
 
