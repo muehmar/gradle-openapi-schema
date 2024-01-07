@@ -193,7 +193,10 @@ public class JavaObjectPojo implements JavaPojo {
     final Optional<JavaAnyOfComposition> anyOfComposition =
         objectPojo
             .getAnyOfComposition()
-            .map(comp -> JavaAnyOfComposition.wrap(comp, type, typeMappings));
+            .map(
+                comp ->
+                    JavaAnyOfComposition.wrap(
+                        comp, objectPojo.getDiscriminator(), type, typeMappings));
     return fullJavaObjectPojoBuilder()
         .name(pojoName)
         .schemaName(objectPojo.getName().getSchemaName())

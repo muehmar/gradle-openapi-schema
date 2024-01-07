@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
+import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -19,6 +20,13 @@ public class AnyOfComposition {
 
   public static AnyOfComposition fromPojos(NonEmptyList<Pojo> pojos) {
     return new AnyOfComposition(pojos);
+  }
+
+  public Optional<Discriminator> determineDiscriminator(
+      Optional<UntypedDiscriminator> objectPojoDiscriminator) {
+    final DiscriminatorDeterminator discriminatorDeterminator =
+        new DiscriminatorDeterminator(pojos);
+    return discriminatorDeterminator.determineDiscriminator(objectPojoDiscriminator);
   }
 
   public NonEmptyList<Pojo> getPojos() {

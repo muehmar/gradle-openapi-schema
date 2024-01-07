@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
@@ -67,7 +68,8 @@ class JavaAnyOfCompositionTest {
                 javaComposition2, PList.of(sampleObjectPojo1())));
     when(promotableMembers.addSubPojo(any())).thenReturn(promotableMembers);
 
-    final JavaAnyOfComposition javaAnyOfComposition = new JavaAnyOfComposition(javaComposition1);
+    final JavaAnyOfComposition javaAnyOfComposition =
+        new JavaAnyOfComposition(javaComposition1, Optional.empty());
 
     // method call
     final JavaAnyOfComposition.AnyOfCompositionPromotionResult promotionResult =
@@ -76,7 +78,9 @@ class JavaAnyOfCompositionTest {
     captor.getValue().apply(sampleObjectPojo2());
 
     verify(promotableMembers).addSubPojo(sampleObjectPojo2());
-    assertEquals(new JavaAnyOfComposition(javaComposition2), promotionResult.getComposition());
+    assertEquals(
+        new JavaAnyOfComposition(javaComposition2, Optional.empty()),
+        promotionResult.getComposition());
     assertEquals(PList.single(sampleObjectPojo1()), promotionResult.getNewPojos());
   }
 }
