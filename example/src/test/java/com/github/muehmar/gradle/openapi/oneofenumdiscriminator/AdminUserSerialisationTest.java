@@ -8,7 +8,7 @@ import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import org.junit.jupiter.api.Test;
 
-class SerialisationTest {
+class AdminUserSerialisationTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test

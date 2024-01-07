@@ -15,7 +15,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
-class ValidationTest {
+class AdminUserValidationTest {
 
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 

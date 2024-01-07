@@ -11,7 +11,7 @@ import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class DeserialisationTest {
+class AdminUserDeserialisationTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
