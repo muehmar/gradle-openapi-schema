@@ -32,14 +32,12 @@ public class OneOfComposition {
   public Optional<Discriminator> determineDiscriminator(
       Optional<UntypedDiscriminator> objectPojoDiscriminator) {
     if (objectPojoDiscriminator.isPresent()) {
-      return typeDiscriminator(
-          pojos, objectPojoDiscriminator, DiscriminatorDefinitionOrigin.PARENT_SCHEMA);
+      return typeDiscriminator(pojos, objectPojoDiscriminator);
     }
 
     final Optional<UntypedDiscriminator> discriminatorFromPojos =
         determineDiscriminatorFromComposedPojos();
-    return typeDiscriminator(
-        pojos, discriminatorFromPojos, DiscriminatorDefinitionOrigin.EACH_COMPOSITION_SCHEMA);
+    return typeDiscriminator(pojos, discriminatorFromPojos);
   }
 
   private Optional<UntypedDiscriminator> determineDiscriminatorFromComposedPojos() {
@@ -86,18 +84,14 @@ public class OneOfComposition {
   }
 
   private static Optional<Discriminator> typeDiscriminator(
-      NonEmptyList<Pojo> pojos,
-      Optional<UntypedDiscriminator> discriminator,
-      DiscriminatorDefinitionOrigin discriminatorOrigin) {
-    return discriminator.map(disc -> typeDiscriminator(pojos, disc, discriminatorOrigin));
+      NonEmptyList<Pojo> pojos, Optional<UntypedDiscriminator> discriminator) {
+    return discriminator.map(disc -> typeDiscriminator(pojos, disc));
   }
 
   private static Discriminator typeDiscriminator(
-      NonEmptyList<Pojo> pojos,
-      UntypedDiscriminator discriminator,
-      DiscriminatorDefinitionOrigin discriminatorOrigin) {
+      NonEmptyList<Pojo> pojos, UntypedDiscriminator discriminator) {
     final Name propertyName = discriminator.getPropertyName();
-    final NonEmptyList<DiscriminatorType> types =
+    final NonEmptyList<PojoDiscriminatorType> types =
         pojos
             .map(
                 pojo ->
@@ -107,36 +101,49 @@ public class OneOfComposition {
                                 new OpenApiGeneratorException(
                                     "Only schemas of type object are supported for compositions, but %s is not of type object",
                                     pojo.getName().getSchemaName())))
-            .map(objectPojo -> getDiscriminatorType(objectPojo, propertyName, discriminatorOrigin));
+            .map(objectPojo -> getDiscriminatorType(objectPojo, propertyName));
 
-    final boolean allSameType = types.toPList().forall(types.head()::equals);
-    if (not(allSameType)) {
-      throw new OpenApiGeneratorException(
-          "Property for discriminator %s of schemas [%s] are required to have the same type",
-          propertyName, pojos.map(p -> p.getName().getSchemaName()).toPList().mkString(", "));
-    }
+    types.toPList().forEach(type -> type.assertSameType(types.head(), propertyName, pojos));
 
-    return Discriminator.typeDiscriminator(discriminator, types.head());
+    return Discriminator.typeDiscriminator(discriminator, types.head().getDiscriminatorType());
   }
 
-  private static DiscriminatorType getDiscriminatorType(
-      ObjectPojo objectPojo, Name propertyName, DiscriminatorDefinitionOrigin discriminatorOrigin) {
+  private static PojoDiscriminatorType getDiscriminatorType(
+      ObjectPojo objectPojo, Name propertyName) {
     final SchemaName schemaName = objectPojo.getName().getSchemaName();
-    final PojoMember discriminatorMember =
-        objectPojo
-            .getMembersAndAllOfMembers()
-            .find(pojoMember -> pojoMember.getName().equals(propertyName))
-            .orElseThrow(
-                () ->
-                    new OpenApiGeneratorException(
-                        "Invalid schema: Pojo %s does not have a property named %s used by the discriminator.",
-                        schemaName, propertyName));
-    assertNecessity(schemaName, discriminatorMember);
-    return extractType(schemaName, discriminatorMember, discriminatorOrigin);
+    return getDiscriminatorTypeDeep(objectPojo, propertyName)
+        .headOption()
+        .orElseThrow(
+            () ->
+                new OpenApiGeneratorException(
+                    "Invalid schema: Pojo %s does not have a property named %s used by the discriminator.",
+                    schemaName, propertyName));
   }
 
-  private static DiscriminatorType extractType(
-      SchemaName schemaName, PojoMember member, DiscriminatorDefinitionOrigin discriminatorOrigin) {
+  private static PList<PojoDiscriminatorType> getDiscriminatorTypeDeep(
+      ObjectPojo objectPojo, Name propertyName) {
+    final SchemaName schemaName = objectPojo.getName().getSchemaName();
+    final PList<PojoDiscriminatorType> memberDiscriminatorTypes =
+        objectPojo
+            .getMembers()
+            .filter(pojoMember -> pojoMember.getName().equals(propertyName))
+            .map(member -> assertNecessity(schemaName, member))
+            .map(member -> extractType(objectPojo, schemaName, member));
+
+    final PList<PojoDiscriminatorType> allOfDiscriminatorTypes =
+        objectPojo
+            .getAllOfComposition()
+            .map(AllOfComposition::getPojos)
+            .map(NonEmptyList::toPList)
+            .orElse(PList.empty())
+            .flatMapOptional(Pojo::asObjectPojo)
+            .flatMap(pojo -> getDiscriminatorTypeDeep(pojo, propertyName));
+
+    return memberDiscriminatorTypes.concat(allOfDiscriminatorTypes);
+  }
+
+  private static PojoDiscriminatorType extractType(
+      ObjectPojo pojo, SchemaName schemaName, PojoMember member) {
     final Type type = member.getType();
 
     final Optional<DiscriminatorType> stringTypeDiscriminator =
@@ -147,14 +154,8 @@ public class OneOfComposition {
     final Optional<DiscriminatorType> enumTypeDiscriminator =
         type.asEnumType().map(DiscriminatorType::fromEnumType);
 
-    if (enumTypeDiscriminator.isPresent()
-        && discriminatorOrigin.equals(DiscriminatorDefinitionOrigin.EACH_COMPOSITION_SCHEMA)) {
-      throw new OpenApiGeneratorException(
-          "An enum as discriminator (property %s for schema %s) is only supported if it is defined in a single parent schema.",
-          member.getName(), schemaName);
-    }
-
     return Optionals.or(stringTypeDiscriminator, enumTypeDiscriminator)
+        .map(discriminatorType -> new PojoDiscriminatorType(pojo, discriminatorType))
         .orElseThrow(
             () ->
                 new OpenApiGeneratorException(
@@ -162,12 +163,13 @@ public class OneOfComposition {
                     member.getName(), schemaName));
   }
 
-  private static void assertNecessity(SchemaName schemaName, PojoMember member) {
+  private static PojoMember assertNecessity(SchemaName schemaName, PojoMember member) {
     if (member.isOptional()) {
       throw new OpenApiGeneratorException(
           "Invalid schema: Property %s of schema %s is not required.",
           member.getName(), schemaName);
     }
+    return member;
   }
 
   @Value
@@ -210,11 +212,35 @@ public class OneOfComposition {
     }
   }
 
-  private enum DiscriminatorDefinitionOrigin {
-    /** Defined in a single parent schema and inherited via allOf composition */
-    PARENT_SCHEMA,
+  @Value
+  private static class PojoDiscriminatorType {
+    ObjectPojo pojo;
+    DiscriminatorType discriminatorType;
 
-    /** Defined in each single schema used in the composition. */
-    EACH_COMPOSITION_SCHEMA,
+    void assertSameType(PojoDiscriminatorType other, Name propertyName, NonEmptyList<Pojo> pojos) {
+      final NonEmptyList<SchemaName> schemaNames = pojos.map(p -> p.getName().getSchemaName());
+      final OpenApiGeneratorException notSameTypeException =
+          new OpenApiGeneratorException(
+              "Property for discriminator %s of schemas [%s] are required to have the same type",
+              propertyName, schemaNames.toPList().mkString(", "));
+      other.discriminatorType.fold(
+          stringType -> {
+            if (not(discriminatorType.equals(other.discriminatorType))) {
+              throw notSameTypeException;
+            }
+            return true;
+          },
+          enumType -> {
+            if (not(discriminatorType.equals(other.discriminatorType))) {
+              throw notSameTypeException;
+            }
+            if (not(pojo.equals(other.pojo))) {
+              throw new OpenApiGeneratorException(
+                  "An enum as discriminator (property %s for schemas [%s]) is only supported if it is defined in a single parent schema.",
+                  propertyName, schemaNames.toPList().mkString(", "));
+            }
+            return true;
+          });
+    }
   }
 }

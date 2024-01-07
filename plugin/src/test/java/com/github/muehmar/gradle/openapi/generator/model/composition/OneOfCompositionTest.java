@@ -106,12 +106,39 @@ class OneOfCompositionTest {
   }
 
   @Test
-  void determineDiscriminator_when_enumDiscriminator_then_correctDiscriminator() {
+  void determineDiscriminator_when_enumDiscriminatorInlineDefinedInEachSubschema_then_exception() {
     final EnumType enumType =
         EnumType.ofNameAndMembers(Name.ofString("Role"), PList.of("Admin", "User"));
     final ObjectPojo pojo1 =
         Pojos.objectPojo(PList.of(ofType(enumType), requiredBirthdate(), optionalNullableString()));
     final ObjectPojo pojo2 = Pojos.objectPojo(PList.of(ofType(enumType), optionalString()));
+
+    final NonEmptyList<Pojo> pojos = NonEmptyList.of(pojo1, pojo2);
+    final UntypedDiscriminator untypedDiscriminator =
+        UntypedDiscriminator.fromPropertyName(ofType(enumType).getName());
+
+    final OneOfComposition oneOfComposition = new OneOfComposition(pojos);
+
+    // Method call
+    assertThrows(
+        OpenApiGeneratorException.class,
+        () -> oneOfComposition.determineDiscriminator(Optional.of(untypedDiscriminator)));
+  }
+
+  @Test
+  void
+      determineDiscriminator_when_enumDiscriminatorInParentSchemaDefined_then_correctDiscriminator() {
+    final EnumType enumType =
+        EnumType.ofNameAndMembers(Name.ofString("Role"), PList.of("Admin", "User"));
+    final ObjectPojo parentPojo = Pojos.objectPojo(PList.of(ofType(enumType)));
+    final ObjectPojo pojo1 =
+        Pojos.objectPojo(PList.of(requiredBirthdate(), optionalNullableString()))
+            .withAllOfComposition(
+                Optional.of(AllOfComposition.fromPojos(NonEmptyList.of(parentPojo))));
+    final ObjectPojo pojo2 =
+        Pojos.objectPojo(PList.of(optionalString()))
+            .withAllOfComposition(
+                Optional.of(AllOfComposition.fromPojos(NonEmptyList.of(parentPojo))));
 
     final NonEmptyList<Pojo> pojos = NonEmptyList.of(pojo1, pojo2);
     final UntypedDiscriminator untypedDiscriminator =
