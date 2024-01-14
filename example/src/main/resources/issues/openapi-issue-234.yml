@@ -19,6 +19,10 @@ components:
           $ref: '#/components/schemas/Address'
 
     Address:
+      allOf:
+        - $ref: '#/components/schemas/BaseAddress'
+
+    BaseAddress:
       required:
         - street
       properties:
