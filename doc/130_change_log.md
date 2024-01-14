@@ -1,4 +1,5 @@
 ## Change Log
+* 2.6.0 - Support making nested allOf properties required (issue `#234`)
 * 2.5.1 - Fix determination of enum origin for discriminator (issue `#231`)
 * 2.5.0
     * Support enum as discriminator (issue `#219`)
