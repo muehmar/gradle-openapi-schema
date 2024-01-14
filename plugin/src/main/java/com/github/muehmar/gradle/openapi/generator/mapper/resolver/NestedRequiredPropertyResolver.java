@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
@@ -74,7 +75,7 @@ public class NestedRequiredPropertyResolver {
 
     private Optional<RequiredPropertiesForPojo> findRequiredPropertiesForAllOfPojo(
         ObjectPojo parentPojo, AllOfComposition allOfComposition, ObjectPojo pojo) {
-      final PList<RequiredProperty> requiredProps = findRequiredProperties(pojo, allOfComposition);
+      final PList<RequiredProperty> requiredProps = findRequiredProperties(pojo);
       if (requiredProps.nonEmpty()) {
         return Optional.of(
             new RequiredPropertiesForPojo(
@@ -84,22 +85,12 @@ public class NestedRequiredPropertyResolver {
       }
     }
 
-    private PList<RequiredProperty> findRequiredProperties(
-        ObjectPojo pojo, AllOfComposition allOfComposition) {
+    private PList<RequiredProperty> findRequiredProperties(ObjectPojo pojo) {
       if (not(hasOnlyRequiredAdditionalProperties(pojo))) {
         return PList.empty();
       }
 
-      final PList<ObjectPojo> otherAllOfPojos =
-          allOfComposition
-              .getPojos()
-              .toPList()
-              .flatMapOptional(Pojo::asObjectPojo)
-              .filter(p -> not(p.equals(pojo)));
-      return findRequiredPropertiesDeep(pojo, PList.empty())
-          .filter(
-              requiredProperty ->
-                  otherAllOfPojos.exists(p -> hasPojoProperty(p, requiredProperty)));
+      return findRequiredPropertiesDeep(pojo, PList.empty());
     }
 
     private PList<RequiredProperty> findRequiredPropertiesDeep(
@@ -179,10 +170,6 @@ public class NestedRequiredPropertyResolver {
     private Optional<ObjectPojo> findPojoForPojoName(PojoName pojoName) {
       return allObjectPojos.find(pojo -> pojo.getName().getPojoName().equals(pojoName));
     }
-
-    private boolean hasPojoProperty(ObjectPojo pojo, RequiredProperty requiredProperty) {
-      return requiredProperty.resolveLink(pojo, allObjectPojos).isPresent();
-    }
   }
 
   @Value
@@ -205,10 +192,11 @@ public class NestedRequiredPropertyResolver {
           .getPojos()
           .toPList()
           .flatMapOptional(Pojo::asObjectPojo)
+          .filter(p -> not(makeRequiredAllOfPojos.exists(p::equals)))
           .flatMapOptional(
               allOfPojo ->
                   requiredProperties
-                      .flatMapOptional(rp -> rp.toNodeFor(allOfPojo, allObjectPojos))
+                      .flatMap(rp -> rp.toNodeFor(allOfPojo, allObjectPojos))
                       .reduce(PojoNode::merge));
     }
 
@@ -216,6 +204,10 @@ public class NestedRequiredPropertyResolver {
       final PList<PojoNode> nodes = toNodes(allObjectPojos);
       final PList<ObjectPojo> objectPojos = promoteNodes(allObjectPojos, nodes);
       final PList<Pojo> newAllOfPojos = createNewAllOfPojos(nodes, objectPojos);
+
+      if (nodes.isEmpty()) {
+        return PList.empty();
+      }
 
       final ObjectPojo promotedParentPojo =
           NonEmptyList.fromIter(newAllOfPojos)
@@ -274,28 +266,20 @@ public class NestedRequiredPropertyResolver {
       return new RequiredProperty(propertyName, linkChain.drop(1));
     }
 
-    private Optional<ObjectPojo> resolveLink(
-        ObjectPojo currentPojo, PList<ObjectPojo> allObjectPojos) {
-      return linkChain
-          .foldLeft(
-              Optional.of(currentPojo),
-              (nextPojo, link) -> nextPojo.flatMap(p -> link.resolveLink(p, allObjectPojos)))
-          .filter(pojo -> pojo.getMembers().exists(m -> m.getName().equals(propertyName)));
-    }
-
-    Optional<PojoNode> toNodeFor(ObjectPojo pojo, PList<ObjectPojo> allObjectPojos) {
+    PList<PojoNode> toNodeFor(ObjectPojo pojo, PList<ObjectPojo> allObjectPojos) {
       if (linkChain.isEmpty()) {
-        return pojo.getMembers().exists(pojoMember -> pojoMember.getName().equals(propertyName))
-            ? Optional.of(
+        final boolean hasMember = hasMemberOrAllOfMemberDeep(pojo, allObjectPojos);
+        return hasMember
+            ? PList.of(
                 new PojoNode(
                     pojo.getName().getPojoName(),
                     PList.single(propertyName),
                     Collections.emptyMap()))
-            : Optional.empty();
+            : PList.empty();
       } else {
         return linkChain
             .headOption()
-            .flatMap(
+            .map(
                 link ->
                     link.resolveLink(pojo, allObjectPojos)
                         .flatMap(
@@ -308,8 +292,25 @@ public class NestedRequiredPropertyResolver {
                                                 pojo.getName().getPojoName(),
                                                 PList.empty(),
                                                 Collections.singletonMap(
-                                                    link.propertyName, childNode)))));
+                                                    link.propertyName, childNode)))))
+            .orElse(PList.empty());
       }
+    }
+
+    boolean hasMemberOrAllOfMemberDeep(ObjectPojo pojo, PList<ObjectPojo> allObjectPojos) {
+      if (pojo.getMembers().exists(pojoMember -> pojoMember.getName().equals(propertyName))) {
+        return true;
+      }
+      return pojo.getAllOfComposition()
+          .map(
+              allOfComposition ->
+                  allOfComposition
+                      .getPojos()
+                      .toPList()
+                      .flatMapOptional(Pojo::asObjectPojo)
+                      .exists(
+                          allOfSubPojo -> hasMemberOrAllOfMemberDeep(allOfSubPojo, allObjectPojos)))
+          .orElse(false);
     }
   }
 
@@ -318,15 +319,25 @@ public class NestedRequiredPropertyResolver {
     Name propertyName;
     PojoName pojoName;
 
-    private Optional<ObjectPojo> resolveLink(
+    private PList<ObjectPojo> resolveLink(
         ObjectPojo currentPojo, PList<ObjectPojo> allObjectPojos) {
-      return currentPojo
-          .getMembers()
-          .find(member -> member.getName().equals(propertyName))
-          .flatMap(member -> member.getType().asObjectType())
-          .flatMap(
-              objectType ->
-                  allObjectPojos.find(p -> p.getName().getPojoName().equals(objectType.getName())));
+      final Optional<ObjectPojo> memberPojo =
+          currentPojo
+              .getMembers()
+              .find(member -> member.getName().equals(propertyName))
+              .flatMap(member -> member.getType().asObjectType())
+              .flatMap(
+                  objectType ->
+                      allObjectPojos.find(
+                          p -> p.getName().getPojoName().equals(objectType.getName())));
+      final PList<ObjectPojo> allOfPojos =
+          currentPojo
+              .getAllOfComposition()
+              .map(allOfComposition -> allOfComposition.getPojos().toPList())
+              .orElse(PList.empty())
+              .flatMapOptional(Pojo::asObjectPojo)
+              .flatMap(pojo -> resolveLink(pojo, allObjectPojos));
+      return allOfPojos.concat(PList.fromOptional(memberPojo));
     }
   }
 
@@ -348,20 +359,72 @@ public class NestedRequiredPropertyResolver {
     PList<ObjectPojo> promote(PojoName rootPojoName, PList<ObjectPojo> allObjectPojos) {
       return allObjectPojos
           .find(pojo -> pojo.getName().getPojoName().equals(pojoName))
+          .map(pojo -> promotePojo(rootPojoName, pojo, allObjectPojos))
+          .orElseThrow(
+              () ->
+                  new OpenApiGeneratorException(
+                      "Error while resolving nested properties: "
+                          + pojoName
+                          + " not found. This is most likely an internal error, please report an issue."))
+          .merge();
+    }
+
+    private PojoNodePromotionResult promotePojo(
+        PojoName rootPojoName, ObjectPojo pojo, PList<ObjectPojo> allObjectPojos) {
+      final PList<PojoMember> members =
+          pojo.getMembers()
+              .map(this::promoteMember)
+              .map(m -> renameObjectTypeNames(rootPojoName, m));
+      final AllOfNodePromotionResult allOfNodePromotionResult =
+          promoteAllOfComposition(rootPojoName, pojo.getAllOfComposition(), allObjectPojos);
+      final ComponentName componentName = mapComponentName(rootPojoName, pojo.getName());
+      final ObjectPojo thisPromotedPojo =
+          pojo.withName(componentName)
+              .withMembers(members)
+              .withAllOfComposition(allOfNodePromotionResult.getComposition());
+      final PList<ObjectPojo> newPromotedPojos =
+          PList.fromIter(children.values())
+              .flatMap(node -> node.promote(rootPojoName, allObjectPojos))
+              .concat(allOfNodePromotionResult.getNewPromotedPojos());
+      return new PojoNodePromotionResult(thisPromotedPojo, newPromotedPojos);
+    }
+
+    private AllOfNodePromotionResult promoteAllOfComposition(
+        PojoName rootPojoName,
+        Optional<AllOfComposition> allOfComposition,
+        PList<ObjectPojo> allObjectPojos) {
+      return allOfComposition
           .map(
-              pojo -> {
-                final Function<ComponentName, ComponentName> mapName =
-                    name -> mapComponentName(rootPojoName, name);
-                final PList<PojoMember> members =
-                    pojo.getMembers()
-                        .map(this::promoteMember)
-                        .map(m -> renameObjectTypeNames(rootPojoName, m));
-                final ComponentName componentName = mapName.apply(pojo.getName());
-                return PList.fromIter(children.values())
-                    .flatMap(node -> node.promote(rootPojoName, allObjectPojos))
-                    .add(pojo.withName(componentName).withMembers(members));
-              })
-          .orElse(PList.empty());
+              composition ->
+                  promoteAllOfComposition(
+                      rootPojoName, allOfComposition, allObjectPojos, composition))
+          .orElse(new AllOfNodePromotionResult(Optional.empty(), PList.empty()));
+    }
+
+    private AllOfNodePromotionResult promoteAllOfComposition(
+        PojoName rootPojoName,
+        Optional<AllOfComposition> allOfComposition,
+        PList<ObjectPojo> allObjectPojos,
+        AllOfComposition composition) {
+      final PList<PojoNodePromotionResult> results =
+          composition
+              .getPojos()
+              .toPList()
+              .flatMapOptional(Pojo::asObjectPojo)
+              .map(p -> promotePojo(rootPojoName, p, allObjectPojos));
+      final PList<ObjectPojo> promotedAllOfSubPojos = results.map(PojoNodePromotionResult::getPojo);
+      if (composition.getPojos().size() == promotedAllOfSubPojos.size()) {
+        final Optional<AllOfComposition> promotedAllOfComposition =
+            NonEmptyList.fromIter(promotedAllOfSubPojos)
+                .map(pojos -> AllOfComposition.fromPojos(pojos.map(p -> p)));
+        return new AllOfNodePromotionResult(
+            promotedAllOfComposition,
+            results
+                .flatMap(PojoNodePromotionResult::getNewPromotedPojos)
+                .concat(promotedAllOfSubPojos));
+      } else {
+        return new AllOfNodePromotionResult(allOfComposition, PList.empty());
+      }
     }
 
     private PojoMember promoteMember(PojoMember m) {
@@ -383,6 +446,22 @@ public class NestedRequiredPropertyResolver {
       return Optional.ofNullable(children.get(member.getName()))
           .map(child -> member.withType(newType))
           .orElse(member);
+    }
+  }
+
+  @Value
+  private static class AllOfNodePromotionResult {
+    Optional<AllOfComposition> composition;
+    PList<ObjectPojo> newPromotedPojos;
+  }
+
+  @Value
+  private static class PojoNodePromotionResult {
+    ObjectPojo pojo;
+    PList<ObjectPojo> newPromotedPojos;
+
+    PList<ObjectPojo> merge() {
+      return newPromotedPojos.add(pojo).distinct(Function.identity());
     }
   }
 
