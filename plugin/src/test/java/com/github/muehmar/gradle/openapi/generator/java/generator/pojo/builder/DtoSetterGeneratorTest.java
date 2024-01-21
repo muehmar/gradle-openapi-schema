@@ -11,6 +11,8 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
@@ -28,6 +30,21 @@ import org.junit.jupiter.api.Test;
 @SnapshotTest
 class DtoSetterGeneratorTest {
   private Expect expect;
+
+  @Test
+  @SnapshotName("allOfPojo")
+  void generator_when_allOfPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.allOfPojo(
+                sampleObjectPojo1(), JavaPojos.allNecessityAndNullabilityVariants()),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 
   @Test
   @SnapshotName("oneOfPojo")
@@ -78,6 +95,40 @@ class DtoSetterGeneratorTest {
     final JavaObjectPojo oneOfPojo = JavaPojos.oneOfPojoWithEnumDiscriminator();
 
     final Writer writer = generator.generate(oneOfPojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("anyOfPojo")
+  void generator_when_anyOfPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.anyOfPojo(
+                sampleObjectPojo1(), JavaPojos.allNecessityAndNullabilityVariants()),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("anyOfPojoWithDiscriminator")
+  void generator_when_anyOfPojoWithDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyName(
+            TestJavaPojoMembers.requiredString().getName().getOriginalName());
+    final JavaAnyOfComposition javaAnyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.anyOfPojo(javaAnyOfComposition), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

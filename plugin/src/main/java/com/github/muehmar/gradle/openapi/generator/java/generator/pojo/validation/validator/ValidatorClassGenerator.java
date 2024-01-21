@@ -3,6 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validati
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.propertyValueValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.requiredAdditionalPropertyGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ANY_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ONE_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.isValidAgainstTheCorrectSchemaMethodName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.getPropertyCountMethodName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
@@ -14,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validat
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -78,6 +82,7 @@ public class ValidatorClassGenerator {
                     methodContentOneOfCondition(),
                     methodContentOneOfDiscriminatorCondition(),
                     methodContentAnyOfCondition(),
+                    methodContentAnyOfDiscriminatorCondition(),
                     additionalPropertiesTypeCondition(),
                     minPropertyCountCondition(),
                     maxPropertyCountCondition(),
@@ -129,7 +134,8 @@ public class ValidatorClassGenerator {
   }
 
   private static Condition methodContentOneOfDiscriminatorCondition() {
-    return Condition.constant("isValidAgainstTheCorrectSchema()")
+    return Condition.constant(
+            isValidAgainstTheCorrectSchemaMethodName(ONE_OF).asString().concat("()"))
         .filter(ValidatorClassGenerator::hasOneOfDiscriminator);
   }
 
@@ -140,6 +146,16 @@ public class ValidatorClassGenerator {
   private static Condition methodContentAnyOfCondition() {
     return Condition.constant("getAnyOfValidCount() >= 1")
         .filter(JavaObjectPojo::hasAnyOfComposition);
+  }
+
+  private static Condition methodContentAnyOfDiscriminatorCondition() {
+    return Condition.constant(
+            isValidAgainstTheCorrectSchemaMethodName(ANY_OF).asString().concat("()"))
+        .filter(ValidatorClassGenerator::hasAnyOfDiscriminator);
+  }
+
+  private static boolean hasAnyOfDiscriminator(JavaObjectPojo pojo) {
+    return pojo.getAnyOfComposition().flatMap(JavaAnyOfComposition::getDiscriminator).isPresent();
   }
 
   private static Condition additionalPropertiesTypeCondition() {

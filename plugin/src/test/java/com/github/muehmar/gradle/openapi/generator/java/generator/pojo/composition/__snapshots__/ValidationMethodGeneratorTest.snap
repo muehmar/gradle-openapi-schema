@@ -1,7 +1,6 @@
 anyOf=[
 .
 .
-
 private boolean isValidAgainstSampleObjectPojo1Dto() {
   return asSampleObjectPojo1Dto().isValid();
 }
@@ -22,7 +21,6 @@ composedPojoHasNoRequiredMembers=[
 private boolean isValidAgainstObjectPojo1Dto() {
   return asObjectPojo1Dto().isValid();
 }
-
 ]
 
 
@@ -36,7 +34,6 @@ private boolean isValidAgainstOneOfPojo1Dto() {
 private boolean isValidAgainstObjectPojo1Dto() {
   return asObjectPojo1Dto().isValid();
 }
-
 ]
 
 
@@ -54,5 +51,4 @@ private boolean isValidAgainstSampleObjectPojo2Dto() {
 private boolean isValidAgainstObjectPojo1Dto() {
   return asObjectPojo1Dto().isValid();
 }
-
 ]

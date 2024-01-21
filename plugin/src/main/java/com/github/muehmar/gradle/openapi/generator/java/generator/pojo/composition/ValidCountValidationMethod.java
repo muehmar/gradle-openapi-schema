@@ -1,27 +1,22 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ANY_OF;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ONE_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.isValidAgainstMoreThanOneSchemaMethodName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.getValidCountMethodName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.isValidAgainstNoSchemaMethodName;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 
-import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
-import java.util.Optional;
 import java.util.function.Function;
 
 public class ValidCountValidationMethod {
@@ -29,70 +24,66 @@ public class ValidCountValidationMethod {
 
   public static Generator<JavaObjectPojo, PojoSettings> validCountValidationMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(
-            isValidAgainstNoSchemaMethod(ONE_OF), ValidCountValidationMethod::getOneOfPojos)
-        .appendOptional(
-            isValidAgainstNoSchemaMethod(ANY_OF), ValidCountValidationMethod::getAnyOfPojos)
-        .appendOptional(
-            isValidAgainstMoreThanOneSchema(), ValidCountValidationMethod::getOneOfPojos)
+        .appendList(
+            isValidAgainstNoSchemaMethod(),
+            JavaObjectPojo::getDiscriminatableCompositions,
+            newLine())
+        .appendOptional(isValidAgainstMoreThanOneSchema(), JavaObjectPojo::getOneOfComposition)
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Optional<NonEmptyList<JavaObjectPojo>> getOneOfPojos(JavaObjectPojo pojo) {
-    return pojo.getOneOfComposition().map(JavaOneOfComposition::getPojos);
-  }
-
-  private static Optional<NonEmptyList<JavaObjectPojo>> getAnyOfPojos(JavaObjectPojo pojo) {
-    return pojo.getAnyOfComposition().map(JavaAnyOfComposition::getPojos);
-  }
-
-  private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> isValidAgainstNoSchemaMethod(
-      MethodNames.Composition.CompositionType type) {
-    final Function<NonEmptyList<JavaObjectPojo>, String> message =
-        pojos ->
+  private static Generator<DiscriminatableJavaComposition, PojoSettings>
+      isValidAgainstNoSchemaMethod() {
+    final Function<DiscriminatableJavaComposition, String> message =
+        composition ->
             String.format(
                 "Is not valid against one of the schemas [%s]",
-                pojos.map(JavaObjectPojo::getSchemaName).toPList().mkString(", "));
-    final Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> annotation =
+                composition.getPojos().map(JavaObjectPojo::getSchemaName).toPList().mkString(", "));
+    final Generator<DiscriminatableJavaComposition, PojoSettings> annotation =
         ValidationAnnotationGenerator.assertFalse(message);
-    final MethodGen<NonEmptyList<JavaObjectPojo>, PojoSettings> method =
-        MethodGenBuilder.<NonEmptyList<JavaObjectPojo>, PojoSettings>create()
+    final MethodGen<DiscriminatableJavaComposition, PojoSettings> method =
+        MethodGenBuilder.<DiscriminatableJavaComposition, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
-            .methodName(isValidAgainstNoSchemaMethodName(type).asString())
+            .methodName(
+                composition -> isValidAgainstNoSchemaMethodName(composition.getType()).asString())
             .noArguments()
             .doesNotThrow()
-            .content(String.format("return %s() == 0;", getValidCountMethodName(type)))
+            .content(
+                (composition, s, w) ->
+                    w.println("return %s() == 0;", getValidCountMethodName(composition.getType())))
             .build();
     return DeprecatedMethodGenerator
-        .<NonEmptyList<JavaObjectPojo>>deprecatedJavaDocAndAnnotationForValidationMethod()
+        .<DiscriminatableJavaComposition>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(annotation)
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
 
-  private static Generator<NonEmptyList<JavaObjectPojo>, PojoSettings>
-      isValidAgainstMoreThanOneSchema() {
-    final Function<NonEmptyList<JavaObjectPojo>, String> message =
-        pojos ->
+  private static <T extends DiscriminatableJavaComposition>
+      Generator<T, PojoSettings> isValidAgainstMoreThanOneSchema() {
+    final Function<T, String> message =
+        composition ->
             String.format(
                 "Is valid against more than one of the schemas [%s]",
-                pojos.map(JavaPojo::getSchemaName).toPList().mkString(", "));
-    final Generator<NonEmptyList<JavaObjectPojo>, PojoSettings> annotation =
+                composition.getPojos().map(JavaPojo::getSchemaName).toPList().mkString(", "));
+    final Generator<T, PojoSettings> annotation =
         ValidationAnnotationGenerator.assertFalse(message);
-    final MethodGen<NonEmptyList<JavaObjectPojo>, PojoSettings> method =
-        MethodGenBuilder.<NonEmptyList<JavaObjectPojo>, PojoSettings>create()
+    final MethodGen<T, PojoSettings> method =
+        MethodGenBuilder.<T, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
             .methodName(isValidAgainstMoreThanOneSchemaMethodName().asString())
             .noArguments()
             .doesNotThrow()
-            .content(String.format("return %s() > 1;", getValidCountMethodName(ONE_OF)))
+            .content(
+                composition ->
+                    String.format(
+                        "return %s() > 1;", getValidCountMethodName(composition.getType())))
             .build();
-    return DeprecatedMethodGenerator
-        .<NonEmptyList<JavaObjectPojo>>deprecatedJavaDocAndAnnotationForValidationMethod()
+    return DeprecatedMethodGenerator.<T>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(annotation)
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)

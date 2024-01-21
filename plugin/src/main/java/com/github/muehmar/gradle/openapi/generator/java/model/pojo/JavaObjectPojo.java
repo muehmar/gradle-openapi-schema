@@ -24,6 +24,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Po
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition.AllOfCompositionPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
@@ -386,6 +387,12 @@ public class JavaObjectPojo implements JavaPojo {
 
   public boolean hasAnyOfComposition() {
     return anyOfComposition.isPresent();
+  }
+
+  public PList<DiscriminatableJavaComposition> getDiscriminatableCompositions() {
+    return PList.<Optional<DiscriminatableJavaComposition>>of(
+            getOneOfComposition().map(c -> c), getAnyOfComposition().map(c -> c))
+        .flatMapOptional(Function.identity());
   }
 
   public PList<JavaRequiredAdditionalProperty> getRequiredAdditionalProperties() {

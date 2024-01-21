@@ -33,13 +33,41 @@ com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
-.
-.
+
 @Valid
 @JsonIgnore
 private Map<String, Object> getInvalidAnyOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getAnyOfValidCount() == 0) {
+    dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+    dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
+  }
+  return dtos;
+}
+]
+
+
+anyOfPojoWithDiscriminator=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.HashMap
+java.util.Map
+javax.validation.Valid
+
+@Valid
+@JsonIgnore
+private Map<String, Object> getInvalidAnyOf() {
+  final Map<String, Object> dtos = new HashMap<>();
+  if(getAnyOfValidCount() == 0 || !isValidAgainstTheCorrectAnyOfSchema()) {
+    if(type != null) {
+      switch(type) {
+        case "SampleObjectPojo1":
+          dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+          return dtos;
+        case "SampleObjectPojo2":
+          dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
+          return dtos;
+      }
+    }
     dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
     dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
@@ -64,7 +92,6 @@ private Map<String, Object> getInvalidOneOf() {
   }
   return dtos;
 }
-
 ]
 
 
@@ -78,7 +105,7 @@ javax.validation.Valid
 @JsonIgnore
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() != 1) {
+  if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
     if(type != null) {
       switch(type) {
         case "SampleObjectPojo1":
@@ -94,7 +121,6 @@ private Map<String, Object> getInvalidOneOf() {
   }
   return dtos;
 }
-
 ]
 
 
@@ -108,7 +134,7 @@ javax.validation.Valid
 @JsonIgnore
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() != 1) {
+  if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
     if(color != null) {
       switch(color.getValue()) {
         case "yellow":
@@ -124,7 +150,6 @@ private Map<String, Object> getInvalidOneOf() {
   }
   return dtos;
 }
-
 ]
 
 
@@ -149,5 +174,4 @@ public Map<String, Object> getInvalidOneOf() {
   }
   return dtos;
 }
-
 ]

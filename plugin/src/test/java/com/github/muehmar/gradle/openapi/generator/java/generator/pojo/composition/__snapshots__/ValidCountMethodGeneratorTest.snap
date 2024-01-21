@@ -1,7 +1,6 @@
 anyOf=[
 .
 .
-
 private int getAnyOfValidCount() {
   return
     (isValidAgainstSampleObjectPojo1Dto() ? 1 : 0) +
@@ -18,5 +17,4 @@ private int getOneOfValidCount() {
     (isValidAgainstSampleObjectPojo1Dto() ? 1 : 0) +
     (isValidAgainstSampleObjectPojo2Dto() ? 1 : 0);
 }
-
 ]

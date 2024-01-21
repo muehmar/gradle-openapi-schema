@@ -7,7 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -24,11 +24,7 @@ public class DtoSetterGenerator {
 
   public static Generator<JavaObjectPojo, PojoSettings> dtoSetterGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(dtoSetters(), ParentPojoAndComposedPojos::forAllOfComposition)
-        .appendSingleBlankLine()
-        .appendOptional(dtoSetters(), ParentPojoAndComposedPojos::forOneOfComposition)
-        .appendSingleBlankLine()
-        .appendOptional(dtoSetters(), ParentPojoAndComposedPojos::forAnyOfComposition);
+        .appendList(dtoSetters(), ParentPojoAndComposedPojos::fromParentPojo, newLine());
   }
 
   private static Generator<ParentPojoAndComposedPojos, PojoSettings> dtoSetters() {
@@ -91,45 +87,41 @@ public class DtoSetterGenerator {
   @Value
   private static class ParentPojoAndComposedPojos {
     JavaObjectPojo parentPojo;
+    Optional<JavaDiscriminator> discriminator;
     NonEmptyList<JavaObjectPojo> composedPojos;
 
-    private static Optional<ParentPojoAndComposedPojos> forAllOfComposition(
-        JavaObjectPojo parentPojo) {
-      return parentPojo
-          .getAllOfComposition()
-          .map(
-              allOfComposition ->
-                  new ParentPojoAndComposedPojos(parentPojo, allOfComposition.getPojos()));
-    }
-
-    private static Optional<ParentPojoAndComposedPojos> forOneOfComposition(
-        JavaObjectPojo parentPojo) {
-      return parentPojo
-          .getOneOfComposition()
-          .map(
-              oneOfComposition ->
-                  new ParentPojoAndComposedPojos(parentPojo, oneOfComposition.getPojos()));
-    }
-
-    private static Optional<ParentPojoAndComposedPojos> forAnyOfComposition(
-        JavaObjectPojo parentPojo) {
-      return parentPojo
-          .getAnyOfComposition()
-          .map(
-              anyOfComposition ->
-                  new ParentPojoAndComposedPojos(parentPojo, anyOfComposition.getPojos()));
+    private static PList<ParentPojoAndComposedPojos> fromParentPojo(JavaObjectPojo parentPojo) {
+      final PList<ParentPojoAndComposedPojos> mappedAllOf =
+          PList.fromOptional(
+              parentPojo
+                  .getAllOfComposition()
+                  .map(
+                      composition ->
+                          new ParentPojoAndComposedPojos(
+                              parentPojo, Optional.empty(), composition.getPojos())));
+      final PList<ParentPojoAndComposedPojos> mappedOneOfAndAnyOf =
+          parentPojo
+              .getDiscriminatableCompositions()
+              .map(
+                  composition ->
+                      new ParentPojoAndComposedPojos(
+                          parentPojo, composition.getDiscriminator(), composition.getPojos()));
+      return mappedAllOf.concat(mappedOneOfAndAnyOf);
     }
 
     public PList<ParentPojoAndComposedPojo> getComposedPojos() {
       return composedPojos
           .toPList()
-          .map(composedPojo -> new ParentPojoAndComposedPojo(parentPojo, composedPojo));
+          .map(
+              composedPojo ->
+                  new ParentPojoAndComposedPojo(parentPojo, discriminator, composedPojo));
     }
   }
 
   @Value
   private static class ParentPojoAndComposedPojo {
     JavaObjectPojo parentPojo;
+    Optional<JavaDiscriminator> discriminator;
     JavaObjectPojo composedPojo;
 
     public JavaName prefixedClassNameForMethod(String prefix) {
@@ -139,13 +131,14 @@ public class DtoSetterGenerator {
     private PList<PojosAndMember> getMembers() {
       return composedPojo
           .getAllMembers()
-          .map(member -> new PojosAndMember(parentPojo, composedPojo, member));
+          .map(member -> new PojosAndMember(parentPojo, discriminator, composedPojo, member));
     }
   }
 
   @Value
   private static class PojosAndMember {
     JavaObjectPojo parentPojo;
+    Optional<JavaDiscriminator> discriminator;
     JavaObjectPojo composedPojo;
     JavaPojoMember member;
 
@@ -157,14 +150,12 @@ public class DtoSetterGenerator {
       return member.getGetterNameWithSuffix(settings);
     }
 
-    public String getDiscriminatorValue() {
+    String getDiscriminatorValue() {
       final Name schemaName = composedPojo.getSchemaName().getOriginalName();
-      return parentPojo
-          .getOneOfComposition()
-          .flatMap(JavaOneOfComposition::getDiscriminator)
+      return discriminator
           .map(
-              discriminator ->
-                  discriminator.getValueForSchemaName(
+              d ->
+                  d.getValueForSchemaName(
                       schemaName,
                       strValue -> String.format("\"%s\"", strValue),
                       enumName ->
@@ -175,16 +166,14 @@ public class DtoSetterGenerator {
           .orElse("");
     }
 
-    private boolean isDiscriminatorMember() {
-      return parentPojo
-          .getOneOfComposition()
-          .flatMap(JavaOneOfComposition::getDiscriminator)
-          .filter(discriminator -> discriminator.getPropertyName().equals(member.getName()))
-          .isPresent();
-    }
-
     private boolean isNotDiscriminatorMember() {
       return not(isDiscriminatorMember());
+    }
+
+    private boolean isDiscriminatorMember() {
+      return discriminator
+          .filter(discriminator -> discriminator.getPropertyName().equals(member.getName()))
+          .isPresent();
     }
   }
 }

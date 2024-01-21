@@ -2,9 +2,9 @@ DiscriminatorWithMapping=[
 com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
 @JsonIgnore
-private boolean isValidAgainstTheCorrectSchema() {
+private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (stringVal == null) {
     return false;
   }
@@ -14,6 +14,7 @@ private boolean isValidAgainstTheCorrectSchema() {
   }
   return false;
 }
+
 ]
 
 
@@ -21,9 +22,9 @@ DiscriminatorWithoutMapping=[
 com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
 @JsonIgnore
-private boolean isValidAgainstTheCorrectSchema() {
+private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (stringVal == null) {
     return false;
   }
@@ -33,6 +34,7 @@ private boolean isValidAgainstTheCorrectSchema() {
   }
   return false;
 }
+
 ]
 
 
@@ -45,9 +47,9 @@ javax.validation.constraints.AssertTrue
  * or serialisation.
  */
 @Deprecated
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
 @JsonIgnore
-protected boolean isValidAgainstTheCorrectSchema() {
+protected boolean isValidAgainstTheCorrectOneOfSchema() {
   if (stringVal == null) {
     return false;
   }
@@ -57,6 +59,7 @@ protected boolean isValidAgainstTheCorrectSchema() {
   }
   return false;
 }
+
 ]
 
 
@@ -64,9 +67,9 @@ EnumDiscriminator=[
 com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
 @JsonIgnore
-private boolean isValidAgainstTheCorrectSchema() {
+private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (color == null) {
     return false;
   }
@@ -76,6 +79,7 @@ private boolean isValidAgainstTheCorrectSchema() {
   }
   return false;
 }
+
 ]
 
 
@@ -83,9 +87,9 @@ IllegalIdentifierPojoDiscriminatorWithoutMapping=[
 com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
-@AssertTrue(message = "Not valid against the schema described by the discriminator")
+@AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
 @JsonIgnore
-private boolean isValidAgainstTheCorrectSchema() {
+private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (switch_ == null) {
     return false;
   }
@@ -95,6 +99,7 @@ private boolean isValidAgainstTheCorrectSchema() {
   }
   return false;
 }
+
 ]
 
 

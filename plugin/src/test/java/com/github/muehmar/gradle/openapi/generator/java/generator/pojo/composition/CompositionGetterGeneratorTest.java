@@ -51,6 +51,18 @@ class CompositionGetterGeneratorTest {
   }
 
   @Test
+  @SnapshotName("anyOfPojoWithDiscriminator")
+  void generate_when_anyOfPojoWithDiscriminator_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.anyOfPojoWithDiscriminator(), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  @Test
   void generate_when_noOneOfPojo_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
 

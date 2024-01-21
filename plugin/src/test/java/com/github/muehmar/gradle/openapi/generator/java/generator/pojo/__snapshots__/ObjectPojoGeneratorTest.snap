@@ -704,7 +704,7 @@ public class PersonDto {
 
   @Valid
   @JsonIgnore
-  private List<Object> getAnyOf() {
+  private Object getAnyOf() {
     if (getAnyOfValidCount() == 0) {
       return null;
     }
@@ -7076,15 +7076,14 @@ public class PersonDto {
    * onAdminDto} gets executed with the {@link AdminDto} as argument.<br>
    * <br>
    * This method assumes this instance is either manually or automatically validated,
-   * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
-   * valid against no schema or multiple schemas, it will throw an {@link
-   * IllegalStateException}.
+   * i.e. it is valid against exactly one of the defined oneOf schemas. If not, it
+   * will throw an {@link IllegalStateException}
    */
   public <T> T foldOneOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto) {
     return foldOneOf(
       onAdminDto,
       onUserDto,
-      () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto].");}
+      () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto] or not valid against the schema described by the discriminator.");}
     );
   }
 

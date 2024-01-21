@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.isValidAgainstTheCorrectSchemaMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.isValidAgainstTheCorrectSchemaMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.ofWriterFunction;
 
@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Depreca
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -25,29 +26,36 @@ public class DiscriminatorValidationMethodGenerator {
   private DiscriminatorValidationMethodGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> discriminatorValidationMethodGenerator() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .appendOptional(completeMethodGenerator(), PojoAndDiscriminator::fromOneOfComposition)
+        .appendSingleBlankLine()
+        .appendOptional(completeMethodGenerator(), PojoAndDiscriminator::fromAnyOfComposition);
+  }
+
+  private static Generator<PojoAndDiscriminator, PojoSettings> completeMethodGenerator() {
     final Generator<PojoAndDiscriminator, PojoSettings> annotation =
         ValidationAnnotationGenerator.assertTrue(
-            pojo -> "Not valid against the schema described by the discriminator");
+            pojo ->
+                String.format(
+                    "Not valid against the schema described by the %s-discriminator",
+                    pojo.getCompositionType().getName().startLowerCase()));
     final MethodGen<PojoAndDiscriminator, PojoSettings> method =
         MethodGenBuilder.<PojoAndDiscriminator, PojoSettings>create()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("boolean")
-            .methodName(isValidAgainstTheCorrectSchemaMethodName().asString())
+            .methodName(
+                p -> isValidAgainstTheCorrectSchemaMethodName(p.getCompositionType()).asString())
             .noArguments()
             .doesNotThrow()
             .content(methodContent())
             .build();
 
-    final Generator<PojoAndDiscriminator, PojoSettings> completeMethodGen =
-        DeprecatedMethodGenerator
-            .<PojoAndDiscriminator>deprecatedJavaDocAndAnnotationForValidationMethod()
-            .append(annotation)
-            .append(JacksonAnnotationGenerator.jsonIgnore())
-            .append(method);
-
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(completeMethodGen, PojoAndDiscriminator::fromPojo);
+    return DeprecatedMethodGenerator
+        .<PojoAndDiscriminator>deprecatedJavaDocAndAnnotationForValidationMethod()
+        .append(annotation)
+        .append(JacksonAnnotationGenerator.jsonIgnore())
+        .append(method);
   }
 
   private static Generator<PojoAndDiscriminator, PojoSettings> methodContent() {
@@ -59,12 +67,12 @@ public class DiscriminatorValidationMethodGenerator {
             (p, s, w) ->
                 w.println(
                     "switch(%s) {", p.getDiscriminator().discriminatorPropertyToStringValue()))
-        .appendList(gen().indent(1), PojoAndDiscriminator::getPojos)
+        .appendList(pojoCaseGenerator().indent(1), PojoAndDiscriminator::getPojos)
         .append(constant("}"))
         .append(constant("return false;"));
   }
 
-  private static Generator<SinglePojoAndDiscriminator, PojoSettings> gen() {
+  private static Generator<SinglePojoAndDiscriminator, PojoSettings> pojoCaseGenerator() {
     return Generator.of(
         (p, s, w) ->
             w.println(
@@ -77,13 +85,22 @@ public class DiscriminatorValidationMethodGenerator {
     JavaObjectPojo pojo;
     NonEmptyList<JavaObjectPojo> memberPojos;
     JavaDiscriminator discriminator;
+    DiscriminatableJavaComposition.Type compositionType;
 
-    static Optional<PojoAndDiscriminator> fromPojo(JavaObjectPojo pojo) {
-      return pojo.getOneOfComposition()
-          .flatMap(
-              comp ->
-                  comp.getDiscriminator()
-                      .map(d -> new PojoAndDiscriminator(pojo, comp.getPojos(), d)));
+    static Optional<PojoAndDiscriminator> fromOneOfComposition(JavaObjectPojo pojo) {
+      return fromComposition(pojo, pojo.getOneOfComposition());
+    }
+
+    static Optional<PojoAndDiscriminator> fromAnyOfComposition(JavaObjectPojo pojo) {
+      return fromComposition(pojo, pojo.getAnyOfComposition());
+    }
+
+    static Optional<PojoAndDiscriminator> fromComposition(
+        JavaObjectPojo pojo, Optional<? extends DiscriminatableJavaComposition> composition) {
+      return composition.flatMap(
+          comp ->
+              comp.getDiscriminator()
+                  .map(d -> new PojoAndDiscriminator(pojo, comp.getPojos(), d, comp.getType())));
     }
 
     NonEmptyList<SinglePojoAndDiscriminator> getPojos() {

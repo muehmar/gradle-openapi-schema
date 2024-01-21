@@ -154,6 +154,14 @@ public class JavaPojos {
   }
 
   public static JavaObjectPojo anyOfPojo(NonEmptyList<JavaPojo> anyOfPojos) {
+    return anyOfPojo(JavaAnyOfComposition.fromPojos(anyOfPojos));
+  }
+
+  public static JavaObjectPojo anyOfPojo(JavaPojo anyOfPojo, JavaPojo... anyOfPojos) {
+    return anyOfPojo(NonEmptyList.single(anyOfPojo).concat(PList.fromArray(anyOfPojos)));
+  }
+
+  public static JavaObjectPojo anyOfPojo(JavaAnyOfComposition anyOfComposition) {
     return JavaObjectPojoBuilder.create()
         .name(JavaPojoNames.fromNameAndSuffix("AnyOfPojo1", "Dto"))
         .schemaName(SchemaName.ofString("AnyOfPojo1"))
@@ -164,12 +172,8 @@ public class JavaPojos {
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .andOptionals()
-        .anyOfComposition(JavaAnyOfComposition.fromPojos(anyOfPojos))
+        .anyOfComposition(anyOfComposition)
         .build();
-  }
-
-  public static JavaObjectPojo anyOfPojo(JavaPojo anyOfPojo, JavaPojo... anyOfPojos) {
-    return anyOfPojo(NonEmptyList.single(anyOfPojo).concat(PList.fromArray(anyOfPojos)));
   }
 
   public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
