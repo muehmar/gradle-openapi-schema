@@ -1,0 +1,48 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - username
+      properties:
+        username:
+          type: string
+
+    Admin:
+      required:
+        - adminname
+      properties:
+        adminname:
+          type: string
+
+
+    UserOrAdminOptionalProps:
+      anyOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Admin'
+      properties:
+        level:
+          type: integer
+
+
+    UserOrAdminRequiredProps:
+      anyOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Admin'
+      required:
+        - level
+      properties:
+        level:
+          type: integer
+
+
+    UserOrAdminRequiredAdditionalProps:
+      anyOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Admin'
+      required:
+        - level
