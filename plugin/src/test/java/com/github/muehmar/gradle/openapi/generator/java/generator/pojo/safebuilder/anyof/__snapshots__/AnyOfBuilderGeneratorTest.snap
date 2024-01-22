@@ -1,3 +1,172 @@
+anyOfPojoWithOptionalProperties[FULL]=[
+java.time.LocalDate
+java.util.Optional
+
+public static final class FullAnyOfBuilder0 {
+  private final Builder builder;
+
+  private FullAnyOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullAnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new FullAnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public FullAnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  public FullAnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+    return new FullAnyOfBuilder2(builder);
+  }
+}
+
+public static final class FullAnyOfBuilder1 {
+  private final Builder builder;
+
+  private FullAnyOfBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullAnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new FullAnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public FullAnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  /**
+   * Birthdate
+   */
+  public FullOptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
+    return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+  }
+
+  /**
+   * Birthdate
+   */
+  public FullOptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
+    return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+  }
+
+}
+
+public static final class FullAnyOfBuilder2 {
+  private final Builder builder;
+
+  private FullAnyOfBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Birthdate
+   */
+  public FullOptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
+    return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+  }
+
+  /**
+   * Birthdate
+   */
+  public FullOptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
+    return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+  }
+
+}
+]
+
+
+anyOfPojoWithOptionalProperties[STANDARD]=[
+.
+.
+public static final class AnyOfBuilder0 {
+  private final Builder builder;
+
+  private AnyOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+    return new AnyOfBuilder2(builder);
+  }
+}
+
+public static final class AnyOfBuilder1 {
+  private final Builder builder;
+
+  private AnyOfBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  public OptPropertyBuilder0 andAllOptionals(){
+    return new OptPropertyBuilder0(builder);
+  }
+
+  public Builder andOptionals(){
+    return builder;
+  }
+
+  public AnyOfPojo1Dto build(){
+    return builder.build();
+  }
+
+}
+
+public static final class AnyOfBuilder2 {
+  private final Builder builder;
+
+  private AnyOfBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public OptPropertyBuilder0 andAllOptionals(){
+    return new OptPropertyBuilder0(builder);
+  }
+
+  public Builder andOptionals(){
+    return builder;
+  }
+
+  public AnyOfPojo1Dto build(){
+    return builder.build();
+  }
+
+}
+]
+
+
 anyOfPojoWithRequiredProperties[FULL]=[
 java.util.Optional
 

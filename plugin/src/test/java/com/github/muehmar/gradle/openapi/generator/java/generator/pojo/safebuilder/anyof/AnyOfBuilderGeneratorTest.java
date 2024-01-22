@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof.AnyOfBuilderGenerator.anyOfBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -28,8 +29,7 @@ class AnyOfBuilderGeneratorTest {
   @SnapshotName("anyOfPojoWithRequiredProperties")
   void generate_when_anyOfPojoWithRequiredProperties_then_correctOutput(
       SafeBuilderVariant variant) {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        AnyOfBuilderGenerator.anyOfBuilderGenerator(variant);
+    final Generator<JavaObjectPojo, PojoSettings> generator = anyOfBuilderGenerator(variant);
     final JavaObjectPojo anyOfPojo =
         JavaPojos.anyOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2());
     final JavaObjectPojo anyOfPojoWithMembers =
@@ -48,13 +48,31 @@ class AnyOfBuilderGeneratorTest {
   @SnapshotName("anyOfPojoWithoutRequiredProperties")
   void generate_when_anyOfPojoWithoutRequiredProperties_then_correctOutput(
       SafeBuilderVariant variant) {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        AnyOfBuilderGenerator.anyOfBuilderGenerator(variant);
+    final Generator<JavaObjectPojo, PojoSettings> generator = anyOfBuilderGenerator(variant);
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2()),
             TestPojoSettings.defaultTestSettings(),
             javaWriter());
+
+    expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @EnumSource(SafeBuilderVariant.class)
+  @SnapshotName("anyOfPojoWithOptionalProperties")
+  void generate_when_anyOfPojoWithOptionalProperties_then_correctOutput(
+      SafeBuilderVariant variant) {
+    final Generator<JavaObjectPojo, PojoSettings> generator = anyOfBuilderGenerator(variant);
+
+    final JavaPojoMembers members =
+        JavaPojoMembers.fromMembers(PList.single(TestJavaPojoMembers.optionalBirthdate()));
+    final JavaObjectPojo anyOfPojo =
+        JavaPojos.anyOfPojo(JavaPojos.sampleObjectPojo1(), JavaPojos.sampleObjectPojo2())
+            .withMembers(members);
+
+    final Writer writer =
+        generator.generate(anyOfPojo, TestPojoSettings.defaultTestSettings(), javaWriter());
 
     expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
   }
