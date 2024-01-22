@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.multipojo;
 
 import static com.github.muehmar.gradle.openapi.util.Functions.firstAndTail;
 import static io.github.muehmar.codegenerator.Generator.constant;
@@ -7,7 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaDocGenerator;
@@ -16,12 +16,12 @@ import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
-public class AnyOfMergeMethodGenerator {
-  private AnyOfMergeMethodGenerator() {}
+public class MultiPojoMergeMethodGenerator {
+  private MultiPojoMergeMethodGenerator() {}
 
-  public static Generator<AnyOfContainer, PojoSettings> anyOfMergeMethodGenerator() {
-    final MethodGen<AnyOfContainer, PojoSettings> method =
-        MethodGenBuilder.<AnyOfContainer, PojoSettings>create()
+  public static Generator<MultiPojoContainer, PojoSettings> multiPojoMergeMethodGenerator() {
+    final MethodGen<MultiPojoContainer, PojoSettings> method =
+        MethodGenBuilder.<MultiPojoContainer, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType(container -> container.getContainerName().asString())
@@ -34,7 +34,7 @@ public class AnyOfMergeMethodGenerator {
     return javaDoc().append(method);
   }
 
-  private static Generator<AnyOfContainer, PojoSettings> javaDoc() {
+  private static Generator<MultiPojoContainer, PojoSettings> javaDoc() {
     return JavaDocGenerator.javaDoc(
         (c, s) ->
             String.format(
@@ -43,8 +43,8 @@ public class AnyOfMergeMethodGenerator {
                 c.getContainerName()));
   }
 
-  private static Generator<AnyOfContainer, PojoSettings> methodContent() {
-    return Generator.<AnyOfContainer, PojoSettings>emptyGen()
+  private static Generator<MultiPojoContainer, PojoSettings> methodContent() {
+    return Generator.<MultiPojoContainer, PojoSettings>emptyGen()
         .append((c, s, w) -> w.println("return new %s(", c.getContainerName()))
         .appendList(singleMemberSelection().indent(1), AnyOfPojo::fromContainer)
         .append(constant(");"));
@@ -72,7 +72,7 @@ public class AnyOfMergeMethodGenerator {
       return isLast ? "" : ",";
     }
 
-    public static NonEmptyList<AnyOfPojo> fromContainer(AnyOfContainer container) {
+    public static NonEmptyList<AnyOfPojo> fromContainer(MultiPojoContainer container) {
       return container
           .getComposition()
           .getPojos()

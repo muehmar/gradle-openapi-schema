@@ -36,8 +36,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -315,10 +315,6 @@ public class JavaObjectPojo implements JavaPojo {
         && not(anyOfComposition.isPresent());
   }
 
-  public boolean hasRequiredMembers() {
-    return members.hasRequiredMembers();
-  }
-
   public PList<JavaPojoMember> getMembers() {
     return members.asList();
   }
@@ -361,13 +357,6 @@ public class JavaObjectPojo implements JavaPojo {
 
   public Optional<JavaOneOfComposition> getOneOfComposition() {
     return oneOfComposition;
-  }
-
-  public PList<JavaObjectPojo> getOneOfPojos() {
-    return oneOfComposition
-        .map(JavaOneOfComposition::getPojos)
-        .map(NonEmptyList::toPList)
-        .orElseGet(PList::empty);
   }
 
   public boolean hasOneOfComposition() {
@@ -461,12 +450,20 @@ public class JavaObjectPojo implements JavaPojo {
         .build();
   }
 
-  public Optional<OneOfContainer> getOneOfContainer() {
-    return oneOfComposition.map(composition -> new OneOfContainer(name, composition));
+  public PList<SinglePojoContainer> getSinglePojoContainers() {
+    return PList.of(
+            oneOfComposition.map(c -> new SinglePojoContainer(name, c)),
+            anyOfComposition
+                .filter(DiscriminatableJavaComposition::hasDiscriminator)
+                .map(c -> new SinglePojoContainer(name, c)))
+        .flatMapOptional(Function.identity());
   }
 
-  public Optional<AnyOfContainer> getAnyOfContainer() {
-    return anyOfComposition.map(composition -> new AnyOfContainer(name, composition));
+  public PList<MultiPojoContainer> getMultiPojoContainer() {
+    return PList.fromOptional(
+        anyOfComposition
+            .filter(composition -> not(composition.hasDiscriminator()))
+            .map(composition -> new MultiPojoContainer(name, composition)));
   }
 
   public boolean hasCompositions() {

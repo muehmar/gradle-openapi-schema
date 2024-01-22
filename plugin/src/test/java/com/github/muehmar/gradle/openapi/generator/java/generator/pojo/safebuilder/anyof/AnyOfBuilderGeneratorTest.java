@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof.AnyOfBuilderGenerator.anyOfBuilderGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -73,6 +74,22 @@ class AnyOfBuilderGeneratorTest {
 
     final Writer writer =
         generator.generate(anyOfPojo, TestPojoSettings.defaultTestSettings(), javaWriter());
+
+    expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @EnumSource(SafeBuilderVariant.class)
+  @SnapshotName("anyOfPojoWithDiscriminatorAndMembers")
+  void generate_when_anyOfPojoWithDiscriminatorAndMembers_then_correctOutput(
+      SafeBuilderVariant variant) {
+    final Generator<JavaObjectPojo, PojoSettings> generator = anyOfBuilderGenerator(variant);
+    final Writer writer =
+        generator.generate(
+            JavaPojos.anyOfPojoWithDiscriminator()
+                .withMembers(JavaPojoMembers.fromMembers(PList.of(requiredBirthdate()))),
+            TestPojoSettings.defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
   }

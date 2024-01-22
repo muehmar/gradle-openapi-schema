@@ -1,3 +1,67 @@
+anyOfPojoWithDiscriminatorAndMembers[FULL]=[
+.
+.
+public static final class FullAnyOfBuilder0 {
+  private final Builder builder;
+
+  private FullAnyOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullPropertyBuilder0 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new FullPropertyBuilder0(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public FullPropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new FullPropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  public FullPropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+    return new FullPropertyBuilder0(builder);
+  }
+}
+]
+
+
+anyOfPojoWithDiscriminatorAndMembers[STANDARD]=[
+.
+.
+public static final class AnyOfBuilder0 {
+  private final Builder builder;
+
+  private AnyOfBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public PropertyBuilder0 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new PropertyBuilder0(builder.setSampleObjectPojo1Dto(dto));
+  }
+
+  public PropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new PropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
+  }
+
+  public PropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+    if (container.getSampleObjectPojo1Dto() != null) {
+      builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+    }
+
+    if (container.getSampleObjectPojo2Dto() != null) {
+      builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+    }
+    return new PropertyBuilder0(builder);
+  }
+}
+]
+
+
 anyOfPojoWithOptionalProperties[FULL]=[
 java.time.LocalDate
 java.util.Optional
@@ -17,7 +81,7 @@ public static final class FullAnyOfBuilder0 {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public FullAnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+  public FullOptPropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }
@@ -25,7 +89,7 @@ public static final class FullAnyOfBuilder0 {
     if (container.getSampleObjectPojo2Dto() != null) {
       builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
     }
-    return new FullAnyOfBuilder2(builder);
+    return new FullOptPropertyBuilder0(builder);
   }
 }
 
@@ -42,29 +106,6 @@ public static final class FullAnyOfBuilder1 {
 
   public FullAnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
-  }
-
-  /**
-   * Birthdate
-   */
-  public FullOptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
-    return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
-  }
-
-  /**
-   * Birthdate
-   */
-  public FullOptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
-    return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
-  }
-
-}
-
-public static final class FullAnyOfBuilder2 {
-  private final Builder builder;
-
-  private FullAnyOfBuilder2(Builder builder) {
-    this.builder = builder;
   }
 
   /**
@@ -103,7 +144,7 @@ public static final class AnyOfBuilder0 {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+  public PropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }
@@ -111,7 +152,7 @@ public static final class AnyOfBuilder0 {
     if (container.getSampleObjectPojo2Dto() != null) {
       builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
     }
-    return new AnyOfBuilder2(builder);
+    return new PropertyBuilder0(builder);
   }
 }
 
@@ -128,27 +169,6 @@ public static final class AnyOfBuilder1 {
 
   public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
-  }
-
-  public OptPropertyBuilder0 andAllOptionals(){
-    return new OptPropertyBuilder0(builder);
-  }
-
-  public Builder andOptionals(){
-    return builder;
-  }
-
-  public AnyOfPojo1Dto build(){
-    return builder.build();
-  }
-
-}
-
-public static final class AnyOfBuilder2 {
-  private final Builder builder;
-
-  private AnyOfBuilder2(Builder builder) {
-    this.builder = builder;
   }
 
   public OptPropertyBuilder0 andAllOptionals(){
@@ -185,7 +205,7 @@ public static final class FullAnyOfBuilder0 {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public FullAnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+  public FullPropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }
@@ -193,7 +213,7 @@ public static final class FullAnyOfBuilder0 {
     if (container.getSampleObjectPojo2Dto() != null) {
       builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
     }
-    return new FullAnyOfBuilder2(builder);
+    return new FullPropertyBuilder0(builder);
   }
 }
 
@@ -210,29 +230,6 @@ public static final class FullAnyOfBuilder1 {
 
   public FullAnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
-  }
-
-  /**
-   * RequiredNullableStringVal
-   */
-  public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
-  }
-
-  /**
-   * RequiredNullableStringVal
-   */
-  public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
-  }
-
-}
-
-public static final class FullAnyOfBuilder2 {
-  private final Builder builder;
-
-  private FullAnyOfBuilder2(Builder builder) {
-    this.builder = builder;
   }
 
   /**
@@ -271,7 +268,7 @@ public static final class AnyOfBuilder0 {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+  public PropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }
@@ -279,7 +276,7 @@ public static final class AnyOfBuilder0 {
     if (container.getSampleObjectPojo2Dto() != null) {
       builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
     }
-    return new AnyOfBuilder2(builder);
+    return new PropertyBuilder0(builder);
   }
 }
 
@@ -296,29 +293,6 @@ public static final class AnyOfBuilder1 {
 
   public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
-  }
-
-  /**
-   * RequiredNullableStringVal
-   */
-  public PropertyBuilder1 setRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new PropertyBuilder1(builder.setRequiredNullableStringVal(requiredNullableStringVal));
-  }
-
-  /**
-   * RequiredNullableStringVal
-   */
-  public PropertyBuilder1 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new PropertyBuilder1(builder.setRequiredNullableStringVal(requiredNullableStringVal));
-  }
-
-}
-
-public static final class AnyOfBuilder2 {
-  private final Builder builder;
-
-  private AnyOfBuilder2(Builder builder) {
-    this.builder = builder;
   }
 
   /**
@@ -357,7 +331,7 @@ public static final class FullAnyOfBuilder0 {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public FullAnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+  public FullOptPropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }
@@ -365,7 +339,7 @@ public static final class FullAnyOfBuilder0 {
     if (container.getSampleObjectPojo2Dto() != null) {
       builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
     }
-    return new FullAnyOfBuilder2(builder);
+    return new FullOptPropertyBuilder0(builder);
   }
 }
 
@@ -382,27 +356,6 @@ public static final class FullAnyOfBuilder1 {
 
   public FullAnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
     return new FullAnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
-  }
-
-  public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-  }
-
-  public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-    return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-  }
-
-  public AnyOfPojo1Dto build(){
-    return builder.build();
-  }
-
-}
-
-public static final class FullAnyOfBuilder2 {
-  private final Builder builder;
-
-  private FullAnyOfBuilder2(Builder builder) {
-    this.builder = builder;
   }
 
   public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
@@ -439,7 +392,7 @@ public static final class AnyOfBuilder0 {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
   }
 
-  public AnyOfBuilder2 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+  public PropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
     if (container.getSampleObjectPojo1Dto() != null) {
       builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
     }
@@ -447,7 +400,7 @@ public static final class AnyOfBuilder0 {
     if (container.getSampleObjectPojo2Dto() != null) {
       builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
     }
-    return new AnyOfBuilder2(builder);
+    return new PropertyBuilder0(builder);
   }
 }
 
@@ -464,27 +417,6 @@ public static final class AnyOfBuilder1 {
 
   public AnyOfBuilder1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
     return new AnyOfBuilder1(builder.setSampleObjectPojo2Dto(dto));
-  }
-
-  public OptPropertyBuilder0 andAllOptionals(){
-    return new OptPropertyBuilder0(builder);
-  }
-
-  public Builder andOptionals(){
-    return builder;
-  }
-
-  public AnyOfPojo1Dto build(){
-    return builder.build();
-  }
-
-}
-
-public static final class AnyOfBuilder2 {
-  private final Builder builder;
-
-  private AnyOfBuilder2(Builder builder) {
-    this.builder = builder;
   }
 
   public OptPropertyBuilder0 andAllOptionals(){

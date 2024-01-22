@@ -134,10 +134,26 @@ LastOptionalPropertyBuilderStage - OptPropertyBuilder0
 ]
 
 
+anyOfPojoWithDiscriminatorAndMembers[FULL]=[
+AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for data(0), next stage FullOptPropertyBuilder0
+OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder1
+]
+
+
+anyOfPojoWithDiscriminatorAndMembers[STANDARD]=[
+AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for data(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
+LastOptionalPropertyBuilderStage - OptPropertyBuilder1
+]
+
+
 anyOfPojoWithMembers[FULL]=[
 AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullPropertyBuilder0
 AnyOfBuilderStage - FullAnyOfBuilder1, type REMAINING_STAGE and next stage FullPropertyBuilder0
-AnyOfBuilderStage - FullAnyOfBuilder2, type LAST_STAGE and next stage FullPropertyBuilder0
 RequiredPropertyBuilderStage - FullPropertyBuilder0 for data(0), next stage FullOptPropertyBuilder0
 OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
 LastOptionalPropertyBuilderStage - FullOptPropertyBuilder1
@@ -147,7 +163,6 @@ LastOptionalPropertyBuilderStage - FullOptPropertyBuilder1
 anyOfPojoWithMembers[STANDARD]=[
 AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
 AnyOfBuilderStage - AnyOfBuilder1, type REMAINING_STAGE and next stage PropertyBuilder0
-AnyOfBuilderStage - AnyOfBuilder2, type LAST_STAGE and next stage PropertyBuilder0
 RequiredPropertyBuilderStage - PropertyBuilder0 for data(0), next stage PropertyBuilder1
 LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
 OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
@@ -158,7 +173,6 @@ LastOptionalPropertyBuilderStage - OptPropertyBuilder1
 anyOfPojoWithRequiredProperties[FULL]=[
 AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullPropertyBuilder0
 AnyOfBuilderStage - FullAnyOfBuilder1, type REMAINING_STAGE and next stage FullPropertyBuilder0
-AnyOfBuilderStage - FullAnyOfBuilder2, type LAST_STAGE and next stage FullPropertyBuilder0
 RequiredPropertyBuilderStage - FullPropertyBuilder0 for Prop2(0), next stage FullOptPropertyBuilder0
 LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
 ]
@@ -167,7 +181,6 @@ LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
 anyOfPojoWithRequiredProperties[STANDARD]=[
 AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
 AnyOfBuilderStage - AnyOfBuilder1, type REMAINING_STAGE and next stage PropertyBuilder0
-AnyOfBuilderStage - AnyOfBuilder2, type LAST_STAGE and next stage PropertyBuilder0
 RequiredPropertyBuilderStage - PropertyBuilder0 for Prop2(0), next stage PropertyBuilder1
 LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
 LastOptionalPropertyBuilderStage - OptPropertyBuilder0
@@ -177,7 +190,6 @@ LastOptionalPropertyBuilderStage - OptPropertyBuilder0
 anyOfPojoWithSubschemaWithoutProperties[FULL]=[
 AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullOptPropertyBuilder0
 AnyOfBuilderStage - FullAnyOfBuilder1, type REMAINING_STAGE and next stage FullOptPropertyBuilder0
-AnyOfBuilderStage - FullAnyOfBuilder2, type LAST_STAGE and next stage FullOptPropertyBuilder0
 LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
 ]
 
@@ -185,7 +197,6 @@ LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
 anyOfPojoWithSubschemaWithoutProperties[STANDARD]=[
 AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
 AnyOfBuilderStage - AnyOfBuilder1, type REMAINING_STAGE and next stage PropertyBuilder0
-AnyOfBuilderStage - AnyOfBuilder2, type LAST_STAGE and next stage PropertyBuilder0
 LastRequiredPropertyBuilderStage - PropertyBuilder0, next stage OptPropertyBuilder0
 LastOptionalPropertyBuilderStage - OptPropertyBuilder0
 ]

@@ -15,8 +15,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
@@ -30,7 +30,7 @@ class FactoryMethodGeneratorTest {
   @Test
   @SnapshotName("oneOfPojo")
   void oneOFromFactoryMethods_when_oneOfPojo_then_correctOutput() {
-    final Generator<OneOfContainer, PojoSettings> generator = oneOfFromFactoryMethods();
+    final Generator<SinglePojoContainer, PojoSettings> generator = oneOfFromFactoryMethods();
 
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfComposition.fromPojos(
@@ -38,9 +38,11 @@ class FactoryMethodGeneratorTest {
                 sampleObjectPojo1(),
                 JavaPojos.allNecessityAndNullabilityVariants(),
                 sampleObjectPojo2()));
-    final OneOfContainer oneOfContainer =
-        new OneOfContainer(JavaPojoNames.fromNameAndSuffix("Object", "Dto"), javaOneOfComposition);
-    final Writer writer = generator.generate(oneOfContainer, defaultTestSettings(), javaWriter());
+    final SinglePojoContainer singlePojoContainer =
+        new SinglePojoContainer(
+            JavaPojoNames.fromNameAndSuffix("Object", "Dto"), javaOneOfComposition);
+    final Writer writer =
+        generator.generate(singlePojoContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -48,7 +50,7 @@ class FactoryMethodGeneratorTest {
   @Test
   @SnapshotName("anyOfPojo")
   void anyOFromFactoryMethods_when_oneOfPojo_then_correctOutput() {
-    final Generator<AnyOfContainer, PojoSettings> generator = anyOfFromFactoryMethods();
+    final Generator<MultiPojoContainer, PojoSettings> generator = anyOfFromFactoryMethods();
 
     final JavaAnyOfComposition anyOfComposition =
         JavaAnyOfComposition.fromPojos(
@@ -56,9 +58,10 @@ class FactoryMethodGeneratorTest {
                 sampleObjectPojo1(),
                 JavaPojos.allNecessityAndNullabilityVariants(),
                 sampleObjectPojo2()));
-    final AnyOfContainer anyOfContainer =
-        new AnyOfContainer(JavaPojoNames.fromNameAndSuffix("Object", "Dto"), anyOfComposition);
-    final Writer writer = generator.generate(anyOfContainer, defaultTestSettings(), javaWriter());
+    final MultiPojoContainer multiPojoContainer =
+        new MultiPojoContainer(JavaPojoNames.fromNameAndSuffix("Object", "Dto"), anyOfComposition);
+    final Writer writer =
+        generator.generate(multiPojoContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

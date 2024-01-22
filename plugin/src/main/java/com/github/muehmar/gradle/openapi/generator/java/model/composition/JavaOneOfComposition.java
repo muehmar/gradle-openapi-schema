@@ -63,6 +63,7 @@ public class JavaOneOfComposition implements DiscriminatableJavaComposition {
     return javaComposition.getMembers(JavaPojoMember::asOneOfMember);
   }
 
+  @Override
   public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
     return javaComposition.getPojosAsTechnicalMembers();
   }

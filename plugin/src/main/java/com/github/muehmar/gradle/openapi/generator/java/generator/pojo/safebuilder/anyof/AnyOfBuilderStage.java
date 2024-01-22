@@ -24,34 +24,39 @@ public class AnyOfBuilderStage implements BuilderStage {
     return parentPojo
         .getAnyOfComposition()
         .map(
-            anyOfComposition -> {
-              final PList<AnyOfBuilderStage> anyOfStages =
-                  PList.of(StageType.FIRST_STAGE, StageType.REMAINING_STAGE, StageType.LAST_STAGE)
-                      .map(
-                          stageType ->
-                              new AnyOfBuilderStage(
-                                  builderVariant,
-                                  stageType,
-                                  parentPojo,
-                                  anyOfComposition,
-                                  nextStages.head()));
-              return anyOfStages.foldRight(nextStages, NonEmptyList::cons);
-            })
+            anyOfComposition ->
+                createStagesForComposition(
+                    builderVariant, parentPojo, anyOfComposition, nextStages))
         .orElse(nextStages);
   }
 
-  public BuilderStage getNextPropertyBuilderStage() {
-    return RequiredPropertyBuilderStage.createStages(builderVariant, parentPojo).head();
+  private static NonEmptyList<BuilderStage> createStagesForComposition(
+      SafeBuilderVariant builderVariant,
+      JavaObjectPojo parentPojo,
+      JavaAnyOfComposition anyOfComposition,
+      NonEmptyList<BuilderStage> nextStages) {
+    final PList<AnyOfBuilderStage> anyOfStages =
+        determineStageTypes(anyOfComposition)
+            .map(
+                stageType ->
+                    new AnyOfBuilderStage(
+                        builderVariant,
+                        stageType,
+                        parentPojo,
+                        anyOfComposition,
+                        nextStages.head()));
+    return anyOfStages.foldRight(nextStages, NonEmptyList::cons);
   }
 
-  public BuilderStage getNextAnyOfStage() {
+  public BuilderStage getRemainingAnyOfBuilderStage() {
     return new AnyOfBuilderStage(
         builderVariant, StageType.REMAINING_STAGE, parentPojo, anyOfComposition, nextStage);
   }
 
-  public BuilderStage getLastStage() {
-    return new AnyOfBuilderStage(
-        builderVariant, StageType.LAST_STAGE, parentPojo, anyOfComposition, nextStage);
+  private static PList<StageType> determineStageTypes(JavaAnyOfComposition composition) {
+    return composition.hasDiscriminator()
+        ? PList.of(StageType.FIRST_STAGE)
+        : PList.of(StageType.FIRST_STAGE, StageType.REMAINING_STAGE);
   }
 
   @Override
@@ -62,8 +67,7 @@ public class AnyOfBuilderStage implements BuilderStage {
 
   public enum StageType {
     FIRST_STAGE(0),
-    REMAINING_STAGE(1),
-    LAST_STAGE(2);
+    REMAINING_STAGE(1);
 
     private final int intValue;
 

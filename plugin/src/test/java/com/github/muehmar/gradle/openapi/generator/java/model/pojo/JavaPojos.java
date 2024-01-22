@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -266,5 +267,15 @@ public class JavaPojos {
 
     return JavaPojos.oneOfPojo(javaOneOfComposition)
         .withName(JavaPojoNames.fromNameAndSuffix("OneOf", "Dto"));
+  }
+
+  public static JavaObjectPojo anyOfPojoWithDiscriminator() {
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyName(
+            TestJavaPojoMembers.requiredString().getName().getOriginalName());
+    final JavaAnyOfComposition javaAnyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
+    return JavaPojos.anyOfPojo(javaAnyOfComposition);
   }
 }

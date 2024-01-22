@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.multipojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof.AnyOfMergeMethodGenerator.anyOfMergeMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.multipojo.MultiPojoMergeMethodGenerator.multiPojoMergeMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
@@ -11,7 +11,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
@@ -19,21 +19,22 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
-class AnyOfMergeMethodGeneratorTest {
+class MultiPojoMergeMethodGeneratorTest {
   private Expect expect;
 
   @Test
   @SnapshotName("anyOfContainer")
-  void anyOfMergeMethodGenerator_when_anyOfContainer_then_correctOutput() {
-    final Generator<AnyOfContainer, PojoSettings> generator = anyOfMergeMethodGenerator();
+  void multiPojoMergeMethodGenerator_when_anyOfContainer_then_correctOutput() {
+    final Generator<MultiPojoContainer, PojoSettings> generator = multiPojoMergeMethodGenerator();
 
-    final AnyOfContainer anyOfContainer =
+    final MultiPojoContainer multiPojoContainer =
         JavaPojos.anyOfPojo(
                 sampleObjectPojo1(), allNecessityAndNullabilityVariants(), sampleObjectPojo2())
-            .getAnyOfContainer()
-            .orElseThrow(IllegalStateException::new);
+            .getMultiPojoContainer()
+            .head();
 
-    final Writer writer = generator.generate(anyOfContainer, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(multiPojoContainer, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

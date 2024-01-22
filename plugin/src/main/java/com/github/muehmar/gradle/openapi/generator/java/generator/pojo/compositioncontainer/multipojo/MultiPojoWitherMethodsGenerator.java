@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.multipojo;
 
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -6,7 +6,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaDocGenerator;
@@ -15,12 +15,12 @@ import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import lombok.Value;
 
-public class AnyOfWitherMethodsGenerator {
-  private AnyOfWitherMethodsGenerator() {}
+public class MultiPojoWitherMethodsGenerator {
+  private MultiPojoWitherMethodsGenerator() {}
 
-  public static Generator<AnyOfContainer, PojoSettings> anyOfWitherMethodsGenerator() {
-    return Generator.<AnyOfContainer, PojoSettings>emptyGen()
-        .appendList(witherMethod(), ContainerAndPojo::fromAnyOfContainer, newLine());
+  public static Generator<MultiPojoContainer, PojoSettings> multiPojoWitherMethodsGenerator() {
+    return Generator.<MultiPojoContainer, PojoSettings>emptyGen()
+        .appendList(witherMethod(), ContainerAndPojo::fromMultiPojoContainer, newLine());
   }
 
   private static Generator<ContainerAndPojo, PojoSettings> witherMethod() {
@@ -61,7 +61,7 @@ public class AnyOfWitherMethodsGenerator {
     JavaObjectPojo pojo;
     int pojoIdx;
 
-    static PList<ContainerAndPojo> fromAnyOfContainer(AnyOfContainer container) {
+    static PList<ContainerAndPojo> fromMultiPojoContainer(MultiPojoContainer container) {
       return container
           .getComposition()
           .getPojos()

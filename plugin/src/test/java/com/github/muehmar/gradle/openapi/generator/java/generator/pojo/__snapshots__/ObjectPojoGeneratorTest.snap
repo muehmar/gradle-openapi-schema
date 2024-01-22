@@ -877,7 +877,7 @@ public class PersonDto {
       return new FullAnyOfBuilder1(builder.setUserDto(dto));
     }
 
-    public FullAnyOfBuilder2 setAnyOfContainer(PersonAnyOfContainerDto container) {
+    public FullPropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
       if (container.getAdminDto() != null) {
         builder.setAdminDto(container.getAdminDto());
       }
@@ -885,7 +885,7 @@ public class PersonDto {
       if (container.getUserDto() != null) {
         builder.setUserDto(container.getUserDto());
       }
-      return new FullAnyOfBuilder2(builder);
+      return new FullPropertyBuilder0(builder);
     }
   }
 
@@ -902,22 +902,6 @@ public class PersonDto {
 
     public FullAnyOfBuilder1 setUserDto(UserDto dto) {
       return new FullAnyOfBuilder1(builder.setUserDto(dto));
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class FullAnyOfBuilder2 {
-    private final Builder builder;
-
-    private FullAnyOfBuilder2(Builder builder) {
-      this.builder = builder;
     }
 
     /**
@@ -998,7 +982,7 @@ public class PersonDto {
       return new AnyOfBuilder1(builder.setUserDto(dto));
     }
 
-    public AnyOfBuilder2 setAnyOfContainer(PersonAnyOfContainerDto container) {
+    public PropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
       if (container.getAdminDto() != null) {
         builder.setAdminDto(container.getAdminDto());
       }
@@ -1006,7 +990,7 @@ public class PersonDto {
       if (container.getUserDto() != null) {
         builder.setUserDto(container.getUserDto());
       }
-      return new AnyOfBuilder2(builder);
+      return new PropertyBuilder0(builder);
     }
   }
 
@@ -1023,22 +1007,6 @@ public class PersonDto {
 
     public AnyOfBuilder1 setUserDto(UserDto dto) {
       return new AnyOfBuilder1(builder.setUserDto(dto));
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class AnyOfBuilder2 {
-    private final Builder builder;
-
-    private AnyOfBuilder2(Builder builder) {
-      this.builder = builder;
     }
 
     /**
