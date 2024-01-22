@@ -41,17 +41,25 @@ public class OptionalMemberBuilderGenerator {
 
   public static Generator<JavaObjectPojo, PojoSettings> optionalMemberBuilderGenerator(
       SafeBuilderVariant builderVariant) {
-    final PList<SingleMemberSetterGenerator.Setter<OptionalMember>> setters =
-        PList.of(NORMAL_SETTER, OPTIONAL_SETTER, TRISTATE_SETTER);
-    final Generator<OptionalMember, PojoSettings> singleMemberSetterGenerator =
-        singleMemberSetterGenerator(setters);
     final Generator<OptionalMember, PojoSettings> singleBuilderClassGenerator =
-        singleBuilderClassGenerator(OptionalMember::stageClassName, singleMemberSetterGenerator);
+        singleBuilderClassGenerator(OptionalMember::stageClassName, singleMemberSetterMethods());
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(
             singleBuilderClassGenerator,
             pojo -> OptionalMember.fromObjectPojo(builderVariant, pojo),
             Generator.newLine());
+  }
+
+  public static Generator<OptionalPropertyBuilderStage, PojoSettings>
+      builderMethodsOfFirstOptionalMemberGenerator() {
+    return Generator.<OptionalPropertyBuilderStage, PojoSettings>emptyGen()
+        .append(singleMemberSetterMethods(), OptionalMember::new);
+  }
+
+  private static Generator<OptionalMember, PojoSettings> singleMemberSetterMethods() {
+    final PList<SingleMemberSetterGenerator.Setter<OptionalMember>> setters =
+        PList.of(NORMAL_SETTER, OPTIONAL_SETTER, TRISTATE_SETTER);
+    return singleMemberSetterGenerator(setters);
   }
 
   @Value

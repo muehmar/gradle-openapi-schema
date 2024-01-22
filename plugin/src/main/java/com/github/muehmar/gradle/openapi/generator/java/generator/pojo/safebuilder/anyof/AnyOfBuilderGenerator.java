@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.anyof;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalOptionalMemberBuilderGenerator.finalOptionalMemberBuilderSetterMethods;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalRequiredMemberBuilderGenerator.builderMethodsForLastRequiredPropertyBuilderStage;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.OptionalMemberBuilderGenerator.builderMethodsOfFirstOptionalMemberGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.RequiredMemberBuilderGenerator.builderMethodsOfFirstRequiredMemberGenerator;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
@@ -11,7 +13,6 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property.FinalRequiredMemberBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
@@ -86,12 +87,19 @@ public class AnyOfBuilderGenerator {
                     .getNextPropertyBuilderStage()
                     .asRequiredPropertyBuilderStage())
         .appendOptional(
-            FinalRequiredMemberBuilderGenerator.builderMethodsForLastRequiredPropertyBuilderStage(),
+            builderMethodsForLastRequiredPropertyBuilderStage(),
             stageWrapper ->
                 stageWrapper
                     .getStage()
                     .getNextPropertyBuilderStage()
                     .asLastRequiredPropertyBuilderStage())
+        .appendOptional(
+            builderMethodsOfFirstOptionalMemberGenerator(),
+            stageWrapper ->
+                stageWrapper
+                    .getStage()
+                    .getNextPropertyBuilderStage()
+                    .asOptionalPropertyBuilderStage())
         .appendOptional(
             finalOptionalMemberBuilderSetterMethods(),
             stageWrapper ->
