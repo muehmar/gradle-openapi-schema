@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -28,8 +27,8 @@ class ArrayAdditionalPropertiesTest {
             ArrayAdditionalPropertiesDto.class);
 
     assertEquals(
-        Optional.of(new ArrayList<>(Arrays.asList("hello", "world"))),
-        dto.getAdditionalProperty("data").map(ArrayAdditionalPropertiesPropertyDto::getValue));
+        Optional.of(Arrays.asList("hello", "world")),
+        dto.getAdditionalProperty("data").map(ArrayAdditionalPropertiesPropertyDto::getItems));
 
     final Set<ConstraintViolation<ArrayAdditionalPropertiesDto>> violations = validate(dto);
 
@@ -61,8 +60,7 @@ class ArrayAdditionalPropertiesTest {
             .andAllOptionals()
             .addAdditionalProperty(
                 "hello",
-                new ArrayAdditionalPropertiesPropertyDto(
-                    new ArrayList<>(Collections.singletonList("world"))))
+                new ArrayAdditionalPropertiesPropertyDto(Collections.singletonList("world")))
             .build();
 
     final String json = MAPPER.writeValueAsString(dto);

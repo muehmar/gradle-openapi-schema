@@ -186,7 +186,7 @@ class ArrayValidationTest {
 
     assertEquals(1, constraintViolations.size());
     assertEquals(
-        "value does not contain unique items",
+        "items does not contain unique items",
         constraintViolations.stream().findFirst().get().getMessage());
     assertFalse(dto.isValid());
   }
