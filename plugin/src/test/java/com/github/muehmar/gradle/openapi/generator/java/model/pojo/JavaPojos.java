@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -154,6 +155,14 @@ public class JavaPojos {
   }
 
   public static JavaObjectPojo anyOfPojo(NonEmptyList<JavaPojo> anyOfPojos) {
+    return anyOfPojo(JavaAnyOfComposition.fromPojos(anyOfPojos));
+  }
+
+  public static JavaObjectPojo anyOfPojo(JavaPojo anyOfPojo, JavaPojo... anyOfPojos) {
+    return anyOfPojo(NonEmptyList.single(anyOfPojo).concat(PList.fromArray(anyOfPojos)));
+  }
+
+  public static JavaObjectPojo anyOfPojo(JavaAnyOfComposition anyOfComposition) {
     return JavaObjectPojoBuilder.create()
         .name(JavaPojoNames.fromNameAndSuffix("AnyOfPojo1", "Dto"))
         .schemaName(SchemaName.ofString("AnyOfPojo1"))
@@ -164,12 +173,8 @@ public class JavaPojos {
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .andOptionals()
-        .anyOfComposition(JavaAnyOfComposition.fromPojos(anyOfPojos))
+        .anyOfComposition(anyOfComposition)
         .build();
-  }
-
-  public static JavaObjectPojo anyOfPojo(JavaPojo anyOfPojo, JavaPojo... anyOfPojos) {
-    return anyOfPojo(NonEmptyList.single(anyOfPojo).concat(PList.fromArray(anyOfPojos)));
   }
 
   public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
@@ -262,5 +267,15 @@ public class JavaPojos {
 
     return JavaPojos.oneOfPojo(javaOneOfComposition)
         .withName(JavaPojoNames.fromNameAndSuffix("OneOf", "Dto"));
+  }
+
+  public static JavaObjectPojo anyOfPojoWithDiscriminator() {
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyName(
+            TestJavaPojoMembers.requiredString().getName().getOriginalName());
+    final JavaAnyOfComposition javaAnyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
+    return JavaPojos.anyOfPojo(javaAnyOfComposition);
   }
 }

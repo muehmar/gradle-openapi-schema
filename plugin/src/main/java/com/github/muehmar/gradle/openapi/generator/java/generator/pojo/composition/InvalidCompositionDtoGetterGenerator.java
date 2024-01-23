@@ -3,21 +3,23 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.getAnyOfValidCountMethodName;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ANY_OF;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.CompositionType.ONE_OF;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.getOneOfValidCountMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ANY_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ONE_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.asConversionMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.getCompositionValidCountMethodName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.getInvalidCompositionMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.isValidAgainstTheCorrectSchemaMethodName;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
+import static io.github.muehmar.codegenerator.Generator.newLine;
 
 import ch.bluecare.commons.data.NonEmptyList;
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -32,63 +34,69 @@ public class InvalidCompositionDtoGetterGenerator {
 
   public static Generator<JavaObjectPojo, PojoSettings> invalidCompositionDtoGetterGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(invalidCompositionDtoGetter(ONE_OF))
-        .appendSingleBlankLine()
-        .append(invalidCompositionDtoGetter(ANY_OF));
+        .appendList(invalidCompositionDtoGetter(), CompositionContainer::fromParentPojo, newLine());
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> invalidCompositionDtoGetter(
-      MethodNames.Composition.CompositionType type) {
-    final Generator<JavaObjectPojo, PojoSettings> method =
-        JavaGenerators.<JavaObjectPojo, PojoSettings>methodGen()
+  private static Generator<CompositionContainer, PojoSettings> invalidCompositionDtoGetter() {
+    final Generator<CompositionContainer, PojoSettings> method =
+        JavaGenerators.<CompositionContainer, PojoSettings>methodGen()
             .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType("Map<String, Object>")
-            .methodName(getInvalidCompositionMethodName(type).asString())
+            .methodName(
+                container -> getInvalidCompositionMethodName(container.getType()).asString())
             .noArguments()
             .doesNotThrow()
-            .content(invalidCompositionDtoGetterContent(type))
+            .content(invalidCompositionDtoGetterContent())
             .build()
             .append(ref(JavaRefs.JAVA_UTIL_MAP))
             .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
 
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+    return Generator.<CompositionContainer, PojoSettings>emptyGen()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
         .append(ValidationAnnotationGenerator.validAnnotation())
         .append(jsonIgnore())
         .append(method)
-        .filter(p -> createInvalidCompositionDtoGetter(type, p))
         .filter(Filters.isValidationEnabled());
   }
 
-  private static boolean createInvalidCompositionDtoGetter(
-      MethodNames.Composition.CompositionType type, JavaObjectPojo p) {
-    final boolean createForOneOf = p.getOneOfComposition().isPresent() && type.equals(ONE_OF);
-    final boolean createForAnyOf = p.getAnyOfComposition().isPresent() && type.equals(ANY_OF);
-    return createForOneOf || createForAnyOf;
-  }
-
-  private static Generator<JavaObjectPojo, PojoSettings> invalidCompositionDtoGetterContent(
-      MethodNames.Composition.CompositionType type) {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+  private static Generator<CompositionContainer, PojoSettings>
+      invalidCompositionDtoGetterContent() {
+    return Generator.<CompositionContainer, PojoSettings>emptyGen()
         .append(constant("final Map<String, Object> dtos = new HashMap<>();"))
-        .append(addInvalidOneOfDtos().filter(ignore -> type.equals(ONE_OF)))
-        .append(addInvalidAnyOfDtos().filter(ignore -> type.equals(ANY_OF)))
+        .append(addInvalidSingleResultDtos().filter(CompositionContainer::isSingleResult))
+        .append(addInvalidMultiResultDtos().filter(CompositionContainer::isMultiResult))
         .append(constant("return dtos;"));
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> addInvalidOneOfDtos() {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(w -> w.println("if(%s() != 1) {", getOneOfValidCountMethodName()))
+  private static Generator<CompositionContainer, PojoSettings> addInvalidSingleResultDtos() {
+    return Generator.<CompositionContainer, PojoSettings>emptyGen()
+        .append(
+            (container, s, w) ->
+                w.println("if(%s) {", invalidCondition(container.getComposition())))
         .appendOptional(
-            oneOfDiscriminatorHandling().indent(1), DiscriminatorAndMemberPojo::fromParentPojo)
-        .appendList(putSingleInvalidDto(), JavaObjectPojo::getOneOfPojos)
-        .append(constant("}"))
-        .filter(pojo -> pojo.getOneOfComposition().isPresent());
+            singleResultDiscriminatorHandling().indent(1),
+            DiscriminatorAndMemberPojo::fromCompositionContainer)
+        .appendList(putSingleInvalidDto(), CompositionContainer::getPojos)
+        .append(constant("}"));
+  }
+
+  private static String invalidCondition(DiscriminatableJavaComposition composition) {
+    final DiscriminatableJavaComposition.Type type = composition.getType();
+    final String validCountCondition =
+        String.format(
+            "%s() %s",
+            getCompositionValidCountMethodName(type), type.equals(ONE_OF) ? "!= 1" : "== 0");
+    final String discriminatorCondition =
+        String.format("!%s()", isValidAgainstTheCorrectSchemaMethodName(type));
+    return PList.of(
+            validCountCondition, composition.hasDiscriminator() ? discriminatorCondition : "")
+        .filter(cond -> not(cond.trim().isEmpty()))
+        .mkString(" || ");
   }
 
   private static Generator<NonEmptyList<DiscriminatorAndMemberPojo>, PojoSettings>
-      oneOfDiscriminatorHandling() {
+      singleResultDiscriminatorHandling() {
     final Generator<DiscriminatorAndMemberPojo, PojoSettings> singleCaseStatement =
         Generator.<DiscriminatorAndMemberPojo, PojoSettings>emptyGen()
             .append((dm, s, w) -> w.println("case \"%s\":", dm.getDiscriminatorStringValue()))
@@ -116,12 +124,14 @@ public class InvalidCompositionDtoGetterGenerator {
         .append(constant("}"));
   }
 
-  private static Generator<JavaObjectPojo, PojoSettings> addInvalidAnyOfDtos() {
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(constant("if(%s() == 0) {", getAnyOfValidCountMethodName()))
-        .appendList(putSingleInvalidDto(), JavaObjectPojo::getAnyOfPojos)
-        .append(constant("}"))
-        .filter(pojo -> pojo.getAnyOfComposition().isPresent());
+  private static Generator<CompositionContainer, PojoSettings> addInvalidMultiResultDtos() {
+    return Generator.<CompositionContainer, PojoSettings>emptyGen()
+        .append(
+            (container, s, w) ->
+                w.println(
+                    "if(%s() == 0) {", getCompositionValidCountMethodName(container.getType())))
+        .appendList(putSingleInvalidDto(), CompositionContainer::getPojos)
+        .append(constant("}"));
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> putSingleInvalidDto() {
@@ -134,27 +144,57 @@ public class InvalidCompositionDtoGetterGenerator {
   }
 
   @Value
+  private static class CompositionContainer {
+    JavaObjectPojo parentPojo;
+    DiscriminatableJavaComposition composition;
+
+    static PList<CompositionContainer> fromParentPojo(JavaObjectPojo parentPojo) {
+      return parentPojo
+          .getDiscriminatableCompositions()
+          .map(composition -> new CompositionContainer(parentPojo, composition));
+    }
+
+    DiscriminatableJavaComposition.Type getType() {
+      return composition.getType();
+    }
+
+    PList<JavaObjectPojo> getPojos() {
+      return composition.getPojos().toPList();
+    }
+
+    boolean isSingleResult() {
+      final boolean isOneOf = composition.getType().equals(ONE_OF);
+      final boolean isAnyOfWithDiscriminator =
+          composition.getType().equals(ANY_OF) && composition.getDiscriminator().isPresent();
+      return isOneOf || isAnyOfWithDiscriminator;
+    }
+
+    boolean isMultiResult() {
+      return not(isSingleResult());
+    }
+  }
+
+  @Value
   private static class DiscriminatorAndMemberPojo {
     JavaDiscriminator discriminator;
     JavaObjectPojo memberPojo;
+    DiscriminatableJavaComposition.Type compositionType;
 
-    public static Optional<NonEmptyList<DiscriminatorAndMemberPojo>> fromParentPojo(
-        JavaObjectPojo pojo) {
-      return pojo.getOneOfComposition().flatMap(DiscriminatorAndMemberPojo::fromComposition);
-    }
-
-    private static Optional<NonEmptyList<DiscriminatorAndMemberPojo>> fromComposition(
-        JavaOneOfComposition composition) {
-      return composition
+    public static Optional<NonEmptyList<DiscriminatorAndMemberPojo>> fromCompositionContainer(
+        CompositionContainer container) {
+      return container
+          .getComposition()
           .getDiscriminator()
-          .map(discriminator -> fromDiscriminator(composition, discriminator));
+          .map(discriminator -> fromDiscriminator(container.getComposition(), discriminator));
     }
 
     private static NonEmptyList<DiscriminatorAndMemberPojo> fromDiscriminator(
-        JavaOneOfComposition composition, JavaDiscriminator discriminator) {
+        DiscriminatableJavaComposition composition, JavaDiscriminator discriminator) {
       return composition
           .getPojos()
-          .map(memberPojo -> new DiscriminatorAndMemberPojo(discriminator, memberPojo));
+          .map(
+              memberPojo ->
+                  new DiscriminatorAndMemberPojo(discriminator, memberPojo, composition.getType()));
     }
 
     public String getDiscriminatorStringValue() {

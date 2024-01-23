@@ -4,7 +4,7 @@ package com.github.muehmar;
 import java.util.Objects;
 
 /**
- * This is a container for the any of composition of {@link AnyOfPojo1Dto}. It can
+ * This is a container for the anyOf composition of {@link AnyOfPojo1Dto}. It can
  * hold any instance of {@link SampleObjectPojo1Dto}, {@link
  * NecessityAndNullabilityDto}, {@link SampleObjectPojo2Dto}. Use the corresponding
  * from-factory methods to create an instance for each of the objects and then

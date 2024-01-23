@@ -34,6 +34,122 @@ public <T> List<T> foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPoj
 ]
 
 
+AnyOfDiscriminatorWithMapping=[
+java.util.function.Function
+java.util.function.Supplier
+
+/**
+ * Folds the anyOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against the schema described by the
+ * discriminator, its corresponding mapping function gets executed with the DTO as
+ * input and its result is returned.<br>
+ * <br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
+ * <br>
+ * Unlike {@link AnyOfPojo1Dto#foldAnyOf(Function, Function)}, this method accepts
+ * as last parameter a {@link Supplier} which gets called in case this instance is
+ * not valid against the schema described by the discriminator and its value is
+ * returned.
+ */
+public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
+  if ("obj1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+    return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
+  }
+  else if ("obj2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+    return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
+  }
+  else {
+    return onInvalid.get();
+  }
+}
+
+/**
+ * Folds the anyOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against the schema described by the
+ * discriminator, its corresponding mapping function gets executed with the DTO as
+ * input and its result is returned.<br>
+ * <br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
+ * <br>
+ * This method assumes this instance is either manually or automatically validated,
+ * i.e. it is valid against the schema described by the discriminator. If not, it
+ * will throw an {@link IllegalStateException}
+ */
+public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
+  return foldAnyOf(
+    onSampleObjectPojo1Dto,
+    onSampleObjectPojo2Dto,
+    () -> {throw new IllegalStateException("Unable to fold the anyOf part of AnyOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto] or not valid against the schema described by the discriminator.");}
+  );
+}
+
+]
+
+
+AnyOfDiscriminatorWithoutMapping=[
+java.util.function.Function
+java.util.function.Supplier
+
+/**
+ * Folds the anyOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against the schema described by the
+ * discriminator, its corresponding mapping function gets executed with the DTO as
+ * input and its result is returned.<br>
+ * <br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
+ * <br>
+ * Unlike {@link AnyOfPojo1Dto#foldAnyOf(Function, Function)}, this method accepts
+ * as last parameter a {@link Supplier} which gets called in case this instance is
+ * not valid against the schema described by the discriminator and its value is
+ * returned.
+ */
+public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
+  if ("SampleObjectPojo1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+    return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
+  }
+  else if ("SampleObjectPojo2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+    return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
+  }
+  else {
+    return onInvalid.get();
+  }
+}
+
+/**
+ * Folds the anyOf part of this instance using the given mapping functions for the
+ * DTO's. If this instance is valid against the schema described by the
+ * discriminator, its corresponding mapping function gets executed with the DTO as
+ * input and its result is returned.<br>
+ * <br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
+ * <br>
+ * This method assumes this instance is either manually or automatically validated,
+ * i.e. it is valid against the schema described by the discriminator. If not, it
+ * will throw an {@link IllegalStateException}
+ */
+public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
+  return foldAnyOf(
+    onSampleObjectPojo1Dto,
+    onSampleObjectPojo2Dto,
+    () -> {throw new IllegalStateException("Unable to fold the anyOf part of AnyOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto] or not valid against the schema described by the discriminator.");}
+  );
+}
+
+]
+
+
 IllegalIdentifierPojoDiscriminatorWithoutMapping=[
 java.util.function.Function
 java.util.function.Supplier
@@ -44,14 +160,15 @@ java.util.function.Supplier
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'Illegal?Identifier', the mapping
- * method {@code onIllegal_IdentifierDto} gets executed with the {@link
- * Illegal_IdentifierDto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'Illegal?Identifier' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onIllegal_IdentifierDto} gets executed with the {@link Illegal_IdentifierDto} as
+ * argument.<br>
  * <br>
  * Unlike {@link OneOfPojo1Dto#foldOneOf(Function, Function)}, this method accepts
  * as last parameter a {@link Supplier} which gets called in case this instance is
- * not valid against exactly one of the defined oneOf schemas and its value is
- * returned.
+ * not valid against exactly one of the defined oneOf schemas and not valid against
+ * the schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto, Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto, Supplier<T> onInvalid) {
   if ("Illegal?Identifier".equals(switch_) && isValidAgainstIllegal_IdentifierDto()) {
@@ -71,20 +188,21 @@ public <T> T foldOneOf(Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDt
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'Illegal?Identifier', the mapping
- * method {@code onIllegal_IdentifierDto} gets executed with the {@link
- * Illegal_IdentifierDto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'Illegal?Identifier' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onIllegal_IdentifierDto} gets executed with the {@link Illegal_IdentifierDto} as
+ * argument.<br>
  * <br>
  * This method assumes this instance is either manually or automatically validated,
- * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
- * valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * i.e. it is valid against exactly one of the defined oneOf schemas and valid
+ * against the schema described by the discriminator. If not, it will throw an
+ * {@link IllegalStateException}
  */
 public <T> T foldOneOf(Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto, Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto) {
   return foldOneOf(
     onIllegal_IdentifierDto,
     onIllegal_IdentifierDto,
-    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [Illegal_IdentifierDto, Illegal_IdentifierDto].");}
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [Illegal_IdentifierDto, Illegal_IdentifierDto] or not valid against the schema described by the discriminator.");}
   );
 }
 
@@ -101,14 +219,15 @@ java.util.function.Supplier
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
- * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
- * SampleObjectPojo1Dto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
  * <br>
  * Unlike {@link OneOfPojo1Dto#foldOneOf(Function, Function)}, this method accepts
  * as last parameter a {@link Supplier} which gets called in case this instance is
- * not valid against exactly one of the defined oneOf schemas and its value is
- * returned.
+ * not valid against exactly one of the defined oneOf schemas and not valid against
+ * the schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
   if ("obj1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
@@ -128,20 +247,21 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
- * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
- * SampleObjectPojo1Dto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
  * <br>
  * This method assumes this instance is either manually or automatically validated,
- * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
- * valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * i.e. it is valid against exactly one of the defined oneOf schemas and valid
+ * against the schema described by the discriminator. If not, it will throw an
+ * {@link IllegalStateException}
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   return foldOneOf(
     onSampleObjectPojo1Dto,
     onSampleObjectPojo2Dto,
-    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto] or not valid against the schema described by the discriminator.");}
   );
 }
 
@@ -158,14 +278,15 @@ java.util.function.Supplier
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
- * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
- * SampleObjectPojo1Dto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
  * <br>
  * Unlike {@link OneOfPojo1Dto#foldOneOf(Function, Function)}, this method accepts
  * as last parameter a {@link Supplier} which gets called in case this instance is
- * not valid against exactly one of the defined oneOf schemas and its value is
- * returned.
+ * not valid against exactly one of the defined oneOf schemas and not valid against
+ * the schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
   if ("SampleObjectPojo1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
@@ -185,20 +306,21 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'SampleObjectPojo1', the mapping
- * method {@code onSampleObjectPojo1Dto} gets executed with the {@link
- * SampleObjectPojo1Dto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+ * discriminator points to this schema, the mapping method {@code
+ * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+ * argument.<br>
  * <br>
  * This method assumes this instance is either manually or automatically validated,
- * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
- * valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * i.e. it is valid against exactly one of the defined oneOf schemas and valid
+ * against the schema described by the discriminator. If not, it will throw an
+ * {@link IllegalStateException}
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   return foldOneOf(
     onSampleObjectPojo1Dto,
     onSampleObjectPojo2Dto,
-    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto] or not valid against the schema described by the discriminator.");}
   );
 }
 
@@ -247,15 +369,14 @@ public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto,
  * SampleObjectPojo1Dto} as argument.<br>
  * <br>
  * This method assumes this instance is either manually or automatically validated,
- * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
- * valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * i.e. it is valid against exactly one of the defined oneOf schemas. If not, it
+ * will throw an {@link IllegalStateException}
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   return foldOneOf(
     onSampleObjectPojo1Dto,
     onSampleObjectPojo2Dto,
-    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto].");}
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto] or not valid against the schema described by the discriminator.");}
   );
 }
 
@@ -272,13 +393,14 @@ java.util.function.Supplier
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'Yellow', the mapping method
- * {@code onYellowDto} gets executed with the {@link YellowDto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'Yellow' and the discriminator
+ * points to this schema, the mapping method {@code onYellowDto} gets executed with
+ * the {@link YellowDto} as argument.<br>
  * <br>
  * Unlike {@link OneOfDto#foldOneOf(Function, Function)}, this method accepts as
  * last parameter a {@link Supplier} which gets called in case this instance is not
- * valid against exactly one of the defined oneOf schemas and its value is
- * returned.
+ * valid against exactly one of the defined oneOf schemas and not valid against the
+ * schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto, Supplier<T> onInvalid) {
   if ("yellow".equals(color.getValue()) && isValidAgainstYellowDto()) {
@@ -298,19 +420,20 @@ public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T
  * its corresponding mapping function gets executed with the DTO as input and its
  * result is returned.<br>
  * <br>
- * I.e. if the JSON was valid against the schema 'Yellow', the mapping method
- * {@code onYellowDto} gets executed with the {@link YellowDto} as argument.<br>
+ * I.e. if the JSON was valid against the schema 'Yellow' and the discriminator
+ * points to this schema, the mapping method {@code onYellowDto} gets executed with
+ * the {@link YellowDto} as argument.<br>
  * <br>
  * This method assumes this instance is either manually or automatically validated,
- * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
- * valid against no schema or multiple schemas, it will throw an {@link
- * IllegalStateException}.
+ * i.e. it is valid against exactly one of the defined oneOf schemas and valid
+ * against the schema described by the discriminator. If not, it will throw an
+ * {@link IllegalStateException}
  */
 public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto) {
   return foldOneOf(
     onYellowDto,
     onOrangeDto,
-    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfDto: Not valid against one of the schemas [YellowDto, OrangeDto].");}
+    () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfDto: Not valid against one of the schemas [YellowDto, OrangeDto] or not valid against the schema described by the discriminator.");}
   );
 }
 

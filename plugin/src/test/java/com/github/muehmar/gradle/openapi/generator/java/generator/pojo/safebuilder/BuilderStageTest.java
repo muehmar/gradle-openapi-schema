@@ -138,6 +138,23 @@ class BuilderStageTest {
 
   @ParameterizedTest
   @EnumSource(SafeBuilderVariant.class)
+  @SnapshotName(("anyOfPojoWithDiscriminatorAndMembers"))
+  void createStages_when_anyOfPojoWithDiscriminatorAndMembers_matchStages(
+      SafeBuilderVariant builderVariant) {
+    final JavaObjectPojo pojo =
+        JavaPojos.anyOfPojoWithDiscriminator()
+            .withMembers(
+                JavaPojoMembers.fromMembers(PList.of(byteArrayMember(), optionalString())));
+
+    final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
+
+    expect
+        .scenario(builderVariant.name())
+        .toMatchSnapshot(stages.map(BuilderStageTest::formatStage).toPList().mkString("\n"));
+  }
+
+  @ParameterizedTest
+  @EnumSource(SafeBuilderVariant.class)
   @SnapshotName(("allOfPojoWithRequiredProperties"))
   void createStages_when_allOfPojoWithRequiredProperties_matchStages(
       SafeBuilderVariant builderVariant) {

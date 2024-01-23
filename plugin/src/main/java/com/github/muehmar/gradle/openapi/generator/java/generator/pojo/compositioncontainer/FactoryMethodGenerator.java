@@ -8,8 +8,8 @@ import ch.bluecare.commons.data.PList;
 import ch.bluecare.commons.data.Pair;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaDocGenerator;
@@ -21,13 +21,13 @@ import lombok.Value;
 public class FactoryMethodGenerator {
   private FactoryMethodGenerator() {}
 
-  public static Generator<OneOfContainer, PojoSettings> oneOfFromFactoryMethods() {
-    return Generator.<OneOfContainer, PojoSettings>emptyGen()
+  public static Generator<SinglePojoContainer, PojoSettings> oneOfFromFactoryMethods() {
+    return Generator.<SinglePojoContainer, PojoSettings>emptyGen()
         .appendList(fromFactoryMethod(), ContainerAndPojo::fromOneOfContainer, newLine());
   }
 
-  public static Generator<AnyOfContainer, PojoSettings> anyOfFromFactoryMethods() {
-    return Generator.<AnyOfContainer, PojoSettings>emptyGen()
+  public static Generator<MultiPojoContainer, PojoSettings> anyOfFromFactoryMethods() {
+    return Generator.<MultiPojoContainer, PojoSettings>emptyGen()
         .appendList(fromFactoryMethod(), ContainerAndPojo::fromAnyOfContainer, newLine());
   }
 
@@ -65,7 +65,7 @@ public class FactoryMethodGenerator {
     JavaObjectPojo pojo;
     int pojoIdx;
 
-    static PList<ContainerAndPojo> fromOneOfContainer(OneOfContainer container) {
+    static PList<ContainerAndPojo> fromOneOfContainer(SinglePojoContainer container) {
       return container
           .getComposition()
           .getPojos()
@@ -80,7 +80,7 @@ public class FactoryMethodGenerator {
           .toPList();
     }
 
-    static PList<ContainerAndPojo> fromAnyOfContainer(AnyOfContainer container) {
+    static PList<ContainerAndPojo> fromAnyOfContainer(MultiPojoContainer container) {
       return container
           .getComposition()
           .getPojos()

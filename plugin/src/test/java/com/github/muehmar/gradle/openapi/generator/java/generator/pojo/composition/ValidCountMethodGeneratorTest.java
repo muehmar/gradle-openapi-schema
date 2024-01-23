@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidCountMethodGenerator.validCountMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -24,8 +25,7 @@ class ValidCountMethodGeneratorTest {
   @Test
   @SnapshotName("oneOf")
   void generate_when_oneOfPojo_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidCountMethodGenerator.validCountMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validCountMethodGenerator();
     final JavaObjectPojo pojo = JavaPojos.oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
@@ -36,8 +36,7 @@ class ValidCountMethodGeneratorTest {
   @Test
   @SnapshotName("anyOf")
   void generate_when_anyOfPojo_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidCountMethodGenerator.validCountMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validCountMethodGenerator();
     final JavaObjectPojo pojo = JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
@@ -47,8 +46,7 @@ class ValidCountMethodGeneratorTest {
 
   @Test
   void generate_when_nonComposedPojo_then_noOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        ValidCountMethodGenerator.validCountMethodGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = validCountMethodGenerator();
     final JavaObjectPojo pojo = JavaPojos.sampleObjectPojo1();
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());

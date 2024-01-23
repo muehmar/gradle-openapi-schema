@@ -704,7 +704,7 @@ public class PersonDto {
 
   @Valid
   @JsonIgnore
-  private List<Object> getAnyOf() {
+  private Object getAnyOf() {
     if (getAnyOfValidCount() == 0) {
       return null;
     }
@@ -877,7 +877,7 @@ public class PersonDto {
       return new FullAnyOfBuilder1(builder.setUserDto(dto));
     }
 
-    public FullAnyOfBuilder2 setAnyOfContainer(PersonAnyOfContainerDto container) {
+    public FullPropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
       if (container.getAdminDto() != null) {
         builder.setAdminDto(container.getAdminDto());
       }
@@ -885,7 +885,7 @@ public class PersonDto {
       if (container.getUserDto() != null) {
         builder.setUserDto(container.getUserDto());
       }
-      return new FullAnyOfBuilder2(builder);
+      return new FullPropertyBuilder0(builder);
     }
   }
 
@@ -902,22 +902,6 @@ public class PersonDto {
 
     public FullAnyOfBuilder1 setUserDto(UserDto dto) {
       return new FullAnyOfBuilder1(builder.setUserDto(dto));
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class FullAnyOfBuilder2 {
-    private final Builder builder;
-
-    private FullAnyOfBuilder2(Builder builder) {
-      this.builder = builder;
     }
 
     /**
@@ -998,7 +982,7 @@ public class PersonDto {
       return new AnyOfBuilder1(builder.setUserDto(dto));
     }
 
-    public AnyOfBuilder2 setAnyOfContainer(PersonAnyOfContainerDto container) {
+    public PropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
       if (container.getAdminDto() != null) {
         builder.setAdminDto(container.getAdminDto());
       }
@@ -1006,7 +990,7 @@ public class PersonDto {
       if (container.getUserDto() != null) {
         builder.setUserDto(container.getUserDto());
       }
-      return new AnyOfBuilder2(builder);
+      return new PropertyBuilder0(builder);
     }
   }
 
@@ -1023,22 +1007,6 @@ public class PersonDto {
 
     public AnyOfBuilder1 setUserDto(UserDto dto) {
       return new AnyOfBuilder1(builder.setUserDto(dto));
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class AnyOfBuilder2 {
-    private final Builder builder;
-
-    private AnyOfBuilder2(Builder builder) {
-      this.builder = builder;
     }
 
     /**
@@ -7076,15 +7044,14 @@ public class PersonDto {
    * onAdminDto} gets executed with the {@link AdminDto} as argument.<br>
    * <br>
    * This method assumes this instance is either manually or automatically validated,
-   * i.e. the JSON is valid against exactly one of the oneOf schemas. If it is either
-   * valid against no schema or multiple schemas, it will throw an {@link
-   * IllegalStateException}.
+   * i.e. it is valid against exactly one of the defined oneOf schemas. If not, it
+   * will throw an {@link IllegalStateException}
    */
   public <T> T foldOneOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto) {
     return foldOneOf(
       onAdminDto,
       onUserDto,
-      () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto].");}
+      () -> {throw new IllegalStateException("Unable to fold the oneOf part of PersonDto: Not valid against one of the schemas [AdminDto, UserDto] or not valid against the schema described by the discriminator.");}
     );
   }
 

@@ -25,6 +25,33 @@ public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
 ]
 
 
+anyOfPojoWithDiscriminator=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+.
+.
+/**
+ * Returns {@link SampleObjectPojo1Dto} of the anyOf composition in case it is
+ * valid against the schema SampleObjectPojo1 wrapped in an {@link Optional}, empty
+ * otherwise.
+ */
+@JsonIgnore
+public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
+  return foldAnyOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+}
+
+/**
+ * Returns {@link SampleObjectPojo2Dto} of the anyOf composition in case it is
+ * valid against the schema SampleObjectPojo2 wrapped in an {@link Optional}, empty
+ * otherwise.
+ */
+@JsonIgnore
+public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
+  return foldAnyOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
+}
+]
+
+
 oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional

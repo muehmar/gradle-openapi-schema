@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy;
+package com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder.fullConstructorContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
@@ -12,20 +12,22 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Eq
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class AnyOfContainer {
-  private static final String NAME_SUFFIX = "AnyOfContainer";
+public class SinglePojoContainer {
+  private static final String NAME_SUFFIX_FORMAT = "%sContainer";
   JavaPojoName pojoName;
-  JavaAnyOfComposition composition;
+  DiscriminatableJavaComposition composition;
 
   public JavaName getContainerName() {
-    return pojoName.appendToName(NAME_SUFFIX).asJavaName();
+    return pojoName
+        .appendToName(String.format(NAME_SUFFIX_FORMAT, composition.getType().getName()))
+        .asJavaName();
   }
 
   public MemberGenerator.MemberContent memberContent() {

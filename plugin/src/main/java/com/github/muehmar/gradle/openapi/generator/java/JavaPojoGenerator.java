@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.anyof.AnyOfContainerGenerator.anyOfContainerGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.oneof.OneOfContainerGenerator.oneOfContainerGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.multipojo.MultiPojoContainerGenerator.multiPojoContainerGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.compositioncontainer.singlepojo.SinglePojoContainerGenerator.singlePojoContainerGenerator;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -15,13 +15,12 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
 import io.github.muehmar.codegenerator.writer.Writer;
-import java.util.Optional;
 
 public class JavaPojoGenerator implements PojoGenerator {
 
@@ -63,29 +62,32 @@ public class JavaPojoGenerator implements PojoGenerator {
   }
 
   private PList<GeneratedFile> generateAuxiliaryPojoFiles(JavaPojo pojo, PojoSettings settings) {
-    final Optional<GeneratedFile> oneOfContainerFile =
+    final PList<GeneratedFile> singlePojoContainerFiles =
         pojo.asObjectPojo()
-            .flatMap(JavaObjectPojo::getOneOfContainer)
-            .map(container -> createOneOfContainerFile(container, settings));
-    final Optional<GeneratedFile> anyOfContainerFile =
+            .map(JavaObjectPojo::getSinglePojoContainers)
+            .orElseGet(PList::empty)
+            .map(container -> createSinglePojoContainerFile(container, settings));
+    final PList<GeneratedFile> multiPojoContainerFiles =
         pojo.asObjectPojo()
-            .flatMap(JavaObjectPojo::getAnyOfContainer)
-            .map(container -> createAnyOfContainerFile(container, settings));
-    return PList.fromOptional(oneOfContainerFile).concat(PList.fromOptional(anyOfContainerFile));
+            .map(JavaObjectPojo::getMultiPojoContainer)
+            .orElseGet(PList::empty)
+            .map(container -> createMultiPojoContainerFile(container, settings));
+    return singlePojoContainerFiles.concat(multiPojoContainerFiles);
   }
 
-  private static GeneratedFile createOneOfContainerFile(
-      OneOfContainer container, PojoSettings settings) {
-    final Writer writer = oneOfContainerGenerator().generate(container, settings, javaWriter());
+  private static GeneratedFile createSinglePojoContainerFile(
+      SinglePojoContainer container, PojoSettings settings) {
+    final Writer writer =
+        singlePojoContainerGenerator().generate(container, settings, javaWriter());
     final String content = writer.asString();
     final JavaFileName javaFileName =
         JavaFileName.fromSettingsAndClassname(settings, container.getContainerName());
     return new GeneratedFile(javaFileName.asPath(), content);
   }
 
-  private static GeneratedFile createAnyOfContainerFile(
-      AnyOfContainer container, PojoSettings settings) {
-    final Writer writer = anyOfContainerGenerator().generate(container, settings, javaWriter());
+  private static GeneratedFile createMultiPojoContainerFile(
+      MultiPojoContainer container, PojoSettings settings) {
+    final Writer writer = multiPojoContainerGenerator().generate(container, settings, javaWriter());
     final String content = writer.asString();
     final JavaFileName javaFileName =
         JavaFileName.fromSettingsAndClassname(settings, container.getContainerName());

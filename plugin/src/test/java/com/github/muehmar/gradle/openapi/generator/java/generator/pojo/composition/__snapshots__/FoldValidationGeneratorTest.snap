@@ -1,9 +1,68 @@
-oneOf=[
+AnyOf=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
 @Valid
-private Object getOneOf() {
-  if (getValidCount() != 1) {
+@JsonIgnore
+private Object getAnyOf() {
+  if (getAnyOfValidCount() == 0) {
     return null;
   }
-  return fold(userdto -> userdto, necessityandnullabilitydto -> necessityandnullabilitydto, () -> null);
+  return foldAnyOf(dto -> dto, dto -> dto);
+}
+]
+
+
+AnyOfProtectedAndDeprecatedSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@Deprecated
+@Valid
+@JsonIgnore
+protected Object getAnyOf() {
+  if (getAnyOfValidCount() == 0) {
+    return null;
+  }
+  return foldAnyOf(dto -> dto, dto -> dto);
+}
+]
+
+
+oneOf=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+@Valid
+@JsonIgnore
+private Object getOneOf() {
+  if (getOneOfValidCount() != 1) {
+    return null;
+  }
+  return foldOneOf(dto -> dto, dto -> dto, () -> null);
+}
+]
+
+
+oneOfProtectedAndDeprecatedSettings=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@Deprecated
+@Valid
+@JsonIgnore
+protected Object getOneOf() {
+  if (getOneOfValidCount() != 1) {
+    return null;
+  }
+  return foldOneOf(dto -> dto, dto -> dto, () -> null);
 }
 ]

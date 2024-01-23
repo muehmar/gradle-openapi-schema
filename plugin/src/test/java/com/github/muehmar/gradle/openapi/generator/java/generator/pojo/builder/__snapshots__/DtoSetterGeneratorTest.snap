@@ -1,7 +1,71 @@
+allOfPojo=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal(dto.getStringVal());
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+
+private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
+  setRequiredStringVal(dto.getRequiredStringVal());
+  setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
+  setOptionalStringVal(dto.getOptionalStringVal());
+  setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+]
+
+
+anyOfPojo=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal(dto.getStringVal());
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+
+private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
+  setRequiredStringVal(dto.getRequiredStringVal());
+  setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
+  setOptionalStringVal(dto.getOptionalStringVal());
+  setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+]
+
+
+anyOfPojoWithDiscriminator=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal("SampleObjectPojo1");
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+
+private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+  setStringVal("SampleObjectPojo2");
+  setBirthdate(dto.getBirthdate());
+  setEmail(dto.getEmail());
+  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  return this;
+}
+]
+
+
 composedPojoHasNoAdditionalPropertiesAllowed=[
 .
 .
-
 private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
   intVal(dto.getIntVal());
@@ -16,14 +80,12 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
-
 ]
 
 
 noBuilderSetMethodPrefix=[
 .
 .
-
 private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
   intVal(dto.getIntVal());
@@ -39,14 +101,12 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
-
 ]
 
 
 oneOfPojo=[
 .
 .
-
 private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
@@ -63,14 +123,12 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
-
 ]
 
 
 oneOfPojoWithDiscriminator=[
 .
 .
-
 private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal("SampleObjectPojo1");
   setIntVal(dto.getIntVal());
@@ -86,14 +144,12 @@ private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
-
 ]
 
 
 oneOfPojoWithEnumDiscriminator=[
 .
 .
-
 private Builder setYellowDto(YellowDto dto) {
   setStringVal(dto.getStringVal());
   setColor(BaseDto.Color.YELLOW);
@@ -107,5 +163,4 @@ private Builder setOrangeDto(OrangeDto dto) {
   dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
   return this;
 }
-
 ]
