@@ -18,6 +18,7 @@ class SerialisationTest {
         AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
+            .setType("admin")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
@@ -25,7 +26,7 @@ class SerialisationTest {
     final AdminOrUserDto dto = AdminOrUserDto.builder().setAdminDto(adminDto).build();
 
     assertEquals(
-        "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5}",
+        "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5,\"type\":\"admin\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -36,6 +37,7 @@ class SerialisationTest {
         AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
+            .setType("admin")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(AdminDto.ColorEnum.RED)
@@ -46,7 +48,7 @@ class SerialisationTest {
             .build();
 
     assertEquals(
-        "{\"adminOrUser\":{\"adminname\":\"admin-name\",\"color\":\"red\",\"id\":\"admin-id\",\"level\":5}}",
+        "{\"adminOrUser\":{\"adminname\":\"admin-name\",\"color\":\"red\",\"id\":\"admin-id\",\"level\":5,\"type\":\"admin\"}}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -56,6 +58,7 @@ class SerialisationTest {
         UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
+            .setType("user")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -63,7 +66,7 @@ class SerialisationTest {
     final AdminOrUserDto dto = AdminOrUserDto.builder().setUserDto(userDto).build();
 
     assertEquals(
-        "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"username\":\"user-name\"}",
+        "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"type\":\"user\",\"username\":\"user-name\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -74,6 +77,7 @@ class SerialisationTest {
         UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
+            .setType("user")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -85,7 +89,7 @@ class SerialisationTest {
             .build();
 
     assertEquals(
-        "{\"adminOrUser\":{\"age\":25,\"email\":null,\"id\":\"user-id\",\"username\":\"user-name\"}}",
+        "{\"adminOrUser\":{\"age\":25,\"email\":null,\"id\":\"user-id\",\"type\":\"user\",\"username\":\"user-name\"}}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -95,6 +99,7 @@ class SerialisationTest {
         UserDto.builder()
             .setId("id")
             .setUsername("user-name")
+            .setType("type")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -103,6 +108,7 @@ class SerialisationTest {
         AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
+            .setType("type")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
@@ -112,7 +118,7 @@ class SerialisationTest {
         AdminOrUserDto.builder().setUserDto(userDto).setAdminDto(adminDto).build();
 
     assertEquals(
-        "{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"username\":\"user-name\"}",
+        "{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"type\":\"type\",\"username\":\"user-name\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -123,6 +129,7 @@ class SerialisationTest {
         UserDto.builder()
             .setId("id")
             .setUsername("user-name")
+            .setType("user")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -131,6 +138,7 @@ class SerialisationTest {
         AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
+            .setType("admin")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
@@ -146,7 +154,7 @@ class SerialisationTest {
             .build();
 
     assertEquals(
-        "{\"adminOrUser\":{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"username\":\"user-name\"}}",
+        "{\"adminOrUser\":{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"type\":\"user\",\"username\":\"user-name\"}}",
         MAPPER.writeValueAsString(dto));
   }
 }
