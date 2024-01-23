@@ -23,7 +23,7 @@ java.util.Objects
 @Override
 public int hashCode() {
   return Objects.hash(
-    value
+    items
   );
 }
 ]

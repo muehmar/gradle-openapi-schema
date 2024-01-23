@@ -1,14 +1,14 @@
 arrayPojo=[
 private class Validator {
-  private boolean isValueValid() {
-    if(value != null) {
-      return value.stream().allMatch(this::isValueValueValid);
+  private boolean isItemsValid() {
+    if(items != null) {
+      return items.stream().allMatch(this::isItemsValueValid);
     }
 
     return false;
   }
 
-  private boolean isValueValueValid(Double valueValue) {
+  private boolean isItemsValueValid(Double itemsValue) {
     return true;
   }
 
@@ -21,16 +21,16 @@ private class Validator {
 
 arrayPojoWithUniqueItems=[
 private class Validator {
-  private boolean isValueValid() {
-    if(value != null) {
-      return hasValueUniqueItems()
-          && value.stream().allMatch(this::isValueValueValid);
+  private boolean isItemsValid() {
+    if(items != null) {
+      return hasItemsUniqueItems()
+          && items.stream().allMatch(this::isItemsValueValid);
     }
 
     return false;
   }
 
-  private boolean isValueValueValid(Double valueValue) {
+  private boolean isItemsValueValid(Double itemsValue) {
     return true;
   }
 

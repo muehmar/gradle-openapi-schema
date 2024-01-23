@@ -27,7 +27,7 @@ class JavaArrayPojoTest {
 
     final JavaPojoMember arrayPojoMember = javaArrayPojo.getArrayPojoMember();
 
-    assertEquals(JavaName.fromString("value"), arrayPojoMember.getName());
+    assertEquals(JavaName.fromString("items"), arrayPojoMember.getName());
     assertEquals(arrayPojo.getDescription(), arrayPojoMember.getDescription());
     assertEquals(arrayPojo.getConstraints(), arrayPojoMember.getJavaType().getConstraints());
     assertEquals(

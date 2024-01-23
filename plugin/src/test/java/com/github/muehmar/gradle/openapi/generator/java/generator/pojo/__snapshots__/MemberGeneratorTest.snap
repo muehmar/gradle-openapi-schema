@@ -1,4 +1,6 @@
 allNecessityAndNullabilityVariants=[
+java.util.Map
+
 private final String requiredStringVal;
 private final String requiredNullableStringVal;
 private final boolean isRequiredNullableStringValPresent;
@@ -10,7 +12,18 @@ private final Map<String, Object> additionalProperties;
 ]
 
 
+arrayPojo=[
+com.fasterxml.jackson.annotation.JsonValue
+java.util.List
+
+@JsonValue
+private final List<Double> items;
+]
+
+
 illegalIdentifierPojo=[
+java.util.Map
+
 private final String switch_;
 private final boolean isSwitchNull;
 private final String point_;

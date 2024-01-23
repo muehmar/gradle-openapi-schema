@@ -19,7 +19,7 @@ arrayPojo=[
 @Override
 public String toString() {
   return "PosologyDto{" +
-    "value=" + value +
+    "items=" + items +
     "}";
 }
 ]
