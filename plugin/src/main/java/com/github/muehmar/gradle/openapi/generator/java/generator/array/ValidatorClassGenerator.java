@@ -46,7 +46,7 @@ public class ValidatorClassGenerator {
         .methodName("isValid")
         .noArguments()
         .doesNotThrow()
-        .content(isValidMethodContent(valueValidationCondition()))
+        .content(isValidMethodContent(itemsValidationCondition()))
         .build();
   }
 
@@ -61,15 +61,12 @@ public class ValidatorClassGenerator {
     };
   }
 
-  private static Condition valueValidationCondition() {
-    return Condition.constant("isValueValid()");
+  private static Condition itemsValidationCondition() {
+    return (pojo, settings, writer) ->
+        writer.print("is%sValid()", pojo.getArrayPojoMember().getName().startUpperCase());
   }
 
   private interface Condition extends Generator<JavaArrayPojo, PojoSettings> {
-    static Condition constant(String constant) {
-      return (p, s, w) -> w.print(constant);
-    }
-
     @Override
     default Condition filter(Predicate<JavaArrayPojo> predicate) {
       final Generator<JavaArrayPojo, PojoSettings> self = this;

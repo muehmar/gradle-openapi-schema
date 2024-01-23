@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
  */
 public class PosologyDto {
   @JsonValue
-  private final List<Double> value;
+  private final List<Double> items;
 
   @JsonCreator
   public PosologyDto(
-      List<Double> value
+      List<Double> items
     ) {
-    this.value = value;
+    this.items = items;
   }
 
   public static PosologyDto fromItems(List<Double> items) {
@@ -36,20 +36,20 @@ public class PosologyDto {
    * Doses to be taken
    */
   @NotNull
-  public List<Double> getValue() {
-    return value;
+  public List<Double> getItems() {
+    return items;
   }
 
   /**
    * Doses to be taken
    */
-  public PosologyDto withValue(List<Double> value) {
-    return new PosologyDto(value);
+  public PosologyDto withItems(List<Double> items) {
+    return new PosologyDto(items);
   }
 
-  @AssertTrue(message = "value does not contain unique items")
-  private boolean hasValueUniqueItems() {
-    return new HashSet<>(value).size() == value.size();
+  @AssertTrue(message = "items does not contain unique items")
+  private boolean hasItemsUniqueItems() {
+    return new HashSet<>(items).size() == items.size();
   }
 
   boolean isValid() {
@@ -57,21 +57,21 @@ public class PosologyDto {
   }
 
   private class Validator {
-    private boolean isValueValid() {
-      if(value != null) {
-        return hasValueUniqueItems()
-            && value.stream().allMatch(this::isValueValueValid);
+    private boolean isItemsValid() {
+      if(items != null) {
+        return hasItemsUniqueItems()
+            && items.stream().allMatch(this::isItemsValueValid);
       }
 
       return false;
     }
 
-    private boolean isValueValueValid(Double valueValue) {
+    private boolean isItemsValueValid(Double itemsValue) {
       return true;
     }
 
     private boolean isValid() {
-      return isValueValid();
+      return isItemsValid();
     }
   }
 
@@ -80,20 +80,20 @@ public class PosologyDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final PosologyDto other = (PosologyDto) obj;
-    return Objects.deepEquals(this.value, other.value);
+    return Objects.deepEquals(this.items, other.items);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      value
+      items
     );
   }
 
   @Override
   public String toString() {
     return "PosologyDto{" +
-      "value=" + value +
+      "items=" + items +
       "}";
   }
 }
