@@ -1,9 +1,9 @@
 arrayPojo=[
 @JsonCreator
 public PosologyDto(
-    List<Double> value
+    List<Double> items
   ) {
-  this.value = value;
+  this.items = items;
 }
 ]
 

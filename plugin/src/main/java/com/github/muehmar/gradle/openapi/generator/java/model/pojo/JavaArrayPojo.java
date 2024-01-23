@@ -79,7 +79,7 @@ public class JavaArrayPojo implements JavaPojo {
 
   private static JavaPojoMember createItemTypeMember(
       ArrayPojo arrayPojo, JavaPojoName pojoName, JavaArrayType javaArrayType) {
-    final JavaName name = JavaName.fromString("value");
+    final JavaName name = JavaName.fromString("items");
     return javaPojoMemberBuilder()
         .pojoName(pojoName)
         .name(name)
@@ -95,8 +95,7 @@ public class JavaArrayPojo implements JavaPojo {
   private static JavaArrayType createJavaArrayType(ArrayPojo arrayPojo, TypeMappings typeMappings) {
     final ArrayType arrayType =
         ArrayType.ofItemType(arrayPojo.getItemType()).withConstraints(arrayPojo.getConstraints());
-    final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, typeMappings);
-    return javaArrayType;
+    return JavaArrayType.wrap(arrayType, typeMappings);
   }
 
   @Override
