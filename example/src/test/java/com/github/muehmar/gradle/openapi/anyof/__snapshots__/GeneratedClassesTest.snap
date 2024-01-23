@@ -1,6 +1,8 @@
 allGeneratedClasses=[
 AdminDto
 AdminOrUserAnyOfContainerDto
+AdminOrUserDiscriminatorAnyOfContainerDto
+AdminOrUserDiscriminatorDto
 AdminOrUserDto
 AnyOfMemberReferenceAnyOfContainerDto
 AnyOfMemberReferenceAnyOfDto

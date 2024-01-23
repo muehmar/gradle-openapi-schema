@@ -22,7 +22,7 @@ class ValidationTest {
   void validate_when_matchesUserSchema_then_noViolation() throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
+            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"admin\"}",
             AdminOrUserDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
@@ -36,7 +36,7 @@ class ValidationTest {
       throws JsonProcessingException {
     final InlinedAnyOfDto inlinedAnyOfDto =
         MAPPER.readValue(
-            "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}}",
+            "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"user\"}}",
             InlinedAnyOfDto.class);
 
     final Set<ConstraintViolation<InlinedAnyOfDto>> violations = validate(inlinedAnyOfDto);
@@ -50,7 +50,7 @@ class ValidationTest {
       throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":200,\"email\":null}",
+            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":200,\"email\":null,\"type\":\"user\"}",
             AdminOrUserDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
@@ -70,7 +70,7 @@ class ValidationTest {
       throws JsonProcessingException {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
-            "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":200,\"email\":null}}",
+            "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":200,\"email\":null,\"type\":\"user\"}}",
             InlinedAnyOfDto.class);
 
     final Set<ConstraintViolation<InlinedAnyOfDto>> violations = validate(inlinedDto);
@@ -95,7 +95,9 @@ class ValidationTest {
         Arrays.asList(
             "invalidAnyOf[Admin].adminname -> must not be null",
             "invalidAnyOf[Admin].id -> must not be null",
+            "invalidAnyOf[Admin].type -> must not be null",
             "invalidAnyOf[User].id -> must not be null",
+            "invalidAnyOf[User].type -> must not be null",
             "invalidAnyOf[User].username -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
@@ -113,7 +115,9 @@ class ValidationTest {
         Arrays.asList(
             "adminOrUser.invalidAnyOf[Admin].adminname -> must not be null",
             "adminOrUser.invalidAnyOf[Admin].id -> must not be null",
+            "adminOrUser.invalidAnyOf[Admin].type -> must not be null",
             "adminOrUser.invalidAnyOf[User].id -> must not be null",
+            "adminOrUser.invalidAnyOf[User].type -> must not be null",
             "adminOrUser.invalidAnyOf[User].username -> must not be null",
             "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
@@ -124,7 +128,7 @@ class ValidationTest {
   void validate_when_doesMatchBothSchemas_then_noViolation() throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"id\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}",
+            "{\"id\":\"id\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"type\":\"type\"}",
             AdminOrUserDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
@@ -138,7 +142,7 @@ class ValidationTest {
       throws JsonProcessingException {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
-            "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}}",
+            "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"type\":\"type\"}}",
             InlinedAnyOfDto.class);
 
     final Set<ConstraintViolation<InlinedAnyOfDto>> violations = validate(inlinedDto);

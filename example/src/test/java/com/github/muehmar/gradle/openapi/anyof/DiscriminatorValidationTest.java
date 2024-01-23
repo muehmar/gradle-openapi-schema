@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.oneof;
+package com.github.muehmar.gradle.openapi.anyof;
 
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
@@ -22,7 +22,7 @@ class DiscriminatorValidationTest {
   void validate_when_matchesUserSchema_then_noViolation() throws JsonProcessingException {
     final AdminOrUserDiscriminatorDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"user-id\",\"type\":\"User\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
+            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"User\"}",
             AdminOrUserDiscriminatorDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDiscriminatorDto>> violations =
@@ -37,7 +37,7 @@ class DiscriminatorValidationTest {
       throws JsonProcessingException {
     final AdminOrUserDiscriminatorDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"user-id\",\"type\":\"User\",\"username\":\"user-name\",\"age\":200,\"email\":null}",
+            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":200,\"email\":null,\"type\":\"User\"}",
             AdminOrUserDiscriminatorDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDiscriminatorDto>> violations =
@@ -45,16 +45,16 @@ class DiscriminatorValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[User].ageRaw -> must be less than or equal to 199",
-            "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
+            "invalidAnyOf[User].ageRaw -> must be less than or equal to 199",
+            "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]",
+            "validAgainstTheCorrectAnyOfSchema -> Not valid against the schema described by the anyOf-discriminator"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(adminOrUserDto.isValid());
   }
 
   @Test
-  void validate_when_matchesNoSchema_then_violations() throws JsonProcessingException {
+  void validate_when_matchesNoSchema_then_violation() throws JsonProcessingException {
     final AdminOrUserDiscriminatorDto adminOrUserDto =
         MAPPER.readValue("{}", AdminOrUserDiscriminatorDto.class);
 
@@ -63,32 +63,29 @@ class DiscriminatorValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[Admin].id -> must not be null",
-            "invalidOneOf[Admin].type -> must not be null",
-            "invalidOneOf[User].id -> must not be null",
-            "invalidOneOf[User].type -> must not be null",
-            "invalidOneOf[User].username -> must not be null",
-            "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
+            "invalidAnyOf[Admin].adminname -> must not be null",
+            "invalidAnyOf[Admin].id -> must not be null",
+            "invalidAnyOf[Admin].type -> must not be null",
+            "invalidAnyOf[User].id -> must not be null",
+            "invalidAnyOf[User].type -> must not be null",
+            "invalidAnyOf[User].username -> must not be null",
+            "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]",
+            "validAgainstTheCorrectAnyOfSchema -> Not valid against the schema described by the anyOf-discriminator"),
         formatViolations(violations));
     assertFalse(adminOrUserDto.isValid());
   }
 
   @Test
-  void validate_when_doesMatchBothSchemas_then_violation() throws JsonProcessingException {
+  void validate_when_doesMatchBothSchemas_then_noViolation() throws JsonProcessingException {
     final AdminOrUserDiscriminatorDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"id-123\",\"type\":\"User\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}",
+            "{\"id\":\"id\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"type\":\"Admin\"}",
             AdminOrUserDiscriminatorDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDiscriminatorDto>> violations =
         validate(adminOrUserDto);
 
-    assertEquals(
-        Arrays.asList(
-            "validAgainstMoreThanOneSchema -> Is valid against more than one of the schemas [Admin, User]"),
-        formatViolations(violations));
-    assertFalse(adminOrUserDto.isValid());
+    assertEquals(0, violations.size());
+    assertTrue(adminOrUserDto.isValid());
   }
 }
