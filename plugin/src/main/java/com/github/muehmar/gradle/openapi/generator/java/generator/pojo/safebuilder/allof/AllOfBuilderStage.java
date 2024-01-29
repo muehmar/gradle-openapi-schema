@@ -10,8 +10,11 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuild
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.oneof.OneOfBuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.HashSet;
 import java.util.Optional;
 import lombok.Value;
 
@@ -22,109 +25,78 @@ public class AllOfBuilderStage implements BuilderStage {
   JavaObjectPojo parentPojo;
   JavaAllOfComposition allOfComposition;
   JavaObjectPojo allOfSubPojo;
-  Optional<JavaPojoMember> member;
-  int memberIndex;
-  BuilderStage nextStage;
-  BuilderStage nextMemberStage;
+
+  Optional<MemberStageObjects> memberStageObjects;
+  Optional<SubPojoStageObjects> subPojoStageObjects;
+
+  @Value
+  public static class MemberStageObjects {
+    JavaPojoMember member;
+    int memberIndex;
+    BuilderStage nextStage;
+  }
+
+  @Value
+  public static class SubPojoStageObjects {
+    BuilderStage nextStage;
+  }
+
+  private AllOfBuilderStage merge(AllOfBuilderStage other) {
+    return fullAllOfBuilderStageBuilder()
+        .builderVariant(builderVariant)
+        .parentPojo(parentPojo)
+        .allOfComposition(allOfComposition)
+        .allOfSubPojo(allOfSubPojo)
+        .memberStageObjects(Optionals.or(memberStageObjects, other.getMemberStageObjects()))
+        .subPojoStageObjects(Optionals.or(subPojoStageObjects, other.getSubPojoStageObjects()))
+        .build();
+  }
 
   public static NonEmptyList<BuilderStage> createStages(
       SafeBuilderVariant builderVariant, JavaObjectPojo parentPojo) {
     final NonEmptyList<BuilderStage> nextStages =
         OneOfBuilderStage.createStages(builderVariant, parentPojo);
-    final PList<BuilderStage> allOfStages =
+
+    final Optional<AllOfStageObjects> allOfStageObjects =
         parentPojo
             .getAllOfComposition()
             .map(
                 allOfComposition ->
-                    new AllOfStageObjects(builderVariant, parentPojo, allOfComposition))
-            .map(allOfStageObjects -> createStages(allOfStageObjects, nextStages.head()))
+                    new AllOfStageObjects(builderVariant, parentPojo, allOfComposition));
+
+    final PList<AllOfBuilderStage> allOfMemberStages =
+        allOfStageObjects
+            .map(objects -> objects.getMemberAllOfStages(nextStages.head()))
             .orElseGet(PList::empty);
-    return allOfStages.foldRight(nextStages, NonEmptyList::cons);
-  }
 
-  private static PList<BuilderStage> createStages(
-      AllOfStageObjects allOfStageObjects, BuilderStage nextStage) {
-    final PList<JavaObjectPojo> reversedAllOfSubPojos =
-        allOfStageObjects.allOfComposition.getPojos().toPList().reverse();
-    return createStages(allOfStageObjects, reversedAllOfSubPojos, nextStage);
-  }
+    final PList<AllOfBuilderStage> allOfPojoStages =
+        allOfStageObjects
+            .map(objects -> objects.getPojoAllOfStages(nextStages.head()))
+            .orElseGet(PList::empty);
 
-  private static PList<BuilderStage> createStages(
-      AllOfStageObjects allOfStageObjects,
-      PList<JavaObjectPojo> reversedAllOfSubPojos,
-      BuilderStage nextStage) {
-    return reversedAllOfSubPojos
-        .headOption()
-        .map(
-            allOfSubPojo -> {
-              final PojoStageObjects pojoStageObjects =
-                  allOfStageObjects.addSubPojo(allOfSubPojo, reversedAllOfSubPojos.tail());
-              final PList<BuilderStage> pojoStages = createPojoStages(pojoStageObjects, nextStage);
-              return createStages(
-                      allOfStageObjects,
-                      reversedAllOfSubPojos.tail(),
-                      pojoStages.headOption().orElse(nextStage))
-                  .concat(pojoStages);
-            })
-        .orElse(PList.empty());
-  }
+    final PList<AllOfBuilderStage> firstMergedStage =
+        allOfMemberStages
+            .headOption()
+            .flatMap(firstMemberStage -> allOfPojoStages.headOption().map(firstMemberStage::merge))
+            .map(PList::single)
+            .orElseGet(PList::empty);
 
-  private static PList<BuilderStage> createPojoStages(
-      PojoStageObjects objects, BuilderStage nextStage) {
-    final PList<IndexedPojoMember> reversedMembersForStages =
-        objects
-            .getMembersForBuilder()
-            .filter(m -> not(objects.hasPrecedingAllOfPojoSameMember(m)))
-            .zipWithIndex()
-            .map(p -> new IndexedPojoMember(p.first(), p.second()))
-            .reverse();
-    if (reversedMembersForStages.isEmpty() || objects.getAllOfSubPojo().hasCompositions()) {
-      return PList.single(createPojoMemberStage(objects, Optional.empty(), nextStage, nextStage));
-    } else {
-      return createPojoMemberStages(objects, reversedMembersForStages, nextStage, nextStage);
-    }
-  }
-
-  private static PList<BuilderStage> createPojoMemberStages(
-      PojoStageObjects objects,
-      PList<IndexedPojoMember> reversedMembers,
-      BuilderStage nextStage,
-      BuilderStage nextMemberStage) {
-    return reversedMembers
-        .headOption()
-        .map(
-            member -> {
-              final BuilderStage pojoMemberStage =
-                  createPojoMemberStage(objects, Optional.of(member), nextStage, nextMemberStage);
-              return createPojoMemberStages(
-                      objects, reversedMembers.tail(), nextStage, pojoMemberStage)
-                  .add(pojoMemberStage);
-            })
-        .orElse(PList.empty());
-  }
-
-  private static BuilderStage createPojoMemberStage(
-      PojoStageObjects objects,
-      Optional<IndexedPojoMember> pojoMember,
-      BuilderStage nextStage,
-      BuilderStage nextMemberStage) {
-    return fullAllOfBuilderStageBuilder()
-        .builderVariant(objects.builderVariant)
-        .parentPojo(objects.parentPojo)
-        .allOfComposition(objects.allOfComposition)
-        .allOfSubPojo(objects.allOfSubPojo)
-        .memberIndex(pojoMember.map(IndexedPojoMember::getIndex).orElse(0))
-        .nextStage(nextStage)
-        .nextMemberStage(nextMemberStage)
-        .member(pojoMember.map(IndexedPojoMember::getMember))
-        .build();
+    return firstMergedStage
+        .concat(allOfMemberStages.drop(firstMergedStage.size()))
+        .concat(allOfPojoStages.drop(firstMergedStage.size()))
+        .foldRight(nextStages, NonEmptyList::cons);
   }
 
   @Override
   public String getName() {
+    final String suffix =
+        memberStageObjects
+            .map(MemberStageObjects::getMemberIndex)
+            .map(index -> String.format("%d", index))
+            .orElse("");
     return String.format(
-        "%sAllOfBuilder%s%d",
-        builderVariant.getBuilderNamePrefix(), allOfSubPojo.getSchemaName(), memberIndex);
+        "%sAllOfBuilder%s%s",
+        builderVariant.getBuilderNamePrefix(), allOfSubPojo.getSchemaName(), suffix);
   }
 
   @PojoBuilder
@@ -134,31 +106,86 @@ public class AllOfBuilderStage implements BuilderStage {
     JavaObjectPojo parentPojo;
     JavaAllOfComposition allOfComposition;
 
-    PojoStageObjects addSubPojo(
-        JavaObjectPojo allOfSubPojo, PList<JavaObjectPojo> precedingAllOfSubPojos) {
-      return new PojoStageObjects(
-          builderVariant, parentPojo, allOfComposition, allOfSubPojo, precedingAllOfSubPojos);
+    PList<AllOfBuilderStage> getMemberAllOfStages(BuilderStage nextStage) {
+      if (hasNoAnyOfOrOneOfComposition()) {
+        final HashSet<JavaName> seenNames = new HashSet<>();
+        return allOfComposition
+            .getPojos()
+            .toPList()
+            .reverse()
+            .flatMap(
+                allOfSubPojo1 ->
+                    new AllOfSubPojoWrapper(allOfSubPojo1)
+                        .getMembersForBuilder()
+                        .zipWithIndex()
+                        .reverse()
+                        .map(
+                            p -> {
+                              final JavaPojoMember member1 = p.first();
+                              final int index = p.second();
+                              return new MemberObjects(
+                                  builderVariant,
+                                  parentPojo,
+                                  allOfComposition,
+                                  allOfSubPojo1,
+                                  member1,
+                                  index);
+                            }))
+            .reverse()
+            .filter(m -> seenNames.add(m.getMember().getName()))
+            .reverse()
+            .foldLeft(
+                PList.empty(),
+                (stages, member) -> {
+                  final MemberStageObjects memberStageObjects =
+                      member.toMemberStageObjects(
+                          stages.headOption().<BuilderStage>map(s -> s).orElse(nextStage));
+                  final AllOfBuilderStage allOfBuilderStage =
+                      fullAllOfBuilderStageBuilder()
+                          .builderVariant(builderVariant)
+                          .parentPojo(parentPojo)
+                          .allOfComposition(allOfComposition)
+                          .allOfSubPojo(member.getAllOfSubPojo())
+                          .memberStageObjects(memberStageObjects)
+                          .subPojoStageObjects(Optional.empty())
+                          .build();
+                  return stages.cons(allOfBuilderStage);
+                });
+      } else {
+        return PList.empty();
+      }
     }
-  }
 
-  @PojoBuilder
-  @Value
-  static class PojoStageObjects {
-    SafeBuilderVariant builderVariant;
-    JavaObjectPojo parentPojo;
-    JavaAllOfComposition allOfComposition;
-    JavaObjectPojo allOfSubPojo;
-    PList<JavaObjectPojo> precedingAllOfSubPojos;
-
-    PList<JavaPojoMember> getMembersForBuilder() {
-      return new AllOfSubPojoWrapper(allOfSubPojo).getMembersForBuilder();
+    PList<AllOfBuilderStage> getPojoAllOfStages(BuilderStage nextStage) {
+      return allOfComposition
+          .getPojos()
+          .reverse()
+          .toPList()
+          .foldLeft(
+              PList.empty(),
+              (stages, allOfSubPojo) -> {
+                final SubPojoStageObjects subPojoStageObjects =
+                    new SubPojoStageObjects(
+                        stages.headOption().<BuilderStage>map(s -> s).orElse(nextStage));
+                final AllOfBuilderStage allOfBuilderStage =
+                    fullAllOfBuilderStageBuilder()
+                        .builderVariant(builderVariant)
+                        .parentPojo(parentPojo)
+                        .allOfComposition(allOfComposition)
+                        .allOfSubPojo(allOfSubPojo)
+                        .memberStageObjects(Optional.empty())
+                        .subPojoStageObjects(subPojoStageObjects)
+                        .build();
+                return stages.cons(allOfBuilderStage);
+              });
     }
 
-    boolean hasPrecedingAllOfPojoSameMember(JavaPojoMember member) {
-      return precedingAllOfSubPojos
+    boolean hasNoAnyOfOrOneOfComposition() {
+      return allOfComposition
+          .getPojos()
+          .toPList()
           .map(AllOfSubPojoWrapper::new)
-          .flatMap(AllOfSubPojoWrapper::getMembersForBuilder)
-          .exists(precedingMember -> precedingMember.getMemberKey().equals(member.getMemberKey()));
+          .forall(AllOfSubPojoWrapper::hasNoAnyOfOrOneOfComposition);
     }
   }
 
@@ -167,6 +194,12 @@ public class AllOfBuilderStage implements BuilderStage {
     JavaObjectPojo allOfSubPojo;
 
     PList<JavaPojoMember> getMembersForBuilder() {
+      final PList<JavaPojoMember> allOfMembers =
+          allOfSubPojo
+              .getAllOfComposition()
+              .map(c -> c.getPojos().toPList().map(AllOfSubPojoWrapper::new))
+              .orElse(PList.empty())
+              .flatMap(AllOfSubPojoWrapper::getMembersForBuilder);
       final PList<JavaPojoMember> requiredPropertiesAsMembers =
           allOfSubPojo
               .getRequiredAdditionalProperties()
@@ -175,13 +208,36 @@ public class AllOfBuilderStage implements BuilderStage {
           allOfSubPojo
               .getMembers()
               .map(member -> member.asInnerEnumOf(allOfSubPojo.getClassName()));
-      return members.concat(requiredPropertiesAsMembers);
+      return members.concat(requiredPropertiesAsMembers).concat(allOfMembers);
+    }
+
+    boolean hasNoAnyOfOrOneOfComposition() {
+      return not(
+              allOfSubPojo.getOneOfComposition().isPresent()
+                  || allOfSubPojo.getAnyOfComposition().isPresent())
+          && allOfSubPojo
+              .getAnyOfComposition()
+              .map(
+                  c ->
+                      c.getPojos()
+                          .map(AllOfSubPojoWrapper::new)
+                          .toPList()
+                          .forall(AllOfSubPojoWrapper::hasNoAnyOfOrOneOfComposition))
+              .orElse(true);
     }
   }
 
   @Value
-  private static class IndexedPojoMember {
+  private static class MemberObjects {
+    SafeBuilderVariant builderVariant;
+    JavaObjectPojo parentPojo;
+    JavaAllOfComposition allOfComposition;
+    JavaObjectPojo allOfSubPojo;
     JavaPojoMember member;
     int index;
+
+    MemberStageObjects toMemberStageObjects(BuilderStage nextStage) {
+      return new MemberStageObjects(member, index, nextStage);
+    }
   }
 }

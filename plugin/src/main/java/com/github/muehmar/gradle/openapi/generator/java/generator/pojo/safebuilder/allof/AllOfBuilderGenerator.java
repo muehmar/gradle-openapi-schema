@@ -28,7 +28,7 @@ public class AllOfBuilderGenerator {
       SafeBuilderVariant builderVariant) {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(
-            allOfMemberGenerator(),
+            allOfStageGenerator(),
             pojo ->
                 BuilderStage.createStages(builderVariant, pojo)
                     .toPList()
@@ -36,7 +36,7 @@ public class AllOfBuilderGenerator {
             newLine());
   }
 
-  private static Generator<AllOfBuilderStage, PojoSettings> allOfMemberGenerator() {
+  private static Generator<AllOfBuilderStage, PojoSettings> allOfStageGenerator() {
     final PList<Generator<AllOfBuilderStage, PojoSettings>> content =
         PList.of(normalSetter(), optionalSetter(), tristateSetter(), dtoSetter());
     return SingleBuilderClassGenerator.singleBuilderClassGenerator(
@@ -77,37 +77,64 @@ public class AllOfBuilderGenerator {
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> dtoSetter() {
-    return MethodGenBuilder.<AllOfBuilderStage, PojoSettings>create()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnType(stage -> stage.getNextStage().getName())
-        .methodName(
-            (stage, settings) ->
-                stage
-                    .getAllOfSubPojo()
-                    .prefixedClassNameForMethod(settings.getBuilderMethodPrefix())
-                    .asString())
-        .singleArgument(
-            stage ->
-                new MethodGen.Argument(stage.getAllOfSubPojo().getClassName().asString(), "dto"))
-        .doesNotThrow()
-        .content(
-            (stage, s, w) ->
-                w.println(
-                    "return new %s(builder.%s(dto));",
-                    stage.getNextStage().getName(),
-                    stage.getAllOfSubPojo().prefixedClassNameForMethod(s.getBuilderMethodPrefix())))
-        .build()
-        .filter(stage -> stage.getMemberIndex() == 0);
+    final MethodGen<AllOfPojoStage, PojoSettings> generator =
+        MethodGenBuilder.<AllOfPojoStage, PojoSettings>create()
+            .modifiers(PUBLIC)
+            .noGenericTypes()
+            .returnType(stage -> stage.getNextStage().getName())
+            .methodName(
+                (stage, settings) ->
+                    stage
+                        .getAllOfBuilderStage()
+                        .getAllOfSubPojo()
+                        .prefixedClassNameForMethod(settings.getBuilderMethodPrefix())
+                        .asString())
+            .singleArgument(
+                stage ->
+                    new MethodGen.Argument(
+                        stage.getAllOfBuilderStage().getAllOfSubPojo().getClassName().asString(),
+                        "dto"))
+            .doesNotThrow()
+            .content(
+                (stage, s, w) ->
+                    w.println(
+                        "return new %s(builder.%s(dto));",
+                        stage.getNextStage().getName(),
+                        stage
+                            .getAllOfBuilderStage()
+                            .getAllOfSubPojo()
+                            .prefixedClassNameForMethod(s.getBuilderMethodPrefix())))
+            .build();
+    return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
+        .appendOptional(generator, AllOfPojoStage::fromAllOfBuilderStage);
+  }
+
+  @Value
+  private static class AllOfPojoStage {
+    AllOfBuilderStage allOfBuilderStage;
+    BuilderStage nextStage;
+
+    static Optional<AllOfPojoStage> fromAllOfBuilderStage(AllOfBuilderStage stage) {
+      return stage
+          .getSubPojoStageObjects()
+          .map(
+              subPojoStageObjects -> new AllOfPojoStage(stage, subPojoStageObjects.getNextStage()));
+    }
   }
 
   @Value
   private static class AllOfMember implements SingleMemberSetterGenerator.Member {
     AllOfBuilderStage stage;
     JavaPojoMember member;
+    BuilderStage nextStage;
 
     static Optional<AllOfMember> fromStage(AllOfBuilderStage stage) {
-      return stage.getMember().map(member -> new AllOfMember(stage, member));
+      return stage
+          .getMemberStageObjects()
+          .map(
+              memberStageObjects ->
+                  new AllOfMember(
+                      stage, memberStageObjects.getMember(), memberStageObjects.getNextStage()));
     }
 
     @Override
@@ -117,7 +144,7 @@ public class AllOfBuilderGenerator {
 
     @Override
     public String nextStageClassName() {
-      return stage.getNextMemberStage().getName();
+      return nextStage.getName();
     }
 
     public boolean isJavaOptional() {

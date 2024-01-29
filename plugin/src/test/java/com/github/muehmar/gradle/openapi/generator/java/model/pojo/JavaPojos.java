@@ -110,8 +110,8 @@ public class JavaPojos {
 
   public static JavaObjectPojo allOfPojo(JavaAllOfComposition javaAllOfComposition) {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoNames.fromNameAndSuffix("OneOfPojo1", "Dto"))
-        .schemaName(SchemaName.ofString("OneOfPojo1"))
+        .name(JavaPojoNames.fromNameAndSuffix("AllOfPojo1", "Dto"))
+        .schemaName(SchemaName.ofString("AllOfPojo1"))
         .description("")
         .members(JavaPojoMembers.empty())
         .type(PojoType.DEFAULT)
