@@ -1,0 +1,45 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Patient:
+      allOf:
+        - $ref: "#/components/schemas/Person"
+      required:
+        - patientId
+        - birthDate
+      properties:
+        patientId:
+          type: string
+        birthDate:
+          type: string
+          format: date
+
+    Person:
+      allOf:
+        - $ref: "#/components/schemas/Addressable"
+      required:
+        - firstName
+        - lastName
+        - birthDate
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+
+    Addressable:
+      required:
+        - street
+        - city
+      properties:
+        street:
+          type: string
+        city:
+          type: string
