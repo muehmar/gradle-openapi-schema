@@ -314,8 +314,8 @@ public class PersonDto {
       return new FullAllOfBuilderUser0(builder.setBirthdate(birthdate));
     }
 
-    public FullAllOfBuilderUser0 setAdminDto(AdminDto dto) {
-      return new FullAllOfBuilderUser0(builder.setAdminDto(dto));
+    public FullAllOfBuilderUser setAdminDto(AdminDto dto) {
+      return new FullAllOfBuilderUser(builder.setAdminDto(dto));
     }
   }
 
@@ -331,6 +331,15 @@ public class PersonDto {
      */
     public FullPropertyBuilder0 setUsername(String username) {
       return new FullPropertyBuilder0(builder.setUsername(username));
+    }
+
+  }
+
+  public static final class FullAllOfBuilderUser {
+    private final Builder builder;
+
+    private FullAllOfBuilderUser(Builder builder) {
+      this.builder = builder;
     }
 
     public FullPropertyBuilder0 setUserDto(UserDto dto) {
@@ -406,8 +415,8 @@ public class PersonDto {
       return new AllOfBuilderUser0(builder.setBirthdate(birthdate));
     }
 
-    public AllOfBuilderUser0 setAdminDto(AdminDto dto) {
-      return new AllOfBuilderUser0(builder.setAdminDto(dto));
+    public AllOfBuilderUser setAdminDto(AdminDto dto) {
+      return new AllOfBuilderUser(builder.setAdminDto(dto));
     }
   }
 
@@ -423,6 +432,15 @@ public class PersonDto {
      */
     public PropertyBuilder0 setUsername(String username) {
       return new PropertyBuilder0(builder.setUsername(username));
+    }
+
+  }
+
+  public static final class AllOfBuilderUser {
+    private final Builder builder;
+
+    private AllOfBuilderUser(Builder builder) {
+      this.builder = builder;
     }
 
     public PropertyBuilder0 setUserDto(UserDto dto) {

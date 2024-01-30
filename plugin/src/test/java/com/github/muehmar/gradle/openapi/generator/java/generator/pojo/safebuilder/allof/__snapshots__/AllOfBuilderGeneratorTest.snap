@@ -15,8 +15,8 @@ public static final class AllOfBuilderSampleObjectPojo10 {
     return new AllOfBuilderSampleObjectPojo11(builder.setStringVal(stringVal));
   }
 
-  public AllOfBuilderSampleObjectPojo20 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
-    return new AllOfBuilderSampleObjectPojo20(builder.setSampleObjectPojo1Dto(dto));
+  public AllOfBuilderSampleObjectPojo2 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AllOfBuilderSampleObjectPojo2(builder.setSampleObjectPojo1Dto(dto));
   }
 }
 
@@ -46,35 +46,32 @@ public static final class AllOfBuilderSampleObjectPojo12 {
   /**
    * doubleVal
    */
-  public AllOfBuilderSampleObjectPojo20 setDoubleVal(Double doubleVal) {
-    return new AllOfBuilderSampleObjectPojo20(builder.setDoubleVal(doubleVal));
+  public AllOfBuilderSampleObjectPojo21 setDoubleVal(Double doubleVal) {
+    return new AllOfBuilderSampleObjectPojo21(builder.setDoubleVal(doubleVal));
   }
 
-}
-
-public static final class AllOfBuilderSampleObjectPojo20 {
-  private final Builder builder;
-
-  private AllOfBuilderSampleObjectPojo20(Builder builder) {
-    this.builder = builder;
-  }
-
-  /**
-   * Birthdate
-   */
-  public AllOfBuilderSampleObjectPojo21 setBirthdate(LocalDate birthdate) {
-    return new AllOfBuilderSampleObjectPojo21(builder.setBirthdate(birthdate));
-  }
-
-  public AllOfBuilderObjectPojo10 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
-    return new AllOfBuilderObjectPojo10(builder.setSampleObjectPojo2Dto(dto));
-  }
 }
 
 public static final class AllOfBuilderSampleObjectPojo21 {
   private final Builder builder;
 
   private AllOfBuilderSampleObjectPojo21(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Birthdate
+   */
+  public AllOfBuilderSampleObjectPojo22 setBirthdate(LocalDate birthdate) {
+    return new AllOfBuilderSampleObjectPojo22(builder.setBirthdate(birthdate));
+  }
+
+}
+
+public static final class AllOfBuilderSampleObjectPojo22 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo22(Builder builder) {
     this.builder = builder;
   }
 
@@ -101,6 +98,27 @@ public static final class AllOfBuilderObjectPojo10 {
     return new PropertyBuilder0(builder.setDirection(direction));
   }
 
+}
+
+public static final class AllOfBuilderSampleObjectPojo2 {
+  private final Builder builder;
+
+  private AllOfBuilderSampleObjectPojo2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public AllOfBuilderObjectPojo1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AllOfBuilderObjectPojo1(builder.setSampleObjectPojo2Dto(dto));
+  }
+}
+
+public static final class AllOfBuilderObjectPojo1 {
+  private final Builder builder;
+
+  private AllOfBuilderObjectPojo1(Builder builder) {
+    this.builder = builder;
+  }
+
   public PropertyBuilder0 setObjectPojo1Dto(ObjectPojo1Dto dto) {
     return new PropertyBuilder0(builder.setObjectPojo1Dto(dto));
   }
@@ -125,8 +143,8 @@ public static final class FullAllOfBuilderSampleObjectPojo10 {
     return new FullAllOfBuilderSampleObjectPojo11(builder.setStringVal(stringVal));
   }
 
-  public FullAllOfBuilderSampleObjectPojo20 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
-    return new FullAllOfBuilderSampleObjectPojo20(builder.setSampleObjectPojo1Dto(dto));
+  public FullAllOfBuilderSampleObjectPojo2 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new FullAllOfBuilderSampleObjectPojo2(builder.setSampleObjectPojo1Dto(dto));
   }
 }
 
@@ -156,35 +174,32 @@ public static final class FullAllOfBuilderSampleObjectPojo12 {
   /**
    * doubleVal
    */
-  public FullAllOfBuilderSampleObjectPojo20 setDoubleVal(Double doubleVal) {
-    return new FullAllOfBuilderSampleObjectPojo20(builder.setDoubleVal(doubleVal));
+  public FullAllOfBuilderSampleObjectPojo21 setDoubleVal(Double doubleVal) {
+    return new FullAllOfBuilderSampleObjectPojo21(builder.setDoubleVal(doubleVal));
   }
 
-}
-
-public static final class FullAllOfBuilderSampleObjectPojo20 {
-  private final Builder builder;
-
-  private FullAllOfBuilderSampleObjectPojo20(Builder builder) {
-    this.builder = builder;
-  }
-
-  /**
-   * Birthdate
-   */
-  public FullAllOfBuilderSampleObjectPojo21 setBirthdate(LocalDate birthdate) {
-    return new FullAllOfBuilderSampleObjectPojo21(builder.setBirthdate(birthdate));
-  }
-
-  public FullAllOfBuilderObjectPojo10 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
-    return new FullAllOfBuilderObjectPojo10(builder.setSampleObjectPojo2Dto(dto));
-  }
 }
 
 public static final class FullAllOfBuilderSampleObjectPojo21 {
   private final Builder builder;
 
   private FullAllOfBuilderSampleObjectPojo21(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * Birthdate
+   */
+  public FullAllOfBuilderSampleObjectPojo22 setBirthdate(LocalDate birthdate) {
+    return new FullAllOfBuilderSampleObjectPojo22(builder.setBirthdate(birthdate));
+  }
+
+}
+
+public static final class FullAllOfBuilderSampleObjectPojo22 {
+  private final Builder builder;
+
+  private FullAllOfBuilderSampleObjectPojo22(Builder builder) {
     this.builder = builder;
   }
 
@@ -211,6 +226,27 @@ public static final class FullAllOfBuilderObjectPojo10 {
     return new FullOptPropertyBuilder0(builder.setDirection(direction));
   }
 
+}
+
+public static final class FullAllOfBuilderSampleObjectPojo2 {
+  private final Builder builder;
+
+  private FullAllOfBuilderSampleObjectPojo2(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullAllOfBuilderObjectPojo1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new FullAllOfBuilderObjectPojo1(builder.setSampleObjectPojo2Dto(dto));
+  }
+}
+
+public static final class FullAllOfBuilderObjectPojo1 {
+  private final Builder builder;
+
+  private FullAllOfBuilderObjectPojo1(Builder builder) {
+    this.builder = builder;
+  }
+
   public FullOptPropertyBuilder0 setObjectPojo1Dto(ObjectPojo1Dto dto) {
     return new FullOptPropertyBuilder0(builder.setObjectPojo1Dto(dto));
   }
@@ -219,98 +255,36 @@ public static final class FullAllOfBuilderObjectPojo10 {
 
 
 allOfPojoWithCompositionsInAllOfSubPojos=[
-java.time.LocalDate
-
-public static final class AllOfBuilderSampleObjectPojo10 {
+.
+.
+public static final class AllOfBuilderSampleObjectPojo1 {
   private final Builder builder;
 
-  private AllOfBuilderSampleObjectPojo10(Builder builder) {
+  private AllOfBuilderSampleObjectPojo1(Builder builder) {
     this.builder = builder;
   }
 
-  /**
-   * stringVal
-   */
-  public AllOfBuilderSampleObjectPojo11 setStringVal(String stringVal) {
-    return new AllOfBuilderSampleObjectPojo11(builder.setStringVal(stringVal));
-  }
-
-  public AllOfBuilderSampleObjectPojo20 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
-    return new AllOfBuilderSampleObjectPojo20(builder.setSampleObjectPojo1Dto(dto));
+  public AllOfBuilderSampleObjectPojo2 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+    return new AllOfBuilderSampleObjectPojo2(builder.setSampleObjectPojo1Dto(dto));
   }
 }
 
-public static final class AllOfBuilderSampleObjectPojo11 {
+public static final class AllOfBuilderSampleObjectPojo2 {
   private final Builder builder;
 
-  private AllOfBuilderSampleObjectPojo11(Builder builder) {
+  private AllOfBuilderSampleObjectPojo2(Builder builder) {
     this.builder = builder;
   }
 
-  /**
-   * intVal
-   */
-  public AllOfBuilderSampleObjectPojo12 setIntVal(Integer intVal) {
-    return new AllOfBuilderSampleObjectPojo12(builder.setIntVal(intVal));
-  }
-
-}
-
-public static final class AllOfBuilderSampleObjectPojo12 {
-  private final Builder builder;
-
-  private AllOfBuilderSampleObjectPojo12(Builder builder) {
-    this.builder = builder;
-  }
-
-  /**
-   * doubleVal
-   */
-  public AllOfBuilderSampleObjectPojo20 setDoubleVal(Double doubleVal) {
-    return new AllOfBuilderSampleObjectPojo20(builder.setDoubleVal(doubleVal));
-  }
-
-}
-
-public static final class AllOfBuilderSampleObjectPojo20 {
-  private final Builder builder;
-
-  private AllOfBuilderSampleObjectPojo20(Builder builder) {
-    this.builder = builder;
-  }
-
-  /**
-   * Birthdate
-   */
-  public AllOfBuilderSampleObjectPojo21 setBirthdate(LocalDate birthdate) {
-    return new AllOfBuilderSampleObjectPojo21(builder.setBirthdate(birthdate));
-  }
-
-  public AllOfBuilderOneOfPojo10 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
-    return new AllOfBuilderOneOfPojo10(builder.setSampleObjectPojo2Dto(dto));
+  public AllOfBuilderOneOfPojo1 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+    return new AllOfBuilderOneOfPojo1(builder.setSampleObjectPojo2Dto(dto));
   }
 }
 
-public static final class AllOfBuilderSampleObjectPojo21 {
+public static final class AllOfBuilderOneOfPojo1 {
   private final Builder builder;
 
-  private AllOfBuilderSampleObjectPojo21(Builder builder) {
-    this.builder = builder;
-  }
-
-  /**
-   * email
-   */
-  public AllOfBuilderOneOfPojo10 setEmail(String email) {
-    return new AllOfBuilderOneOfPojo10(builder.setEmail(email));
-  }
-
-}
-
-public static final class AllOfBuilderOneOfPojo10 {
-  private final Builder builder;
-
-  private AllOfBuilderOneOfPojo10(Builder builder) {
+  private AllOfBuilderOneOfPojo1(Builder builder) {
     this.builder = builder;
   }
 

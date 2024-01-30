@@ -12,8 +12,8 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof.AllOfBuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -42,6 +42,25 @@ class BuilderStageTest {
     final JavaObjectPojo pojo =
         JavaPojos.allNecessityAndNullabilityVariants()
             .withRequiredAdditionalProperties(PROP_2_ADDITIONAL_PROPERTIES);
+
+    final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
+
+    expect
+        .scenario(builderVariant.name())
+        .toMatchSnapshot(stages.map(BuilderStageTest::formatStage).toPList().mkString("\n"));
+  }
+
+  @ParameterizedTest
+  @EnumSource(SafeBuilderVariant.class)
+  @SnapshotName(("nestedAllOfPojo"))
+  void createStages_when_nestedAllOfPojo_matchStages(SafeBuilderVariant builderVariant) {
+    final JavaObjectPojo nestedAllOfPojo =
+        JavaPojos.allOfPojo(sampleObjectPojo1(), sampleObjectPojo2());
+    final JavaObjectPojo pojo =
+        JavaPojos.allOfPojo(
+            JavaPojos.allNecessityAndNullabilityVariants()
+                .withRequiredAdditionalProperties(PROP_2_ADDITIONAL_PROPERTIES),
+            nestedAllOfPojo);
 
     final NonEmptyList<BuilderStage> stages = BuilderStage.createStages(builderVariant, pojo);
 
@@ -260,14 +279,7 @@ class BuilderStageTest {
 
   private static String formatStage(BuilderStage stage) {
     return stage.fold(
-        allOfBuilderStage ->
-            String.format(
-                "%s for %s(%d), next stage %s, next member stage: %s",
-                formatBase(stage),
-                allOfBuilderStage.getMember().map(JavaPojoMember::getName),
-                allOfBuilderStage.getMemberIndex(),
-                allOfBuilderStage.getNextStage().getName(),
-                allOfBuilderStage.getNextMemberStage().getName()),
+        allOfBuilderStage -> formatAllOfBuilderStage(stage, allOfBuilderStage),
         oneOfBuilderStage ->
             String.format(
                 "%s, next stage %s", formatBase(stage), oneOfBuilderStage.getNextStage().getName()),
@@ -296,6 +308,30 @@ class BuilderStageTest {
                 optionalPropertyBuilderStage.getIndex(),
                 optionalPropertyBuilderStage.getNextStage().getName()),
         lastOptionalPropertyBuilderStage -> String.format("%s", formatBase(stage)));
+  }
+
+  private static String formatAllOfBuilderStage(
+      BuilderStage stage, AllOfBuilderStage allOfBuilderStage) {
+    final String memberStageFormat =
+        allOfBuilderStage
+            .getMemberStageObjects()
+            .map(
+                memberStageObjects ->
+                    String.format(
+                        " for %s(%d), next stage: %s",
+                        memberStageObjects.getMember().getName(),
+                        memberStageObjects.getMemberIndex(),
+                        memberStageObjects.getNextStage().getName()))
+            .orElse("");
+    final String pojoStageFormat =
+        allOfBuilderStage
+            .getSubPojoStageObjects()
+            .map(
+                subPojoStageObjects ->
+                    String.format(
+                        ", next pojo stage: %s", subPojoStageObjects.getNextStage().getName()))
+            .orElse("");
+    return String.format("%s%s%s", formatBase(stage), memberStageFormat, pojoStageFormat);
   }
 
   private static String formatBase(BuilderStage stage) {
