@@ -287,8 +287,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullAllOfBuilderAdmin0 fullBuilder() {
-    return new FullAllOfBuilderAdmin0(new Builder());
+  public static BuilderStages.FullAllOfBuilderAdmin0 fullBuilder() {
+    return new BuilderStages.FullAllOfBuilderAdmin0(new Builder());
   }
 
   /**
@@ -296,91 +296,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullAllOfBuilderAdmin0 fullPersonDtoBuilder() {
-    return new FullAllOfBuilderAdmin0(new Builder());
-  }
-
-  public static final class FullAllOfBuilderAdmin0 {
-    private final Builder builder;
-
-    private FullAllOfBuilderAdmin0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Birthdate
-     */
-    public FullAllOfBuilderUser0 setBirthdate(LocalDate birthdate) {
-      return new FullAllOfBuilderUser0(builder.setBirthdate(birthdate));
-    }
-
-    public FullAllOfBuilderUser setAdminDto(AdminDto dto) {
-      return new FullAllOfBuilderUser(builder.setAdminDto(dto));
-    }
-  }
-
-  public static final class FullAllOfBuilderUser0 {
-    private final Builder builder;
-
-    private FullAllOfBuilderUser0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Username
-     */
-    public FullPropertyBuilder0 setUsername(String username) {
-      return new FullPropertyBuilder0(builder.setUsername(username));
-    }
-
-  }
-
-  public static final class FullAllOfBuilderUser {
-    private final Builder builder;
-
-    private FullAllOfBuilderUser(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullPropertyBuilder0 setUserDto(UserDto dto) {
-      return new FullPropertyBuilder0(builder.setUserDto(dto));
-    }
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public PersonDto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullAllOfBuilderAdmin0 fullPersonDtoBuilder() {
+    return new BuilderStages.FullAllOfBuilderAdmin0(new Builder());
   }
 
   /**
@@ -388,8 +305,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static AllOfBuilderAdmin0 builder() {
-    return new AllOfBuilderAdmin0(new Builder());
+  public static BuilderStages.AllOfBuilderAdmin0 builder() {
+    return new BuilderStages.AllOfBuilderAdmin0(new Builder());
   }
 
   /**
@@ -397,110 +314,197 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static AllOfBuilderAdmin0 personDtoBuilder() {
-    return new AllOfBuilderAdmin0(new Builder());
+  public static BuilderStages.AllOfBuilderAdmin0 personDtoBuilder() {
+    return new BuilderStages.AllOfBuilderAdmin0(new Builder());
   }
 
-  public static final class AllOfBuilderAdmin0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private AllOfBuilderAdmin0(Builder builder) {
-      this.builder = builder;
+    public static final class FullAllOfBuilderAdmin0 {
+      private final Builder builder;
+
+      private FullAllOfBuilderAdmin0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Birthdate
+       */
+      public FullAllOfBuilderUser0 setBirthdate(LocalDate birthdate) {
+        return new FullAllOfBuilderUser0(builder.setBirthdate(birthdate));
+      }
+
+      public FullAllOfBuilderUser setAdminDto(AdminDto dto) {
+        return new FullAllOfBuilderUser(builder.setAdminDto(dto));
+      }
     }
 
-    /**
-     * Birthdate
-     */
-    public AllOfBuilderUser0 setBirthdate(LocalDate birthdate) {
-      return new AllOfBuilderUser0(builder.setBirthdate(birthdate));
+    public static final class FullAllOfBuilderUser0 {
+      private final Builder builder;
+
+      private FullAllOfBuilderUser0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Username
+       */
+      public FullPropertyBuilder0 setUsername(String username) {
+        return new FullPropertyBuilder0(builder.setUsername(username));
+      }
+
     }
 
-    public AllOfBuilderUser setAdminDto(AdminDto dto) {
-      return new AllOfBuilderUser(builder.setAdminDto(dto));
-    }
-  }
+    public static final class FullAllOfBuilderUser {
+      private final Builder builder;
 
-  public static final class AllOfBuilderUser0 {
-    private final Builder builder;
+      private FullAllOfBuilderUser(Builder builder) {
+        this.builder = builder;
+      }
 
-    private AllOfBuilderUser0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Username
-     */
-    public PropertyBuilder0 setUsername(String username) {
-      return new PropertyBuilder0(builder.setUsername(username));
+      public FullPropertyBuilder0 setUserDto(UserDto dto) {
+        return new FullPropertyBuilder0(builder.setUserDto(dto));
+      }
     }
 
-  }
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class AllOfBuilderUser {
-    private final Builder builder;
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private AllOfBuilderUser(Builder builder) {
-      this.builder = builder;
+      /**
+       * RequiredStringVal
+       */
+      public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
+        return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    public PropertyBuilder0 setUserDto(UserDto dto) {
-      return new PropertyBuilder0(builder.setUserDto(dto));
-    }
-  }
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
 
-    /**
-     * RequiredStringVal
-     */
-    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
-    }
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
 
-  }
-
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
-
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      public PersonDto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class AllOfBuilderAdmin0 {
+      private final Builder builder;
+
+      private AllOfBuilderAdmin0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Birthdate
+       */
+      public AllOfBuilderUser0 setBirthdate(LocalDate birthdate) {
+        return new AllOfBuilderUser0(builder.setBirthdate(birthdate));
+      }
+
+      public AllOfBuilderUser setAdminDto(AdminDto dto) {
+        return new AllOfBuilderUser(builder.setAdminDto(dto));
+      }
     }
 
-    public Builder andOptionals(){
-      return builder;
+    public static final class AllOfBuilderUser0 {
+      private final Builder builder;
+
+      private AllOfBuilderUser0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Username
+       */
+      public PropertyBuilder0 setUsername(String username) {
+        return new PropertyBuilder0(builder.setUsername(username));
+      }
+
     }
 
-    public PersonDto build(){
-      return builder.build();
-    }
-  }
+    public static final class AllOfBuilderUser {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      private AllOfBuilderUser(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      public PropertyBuilder0 setUserDto(UserDto dto) {
+        return new PropertyBuilder0(builder.setUserDto(dto));
+      }
     }
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredStringVal
+       */
+      public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+        return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    public PersonDto build(){
-      return builder.build();
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public PersonDto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public PersonDto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -867,8 +871,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullAnyOfBuilder0 fullBuilder() {
-    return new FullAnyOfBuilder0(new Builder());
+  public static BuilderStages.FullAnyOfBuilder0 fullBuilder() {
+    return new BuilderStages.FullAnyOfBuilder0(new Builder());
   }
 
   /**
@@ -876,95 +880,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullAnyOfBuilder0 fullPersonDtoBuilder() {
-    return new FullAnyOfBuilder0(new Builder());
-  }
-
-  public static final class FullAnyOfBuilder0 {
-    private final Builder builder;
-
-    private FullAnyOfBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullAnyOfBuilder1 setAdminDto(AdminDto dto) {
-      return new FullAnyOfBuilder1(builder.setAdminDto(dto));
-    }
-
-    public FullAnyOfBuilder1 setUserDto(UserDto dto) {
-      return new FullAnyOfBuilder1(builder.setUserDto(dto));
-    }
-
-    public FullPropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
-      if (container.getAdminDto() != null) {
-        builder.setAdminDto(container.getAdminDto());
-      }
-
-      if (container.getUserDto() != null) {
-        builder.setUserDto(container.getUserDto());
-      }
-      return new FullPropertyBuilder0(builder);
-    }
-  }
-
-  public static final class FullAnyOfBuilder1 {
-    private final Builder builder;
-
-    private FullAnyOfBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullAnyOfBuilder1 setAdminDto(AdminDto dto) {
-      return new FullAnyOfBuilder1(builder.setAdminDto(dto));
-    }
-
-    public FullAnyOfBuilder1 setUserDto(UserDto dto) {
-      return new FullAnyOfBuilder1(builder.setUserDto(dto));
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public PersonDto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullAnyOfBuilder0 fullPersonDtoBuilder() {
+    return new BuilderStages.FullAnyOfBuilder0(new Builder());
   }
 
   /**
@@ -972,8 +889,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static AnyOfBuilder0 builder() {
-    return new AnyOfBuilder0(new Builder());
+  public static BuilderStages.AnyOfBuilder0 builder() {
+    return new BuilderStages.AnyOfBuilder0(new Builder());
   }
 
   /**
@@ -981,114 +898,205 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static AnyOfBuilder0 personDtoBuilder() {
-    return new AnyOfBuilder0(new Builder());
+  public static BuilderStages.AnyOfBuilder0 personDtoBuilder() {
+    return new BuilderStages.AnyOfBuilder0(new Builder());
   }
 
-  public static final class AnyOfBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private AnyOfBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+    public static final class FullAnyOfBuilder0 {
+      private final Builder builder;
 
-    public AnyOfBuilder1 setAdminDto(AdminDto dto) {
-      return new AnyOfBuilder1(builder.setAdminDto(dto));
-    }
-
-    public AnyOfBuilder1 setUserDto(UserDto dto) {
-      return new AnyOfBuilder1(builder.setUserDto(dto));
-    }
-
-    public PropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
-      if (container.getAdminDto() != null) {
-        builder.setAdminDto(container.getAdminDto());
+      private FullAnyOfBuilder0(Builder builder) {
+        this.builder = builder;
       }
 
-      if (container.getUserDto() != null) {
-        builder.setUserDto(container.getUserDto());
+      public FullAnyOfBuilder1 setAdminDto(AdminDto dto) {
+        return new FullAnyOfBuilder1(builder.setAdminDto(dto));
       }
-      return new PropertyBuilder0(builder);
-    }
-  }
 
-  public static final class AnyOfBuilder1 {
-    private final Builder builder;
+      public FullAnyOfBuilder1 setUserDto(UserDto dto) {
+        return new FullAnyOfBuilder1(builder.setUserDto(dto));
+      }
 
-    private AnyOfBuilder1(Builder builder) {
-      this.builder = builder;
-    }
+      public FullPropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
+        if (container.getAdminDto() != null) {
+          builder.setAdminDto(container.getAdminDto());
+        }
 
-    public AnyOfBuilder1 setAdminDto(AdminDto dto) {
-      return new AnyOfBuilder1(builder.setAdminDto(dto));
-    }
-
-    public AnyOfBuilder1 setUserDto(UserDto dto) {
-      return new AnyOfBuilder1(builder.setUserDto(dto));
+        if (container.getUserDto() != null) {
+          builder.setUserDto(container.getUserDto());
+        }
+        return new FullPropertyBuilder0(builder);
+      }
     }
 
-    /**
-     * RequiredStringVal
-     */
-    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+    public static final class FullAnyOfBuilder1 {
+      private final Builder builder;
+
+      private FullAnyOfBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullAnyOfBuilder1 setAdminDto(AdminDto dto) {
+        return new FullAnyOfBuilder1(builder.setAdminDto(dto));
+      }
+
+      public FullAnyOfBuilder1 setUserDto(UserDto dto) {
+        return new FullAnyOfBuilder1(builder.setUserDto(dto));
+      }
+
+      /**
+       * RequiredStringVal
+       */
+      public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
+        return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-  }
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+      /**
+       * RequiredStringVal
+       */
+      public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
+        return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    /**
-     * RequiredStringVal
-     */
-    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public PersonDto build(){
+        return builder.build();
+      }
     }
 
-  }
+    public static final class AnyOfBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
+      private AnyOfBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      public AnyOfBuilder1 setAdminDto(AdminDto dto) {
+        return new AnyOfBuilder1(builder.setAdminDto(dto));
+      }
+
+      public AnyOfBuilder1 setUserDto(UserDto dto) {
+        return new AnyOfBuilder1(builder.setUserDto(dto));
+      }
+
+      public PropertyBuilder0 setAnyOfContainer(PersonAnyOfContainerDto container) {
+        if (container.getAdminDto() != null) {
+          builder.setAdminDto(container.getAdminDto());
+        }
+
+        if (container.getUserDto() != null) {
+          builder.setUserDto(container.getUserDto());
+        }
+        return new PropertyBuilder0(builder);
+      }
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class AnyOfBuilder1 {
+      private final Builder builder;
+
+      private AnyOfBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public AnyOfBuilder1 setAdminDto(AdminDto dto) {
+        return new AnyOfBuilder1(builder.setAdminDto(dto));
+      }
+
+      public AnyOfBuilder1 setUserDto(UserDto dto) {
+        return new AnyOfBuilder1(builder.setUserDto(dto));
+      }
+
+      /**
+       * RequiredStringVal
+       */
+      public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+        return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    public Builder andOptionals(){
-      return builder;
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredStringVal
+       */
+      public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+        return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    public PersonDto build(){
-      return builder.build();
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public PersonDto build(){
+        return builder.build();
+      }
     }
-  }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public PersonDto build(){
-      return builder.build();
+      public PersonDto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -1219,8 +1227,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -1228,28 +1236,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -1257,8 +1245,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 builder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 builder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -1266,27 +1254,51 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -3010,8 +3022,8 @@ public class UserDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullBuilder() {
-    return new FullPropertyBuilder0(new Builder());
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -3019,83 +3031,8 @@ public class UserDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullUserDtoBuilder() {
-    return new FullPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * ID of this user
-     */
-    public FullPropertyBuilder1 setId(Long id) {
-      return new FullPropertyBuilder1(builder.setId(id));
-    }
-
-  }
-
-  public static final class FullPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Name of this user
-     */
-    public FullOptPropertyBuilder0 setName(String name) {
-      return new FullOptPropertyBuilder0(builder.setName(name));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Preferred language of this user
-     */
-    public FullOptPropertyBuilder1 setLanguage(LanguageEnum language) {
-      return new FullOptPropertyBuilder1(builder.setLanguage(language));
-    }
-
-    /**
-     * Preferred language of this user
-     */
-    public FullOptPropertyBuilder1 setLanguage(Optional<LanguageEnum> language) {
-      return new FullOptPropertyBuilder1(builder.setLanguage(language));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public UserDto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullPropertyBuilder0 fullUserDtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -3103,8 +3040,8 @@ public class UserDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 builder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
   /**
@@ -3112,102 +3049,181 @@ public class UserDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 userDtoBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 userDtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * ID of this user
+       */
+      public FullPropertyBuilder1 setId(Long id) {
+        return new FullPropertyBuilder1(builder.setId(id));
+      }
+
     }
 
-    /**
-     * ID of this user
-     */
-    public PropertyBuilder1 setId(Long id) {
-      return new PropertyBuilder1(builder.setId(id));
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Name of this user
+       */
+      public FullOptPropertyBuilder0 setName(String name) {
+        return new FullOptPropertyBuilder0(builder.setName(name));
+      }
+
     }
 
-  }
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      /**
+       * Preferred language of this user
+       */
+      public FullOptPropertyBuilder1 setLanguage(LanguageEnum language) {
+        return new FullOptPropertyBuilder1(builder.setLanguage(language));
+      }
+
+      /**
+       * Preferred language of this user
+       */
+      public FullOptPropertyBuilder1 setLanguage(Optional<LanguageEnum> language) {
+        return new FullOptPropertyBuilder1(builder.setLanguage(language));
+      }
+
     }
 
-    /**
-     * Name of this user
-     */
-    public PropertyBuilder2 setName(String name) {
-      return new PropertyBuilder2(builder.setName(name));
+    public static final class FullOptPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public UserDto build(){
+        return builder.build();
+      }
     }
 
-  }
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder2 {
-    private final Builder builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder2(Builder builder) {
-      this.builder = builder;
+      /**
+       * ID of this user
+       */
+      public PropertyBuilder1 setId(Long id) {
+        return new PropertyBuilder1(builder.setId(id));
+      }
+
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Name of this user
+       */
+      public PropertyBuilder2 setName(String name) {
+        return new PropertyBuilder2(builder.setName(name));
+      }
+
     }
 
-    public Builder andOptionals(){
-      return builder;
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
+
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public UserDto build(){
+        return builder.build();
+      }
     }
 
-    public UserDto build(){
-      return builder.build();
-    }
-  }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      /**
+       * Preferred language of this user
+       */
+      public OptPropertyBuilder1 setLanguage(LanguageEnum language) {
+        return new OptPropertyBuilder1(builder.setLanguage(language));
+      }
 
-    /**
-     * Preferred language of this user
-     */
-    public OptPropertyBuilder1 setLanguage(LanguageEnum language) {
-      return new OptPropertyBuilder1(builder.setLanguage(language));
-    }
+      /**
+       * Preferred language of this user
+       */
+      public OptPropertyBuilder1 setLanguage(Optional<LanguageEnum> language) {
+        return new OptPropertyBuilder1(builder.setLanguage(language));
+      }
 
-    /**
-     * Preferred language of this user
-     */
-    public OptPropertyBuilder1 setLanguage(Optional<LanguageEnum> language) {
-      return new OptPropertyBuilder1(builder.setLanguage(language));
     }
 
-  }
+    public static final class OptPropertyBuilder1 {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder1 {
-    private final Builder builder;
+      private OptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
 
-    public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
-    }
+      public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public UserDto build(){
-      return builder.build();
+      public UserDto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -3484,8 +3500,8 @@ public class Illegal_IdentifierDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -3493,72 +3509,8 @@ public class Illegal_IdentifierDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullIllegal_IdentifierDtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Switch
-     */
-    public FullOptPropertyBuilder1 setSwitch(String switch_) {
-      return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
-    }
-
-    /**
-     * Switch
-     */
-    public FullOptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
-      return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
-    }
-  }
-
-  public static final class FullOptPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Point
-     */
-    public FullOptPropertyBuilder2 setPoint_(String point_) {
-      return new FullOptPropertyBuilder2(builder.setPoint_(point_));
-    }
-
-    /**
-     * Point
-     */
-    public FullOptPropertyBuilder2 setPoint_(Tristate<String> point_) {
-      return new FullOptPropertyBuilder2(builder.setPoint_(point_));
-    }
-  }
-
-  public static final class FullOptPropertyBuilder2 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder2(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public Illegal_IdentifierDto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullIllegal_IdentifierDtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -3566,8 +3518,8 @@ public class Illegal_IdentifierDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 builder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
   /**
@@ -3575,91 +3527,159 @@ public class Illegal_IdentifierDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 illegal_IdentifierDtoBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 illegal_IdentifierDtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Switch
+       */
+      public FullOptPropertyBuilder1 setSwitch(String switch_) {
+        return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
+      }
+
+      /**
+       * Switch
+       */
+      public FullOptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
+        return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
+      }
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class FullOptPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Point
+       */
+      public FullOptPropertyBuilder2 setPoint_(String point_) {
+        return new FullOptPropertyBuilder2(builder.setPoint_(point_));
+      }
+
+      /**
+       * Point
+       */
+      public FullOptPropertyBuilder2 setPoint_(Tristate<String> point_) {
+        return new FullOptPropertyBuilder2(builder.setPoint_(point_));
+      }
     }
 
-    public Builder andOptionals(){
-      return builder;
+    public static final class FullOptPropertyBuilder2 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public Illegal_IdentifierDto build(){
+        return builder.build();
+      }
     }
 
-    public Illegal_IdentifierDto build(){
-      return builder.build();
-    }
-  }
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
 
-    /**
-     * Switch
-     */
-    public OptPropertyBuilder1 setSwitch(String switch_) {
-      return new OptPropertyBuilder1(builder.setSwitch(switch_));
-    }
+      public Builder andOptionals(){
+        return builder;
+      }
 
-    /**
-     * Switch
-     */
-    public OptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
-      return new OptPropertyBuilder1(builder.setSwitch(switch_));
-    }
-  }
-
-  public static final class OptPropertyBuilder1 {
-    private final Builder builder;
-
-    private OptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      public Illegal_IdentifierDto build(){
+        return builder.build();
+      }
     }
 
-    /**
-     * Point
-     */
-    public OptPropertyBuilder2 setPoint_(String point_) {
-      return new OptPropertyBuilder2(builder.setPoint_(point_));
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Switch
+       */
+      public OptPropertyBuilder1 setSwitch(String switch_) {
+        return new OptPropertyBuilder1(builder.setSwitch(switch_));
+      }
+
+      /**
+       * Switch
+       */
+      public OptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
+        return new OptPropertyBuilder1(builder.setSwitch(switch_));
+      }
     }
 
-    /**
-     * Point
-     */
-    public OptPropertyBuilder2 setPoint_(Tristate<String> point_) {
-      return new OptPropertyBuilder2(builder.setPoint_(point_));
+    public static final class OptPropertyBuilder1 {
+      private final Builder builder;
+
+      private OptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Point
+       */
+      public OptPropertyBuilder2 setPoint_(String point_) {
+        return new OptPropertyBuilder2(builder.setPoint_(point_));
+      }
+
+      /**
+       * Point
+       */
+      public OptPropertyBuilder2 setPoint_(Tristate<String> point_) {
+        return new OptPropertyBuilder2(builder.setPoint_(point_));
+      }
     }
-  }
 
-  public static final class OptPropertyBuilder2 {
-    private final Builder builder;
+    public static final class OptPropertyBuilder2 {
+      private final Builder builder;
 
-    private OptPropertyBuilder2(Builder builder) {
-      this.builder = builder;
-    }
+      private OptPropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
 
-    public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
-    }
+      public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
 
-    public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
-    }
+      public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public Illegal_IdentifierDto build(){
-      return builder.build();
+      public Illegal_IdentifierDto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -3867,8 +3887,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -3876,28 +3896,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, ColorEnum value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -3905,8 +3905,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 builder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 builder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -3914,27 +3914,51 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, ColorEnum value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, ColorEnum value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public OptPropertyBuilder0 addAdditionalProperty(String key, ColorEnum value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -4090,8 +4114,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -4099,28 +4123,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Integer value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Integer> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -4128,8 +4132,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 builder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 builder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -4137,27 +4141,51 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Integer value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Integer> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Integer value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Integer> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Integer value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Integer> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -5216,8 +5244,8 @@ public class NecessityAndNullabilityDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullBuilder() {
-    return new FullPropertyBuilder0(new Builder());
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5225,111 +5253,8 @@ public class NecessityAndNullabilityDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullNecessityAndNullabilityDtoBuilder() {
-    return new FullPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public FullPropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new FullPropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class FullPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * RequiredNullableStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
-    }
-
-    /**
-     * RequiredNullableStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
-    }
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * OptionalStringVal
-     */
-    public FullOptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
-      return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
-    }
-
-    /**
-     * OptionalStringVal
-     */
-    public FullOptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
-      return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * OptionalNullableStringVal
-     */
-    public FullOptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
-      return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
-    }
-
-    /**
-     * OptionalNullableStringVal
-     */
-    public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-      return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
-    }
-  }
-
-  public static final class FullOptPropertyBuilder2 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder2(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public NecessityAndNullabilityDto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullPropertyBuilder0 fullNecessityAndNullabilityDtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5337,8 +5262,8 @@ public class NecessityAndNullabilityDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 builder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
   /**
@@ -5346,130 +5271,237 @@ public class NecessityAndNullabilityDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 necessityAndNullabilityDtoBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 necessityAndNullabilityDtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredStringVal
+       */
+      public FullPropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+        return new FullPropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    /**
-     * RequiredStringVal
-     */
-    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableStringVal
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      }
+
+      /**
+       * RequiredNullableStringVal
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      }
     }
 
-  }
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      /**
+       * OptionalStringVal
+       */
+      public FullOptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
+        return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+      }
+
+      /**
+       * OptionalStringVal
+       */
+      public FullOptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
+        return new FullOptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+      }
+
     }
 
-    /**
-     * RequiredNullableStringVal
-     */
-    public PropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
-      return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    public static final class FullOptPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableStringVal
+       */
+      public FullOptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
+        return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+      }
+
+      /**
+       * OptionalNullableStringVal
+       */
+      public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+        return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+      }
     }
 
-    /**
-     * RequiredNullableStringVal
-     */
-    public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-      return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
-    }
-  }
+    public static final class FullOptPropertyBuilder2 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder2 {
-    private final Builder builder;
+      private FullOptPropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder2(Builder builder) {
-      this.builder = builder;
-    }
+      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
-    }
+      public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public Builder andOptionals(){
-      return builder;
+      public NecessityAndNullabilityDto build(){
+        return builder.build();
+      }
     }
 
-    public NecessityAndNullabilityDto build(){
-      return builder.build();
-    }
-  }
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      /**
+       * RequiredStringVal
+       */
+      public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+        return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+      }
 
-    /**
-     * OptionalStringVal
-     */
-    public OptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
-      return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
     }
 
-    /**
-     * OptionalStringVal
-     */
-    public OptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
-      return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableStringVal
+       */
+      public PropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+        return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      }
+
+      /**
+       * RequiredNullableStringVal
+       */
+      public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+        return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      }
     }
 
-  }
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder1 {
-    private final Builder builder;
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public NecessityAndNullabilityDto build(){
+        return builder.build();
+      }
     }
 
-    /**
-     * OptionalNullableStringVal
-     */
-    public OptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
-      return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalStringVal
+       */
+      public OptPropertyBuilder1 setOptionalStringVal(String optionalStringVal) {
+        return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+      }
+
+      /**
+       * OptionalStringVal
+       */
+      public OptPropertyBuilder1 setOptionalStringVal(Optional<String> optionalStringVal) {
+        return new OptPropertyBuilder1(builder.setOptionalStringVal(optionalStringVal));
+      }
+
     }
 
-    /**
-     * OptionalNullableStringVal
-     */
-    public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-      return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+    public static final class OptPropertyBuilder1 {
+      private final Builder builder;
+
+      private OptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableStringVal
+       */
+      public OptPropertyBuilder2 setOptionalNullableStringVal(String optionalNullableStringVal) {
+        return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+      }
+
+      /**
+       * OptionalNullableStringVal
+       */
+      public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+        return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+      }
     }
-  }
 
-  public static final class OptPropertyBuilder2 {
-    private final Builder builder;
+    public static final class OptPropertyBuilder2 {
+      private final Builder builder;
 
-    private OptPropertyBuilder2(Builder builder) {
-      this.builder = builder;
-    }
+      private OptPropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
 
-    public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
-    }
+      public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
 
-    public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
-    }
+      public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public NecessityAndNullabilityDto build(){
-      return builder.build();
+      public NecessityAndNullabilityDto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -5570,8 +5602,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5579,20 +5611,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5600,8 +5620,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 builder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 builder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5609,19 +5629,35 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -5782,8 +5818,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5791,28 +5827,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5820,8 +5836,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 builder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 builder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -5829,27 +5845,51 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -6007,8 +6047,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6016,28 +6056,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6045,8 +6065,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 builder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 builder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6054,27 +6074,51 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -6224,8 +6268,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
+  public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6233,28 +6277,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullOptPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullOptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6262,8 +6286,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 builder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 builder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6271,27 +6295,51 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OptPropertyBuilder0 objectPojo1DtoBuilder() {
-    return new OptPropertyBuilder0(new Builder());
+  public static BuilderStages.OptPropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.OptPropertyBuilder0(new Builder());
   }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -6475,8 +6523,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullBuilder() {
-    return new FullPropertyBuilder0(new Builder());
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6484,44 +6532,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * List
-     */
-    public FullOptPropertyBuilder0 setListVal(List<String> listVal) {
-      return new FullOptPropertyBuilder0(builder.setListVal(listVal));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6529,8 +6541,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 builder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
   /**
@@ -6538,63 +6550,103 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 objectPojo1DtoBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * List
+       */
+      public FullOptPropertyBuilder0 setListVal(List<String> listVal) {
+        return new FullOptPropertyBuilder0(builder.setListVal(listVal));
+      }
+
     }
 
-    /**
-     * List
-     */
-    public PropertyBuilder1 setListVal(List<String> listVal) {
-      return new PropertyBuilder1(builder.setListVal(listVal));
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-  }
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      /**
+       * List
+       */
+      public PropertyBuilder1 setListVal(List<String> listVal) {
+        return new PropertyBuilder1(builder.setListVal(listVal));
+      }
+
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public Builder andOptionals(){
-      return builder;
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
-  }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -6774,8 +6826,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullBuilder() {
-    return new FullPropertyBuilder0(new Builder());
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6783,44 +6835,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Map
-     */
-    public FullOptPropertyBuilder0 setMapVal(Map<String, UUID> mapVal) {
-      return new FullOptPropertyBuilder0(builder.setMapVal(mapVal));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -6828,8 +6844,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 builder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
   /**
@@ -6837,63 +6853,103 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 objectPojo1DtoBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Map
+       */
+      public FullOptPropertyBuilder0 setMapVal(Map<String, UUID> mapVal) {
+        return new FullOptPropertyBuilder0(builder.setMapVal(mapVal));
+      }
+
     }
 
-    /**
-     * Map
-     */
-    public PropertyBuilder1 setMapVal(Map<String, UUID> mapVal) {
-      return new PropertyBuilder1(builder.setMapVal(mapVal));
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-  }
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      /**
+       * Map
+       */
+      public PropertyBuilder1 setMapVal(Map<String, UUID> mapVal) {
+        return new PropertyBuilder1(builder.setMapVal(mapVal));
+      }
+
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public Builder andOptionals(){
-      return builder;
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
-  }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -7285,8 +7341,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOneOfBuilder fullBuilder() {
-    return new FullOneOfBuilder(new Builder());
+  public static BuilderStages.FullOneOfBuilder fullBuilder() {
+    return new BuilderStages.FullOneOfBuilder(new Builder());
   }
 
   /**
@@ -7294,71 +7350,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullOneOfBuilder fullPersonDtoBuilder() {
-    return new FullOneOfBuilder(new Builder());
-  }
-
-  public static final class FullOneOfBuilder {
-    private final Builder builder;
-
-    private FullOneOfBuilder(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullPropertyBuilder0 setAdminDto(AdminDto dto) {
-      return new FullPropertyBuilder0(builder.setAdminDto(dto));
-    }
-
-    public FullPropertyBuilder0 setUserDto(UserDto dto) {
-      return new FullPropertyBuilder0(builder.setUserDto(dto));
-    }
-
-    public FullPropertyBuilder0 setOneOfContainer(PersonOneOfContainerDto container) {
-      if (container.getAdminDto() != null) {
-        builder.setAdminDto(container.getAdminDto());
-      }
-
-      if (container.getUserDto() != null) {
-        builder.setUserDto(container.getUserDto());
-      }
-      return new FullPropertyBuilder0(builder);
-    }
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * RequiredStringVal
-     */
-    public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public PersonDto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullOneOfBuilder fullPersonDtoBuilder() {
+    return new BuilderStages.FullOneOfBuilder(new Builder());
   }
 
   /**
@@ -7366,8 +7359,8 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OneOfBuilder builder() {
-    return new OneOfBuilder(new Builder());
+  public static BuilderStages.OneOfBuilder builder() {
+    return new BuilderStages.OneOfBuilder(new Builder());
   }
 
   /**
@@ -7375,90 +7368,157 @@ public class PersonDto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static OneOfBuilder personDtoBuilder() {
-    return new OneOfBuilder(new Builder());
+  public static BuilderStages.OneOfBuilder personDtoBuilder() {
+    return new BuilderStages.OneOfBuilder(new Builder());
   }
 
-  public static final class OneOfBuilder {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private OneOfBuilder(Builder builder) {
-      this.builder = builder;
-    }
+    public static final class FullOneOfBuilder {
+      private final Builder builder;
 
-    public PropertyBuilder0 setAdminDto(AdminDto dto) {
-      return new PropertyBuilder0(builder.setAdminDto(dto));
-    }
-
-    public PropertyBuilder0 setUserDto(UserDto dto) {
-      return new PropertyBuilder0(builder.setUserDto(dto));
-    }
-
-    public PropertyBuilder0 setOneOfContainer(PersonOneOfContainerDto container) {
-      if (container.getAdminDto() != null) {
-        builder.setAdminDto(container.getAdminDto());
+      private FullOneOfBuilder(Builder builder) {
+        this.builder = builder;
       }
 
-      if (container.getUserDto() != null) {
-        builder.setUserDto(container.getUserDto());
+      public FullPropertyBuilder0 setAdminDto(AdminDto dto) {
+        return new FullPropertyBuilder0(builder.setAdminDto(dto));
       }
-      return new PropertyBuilder0(builder);
-    }
-  }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+      public FullPropertyBuilder0 setUserDto(UserDto dto) {
+        return new FullPropertyBuilder0(builder.setUserDto(dto));
+      }
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      public FullPropertyBuilder0 setOneOfContainer(PersonOneOfContainerDto container) {
+        if (container.getAdminDto() != null) {
+          builder.setAdminDto(container.getAdminDto());
+        }
 
-    /**
-     * RequiredStringVal
-     */
-    public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
-      return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
-    }
-
-  }
-
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
-
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+        if (container.getUserDto() != null) {
+          builder.setUserDto(container.getUserDto());
+        }
+        return new FullPropertyBuilder0(builder);
+      }
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredStringVal
+       */
+      public FullOptPropertyBuilder0 setRequiredStringVal(String requiredStringVal) {
+        return new FullOptPropertyBuilder0(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    public Builder andOptionals(){
-      return builder;
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public PersonDto build(){
+        return builder.build();
+      }
     }
 
-    public PersonDto build(){
-      return builder.build();
+    public static final class OneOfBuilder {
+      private final Builder builder;
+
+      private OneOfBuilder(Builder builder) {
+        this.builder = builder;
+      }
+
+      public PropertyBuilder0 setAdminDto(AdminDto dto) {
+        return new PropertyBuilder0(builder.setAdminDto(dto));
+      }
+
+      public PropertyBuilder0 setUserDto(UserDto dto) {
+        return new PropertyBuilder0(builder.setUserDto(dto));
+      }
+
+      public PropertyBuilder0 setOneOfContainer(PersonOneOfContainerDto container) {
+        if (container.getAdminDto() != null) {
+          builder.setAdminDto(container.getAdminDto());
+        }
+
+        if (container.getUserDto() != null) {
+          builder.setUserDto(container.getUserDto());
+        }
+        return new PropertyBuilder0(builder);
+      }
     }
-  }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredStringVal
+       */
+      public PropertyBuilder1 setRequiredStringVal(String requiredStringVal) {
+        return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+      }
+
     }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public PersonDto build(){
+        return builder.build();
+      }
     }
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public PersonDto build(){
-      return builder.build();
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public PersonDto build(){
+        return builder.build();
+      }
     }
   }
 }
@@ -8277,8 +8337,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullBuilder() {
-    return new FullPropertyBuilder0(new Builder());
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -8286,83 +8346,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
-    return new FullPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * email
-     */
-    public FullPropertyBuilder1 setEmail(String email) {
-      return new FullPropertyBuilder1(builder.setEmail(email));
-    }
-
-  }
-
-  public static final class FullPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Additional Property 'name'
-     */
-    public FullOptPropertyBuilder0 setName(String name) {
-      return new FullOptPropertyBuilder0(builder.setName(name));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * Birthdate
-     */
-    public FullOptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
-      return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
-    }
-
-    /**
-     * Birthdate
-     */
-    public FullOptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
-      return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -8370,8 +8355,8 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 builder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
   /**
@@ -8379,102 +8364,181 @@ public class ObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 objectPojo1DtoBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * email
+       */
+      public FullPropertyBuilder1 setEmail(String email) {
+        return new FullPropertyBuilder1(builder.setEmail(email));
+      }
+
     }
 
-    /**
-     * email
-     */
-    public PropertyBuilder1 setEmail(String email) {
-      return new PropertyBuilder1(builder.setEmail(email));
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Additional Property 'name'
+       */
+      public FullOptPropertyBuilder0 setName(String name) {
+        return new FullOptPropertyBuilder0(builder.setName(name));
+      }
+
     }
 
-  }
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      /**
+       * Birthdate
+       */
+      public FullOptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
+        return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+      }
+
+      /**
+       * Birthdate
+       */
+      public FullOptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
+        return new FullOptPropertyBuilder1(builder.setBirthdate(birthdate));
+      }
+
     }
 
-    /**
-     * Additional Property 'name'
-     */
-    public PropertyBuilder2 setName(String name) {
-      return new PropertyBuilder2(builder.setName(name));
+    public static final class FullOptPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-  }
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder2 {
-    private final Builder builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder2(Builder builder) {
-      this.builder = builder;
+      /**
+       * email
+       */
+      public PropertyBuilder1 setEmail(String email) {
+        return new PropertyBuilder1(builder.setEmail(email));
+      }
+
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * Additional Property 'name'
+       */
+      public PropertyBuilder2 setName(String name) {
+        return new PropertyBuilder2(builder.setName(name));
+      }
+
     }
 
-    public Builder andOptionals(){
-      return builder;
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
+
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public ObjectPojo1Dto build(){
-      return builder.build();
-    }
-  }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      /**
+       * Birthdate
+       */
+      public OptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
+        return new OptPropertyBuilder1(builder.setBirthdate(birthdate));
+      }
 
-    /**
-     * Birthdate
-     */
-    public OptPropertyBuilder1 setBirthdate(LocalDate birthdate) {
-      return new OptPropertyBuilder1(builder.setBirthdate(birthdate));
-    }
+      /**
+       * Birthdate
+       */
+      public OptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
+        return new OptPropertyBuilder1(builder.setBirthdate(birthdate));
+      }
 
-    /**
-     * Birthdate
-     */
-    public OptPropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
-      return new OptPropertyBuilder1(builder.setBirthdate(birthdate));
     }
 
-  }
+    public static final class OptPropertyBuilder1 {
+      private final Builder builder;
 
-  public static final class OptPropertyBuilder1 {
-    private final Builder builder;
+      private OptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
 
-    private OptPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
 
-    public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
-    }
+      public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public ObjectPojo1Dto build(){
-      return builder.build();
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }

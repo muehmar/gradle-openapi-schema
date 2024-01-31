@@ -10,18 +10,16 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.writer.Writer;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.Test;
 
 @SnapshotTest
 class SafeBuilderGeneratorTest {
   private Expect expect;
 
-  @ParameterizedTest
-  @EnumSource(SafeBuilderVariant.class)
+  @Test
   @SnapshotName("enabledSafeBuilder")
-  void generate_when_enabledSafeBuilder_then_correctOutput(SafeBuilderVariant variant) {
-    final SafeBuilderGenerator gen = new SafeBuilderGenerator(variant);
+  void generate_when_enabledSafeBuilder_then_correctOutput() {
+    final SafeBuilderGenerator gen = new SafeBuilderGenerator();
 
     final Writer writer =
         gen.generate(
@@ -29,14 +27,13 @@ class SafeBuilderGeneratorTest {
             defaultTestSettings().withEnableSafeBuilder(true),
             javaWriter());
 
-    expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
-  @ParameterizedTest
-  @EnumSource(SafeBuilderVariant.class)
+  @Test
   @SnapshotName("disabledSafeBuilder")
-  void generate_when_disabledSafeBuilder_then_correctOutput(SafeBuilderVariant variant) {
-    final SafeBuilderGenerator gen = new SafeBuilderGenerator(variant);
+  void generate_when_disabledSafeBuilder_then_correctOutput() {
+    final SafeBuilderGenerator gen = new SafeBuilderGenerator();
 
     final Writer writer =
         gen.generate(

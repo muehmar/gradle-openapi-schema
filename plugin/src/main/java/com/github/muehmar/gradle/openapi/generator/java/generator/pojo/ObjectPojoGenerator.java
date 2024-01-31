@@ -34,7 +34,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -164,8 +163,6 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(normalBuilderGenerator())
         .appendSingleBlankLine()
-        .append(new SafeBuilderGenerator(SafeBuilderVariant.FULL))
-        .appendSingleBlankLine()
-        .append(new SafeBuilderGenerator(SafeBuilderVariant.STANDARD));
+        .append(new SafeBuilderGenerator());
   }
 }
