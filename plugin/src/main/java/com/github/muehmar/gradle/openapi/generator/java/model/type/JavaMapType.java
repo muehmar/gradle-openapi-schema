@@ -1,10 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -18,21 +20,21 @@ public class JavaMapType implements JavaType {
   private static final QualifiedClassName JAVA_CLASS_NAME = QualifiedClassNames.MAP;
 
   private final QualifiedClassName qualifiedClassName;
-  private final MapType mapType;
   private final JavaType key;
   private final JavaType value;
+  private final Nullability nullability;
   private final Constraints constraints;
 
   private JavaMapType(
       QualifiedClassName qualifiedClassName,
-      MapType mapType,
       JavaType key,
       JavaType value,
+      Nullability nullability,
       Constraints constraints) {
     this.qualifiedClassName = qualifiedClassName;
-    this.mapType = mapType;
     this.key = key;
     this.value = value;
+    this.nullability = nullability;
     this.constraints = constraints;
   }
 
@@ -41,17 +43,17 @@ public class JavaMapType implements JavaType {
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     final JavaType key = JavaType.wrap(mapType.getKey(), typeMappings);
     final JavaType value = JavaType.wrap(mapType.getValue(), typeMappings);
-    return new JavaMapType(className, mapType, key, value, mapType.getConstraints());
+    return new JavaMapType(
+        className, key, value, mapType.getNullability(), mapType.getConstraints());
+  }
+
+  public static JavaMapType ofKeyAndValueType(JavaType key, JavaType value) {
+    return new JavaMapType(JAVA_CLASS_NAME, key, value, NOT_NULLABLE, Constraints.empty());
   }
 
   @Override
   public QualifiedClassName getQualifiedClassName() {
     return qualifiedClassName;
-  }
-
-  @Override
-  public Type getType() {
-    return mapType;
   }
 
   @Override
@@ -69,6 +71,11 @@ public class JavaMapType implements JavaType {
   @Override
   public boolean isJavaArray() {
     return false;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

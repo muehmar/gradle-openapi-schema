@@ -1,8 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
@@ -35,8 +38,8 @@ public class JavaStringType extends NonGenericJavaType {
   }
 
   protected JavaStringType(
-      QualifiedClassName className, Constraints constraints, StringType stringType) {
-    super(className, stringType);
+      QualifiedClassName className, Nullability nullability, Constraints constraints) {
+    super(className, nullability);
     this.constraints = constraints;
   }
 
@@ -45,7 +48,12 @@ public class JavaStringType extends NonGenericJavaType {
         classNameFromFormat(stringType, typeMappings.getFormatTypeMappings());
     final QualifiedClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaStringType(finalClassName, stringType.getConstraints(), stringType);
+    return new JavaStringType(
+        finalClassName, stringType.getNullability(), stringType.getConstraints());
+  }
+
+  public static JavaStringType noFormat() {
+    return new JavaStringType(QualifiedClassNames.STRING, NOT_NULLABLE, Constraints.empty());
   }
 
   private static QualifiedClassName classNameFromFormat(

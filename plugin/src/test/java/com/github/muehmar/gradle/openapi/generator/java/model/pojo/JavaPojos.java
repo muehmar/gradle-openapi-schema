@@ -11,6 +11,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNa
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
@@ -22,6 +23,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.DiscriminatorType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -250,6 +252,12 @@ public class JavaPojos {
         objectPojo(requiredColorEnum()).withName(JavaPojoNames.fromNameAndSuffix("Base", "Dto"));
     final Optional<JavaAllOfComposition> allOfComposition =
         Optional.of(JavaAllOfComposition.fromPojos(NonEmptyList.of(allOfPojo)));
+    final EnumType enumType =
+        EnumType.ofNameAndMembers(
+            requiredColorEnum().getName().getOriginalName(),
+            ((JavaEnumType) requiredColorEnum().getJavaType())
+                .getMembers()
+                .map(EnumConstantName::getOriginalConstant));
 
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(
@@ -263,7 +271,7 @@ public class JavaPojos {
                     .withSchemaName(SchemaName.ofString("Orange"))
                     .withName(JavaPojoNames.fromNameAndSuffix("Orange", "Dto"))),
             untypedDiscriminator,
-            DiscriminatorType.fromEnumType((EnumType) requiredColorEnum().getJavaType().getType()));
+            DiscriminatorType.fromEnumType(enumType));
 
     return JavaPojos.oneOfPojo(javaOneOfComposition)
         .withName(JavaPojoNames.fromNameAndSuffix("OneOf", "Dto"));

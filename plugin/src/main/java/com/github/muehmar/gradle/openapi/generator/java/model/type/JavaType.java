@@ -15,11 +15,7 @@ import java.util.function.Function;
 public interface JavaType {
   QualifiedClassName getQualifiedClassName();
 
-  Type getType();
-
-  default Nullability getNullability() {
-    return getType().getNullability();
-  }
+  Nullability getNullability();
 
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
@@ -50,41 +46,67 @@ public interface JavaType {
 
   default boolean isArrayType() {
     return fold(
-        javaArrayType -> true,
-        javaBooleanType -> false,
-        javaEnumType -> false,
-        javaMapType -> false,
-        javaAnyType -> false,
-        javaNumericType -> false,
-        javaIntegerType -> false,
-        javaObjectType -> false,
-        javaStringType -> false);
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance,
+        JavaArrayType.class::isInstance);
   }
 
   default boolean isMapType() {
     return fold(
-        javaArrayType -> false,
-        javaBooleanType -> false,
-        javaEnumType -> false,
-        javaMapType -> true,
-        javaAnyType -> false,
-        javaNumericType -> false,
-        javaIntegerType -> false,
-        javaObjectType -> false,
-        javaStringType -> false);
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance);
   }
 
   default boolean isAnyType() {
     return fold(
-        javaArrayType -> false,
-        javaBooleanType -> false,
-        javaEnumType -> false,
-        javaMapType -> false,
-        javaAnyType -> true,
-        javaNumericType -> false,
-        javaIntegerType -> false,
-        javaObjectType -> false,
-        javaStringType -> false);
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance);
+  }
+
+  default boolean isIntegerType() {
+    return fold(
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance);
+  }
+
+  default boolean isNumericType() {
+    return fold(
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance);
   }
 
   default boolean isObjectType() {

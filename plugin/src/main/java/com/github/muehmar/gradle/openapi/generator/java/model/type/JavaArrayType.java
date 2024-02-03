@@ -4,7 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -18,7 +18,7 @@ import lombok.ToString;
 public class JavaArrayType implements JavaType {
   private final QualifiedClassName qualifiedClassName;
   private final JavaType itemType;
-  private final ArrayType arrayType;
+  private final Nullability nullability;
   private final Constraints constraints;
 
   private static final QualifiedClassName JAVA_CLASS_NAME = QualifiedClassNames.LIST;
@@ -26,11 +26,11 @@ public class JavaArrayType implements JavaType {
   private JavaArrayType(
       QualifiedClassName qualifiedClassName,
       JavaType itemType,
-      ArrayType arrayType,
+      Nullability nullability,
       Constraints constraints) {
     this.qualifiedClassName = qualifiedClassName;
     this.itemType = itemType;
-    this.arrayType = arrayType;
+    this.nullability = nullability;
     this.constraints = constraints;
   }
 
@@ -40,18 +40,13 @@ public class JavaArrayType implements JavaType {
     return new JavaArrayType(
         className,
         JavaType.wrap(arrayType.getItemType(), typeMappings),
-        arrayType,
+        arrayType.getNullability(),
         arrayType.getConstraints());
   }
 
   @Override
   public QualifiedClassName getQualifiedClassName() {
     return qualifiedClassName;
-  }
-
-  @Override
-  public Type getType() {
-    return arrayType;
   }
 
   @Override
@@ -67,6 +62,11 @@ public class JavaArrayType implements JavaType {
   @Override
   public boolean isJavaArray() {
     return false;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

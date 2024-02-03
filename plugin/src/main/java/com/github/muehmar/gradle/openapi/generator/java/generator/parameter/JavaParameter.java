@@ -1,12 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.parameter;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaNumericType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
-import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
-import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import lombok.Value;
@@ -35,92 +35,86 @@ public class JavaParameter {
 
   public boolean printMinOrMax() {
     return getJavaType()
-        .getType()
         .fold(
-            numericType -> false,
-            integerType -> true,
-            stringType -> false,
             arrayType -> false,
             booleanType -> false,
-            objectType -> false,
             enumType -> false,
             mapType -> false,
-            noType -> false);
+            anyType -> false,
+            numericType -> false,
+            integerType -> true,
+            objectType -> false,
+            stringType -> false);
   }
 
   public boolean printDecimalMinOrMax() {
     return getJavaType()
-        .getType()
         .fold(
-            numericType -> true,
-            integerType -> false,
-            stringType -> false,
             arrayType -> false,
             booleanType -> false,
-            objectType -> false,
             enumType -> false,
             mapType -> false,
-            noType -> false);
+            anyType -> false,
+            numericType -> true,
+            integerType -> false,
+            objectType -> false,
+            stringType -> false);
   }
 
   public boolean printSize() {
     return getJavaType()
-        .getType()
         .fold(
-            numericType -> false,
-            integerType -> false,
-            stringType -> isJavaStringClass(),
             arrayType -> false,
             booleanType -> false,
-            objectType -> false,
             enumType -> false,
             mapType -> false,
-            noType -> false);
+            anyType -> false,
+            numericType -> false,
+            integerType -> false,
+            objectType -> false,
+            stringType -> isJavaStringClass());
   }
 
   public boolean printPattern() {
     return getJavaType()
-        .getType()
         .fold(
-            numericType -> false,
-            integerType -> false,
-            stringType -> isJavaStringClass(),
             arrayType -> false,
             booleanType -> false,
-            objectType -> false,
             enumType -> false,
             mapType -> false,
-            noType -> false);
+            anyType -> false,
+            numericType -> false,
+            integerType -> false,
+            objectType -> false,
+            stringType -> isJavaStringClass());
   }
 
   public boolean printDefaultValue() {
     return getJavaType()
-        .getType()
         .fold(
-            numericType -> true,
-            integerType -> true,
-            stringType -> isJavaStringClass(),
             arrayType -> false,
             booleanType -> false,
-            objectType -> false,
             enumType -> false,
             mapType -> false,
-            noType -> false);
+            anyType -> false,
+            numericType -> true,
+            integerType -> true,
+            objectType -> false,
+            stringType -> isJavaStringClass());
   }
 
   public boolean printDefaultAsString() {
     return getJavaType()
-        .getType()
         .fold(
-            numericType -> true,
-            integerType -> true,
-            stringType -> false,
             arrayType -> false,
             booleanType -> false,
-            objectType -> false,
             enumType -> false,
             mapType -> false,
-            noType -> false);
+            anyType -> false,
+            numericType -> true,
+            integerType -> true,
+            objectType -> false,
+            stringType -> false);
   }
 
   private boolean isJavaStringClass() {
@@ -129,28 +123,27 @@ public class JavaParameter {
 
   public String formatConstant(Object value) {
     return getJavaType()
-        .getType()
         .fold(
-            numericType -> formatNumericConstant(numericType, value),
-            integerType -> formatIntegerConstant(integerType, value),
-            stringType -> String.format("\"%s\"", value),
             arrayType -> "",
             booleanType -> "",
-            objectType -> "",
             enumType -> "",
             mapType -> "",
-            noType -> "");
+            anyType -> "",
+            numericType -> formatNumericConstant(numericType, value),
+            integerType -> formatIntegerConstant(integerType, value),
+            objectType -> "",
+            stringType -> String.format("\"%s\"", value));
   }
 
-  private String formatNumericConstant(NumericType numericType, Object value) {
-    if (numericType.getFormat() == NumericType.Format.FLOAT) {
+  private String formatNumericConstant(JavaNumericType numericType, Object value) {
+    if (numericType.getQualifiedClassName().equals(QualifiedClassNames.FLOAT)) {
       return value + "f";
     }
     return value + "";
   }
 
-  private String formatIntegerConstant(IntegerType integerType, Object value) {
-    if (integerType.getFormat() == IntegerType.Format.LONG) {
+  private String formatIntegerConstant(JavaIntegerType integerType, Object value) {
+    if (integerType.getQualifiedClassName().equals(QualifiedClassNames.LONG)) {
       return value + "L";
     }
     return value + "";

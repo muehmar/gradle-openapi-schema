@@ -4,7 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 
 import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
@@ -21,18 +21,18 @@ public class JavaBooleanType extends NonGenericJavaType {
   private static final QualifiedClassName JAVA_PRIMITIVE =
       QualifiedClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("boolean"));
 
-  private JavaBooleanType(QualifiedClassName className, Type type) {
-    super(className, type);
+  private JavaBooleanType(QualifiedClassName className, Nullability nullability) {
+    super(className, nullability);
   }
 
   public static JavaBooleanType wrap(BooleanType booleanType, TypeMappings typeMappings) {
     final QualifiedClassName className =
         JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaBooleanType(className, booleanType);
+    return new JavaBooleanType(className, booleanType.getNullability());
   }
 
   public static JavaBooleanType createPrimitive() {
-    return new JavaBooleanType(JAVA_PRIMITIVE, BooleanType.create(NOT_NULLABLE));
+    return new JavaBooleanType(JAVA_PRIMITIVE, NOT_NULLABLE);
   }
 
   @Override

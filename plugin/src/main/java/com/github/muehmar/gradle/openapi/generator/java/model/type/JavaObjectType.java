@@ -1,9 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
-import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -17,34 +19,30 @@ public class JavaObjectType extends NonGenericJavaType {
 
   private JavaObjectType(
       QualifiedClassName className,
+      Nullability nullability,
       Constraints constraints,
-      ObjectType objectType,
       TypeOrigin origin) {
-    super(className, objectType);
+    super(className, nullability);
     this.constraints = constraints;
     this.origin = origin;
   }
 
   public static JavaObjectType fromClassName(QualifiedClassName className) {
-    return new JavaObjectType(
-        className,
-        Constraints.empty(),
-        ObjectType.ofName(PojoName.ofName(className.getClassName())),
-        TypeOrigin.CUSTOM);
+    return new JavaObjectType(className, NOT_NULLABLE, Constraints.empty(), TypeOrigin.CUSTOM);
   }
 
   public static JavaObjectType fromObjectPojo(JavaObjectPojo javaObjectPojo) {
     return new JavaObjectType(
         QualifiedClassName.ofQualifiedClassName(javaObjectPojo.getClassName().asString()),
+        NOT_NULLABLE,
         Constraints.empty(),
-        ObjectType.ofName(javaObjectPojo.getJavaPojoName().asPojoName()),
         TypeOrigin.OPENAPI);
   }
 
   public static JavaObjectType wrap(ObjectType objectType) {
     final QualifiedClassName className = QualifiedClassName.ofPojoName(objectType.getName());
     return new JavaObjectType(
-        className, objectType.getConstraints(), objectType, TypeOrigin.OPENAPI);
+        className, objectType.getNullability(), objectType.getConstraints(), TypeOrigin.OPENAPI);
   }
 
   @Override

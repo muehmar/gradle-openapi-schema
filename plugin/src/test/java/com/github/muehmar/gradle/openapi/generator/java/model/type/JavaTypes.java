@@ -5,7 +5,6 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
@@ -52,6 +51,6 @@ public class JavaTypes {
   }
 
   public static JavaAnyType anyType() {
-    return JavaAnyType.javaAnyType(AnyType.create(NOT_NULLABLE));
+    return JavaAnyType.javaAnyType(NOT_NULLABLE);
   }
 }

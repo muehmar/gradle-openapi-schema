@@ -19,7 +19,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
-import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
@@ -59,7 +58,7 @@ class RequiredMemberBuilderGeneratorTest {
     final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
         PList.single(
             JavaRequiredAdditionalProperty.fromNameAndType(
-                Name.ofString("prop1"), javaAnyType(AnyType.create(NULLABLE))));
+                Name.ofString("prop1"), javaAnyType(NULLABLE)));
 
     final Writer writer =
         gen.generate(
