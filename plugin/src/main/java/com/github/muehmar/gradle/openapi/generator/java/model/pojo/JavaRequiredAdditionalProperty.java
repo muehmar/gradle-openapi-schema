@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -39,7 +38,7 @@ public class JavaRequiredAdditionalProperty {
   }
 
   public boolean isAnyType() {
-    return javaType.equals(javaAnyType());
+    return javaType.isAnyType();
   }
 
   public boolean isNotAnyType() {

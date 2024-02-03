@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -21,7 +22,7 @@ class JavaNumericTypeTest {
   @MethodSource("numericFormats")
   void wrap_when_doubleFormatWrapped_then_correctWrapped(
       NumericType.Format format, String className) {
-    final NumericType numericType = NumericType.ofFormat(format);
+    final NumericType numericType = NumericType.ofFormat(format, NOT_NULLABLE);
     final JavaNumericType javaType = JavaNumericType.wrap(numericType, TypeMappings.empty());
 
     assertEquals(className, javaType.getParameterizedClassName().asString());
@@ -42,7 +43,7 @@ class JavaNumericTypeTest {
 
   @Test
   void wrap_when_numericTypeWrappedWithClassMapping_then_correctTypeMapped() {
-    final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE);
+    final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE, NOT_NULLABLE);
     final JavaNumericType javaType =
         JavaNumericType.wrap(
             numericType,
@@ -61,7 +62,7 @@ class JavaNumericTypeTest {
 
   @Test
   void wrap_when_numericTypeWrappedWithFormatMapping_then_correctTypeMapped() {
-    final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE);
+    final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE, NOT_NULLABLE);
     final JavaNumericType javaType =
         JavaNumericType.wrap(
             numericType,

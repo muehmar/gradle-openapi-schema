@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -13,27 +14,29 @@ import lombok.ToString;
 @ToString
 public class IntegerType implements Type {
   private final Format format;
+  private final Nullability nullability;
   private final Constraints constraints;
 
-  private IntegerType(Format format, Constraints constraints) {
+  private IntegerType(Format format, Nullability nullability, Constraints constraints) {
     this.format = format;
+    this.nullability = nullability;
     this.constraints = constraints;
   }
 
-  public static IntegerType ofFormat(Format format) {
-    return new IntegerType(format, Constraints.empty());
+  public static IntegerType ofFormat(Format format, Nullability nullability) {
+    return new IntegerType(format, nullability, Constraints.empty());
   }
 
   public static IntegerType formatInteger() {
-    return IntegerType.ofFormat(Format.INTEGER);
+    return IntegerType.ofFormat(Format.INTEGER, Nullability.NOT_NULLABLE);
   }
 
   public static IntegerType formatLong() {
-    return IntegerType.ofFormat(Format.LONG);
+    return IntegerType.ofFormat(Format.LONG, Nullability.NOT_NULLABLE);
   }
 
   public IntegerType withConstraints(Constraints constraints) {
-    return new IntegerType(format, constraints);
+    return new IntegerType(format, nullability, constraints);
   }
 
   @Override
@@ -48,6 +51,11 @@ public class IntegerType implements Type {
 
   public Format getFormat() {
     return format;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.BINARY;
@@ -37,6 +38,15 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 class StringSchemaTest {
+
+  @Test
+  void mapToMemberType_when_nullableIsTrue_then_correctUrlJavaTypeReturned() {
+    final Schema<?> schema = new io.swagger.v3.oas.models.media.StringSchema().format("url");
+    schema.setNullable(true);
+    final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
+    assertEquals(StringType.ofFormat(URL).withNullability(NULLABLE), mappedSchema.getType());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
+  }
 
   @Test
   void mapToMemberType_when_urlFormat_then_correctUrlJavaTypeReturned() {

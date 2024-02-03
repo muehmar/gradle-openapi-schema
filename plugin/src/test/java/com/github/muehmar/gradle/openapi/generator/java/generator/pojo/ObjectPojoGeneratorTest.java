@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredEmail;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.illegalIdentifierPojo;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
@@ -27,7 +28,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
@@ -472,8 +472,7 @@ class ObjectPojoGeneratorTest {
   void generatePojo_when_anyTypeMap_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
     final JavaObjectPojo objectPojo =
-        JavaPojos.objectPojo(
-            PList.empty(), JavaAdditionalProperties.allowedFor(JavaAnyType.create()));
+        JavaPojos.objectPojo(PList.empty(), JavaAdditionalProperties.allowedFor(anyType()));
     final String content =
         generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 

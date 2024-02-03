@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProper
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
@@ -329,7 +330,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("data"),
                         "Some user related data",
-                        AnyType.create(),
+                        AnyType.create(NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
@@ -356,7 +357,8 @@ class SpecificationMapperImplTest {
                         Name.ofString("members"),
                         "",
                         ArrayType.ofItemType(
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto"))),
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
+                            NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE),
@@ -364,7 +366,7 @@ class SpecificationMapperImplTest {
                         Name.ofString("languages"),
                         "",
                         ArrayType.ofItemType(
-                            ObjectType.ofName(pojoName("UserGroupLanguages", "Dto"))),
+                            ObjectType.ofName(pojoName("UserGroupLanguages", "Dto")), NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
@@ -615,7 +617,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("languages"),
                         "",
-                        ArrayType.ofItemType(StringType.noFormat()),
+                        ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))
@@ -827,7 +829,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("admin"),
                         "User is admin",
-                        BooleanType.create(),
+                        BooleanType.create(NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         NOT_NULLABLE)))

@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -13,11 +14,14 @@ import lombok.ToString;
 public class StringType implements Type {
   private final Format format;
   private final String formatString;
+  private final Nullability nullability;
   private final Constraints constraints;
 
-  private StringType(Format format, String formatString, Constraints constraints) {
+  private StringType(
+      Format format, String formatString, Nullability nullability, Constraints constraints) {
     this.format = format;
     this.formatString = formatString;
+    this.nullability = nullability;
     this.constraints = constraints;
   }
 
@@ -30,11 +34,11 @@ public class StringType implements Type {
   }
 
   public static StringType ofFormat(Format format) {
-    return new StringType(format, format.value, Constraints.empty());
+    return new StringType(format, format.value, Nullability.NOT_NULLABLE, Constraints.empty());
   }
 
   public static StringType ofFormatAndValue(Format format, String formatString) {
-    return new StringType(format, formatString, Constraints.empty());
+    return new StringType(format, formatString, Nullability.NOT_NULLABLE, Constraints.empty());
   }
 
   public Format getFormat() {
@@ -46,11 +50,11 @@ public class StringType implements Type {
   }
 
   public StringType withConstraints(Constraints constraints) {
-    return new StringType(format, formatString, constraints);
+    return new StringType(format, formatString, nullability, constraints);
   }
 
   public StringType addConstraints(Constraints constraints) {
-    return new StringType(format, formatString, this.constraints.and(constraints));
+    return new StringType(format, formatString, nullability, this.constraints.and(constraints));
   }
 
   @Override
@@ -61,6 +65,11 @@ public class StringType implements Type {
   @Override
   public StringType applyMapping(PojoNameMapping pojoNameMapping) {
     return this;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

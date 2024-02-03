@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -14,27 +15,29 @@ import lombok.ToString;
 public class NumericType implements Type {
 
   private final Format format;
+  private final Nullability nullability;
   private final Constraints constraints;
 
-  private NumericType(Format format, Constraints constraints) {
+  private NumericType(Format format, Nullability nullability, Constraints constraints) {
     this.format = format;
+    this.nullability = nullability;
     this.constraints = constraints;
   }
 
-  public static NumericType ofFormat(Format format) {
-    return new NumericType(format, Constraints.empty());
+  public static NumericType ofFormat(Format format, Nullability nullability) {
+    return new NumericType(format, nullability, Constraints.empty());
   }
 
   public static NumericType formatFloat() {
-    return NumericType.ofFormat(Format.FLOAT);
+    return NumericType.ofFormat(Format.FLOAT, Nullability.NOT_NULLABLE);
   }
 
   public static NumericType formatDouble() {
-    return NumericType.ofFormat(Format.DOUBLE);
+    return NumericType.ofFormat(Format.DOUBLE, Nullability.NOT_NULLABLE);
   }
 
   public NumericType withConstraints(Constraints constraints) {
-    return new NumericType(format, constraints);
+    return new NumericType(format, nullability, constraints);
   }
 
   public Format getFormat() {
@@ -49,6 +52,11 @@ public class NumericType implements Type {
   @Override
   public NumericType applyMapping(PojoNameMapping pojoNameMapping) {
     return this;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

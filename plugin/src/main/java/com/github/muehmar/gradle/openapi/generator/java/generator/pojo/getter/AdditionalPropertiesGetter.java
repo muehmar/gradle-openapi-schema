@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
@@ -164,7 +163,7 @@ public class AdditionalPropertiesGetter {
 
   private static boolean isObjectAdditionalPropertiesType(
       JavaAdditionalProperties additionalProperties) {
-    return additionalProperties.getType().equals(javaAnyType());
+    return additionalProperties.getType().isAnyType();
   }
 
   private static boolean isNotObjectAdditionalPropertiesType(

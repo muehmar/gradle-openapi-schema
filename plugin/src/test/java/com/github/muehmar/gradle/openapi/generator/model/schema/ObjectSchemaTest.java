@@ -1,10 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.type.IntegerType.Format.INTEGER;
+import static com.github.muehmar.gradle.openapi.generator.model.type.NumericType.Format.FLOAT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
@@ -68,6 +72,18 @@ class ObjectSchemaTest {
     assertEquals(
         UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, schema)),
         result.getUnmappedItems());
+  }
+
+  @Test
+  void mapToMemberType_when_nullableFlagIsTrue_then_objectTypeIsNullable() {
+    final ComponentName componentName = componentName("Person", "");
+    final Name memberName = Name.ofString("Address");
+    final Schema<?> schema = new ObjectSchema();
+    schema.setNullable(true);
+
+    final MemberSchemaMapResult result = mapToMemberType(componentName, memberName, schema);
+
+    assertEquals(NULLABLE, result.getType().getNullability());
   }
 
   @Test
@@ -173,17 +189,17 @@ class ObjectSchemaTest {
             new PojoMember(
                 Name.ofString("intVal"),
                 null,
-                IntegerType.formatInteger(),
+                IntegerType.ofFormat(INTEGER, NULLABLE),
                 PropertyScope.DEFAULT,
                 Necessity.OPTIONAL,
-                Nullability.NULLABLE),
+                NULLABLE),
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
-                NumericType.formatFloat(),
+                NumericType.ofFormat(FLOAT, NULLABLE),
                 PropertyScope.DEFAULT,
                 Necessity.REQUIRED,
-                Nullability.NULLABLE),
+                NULLABLE),
             new PojoMember(
                 Name.ofString("stringVal"),
                 null,
@@ -457,6 +473,19 @@ class ObjectSchemaTest {
   }
 
   @Test
+  void mapToMemberType_when_mapSchemaAndNullableFlagIsTrue_then_nullableMapType() {
+    final MapSchema mapSchema = new MapSchema();
+    mapSchema.setNullable(true);
+    final StringSchema stringSchema = new StringSchema();
+    mapSchema.setAdditionalProperties(stringSchema);
+
+    final MemberSchemaMapResult result = mapToMemberType(mapSchema);
+
+    assertInstanceOf(MapType.class, result.getType());
+    assertEquals(NULLABLE, result.getType().getNullability());
+  }
+
+  @Test
   void mapToMemberType_when_mapSchemaAndStringSchemaAsAdditionalProperties_then_correctType() {
     final MapSchema mapSchema = new MapSchema();
     final StringSchema stringSchema = new StringSchema();
@@ -506,7 +535,7 @@ class ObjectSchemaTest {
     final MemberSchemaMapResult result = mapToMemberType(mapSchema);
 
     final MapType mapType =
-        MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create())
+        MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create(NULLABLE))
             .withConstraints(Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(9)));
 
     final MemberSchemaMapResult memberSchemaMapResult = MemberSchemaMapResult.ofType(mapType);

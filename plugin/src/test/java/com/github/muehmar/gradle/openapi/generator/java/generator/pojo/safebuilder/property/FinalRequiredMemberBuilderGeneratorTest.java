@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.property;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -34,7 +34,7 @@ class FinalRequiredMemberBuilderGeneratorTest {
 
     final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
         PList.single(
-            JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), javaAnyType()));
+            JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), anyType()));
     final Writer writer =
         gen.generate(
             JavaPojos.allNecessityAndNullabilityVariants()

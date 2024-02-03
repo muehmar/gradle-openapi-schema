@@ -1,9 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
+import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
@@ -19,11 +23,12 @@ public class JavaTypes {
   }
 
   public static JavaArrayType stringListType() {
-    return JavaArrayType.wrap(ArrayType.ofItemType(StringType.noFormat()), TypeMappings.empty());
+    return JavaArrayType.wrap(
+        ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE), TypeMappings.empty());
   }
 
   public static JavaBooleanType booleanType() {
-    return JavaBooleanType.wrap(TypeMappings.empty());
+    return JavaBooleanType.wrap(BooleanType.create(NOT_NULLABLE), TypeMappings.empty());
   }
 
   public static JavaEnumType enumType() {
@@ -44,5 +49,9 @@ public class JavaTypes {
 
   public static JavaObjectType objectType() {
     return JavaObjectType.wrap(ObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))));
+  }
+
+  public static JavaAnyType anyType() {
+    return JavaAnyType.javaAnyType(AnyType.create(NOT_NULLABLE));
   }
 }

@@ -13,16 +13,12 @@ import lombok.ToString;
 public class JavaAnyType extends NonGenericJavaType {
   private static final QualifiedClassName CLASS_NAME = QualifiedClassNames.OBJECT;
 
-  private JavaAnyType() {
-    super(CLASS_NAME, AnyType.create());
+  private JavaAnyType(AnyType anyType) {
+    super(CLASS_NAME, anyType);
   }
 
-  public static JavaAnyType create() {
-    return new JavaAnyType();
-  }
-
-  public static JavaAnyType javaAnyType() {
-    return new JavaAnyType();
+  public static JavaAnyType javaAnyType(AnyType anyType) {
+    return new JavaAnyType(anyType);
   }
 
   @Override

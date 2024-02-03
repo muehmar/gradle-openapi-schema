@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -12,18 +13,20 @@ import lombok.ToString;
 public class ArrayType implements Type {
   private final Constraints constraints;
   private final Type itemType;
+  private final Nullability nullability;
 
-  private ArrayType(Constraints constraints, Type itemType) {
+  private ArrayType(Constraints constraints, Type itemType, Nullability nullability) {
     this.constraints = constraints;
     this.itemType = itemType;
+    this.nullability = nullability;
   }
 
-  public static ArrayType ofItemType(Type itemType) {
-    return new ArrayType(Constraints.empty(), itemType);
+  public static ArrayType ofItemType(Type itemType, Nullability nullability) {
+    return new ArrayType(Constraints.empty(), itemType, nullability);
   }
 
   public ArrayType withConstraints(Constraints constraints) {
-    return new ArrayType(constraints, itemType);
+    return new ArrayType(constraints, itemType, nullability);
   }
 
   public Type getItemType() {
@@ -37,7 +40,12 @@ public class ArrayType implements Type {
 
   @Override
   public ArrayType applyMapping(PojoNameMapping pojoNameMapping) {
-    return new ArrayType(constraints, itemType.applyMapping(pojoNameMapping));
+    return new ArrayType(constraints, itemType.applyMapping(pojoNameMapping), nullability);
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

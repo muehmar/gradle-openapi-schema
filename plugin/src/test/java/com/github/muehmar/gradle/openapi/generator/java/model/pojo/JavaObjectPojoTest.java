@@ -10,7 +10,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
@@ -238,9 +238,9 @@ class JavaObjectPojoTest {
   @Test
   void promote_when_pojoWithAllCompositions_then_promotedCorrectly() {
     final JavaRequiredAdditionalProperty requiredBirthdateAddProp =
-        new JavaRequiredAdditionalProperty(optionalBirthdate().getName(), javaAnyType());
+        new JavaRequiredAdditionalProperty(optionalBirthdate().getName(), anyType());
     final JavaRequiredAdditionalProperty requiredStringAddProp =
-        new JavaRequiredAdditionalProperty(optionalString().getName(), javaAnyType());
+        new JavaRequiredAdditionalProperty(optionalString().getName(), anyType());
 
     final JavaObjectPojo allOfSubPojo =
         JavaPojos.objectPojo(optionalString(), requiredEmail())

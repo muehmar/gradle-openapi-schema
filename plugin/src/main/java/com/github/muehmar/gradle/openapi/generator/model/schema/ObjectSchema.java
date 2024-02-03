@@ -144,6 +144,7 @@ public class ObjectSchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
+    final Nullability nullability = Nullability.fromNullableBoolean(isNullable());
     if (isMapSchema()) {
       final MemberSchemaMapResult additionalPropertiesMapResult =
           additionalPropertiesSchema.getAdditionalPropertiesMapResult(
@@ -151,12 +152,14 @@ public class ObjectSchema implements OpenApiSchema {
       final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
       final MapType mapType =
           MapType.ofKeyAndValueType(StringType.noFormat(), additionalPropertiesMapResult.getType())
-              .withConstraints(constraints);
+              .withConstraints(constraints)
+              .withNullability(nullability);
       return MemberSchemaMapResult.ofTypeAndUnmappedItems(
           mapType, additionalPropertiesMapResult.getUnmappedItems());
     } else {
       final ComponentName openApiPojoName = parentComponentName.deriveMemberSchemaName(memberName);
-      final ObjectType objectType = ObjectType.ofName(openApiPojoName.getPojoName());
+      final ObjectType objectType =
+          ObjectType.ofName(openApiPojoName.getPojoName()).withNullability(nullability);
       final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, this);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(objectType, pojoSchema);
     }

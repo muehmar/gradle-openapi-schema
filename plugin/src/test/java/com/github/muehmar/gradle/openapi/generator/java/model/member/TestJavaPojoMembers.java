@@ -172,7 +172,8 @@ public class TestJavaPojoMembers {
         .description("List")
         .javaType(
             JavaType.wrap(
-                ArrayType.ofItemType(itemType).withConstraints(constraints), TypeMappings.empty()))
+                ArrayType.ofItemType(itemType, NOT_NULLABLE).withConstraints(constraints),
+                TypeMappings.empty()))
         .necessity(necessity)
         .nullability(nullability)
         .type(OBJECT_MEMBER)

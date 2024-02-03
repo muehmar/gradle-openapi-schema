@@ -318,7 +318,8 @@ class PropertyValidationGeneratorTest {
     final StringType stringType =
         StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMax(50)));
     final ArrayType listType =
-        ArrayType.ofItemType(stringType).withConstraints(Constraints.ofSize(Size.ofMin(8)));
+        ArrayType.ofItemType(stringType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.ofMin(8)));
     final JavaPojoMember mapType =
         map(
             StringType.noFormat(),

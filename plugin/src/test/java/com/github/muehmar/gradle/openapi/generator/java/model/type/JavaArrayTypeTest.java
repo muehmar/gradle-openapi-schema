@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class JavaArrayTypeTest {
   @Test
   void wrap_when_arrayTypeWrapped_then_correctWrapped() {
-    final ArrayType arrayType = ArrayType.ofItemType(StringType.uuid());
+    final ArrayType arrayType = ArrayType.ofItemType(StringType.uuid(), NOT_NULLABLE);
     final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, TypeMappings.empty());
 
     assertEquals("List<UUID>", javaArrayType.getParameterizedClassName().asString());
@@ -30,7 +31,7 @@ class JavaArrayTypeTest {
 
   @Test
   void wrap_when_arrayTypeWrappedWithClassMapping_then_correctTypeMapped() {
-    final ArrayType arrayType = ArrayType.ofItemType(StringType.uuid());
+    final ArrayType arrayType = ArrayType.ofItemType(StringType.uuid(), NOT_NULLABLE);
     final JavaArrayType javaArrayType =
         JavaArrayType.wrap(
             arrayType,

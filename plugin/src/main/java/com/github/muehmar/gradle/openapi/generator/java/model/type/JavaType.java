@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -15,6 +16,10 @@ public interface JavaType {
   QualifiedClassName getQualifiedClassName();
 
   Type getType();
+
+  default Nullability getNullability() {
+    return getType().getNullability();
+  }
 
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
@@ -69,6 +74,19 @@ public interface JavaType {
         javaStringType -> false);
   }
 
+  default boolean isAnyType() {
+    return fold(
+        javaArrayType -> false,
+        javaBooleanType -> false,
+        javaEnumType -> false,
+        javaMapType -> false,
+        javaAnyType -> true,
+        javaNumericType -> false,
+        javaIntegerType -> false,
+        javaObjectType -> false,
+        javaStringType -> false);
+  }
+
   default boolean isObjectType() {
     return onObjectType().isPresent();
   }
@@ -102,10 +120,10 @@ public interface JavaType {
         numericType -> JavaIntegerType.wrap(numericType, typeMappings),
         stringType -> JavaStringType.wrap(stringType, typeMappings),
         arrayType -> JavaArrayType.wrap(arrayType, typeMappings),
-        booleanType -> JavaBooleanType.wrap(typeMappings),
+        booleanType -> JavaBooleanType.wrap(booleanType, typeMappings),
         JavaObjectType::wrap,
         enumType -> JavaEnumType.wrap(enumType, typeMappings),
         mapType -> JavaMapType.wrap(mapType, typeMappings),
-        noType -> JavaAnyType.create());
+        JavaAnyType::javaAnyType);
   }
 }

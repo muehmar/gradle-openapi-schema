@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
+
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
@@ -54,6 +56,6 @@ public class NoTypeSchema implements OpenApiSchema {
   }
 
   private AnyType asType() {
-    return AnyType.create();
+    return AnyType.create(NULLABLE);
   }
 }

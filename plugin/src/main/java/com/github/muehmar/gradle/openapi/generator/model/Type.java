@@ -18,6 +18,8 @@ import java.util.function.UnaryOperator;
 public interface Type {
   Constraints getConstraints();
 
+  Nullability getNullability();
+
   Type applyMapping(PojoNameMapping pojoNameMapping);
 
   <T> T fold(

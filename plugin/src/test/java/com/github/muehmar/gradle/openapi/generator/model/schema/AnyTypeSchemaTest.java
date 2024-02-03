@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +22,7 @@ class AnyTypeSchemaTest {
     final Schema<Object> schema = new Schema<>();
 
     final MemberSchemaMapResult result = mapToMemberType(schema);
-    assertEquals(AnyType.create(), result.getType());
+    assertEquals(AnyType.create(NULLABLE), result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
@@ -41,6 +42,7 @@ class AnyTypeSchemaTest {
     final PojoMemberReference memberReference =
         unresolvedMapResult.getPojoMemberReferences().apply(0);
     assertEquals(
-        new PojoMemberReference(pojoSchema.getPojoName(), "", AnyType.create()), memberReference);
+        new PojoMemberReference(pojoSchema.getPojoName(), "", AnyType.create(NULLABLE)),
+        memberReference);
   }
 }

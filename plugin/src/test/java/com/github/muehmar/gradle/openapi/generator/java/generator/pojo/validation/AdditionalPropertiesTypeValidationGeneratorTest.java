@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validati
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.AdditionalPropertiesTypeValidationGenerator.additionalPropertiesTypeValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
@@ -43,7 +43,7 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
     final Writer writer =
         generator.generate(
             sampleObjectPojo1()
-                .withAdditionalProperties(JavaAdditionalProperties.allowedFor(javaAnyType())),
+                .withAdditionalProperties(JavaAdditionalProperties.allowedFor(anyType())),
             defaultTestSettings(),
             javaWriter());
 

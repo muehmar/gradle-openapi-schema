@@ -7,7 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Test
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -81,7 +81,7 @@ class PermanentPropertiesTest {
       determinePromotableMembers_when_anyTypeRequiredAdditionalPropertyMatchesMember_then_correctRequiredMemberAsPromotableProperty() {
     final PList<JavaPojoMember> permanentMembers = PList.of(optionalString(), optionalBirthdate());
     final JavaRequiredAdditionalProperty requiredProperty1 =
-        new JavaRequiredAdditionalProperty(optionalString().getName(), javaAnyType());
+        new JavaRequiredAdditionalProperty(optionalString().getName(), anyType());
 
     final PermanentProperties permanentProperties =
         new PermanentProperties(permanentMembers, PList.of(requiredProperty1));
