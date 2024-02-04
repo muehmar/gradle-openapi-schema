@@ -18,8 +18,18 @@ import org.junit.jupiter.api.Test;
 class AnyTypeSchemaTest {
 
   @Test
-  void mapToMemberType_when_schemaHasNoTypeAndFormat_then_notTypeReturned() {
+  void mapToMemberType_when_schemaHasNoTypeAndFormat_then_anyTypeReturned() {
     final Schema<Object> schema = new Schema<>();
+
+    final MemberSchemaMapResult result = mapToMemberType(schema);
+    assertEquals(AnyType.create(NULLABLE), result.getType());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @Test
+  void mapToMemberType_when_nullableExplicitlyFalse_then_anyTypeStillNullable() {
+    final Schema<Object> schema = new Schema<>();
+    schema.setNullable(false);
 
     final MemberSchemaMapResult result = mapToMemberType(schema);
     assertEquals(AnyType.create(NULLABLE), result.getType());

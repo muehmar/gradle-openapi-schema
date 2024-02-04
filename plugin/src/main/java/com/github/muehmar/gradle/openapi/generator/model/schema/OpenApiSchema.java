@@ -25,7 +25,7 @@ public interface OpenApiSchema {
         .add(ReferenceSchema::wrap)
         .add(StringSchema::wrap)
         .add(EnumSchema::wrap)
-        .add(NoTypeSchema::wrap)
+        .add(AnyTypeSchema::wrap)
         .map(f -> f.apply(schema))
         .reduce(Optionals::or)
         .<OpenApiSchema>map(s -> s)

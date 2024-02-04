@@ -15,14 +15,14 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class NoTypeSchema implements OpenApiSchema {
+public class AnyTypeSchema implements OpenApiSchema {
   private final Schema<?> delegate;
 
-  private NoTypeSchema(Schema<?> delegate) {
+  private AnyTypeSchema(Schema<?> delegate) {
     this.delegate = delegate;
   }
 
-  public static Optional<NoTypeSchema> wrap(Schema<?> schema) {
+  public static Optional<AnyTypeSchema> wrap(Schema<?> schema) {
     if (schema.getType() == null
         && schema.getTypes() == null
         && schema.getFormat() == null
@@ -31,8 +31,8 @@ public class NoTypeSchema implements OpenApiSchema {
         && schema.getAdditionalProperties() == null
         && schema.get$ref() == null) {
 
-      final NoTypeSchema noTypeSchema = new NoTypeSchema(schema);
-      return Optional.of(noTypeSchema);
+      final AnyTypeSchema anyTypeSchema = new AnyTypeSchema(schema);
+      return Optional.of(anyTypeSchema);
     }
 
     return Optional.empty();
