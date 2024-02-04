@@ -86,7 +86,6 @@ public class JavaArrayPojo implements JavaPojo {
         .description(arrayPojo.getDescription())
         .javaType(javaArrayType)
         .necessity(Necessity.REQUIRED)
-        .nullability(NOT_NULLABLE)
         .type(JavaPojoMember.MemberType.ARRAY_VALUE)
         .andAllOptionals()
         .build();

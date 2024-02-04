@@ -17,6 +17,8 @@ public interface JavaType {
 
   Nullability getNullability();
 
+  JavaType withNullability(Nullability nullability);
+
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
    * parameters.s

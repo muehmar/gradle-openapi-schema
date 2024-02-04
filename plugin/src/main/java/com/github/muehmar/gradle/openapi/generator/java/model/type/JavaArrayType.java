@@ -70,6 +70,11 @@ public class JavaArrayType implements JavaType {
   }
 
   @Override
+  public JavaArrayType withNullability(Nullability nullability) {
+    return new JavaArrayType(qualifiedClassName, itemType, nullability, constraints);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }

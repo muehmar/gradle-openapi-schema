@@ -41,6 +41,11 @@ public class JavaBooleanType extends NonGenericJavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaBooleanType(getQualifiedClassName(), nullability);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return Constraints.empty();
   }

@@ -61,6 +61,11 @@ public class JavaIntegerType extends NonGenericJavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaIntegerType(qualifiedClassName, constraints, nullability);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }

@@ -53,6 +53,11 @@ public class JavaEnumType extends NonGenericJavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaEnumType(qualifiedClassName, members, nullability);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return Constraints.empty();
   }

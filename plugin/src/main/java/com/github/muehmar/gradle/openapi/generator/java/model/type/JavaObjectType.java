@@ -51,6 +51,11 @@ public class JavaObjectType extends NonGenericJavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaObjectType(getQualifiedClassName(), nullability, constraints, origin);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }

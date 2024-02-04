@@ -35,8 +35,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class RequiredNullableGetterTest {
   private Expect expect;
 
-  private static final JavaPojoMember POJO_MEMBER =
-      TestJavaPojoMembers.requiredString().withNecessity(REQUIRED).withNullability(NULLABLE);
+  private static final JavaPojoMember POJO_MEMBER = TestJavaPojoMembers.string(REQUIRED, NULLABLE);
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {

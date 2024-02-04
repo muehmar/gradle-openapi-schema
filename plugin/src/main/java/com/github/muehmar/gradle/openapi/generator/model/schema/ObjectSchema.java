@@ -199,27 +199,19 @@ public class ObjectSchema implements OpenApiSchema {
       ComponentName componentName, MemberSchema memberSchema) {
     final Necessity necessity = Necessity.fromBoolean(requiredProperties.isRequired(memberSchema));
 
-    final Nullability nullability =
-        Nullability.fromNullableBoolean(memberSchema.getSchema().isNullable());
-
     return toPojoMemberFromSchema(
-        componentName, memberSchema.getName(), memberSchema.getSchema(), necessity, nullability);
+        componentName, memberSchema.getName(), memberSchema.getSchema(), necessity);
   }
 
   private PojoMemberMapResult toPojoMemberFromSchema(
-      ComponentName componentName,
-      Name pojoMemberName,
-      OpenApiSchema schema,
-      Necessity necessity,
-      Nullability nullability) {
+      ComponentName componentName, Name pojoMemberName, OpenApiSchema schema, Necessity necessity) {
     final MemberSchemaMapResult result = schema.mapToMemberType(componentName, pojoMemberName);
     final PropertyScope propertyScope = PropertyScopeMapper.mapScope(schema.getDelegateSchema());
 
     final Type type = result.getType();
 
     final PojoMember pojoMember =
-        new PojoMember(
-            pojoMemberName, schema.getDescription(), type, propertyScope, necessity, nullability);
+        new PojoMember(pojoMemberName, schema.getDescription(), type, propertyScope, necessity);
     return new PojoMemberMapResult(pojoMember, result.getUnmappedItems());
   }
 

@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.model;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
-import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -19,8 +18,7 @@ public class PojoMembers {
         "Username",
         StringType.noFormat(),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember requiredBirthdate() {
@@ -33,8 +31,7 @@ public class PojoMembers {
         "Birthdate",
         StringType.ofFormat(StringType.Format.DATE),
         propertyScope,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember requiredString() {
@@ -48,8 +45,7 @@ public class PojoMembers {
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         propertyScope,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember requiredNullableString() {
@@ -57,10 +53,10 @@ public class PojoMembers {
         Name.ofString("requiredNullableStringVal"),
         "RequiredNullableStringVal",
         StringType.noFormat()
-            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED,
-        NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember optionalString() {
@@ -70,8 +66,7 @@ public class PojoMembers {
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         PropertyScope.DEFAULT,
-        OPTIONAL,
-        NOT_NULLABLE);
+        OPTIONAL);
   }
 
   public static PojoMember optionalNullableString() {
@@ -79,19 +74,14 @@ public class PojoMembers {
         Name.ofString("optionalNullableStringVal"),
         "OptionalNullableStringVal",
         StringType.noFormat()
-            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        OPTIONAL,
-        NULLABLE);
+        OPTIONAL);
   }
 
   public static PojoMember ofType(Type type) {
     return new PojoMember(
-        Name.ofString("member"),
-        "description",
-        type,
-        PropertyScope.DEFAULT,
-        REQUIRED,
-        NOT_NULLABLE);
+        Name.ofString("member"), "description", type, PropertyScope.DEFAULT, REQUIRED);
   }
 }

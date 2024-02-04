@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
@@ -19,6 +20,12 @@ public class JavaTypes {
 
   public static JavaStringType stringType() {
     return JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty());
+  }
+
+  public static JavaStringType date(Constraints constraints) {
+    return JavaStringType.wrap(
+        StringType.ofFormat(StringType.Format.DATE).withConstraints(constraints),
+        TypeMappings.empty());
   }
 
   public static JavaArrayType stringListType() {

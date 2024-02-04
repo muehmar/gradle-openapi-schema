@@ -61,6 +61,11 @@ public class JavaNumericType extends NonGenericJavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaNumericType(getQualifiedClassName(), nullability, constraints);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }

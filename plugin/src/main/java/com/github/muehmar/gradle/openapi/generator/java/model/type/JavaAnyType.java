@@ -37,6 +37,11 @@ public class JavaAnyType extends NonGenericJavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaAnyType(nullability);
+  }
+
+  @Override
   public <T> T fold(
       Function<JavaArrayType, T> onArrayType,
       Function<JavaBooleanType, T> onBooleanType,

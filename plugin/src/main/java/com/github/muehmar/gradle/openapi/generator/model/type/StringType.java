@@ -49,6 +49,10 @@ public class StringType implements Type {
     return formatString;
   }
 
+  public StringType withNullability(Nullability nullability) {
+    return new StringType(format, formatString, nullability, constraints);
+  }
+
   public StringType withConstraints(Constraints constraints) {
     return new StringType(format, formatString, nullability, constraints);
   }

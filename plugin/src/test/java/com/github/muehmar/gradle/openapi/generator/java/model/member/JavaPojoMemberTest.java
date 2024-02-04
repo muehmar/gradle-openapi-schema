@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.birthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
@@ -152,8 +153,8 @@ class JavaPojoMemberTest {
         arguments(birthdate, birthdate.withDescription("Other desc"), Optional.of(birthdate)),
         arguments(
             birthdate,
-            birthdate.withDescription("Other desc").withNullability(NULLABLE),
-            Optional.of(birthdate.withNullability(NULLABLE))),
+            birthdate(REQUIRED, NULLABLE).withDescription("Other desc"),
+            Optional.of(birthdate(REQUIRED, NULLABLE))),
         arguments(
             birthdate,
             birthdate.withDescription("Other desc").withNecessity(OPTIONAL),
@@ -173,15 +174,14 @@ class JavaPojoMemberTest {
   }
 
   private static Stream<Arguments> mergeToMostRestrictiveArguments() {
-    final JavaPojoMember birthdate =
-        requiredBirthdate().withNullability(NULLABLE).withNecessity(OPTIONAL);
+    final JavaPojoMember birthdate = birthdate(OPTIONAL, NULLABLE);
     return Stream.of(
         arguments(birthdate, requiredDouble(), Optional.empty()),
         arguments(birthdate, birthdate.withDescription("Other desc"), Optional.of(birthdate)),
         arguments(
             birthdate,
-            birthdate.withDescription("Other desc").withNullability(NOT_NULLABLE),
-            Optional.of(birthdate.withNullability(NOT_NULLABLE))),
+            birthdate(OPTIONAL, NOT_NULLABLE).withDescription("Other desc"),
+            Optional.of(birthdate(OPTIONAL, NOT_NULLABLE))),
         arguments(
             birthdate,
             birthdate.withDescription("Other desc").withNecessity(REQUIRED),

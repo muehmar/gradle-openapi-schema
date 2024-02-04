@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -17,21 +19,14 @@ public class PojoMember {
   Type type;
   PropertyScope propertyScope;
   Necessity necessity;
-  Nullability nullability;
 
   public PojoMember(
-      Name name,
-      String description,
-      Type type,
-      PropertyScope propertyScope,
-      Necessity necessity,
-      Nullability nullability) {
+      Name name, String description, Type type, PropertyScope propertyScope, Necessity necessity) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
     this.propertyScope = propertyScope;
     this.necessity = necessity;
-    this.nullability = nullability;
   }
 
   public PojoMember addObjectTypeDescription(PojoName objectTypeName, String description) {
@@ -63,11 +58,11 @@ public class PojoMember {
   }
 
   public boolean isNullable() {
-    return nullability.equals(Nullability.NULLABLE);
+    return type.getNullability().equals(Nullability.NULLABLE);
   }
 
   public boolean isNotNullable() {
-    return !isNullable();
+    return not(isNullable());
   }
 
   public boolean isRequiredAndNullable() {
@@ -75,7 +70,7 @@ public class PojoMember {
   }
 
   public boolean isRequiredAndNotNullable() {
-    return isRequired() && !isNullable();
+    return isRequired() && not(isNullable());
   }
 
   public boolean isOptionalAndNullable() {
@@ -83,7 +78,7 @@ public class PojoMember {
   }
 
   public boolean isOptionalAndNotNullable() {
-    return isOptional() && !isNullable();
+    return isOptional() && not(isNullable());
   }
 
   public PropertyScope getPropertyScope() {

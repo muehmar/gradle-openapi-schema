@@ -18,7 +18,6 @@ import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
@@ -131,22 +130,19 @@ class ObjectSchemaTest {
                         null,
                         ObjectType.ofName(memberObjectComponentName.getPojoName()),
                         PropertyScope.DEFAULT,
-                        Necessity.OPTIONAL,
-                        Nullability.NOT_NULLABLE),
+                        Necessity.OPTIONAL),
                     new PojoMember(
                         Name.ofString("stringVal"),
                         null,
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        Necessity.OPTIONAL,
-                        Nullability.NOT_NULLABLE),
+                        Necessity.OPTIONAL),
                     new PojoMember(
                         Name.ofString("refVal"),
                         null,
                         ObjectType.ofName(pojoName("ReferenceSchema1", "Dto")),
                         PropertyScope.DEFAULT,
-                        Necessity.OPTIONAL,
-                        Nullability.NOT_NULLABLE)))
+                        Necessity.OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -191,22 +187,19 @@ class ObjectSchemaTest {
                 null,
                 IntegerType.ofFormat(INTEGER, NULLABLE),
                 PropertyScope.DEFAULT,
-                Necessity.OPTIONAL,
-                NULLABLE),
+                Necessity.OPTIONAL),
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
                 NumericType.ofFormat(FLOAT, NULLABLE),
                 PropertyScope.DEFAULT,
-                Necessity.REQUIRED,
-                NULLABLE),
+                Necessity.REQUIRED),
             new PojoMember(
                 Name.ofString("stringVal"),
                 null,
                 StringType.noFormat(),
                 PropertyScope.DEFAULT,
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE));
+                Necessity.REQUIRED));
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
@@ -245,22 +238,19 @@ class ObjectSchemaTest {
                 null,
                 IntegerType.formatInteger(),
                 PropertyScope.WRITE_ONLY,
-                Necessity.OPTIONAL,
-                Nullability.NOT_NULLABLE),
+                Necessity.OPTIONAL),
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
                 NumericType.formatFloat(),
                 PropertyScope.DEFAULT,
-                Necessity.OPTIONAL,
-                Nullability.NOT_NULLABLE),
+                Necessity.OPTIONAL),
             new PojoMember(
                 Name.ofString("stringVal"),
                 null,
                 StringType.noFormat(),
                 PropertyScope.READ_ONLY,
-                Necessity.OPTIONAL,
-                Nullability.NOT_NULLABLE));
+                Necessity.OPTIONAL));
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
@@ -298,8 +288,7 @@ class ObjectSchemaTest {
                 "",
                 StringType.noFormat(),
                 PropertyScope.DEFAULT,
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE));
+                Necessity.REQUIRED));
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));

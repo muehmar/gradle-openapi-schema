@@ -77,6 +77,11 @@ public class JavaStringType extends NonGenericJavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaStringType(qualifiedClassName, nullability, constraints);
+  }
+
+  @Override
   public <T> T fold(
       Function<JavaArrayType, T> onArrayType,
       Function<JavaBooleanType, T> onBooleanType,

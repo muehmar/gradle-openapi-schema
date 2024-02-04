@@ -8,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
@@ -32,7 +31,6 @@ public class JavaRequiredAdditionalProperty {
         .description(getDescription())
         .javaType(javaType)
         .necessity(Necessity.REQUIRED)
-        .nullability(Nullability.NOT_NULLABLE)
         .type(JavaPojoMember.MemberType.ALL_OF_MEMBER)
         .build();
   }

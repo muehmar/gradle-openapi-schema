@@ -79,6 +79,11 @@ public class JavaMapType implements JavaType {
   }
 
   @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaMapType(qualifiedClassName, key, value, nullability, constraints);
+  }
+
+  @Override
   public Constraints getConstraints() {
     return constraints;
   }
