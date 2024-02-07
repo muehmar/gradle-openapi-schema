@@ -111,6 +111,16 @@ openApiGenerator {
         failOnUnsupportedValidation = true
     }
 
+    constantSchemaNameMapping {
+        constant = "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1."
+        replacement = ""
+    }
+
+    constantSchemaNameMapping {
+        constant = "."
+        replacement = ""
+    }
+
     schemas {
         apiV1 {
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
@@ -219,16 +229,6 @@ openApiGenerator {
             formatTypeMapping {
                 formatType = "date-time"
                 classType = "java.time.LocalDate"
-            }
-
-            constantSchemaNameMapping {
-                constant = "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1."
-                replacement = ""
-            }
-
-            constantSchemaNameMapping {
-                constant = "."
-                replacement = ""
             }
         }
         promotion {
