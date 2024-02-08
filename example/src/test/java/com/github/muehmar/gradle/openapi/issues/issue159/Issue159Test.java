@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.issue159;
+package com.github.muehmar.gradle.openapi.issues.issue159;
 
 import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;

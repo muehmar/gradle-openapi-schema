@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.issue191;
+package com.github.muehmar.gradle.openapi.issues.issue191;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

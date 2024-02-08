@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.issue193;
+package com.github.muehmar.gradle.openapi.issues.issue193;
 
-import static com.github.muehmar.gradle.openapi.issue193.UserDto.userDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue193.UserDto.userDtoBuilder;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 import org.junit.jupiter.api.Test;

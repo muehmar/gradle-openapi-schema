@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.issue192;
+package com.github.muehmar.gradle.openapi.issues.issue192;
 
 import static com.github.muehmar.gradle.openapi.util.MethodList.listMethodNames;
 import static org.junit.jupiter.api.Assertions.assertEquals;

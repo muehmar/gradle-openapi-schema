@@ -1,7 +1,7 @@
-package com.github.muehmar.gradle.openapi.issue227;
+package com.github.muehmar.gradle.openapi.issues.issue227;
 
-import static com.github.muehmar.gradle.openapi.issue227.PatientDto.fullPatientDtoBuilder;
-import static com.github.muehmar.gradle.openapi.issue227.PatientDto.patientDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue227.PatientDto.fullPatientDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue227.PatientDto.patientDtoBuilder;
 import static com.github.muehmar.gradle.openapi.util.MethodList.listMethodNames;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
