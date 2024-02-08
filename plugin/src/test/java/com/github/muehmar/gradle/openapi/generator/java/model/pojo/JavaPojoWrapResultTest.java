@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,6 +29,7 @@ class JavaPojoWrapResultTest {
         ObjectPojoBuilder.create()
             .name(componentName("Object", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.single(pojoMember1))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

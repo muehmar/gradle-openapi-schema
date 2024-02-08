@@ -91,6 +91,7 @@ class SpecificationMapperImplTest {
         ArrayPojo.of(
             componentName("PojoName", "Dto"),
             "",
+            NOT_NULLABLE,
             IntegerType.formatInteger(),
             Constraints.ofSize(Size.ofMax(50))),
         pojo);
@@ -152,6 +153,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("PojoName", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -189,6 +191,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("Language", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -213,6 +216,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -326,6 +330,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("UserGroup", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -361,6 +366,7 @@ class SpecificationMapperImplTest {
                 componentName("UserGroup", "Dto")
                     .deriveMemberSchemaName(Name.ofString("languages")))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -385,6 +391,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto").deriveMemberSchemaName(Name.ofString("hobbies")))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -409,6 +416,7 @@ class SpecificationMapperImplTest {
         ArrayPojo.of(
             componentName("User", "Dto").deriveMemberSchemaName(Name.ofString("interests")),
             "",
+            NOT_NULLABLE,
             ObjectType.ofName(pojoName("UserInterestsValue", "Dto")),
             Constraints.empty()),
         pojos.apply(5));
@@ -420,6 +428,7 @@ class SpecificationMapperImplTest {
                     .deriveMemberSchemaName(Name.ofString("interests"))
                     .deriveMemberSchemaName(Name.ofString("value")))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -470,6 +479,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoNameAllOf", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -495,6 +505,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoName", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -550,6 +561,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoNameAllOf0", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -574,6 +586,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoNameAllOf1", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -598,6 +611,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ReferenceSchema", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -620,6 +634,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoName", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -660,6 +675,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -702,6 +718,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -744,6 +761,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -786,6 +804,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -837,6 +856,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(

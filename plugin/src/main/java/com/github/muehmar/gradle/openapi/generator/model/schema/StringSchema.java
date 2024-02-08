@@ -70,7 +70,7 @@ public class StringSchema implements OpenApiSchema {
                 })
             .orElse(rawStringType)
             .withConstraints(patternConstraints.and(minAndMaxLengthConstraints))
-            .withNullability(Nullability.fromNullableBoolean(isNullable()));
+            .withNullability(Nullability.fromBoolean(isNullable()));
 
     if (stringType.getFormat().equals(StringType.Format.EMAIL)) {
       return stringType.addConstraints(Constraints.ofEmail());

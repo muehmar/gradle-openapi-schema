@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -28,6 +29,8 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ArraySchemaTest {
 
@@ -145,10 +148,12 @@ class ArraySchemaTest {
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
-  @Test
-  void mapToPojo_when_stringItem_then_mappedToCorrectPojo() {
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void mapToPojo_when_stringItem_then_mappedToCorrectPojo(boolean nullable) {
     final ArraySchema arraySchema = new ArraySchema();
     arraySchema.setDescription("Test description");
+    arraySchema.setNullable(nullable);
     arraySchema.setItems(new io.swagger.v3.oas.models.media.StringSchema());
 
     final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
@@ -162,7 +167,11 @@ class ArraySchemaTest {
 
     final ArrayPojo expectedPojo =
         ArrayPojo.of(
-            pojoSchema.getName(), "Test description", StringType.noFormat(), Constraints.empty());
+            pojoSchema.getName(),
+            "Test description",
+            Nullability.fromBoolean(nullable),
+            StringType.noFormat(),
+            Constraints.empty());
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }

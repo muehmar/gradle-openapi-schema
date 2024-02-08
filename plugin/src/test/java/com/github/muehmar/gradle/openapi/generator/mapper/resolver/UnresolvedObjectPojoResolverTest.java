@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.resolver;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,6 +35,7 @@ class UnresolvedObjectPojoResolverTest {
         UnresolvedObjectPojoBuilder.create()
             .name(componentName("ComposedObject", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -71,6 +73,7 @@ class UnresolvedObjectPojoResolverTest {
         UnresolvedObjectPojoBuilder.create()
             .name(componentName("ComposedObject", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -108,6 +111,7 @@ class UnresolvedObjectPojoResolverTest {
         UnresolvedObjectPojoBuilder.create()
             .name(componentName("ComposedObject", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

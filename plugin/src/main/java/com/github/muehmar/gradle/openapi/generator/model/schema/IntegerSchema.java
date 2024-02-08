@@ -64,7 +64,7 @@ public class IntegerSchema implements OpenApiSchema {
     final IntegerType.Format integerFormat =
         format.flatMap(IntegerType.Format::parseString).orElse(IntegerType.Format.INTEGER);
 
-    return IntegerType.ofFormat(integerFormat, Nullability.fromNullableBoolean(isNullable()))
+    return IntegerType.ofFormat(integerFormat, Nullability.fromBoolean(isNullable()))
         .withConstraints(constraints);
   }
 }

@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -16,6 +17,7 @@ class ArrayPojoTest {
         ArrayPojo.of(
             componentName("Posology", "Dto"),
             "Posology",
+            Nullability.NOT_NULLABLE,
             NumericType.formatDouble(),
             Constraints.ofSize(Size.ofMax(4)));
 

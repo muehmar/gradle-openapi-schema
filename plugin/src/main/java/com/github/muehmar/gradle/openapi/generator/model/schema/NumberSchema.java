@@ -64,7 +64,7 @@ public class NumberSchema implements OpenApiSchema {
     final NumericType.Format numberFormat =
         format.flatMap(NumericType.Format::parseString).orElse(NumericType.Format.FLOAT);
 
-    return NumericType.ofFormat(numberFormat, Nullability.fromNullableBoolean(isNullable()))
+    return NumericType.ofFormat(numberFormat, Nullability.fromBoolean(isNullable()))
         .withConstraints(constraints);
   }
 }

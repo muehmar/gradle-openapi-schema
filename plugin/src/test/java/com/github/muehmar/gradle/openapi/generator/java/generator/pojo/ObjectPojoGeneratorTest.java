@@ -80,6 +80,7 @@ class ObjectPojoGeneratorTest {
                       .name(componentName("User", "Dto"))
                       .description(
                           "User of the Application. This description is intentionally longer to see if its wrapped to a new line.")
+                      .nullability(NOT_NULLABLE)
                       .members(
                           PList.of(
                               new PojoMember(
@@ -176,6 +177,7 @@ class ObjectPojoGeneratorTest {
                     ObjectPojoBuilder.create()
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
+                        .nullability(NOT_NULLABLE)
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -284,6 +286,7 @@ class ObjectPojoGeneratorTest {
                     ObjectPojoBuilder.create()
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
+                        .nullability(NOT_NULLABLE)
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -325,6 +328,7 @@ class ObjectPojoGeneratorTest {
                     ObjectPojoBuilder.create()
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
+                        .nullability(NOT_NULLABLE)
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -591,6 +595,7 @@ class ObjectPojoGeneratorTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("user")
+            .nullability(NOT_NULLABLE)
             .members(PList.of(requiredUsername()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -600,6 +605,7 @@ class ObjectPojoGeneratorTest {
         ObjectPojoBuilder.create()
             .name(componentName("Admin", "Dto"))
             .description("admin")
+            .nullability(NOT_NULLABLE)
             .members(PList.of(requiredBirthdate()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -609,6 +615,7 @@ class ObjectPojoGeneratorTest {
         ObjectPojoBuilder.create()
             .name(componentName("Person", "Dto"))
             .description("person")
+            .nullability(NOT_NULLABLE)
             .members(PList.of(requiredString()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

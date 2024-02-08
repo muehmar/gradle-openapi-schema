@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredColorEnum;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
@@ -205,6 +206,7 @@ public class JavaPojos {
     return ObjectPojoBuilder.create()
         .name(componentName("NecessityAndNullability", "Dto"))
         .description("NecessityAndNullability")
+        .nullability(NOT_NULLABLE)
         .members(
             PList.of(
                 requiredString(),
@@ -222,6 +224,7 @@ public class JavaPojos {
         ArrayPojo.of(
             componentName("Posology", "Dto"),
             "Doses to be taken",
+            NOT_NULLABLE,
             NumericType.formatDouble(),
             constraints);
     return JavaArrayPojo.wrap(arrayPojo, TypeMappings.empty());

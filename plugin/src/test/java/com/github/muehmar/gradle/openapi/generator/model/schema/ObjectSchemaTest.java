@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder.unresolvedObjectPojoBuilder;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
@@ -89,6 +91,7 @@ class ObjectSchemaTest {
   void mapToPojo_when_schemaWithInlineDefinitionAndReference_then_correctPojoCreated() {
     final ObjectSchema objectSchema = new ObjectSchema();
     objectSchema.setDescription("Test description");
+    objectSchema.setNullable(true);
 
     final HashMap<String, Schema> properties = new HashMap<>();
     properties.put("stringVal", new StringSchema());
@@ -123,6 +126,7 @@ class ObjectSchemaTest {
         ObjectPojoBuilder.create()
             .name(componentName)
             .description("Test description")
+            .nullability(NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -386,6 +390,7 @@ class ObjectSchemaTest {
             UnresolvedObjectPojoBuilder.create()
                 .name(componentName)
                 .description("")
+                .nullability(NOT_NULLABLE)
                 .members(PList.empty())
                 .requiredAdditionalProperties(PList.empty())
                 .constraints(
@@ -446,9 +451,10 @@ class ObjectSchemaTest {
 
     final MapContext expectedContext =
         MapContext.ofUnresolvedObjectPojo(
-                UnresolvedObjectPojoBuilder.create()
+                unresolvedObjectPojoBuilder()
                     .name(componentName)
                     .description("")
+                    .nullability(NOT_NULLABLE)
                     .members(PList.empty())
                     .requiredAdditionalProperties(PList.empty())
                     .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(12)))
@@ -549,6 +555,7 @@ class ObjectSchemaTest {
             UnresolvedObjectPojoBuilder.create()
                 .name(componentName)
                 .description("")
+                .nullability(NOT_NULLABLE)
                 .members(PList.empty())
                 .requiredAdditionalProperties(PList.empty())
                 .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(2)))

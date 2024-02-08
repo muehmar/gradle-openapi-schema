@@ -48,6 +48,6 @@ public class BooleanSchema implements OpenApiSchema {
   }
 
   private BooleanType asType() {
-    return BooleanType.create(Nullability.fromNullableBoolean(isNullable()));
+    return BooleanType.create(Nullability.fromBoolean(isNullable()));
   }
 }

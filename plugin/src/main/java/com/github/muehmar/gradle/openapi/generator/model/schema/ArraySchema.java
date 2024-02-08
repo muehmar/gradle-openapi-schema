@@ -48,6 +48,7 @@ public class ArraySchema implements OpenApiSchema {
         ArrayPojo.of(
             componentName,
             getDescription(),
+            Nullability.fromBoolean(isNullable()),
             memberSchemaMapResult.getType(),
             getArrayConstraints());
 
@@ -57,7 +58,7 @@ public class ArraySchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
-    final Nullability nullability = Nullability.fromNullableBoolean(isNullable());
+    final Nullability nullability = Nullability.fromBoolean(isNullable());
     if (getItemSchema() instanceof ObjectSchema) {
       final ComponentName memberSchemaName = parentComponentName.deriveMemberSchemaName(memberName);
       final ObjectType itemType = ObjectType.ofName(memberSchemaName.getPojoName());

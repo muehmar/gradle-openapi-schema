@@ -120,6 +120,7 @@ public class ObjectSchema implements OpenApiSchema {
         fullUnresolvedObjectPojoBuilder()
             .name(name)
             .description(getDescription())
+            .nullability(Nullability.fromBoolean(isNullable()))
             .members(pojoMemberMapResults.getMembers())
             .requiredAdditionalProperties(requiredAdditionalProperties)
             .constraints(constraints)
@@ -144,7 +145,7 @@ public class ObjectSchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
-    final Nullability nullability = Nullability.fromNullableBoolean(isNullable());
+    final Nullability nullability = Nullability.fromBoolean(isNullable());
     if (isMapSchema()) {
       final MemberSchemaMapResult additionalPropertiesMapResult =
           additionalPropertiesSchema.getAdditionalPropertiesMapResult(

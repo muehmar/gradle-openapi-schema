@@ -29,6 +29,7 @@ import lombok.ToString;
 public class UnresolvedObjectPojo {
   private final ComponentName name;
   private final String description;
+  private final Nullability nullability;
   private final PList<PojoMember> members;
   private final PList<Name> requiredAdditionalProperties;
   private final Optional<UnresolvedAllOfComposition> allOfComposition;
@@ -56,6 +57,7 @@ public class UnresolvedObjectPojo {
       return fullObjectPojoBuilder()
           .name(name)
           .description(description)
+          .nullability(nullability)
           .members(members)
           .requiredAdditionalProperties(requiredAdditionalProperties)
           .constraints(constraints)
