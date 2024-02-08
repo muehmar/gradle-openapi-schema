@@ -1,6 +1,6 @@
-package com.github.muehmar.gradle.openapi.issue190;
+package com.github.muehmar.gradle.openapi.issues.issue190;
 
-import static com.github.muehmar.gradle.openapi.issue190.Leaf1ADto.leaf1ADtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue190.Leaf1ADto.leaf1ADtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;

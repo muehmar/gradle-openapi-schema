@@ -1,16 +1,16 @@
-package com.github.muehmar.gradle.openapi.issue234;
+package com.github.muehmar.gradle.openapi.issues.issue209;
 
-import static com.github.muehmar.gradle.openapi.issue234.NewUserAddressDto.fullNewUserAddressDtoBuilder;
-import static com.github.muehmar.gradle.openapi.issue234.NewUserCityDto.fullNewUserCityDtoBuilder;
-import static com.github.muehmar.gradle.openapi.issue234.NewUserDto.fullNewUserDtoBuilder;
-import static com.github.muehmar.gradle.openapi.issue234.UpdateUserAddressDto.fullUpdateUserAddressDtoBuilder;
-import static com.github.muehmar.gradle.openapi.issue234.UpdateUserDto.fullUpdateUserDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue209.NewUserAddressDto.fullNewUserAddressDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue209.NewUserCityDto.fullNewUserCityDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue209.NewUserDto.fullNewUserDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue209.UpdateUserAddressDto.fullUpdateUserAddressDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue209.UpdateUserDto.fullUpdateUserDtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-public class Issue234Test {
+public class Issue209Test {
   @Test
   void newUserDtoBuilder_when_used_then_allPropertiesCorrectPromoted() {
     final NewUserCityDto cityDto =

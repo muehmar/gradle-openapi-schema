@@ -1,7 +1,7 @@
-package com.github.muehmar.gradle.openapi.issue182;
+package com.github.muehmar.gradle.openapi.issues.issue182;
 
-import static com.github.muehmar.gradle.openapi.issue182.UserDto.userDtoBuilder;
-import static com.github.muehmar.gradle.openapi.issue182.UserNameDto.userNameDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue182.UserDto.userDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue182.UserNameDto.userNameDtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;

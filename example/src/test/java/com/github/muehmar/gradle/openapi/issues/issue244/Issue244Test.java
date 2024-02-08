@@ -1,7 +1,7 @@
-package com.github.muehmar.gradle.openapi.issue244;
+package com.github.muehmar.gradle.openapi.issues.issue244;
 
-import static com.github.muehmar.gradle.openapi.issue244.PatientDto.fullPatientDtoBuilder;
-import static com.github.muehmar.gradle.openapi.issue244.PatientDto.patientDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue244.PatientDto.fullPatientDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue244.PatientDto.patientDtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
