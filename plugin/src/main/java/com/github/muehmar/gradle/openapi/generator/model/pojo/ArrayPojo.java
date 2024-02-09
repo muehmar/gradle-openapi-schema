@@ -44,6 +44,11 @@ public class ArrayPojo implements Pojo {
   }
 
   @Override
+  public Pojo adjustNullablePojo(PojoName nullablePojo) {
+    return this;
+  }
+
+  @Override
   public ArrayPojo applyMapping(PojoNameMapping pojoNameMapping) {
     final ComponentName mappedName = name.applyPojoMapping(pojoNameMapping);
     final Type mappedItemType = itemType.applyMapping(pojoNameMapping);

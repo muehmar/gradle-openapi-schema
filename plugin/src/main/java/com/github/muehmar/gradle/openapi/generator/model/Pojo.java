@@ -19,6 +19,8 @@ public interface Pojo {
   Pojo inlineObjectReference(
       PojoName referenceName, String referenceDescription, Type referenceType);
 
+  Pojo adjustNullablePojo(PojoName nullablePojo);
+
   Pojo applyMapping(PojoNameMapping pojoNameMapping);
 
   <T> T fold(

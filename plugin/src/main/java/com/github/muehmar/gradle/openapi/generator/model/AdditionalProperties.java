@@ -33,6 +33,11 @@ public class AdditionalProperties {
     return new AdditionalProperties(allowed, newType);
   }
 
+  public AdditionalProperties adjustNullablePojo(PojoName nullablePojo) {
+    final Type newType = type.adjustNullablePojo(nullablePojo);
+    return new AdditionalProperties(allowed, newType);
+  }
+
   public AdditionalProperties applyMapping(PojoNameMapping pojoNameMapping) {
     final Type newType = type.applyMapping(pojoNameMapping);
     return new AdditionalProperties(allowed, newType);

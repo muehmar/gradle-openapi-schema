@@ -49,6 +49,11 @@ public class EnumPojo implements Pojo {
   }
 
   @Override
+  public Pojo adjustNullablePojo(PojoName nullablePojo) {
+    return this;
+  }
+
+  @Override
   public EnumPojo applyMapping(PojoNameMapping pojoNameMapping) {
     final ComponentName mappedName = name.applyPojoMapping(pojoNameMapping);
     return new EnumPojo(mappedName, description, members);

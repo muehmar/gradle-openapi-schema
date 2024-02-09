@@ -90,6 +90,33 @@ public class ObjectPojo implements Pojo {
   }
 
   @Override
+  public Pojo adjustNullablePojo(PojoName nullablePojo) {
+    final PList<PojoMember> mappedMembers =
+        members.map(member -> member.withType(member.getType().adjustNullablePojo(nullablePojo)));
+    final Optional<AllOfComposition> mappedAllOfComposition =
+        allOfComposition.map(composition -> composition.adjustNullablePojo(nullablePojo));
+    final Optional<OneOfComposition> mappedOneOfComposition =
+        oneOfComposition.map(composition -> composition.adjustNullablePojo(nullablePojo));
+    final Optional<AnyOfComposition> mappedAnyOfComposition =
+        anyOfComposition.map(composition -> composition.adjustNullablePojo(nullablePojo));
+    final AdditionalProperties mappedAdditionalProperties =
+        additionalProperties.adjustNullablePojo(nullablePojo);
+    return fullObjectPojoBuilder()
+        .name(name)
+        .description(description)
+        .nullability(nullability)
+        .members(mappedMembers)
+        .requiredAdditionalProperties(requiredAdditionalProperties)
+        .constraints(constraints)
+        .additionalProperties(mappedAdditionalProperties)
+        .allOfComposition(mappedAllOfComposition)
+        .oneOfComposition(mappedOneOfComposition)
+        .anyOfComposition(mappedAnyOfComposition)
+        .discriminator(discriminator)
+        .build();
+  }
+
+  @Override
   public ObjectPojo applyMapping(PojoNameMapping pojoNameMapping) {
     final PList<PojoMember> mappedMembers =
         members.map(member -> member.applyMapping(pojoNameMapping));

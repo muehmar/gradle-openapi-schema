@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
+import static com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder.objectPojoBuilder;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE_TIME;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.EMAIL;
@@ -916,12 +917,11 @@ class SpecificationMapperImplTest {
   void map_when_excludeSchemas_then_excludedSchemaNotMapped() {
     final Schema<?> userSchema =
         new ObjectSchema()
-            .addProperties("gender", new Schema<>().$ref("#/components/schemas/gender"));
+            .addProperty("gender", new Schema<>().$ref("#/components/schemas/gender"));
     final Schema<String> genderSchema = new StringSchema();
     genderSchema.setEnum(Arrays.asList("FEMALE", "MALE", "UNKNOWN"));
     genderSchema.description("Gender of a user");
 
-    // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
             new PojoSchema(componentName("gender", "Dto"), genderSchema),
@@ -931,6 +931,8 @@ class SpecificationMapperImplTest {
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
+
+    // method call
     final PList<Pojo> pojos =
         specificationMapper
             .map(
@@ -942,5 +944,71 @@ class SpecificationMapperImplTest {
 
     assertEquals(1, pojos.size());
     assertEquals(pojoName("Gender", "Dto"), pojos.apply(0).getName().getPojoName());
+  }
+
+  @Test
+  void map_when_nullableRootSchema_then_pojoMemberNullable() {
+    final Schema<?> userSchema = new ObjectSchema();
+    userSchema.addProperty("address", new Schema<>().$ref("#/components/schemas/Address"));
+    final ObjectSchema addressSchema = new ObjectSchema();
+    addressSchema.addProperty("street", new StringSchema());
+    addressSchema.setNullable(true);
+
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(componentName("User", "Dto"), userSchema),
+            new PojoSchema(componentName("Address", "Dto"), addressSchema));
+
+    final SpecificationMapper specificationMapper =
+        SpecificationMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
+
+    // method call
+    final PList<Pojo> pojos =
+        specificationMapper
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos()
+            .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
+
+    assertEquals(2, pojos.size());
+
+    final ObjectPojo expectedUserPojo =
+        objectPojoBuilder()
+            .name(componentName("Address", "Dto"))
+            .description("")
+            .nullability(NULLABLE)
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("street"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL)))
+            .requiredAdditionalProperties(PList.empty())
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .build();
+    assertEquals(expectedUserPojo, pojos.apply(0));
+
+    final ObjectPojo expectedAddressPojo =
+        objectPojoBuilder()
+            .name(componentName("User", "Dto"))
+            .description("")
+            .nullability(NOT_NULLABLE)
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("address"),
+                        "",
+                        ObjectType.ofName(pojoName("Address", "Dto")).withNullability(NULLABLE),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL)))
+            .requiredAdditionalProperties(PList.empty())
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .build();
+    assertEquals(expectedAddressPojo, pojos.apply(1));
   }
 }
