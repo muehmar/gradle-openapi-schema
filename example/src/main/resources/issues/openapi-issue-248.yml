@@ -19,3 +19,57 @@ components:
       type: string
       description: first name
       nullable: true
+
+    Student:
+      type: object
+      required:
+        - teacher
+        - subject
+        - grade
+      properties:
+        teacher:
+          type: object
+          properties:
+            name:
+              type: string
+            age:
+              type: integer
+              format: int32
+          nullable: true
+        subject:
+          $ref: '#/components/schemas/Subject'
+        grade:
+          type: integer
+          format: int32
+
+    Subject:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      nullable: true
+
+    University:
+      type: object
+      required:
+        - name
+        - subjects
+      properties:
+        name:
+          type: string
+        subjects:
+          $ref: '#/components/schemas/Subjects'
+
+    Subjects:
+      type: array
+      items:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+      nullable: true
+
