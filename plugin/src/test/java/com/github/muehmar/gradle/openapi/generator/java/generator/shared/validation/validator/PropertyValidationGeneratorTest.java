@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Test
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.string;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
@@ -64,9 +65,7 @@ class PropertyValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember stringType =
-        requiredString()
-            .withNecessity(REQUIRED)
-            .withNullability(NOT_NULLABLE)
+        string(REQUIRED, NOT_NULLABLE)
             .withJavaType(
                 JavaStringType.wrap(
                     StringType.noFormat().withConstraints(Constraints.empty()),
@@ -83,9 +82,7 @@ class PropertyValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember stringType =
-        requiredString()
-            .withNecessity(REQUIRED)
-            .withNullability(NOT_NULLABLE)
+        string(REQUIRED, NOT_NULLABLE)
             .withJavaType(
                 JavaStringType.wrap(
                     StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(5))),
@@ -102,13 +99,7 @@ class PropertyValidationGeneratorTest {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
 
     final JavaPojoMember stringType =
-        requiredString()
-            .withNecessity(REQUIRED)
-            .withNullability(NULLABLE)
-            .withJavaType(
-                JavaStringType.wrap(
-                    StringType.noFormat().withConstraints(Constraints.empty()),
-                    TypeMappings.empty()));
+        requiredString().withJavaType(JavaStringType.noFormat().withNullability(NULLABLE));
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
 
@@ -122,12 +113,11 @@ class PropertyValidationGeneratorTest {
 
     final JavaPojoMember stringType =
         requiredString()
-            .withNecessity(REQUIRED)
-            .withNullability(NULLABLE)
             .withJavaType(
                 JavaStringType.wrap(
-                    StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(5))),
-                    TypeMappings.empty()));
+                        StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(5))),
+                        TypeMappings.empty())
+                    .withNullability(NULLABLE));
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
 
@@ -318,7 +308,8 @@ class PropertyValidationGeneratorTest {
     final StringType stringType =
         StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMax(50)));
     final ArrayType listType =
-        ArrayType.ofItemType(stringType).withConstraints(Constraints.ofSize(Size.ofMin(8)));
+        ArrayType.ofItemType(stringType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.ofMin(8)));
     final JavaPojoMember mapType =
         map(
             StringType.noFormat(),

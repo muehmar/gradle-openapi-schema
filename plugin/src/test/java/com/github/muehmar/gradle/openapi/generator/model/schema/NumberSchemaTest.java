@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,6 +34,16 @@ class NumberSchemaTest {
 
     assertEquals(fromFormat(format), mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"float", "double"})
+  void mapToMemberType_when_nullableFlagIsTrue_then_typeIsNullable(String format) {
+    final Schema<?> schema = new io.swagger.v3.oas.models.media.NumberSchema().format(format);
+    schema.setNullable(true);
+    final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
+
+    assertEquals(NULLABLE, mappedSchema.getType().getNullability());
   }
 
   @ParameterizedTest
@@ -139,6 +151,7 @@ class NumberSchemaTest {
   private static NumericType fromFormat(String format) {
     return NumericType.ofFormat(
         NumericType.Format.parseString(format)
-            .orElseThrow(() -> new IllegalStateException("Invalid format")));
+            .orElseThrow(() -> new IllegalStateException("Invalid format")),
+        NOT_NULLABLE);
   }
 }

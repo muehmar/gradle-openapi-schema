@@ -20,7 +20,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerTy
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaNumericType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.MultipleOf;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
@@ -53,7 +52,6 @@ class MultipleOfValidationMethodGeneratorTest {
                           Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("50")))),
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
-          .nullability(Nullability.NOT_NULLABLE)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
           .build();
 
@@ -69,7 +67,6 @@ class MultipleOfValidationMethodGeneratorTest {
                           Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("12")))),
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
-          .nullability(Nullability.NOT_NULLABLE)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
           .build();
 
@@ -85,7 +82,6 @@ class MultipleOfValidationMethodGeneratorTest {
                           Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("50.5")))),
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
-          .nullability(Nullability.NOT_NULLABLE)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
           .build();
 
@@ -101,7 +97,6 @@ class MultipleOfValidationMethodGeneratorTest {
                           Constraints.ofMultipleOf(new MultipleOf(new BigDecimal("12.25")))),
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
-          .nullability(Nullability.NOT_NULLABLE)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
           .build();
 

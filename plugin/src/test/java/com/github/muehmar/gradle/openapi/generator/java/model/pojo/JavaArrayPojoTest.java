@@ -21,6 +21,7 @@ class JavaArrayPojoTest {
         ArrayPojo.of(
             componentName("Posology", "Dto"),
             "Posology",
+            Nullability.NOT_NULLABLE,
             NumericType.formatDouble(),
             Constraints.ofSize(Size.ofMax(4)));
     final JavaArrayPojo javaArrayPojo = JavaArrayPojo.wrap(arrayPojo, TypeMappings.empty());

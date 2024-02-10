@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 class JavaAnyTypeTest {
   @Test
   void create_when_created_then_correctType() {
-    final JavaAnyType javaType = JavaAnyType.create();
+    final JavaAnyType javaType = anyType();
 
     assertEquals("Object", javaType.getParameterizedClassName().asString());
     assertEquals("Object", javaType.getQualifiedClassName().getClassName().asString());

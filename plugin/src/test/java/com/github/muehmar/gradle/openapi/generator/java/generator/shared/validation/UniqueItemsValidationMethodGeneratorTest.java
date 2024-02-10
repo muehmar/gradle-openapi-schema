@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.UniqueItemsValidationMethodGenerator.uniqueItemsValidationMethodGenerator;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -11,8 +13,6 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
-import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -61,10 +61,7 @@ class UniqueItemsValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             TestJavaPojoMembers.list(
-                StringType.noFormat(),
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE,
-                Constraints.ofUniqueItems(true)),
+                StringType.noFormat(), REQUIRED, NOT_NULLABLE, Constraints.ofUniqueItems(true)),
             defaultTestSettings().withEnableValidation(false),
             javaWriter());
 
@@ -79,10 +76,7 @@ class UniqueItemsValidationMethodGeneratorTest {
     final Writer writer =
         generator.generate(
             TestJavaPojoMembers.list(
-                StringType.noFormat(),
-                Necessity.REQUIRED,
-                Nullability.NOT_NULLABLE,
-                Constraints.ofUniqueItems(true)),
+                StringType.noFormat(), REQUIRED, NOT_NULLABLE, Constraints.ofUniqueItems(true)),
             defaultTestSettings().withEnableValidation(true),
             javaWriter());
 

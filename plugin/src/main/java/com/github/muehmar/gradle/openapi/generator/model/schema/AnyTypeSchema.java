@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
+
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
@@ -13,14 +15,14 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class NoTypeSchema implements OpenApiSchema {
+public class AnyTypeSchema implements OpenApiSchema {
   private final Schema<?> delegate;
 
-  private NoTypeSchema(Schema<?> delegate) {
+  private AnyTypeSchema(Schema<?> delegate) {
     this.delegate = delegate;
   }
 
-  public static Optional<NoTypeSchema> wrap(Schema<?> schema) {
+  public static Optional<AnyTypeSchema> wrap(Schema<?> schema) {
     if (schema.getType() == null
         && schema.getTypes() == null
         && schema.getFormat() == null
@@ -29,8 +31,8 @@ public class NoTypeSchema implements OpenApiSchema {
         && schema.getAdditionalProperties() == null
         && schema.get$ref() == null) {
 
-      final NoTypeSchema noTypeSchema = new NoTypeSchema(schema);
-      return Optional.of(noTypeSchema);
+      final AnyTypeSchema anyTypeSchema = new AnyTypeSchema(schema);
+      return Optional.of(anyTypeSchema);
     }
 
     return Optional.empty();
@@ -54,6 +56,6 @@ public class NoTypeSchema implements OpenApiSchema {
   }
 
   private AnyType asType() {
-    return AnyType.create();
+    return AnyType.create(NULLABLE);
   }
 }

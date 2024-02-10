@@ -4,8 +4,10 @@ import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProper
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
+import static com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder.objectPojoBuilder;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE_TIME;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.EMAIL;
@@ -90,6 +92,7 @@ class SpecificationMapperImplTest {
         ArrayPojo.of(
             componentName("PojoName", "Dto"),
             "",
+            NOT_NULLABLE,
             IntegerType.formatInteger(),
             Constraints.ofSize(Size.ofMax(50))),
         pojo);
@@ -151,6 +154,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("PojoName", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -158,8 +162,7 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.ofFormat(StringType.Format.NONE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -189,6 +192,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("Language", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -196,15 +200,13 @@ class SpecificationMapperImplTest {
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
+                        REQUIRED),
                     new PojoMember(
                         Name.ofString("name"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE)))
+                        REQUIRED)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -215,6 +217,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -222,51 +225,44 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.uuid(),
                         PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
+                        REQUIRED),
                     new PojoMember(
                         Name.ofString("externalId"),
                         "",
                         IntegerType.formatLong(),
                         PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
+                        REQUIRED),
                     new PojoMember(
                         Name.ofString("user"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
+                        REQUIRED),
                     new PojoMember(
                         Name.ofString("birthday"),
                         "",
                         StringType.ofFormat(DATE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("email"),
                         "",
                         StringType.ofFormat(EMAIL).withConstraints(Constraints.ofEmail()),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("city"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
+                        REQUIRED),
                     new PojoMember(
                         Name.ofString("age"),
                         "",
                         IntegerType.formatInteger()
                             .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("height"),
                         "",
@@ -275,30 +271,26 @@ class SpecificationMapperImplTest {
                                 Constraints.ofDecimalMinAndMax(
                                     new DecimalMin("120", false), new DecimalMax("199", true))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("lastLogin"),
                         "",
                         StringType.ofFormat(DATE_TIME),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("role"),
                         "",
                         EnumType.ofNameAndMembers(
                             Name.ofString("RoleEnum"), PList.of("Admin", "User", "Visitor")),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("currencies"),
                         "",
                         MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("interests"),
                         "",
@@ -306,8 +298,7 @@ class SpecificationMapperImplTest {
                             StringType.noFormat(),
                             ObjectType.ofName(pojoName("UserInterests", "Dto"))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("languages"),
                         "",
@@ -315,8 +306,7 @@ class SpecificationMapperImplTest {
                             StringType.noFormat(),
                             ObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("hobbies"),
                         "",
@@ -324,15 +314,13 @@ class SpecificationMapperImplTest {
                             StringType.noFormat(),
                             ObjectType.ofName(pojoName("UserHobbies", "Dto"))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("data"),
                         "Some user related data",
-                        AnyType.create(),
+                        AnyType.create(NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -343,6 +331,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("UserGroup", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -350,24 +339,22 @@ class SpecificationMapperImplTest {
                         "",
                         ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("members"),
                         "",
                         ArrayType.ofItemType(
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto"))),
+                            ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
+                            NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("languages"),
                         "",
                         ArrayType.ofItemType(
-                            ObjectType.ofName(pojoName("UserGroupLanguages", "Dto"))),
+                            ObjectType.ofName(pojoName("UserGroupLanguages", "Dto")), NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3)))
             .additionalProperties(anyTypeAllowed())
@@ -380,6 +367,7 @@ class SpecificationMapperImplTest {
                 componentName("UserGroup", "Dto")
                     .deriveMemberSchemaName(Name.ofString("languages")))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -387,15 +375,13 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("name"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -406,6 +392,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto").deriveMemberSchemaName(Name.ofString("hobbies")))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -413,15 +400,13 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED,
-                        NOT_NULLABLE),
+                        REQUIRED),
                     new PojoMember(
                         Name.ofString("description"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -432,6 +417,7 @@ class SpecificationMapperImplTest {
         ArrayPojo.of(
             componentName("User", "Dto").deriveMemberSchemaName(Name.ofString("interests")),
             "",
+            NOT_NULLABLE,
             ObjectType.ofName(pojoName("UserInterestsValue", "Dto")),
             Constraints.empty()),
         pojos.apply(5));
@@ -443,6 +429,7 @@ class SpecificationMapperImplTest {
                     .deriveMemberSchemaName(Name.ofString("interests"))
                     .deriveMemberSchemaName(Name.ofString("value")))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -450,15 +437,13 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("prio"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -495,6 +480,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoNameAllOf", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -502,15 +488,13 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("key"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -522,6 +506,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoName", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -577,6 +562,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoNameAllOf0", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -584,15 +570,13 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("key"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -603,6 +587,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoNameAllOf1", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -610,15 +595,13 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.ofFormat(DATE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("languages"),
                         "",
-                        ArrayType.ofItemType(StringType.noFormat()),
+                        ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -629,6 +612,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ReferenceSchema", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.of(
                     new PojoMember(
@@ -636,15 +620,13 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE),
+                        OPTIONAL),
                     new PojoMember(
                         Name.ofString("group"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -653,6 +635,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("ComposedPojoName", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -693,6 +676,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -700,8 +684,7 @@ class SpecificationMapperImplTest {
                         "User key",
                         StringType.uuid(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -736,6 +719,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -743,8 +727,7 @@ class SpecificationMapperImplTest {
                         "User age",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -779,6 +762,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -786,8 +770,7 @@ class SpecificationMapperImplTest {
                         "User height",
                         NumericType.formatFloat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -822,15 +805,15 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
                         Name.ofString("admin"),
                         "User is admin",
-                        BooleanType.create(),
+                        BooleanType.create(NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -874,6 +857,7 @@ class SpecificationMapperImplTest {
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
             .description("")
+            .nullability(NOT_NULLABLE)
             .members(
                 PList.single(
                     new PojoMember(
@@ -881,8 +865,7 @@ class SpecificationMapperImplTest {
                         "Gender of a user",
                         ObjectType.ofName(pojoName("Gender", "Dto")),
                         PropertyScope.DEFAULT,
-                        OPTIONAL,
-                        NOT_NULLABLE)))
+                        OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -934,12 +917,11 @@ class SpecificationMapperImplTest {
   void map_when_excludeSchemas_then_excludedSchemaNotMapped() {
     final Schema<?> userSchema =
         new ObjectSchema()
-            .addProperties("gender", new Schema<>().$ref("#/components/schemas/gender"));
+            .addProperty("gender", new Schema<>().$ref("#/components/schemas/gender"));
     final Schema<String> genderSchema = new StringSchema();
     genderSchema.setEnum(Arrays.asList("FEMALE", "MALE", "UNKNOWN"));
     genderSchema.description("Gender of a user");
 
-    // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
             new PojoSchema(componentName("gender", "Dto"), genderSchema),
@@ -949,6 +931,8 @@ class SpecificationMapperImplTest {
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
+
+    // method call
     final PList<Pojo> pojos =
         specificationMapper
             .map(
@@ -960,5 +944,71 @@ class SpecificationMapperImplTest {
 
     assertEquals(1, pojos.size());
     assertEquals(pojoName("Gender", "Dto"), pojos.apply(0).getName().getPojoName());
+  }
+
+  @Test
+  void map_when_nullableRootSchema_then_pojoMemberNullable() {
+    final Schema<?> userSchema = new ObjectSchema();
+    userSchema.addProperty("address", new Schema<>().$ref("#/components/schemas/Address"));
+    final ObjectSchema addressSchema = new ObjectSchema();
+    addressSchema.addProperty("street", new StringSchema());
+    addressSchema.setNullable(true);
+
+    final PList<PojoSchema> pojoSchemas =
+        PList.of(
+            new PojoSchema(componentName("User", "Dto"), userSchema),
+            new PojoSchema(componentName("Address", "Dto"), addressSchema));
+
+    final SpecificationMapper specificationMapper =
+        SpecificationMapperImpl.create(
+            new MapResultResolverImpl(),
+            (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
+
+    // method call
+    final PList<Pojo> pojos =
+        specificationMapper
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .getPojos()
+            .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
+
+    assertEquals(2, pojos.size());
+
+    final ObjectPojo expectedUserPojo =
+        objectPojoBuilder()
+            .name(componentName("Address", "Dto"))
+            .description("")
+            .nullability(NULLABLE)
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("street"),
+                        "",
+                        StringType.noFormat(),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL)))
+            .requiredAdditionalProperties(PList.empty())
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .build();
+    assertEquals(expectedUserPojo, pojos.apply(0));
+
+    final ObjectPojo expectedAddressPojo =
+        objectPojoBuilder()
+            .name(componentName("User", "Dto"))
+            .description("")
+            .nullability(NOT_NULLABLE)
+            .members(
+                PList.single(
+                    new PojoMember(
+                        Name.ofString("address"),
+                        "",
+                        ObjectType.ofName(pojoName("Address", "Dto")).withNullability(NULLABLE),
+                        PropertyScope.DEFAULT,
+                        OPTIONAL)))
+            .requiredAdditionalProperties(PList.empty())
+            .constraints(Constraints.empty())
+            .additionalProperties(anyTypeAllowed())
+            .build();
+    assertEquals(expectedAddressPojo, pojos.apply(1));
   }
 }

@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
@@ -31,6 +32,7 @@ class EnumSchemaTest {
         EnumType.ofNameAndMembers(
             Name.ofString("PojoMemberNameEnum"), PList.fromIter(enumSchema.getEnum())),
         result.getType());
+    assertEquals(Nullability.NOT_NULLABLE, result.getType().getNullability());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 
@@ -47,6 +49,7 @@ class EnumSchemaTest {
         EnumType.ofNameAndMembersAndFormat(
             Name.ofString("PojoMemberNameEnum"), PList.fromIter(enumSchema.getEnum()), "Gender"),
         result.getType());
+    assertEquals(Nullability.NOT_NULLABLE, result.getType().getNullability());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
 

@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
+
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -11,7 +13,7 @@ public class AdditionalProperties {
   Type type;
 
   public static AdditionalProperties anyTypeAllowed() {
-    return new AdditionalProperties(true, AnyType.create());
+    return new AdditionalProperties(true, AnyType.create(NULLABLE));
   }
 
   public static AdditionalProperties allowed(Type type) {
@@ -19,7 +21,7 @@ public class AdditionalProperties {
   }
 
   public static AdditionalProperties notAllowed() {
-    return new AdditionalProperties(false, AnyType.create());
+    return new AdditionalProperties(false, AnyType.create(NULLABLE));
   }
 
   public AdditionalProperties inlineObjectReference(PojoName referenceName, Type referenceType) {
@@ -28,6 +30,11 @@ public class AdditionalProperties {
             .filter(objectType -> objectType.getName().equals(referenceName))
             .map(ignore -> referenceType)
             .orElse(type);
+    return new AdditionalProperties(allowed, newType);
+  }
+
+  public AdditionalProperties adjustNullablePojo(PojoName nullablePojo) {
+    final Type newType = type.adjustNullablePojo(nullablePojo);
     return new AdditionalProperties(allowed, newType);
   }
 

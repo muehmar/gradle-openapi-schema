@@ -34,7 +34,7 @@ class RequiredNotNullableGetterTest {
   private Expect expect;
 
   private static final JavaPojoMember POJO_MEMBER =
-      TestJavaPojoMembers.requiredString().withNecessity(REQUIRED).withNullability(NOT_NULLABLE);
+      TestJavaPojoMembers.string(REQUIRED, NOT_NULLABLE);
 
   @Test
   @SnapshotName("requiredAndNotNullableField")

@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
@@ -22,8 +23,8 @@ public class JavaNumericType extends NonGenericJavaType {
   private final Constraints constraints;
 
   protected JavaNumericType(
-      QualifiedClassName className, Constraints constraints, NumericType numericType) {
-    super(className, numericType);
+      QualifiedClassName className, Nullability nullability, Constraints constraints) {
+    super(className, nullability);
     this.constraints = constraints;
   }
 
@@ -32,7 +33,8 @@ public class JavaNumericType extends NonGenericJavaType {
         classNameFromFormat(numericType, typeMappings.getFormatTypeMappings());
     final QualifiedClassName finalClassName =
         className.mapWithClassMappings(typeMappings.getClassTypeMappings());
-    return new JavaNumericType(finalClassName, numericType.getConstraints(), numericType);
+    return new JavaNumericType(
+        finalClassName, numericType.getNullability(), numericType.getConstraints());
   }
 
   private static QualifiedClassName classNameFromFormat(
@@ -56,6 +58,11 @@ public class JavaNumericType extends NonGenericJavaType {
   @Override
   public boolean isJavaArray() {
     return false;
+  }
+
+  @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaNumericType(getQualifiedClassName(), nullability, constraints);
   }
 
   @Override

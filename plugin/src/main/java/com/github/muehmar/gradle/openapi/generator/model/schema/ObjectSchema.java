@@ -120,6 +120,7 @@ public class ObjectSchema implements OpenApiSchema {
         fullUnresolvedObjectPojoBuilder()
             .name(name)
             .description(getDescription())
+            .nullability(Nullability.fromBoolean(isNullable()))
             .members(pojoMemberMapResults.getMembers())
             .requiredAdditionalProperties(requiredAdditionalProperties)
             .constraints(constraints)
@@ -144,6 +145,7 @@ public class ObjectSchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
+    final Nullability nullability = Nullability.fromBoolean(isNullable());
     if (isMapSchema()) {
       final MemberSchemaMapResult additionalPropertiesMapResult =
           additionalPropertiesSchema.getAdditionalPropertiesMapResult(
@@ -151,12 +153,14 @@ public class ObjectSchema implements OpenApiSchema {
       final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
       final MapType mapType =
           MapType.ofKeyAndValueType(StringType.noFormat(), additionalPropertiesMapResult.getType())
-              .withConstraints(constraints);
+              .withConstraints(constraints)
+              .withNullability(nullability);
       return MemberSchemaMapResult.ofTypeAndUnmappedItems(
           mapType, additionalPropertiesMapResult.getUnmappedItems());
     } else {
       final ComponentName openApiPojoName = parentComponentName.deriveMemberSchemaName(memberName);
-      final ObjectType objectType = ObjectType.ofName(openApiPojoName.getPojoName());
+      final ObjectType objectType =
+          ObjectType.ofName(openApiPojoName.getPojoName()).withNullability(nullability);
       final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, this);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(objectType, pojoSchema);
     }
@@ -196,27 +200,19 @@ public class ObjectSchema implements OpenApiSchema {
       ComponentName componentName, MemberSchema memberSchema) {
     final Necessity necessity = Necessity.fromBoolean(requiredProperties.isRequired(memberSchema));
 
-    final Nullability nullability =
-        Nullability.fromNullableBoolean(memberSchema.getSchema().isNullable());
-
     return toPojoMemberFromSchema(
-        componentName, memberSchema.getName(), memberSchema.getSchema(), necessity, nullability);
+        componentName, memberSchema.getName(), memberSchema.getSchema(), necessity);
   }
 
   private PojoMemberMapResult toPojoMemberFromSchema(
-      ComponentName componentName,
-      Name pojoMemberName,
-      OpenApiSchema schema,
-      Necessity necessity,
-      Nullability nullability) {
+      ComponentName componentName, Name pojoMemberName, OpenApiSchema schema, Necessity necessity) {
     final MemberSchemaMapResult result = schema.mapToMemberType(componentName, pojoMemberName);
     final PropertyScope propertyScope = PropertyScopeMapper.mapScope(schema.getDelegateSchema());
 
     final Type type = result.getType();
 
     final PojoMember pojoMember =
-        new PojoMember(
-            pojoMemberName, schema.getDescription(), type, propertyScope, necessity, nullability);
+        new PojoMember(pojoMemberName, schema.getDescription(), type, propertyScope, necessity);
     return new PojoMemberMapResult(pojoMember, result.getUnmappedItems());
   }
 

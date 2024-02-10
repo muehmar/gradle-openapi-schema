@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
@@ -34,6 +35,7 @@ import lombok.With;
 public class ObjectPojo implements Pojo {
   ComponentName name;
   String description;
+  Nullability nullability;
   PList<PojoMember> members;
   PList<Name> requiredAdditionalProperties;
   Optional<AllOfComposition> allOfComposition;
@@ -75,6 +77,34 @@ public class ObjectPojo implements Pojo {
     return fullObjectPojoBuilder()
         .name(name)
         .description(description)
+        .nullability(nullability)
+        .members(mappedMembers)
+        .requiredAdditionalProperties(requiredAdditionalProperties)
+        .constraints(constraints)
+        .additionalProperties(mappedAdditionalProperties)
+        .allOfComposition(mappedAllOfComposition)
+        .oneOfComposition(mappedOneOfComposition)
+        .anyOfComposition(mappedAnyOfComposition)
+        .discriminator(discriminator)
+        .build();
+  }
+
+  @Override
+  public Pojo adjustNullablePojo(PojoName nullablePojo) {
+    final PList<PojoMember> mappedMembers =
+        members.map(member -> member.withType(member.getType().adjustNullablePojo(nullablePojo)));
+    final Optional<AllOfComposition> mappedAllOfComposition =
+        allOfComposition.map(composition -> composition.adjustNullablePojo(nullablePojo));
+    final Optional<OneOfComposition> mappedOneOfComposition =
+        oneOfComposition.map(composition -> composition.adjustNullablePojo(nullablePojo));
+    final Optional<AnyOfComposition> mappedAnyOfComposition =
+        anyOfComposition.map(composition -> composition.adjustNullablePojo(nullablePojo));
+    final AdditionalProperties mappedAdditionalProperties =
+        additionalProperties.adjustNullablePojo(nullablePojo);
+    return fullObjectPojoBuilder()
+        .name(name)
+        .description(description)
+        .nullability(nullability)
         .members(mappedMembers)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .constraints(constraints)
@@ -101,6 +131,7 @@ public class ObjectPojo implements Pojo {
     return fullObjectPojoBuilder()
         .name(name.applyPojoMapping(pojoNameMapping))
         .description(description)
+        .nullability(nullability)
         .members(mappedMembers)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .constraints(constraints)
@@ -113,18 +144,7 @@ public class ObjectPojo implements Pojo {
   }
 
   private ObjectPojo mapMembers(UnaryOperator<PojoMember> map) {
-    return fullObjectPojoBuilder()
-        .name(name)
-        .description(description)
-        .members(members.map(map))
-        .requiredAdditionalProperties(requiredAdditionalProperties)
-        .constraints(constraints)
-        .additionalProperties(additionalProperties)
-        .allOfComposition(allOfComposition)
-        .oneOfComposition(oneOfComposition)
-        .anyOfComposition(anyOfComposition)
-        .discriminator(discriminator)
-        .build();
+    return withMembers(members.map(map));
   }
 
   @Override
@@ -133,16 +153,6 @@ public class ObjectPojo implements Pojo {
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo) {
     return onObjectPojo.apply(this);
-  }
-
-  public PList<PojoMember> getMembersAndAllOfMembers() {
-    return members.concat(
-        allOfComposition
-            .map(AllOfComposition::getPojos)
-            .map(NonEmptyList::toPList)
-            .orElseGet(PList::empty)
-            .flatMapOptional(Pojo::asObjectPojo)
-            .flatMap(ObjectPojo::getMembersAndAllOfMembers));
   }
 
   public boolean containsNoneDefaultPropertyScope() {

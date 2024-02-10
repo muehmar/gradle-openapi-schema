@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -21,7 +22,7 @@ class JavaIntegerTypeTest {
   @MethodSource("integerFormats")
   void wrap_when_integerFormatWrapped_then_correctWrapped(
       IntegerType.Format format, String className) {
-    final IntegerType integerType = IntegerType.ofFormat(format);
+    final IntegerType integerType = IntegerType.ofFormat(format, NOT_NULLABLE);
     final JavaIntegerType javaType = JavaIntegerType.wrap(integerType, TypeMappings.empty());
 
     assertEquals(className, javaType.getParameterizedClassName().asString());
@@ -42,7 +43,7 @@ class JavaIntegerTypeTest {
 
   @Test
   void wrap_when_numericTypeWrappedWithClassMapping_then_correctTypeMapped() {
-    final IntegerType integerType = IntegerType.ofFormat(IntegerType.Format.LONG);
+    final IntegerType integerType = IntegerType.ofFormat(IntegerType.Format.LONG, NOT_NULLABLE);
     final JavaIntegerType javaType =
         JavaIntegerType.wrap(
             integerType,
@@ -61,7 +62,7 @@ class JavaIntegerTypeTest {
 
   @Test
   void wrap_when_numericTypeWrappedWithFormatMapping_then_correctTypeMapped() {
-    final IntegerType integerType = IntegerType.ofFormat(IntegerType.Format.LONG);
+    final IntegerType integerType = IntegerType.ofFormat(IntegerType.Format.LONG, NOT_NULLABLE);
     final JavaIntegerType javaType =
         JavaIntegerType.wrap(
             integerType,

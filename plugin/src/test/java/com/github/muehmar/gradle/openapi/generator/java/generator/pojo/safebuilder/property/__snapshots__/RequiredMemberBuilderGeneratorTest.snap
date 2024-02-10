@@ -53,6 +53,12 @@ public static final class FullPropertyBuilder2 {
     return new FullOptPropertyBuilder0(builder.setProp1(prop1));
   }
 
+  /**
+   * Additional Property 'prop1'
+   */
+  public FullOptPropertyBuilder0 setProp1(Optional<Object> prop1) {
+    return new FullOptPropertyBuilder0(builder.setProp1(prop1));
+  }
 }
 ]
 
@@ -112,6 +118,12 @@ public static final class PropertyBuilder2 {
     return new PropertyBuilder3(builder.setProp1(prop1));
   }
 
+  /**
+   * Additional Property 'prop1'
+   */
+  public PropertyBuilder3 setProp1(Optional<Object> prop1) {
+    return new PropertyBuilder3(builder.setProp1(prop1));
+  }
 }
 ]
 

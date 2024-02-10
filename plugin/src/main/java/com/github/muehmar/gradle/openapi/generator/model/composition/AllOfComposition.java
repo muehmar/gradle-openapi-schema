@@ -33,6 +33,11 @@ public class AllOfComposition {
     return new AllOfComposition(mappedPojos);
   }
 
+  public AllOfComposition adjustNullablePojo(PojoName nullablePojo) {
+    final NonEmptyList<Pojo> mappedPojos = pojos.map(pojo -> pojo.adjustNullablePojo(nullablePojo));
+    return new AllOfComposition(mappedPojos);
+  }
+
   public AllOfComposition applyMapping(PojoNameMapping pojoNameMapping) {
     final NonEmptyList<Pojo> mappedPojos = pojos.map(pojo -> pojo.applyMapping(pojoNameMapping));
     return new AllOfComposition(mappedPojos);

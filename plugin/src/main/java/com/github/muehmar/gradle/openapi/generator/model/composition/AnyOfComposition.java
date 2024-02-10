@@ -41,6 +41,11 @@ public class AnyOfComposition {
     return new AnyOfComposition(mappedPojos);
   }
 
+  public AnyOfComposition adjustNullablePojo(PojoName nullablePojo) {
+    final NonEmptyList<Pojo> mappedPojos = pojos.map(pojo -> pojo.adjustNullablePojo(nullablePojo));
+    return new AnyOfComposition(mappedPojos);
+  }
+
   public AnyOfComposition applyMapping(PojoNameMapping pojoNameMapping) {
     final NonEmptyList<Pojo> mappedPojos = pojos.map(pojo -> pojo.applyMapping(pojoNameMapping));
     return new AnyOfComposition(mappedPojos);

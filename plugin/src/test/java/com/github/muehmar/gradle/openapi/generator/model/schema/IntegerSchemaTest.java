@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,6 +35,16 @@ class IntegerSchemaTest {
 
     assertEquals(fromFormat(format), result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"int32", "int64"})
+  void mapToMemberType_when_nullableFlagIsTrue_then_typeIsNullable(String format) {
+    final IntegerSchema schema = new IntegerSchema().format(format);
+    schema.setNullable(true);
+    final MemberSchemaMapResult result = mapToMemberType(schema);
+
+    assertEquals(NULLABLE, result.getType().getNullability());
   }
 
   @ParameterizedTest
@@ -123,6 +135,7 @@ class IntegerSchemaTest {
   private static IntegerType fromFormat(String format) {
     return IntegerType.ofFormat(
         IntegerType.Format.parseString(format)
-            .orElseThrow(() -> new IllegalStateException("Invalid format")));
+            .orElseThrow(() -> new IllegalStateException("Invalid format")),
+        NOT_NULLABLE);
   }
 }

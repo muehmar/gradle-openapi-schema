@@ -36,7 +36,7 @@ class OptionalNotNullableGetterTest {
   private Expect expect;
 
   private static final JavaPojoMember POJO_MEMBER =
-      TestJavaPojoMembers.requiredString().withNecessity(OPTIONAL).withNullability(NOT_NULLABLE);
+      TestJavaPojoMembers.string(OPTIONAL, NOT_NULLABLE);
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {

@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -47,6 +48,6 @@ public class BooleanSchema implements OpenApiSchema {
   }
 
   private BooleanType asType() {
-    return BooleanType.create();
+    return BooleanType.create(Nullability.fromBoolean(isNullable()));
   }
 }

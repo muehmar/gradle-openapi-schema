@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 
 import ch.bluecare.commons.data.NonEmptyList;
@@ -24,6 +25,7 @@ public class Pojos {
     return ObjectPojoBuilder.create()
         .name(componentName("ObjectPojo", "Dto"))
         .description("Object pojo")
+        .nullability(NOT_NULLABLE)
         .members(members)
         .requiredAdditionalProperties(PList.empty())
         .constraints(Constraints.empty())
@@ -35,6 +37,7 @@ public class Pojos {
     return ObjectPojoBuilder.create()
         .name(componentName("AnyOfPojo", "Dto"))
         .description("Any of pojo")
+        .nullability(NOT_NULLABLE)
         .members(PList.empty())
         .requiredAdditionalProperties(PList.empty())
         .constraints(Constraints.empty())
@@ -52,6 +55,7 @@ public class Pojos {
     return ObjectPojoBuilder.create()
         .name(componentName("OneOfPojo", "Dto"))
         .description("One of pojo")
+        .nullability(NOT_NULLABLE)
         .members(PList.empty())
         .requiredAdditionalProperties(PList.empty())
         .constraints(Constraints.empty())
@@ -69,6 +73,7 @@ public class Pojos {
     return ObjectPojoBuilder.create()
         .name(componentName("AllOfPojo", "Dto"))
         .description("All of pojo")
+        .nullability(NOT_NULLABLE)
         .members(PList.empty())
         .requiredAdditionalProperties(PList.empty())
         .constraints(Constraints.empty())

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +18,7 @@ class JavaTypeTest {
     final MapType mapType =
         MapType.ofKeyAndValueType(
             StringType.noFormat(),
-            ArrayType.ofItemType(ObjectType.ofName(pojoName("Object", "Dto"))));
+            ArrayType.ofItemType(ObjectType.ofName(pojoName("Object", "Dto")), NOT_NULLABLE));
     final JavaMapType javaMapType = JavaMapType.wrap(mapType, TypeMappings.empty());
 
     assertEquals(PList.of("java.util.Map", "java.util.List"), javaMapType.getImportsAsString());

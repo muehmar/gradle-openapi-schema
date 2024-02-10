@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.email;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.integer;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredEmail;
@@ -72,23 +74,17 @@ class JavaPojoMembersTest {
   @Test
   void
       add_when_calledForSameMemberButDifferentNullabilityAndNecessity_then_addedWithLeastRestrictions() {
-    final JavaPojoMember member1 =
-        requiredEmail().withNecessity(REQUIRED).withNullability(NOT_NULLABLE);
-    final JavaPojoMember member2 =
-        requiredInteger().withNecessity(REQUIRED).withNullability(NOT_NULLABLE);
+    final JavaPojoMember member2 = integer(REQUIRED, NOT_NULLABLE);
     final JavaPojoMembers pojoMembers =
         JavaPojoMembers.empty()
-            .add(member1)
-            .add(member1.withNecessity(OPTIONAL))
-            .add(member1.withNullability(NULLABLE))
+            .add(email(REQUIRED, NOT_NULLABLE))
+            .add(email(OPTIONAL, NOT_NULLABLE))
+            .add(email(REQUIRED, NULLABLE))
             .add(member2.withNecessity(OPTIONAL))
             .add(member2);
 
     assertEquals(
-        PList.of(
-            member1.withNecessity(OPTIONAL).withNullability(NULLABLE),
-            member2.withNecessity(OPTIONAL)),
-        pojoMembers.asList());
+        PList.of(email(OPTIONAL, NULLABLE), member2.withNecessity(OPTIONAL)), pojoMembers.asList());
   }
 
   @Test

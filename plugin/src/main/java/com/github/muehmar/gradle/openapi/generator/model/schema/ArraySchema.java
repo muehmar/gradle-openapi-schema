@@ -4,6 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
@@ -47,6 +48,7 @@ public class ArraySchema implements OpenApiSchema {
         ArrayPojo.of(
             componentName,
             getDescription(),
+            Nullability.fromBoolean(isNullable()),
             memberSchemaMapResult.getType(),
             getArrayConstraints());
 
@@ -56,18 +58,21 @@ public class ArraySchema implements OpenApiSchema {
 
   @Override
   public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
+    final Nullability nullability = Nullability.fromBoolean(isNullable());
     if (getItemSchema() instanceof ObjectSchema) {
       final ComponentName memberSchemaName = parentComponentName.deriveMemberSchemaName(memberName);
       final ObjectType itemType = ObjectType.ofName(memberSchemaName.getPojoName());
       final ArrayType arrayType =
-          ArrayType.ofItemType(itemType).withConstraints(getArrayConstraints());
+          ArrayType.ofItemType(itemType, nullability).withConstraints(getArrayConstraints());
       final PojoSchema pojoSchema = new PojoSchema(memberSchemaName, getItemSchema());
       return MemberSchemaMapResult.ofTypeAndPojoSchema(arrayType, pojoSchema);
     } else {
       return getItemSchema()
           .mapToMemberType(parentComponentName, memberName)
           .mapType(
-              itemType -> ArrayType.ofItemType(itemType).withConstraints(getArrayConstraints()));
+              itemType ->
+                  ArrayType.ofItemType(itemType, nullability)
+                      .withConstraints(getArrayConstraints()));
     }
   }
 

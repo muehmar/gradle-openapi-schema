@@ -5,7 +5,7 @@ public enum Nullability {
   NULLABLE,
   NOT_NULLABLE;
 
-  public static Nullability fromNullableBoolean(boolean nullable) {
+  public static Nullability fromBoolean(boolean nullable) {
     return nullable ? NULLABLE : NOT_NULLABLE;
   }
 

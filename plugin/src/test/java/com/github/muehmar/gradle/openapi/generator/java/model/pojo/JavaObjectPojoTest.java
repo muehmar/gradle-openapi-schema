@@ -10,10 +10,11 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -100,6 +101,7 @@ class JavaObjectPojoTest {
         ObjectPojoBuilder.create()
             .name(componentName("Object", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.single(pojoMember))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -125,6 +127,7 @@ class JavaObjectPojoTest {
         ObjectPojoBuilder.create()
             .name(componentName("Object", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.of(pojoMember1, pojoMember2))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -238,9 +241,9 @@ class JavaObjectPojoTest {
   @Test
   void promote_when_pojoWithAllCompositions_then_promotedCorrectly() {
     final JavaRequiredAdditionalProperty requiredBirthdateAddProp =
-        new JavaRequiredAdditionalProperty(optionalBirthdate().getName(), javaAnyType());
+        new JavaRequiredAdditionalProperty(optionalBirthdate().getName(), anyType());
     final JavaRequiredAdditionalProperty requiredStringAddProp =
-        new JavaRequiredAdditionalProperty(optionalString().getName(), javaAnyType());
+        new JavaRequiredAdditionalProperty(optionalString().getName(), anyType());
 
     final JavaObjectPojo allOfSubPojo =
         JavaPojos.objectPojo(optionalString(), requiredEmail())

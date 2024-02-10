@@ -1,45 +1,35 @@
 package com.github.muehmar.gradle.openapi.generator.model.pojo;
 
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
-import java.util.Optional;
+import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.function.Function;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Value;
 
-@EqualsAndHashCode
-@ToString
+@Value
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@PojoBuilder
 public class ArrayPojo implements Pojo {
-  private final ComponentName name;
-  private final Optional<String> description;
-  private final Type itemType;
-  private final Constraints constraints;
-
-  private ArrayPojo(
-      ComponentName name, Optional<String> description, Type itemType, Constraints constraints) {
-    this.name = name;
-    this.description = description;
-    this.itemType = itemType;
-    this.constraints = constraints;
-  }
+  ComponentName name;
+  String description;
+  Nullability nullability;
+  Type itemType;
+  Constraints constraints;
 
   public static ArrayPojo of(
-      ComponentName name, String description, Type itemType, Constraints constraints) {
-    return new ArrayPojo(name, Optional.ofNullable(description), itemType, constraints);
-  }
-
-  @Override
-  public ComponentName getName() {
-    return name;
-  }
-
-  @Override
-  public String getDescription() {
-    return description.orElse("");
+      ComponentName name,
+      String description,
+      Nullability nullability,
+      Type itemType,
+      Constraints constraints) {
+    return new ArrayPojo(name, description, nullability, itemType, constraints);
   }
 
   @Override
@@ -54,10 +44,15 @@ public class ArrayPojo implements Pojo {
   }
 
   @Override
+  public Pojo adjustNullablePojo(PojoName nullablePojo) {
+    return this;
+  }
+
+  @Override
   public ArrayPojo applyMapping(PojoNameMapping pojoNameMapping) {
     final ComponentName mappedName = name.applyPojoMapping(pojoNameMapping);
     final Type mappedItemType = itemType.applyMapping(pojoNameMapping);
-    return new ArrayPojo(mappedName, description, mappedItemType, constraints);
+    return new ArrayPojo(mappedName, description, nullability, mappedItemType, constraints);
   }
 
   @Override
@@ -66,13 +61,5 @@ public class ArrayPojo implements Pojo {
       Function<ArrayPojo, T> onArrayType,
       Function<EnumPojo, T> onEnumPojo) {
     return onArrayType.apply(this);
-  }
-
-  public Type getItemType() {
-    return itemType;
-  }
-
-  public Constraints getConstraints() {
-    return constraints;
   }
 }

@@ -189,7 +189,7 @@ class ValidationAnnotationGeneratorTest {
 
   public static Stream<Arguments> mapObjectTypes() {
     final ObjectType objectType = ObjectType.ofName(PojoName.ofName(Name.ofString("AnyDto")));
-    final ArrayType objectList = ArrayType.ofItemType(objectType);
+    final ArrayType objectList = ArrayType.ofItemType(objectType, NOT_NULLABLE);
     return Stream.of(
         Arguments.of(objectType, objectType),
         Arguments.arguments(StringType.noFormat(), objectType),
@@ -212,7 +212,7 @@ class ValidationAnnotationGeneratorTest {
   }
 
   public static Stream<Arguments> mapNonObjectTypes() {
-    final ArrayType stringList = ArrayType.ofItemType(StringType.noFormat());
+    final ArrayType stringList = ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE);
     final MapType stringLongMap =
         MapType.ofKeyAndValueType(StringType.noFormat(), IntegerType.formatLong());
     return Stream.of(

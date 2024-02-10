@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,8 +23,18 @@ class BooleanSchemaTest {
 
     final MemberSchemaMapResult result = mapToMemberType(schema);
 
-    assertEquals(BooleanType.create(), result.getType());
+    assertEquals(BooleanType.create(NOT_NULLABLE), result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @Test
+  void mapToMemberType_when_nullableFlagIsTrue_then_typeIsNullable() {
+    final BooleanSchema schema = new BooleanSchema();
+    schema.setNullable(true);
+
+    final MemberSchemaMapResult result = mapToMemberType(schema);
+
+    assertEquals(NULLABLE, result.getType().getNullability());
   }
 
   @Test
@@ -41,7 +53,7 @@ class BooleanSchemaTest {
     final PojoMemberReference memberReference =
         unresolvedMapResult.getPojoMemberReferences().apply(0);
     assertEquals(
-        new PojoMemberReference(pojoSchema.getPojoName(), "", BooleanType.create()),
+        new PojoMemberReference(pojoSchema.getPojoName(), "", BooleanType.create(NOT_NULLABLE)),
         memberReference);
   }
 }

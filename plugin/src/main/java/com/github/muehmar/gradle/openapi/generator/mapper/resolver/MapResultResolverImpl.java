@@ -28,6 +28,7 @@ public class MapResultResolverImpl implements MapResultResolver {
             .map(p -> UnresolvedObjectPojoResolver.resolve(unresolvedObjectPojos, p))
             .map(p -> inlineMemberReferences(p, pojoMemberReferences))
             .map(this::addEnumDescription)
+            .map(NullableRootPojoResolver::resolve)
             .orElse(PList.empty());
     return MapResult.of(
         NestedRequiredPropertyResolver.resolve(resolvedPojos),
