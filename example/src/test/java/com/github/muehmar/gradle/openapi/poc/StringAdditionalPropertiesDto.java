@@ -6,11 +6,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -35,26 +38,51 @@ public class StringAdditionalPropertiesDto {
 
   @JsonAnyGetter
   public Map<String, @Size(max = 10) @Pattern(regexp = "[A-Za-z0-9]+") String>
-      getAdditionalProperties() {
+      getAdditionalPropertiesRaw() {
     final Map<String, String> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) ->
+            castAdditionalProperty(value)
+                .onValue(val -> props.put(key, val))
+                .onNull(() -> props.put(key, null))
+                .onAbsent(() -> null));
     return props;
   }
 
-  /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional} if present,
-   * {@link Optional#empty()} otherwise
-   */
-  public Optional<String> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key)).flatMap(this::castAdditionalProperty);
+  @JsonIgnore
+  public List<NullableAdditionalProperty<String>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(
+            entry ->
+                NullableAdditionalProperty.ofNullable(
+                    entry.getKey(),
+                    castAdditionalProperty(entry.getValue())
+                        .onValue(Function.identity())
+                        .onNull(() -> null)
+                        .onAbsent(() -> null)))
+        .collect(Collectors.toList());
   }
 
-  private Optional<String> castAdditionalProperty(Object property) {
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate} class represents
+   * the possible three states of the property: present and non-null, present and null, absent.
+   */
+  public Tristate<String> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return castAdditionalProperty(additionalProperties.get(key));
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  private Tristate<String> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Tristate.ofNull();
+    }
     try {
-      return Optional.of((String) property);
+      return Tristate.ofValue((String) property);
     } catch (ClassCastException e) {
-      return Optional.empty();
+      return Tristate.ofAbsent();
     }
   }
 
@@ -81,7 +109,8 @@ public class StringAdditionalPropertiesDto {
 
     private boolean isAdditionalPropertiesValid() {
       if (getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream()
+        return getAdditionalProperties().stream()
+            .map(prop -> prop.getValue().orElse(null))
             .allMatch(this::isAdditionalPropertiesValueValid);
       }
 

@@ -11,9 +11,11 @@ import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -89,16 +91,30 @@ public class UserDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
+  // FIXME: New class
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional} if present,
-   * {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate} class represents
+   * the possible three states of the property: present and non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /** Returns the number of present properties of this object. */
@@ -172,7 +188,8 @@ public class UserDto {
 
     private boolean isAdditionalPropertiesValid() {
       if (getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream()
+        return getAdditionalProperties().stream()
+            .map(prop -> prop.getValue().orElse(null))
             .allMatch(this::isAdditionalPropertiesValueValid);
       }
 
@@ -180,6 +197,7 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      // FIXME: Test for non-nullability if not nullable
       return true;
     }
 
@@ -293,6 +311,14 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -390,6 +416,10 @@ public class UserDto {
     }
 
     public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+      return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
       return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
     }
 
@@ -505,6 +535,10 @@ public class UserDto {
     }
 
     public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+      return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
       return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
     }
 
