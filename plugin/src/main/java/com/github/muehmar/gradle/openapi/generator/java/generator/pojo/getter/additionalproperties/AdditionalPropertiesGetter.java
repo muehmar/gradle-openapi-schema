@@ -1,18 +1,15 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.StandardAdditionalPropertiesGetter.standardAdditionalPropertiesGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -25,74 +22,17 @@ public class AdditionalPropertiesGetter {
   private static final String SINGLE_PROP_GETTER_JAVA_DOC =
       "Returns the additional property with {@code key} wrapped "
           + "in an {@link Optional} if present, {@link Optional#empty()} otherwise";
-  private static final String CAST_ADDITIONAL_PROPERTY_METHOD_NAME = "castAdditionalProperty";
+  static final String CAST_ADDITIONAL_PROPERTY_METHOD_NAME = "castAdditionalProperty";
 
   private AdditionalPropertiesGetter() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesGetterGenerator() {
-    return standardGetter()
+    return standardAdditionalPropertiesGetterGenerator()
         .appendSingleBlankLine()
         .append(singlePropGetter(), JavaObjectPojo::getAdditionalProperties)
         .appendSingleBlankLine()
         .append(additionalPropertyCastMethod(), JavaObjectPojo::getAdditionalProperties)
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
-  }
-
-  private static Generator<JavaObjectPojo, PojoSettings> standardGetter() {
-    final Generator<JavaObjectPojo, PojoSettings> method =
-        MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
-            .modifiers(PUBLIC)
-            .noGenericTypes()
-            .returnType(
-                deepAnnotatedParameterizedClassName()
-                    .contraMap(
-                        AdditionalPropertiesGetter::createPropertyTypeForAdditionalProperties))
-            .methodName("getAdditionalProperties")
-            .noArguments()
-            .doesNotThrow()
-            .content(standardGetterContent().contraMap(JavaObjectPojo::getAdditionalProperties))
-            .build()
-            .append(javaTypeRefs(), pojo -> pojo.getAdditionalProperties().getMapContainerType());
-    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(JacksonAnnotationGenerator.jsonAnyGetter())
-        .append(method);
-  }
-
-  private static ValidationAnnotationGenerator.PropertyType
-      createPropertyTypeForAdditionalProperties(JavaObjectPojo pojo) {
-    final PropertyInfoName propertyInfoName =
-        PropertyInfoName.fromPojoNameAndMemberName(
-            pojo.getJavaPojoName(), additionalPropertiesName());
-    return new ValidationAnnotationGenerator.PropertyType(
-        propertyInfoName, pojo.getAdditionalProperties().getMapContainerType());
-  }
-
-  private static Generator<JavaAdditionalProperties, PojoSettings> standardGetterContent() {
-    return Generator.<JavaAdditionalProperties, PojoSettings>constant(
-            "return %s;", additionalPropertiesName())
-        .filter(AdditionalPropertiesGetter::isObjectAdditionalPropertiesType)
-        .append(standardGetterContentForNonObjectValueType());
-  }
-
-  private static Generator<JavaAdditionalProperties, PojoSettings>
-      standardGetterContentForNonObjectValueType() {
-    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) ->
-                w.println(
-                    "final Map<String, %s> props = new HashMap<>();",
-                    p.getType().getParameterizedClassName()))
-        .append(constant("%s.forEach(", additionalPropertiesName()))
-        .append(
-            constant(
-                String.format(
-                    "(key, value) -> %s(value).ifPresent(v -> props.put(key, v)));",
-                    CAST_ADDITIONAL_PROPERTY_METHOD_NAME)),
-            2)
-        .append(constant("return props;"))
-        .append(ref(JavaRefs.JAVA_UTIL_MAP))
-        .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
-        .filter(AdditionalPropertiesGetter::isNotObjectAdditionalPropertiesType);
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> singlePropGetter() {

@@ -75,7 +75,7 @@ public class PersonDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -589,7 +589,7 @@ public class PersonDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -1530,7 +1530,7 @@ public class UserDto {
     return isAnotherPojoNotNull;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -2238,7 +2238,7 @@ public class UserDto {
     return isAnotherPojoNotNull;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -2830,7 +2830,7 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -3309,7 +3309,7 @@ public class Illegal_IdentifierDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -3771,7 +3771,8 @@ public class ObjectPojo1Dto {
   public Map<String, ColorEnum> getAdditionalProperties() {
     final Map<String, ColorEnum> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) ->
+            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
     return props;
   }
 
@@ -3998,7 +3999,8 @@ public class ObjectPojo1Dto {
   public Map<String, Integer> getAdditionalProperties() {
     final Map<String, Integer> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) ->
+            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
     return props;
   }
 
@@ -4322,7 +4324,7 @@ public class UserDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -4629,7 +4631,7 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -4963,7 +4965,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -5698,7 +5700,8 @@ public class ObjectPojo1Dto {
   public Map<String, @Valid HelloDto> getAdditionalProperties() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) ->
+            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
     return props;
   }
 
@@ -5928,7 +5931,8 @@ public class ObjectPojo1Dto {
   public Map<String, HelloDto> getAdditionalProperties() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) ->
+            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
     return props;
   }
 
@@ -6152,7 +6156,8 @@ public class ObjectPojo1Dto {
   public Map<String, @Valid HelloDto> getAdditionalProperties() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) ->
+            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
     return props;
   }
 
@@ -6387,7 +6392,7 @@ public class ObjectPojo1Dto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -6694,7 +6699,7 @@ public class ObjectPojo1Dto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -7033,7 +7038,7 @@ public class PersonDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -7633,7 +7638,7 @@ public class UserDto {
     return isLanguageNotNull;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -7906,7 +7911,7 @@ public class UserDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 
@@ -8155,7 +8160,7 @@ public class ObjectPojo1Dto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalPropertiesRaw() {
     return additionalProperties;
   }
 

@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
@@ -6,7 +6,6 @@ import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSetti
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -16,7 +15,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
-import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
@@ -85,8 +83,6 @@ class AdditionalPropertiesGetterTest {
     final Writer writer =
         generator.generate(pojo, defaultTestSettings().withEnableValidation(true), javaWriter());
 
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_LIST::equals));
-
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
@@ -101,18 +97,5 @@ class AdditionalPropertiesGetterTest {
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
     assertEquals("", writer.asString());
-  }
-
-  @Test
-  void generate_when_standardObject_then_correctRefs() {
-    final Generator<JavaObjectPojo, PojoSettings> generator =
-        AdditionalPropertiesGetter.additionalPropertiesGetterGenerator();
-
-    final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty());
-
-    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
-
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_MAP::equals));
-    assertTrue(writer.getRefs().exists(JavaRefs.JAVA_UTIL_OPTIONAL::equals));
   }
 }

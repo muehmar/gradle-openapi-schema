@@ -1,0 +1,184 @@
+deprecationAnnotation=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.Map
+
+/**
+ * @deprecated This method is intended to be used only by frameworks for validation
+ * or serialisation.
+ */
+@Deprecated
+@JsonAnyGetter
+public Map<String, Object> getAdditionalProperties() {
+  return additionalProperties;
+}
+]
+
+
+notNullableAnyType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.Map
+
+@JsonAnyGetter
+public Map<String, Object> getAdditionalProperties() {
+  return additionalProperties;
+}
+]
+
+
+notNullableListType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.List
+java.util.Map
+
+@JsonAnyGetter
+public Map<String, List<String>> getAdditionalProperties() {
+  final Map<String, List<String>> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
+}
+]
+
+
+notNullableObjectType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+javax.validation.Valid
+
+@JsonAnyGetter
+public Map<String, @Valid ObjectDto> getAdditionalProperties() {
+  final Map<String, ObjectDto> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
+}
+]
+
+
+notNullableStringType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+
+@JsonAnyGetter
+public Map<String, String> getAdditionalProperties() {
+  final Map<String, String> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
+}
+]
+
+
+notNullableStringTypeWithConstraints=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+@JsonAnyGetter
+public Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalProperties() {
+  final Map<String, String> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+  return props;
+}
+]
+
+
+nullableAnyType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.Map
+
+@JsonAnyGetter
+private Map<String, Object> getAdditionalPropertiesRaw() {
+  return additionalProperties;
+}
+]
+
+
+nullableListType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.List
+java.util.Map
+
+@JsonAnyGetter
+private Map<String, List<String>> getAdditionalPropertiesRaw() {
+  final Map<String, List<String>> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value)
+              .onValue(val -> props.put(key, val))
+              .onNull(() -> props.put(key, null))
+              .onAbsent(() -> null));
+  return props;
+}
+]
+
+
+nullableObjectType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+javax.validation.Valid
+
+@JsonAnyGetter
+private Map<String, @Valid ObjectDto> getAdditionalPropertiesRaw() {
+  final Map<String, ObjectDto> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value)
+              .onValue(val -> props.put(key, val))
+              .onNull(() -> props.put(key, null))
+              .onAbsent(() -> null));
+  return props;
+}
+]
+
+
+nullableStringType=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+
+@JsonAnyGetter
+private Map<String, String> getAdditionalPropertiesRaw() {
+  final Map<String, String> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value)
+              .onValue(val -> props.put(key, val))
+              .onNull(() -> props.put(key, null))
+              .onAbsent(() -> null));
+  return props;
+}
+]
+
+
+nullableStringTypeWithConstraints=[
+com.fasterxml.jackson.annotation.JsonAnyGetter
+java.util.HashMap
+java.util.Map
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+@JsonAnyGetter
+private Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalPropertiesRaw() {
+  final Map<String, String> props = new HashMap<>();
+  additionalProperties.forEach(
+      (key, value) ->
+          castAdditionalProperty(value)
+              .onValue(val -> props.put(key, val))
+              .onNull(() -> props.put(key, null))
+              .onAbsent(() -> null));
+  return props;
+}
+]

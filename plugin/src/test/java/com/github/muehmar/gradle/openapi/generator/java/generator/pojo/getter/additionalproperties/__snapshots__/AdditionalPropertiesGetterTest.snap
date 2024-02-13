@@ -9,7 +9,8 @@ java.util.Optional
 public Map<String, List<String>> getAdditionalProperties() {
   final Map<String, List<String>> props = new HashMap<>();
   additionalProperties.forEach(
-      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+      (key, value) ->
+          castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
   return props;
 }
 
@@ -43,7 +44,8 @@ javax.validation.Valid
 public Map<String, @Valid ObjectDto> getAdditionalProperties() {
   final Map<String, ObjectDto> props = new HashMap<>();
   additionalProperties.forEach(
-      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+      (key, value) ->
+          castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
   return props;
 }
 
@@ -78,7 +80,8 @@ javax.validation.constraints.Size
 public Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalProperties() {
   final Map<String, String> props = new HashMap<>();
   additionalProperties.forEach(
-      (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+      (key, value) ->
+          castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
   return props;
 }
 
