@@ -1,27 +1,21 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.SingleAdditionalPropertyGetter.singleAdditionalPropertyGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.StandardAdditionalPropertiesGetter.standardAdditionalPropertiesGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
 public class AdditionalPropertiesGetter {
-  private static final String SINGLE_PROP_GETTER_JAVA_DOC =
-      "Returns the additional property with {@code key} wrapped "
-          + "in an {@link Optional} if present, {@link Optional#empty()} otherwise";
   static final String CAST_ADDITIONAL_PROPERTY_METHOD_NAME = "castAdditionalProperty";
 
   private AdditionalPropertiesGetter() {}
@@ -29,47 +23,10 @@ public class AdditionalPropertiesGetter {
   public static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesGetterGenerator() {
     return standardAdditionalPropertiesGetterGenerator()
         .appendSingleBlankLine()
-        .append(singlePropGetter(), JavaObjectPojo::getAdditionalProperties)
+        .append(singleAdditionalPropertyGetterGenerator())
         .appendSingleBlankLine()
         .append(additionalPropertyCastMethod(), JavaObjectPojo::getAdditionalProperties)
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
-  }
-
-  private static Generator<JavaAdditionalProperties, PojoSettings> singlePropGetter() {
-    final Generator<JavaAdditionalProperties, PojoSettings> method =
-        MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-            .modifiers(PUBLIC)
-            .noGenericTypes()
-            .returnType(
-                props -> String.format("Optional<%s>", props.getType().getParameterizedClassName()))
-            .methodName("getAdditionalProperty")
-            .singleArgument(ignore -> new Argument("String", "key"))
-            .doesNotThrow()
-            .content(singlePropGetterContent())
-            .build()
-            .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL))
-            .append(javaTypeRefs(), JavaAdditionalProperties::getType);
-    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
-        .append(JavaDocGenerator.ofJavaDocString(SINGLE_PROP_GETTER_JAVA_DOC))
-        .append(method);
-  }
-
-  private static Generator<JavaAdditionalProperties, PojoSettings> singlePropGetterContent() {
-    final Generator<JavaAdditionalProperties, PojoSettings> flatMapCastProperty =
-        Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
-            .append(
-                (p, s, w) ->
-                    w.println()
-                        .tab(2)
-                        .print(".flatMap(this::%s)", CAST_ADDITIONAL_PROPERTY_METHOD_NAME))
-            .filter(AdditionalPropertiesGetter::isNotObjectAdditionalPropertiesType);
-    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
-        .append(
-            (p, s, w) ->
-                w.print("return Optional.ofNullable(%s.get(key))", additionalPropertiesName()))
-        .append(flatMapCastProperty)
-        .append((p, s, w) -> w.println(";"))
-        .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertyCastMethod() {

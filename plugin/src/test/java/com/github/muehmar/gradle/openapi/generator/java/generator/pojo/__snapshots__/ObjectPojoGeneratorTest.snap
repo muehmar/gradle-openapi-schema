@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -80,11 +81,18 @@ public class PersonDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -521,6 +529,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -594,11 +603,18 @@ public class PersonDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -1309,6 +1325,7 @@ enableValidation[jakarta-2]=[
 package com.github.muehmar;
 
 import com.github.muehmar.openapi.util.EmailValidator;
+import com.github.muehmar.openapi.util.Tristate;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1535,11 +1552,18 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -2017,6 +2041,7 @@ enableValidation[jakarta-3]=[
 package com.github.muehmar;
 
 import com.github.muehmar.openapi.util.EmailValidator;
+import com.github.muehmar.openapi.util.Tristate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
@@ -2243,11 +2268,18 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -2724,6 +2756,7 @@ public class UserDto {
 enabledSafeBuilder=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -2835,11 +2868,18 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -3314,11 +3354,18 @@ public class Illegal_IdentifierDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -4206,6 +4253,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -4329,11 +4377,18 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -4525,6 +4580,7 @@ public class UserDto {
 minimalPojoSetting=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -4636,11 +4692,18 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -4970,11 +5033,18 @@ public class NecessityAndNullabilityDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -6360,6 +6430,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6397,11 +6468,18 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -6667,6 +6745,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -6704,11 +6783,18 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -6971,6 +7057,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7043,11 +7130,18 @@ public class PersonDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -7533,6 +7627,7 @@ public class PersonDto {
 pojoWithEnumAndEnumDescription=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -7643,11 +7738,18 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -7796,6 +7898,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -7916,11 +8019,18 @@ public class UserDto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -8072,6 +8182,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.EmailValidator;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8165,11 +8276,18 @@ public class ObjectPojo1Dto {
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**

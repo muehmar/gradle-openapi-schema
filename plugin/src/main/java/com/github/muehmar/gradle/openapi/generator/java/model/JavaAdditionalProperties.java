@@ -58,7 +58,11 @@ public class JavaAdditionalProperties {
   }
 
   public boolean isNotValueAnyType() {
-    return not(type.isAnyType());
+    return not(isValueAnyType());
+  }
+
+  public boolean isValueAnyType() {
+    return type.isAnyType();
   }
 
   public TechnicalPojoMember asTechnicalPojoMember() {
