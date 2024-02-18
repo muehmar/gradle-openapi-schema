@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.AdditionalPropertyClassGenerator.additionalPropertyClassGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.NullableAdditionalPropertyClassGenerator.nullableAdditionalPropertyClassGenerator;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
@@ -18,7 +20,11 @@ import java.util.Optional;
 public class JavaUtilsGenerator implements UtilsGenerator {
   @Override
   public PList<GeneratedFile> generateUtils(PojoSettings settings) {
-    return PList.of(tristateClass(), emailValidator())
+    return PList.of(
+            tristateClass(),
+            emailValidator(),
+            additionalPropertyClass(),
+            nullableAdditionalPropertyClass())
         .concat(PList.fromOptional(jacksonContainerClass(settings)));
   }
 
@@ -43,9 +49,29 @@ public class JavaUtilsGenerator implements UtilsGenerator {
   }
 
   private static GeneratedFile emailValidator() {
-    final Generator<Void, Void> tristateGen = EmailValidatorGenerator.emailValidatorGenerator();
-    final Writer writer = tristateGen.generate(noData(), noSettings(), javaWriter());
+    final Generator<Void, Void> emailedValidatorGenerator =
+        EmailValidatorGenerator.emailValidatorGenerator();
+    final Writer writer = emailedValidatorGenerator.generate(noData(), noSettings(), javaWriter());
     final JavaFileName javaFileName = JavaFileName.fromRef(OpenApiUtilRefs.EMAIL_VALIDATOR);
+    return new GeneratedFile(javaFileName.asPath(), writer.asString());
+  }
+
+  private static GeneratedFile additionalPropertyClass() {
+    final Generator<Void, Void> additionalPropertyClassGenerator =
+        additionalPropertyClassGenerator();
+    final Writer writer =
+        additionalPropertyClassGenerator.generate(noData(), noSettings(), javaWriter());
+    final JavaFileName javaFileName = JavaFileName.fromRef(OpenApiUtilRefs.ADDITIONAL_PROPERTY);
+    return new GeneratedFile(javaFileName.asPath(), writer.asString());
+  }
+
+  private static GeneratedFile nullableAdditionalPropertyClass() {
+    final Generator<Void, Void> nullableAdditionalPropertyClassGenerator =
+        nullableAdditionalPropertyClassGenerator();
+    final Writer writer =
+        nullableAdditionalPropertyClassGenerator.generate(noData(), noSettings(), javaWriter());
+    final JavaFileName javaFileName =
+        JavaFileName.fromRef(OpenApiUtilRefs.NULLABLE_ADDITIONAL_PROPERTY);
     return new GeneratedFile(javaFileName.asPath(), writer.asString());
   }
 
