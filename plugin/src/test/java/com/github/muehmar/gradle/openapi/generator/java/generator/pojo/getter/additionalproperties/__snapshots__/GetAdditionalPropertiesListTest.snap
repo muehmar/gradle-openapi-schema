@@ -1,0 +1,108 @@
+notNullableAnyType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.AdditionalProperty
+java.util.stream.Collectors
+
+@JsonIgnore
+public List<AdditionalProperty<Object>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .map(entry -> new AdditionalProperty<>(entry.getKey(), entry.getValue()))
+      .collect(Collectors.toList());
+}
+]
+
+
+notNullableListType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.AdditionalProperty
+java.util.stream.Collectors
+java.util.stream.Stream
+
+@JsonIgnore
+public List<AdditionalProperty<List<String>>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .flatMap(
+          entry -> 
+              castAdditionalProperty(entry.getValue())
+                  .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                  .map(Stream::of)
+                  .orElseGet(Stream::empty))
+      .collect(Collectors.toList());
+}
+]
+
+
+notNullableObjectType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.AdditionalProperty
+java.util.stream.Collectors
+java.util.stream.Stream
+
+@JsonIgnore
+public List<AdditionalProperty<ObjectDto>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .flatMap(
+          entry -> 
+              castAdditionalProperty(entry.getValue())
+                  .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                  .map(Stream::of)
+                  .orElseGet(Stream::empty))
+      .collect(Collectors.toList());
+}
+]
+
+
+nullableAnyType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.NullableAdditionalProperty
+java.util.stream.Collectors
+
+@JsonIgnore
+public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+      .collect(Collectors.toList());
+}
+]
+
+
+nullableListType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.NullableAdditionalProperty
+java.util.stream.Collectors
+
+@JsonIgnore
+public List<NullableAdditionalProperty<List<String>>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .map(
+          entry -> 
+              NullableAdditionalProperty.ofNullable(
+                  entry.getKey(),
+                  castAdditionalProperty(entry.getValue())
+                      .onValue(val -> val)
+                      .onNull(() -> null)
+                      .onAbsent(() -> null)))
+      .collect(Collectors.toList());
+}
+]
+
+
+nullableObjectType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.NullableAdditionalProperty
+java.util.stream.Collectors
+
+@JsonIgnore
+public List<NullableAdditionalProperty<ObjectDto>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .map(
+          entry -> 
+              NullableAdditionalProperty.ofNullable(
+                  entry.getKey(),
+                  castAdditionalProperty(entry.getValue())
+                      .onValue(val -> val)
+                      .onNull(() -> null)
+                      .onAbsent(() -> null)))
+      .collect(Collectors.toList());
+}
+]
