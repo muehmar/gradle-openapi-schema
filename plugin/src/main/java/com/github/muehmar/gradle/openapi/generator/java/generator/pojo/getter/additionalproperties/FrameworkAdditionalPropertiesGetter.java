@@ -8,40 +8,37 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
-class StandardAdditionalPropertiesGetter {
-  private StandardAdditionalPropertiesGetter() {}
+class FrameworkAdditionalPropertiesGetter {
+  private FrameworkAdditionalPropertiesGetter() {}
 
   public static Generator<JavaObjectPojo, PojoSettings>
-      standardAdditionalPropertiesGetterGenerator() {
+      frameworkAdditionalPropertiesGetterGenerator() {
     return getter().filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> getter() {
     final Generator<JavaObjectPojo, PojoSettings> method =
         MethodGenBuilder.<JavaObjectPojo, PojoSettings>create()
-            .modifiers(StandardAdditionalPropertiesGetter::standardGetterModifiers)
+            .modifiers(SettingsFunctions::validationMethodModifiers)
             .noGenericTypes()
             .returnType(
                 deepAnnotatedParameterizedClassName()
                     .contraMap(
-                        StandardAdditionalPropertiesGetter
+                        FrameworkAdditionalPropertiesGetter
                             ::createPropertyTypeForAdditionalProperties))
-            .methodName(StandardAdditionalPropertiesGetter::standardGetterMethodName)
+            .methodName("getAdditionalProperties_")
             .noArguments()
             .doesNotThrow()
             .content(getterContent().contraMap(JavaObjectPojo::getAdditionalProperties))
@@ -51,26 +48,6 @@ class StandardAdditionalPropertiesGetter {
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
         .append(JacksonAnnotationGenerator.jsonAnyGetter())
         .append(method);
-  }
-
-  private static JavaModifiers standardGetterModifiers(
-      JavaObjectPojo pojo, PojoSettings settings1) {
-    if (pojo.getAdditionalProperties().getType().getNullability().isNullable()) {
-      return SettingsFunctions.validationMethodModifiers(pojo, settings1);
-    } else {
-      return JavaModifiers.of(PUBLIC);
-    }
-  }
-
-  private static String standardGetterMethodName(JavaObjectPojo pojo, PojoSettings settings) {
-    final String baseMethodName = "getAdditionalProperties";
-    if (pojo.getAdditionalProperties().getType().getNullability().isNullable()) {
-      return JavaName.fromString(baseMethodName)
-          .append(settings.getValidationMethods().getGetterSuffix())
-          .asString();
-    } else {
-      return baseMethodName;
-    }
   }
 
   private static ValidationAnnotationGenerator.PropertyType

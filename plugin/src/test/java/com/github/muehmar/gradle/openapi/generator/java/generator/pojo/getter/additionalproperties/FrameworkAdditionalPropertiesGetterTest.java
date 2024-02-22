@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.StandardAdditionalPropertiesGetter.standardAdditionalPropertiesGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.FrameworkAdditionalPropertiesGetter.frameworkAdditionalPropertiesGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
@@ -34,13 +34,13 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
-class StandardAdditionalPropertiesGetterTest {
+class FrameworkAdditionalPropertiesGetterTest {
   private Expect expect;
 
   @Test
   void generate_when_additionalPropertiesNotAllowed_then_noOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties = JavaAdditionalProperties.notAllowed();
     final JavaObjectPojo pojo =
@@ -55,7 +55,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("notNullableStringType")
   void generate_when_notNullableStringType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(JavaTypes.stringType().withNullability(NOT_NULLABLE));
@@ -71,7 +71,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("nullableStringType")
   void generate_when_nullableStringType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(JavaTypes.stringType().withNullability(NULLABLE));
@@ -87,7 +87,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("notNullableStringTypeWithConstraints")
   void generate_when_notNullableStringTypeWithConstraints_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
@@ -110,7 +110,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("nullableStringTypeWithConstraints")
   void generate_when_nullableStringTypeWithConstraints_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
@@ -133,7 +133,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("notNullableAnyType")
   void generate_when_notNullableAnyType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(JavaTypes.anyType().withNullability(NOT_NULLABLE));
@@ -149,7 +149,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("nullableAnyType")
   void generate_when_nullableAnyType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(JavaTypes.anyType().withNullability(NULLABLE));
@@ -165,7 +165,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("notNullableObjectType")
   void generate_when_notNullableObjectType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
@@ -183,7 +183,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("nullableObjectType")
   void generate_when_nullableObjectType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
@@ -201,7 +201,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("notNullableListType")
   void generate_when_notNullableListType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(stringListType().withNullability(NOT_NULLABLE));
@@ -217,7 +217,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("nullableListType")
   void generate_when_nullableListType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(stringListType().withNullability(NULLABLE));
@@ -233,7 +233,7 @@ class StandardAdditionalPropertiesGetterTest {
   @SnapshotName("deprecationAnnotation")
   void generate_when_deprecationAnnotation_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
-        standardAdditionalPropertiesGetterGenerator();
+        frameworkAdditionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(JavaTypes.anyType());

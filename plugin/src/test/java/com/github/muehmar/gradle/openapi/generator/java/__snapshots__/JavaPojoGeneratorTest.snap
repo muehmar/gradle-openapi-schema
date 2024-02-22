@@ -225,7 +225,7 @@ public class SampleObjectPojo1Dto {
   }
 
   @JsonAnyGetter
-  private Map<String, Object> getAdditionalPropertiesRaw() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 

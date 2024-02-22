@@ -10,7 +10,7 @@ java.util.stream.Collectors
 java.util.stream.Stream
 
 @JsonAnyGetter
-public Map<String, List<String>> getAdditionalProperties() {
+private Map<String, List<String>> getAdditionalProperties_() {
   final Map<String, List<String>> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -61,7 +61,7 @@ java.util.stream.Stream
 javax.validation.Valid
 
 @JsonAnyGetter
-public Map<String, @Valid ObjectDto> getAdditionalProperties() {
+private Map<String, @Valid ObjectDto> getAdditionalProperties_() {
   final Map<String, ObjectDto> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -113,7 +113,7 @@ javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
 @JsonAnyGetter
-public Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalProperties() {
+private Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalProperties_() {
   final Map<String, String> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->

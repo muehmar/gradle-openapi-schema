@@ -1,9 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.FrameworkAdditionalPropertiesGetter.frameworkAdditionalPropertiesGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.GetAdditionalPropertiesList.getAdditionalPropertiesListGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.SingleAdditionalPropertyGetter.singleAdditionalPropertyGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.StandardAdditionalPropertiesGetter.standardAdditionalPropertiesGetterGenerator;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
@@ -22,7 +22,7 @@ public class AdditionalPropertiesGetter {
   private AdditionalPropertiesGetter() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesGetterGenerator() {
-    return standardAdditionalPropertiesGetterGenerator()
+    return frameworkAdditionalPropertiesGetterGenerator()
         .appendSingleBlankLine()
         .append(getAdditionalPropertiesListGenerator())
         .appendSingleBlankLine()

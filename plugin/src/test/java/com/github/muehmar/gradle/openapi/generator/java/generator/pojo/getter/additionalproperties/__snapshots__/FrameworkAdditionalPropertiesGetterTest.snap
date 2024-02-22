@@ -8,7 +8,7 @@ java.util.Map
  */
 @Deprecated
 @JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
+public Map<String, Object> getAdditionalProperties_() {
   return additionalProperties;
 }
 ]
@@ -19,7 +19,7 @@ com.fasterxml.jackson.annotation.JsonAnyGetter
 java.util.Map
 
 @JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
+private Map<String, Object> getAdditionalProperties_() {
   return additionalProperties;
 }
 ]
@@ -32,7 +32,7 @@ java.util.List
 java.util.Map
 
 @JsonAnyGetter
-public Map<String, List<String>> getAdditionalProperties() {
+private Map<String, List<String>> getAdditionalProperties_() {
   final Map<String, List<String>> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -49,7 +49,7 @@ java.util.Map
 javax.validation.Valid
 
 @JsonAnyGetter
-public Map<String, @Valid ObjectDto> getAdditionalProperties() {
+private Map<String, @Valid ObjectDto> getAdditionalProperties_() {
   final Map<String, ObjectDto> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -65,7 +65,7 @@ java.util.HashMap
 java.util.Map
 
 @JsonAnyGetter
-public Map<String, String> getAdditionalProperties() {
+private Map<String, String> getAdditionalProperties_() {
   final Map<String, String> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -83,7 +83,7 @@ javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
 @JsonAnyGetter
-public Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalProperties() {
+private Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalProperties_() {
   final Map<String, String> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -98,7 +98,7 @@ com.fasterxml.jackson.annotation.JsonAnyGetter
 java.util.Map
 
 @JsonAnyGetter
-private Map<String, Object> getAdditionalPropertiesRaw() {
+private Map<String, Object> getAdditionalProperties_() {
   return additionalProperties;
 }
 ]
@@ -111,7 +111,7 @@ java.util.List
 java.util.Map
 
 @JsonAnyGetter
-private Map<String, List<String>> getAdditionalPropertiesRaw() {
+private Map<String, List<String>> getAdditionalProperties_() {
   final Map<String, List<String>> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -131,7 +131,7 @@ java.util.Map
 javax.validation.Valid
 
 @JsonAnyGetter
-private Map<String, @Valid ObjectDto> getAdditionalPropertiesRaw() {
+private Map<String, @Valid ObjectDto> getAdditionalProperties_() {
   final Map<String, ObjectDto> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -150,7 +150,7 @@ java.util.HashMap
 java.util.Map
 
 @JsonAnyGetter
-private Map<String, String> getAdditionalPropertiesRaw() {
+private Map<String, String> getAdditionalProperties_() {
   final Map<String, String> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
@@ -171,7 +171,7 @@ javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
 @JsonAnyGetter
-private Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalPropertiesRaw() {
+private Map<String, @Size(min = 5) @Pattern(regexp="pattern") String> getAdditionalProperties_() {
   final Map<String, String> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
