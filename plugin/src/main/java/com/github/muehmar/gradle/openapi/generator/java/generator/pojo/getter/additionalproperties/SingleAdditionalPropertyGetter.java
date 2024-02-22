@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.a
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.AdditionalPropertiesGetter.CAST_ADDITIONAL_PROPERTY_METHOD_NAME;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs.TRISTATE;
@@ -86,7 +85,7 @@ class SingleAdditionalPropertyGetter {
     final Generator<JavaAdditionalProperties, PojoSettings> specificTypeConversion =
         Generator.<JavaAdditionalProperties, PojoSettings>constant(
                 "return %s(%s.get(key));",
-                CAST_ADDITIONAL_PROPERTY_METHOD_NAME, additionalPropertiesName())
+                AdditionalPropertiesCastMethod.METHOD_NAME, additionalPropertiesName())
             .filter(JavaAdditionalProperties::isNotValueAnyType);
     return Generator.<JavaAdditionalProperties, PojoSettings>constant(
             "if (%s.containsKey(key)) {", additionalPropertiesName())
@@ -108,7 +107,7 @@ class SingleAdditionalPropertyGetter {
     final Generator<JavaAdditionalProperties, PojoSettings> specificTypeConversion =
         Generator.<JavaAdditionalProperties, PojoSettings>constant(
                 "return Optional.ofNullable(%s.get(key))", additionalPropertiesName())
-            .append(constant(".flatMap(this::%s);", CAST_ADDITIONAL_PROPERTY_METHOD_NAME), 2)
+            .append(constant(".flatMap(this::%s);", AdditionalPropertiesCastMethod.METHOD_NAME), 2)
             .append(ref(JAVA_UTIL_OPTIONAL))
             .filter(JavaAdditionalProperties::isNotValueAnyType);
     return anyTypeConversion

@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.a
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.AdditionalPropertiesGetter.CAST_ADDITIONAL_PROPERTY_METHOD_NAME;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
@@ -89,7 +88,7 @@ class FrameworkAdditionalPropertiesGetter {
       getterContentForSpecificNullableTypeLambda() {
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
         .append(constant("(key, value) ->"), 2)
-        .append(constant("%s(value)", CAST_ADDITIONAL_PROPERTY_METHOD_NAME), 4)
+        .append(constant("%s(value)", AdditionalPropertiesCastMethod.METHOD_NAME), 4)
         .append(constant(".onValue(val -> props.put(key, val))"), 6)
         .append(constant(".onNull(() -> props.put(key, null))"), 6)
         .append(constant(".onAbsent(() -> null));"), 6)
@@ -103,7 +102,7 @@ class FrameworkAdditionalPropertiesGetter {
         .append(
             constant(
                 "%s(value).ifPresent(v -> props.put(key, v)));",
-                CAST_ADDITIONAL_PROPERTY_METHOD_NAME),
+                AdditionalPropertiesCastMethod.METHOD_NAME),
             4)
         .filter(props -> props.getType().getNullability().isNotNullable());
   }
