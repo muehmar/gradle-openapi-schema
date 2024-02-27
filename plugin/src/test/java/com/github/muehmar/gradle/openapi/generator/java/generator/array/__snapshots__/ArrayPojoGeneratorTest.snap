@@ -67,7 +67,7 @@ public class PosologyDto {
     }
 
     private boolean isItemsValueValid(Double itemsValue) {
-      return true;
+      return itemsValue != null;
     }
 
     private boolean isValid() {

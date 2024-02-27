@@ -321,7 +321,7 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValueValid(String additionalPropertiesValue) {
-    return true;
+    return additionalPropertiesValue != null;
   }
 
   private boolean isValid() {

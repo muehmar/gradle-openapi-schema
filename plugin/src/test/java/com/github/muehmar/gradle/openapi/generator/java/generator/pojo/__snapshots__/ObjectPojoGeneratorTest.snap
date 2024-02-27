@@ -1211,7 +1211,7 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      return true;
+      return additionalPropertiesValue != null;
     }
 
     private boolean isValid() {
@@ -3936,7 +3936,7 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(ColorEnum additionalPropertiesValue) {
-      return true;
+      return additionalPropertiesValue != null;
     }
 
     private boolean isValid() {
@@ -4179,7 +4179,7 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValueValid(Integer additionalPropertiesValue) {
-      return true;
+      return additionalPropertiesValue != null;
     }
 
     private boolean isValid() {
@@ -5946,7 +5946,7 @@ public class ObjectPojo1Dto {
         return additionalPropertiesValue.isValid();
       }
 
-      return true;
+      return false;
     }
 
     private boolean isValid() {
@@ -6192,7 +6192,7 @@ public class ObjectPojo1Dto {
         return additionalPropertiesValue.isValid();
       }
 
-      return true;
+      return false;
     }
 
     private boolean isValid() {
@@ -6430,7 +6430,7 @@ public class ObjectPojo1Dto {
         return additionalPropertiesValue.isValid();
       }
 
-      return true;
+      return false;
     }
 
     private boolean isValid() {
@@ -6678,7 +6678,7 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isListValValueValid(String listValValue) {
-      return true;
+      return listValValue != null;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -7003,7 +7003,7 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isMapValValueValid(UUID mapValValue) {
-      return true;
+      return mapValValue != null;
     }
 
     private boolean isAdditionalPropertiesValid() {
