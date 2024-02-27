@@ -1,4 +1,5 @@
 allNecessityAndNullabilityVariants[FULL]=[
+com.github.muehmar.openapi.util.Tristate
 java.util.Map
 
 public static final class FullOptPropertyBuilder2 {
@@ -9,6 +10,10 @@ public static final class FullOptPropertyBuilder2 {
   }
 
   public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+    return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
     return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
   }
 
@@ -24,6 +29,7 @@ public static final class FullOptPropertyBuilder2 {
 
 
 allNecessityAndNullabilityVariants[STANDARD]=[
+com.github.muehmar.openapi.util.Tristate
 java.util.Map
 
 public static final class OptPropertyBuilder2 {
@@ -34,6 +40,10 @@ public static final class OptPropertyBuilder2 {
   }
 
   public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+    return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+  }
+
+  public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
     return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
   }
 
@@ -73,6 +83,66 @@ public static final class OptPropertyBuilder0 {
 
   private OptPropertyBuilder0(Builder builder) {
     this.builder = builder;
+  }
+
+  public ObjectPojo1Dto build(){
+    return builder.build();
+  }
+}
+]
+
+
+notNullableAdditionalProperties[FULL]=[
+java.util.Map
+java.util.Optional
+
+public static final class FullOptPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, String value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<String> value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, String> additionalProperties) {
+    return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public ObjectPojo1Dto build(){
+    return builder.build();
+  }
+}
+]
+
+
+notNullableAdditionalProperties[STANDARD]=[
+java.util.Map
+java.util.Optional
+
+public static final class OptPropertyBuilder0 {
+  private final Builder builder;
+
+  private OptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public OptPropertyBuilder0 addAdditionalProperty(String key, String value) {
+    return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<String> value) {
+    return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public OptPropertyBuilder0 setAdditionalProperties(Map<String, String> additionalProperties) {
+    return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
   }
 
   public ObjectPojo1Dto build(){

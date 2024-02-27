@@ -136,6 +136,10 @@ public static final class BuilderStages {
       return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
     }
 
+    public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
+      return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
     public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
       return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
     }
@@ -256,6 +260,10 @@ public static final class BuilderStages {
     }
 
     public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+      return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
       return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
     }
 

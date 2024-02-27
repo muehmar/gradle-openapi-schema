@@ -420,6 +420,10 @@ public class PersonDto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -520,6 +524,10 @@ public class PersonDto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -1033,6 +1041,10 @@ public class PersonDto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -1137,6 +1149,10 @@ public class PersonDto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -1336,6 +1352,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -1353,6 +1373,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -3257,6 +3281,10 @@ public class UserDto {
         return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
       }
@@ -3349,6 +3377,10 @@ public class UserDto {
       }
 
       public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 
@@ -3748,6 +3780,10 @@ public class Illegal_IdentifierDto {
         return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
       }
@@ -3829,6 +3865,10 @@ public class Illegal_IdentifierDto {
       }
 
       public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
       }
 
@@ -4110,6 +4150,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<ColorEnum> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -4127,6 +4171,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, ColorEnum value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<ColorEnum> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -4358,6 +4406,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<Integer> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Integer> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -4375,6 +4427,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Integer value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<Integer> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -5642,6 +5698,10 @@ public class NecessityAndNullabilityDto {
         return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
       }
@@ -5762,6 +5822,10 @@ public class NecessityAndNullabilityDto {
       }
 
       public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
       }
 
@@ -6163,6 +6227,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6180,6 +6248,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -6413,6 +6485,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6430,6 +6506,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -6654,6 +6734,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6671,6 +6755,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -6950,6 +7038,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -7003,6 +7095,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -7278,6 +7374,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -7331,6 +7431,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -7845,6 +7949,10 @@ public class PersonDto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -7925,6 +8033,10 @@ public class PersonDto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -8925,6 +9037,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
       }
@@ -9017,6 +9133,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 

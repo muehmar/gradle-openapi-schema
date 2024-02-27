@@ -530,6 +530,10 @@ public class SampleObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -615,6 +619,10 @@ public class SampleObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 

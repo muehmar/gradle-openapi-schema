@@ -2,6 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuil
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs.TRISTATE;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
@@ -17,9 +19,40 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import lombok.Value;
 
 public class FinalOptionalMemberBuilderGenerator {
   private FinalOptionalMemberBuilderGenerator() {}
+
+  private static final SingleSetterMethod STANDARD_SETTER_METHOD =
+      new SingleSetterMethod(valueType -> valueType, Optional.empty(), stage -> true);
+
+  private static final SingleSetterMethod OPTIONAL_SETTER_METHOD =
+      new SingleSetterMethod(
+          valueType -> String.format("Optional<%s>", valueType),
+          Optional.of(JAVA_UTIL_OPTIONAL),
+          stage ->
+              stage
+                  .getParentPojo()
+                  .getAdditionalProperties()
+                  .getType()
+                  .getNullability()
+                  .isNotNullable());
+
+  private static final SingleSetterMethod TRISTATE_SETTER_METHOD =
+      new SingleSetterMethod(
+          valueType -> String.format("Tristate<%s>", valueType),
+          Optional.of(TRISTATE),
+          stage ->
+              stage
+                  .getParentPojo()
+                  .getAdditionalProperties()
+                  .getType()
+                  .getNullability()
+                  .isNullable());
 
   public static Generator<JavaObjectPojo, PojoSettings> finalOptionalMemberBuilderGenerator(
       SafeBuilderVariant builderVariant) {
@@ -60,7 +93,11 @@ public class FinalOptionalMemberBuilderGenerator {
 
   private static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
       additionalPropertiesSetters() {
-    return singleAdditionalPropertySetter()
+    return singleAdditionalPropertySetter(STANDARD_SETTER_METHOD)
+        .appendSingleBlankLine()
+        .append(singleAdditionalPropertySetter(OPTIONAL_SETTER_METHOD))
+        .appendSingleBlankLine()
+        .append(singleAdditionalPropertySetter(TRISTATE_SETTER_METHOD))
         .appendSingleBlankLine()
         .append(allAdditionalPropertiesSetter())
         .append(
@@ -70,7 +107,7 @@ public class FinalOptionalMemberBuilderGenerator {
   }
 
   private static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
-      singleAdditionalPropertySetter() {
+      singleAdditionalPropertySetter(SingleSetterMethod singleSetterMethod) {
     return MethodGenBuilder.<LastOptionalPropertyBuilderStage, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
@@ -81,18 +118,24 @@ public class FinalOptionalMemberBuilderGenerator {
                 PList.of(
                     argument("String", "key"),
                     argument(
-                        stage
-                            .getParentPojo()
-                            .getAdditionalProperties()
-                            .getType()
-                            .getParameterizedClassName(),
+                        singleSetterMethod
+                            .getValueTypeToArgumentType()
+                            .apply(
+                                stage
+                                    .getParentPojo()
+                                    .getAdditionalProperties()
+                                    .getType()
+                                    .getParameterizedClassName()
+                                    .asString()),
                         "value")))
         .doesNotThrow()
         .content(
             stage ->
                 String.format(
                     "return new %s(builder.addAdditionalProperty(key, value));", stage.getName()))
-        .build();
+        .build()
+        .append(ref(singleSetterMethod.getRef()))
+        .filter(singleSetterMethod.getFilter());
   }
 
   private static Generator<LastOptionalPropertyBuilderStage, PojoSettings>
@@ -121,5 +164,12 @@ public class FinalOptionalMemberBuilderGenerator {
                     stage.getName(), additionalPropertiesName()))
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_MAP));
+  }
+
+  @Value
+  private static class SingleSetterMethod {
+    Function<String, String> valueTypeToArgumentType;
+    Optional<String> ref;
+    Predicate<LastOptionalPropertyBuilderStage> filter;
   }
 }
