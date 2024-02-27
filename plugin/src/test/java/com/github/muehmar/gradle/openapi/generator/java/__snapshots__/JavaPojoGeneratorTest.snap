@@ -316,8 +316,8 @@ public class SampleObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;

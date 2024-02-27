@@ -179,8 +179,8 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -781,8 +781,8 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -1203,8 +1203,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -1807,8 +1807,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -2531,8 +2531,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -2989,8 +2989,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -3480,8 +3480,8 @@ public class Illegal_IdentifierDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -3928,8 +3928,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -4171,8 +4171,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -4544,8 +4544,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -4865,8 +4865,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -5258,8 +5258,8 @@ public class NecessityAndNullabilityDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -5934,8 +5934,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -6180,8 +6180,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -6418,8 +6418,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -6682,8 +6682,8 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -7007,8 +7007,8 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -7498,8 +7498,8 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -7978,8 +7978,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -8268,8 +8268,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -8550,8 +8550,8 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;

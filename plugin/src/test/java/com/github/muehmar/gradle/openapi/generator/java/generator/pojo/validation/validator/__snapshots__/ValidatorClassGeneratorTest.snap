@@ -5,8 +5,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -30,8 +30,8 @@ anyOfPojoWithDiscriminator=[
 private class Validator {
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -57,8 +57,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -81,8 +81,8 @@ emptyPojo=[
 private class Validator {
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -110,8 +110,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -165,8 +165,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -223,8 +223,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -313,8 +313,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -339,8 +339,8 @@ oneOfPojoWithDiscriminator=[
 private class Validator {
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -366,8 +366,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;
@@ -411,8 +411,8 @@ private class Validator {
   }
 
   private boolean isAdditionalPropertiesValid() {
-    if(getAdditionalProperties() != null) {
-      return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
     }
 
     return false;

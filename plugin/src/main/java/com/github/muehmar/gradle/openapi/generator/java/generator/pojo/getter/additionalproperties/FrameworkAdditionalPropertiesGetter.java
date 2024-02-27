@@ -19,11 +19,12 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
-class FrameworkAdditionalPropertiesGetter {
+public class FrameworkAdditionalPropertiesGetter {
   private FrameworkAdditionalPropertiesGetter() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings>
-      frameworkAdditionalPropertiesGetterGenerator() {
+  public static String METHOD_NAME = "getAdditionalProperties_";
+
+  static Generator<JavaObjectPojo, PojoSettings> frameworkAdditionalPropertiesGetterGenerator() {
     return getter().filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 
@@ -37,7 +38,7 @@ class FrameworkAdditionalPropertiesGetter {
                     .contraMap(
                         FrameworkAdditionalPropertiesGetter
                             ::createPropertyTypeForAdditionalProperties))
-            .methodName("getAdditionalProperties_")
+            .methodName(METHOD_NAME)
             .noArguments()
             .doesNotThrow()
             .content(getterContent().contraMap(JavaObjectPojo::getAdditionalProperties))
