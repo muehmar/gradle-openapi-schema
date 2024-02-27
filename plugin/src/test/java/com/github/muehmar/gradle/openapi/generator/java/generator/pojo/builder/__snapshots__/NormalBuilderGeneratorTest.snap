@@ -93,6 +93,14 @@ public static final class Builder {
     return this;
   }
 
+  public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+    value
+        .onValue(val -> this.additionalProperties.put(key, val))
+        .onNull(() -> this.additionalProperties.put(key, null))
+        .onAbsent(() -> null);
+    return this;
+  }
+
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
     this.additionalProperties = new HashMap<>(additionalProperties);
     return this;
@@ -197,6 +205,14 @@ public static final class Builder {
 
   public Builder addAdditionalProperty(String key, Object value) {
     this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+    value
+        .onValue(val -> this.additionalProperties.put(key, val))
+        .onNull(() -> this.additionalProperties.put(key, null))
+        .onAbsent(() -> null);
     return this;
   }
 
@@ -313,6 +329,14 @@ public static final class Builder {
     return this;
   }
 
+  public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+    value
+        .onValue(val -> this.additionalProperties.put(key, val))
+        .onNull(() -> this.additionalProperties.put(key, null))
+        .onAbsent(() -> null);
+    return this;
+  }
+
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
     this.additionalProperties = new HashMap<>(additionalProperties);
     return this;
@@ -336,6 +360,7 @@ com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 java.util.HashMap
 java.util.List
 java.util.Map
+java.util.Optional
 
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {
@@ -356,6 +381,11 @@ public static final class Builder {
     return this;
   }
 
+  public Builder addAdditionalProperty(String key, Optional<List<String>> value) {
+    value.ifPresent(val -> this.additionalProperties.put(key, val));
+    return this;
+  }
+
   public Builder setAdditionalProperties(Map<String, List<String>> additionalProperties) {
     this.additionalProperties = new HashMap<>(additionalProperties);
     return this;
@@ -372,6 +402,7 @@ nestedRequiredAdditionalPropertiesInAllOfSubPojos=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 
@@ -447,6 +478,14 @@ public static final class Builder {
     return this;
   }
 
+  public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+    value
+        .onValue(val -> this.additionalProperties.put(key, val))
+        .onNull(() -> this.additionalProperties.put(key, null))
+        .onAbsent(() -> null);
+    return this;
+  }
+
   public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
     this.additionalProperties = new HashMap<>(additionalProperties);
     return this;
@@ -477,6 +516,7 @@ oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
+com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 
@@ -557,6 +597,14 @@ public static final class Builder {
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, Object value) {
     this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+    value
+        .onValue(val -> this.additionalProperties.put(key, val))
+        .onNull(() -> this.additionalProperties.put(key, null))
+        .onAbsent(() -> null);
     return this;
   }
 

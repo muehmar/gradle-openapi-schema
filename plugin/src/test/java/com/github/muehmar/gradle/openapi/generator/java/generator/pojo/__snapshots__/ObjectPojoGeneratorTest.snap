@@ -285,6 +285,14 @@ public class PersonDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -886,6 +894,14 @@ public class PersonDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -1252,6 +1268,11 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<Object> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -2047,6 +2068,14 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -2771,6 +2800,14 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -3090,6 +3127,14 @@ public class UserDto {
 
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -3588,6 +3633,14 @@ public class Illegal_IdentifierDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -3992,6 +4045,11 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Optional<ColorEnum> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -4232,6 +4290,11 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Integer value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<Integer> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -4654,6 +4717,14 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -4967,6 +5038,14 @@ public class UserDto {
 
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -5407,6 +5486,14 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -5698,6 +5785,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -5772,6 +5860,14 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     private Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -5999,6 +6095,11 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, HelloDto value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<HelloDto> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -6247,6 +6348,11 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Optional<HelloDto> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -6480,6 +6586,11 @@ public class ObjectPojo1Dto {
 
     public Builder addAdditionalProperty(String key, HelloDto value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<HelloDto> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -6750,6 +6861,14 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -7070,6 +7189,14 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -7603,6 +7730,14 @@ public class PersonDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -8059,6 +8194,14 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -8352,6 +8495,14 @@ public class UserDto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -8641,6 +8792,14 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 

@@ -410,6 +410,14 @@ public class SampleObjectPojo1Dto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
