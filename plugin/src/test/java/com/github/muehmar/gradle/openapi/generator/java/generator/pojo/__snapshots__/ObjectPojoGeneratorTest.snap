@@ -270,13 +270,15 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
@@ -887,13 +889,15 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
@@ -7834,13 +7838,15 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 

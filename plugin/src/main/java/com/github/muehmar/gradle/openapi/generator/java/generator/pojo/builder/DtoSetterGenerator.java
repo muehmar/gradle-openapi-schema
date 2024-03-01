@@ -52,7 +52,8 @@ public class DtoSetterGenerator {
         .appendList(
             setSingleNonDiscriminatorMember().append(setSingleDiscriminatorMember()),
             ParentPojoAndComposedPojo::getMembers)
-        .append(setAdditionalProperties())
+        .append(setNullableAdditionalProperties())
+        .append(setNotNullableAdditionalProperties())
         .append(constant("return this;"));
   }
 
@@ -78,9 +79,22 @@ public class DtoSetterGenerator {
         .filter(PojosAndMember::isDiscriminatorMember);
   }
 
-  private static <B> Generator<ParentPojoAndComposedPojo, B> setAdditionalProperties() {
-    return Generator.<ParentPojoAndComposedPojo, B>constant(
-            "dto.getAdditionalProperties().forEach(this::addAdditionalProperty);")
+  private static <B> Generator<ParentPojoAndComposedPojo, B> setNotNullableAdditionalProperties() {
+    return Generator.<ParentPojoAndComposedPojo, B>constant("dto.getAdditionalProperties()")
+        .append(
+            constant(".forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue()));"),
+            2)
+        .filter(ParentPojoAndComposedPojo::hasNotNullableAdditionalProperties)
+        .filter(ppcp -> ppcp.getComposedPojo().getAdditionalProperties().isAllowed());
+  }
+
+  private static <B> Generator<ParentPojoAndComposedPojo, B> setNullableAdditionalProperties() {
+    return Generator.<ParentPojoAndComposedPojo, B>constant("dto.getAdditionalProperties()")
+        .append(
+            constant(
+                ".forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));"),
+            2)
+        .filter(ParentPojoAndComposedPojo::hasNullableAdditionalProperties)
         .filter(ppcp -> ppcp.getComposedPojo().getAdditionalProperties().isAllowed());
   }
 
@@ -132,6 +146,14 @@ public class DtoSetterGenerator {
       return composedPojo
           .getAllMembers()
           .map(member -> new PojosAndMember(parentPojo, discriminator, composedPojo, member));
+    }
+
+    private boolean hasNullableAdditionalProperties() {
+      return composedPojo.getAdditionalProperties().getType().getNullability().isNullable();
+    }
+
+    private boolean hasNotNullableAdditionalProperties() {
+      return not(hasNullableAdditionalProperties());
     }
   }
 
