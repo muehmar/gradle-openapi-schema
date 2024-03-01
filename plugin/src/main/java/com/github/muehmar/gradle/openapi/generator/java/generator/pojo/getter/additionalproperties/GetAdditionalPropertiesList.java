@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.a
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_LIST;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_STREAM_COLLECTORS;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_STREAM_STREAM;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs.ADDITIONAL_PROPERTY;
@@ -36,7 +37,8 @@ class GetAdditionalPropertiesList {
         .noArguments()
         .doesNotThrow()
         .content(methodContent())
-        .build();
+        .build()
+        .append(ref(JAVA_UTIL_LIST));
   }
 
   private static String className(JavaAdditionalProperties props) {

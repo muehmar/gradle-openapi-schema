@@ -54,6 +54,7 @@ com.fasterxml.jackson.annotation.JsonAnyGetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.AdditionalProperty
 java.util.HashMap
+java.util.List
 java.util.Map
 java.util.Optional
 java.util.stream.Collectors
@@ -105,6 +106,7 @@ com.fasterxml.jackson.annotation.JsonAnyGetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.AdditionalProperty
 java.util.HashMap
+java.util.List
 java.util.Map
 java.util.Optional
 java.util.stream.Collectors

@@ -1,6 +1,7 @@
 notNullableAnyType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.AdditionalProperty
+java.util.List
 java.util.stream.Collectors
 
 @JsonIgnore
@@ -15,6 +16,7 @@ public List<AdditionalProperty<Object>> getAdditionalProperties() {
 notNullableListType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.AdditionalProperty
+java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
@@ -35,6 +37,7 @@ public List<AdditionalProperty<List<String>>> getAdditionalProperties() {
 notNullableObjectType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.AdditionalProperty
+java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
@@ -55,6 +58,7 @@ public List<AdditionalProperty<ObjectDto>> getAdditionalProperties() {
 nullableAnyType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.NullableAdditionalProperty
+java.util.List
 java.util.stream.Collectors
 
 @JsonIgnore
@@ -69,6 +73,7 @@ public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
 nullableListType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.NullableAdditionalProperty
+java.util.List
 java.util.stream.Collectors
 
 @JsonIgnore
@@ -90,6 +95,7 @@ public List<NullableAdditionalProperty<List<String>>> getAdditionalProperties() 
 nullableObjectType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.NullableAdditionalProperty
+java.util.List
 java.util.stream.Collectors
 
 @JsonIgnore
