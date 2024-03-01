@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -55,8 +55,8 @@ class TestFreeForm {
     expectedMap.put("firstName", "Dexter");
     expectedMap.put("lastName", "Morgan");
 
-    assertEquals(Optional.of("Dexter"), dto1.getAdditionalProperty("firstName"));
-    assertEquals(Optional.of("Morgan"), dto1.getAdditionalProperty("lastName"));
+    assertEquals(Tristate.ofValue("Dexter"), dto1.getAdditionalProperty("firstName"));
+    assertEquals(Tristate.ofValue("Morgan"), dto1.getAdditionalProperty("lastName"));
 
     assertEquals(FreeForm1Dto.fromProperties(expectedMap), dto1);
     assertEquals(FreeForm2Dto.fromProperties(expectedMap), dto2);
