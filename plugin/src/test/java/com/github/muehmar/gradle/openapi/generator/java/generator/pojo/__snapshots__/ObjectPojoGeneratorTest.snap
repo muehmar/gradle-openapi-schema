@@ -5942,7 +5942,7 @@ public class ObjectPojo1Dto {
       return this;
     }
 
-    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+    private Builder addAdditionalProperty(String key, Tristate<Object> value) {
       value
           .onValue(val -> this.additionalProperties.put(key, val))
           .onNull(() -> this.additionalProperties.put(key, null))

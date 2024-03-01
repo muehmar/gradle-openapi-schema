@@ -82,7 +82,7 @@ class AdditionalPropertiesSetterGenerator {
   private static Generator<JavaAdditionalProperties, PojoSettings>
       singleOptionalAdditionalPropertiesSetter() {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-        .modifiers(PUBLIC)
+        .modifiers(props -> createModifiersForSingleAdditionalPropertiesSetter(props, false))
         .noGenericTypes()
         .returnType("Builder")
         .methodName("addAdditionalProperty")
@@ -112,7 +112,7 @@ class AdditionalPropertiesSetterGenerator {
   private static Generator<JavaAdditionalProperties, PojoSettings>
       singleTristateAdditionalPropertiesSetter() {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-        .modifiers(PUBLIC)
+        .modifiers(props -> createModifiersForSingleAdditionalPropertiesSetter(props, false))
         .noGenericTypes()
         .returnType("Builder")
         .methodName("addAdditionalProperty")
