@@ -4,14 +4,16 @@ import static com.github.muehmar.gradle.openapi.fullobject.AdminDto.adminDtoBuil
 import static com.github.muehmar.gradle.openapi.fullobject.BaseDataDto.baseDataDtoBuilder;
 import static com.github.muehmar.gradle.openapi.fullobject.FullObjectDto.fullObjectDtoBuilder;
 import static com.github.muehmar.gradle.openapi.fullobject.UserDto.userDtoBuilder;
+import static java.util.stream.Collectors.toMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.HashMap;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class FullObjectSerialisationTest {
@@ -53,12 +55,16 @@ class FullObjectSerialisationTest {
             "{\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
             FullObjectDto.class);
 
-    assertEquals(Optional.of("world!"), dto.getAdditionalProperty("hello"));
+    assertEquals(Tristate.ofValue("world!"), dto.getAdditionalProperty("hello"));
 
     final HashMap<String, String> additionalProperties = new HashMap<>();
     additionalProperties.put("hello", "world!");
     additionalProperties.put("admin-prop", "value");
-    assertEquals(additionalProperties, dto.getAdditionalProperties());
+    assertEquals(
+        additionalProperties,
+        dto.getAdditionalProperties().stream()
+            .collect(
+                toMap(NullableAdditionalProperty::getName, prop -> prop.getValue().orElse(null))));
 
     final BaseDataDto expectedBaseDataDto =
         baseDataDtoBuilder()

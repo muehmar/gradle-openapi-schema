@@ -135,7 +135,7 @@ class DeserialisationTest {
             .setColor(Optional.empty())
             .addAdditionalProperty("username", "user-name")
             .addAdditionalProperty("age", 25)
-            .addAdditionalProperty("email", null)
+            .addAdditionalProperty("email", Tristate.ofNull())
             .build();
 
     final List<Object> expected = new ArrayList<>();
@@ -177,7 +177,7 @@ class DeserialisationTest {
             .setColor(Optional.empty())
             .addAdditionalProperty("username", "user-name")
             .addAdditionalProperty("age", 25)
-            .addAdditionalProperty("email", null)
+            .addAdditionalProperty("email", Tristate.ofNull())
             .build();
 
     final List<Object> expected = new ArrayList<>();

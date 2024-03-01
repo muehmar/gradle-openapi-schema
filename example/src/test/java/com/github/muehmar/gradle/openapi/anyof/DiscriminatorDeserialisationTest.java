@@ -77,7 +77,7 @@ class DiscriminatorDeserialisationTest {
             .setColor(Optional.empty())
             .addAdditionalProperty("username", "user-name")
             .addAdditionalProperty("age", 25)
-            .addAdditionalProperty("email", null)
+            .addAdditionalProperty("email", Tristate.ofNull())
             .build();
 
     assertEquals(adminDto, result);

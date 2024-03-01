@@ -1,11 +1,14 @@
 package com.github.muehmar.gradle.openapi.fullobject;
 
+import static java.util.stream.Collectors.toMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,12 +61,16 @@ class NestedFullObjectSerialisationTest {
             "{\"adminname\":\"adminname\",\"amount\":15,\"code\":\"code\",\"color\":\"red\",\"message\":\"message\",\"type\":\"Admin\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
-    assertEquals(Optional.of("world!"), dto.getAdditionalProperty("hello"));
+    assertEquals(Tristate.ofValue("world!"), dto.getAdditionalProperty("hello"));
 
     final HashMap<String, String> additionalProperties = new HashMap<>();
     additionalProperties.put("hello", "world!");
     additionalProperties.put("admin-prop", "value");
-    assertEquals(additionalProperties, dto.getAdditionalProperties());
+    assertEquals(
+        additionalProperties,
+        dto.getAdditionalProperties().stream()
+            .collect(
+                toMap(NullableAdditionalProperty::getName, prop -> prop.getValue().orElse(null))));
     assertEquals(15, dto.getAmount());
     assertEquals(Optional.of("code"), dto.getCodeOpt());
 

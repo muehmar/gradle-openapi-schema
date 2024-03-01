@@ -75,7 +75,7 @@ class ObjectAdditionalPropertiesTest {
         "size must be between 5 and 2147483647",
         violations.stream().findFirst().get().getMessage());
     assertEquals(
-        "additionalProperties[prop1].descriptionRaw",
+        "additionalProperties_[prop1].descriptionRaw",
         violations.stream().findFirst().get().getPropertyPath().toString());
   }
 }
