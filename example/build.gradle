@@ -74,6 +74,7 @@ def specifications =
 
 def issueNumbers = [
         '71',
+        '158',
         '159',
         '182',
         '185',

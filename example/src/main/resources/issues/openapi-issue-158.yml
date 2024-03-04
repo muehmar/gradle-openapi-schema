@@ -1,0 +1,14 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    NullableStringProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: string
+        nullable: true
