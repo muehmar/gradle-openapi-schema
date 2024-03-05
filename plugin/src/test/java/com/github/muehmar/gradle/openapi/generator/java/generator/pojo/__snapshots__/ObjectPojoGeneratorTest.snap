@@ -4055,7 +4055,10 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -4315,7 +4318,10 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of Integer")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -6143,7 +6149,10 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of HelloDto")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -6405,7 +6414,10 @@ public class ObjectPojo1Dto {
 
   @JsonIgnore
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -6660,7 +6672,10 @@ public class ObjectPojo1Dto {
 
   @AssertTrue(message = "Not all additional properties are instances of HelloDto")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override

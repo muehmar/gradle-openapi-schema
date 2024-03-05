@@ -1,7 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
-import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OBJECTS;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
@@ -42,11 +43,34 @@ public class AdditionalPropertiesTypeValidationGenerator {
         .methodName("isAllAdditionalPropertiesHaveCorrectType")
         .noArguments()
         .doesNotThrow()
-        .content(
-            constant(
-                String.format(
-                    "return getAdditionalProperties().size() == %s.size();",
-                    additionalPropertiesName())))
+        .content(correctTypeMethodContent())
         .build();
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings> correctTypeMethodContent() {
+    return correctTypeMethodContentForNonNullableProperties()
+        .append(correctTypeMethodContentForNullableProperties());
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings>
+      correctTypeMethodContentForNullableProperties() {
+    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+        .append(constant("return additionalProperties.values()"))
+        .append(constant(".stream()"), 2)
+        .append(constant(".filter(Objects::nonNull)"), 2)
+        .append(constant(".allMatch(v -> castAdditionalProperty(v).toOptional().isPresent());"), 2)
+        .append(ref(JAVA_UTIL_OBJECTS))
+        .filter(props -> props.getType().getNullability().isNullable());
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings>
+      correctTypeMethodContentForNonNullableProperties() {
+    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+        .append(constant("return additionalProperties.values()"))
+        .append(constant(".stream()"), 2)
+        .append(constant(".filter(Objects::nonNull)"), 2)
+        .append(constant(".allMatch(v -> castAdditionalProperty(v).isPresent());"), 2)
+        .append(ref(JAVA_UTIL_OBJECTS))
+        .filter(props -> props.getType().getNullability().isNotNullable());
   }
 }
