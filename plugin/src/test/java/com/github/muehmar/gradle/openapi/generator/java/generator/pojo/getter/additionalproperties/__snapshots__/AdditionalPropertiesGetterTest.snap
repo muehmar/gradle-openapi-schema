@@ -40,6 +40,9 @@ public Optional<List<String>> getAdditionalProperty(String key) {
 }
 
 private Optional<List<String>> castAdditionalProperty(Object property) {
+  if (property == null) {
+    return Optional.empty();
+  }
   try {
     return Optional.of((List<String>) property);
   } catch (ClassCastException e) {
@@ -92,6 +95,9 @@ public Optional<ObjectDto> getAdditionalProperty(String key) {
 }
 
 private Optional<ObjectDto> castAdditionalProperty(Object property) {
+  if (property == null) {
+    return Optional.empty();
+  }
   try {
     return Optional.of((ObjectDto) property);
   } catch (ClassCastException e) {
@@ -145,6 +151,9 @@ public Optional<String> getAdditionalProperty(String key) {
 }
 
 private Optional<String> castAdditionalProperty(Object property) {
+  if (property == null) {
+    return Optional.empty();
+  }
   try {
     return Optional.of((String) property);
   } catch (ClassCastException e) {

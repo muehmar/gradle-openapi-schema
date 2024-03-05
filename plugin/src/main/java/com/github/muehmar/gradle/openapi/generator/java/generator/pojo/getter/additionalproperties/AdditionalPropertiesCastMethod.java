@@ -43,6 +43,9 @@ public class AdditionalPropertiesCastMethod {
   private static Generator<JavaAdditionalProperties, PojoSettings>
       castNotNullableAdditionalPropertyMethodContent() {
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+        .append(constant("if (property == null) {"))
+        .append(constant("return Optional.empty();"), 1)
+        .append(constant("}"))
         .append(constant("try {"))
         .append(
             (p, s, w) ->

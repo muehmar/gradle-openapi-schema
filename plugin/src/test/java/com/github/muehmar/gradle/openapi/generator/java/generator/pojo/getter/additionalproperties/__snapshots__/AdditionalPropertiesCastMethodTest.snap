@@ -2,6 +2,9 @@ additionalPropertiesTypeIsNotNullableString=[
 java.util.Optional
 
 private Optional<String> castAdditionalProperty(Object property) {
+  if (property == null) {
+    return Optional.empty();
+  }
   try {
     return Optional.of((String) property);
   } catch (ClassCastException e) {

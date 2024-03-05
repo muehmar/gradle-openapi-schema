@@ -4009,6 +4009,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<ColorEnum> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((ColorEnum) property);
     } catch (ClassCastException e) {
@@ -4266,6 +4269,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<Integer> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((Integer) property);
     } catch (ClassCastException e) {
@@ -6087,6 +6093,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<HelloDto> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((HelloDto) property);
     } catch (ClassCastException e) {
@@ -6347,6 +6356,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<HelloDto> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((HelloDto) property);
     } catch (ClassCastException e) {
@@ -6600,6 +6612,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<HelloDto> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((HelloDto) property);
     } catch (ClassCastException e) {
