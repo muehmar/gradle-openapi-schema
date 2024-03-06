@@ -12,3 +12,10 @@ components:
       additionalProperties:
         type: string
         nullable: true
+
+    NonNullableStringProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: string
