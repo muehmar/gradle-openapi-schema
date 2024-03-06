@@ -97,7 +97,7 @@ javax.validation.constraints.Size
  */
 @NotNull
 @Size(min = 5)
-public List<@Min(value = 5) @Max(value = 10) Integer> getListVal() {
+public List<@NotNull @Min(value = 5) @Max(value = 10) Integer> getListVal() {
   return listVal;
 }
 ]

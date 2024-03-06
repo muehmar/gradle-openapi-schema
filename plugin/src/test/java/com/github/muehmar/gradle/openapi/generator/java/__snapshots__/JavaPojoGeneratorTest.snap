@@ -34,7 +34,7 @@ public class PosologyDto {
    * Doses to be taken
    */
   @NotNull
-  public List<Double> getItems() {
+  public List<@NotNull Double> getItems() {
     return items;
   }
 
@@ -170,6 +170,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -225,6 +226,7 @@ public class SampleObjectPojo1Dto {
     return doubleVal;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;

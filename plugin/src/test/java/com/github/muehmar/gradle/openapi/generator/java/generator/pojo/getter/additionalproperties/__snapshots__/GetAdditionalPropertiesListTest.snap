@@ -75,18 +75,17 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.NullableAdditionalProperty
 java.util.List
 java.util.stream.Collectors
+java.util.stream.Stream
 
 @JsonIgnore
 public List<NullableAdditionalProperty<List<String>>> getAdditionalProperties() {
   return additionalProperties.entrySet().stream()
-      .map(
+      .flatMap(
           entry -> 
-              NullableAdditionalProperty.ofNullable(
-                  entry.getKey(),
-                  castAdditionalProperty(entry.getValue())
-                      .onValue(val -> val)
-                      .onNull(() -> null)
-                      .onAbsent(() -> null)))
+              castAdditionalProperty(entry.getValue())
+                  .onValue(val -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), val)))
+                  .onNull(() -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), null)))
+                  .onAbsent(Stream::empty))
       .collect(Collectors.toList());
 }
 ]
@@ -97,18 +96,17 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.NullableAdditionalProperty
 java.util.List
 java.util.stream.Collectors
+java.util.stream.Stream
 
 @JsonIgnore
 public List<NullableAdditionalProperty<ObjectDto>> getAdditionalProperties() {
   return additionalProperties.entrySet().stream()
-      .map(
+      .flatMap(
           entry -> 
-              NullableAdditionalProperty.ofNullable(
-                  entry.getKey(),
-                  castAdditionalProperty(entry.getValue())
-                      .onValue(val -> val)
-                      .onNull(() -> null)
-                      .onAbsent(() -> null)))
+              castAdditionalProperty(entry.getValue())
+                  .onValue(val -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), val)))
+                  .onNull(() -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), null)))
+                  .onAbsent(Stream::empty))
       .collect(Collectors.toList());
 }
 ]

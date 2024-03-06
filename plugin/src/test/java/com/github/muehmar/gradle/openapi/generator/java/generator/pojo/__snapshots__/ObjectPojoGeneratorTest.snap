@@ -78,6 +78,7 @@ public class PersonDto {
     return asUserDto();
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -627,6 +628,7 @@ public class PersonDto {
     return username;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -1190,6 +1192,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -1205,8 +1209,9 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  private Map<String, Object> getAdditionalProperties_() {
+  private Map<String, @NotNull Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
@@ -1628,6 +1633,7 @@ public class UserDto {
     return isAnotherPojoNotNull;
   }
 
+  @Valid
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -2361,6 +2367,7 @@ public class UserDto {
     return isAnotherPojoNotNull;
   }
 
+  @Valid
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -3426,6 +3433,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 @JsonDeserialize(builder = Illegal_IdentifierDto.Builder.class)
 public class Illegal_IdentifierDto {
@@ -3487,6 +3495,7 @@ public class Illegal_IdentifierDto {
     return point_;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -3914,7 +3923,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -3978,12 +3989,18 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  private Map<String, ColorEnum> getAdditionalProperties_() {
+  private Map<String, @NotNull ColorEnum> getAdditionalProperties_() {
     final Map<String, ColorEnum> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) ->
-            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
   }
 
@@ -4225,7 +4242,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -4241,12 +4260,18 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  private Map<String, Integer> getAdditionalProperties_() {
+  private Map<String, @NotNull Integer> getAdditionalProperties_() {
     final Map<String, Integer> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) ->
-            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
   }
 
@@ -5169,6 +5194,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -5293,6 +5319,7 @@ public class NecessityAndNullabilityDto {
     return optionalNullableStringVal;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -6053,6 +6080,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -6068,12 +6096,18 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  private Map<String, @Valid HelloDto> getAdditionalProperties_() {
+  private Map<String, @NotNull @Valid HelloDto> getAdditionalProperties_() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) ->
-            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
   }
 
@@ -6338,8 +6372,13 @@ public class ObjectPojo1Dto {
   private Map<String, HelloDto> getAdditionalProperties_() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) ->
-            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
   }
 
@@ -6581,6 +6620,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
@@ -6595,11 +6635,17 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
-  private Map<String, @Valid HelloDto> getAdditionalProperties_() {
+  @Valid
+  private Map<String, @NotNull @Valid HelloDto> getAdditionalProperties_() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) ->
-            castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
   }
 
@@ -6842,6 +6888,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
@@ -6862,10 +6909,11 @@ public class ObjectPojo1Dto {
    * List
    */
   @NotNull
-  public List<String> getListVal() {
+  public List<@NotNull String> getListVal() {
     return listVal;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -7182,6 +7230,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -7203,10 +7252,11 @@ public class ObjectPojo1Dto {
    */
   @NotNull
   @Size(min = 3, max = 8)
-  public Map<String, UUID> getMapVal() {
+  public Map<String, @NotNull UUID> getMapVal() {
     return mapVal;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -7580,6 +7630,7 @@ public class PersonDto {
     return username;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -8118,6 +8169,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -8216,6 +8268,7 @@ public class UserDto {
     return isLanguageNotNull;
   }
 
+  @Valid
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -8405,6 +8458,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -8512,6 +8566,7 @@ public class UserDto {
     return isLanguageNotNull;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
@@ -8706,6 +8761,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -8787,6 +8843,7 @@ public class ObjectPojo1Dto {
     return value == null || value instanceof String;
   }
 
+  @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;

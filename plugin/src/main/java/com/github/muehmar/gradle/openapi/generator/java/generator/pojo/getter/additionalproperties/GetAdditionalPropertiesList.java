@@ -62,16 +62,22 @@ class GetAdditionalPropertiesList {
             .append(ref(NULLABLE_ADDITIONAL_PROPERTY))
             .filter(JavaAdditionalProperties::isValueAnyType);
     final Generator<JavaAdditionalProperties, PojoSettings> specificTypeMap =
-        Generator.<JavaAdditionalProperties, PojoSettings>constant(".map(")
+        Generator.<JavaAdditionalProperties, PojoSettings>constant(".flatMap(")
             .append(constant("entry -> "), 2)
+            .append(constant("%s(entry.getValue())", AdditionalPropertiesCastMethod.METHOD_NAME), 4)
             .append(
-                constant("%s.ofNullable(", NullableAdditionalPropertyClassGenerator.CLASSNAME), 4)
-            .append(constant("entry.getKey(),"), 6)
-            .append(constant("%s(entry.getValue())", AdditionalPropertiesCastMethod.METHOD_NAME), 6)
-            .append(constant(".onValue(val -> val)"), 8)
-            .append(constant(".onNull(() -> null)"), 8)
-            .append(constant(".onAbsent(() -> null)))"), 8)
+                constant(
+                    ".onValue(val -> Stream.of(%s.ofNullable(entry.getKey(), val)))",
+                    NullableAdditionalPropertyClassGenerator.CLASSNAME),
+                6)
+            .append(
+                constant(
+                    ".onNull(() -> Stream.of(%s.ofNullable(entry.getKey(), null)))",
+                    NullableAdditionalPropertyClassGenerator.CLASSNAME),
+                6)
+            .append(constant(".onAbsent(Stream::empty))"), 6)
             .append(ref(NULLABLE_ADDITIONAL_PROPERTY))
+            .append(ref(JAVA_UTIL_STREAM_STREAM))
             .filter(JavaAdditionalProperties::isNotValueAnyType);
     return Generator.<JavaAdditionalProperties, PojoSettings>constant(
             "return %s.entrySet().stream()", additionalPropertiesName())

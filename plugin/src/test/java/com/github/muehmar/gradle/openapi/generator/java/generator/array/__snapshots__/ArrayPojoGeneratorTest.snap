@@ -36,7 +36,7 @@ public class PosologyDto {
    * Doses to be taken
    */
   @NotNull
-  public List<Double> getItems() {
+  public List<@NotNull Double> getItems() {
     return items;
   }
 

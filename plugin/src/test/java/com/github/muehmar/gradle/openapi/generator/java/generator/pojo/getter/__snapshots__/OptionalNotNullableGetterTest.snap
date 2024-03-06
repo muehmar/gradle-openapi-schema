@@ -224,6 +224,7 @@ java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Max
 javax.validation.constraints.Min
+javax.validation.constraints.NotNull
 javax.validation.constraints.Size
 
 /**
@@ -245,7 +246,7 @@ public List<Integer> getListValOr(List<Integer> defaultValue) {
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Size(min = 5)
-private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
+private List<@NotNull @Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
   return listVal;
 }
 

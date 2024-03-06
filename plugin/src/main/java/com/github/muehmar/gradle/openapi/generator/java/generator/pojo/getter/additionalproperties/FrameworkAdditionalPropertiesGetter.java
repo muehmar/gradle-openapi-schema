@@ -46,6 +46,7 @@ public class FrameworkAdditionalPropertiesGetter {
             .append(javaTypeRefs(), pojo -> pojo.getAdditionalProperties().getMapContainerType());
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
+        .append(ValidationAnnotationGenerator.validAnnotation())
         .append(JacksonAnnotationGenerator.jsonAnyGetter())
         .append(method);
   }
@@ -99,12 +100,17 @@ public class FrameworkAdditionalPropertiesGetter {
   private static Generator<JavaAdditionalProperties, PojoSettings>
       getterContentForSpecificNotNullableTypeLambda() {
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
-        .append(constant("(key, value) ->"), 2)
+        .append(constant("(key, value) -> {"), 2)
+        .append(constant("if (value == null) {"), 3)
+        .append(constant("props.put(key, null);"), 4)
+        .append(constant("} else {"), 3)
         .append(
             constant(
-                "%s(value).ifPresent(v -> props.put(key, v)));",
+                "%s(value).ifPresent(val -> props.put(key, val));",
                 AdditionalPropertiesCastMethod.METHOD_NAME),
             4)
+        .append(constant("}"), 3)
+        .append(constant("});"), 2)
         .filter(props -> props.getType().getNullability().isNotNullable());
   }
 }
