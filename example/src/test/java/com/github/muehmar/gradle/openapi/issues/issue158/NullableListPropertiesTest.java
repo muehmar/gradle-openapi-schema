@@ -1,8 +1,10 @@
 package com.github.muehmar.gradle.openapi.issues.issue158;
 
-import static com.github.muehmar.gradle.openapi.issues.issue158.NullableStringPropertiesDto.nullableStringPropertiesDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue158.NullableListPropertiesDto.nullableListPropertiesDtoBuilder;
+import static com.github.muehmar.gradle.openapi.issues.issue158.NullableListPropertiesPropertyDto.fromItems;
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,86 +24,87 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
-class NullableStringPropertiesTest {
+public class NullableListPropertiesTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
 
   @Test
   void serialize_when_dto_then_correctJson() throws JsonProcessingException {
-    final NullableStringPropertiesDto dto =
-        nullableStringPropertiesDtoBuilder()
+    final NullableListPropertiesDto dto =
+        nullableListPropertiesDtoBuilder()
             .andAllOptionals()
             .setFoo("foo")
-            .addAdditionalProperty("hello", "world")
-            .addAdditionalProperty("allegra", Tristate.ofValue("svizra"))
+            .addAdditionalProperty("hello", fromItems(singletonList("world")))
+            .addAdditionalProperty("allegra", Tristate.ofValue(fromItems(singletonList("svizra"))))
             .addAdditionalProperty("hi", Tristate.ofNull())
             .addAdditionalProperty("ciao", Tristate.ofAbsent())
             .build();
 
     final String json = MAPPER.writeValueAsString(dto);
 
-    assertEquals("{\"foo\":\"foo\",\"hi\":null,\"hello\":\"world\",\"allegra\":\"svizra\"}", json);
+    assertEquals(
+        "{\"foo\":\"foo\",\"hi\":null,\"hello\":[\"world\"],\"allegra\":[\"svizra\"]}", json);
   }
 
   @Test
   void deserialize_when_json_then_correctDto() throws JsonProcessingException {
-    final String json = "{\"foo\":\"foo\",\"hi\":null,\"hello\":\"world\"}";
+    final String json = "{\"foo\":\"foo\",\"hi\":null,\"hello\":[\"world\"]}";
 
-    final NullableStringPropertiesDto dto =
-        MAPPER.readValue(json, NullableStringPropertiesDto.class);
+    final NullableListPropertiesDto dto = MAPPER.readValue(json, NullableListPropertiesDto.class);
 
-    final NullableStringPropertiesDto expectedDto =
-        nullableStringPropertiesDtoBuilder()
+    final NullableListPropertiesDto expectedDto =
+        nullableListPropertiesDtoBuilder()
             .andAllOptionals()
             .setFoo("foo")
-            .addAdditionalProperty("hello", "world")
+            .addAdditionalProperty("hello", fromItems(singletonList("world")))
             .addAdditionalProperty("hi", Tristate.ofNull())
             .build();
 
     assertEquals(expectedDto, dto);
     assertEquals(Tristate.ofNull(), dto.getAdditionalProperty("hi"));
-    assertEquals(Tristate.ofValue("world"), dto.getAdditionalProperty("hello"));
-    assertEquals(Tristate.ofAbsent(), dto.getAdditionalProperty("notPresent"));
+    assertEquals(
+        Tristate.ofValue(fromItems(singletonList("world"))), dto.getAdditionalProperty("hello"));
+    assertEquals(Tristate.ofAbsent(), dto.getAdditionalProperty("ciao"));
     final String joinedProperties =
         dto.getAdditionalProperties().stream()
             .sorted(Comparator.comparing(NullableAdditionalProperty::getName))
             .map(prop -> String.format("%s: %s", prop.getName(), prop.getValue().orElse(null)))
             .collect(Collectors.joining(", "));
 
-    assertEquals("hello: world, hi: null", joinedProperties);
+    assertEquals(
+        "hello: NullableListPropertiesPropertyDto{items=[world]}, hi: null", joinedProperties);
   }
 
   @Test
   void validate_when_validJson_then_noViolations() throws JsonProcessingException {
-    final String json = "{\"foo\":\"foo\",\"hi\":null,\"hello\":\"world\"}";
+    final String json = "{\"foo\":\"foo\",\"hi\":null,\"hello\":[\"world\"]}";
 
-    final NullableStringPropertiesDto dto =
-        MAPPER.readValue(json, NullableStringPropertiesDto.class);
+    final NullableListPropertiesDto dto = MAPPER.readValue(json, NullableListPropertiesDto.class);
 
-    final Set<ConstraintViolation<NullableStringPropertiesDto>> violations = validate(dto);
+    final Set<ConstraintViolation<NullableListPropertiesDto>> violations = validate(dto);
 
     assertEquals(Collections.emptySet(), violations);
     assertTrue(dto.isValid());
   }
 
   @Test
-  void validate_when_additionalPropertyNotStringType_then_violation()
+  void validate_when_additionalPropertyNotListType_then_violation()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-    final NullableStringPropertiesDto.Builder builder =
-        nullableStringPropertiesDtoBuilder().andOptionals().setFoo("foo");
+    final NullableListPropertiesDto.Builder builder =
+        nullableListPropertiesDtoBuilder().andOptionals().setFoo("foo");
 
     final Method addAdditionalProperty =
         builder.getClass().getDeclaredMethod("addAdditionalProperty", String.class, Object.class);
     addAdditionalProperty.setAccessible(true);
     addAdditionalProperty.invoke(builder, "hello", 1);
 
-    final NullableStringPropertiesDto dto = builder.build();
+    final NullableListPropertiesDto dto = builder.build();
 
-    final Set<ConstraintViolation<NullableStringPropertiesDto>> violations = validate(dto);
+    final Set<ConstraintViolation<NullableListPropertiesDto>> violations = validate(dto);
 
     assertEquals(
         Collections.singletonList(
-            "allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String"),
+            "allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of NullableListPropertiesPropertyDto"),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }
@@ -110,19 +113,33 @@ class NullableStringPropertiesTest {
   void getAdditionalProperties_when_additionalPropertyNotStringType_then_listIsEmpty()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-    final NullableStringPropertiesDto.Builder builder =
-        nullableStringPropertiesDtoBuilder().andOptionals().setFoo("foo");
+    final NullableListPropertiesDto.Builder builder =
+        nullableListPropertiesDtoBuilder().andOptionals().setFoo("foo");
 
     final Method addAdditionalProperty =
         builder.getClass().getDeclaredMethod("addAdditionalProperty", String.class, Object.class);
     addAdditionalProperty.setAccessible(true);
     addAdditionalProperty.invoke(builder, "hello", 1);
 
-    final NullableStringPropertiesDto dto = builder.build();
+    final NullableListPropertiesDto dto = builder.build();
 
-    final List<NullableAdditionalProperty<String>> additionalProperties =
+    final List<NullableAdditionalProperty<NullableListPropertiesPropertyDto>> additionalProperties =
         dto.getAdditionalProperties();
 
     assertEquals(Collections.emptyList(), additionalProperties);
+  }
+
+  @Test
+  void validate_when_listItemStringIsTooLong_then_violation() throws JsonProcessingException {
+    final String json = "{\"foo\":\"foo\",\"hello\":[\"worldworldworld\"]}";
+
+    final NullableListPropertiesDto dto = MAPPER.readValue(json, NullableListPropertiesDto.class);
+
+    final Set<ConstraintViolation<NullableListPropertiesDto>> violations = validate(dto);
+    assertEquals(
+        Collections.singletonList(
+            "additionalProperties_[hello].items[0].<list element> -> size must be between 0 and 10"),
+        formatViolations(violations));
+    assertFalse(dto.isValid());
   }
 }
