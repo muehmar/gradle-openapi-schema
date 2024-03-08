@@ -15,15 +15,15 @@ import java.util.function.Function;
 public interface JavaType {
   QualifiedClassName getQualifiedClassName();
 
+  /**
+   * Returns the qualified classnames used for this type, including the classes of possible type
+   * parameters
+   */
+  PList<QualifiedClassName> getAllQualifiedClassNames();
+
   Nullability getNullability();
 
   JavaType withNullability(Nullability nullability);
-
-  /**
-   * Returns the qualified classnames used for this type, including the classes of possible type
-   * parameters.s
-   */
-  PList<QualifiedClassName> getAllQualifiedClassNames();
 
   ParameterizedClassName getParameterizedClassName();
 
