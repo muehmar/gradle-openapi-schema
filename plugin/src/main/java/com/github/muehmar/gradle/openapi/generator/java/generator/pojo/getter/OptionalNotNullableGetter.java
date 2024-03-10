@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isValidationEnabled;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJsonOrValidation;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
@@ -57,7 +57,7 @@ class OptionalNotNullableGetter {
         .append(jsonIncludeNonNull())
         .append(validationAnnotationsForMember().filter(option.validationFilter()))
         .append(CommonGetter.rawGetterMethod())
-        .filter(Filters.<JavaPojoMember>isJacksonJson().or(isValidationEnabled()));
+        .filter(isJacksonJsonOrValidation());
   }
 
   private static Generator<JavaPojoMember, PojoSettings>

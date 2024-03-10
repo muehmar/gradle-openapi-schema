@@ -17,7 +17,7 @@ import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
 import java.util.function.BiFunction;
 
-class CommonGetter {
+public class CommonGetter {
   private CommonGetter() {}
 
   public static Generator<JavaPojoMember, PojoSettings> getterMethod(
@@ -85,7 +85,7 @@ class CommonGetter {
   }
 
   public static BiFunction<JavaPojoMember, PojoSettings, String> getterName() {
-    return (field, settings) -> field.getGetterNameWithSuffix(settings).asString();
+    return (member, settings) -> member.getGetterNameWithSuffix(settings).asString();
   }
 
   public static Generator<JavaPojoMember, PojoSettings> rawGetterMethod() {
