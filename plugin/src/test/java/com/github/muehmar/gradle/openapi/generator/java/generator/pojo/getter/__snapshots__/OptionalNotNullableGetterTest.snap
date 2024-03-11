@@ -154,6 +154,7 @@ public Optional<String> getStringVal() {
 public String getStringValOr(String defaultValue) {
   return this.stringVal == null ? defaultValue : this.stringVal;
 }
+
 ]
 
 
@@ -212,6 +213,7 @@ public Optional<String> getStringValOpt() {
 public String getStringValOr(String defaultValue) {
   return this.stringVal == null ? defaultValue : this.stringVal;
 }
+
 ]
 
 

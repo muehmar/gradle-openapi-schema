@@ -1,10 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -99,6 +103,51 @@ public class CommonGetter {
         .noArguments()
         .doesNotThrow()
         .content(f -> String.format("return %s;", f.getName()))
+        .build();
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings>
+      notNullableValidationMethodWithAnnotation() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(deprecatedJavaDocAndAnnotationForValidationMethod())
+        .append(
+            assertTrue(
+                f -> String.format("%s is required to be non-null but is null", f.getName())))
+        .append(jsonIgnore())
+        .append(notNullableValidationMethod())
+        .filter(Filters.isValidationEnabled());
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> notNullableValidationMethod() {
+    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
+        .modifiers(SettingsFunctions::validationMethodModifiers)
+        .noGenericTypes()
+        .returnType("boolean")
+        .methodName(member -> member.getIsNotNullFlagName().asString())
+        .noArguments()
+        .doesNotThrow()
+        .content(member -> String.format("return %s;", member.getIsNotNullFlagName()))
+        .build();
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> requiredValidationMethodWithAnnotation() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(deprecatedJavaDocAndAnnotationForValidationMethod())
+        .append(assertTrue(f -> String.format("%s is required but it is not present", f.getName())))
+        .append(jsonIgnore())
+        .append(requiredValidationMethod())
+        .filter(Filters.isValidationEnabled());
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> requiredValidationMethod() {
+    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
+        .modifiers(SettingsFunctions::validationMethodModifiers)
+        .noGenericTypes()
+        .returnType("boolean")
+        .methodName(member -> member.getIsPresentFlagName().asString())
+        .noArguments()
+        .doesNotThrow()
+        .content(member -> String.format("return %s;", member.getIsPresentFlagName()))
         .build();
   }
 }
