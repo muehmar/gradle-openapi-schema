@@ -1,0 +1,39 @@
+nullableStringItem=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+/**
+ * List
+ */
+@JsonIgnore
+public Optional<List<Optional<String>>> getListVal() {
+  return Optional.ofNullable(wrapNullableItemsList(listVal));
+}
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) {
+  return this.listVal == null ? defaultValue : wrapNullableItemsList(this.listVal);
+}
+.
+.
+@Size(min = 5, max = 10)
+@JsonProperty("listVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<@Pattern(regexp="pattern") String> getListValRaw() {
+  return listVal;
+}
+
+@AssertTrue(message = "listVal is required to be non-null but is null")
+@JsonIgnore
+private boolean isListValNotNull() {
+  return isListValNotNull;
+}
+]
