@@ -1,9 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
+import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
@@ -149,5 +153,30 @@ public class CommonGetter {
         .doesNotThrow()
         .content(member -> String.format("return %s;", member.getIsPresentFlagName()))
         .build();
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> jacksonSerialisationMethod() {
+    final Generator<JavaPojoMember, PojoSettings> method =
+        JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
+            .modifiers(PRIVATE)
+            .noGenericTypes()
+            .returnType("Object")
+            .methodName(f -> String.format("%sJackson", f.getGetterName()))
+            .noArguments()
+            .doesNotThrow()
+            .content(
+                f ->
+                    String.format(
+                        "return %s ? new JacksonNullContainer<>(%s) : %s;",
+                        f.getIsNullFlagName(), f.getName(), f.getName()))
+            .build()
+            .append(RefsGenerator.fieldRefs())
+            .append(w -> w.ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER));
+
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(jsonProperty())
+        .append(jsonIncludeNonNull())
+        .append(method)
+        .filter(isJacksonJson());
   }
 }

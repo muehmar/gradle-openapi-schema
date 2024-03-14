@@ -122,6 +122,7 @@ public Tristate<String> getStringVal() {
 private Object getStringValJackson() {
   return isStringValNull ? new JacksonNullContainer<>(stringVal) : stringVal;
 }
+
 ]
 
 
@@ -134,6 +135,7 @@ com.github.muehmar.openapi.util.Tristate
 public Tristate<String> getStringValOptNull() {
   return Tristate.ofNullableAndNullFlag(stringVal, isStringValNull);
 }
+
 ]
 
 
