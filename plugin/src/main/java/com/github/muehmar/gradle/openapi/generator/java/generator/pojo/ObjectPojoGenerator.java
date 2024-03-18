@@ -18,6 +18,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter.requiredAdditionalPropertiesGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.AdditionalPropertiesGetter.additionalPropertiesGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.map.MapFactoryMethodeGenerator.mapFactoryMethodeGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.NullableItemsListWrappers.nullableItemsListWrappers;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.AdditionalPropertiesTypeValidationGenerator.additionalPropertiesTypeValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.MultipleOfValidationMethodGenerator.multipleOfValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.validation.NoAdditionalPropertiesValidationMethodGenerator.noAdditionalPropertiesValidationMethodGenerator;
@@ -81,6 +82,8 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .append(getters())
         .appendSingleBlankLine()
         .append(witherGenerator(), JavaObjectPojo::getWitherContent)
+        .appendSingleBlankLine()
+        .append(nullableItemsListWrappers())
         .appendSingleBlankLine()
         .append(foldMethodGenerator())
         .appendSingleBlankLine()
