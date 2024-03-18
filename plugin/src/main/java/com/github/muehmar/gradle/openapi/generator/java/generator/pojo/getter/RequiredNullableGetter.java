@@ -28,7 +28,7 @@ class RequiredNullableGetter {
         .appendSingleBlankLine()
         .append(nullableGetterMethodWithAnnotations(option))
         .appendSingleBlankLine()
-        .append(requiredValidationMethodWithAnnotation())
+        .append(requiredValidationMethodWithAnnotation().filter(option.validationFilter()))
         .append(RefsGenerator.fieldRefs())
         .filter(JavaPojoMember::isRequiredAndNullable);
   }

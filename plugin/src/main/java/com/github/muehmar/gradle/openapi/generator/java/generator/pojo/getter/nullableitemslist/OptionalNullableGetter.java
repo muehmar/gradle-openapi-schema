@@ -9,6 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -16,15 +17,16 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 
-public class OptionalNullableGetter {
+class OptionalNullableGetter {
   private OptionalNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> optionalNullableGetter() {
+  public static Generator<JavaPojoMember, PojoSettings> optionalNullableGetter(
+      GetterGenerator.GeneratorOption option) {
     return tristateGetterMethod()
         .appendSingleBlankLine()
         .append(jacksonSerialisationMethod())
         .appendSingleBlankLine()
-        .append(validationGetter())
+        .append(validationGetter().filter(option.validationFilter()))
         .filter(JavaPojoMember::isOptionalAndNullable);
   }
 

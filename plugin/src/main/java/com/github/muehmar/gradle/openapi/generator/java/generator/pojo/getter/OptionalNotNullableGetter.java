@@ -29,7 +29,7 @@ class OptionalNotNullableGetter {
         .appendSingleBlankLine()
         .append(rawGetter(option))
         .appendSingleBlankLine()
-        .append(notNullableValidationMethodWithAnnotation())
+        .append(notNullableValidationMethodWithAnnotation().filter(option.validationFilter()))
         .append(RefsGenerator.fieldRefs())
         .filter(JavaPojoMember::isOptionalAndNotNullable);
   }

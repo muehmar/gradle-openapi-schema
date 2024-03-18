@@ -10,19 +10,21 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 
-public class RequiredNotNullableGetter {
+class RequiredNotNullableGetter {
   private RequiredNotNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> requiredNotNullableGetterGenerator() {
+  public static Generator<JavaPojoMember, PojoSettings> requiredNotNullableGetterGenerator(
+      GetterGenerator.GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(getterMethod())
         .appendSingleBlankLine()
-        .append(frameworkGetter())
+        .append(frameworkGetter(option))
         .filter(JavaPojoMember::isRequiredAndNotNullable);
   }
 
@@ -47,11 +49,12 @@ public class RequiredNotNullableGetter {
         .append(RefsGenerator.fieldRefs());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> frameworkGetter() {
+  private static Generator<JavaPojoMember, PojoSettings> frameworkGetter(
+      GetterGenerator.GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
-        .append(validationAnnotationsForMember())
+        .append(validationAnnotationsForMember().filter(option.validationFilter()))
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
         .append(CommonGetter.rawGetterMethod())

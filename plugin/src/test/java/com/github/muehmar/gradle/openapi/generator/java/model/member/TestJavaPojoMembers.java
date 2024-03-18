@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
@@ -293,6 +294,26 @@ public class TestJavaPojoMembers {
         .necessity(REQUIRED)
         .type(OBJECT_MEMBER)
         .build();
+  }
+
+  public static JavaPojoMember requiredListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.requiredListWithNullableItems(), invoiceName(), TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredNullableListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.requiredNullableListWithNullableItems(), invoiceName(), TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.optionalListWithNullableItems(), invoiceName(), TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalNullableListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.optionalNullableListWithNullableItems(), invoiceName(), TypeMappings.empty());
   }
 
   public static JavaPojoMember keywordNameString() {

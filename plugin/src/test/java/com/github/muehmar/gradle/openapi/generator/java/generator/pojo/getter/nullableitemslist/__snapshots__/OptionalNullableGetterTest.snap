@@ -1,4 +1,26 @@
-nullableStringItem=[
+nullableStringItem[NO_VALIDATION]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+com.github.muehmar.openapi.util.Tristate
+java.util.List
+
+@JsonIgnore
+public Tristate<List<Optional<String>>> getListVal() {
+  return Tristate.ofNullableAndNullFlag(wrapNullableItemsList(listVal), isListValNull);
+}
+
+@JsonProperty("listVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getListValJackson() {
+  return isListValNull ? new JacksonNullContainer<>(listVal) : listVal;
+}
+
+]
+
+
+nullableStringItem[STANDARD]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty

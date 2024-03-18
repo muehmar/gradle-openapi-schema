@@ -46,17 +46,21 @@ public interface JavaType {
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType);
 
-  default boolean isArrayType() {
+  default Optional<JavaArrayType> onArrayType() {
     return fold(
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance);
+        Optional::of,
+        javaBooleanType -> Optional.empty(),
+        javaEnumType -> Optional.empty(),
+        javaMapType -> Optional.empty(),
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        javaObjectType -> Optional.empty(),
+        javaStringType -> Optional.empty());
+  }
+
+  default boolean isArrayType() {
+    return onArrayType().isPresent();
   }
 
   default boolean isMapType() {

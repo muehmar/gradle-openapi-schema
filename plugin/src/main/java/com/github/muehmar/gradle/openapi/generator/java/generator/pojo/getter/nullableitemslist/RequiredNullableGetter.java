@@ -10,22 +10,24 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 
-public class RequiredNullableGetter {
+class RequiredNullableGetter {
   private RequiredNullableGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> requiredNullableGetterGenerator() {
+  public static Generator<JavaPojoMember, PojoSettings> requiredNullableGetterGenerator(
+      GetterGenerator.GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
         .appendSingleBlankLine()
         .append(alternateGetter())
         .appendSingleBlankLine()
-        .append(frameworkGetter())
+        .append(frameworkGetter(option))
         .appendSingleBlankLine()
-        .append(requiredValidationMethodWithAnnotation())
+        .append(requiredValidationMethodWithAnnotation().filter(option.validationFilter()))
         .filter(JavaPojoMember::isRequiredAndNullable);
   }
 
@@ -43,11 +45,12 @@ public class RequiredNullableGetter {
         .append(NullableItemsListCommonGetter.wrapNullableInOptionalGetterOrMethod());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> frameworkGetter() {
+  private static Generator<JavaPojoMember, PojoSettings> frameworkGetter(
+      GetterGenerator.GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
-        .append(validationAnnotationsForMember())
+        .append(validationAnnotationsForMember().filter(option.validationFilter()))
         .append(jsonProperty())
         .append(CommonGetter.rawGetterMethod())
         .filter(isJacksonJsonOrValidation());
