@@ -2,7 +2,6 @@ nullableStringItem[NO_VALIDATION]=[
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-javax.validation.constraints.Pattern
 
 public List<Optional<String>> getListVal() {
   return wrapNullableItemsList(listVal);
@@ -11,7 +10,7 @@ public List<Optional<String>> getListVal() {
 .
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private List<@Pattern(regexp="pattern") String> getListValRaw() {
+private List<String> getListValRaw() {
   return listVal;
 }
 ]

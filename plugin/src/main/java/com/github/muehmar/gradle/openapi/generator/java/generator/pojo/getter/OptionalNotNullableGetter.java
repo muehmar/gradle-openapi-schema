@@ -54,7 +54,7 @@ class OptionalNotNullableGetter {
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
         .append(validationAnnotationsForMember().filter(option.validationFilter()))
-        .append(CommonGetter.rawGetterMethod())
+        .append(CommonGetter.rawGetterMethod(option))
         .filter(isJacksonJsonOrValidation());
   }
 }

@@ -3,7 +3,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-javax.validation.constraints.Pattern
 
 /**
  * List
@@ -24,7 +23,7 @@ public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) 
 .
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private List<@Pattern(regexp="pattern") String> getListValRaw() {
+private List<String> getListValRaw() {
   return listVal;
 }
 
