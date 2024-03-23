@@ -15,13 +15,6 @@ public class NullableItemsListWrappers {
   }
 
   private static boolean needsNullableItemsListWrappers(JavaObjectPojo pojo) {
-    return pojo.getAllMembers()
-        .exists(
-            member ->
-                member
-                    .getJavaType()
-                    .onArrayType()
-                    .map(arrayType -> arrayType.getItemType().getNullability().isNullable())
-                    .orElse(false));
+    return pojo.getAllMembers().exists(member -> member.getJavaType().isNullableItemsArrayType());
   }
 }

@@ -5198,6 +5198,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * NecessityAndNullability
@@ -5211,6 +5212,13 @@ public class NecessityAndNullabilityDto {
   private final boolean isOptionalStringValNotNull;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final List<String> requiredListWithNullableItems;
+  private final List<String> requiredNullableListWithNullableItems;
+  private final boolean isRequiredNullableListWithNullableItemsPresent;
+  private final List<String> optionalListWithNullableItems;
+  private final boolean isOptionalListWithNullableItemsNotNull;
+  private final List<String> optionalNullableListWithNullableItems;
+  private final boolean isOptionalNullableListWithNullableItemsNull;
   private final Map<String, Object> additionalProperties;
 
   public NecessityAndNullabilityDto(
@@ -5221,6 +5229,13 @@ public class NecessityAndNullabilityDto {
       boolean isOptionalStringValNotNull,
       String optionalNullableStringVal,
       boolean isOptionalNullableStringValNull,
+      List<String> requiredListWithNullableItems,
+      List<String> requiredNullableListWithNullableItems,
+      boolean isRequiredNullableListWithNullableItemsPresent,
+      List<String> optionalListWithNullableItems,
+      boolean isOptionalListWithNullableItemsNotNull,
+      List<String> optionalNullableListWithNullableItems,
+      boolean isOptionalNullableListWithNullableItemsNull,
       Map<String, Object> additionalProperties
     ) {
     this.requiredStringVal = requiredStringVal;
@@ -5230,6 +5245,13 @@ public class NecessityAndNullabilityDto {
     this.isOptionalStringValNotNull = isOptionalStringValNotNull;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.requiredListWithNullableItems = requiredListWithNullableItems;
+    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+    this.isRequiredNullableListWithNullableItemsPresent = isRequiredNullableListWithNullableItemsPresent;
+    this.optionalListWithNullableItems = optionalListWithNullableItems;
+    this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
+    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+    this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -5319,6 +5341,96 @@ public class NecessityAndNullabilityDto {
     return optionalNullableStringVal;
   }
 
+  public List<Optional<String>> getRequiredListWithNullableItems() {
+    return wrapNullableItemsList(requiredListWithNullableItems);
+  }
+.
+.
+  @NotNull
+  @Size(min = 5, max = 10)
+  @JsonProperty("requiredListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
+    return requiredListWithNullableItems;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  @JsonIgnore
+  public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems() {
+    return Optional.ofNullable(wrapNullableItemsList(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  @JsonIgnore
+  public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Optional<String>> defaultValue) {
+    return this.requiredNullableListWithNullableItems == null ? defaultValue : wrapNullableItemsList(this.requiredNullableListWithNullableItems);
+  }
+.
+.
+  @Size(min = 5, max = 10)
+  @JsonProperty("requiredNullableListWithNullableItems")
+  private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
+    return requiredNullableListWithNullableItems;
+  }
+
+  @AssertTrue(message = "requiredNullableListWithNullableItems is required but it is not present")
+  @JsonIgnore
+  private boolean isRequiredNullableListWithNullableItemsPresent() {
+    return isRequiredNullableListWithNullableItemsPresent;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
+  public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
+    return Optional.ofNullable(wrapNullableItemsList(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
+  public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<String>> defaultValue) {
+    return this.optionalListWithNullableItems == null ? defaultValue : wrapNullableItemsList(this.optionalListWithNullableItems);
+  }
+.
+.
+  @Size(min = 5, max = 10)
+  @JsonProperty("optionalListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+    return optionalListWithNullableItems;
+  }
+
+  @AssertTrue(message = "optionalListWithNullableItems is required to be non-null but is null")
+  @JsonIgnore
+  private boolean isOptionalListWithNullableItemsNotNull() {
+    return isOptionalListWithNullableItemsNotNull;
+  }
+
+  @JsonIgnore
+  public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
+    return Tristate.ofNullableAndNullFlag(wrapNullableItemsList(optionalNullableListWithNullableItems), isOptionalNullableListWithNullableItemsNull);
+  }
+
+  @JsonProperty("optionalNullableListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableListWithNullableItemsJackson() {
+    return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
+  }
+.
+.
+  @JsonIgnore
+  @Size(min = 5, max = 10)
+  private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
+    return optionalNullableListWithNullableItems;
+  }
+
   @Valid
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
@@ -5357,6 +5469,10 @@ public class NecessityAndNullabilityDto {
       (isRequiredNullableStringValPresent ? 1 : 0) +
       (optionalStringVal != null ? 1 : 0) +
       ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+      (requiredListWithNullableItems != null ? 1 : 0) +
+      (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
+      (optionalListWithNullableItems != null ? 1 : 0) +
+      ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
       additionalProperties.size();
   }
 
@@ -5364,49 +5480,155 @@ public class NecessityAndNullabilityDto {
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, false, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, false, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredListWithNullableItems(List<Optional<String>> requiredListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, unwrapNullableItemsList(requiredListWithNullableItems), requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems.orElse(null), requiredNullableListWithNullableItems.isPresent(), optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(List<Optional<String>> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems), true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)), requiredNullableListWithNullableItems.isPresent(), optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems.orElse(null), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems(List<Optional<String>> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, unwrapNullableItemsList(optionalListWithNullableItems), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems(Optional<List<Optional<String>>> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, unwrapNullableItemsList(optionalListWithNullableItems.orElse(null)), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, false, additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(List<Optional<String>> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, unwrapNullableItemsList(optionalNullableListWithNullableItems), false, additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, unwrapNullableItemsList(optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)), optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+  }
+
+  private static <T> List<Optional<T>> wrapNullableItemsList(List<T> list) {
+    return list.stream().map(Optional::ofNullable).collect(Collectors.toList());
+  }
+
+  private static <T> List<T> unwrapNullableItemsList(Optional<List<T>> list) {
+    return list.stream().map(value -> value.orElse(null)).collect(Collectors.toList());
   }
 
   boolean isValid() {
@@ -5446,6 +5668,78 @@ public class NecessityAndNullabilityDto {
       return true;
     }
 
+    private boolean isRequiredListWithNullableItemsValid() {
+      if(requiredListWithNullableItems != null) {
+        return 5 <= requiredListWithNullableItems.size()
+            && requiredListWithNullableItems.size() <= 10
+            && requiredListWithNullableItems.stream().allMatch(this::isRequiredListWithNullableItemsValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isRequiredListWithNullableItemsValueValid(String requiredListWithNullableItemsValue) {
+      if(requiredListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
+    private boolean isRequiredNullableListWithNullableItemsValid() {
+      if(requiredNullableListWithNullableItems != null) {
+        return 5 <= requiredNullableListWithNullableItems.size()
+            && requiredNullableListWithNullableItems.size() <= 10
+            && requiredNullableListWithNullableItems.stream().allMatch(this::isRequiredNullableListWithNullableItemsValueValid);
+      }
+
+      return isRequiredNullableListWithNullableItemsPresent;
+    }
+
+    private boolean isRequiredNullableListWithNullableItemsValueValid(String requiredNullableListWithNullableItemsValue) {
+      if(requiredNullableListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredNullableListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalListWithNullableItemsValid() {
+      if(optionalListWithNullableItems != null) {
+        return 5 <= optionalListWithNullableItems.size()
+            && optionalListWithNullableItems.size() <= 10
+            && optionalListWithNullableItems.stream().allMatch(this::isOptionalListWithNullableItemsValueValid);
+      }
+
+      return isOptionalListWithNullableItemsNotNull;
+    }
+
+    private boolean isOptionalListWithNullableItemsValueValid(String optionalListWithNullableItemsValue) {
+      if(optionalListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalNullableListWithNullableItemsValid() {
+      if(optionalNullableListWithNullableItems != null) {
+        return 5 <= optionalNullableListWithNullableItems.size()
+            && optionalNullableListWithNullableItems.size() <= 10
+            && optionalNullableListWithNullableItems.stream().allMatch(this::isOptionalNullableListWithNullableItemsValueValid);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalNullableListWithNullableItemsValueValid(String optionalNullableListWithNullableItemsValue) {
+      if(optionalNullableListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalNullableListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
     private boolean isAdditionalPropertiesValid() {
       if(getAdditionalProperties_() != null) {
         return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
@@ -5463,6 +5757,10 @@ public class NecessityAndNullabilityDto {
           && isRequiredNullableStringValValid()
           && isOptionalStringValValid()
           && isOptionalNullableStringValValid()
+          && isRequiredListWithNullableItemsValid()
+          && isRequiredNullableListWithNullableItemsValid()
+          && isOptionalListWithNullableItemsValid()
+          && isOptionalNullableListWithNullableItemsValid()
           && isAdditionalPropertiesValid();
     }
   }
@@ -5479,6 +5777,13 @@ public class NecessityAndNullabilityDto {
         && Objects.deepEquals(this.isOptionalStringValNotNull, other.isOptionalStringValNotNull)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
         && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.requiredListWithNullableItems, other.requiredListWithNullableItems)
+        && Objects.deepEquals(this.requiredNullableListWithNullableItems, other.requiredNullableListWithNullableItems)
+        && Objects.deepEquals(this.isRequiredNullableListWithNullableItemsPresent, other.isRequiredNullableListWithNullableItemsPresent)
+        && Objects.deepEquals(this.optionalListWithNullableItems, other.optionalListWithNullableItems)
+        && Objects.deepEquals(this.isOptionalListWithNullableItemsNotNull, other.isOptionalListWithNullableItemsNotNull)
+        && Objects.deepEquals(this.optionalNullableListWithNullableItems, other.optionalNullableListWithNullableItems)
+        && Objects.deepEquals(this.isOptionalNullableListWithNullableItemsNull, other.isOptionalNullableListWithNullableItemsNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -5492,6 +5797,13 @@ public class NecessityAndNullabilityDto {
       isOptionalStringValNotNull,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
+      requiredListWithNullableItems,
+      requiredNullableListWithNullableItems,
+      isRequiredNullableListWithNullableItemsPresent,
+      optionalListWithNullableItems,
+      isOptionalListWithNullableItemsNotNull,
+      optionalNullableListWithNullableItems,
+      isOptionalNullableListWithNullableItemsNull,
       additionalProperties
     );
   }
@@ -5506,6 +5818,13 @@ public class NecessityAndNullabilityDto {
       "isOptionalStringValNotNull=" + isOptionalStringValNotNull + ", " +
       "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "requiredListWithNullableItems=" + requiredListWithNullableItems + ", " +
+      "requiredNullableListWithNullableItems=" + requiredNullableListWithNullableItems + ", " +
+      "isRequiredNullableListWithNullableItemsPresent=" + isRequiredNullableListWithNullableItemsPresent + ", " +
+      "optionalListWithNullableItems=" + optionalListWithNullableItems + ", " +
+      "isOptionalListWithNullableItemsNotNull=" + isOptionalListWithNullableItemsNotNull + ", " +
+      "optionalNullableListWithNullableItems=" + optionalNullableListWithNullableItems + ", " +
+      "isOptionalNullableListWithNullableItemsNull=" + isOptionalNullableListWithNullableItemsNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -5523,6 +5842,13 @@ public class NecessityAndNullabilityDto {
     private boolean isOptionalStringValNotNull = true;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private List<String> requiredListWithNullableItems;
+    private List<String> requiredNullableListWithNullableItems;
+    private boolean isRequiredNullableListWithNullableItemsPresent = false;
+    private List<String> optionalListWithNullableItems;
+    private boolean isOptionalListWithNullableItemsNotNull = true;
+    private List<String> optionalNullableListWithNullableItems;
+    private boolean isOptionalNullableListWithNullableItemsNull = false;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -5590,6 +5916,71 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
+    /**
+     * RequiredListWithNullableItems
+     */
+    @JsonProperty("requiredListWithNullableItems")
+    private Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+      this.requiredListWithNullableItems = requiredListWithNullableItems;
+      return this;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    @JsonProperty("requiredNullableListWithNullableItems")
+    private Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+      this.isRequiredNullableListWithNullableItemsPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    private Builder setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.orElse(null);
+      this.isRequiredNullableListWithNullableItemsPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalListWithNullableItems
+     */
+    @JsonProperty("optionalListWithNullableItems")
+    public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+      this.optionalListWithNullableItems = optionalListWithNullableItems;
+      this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+      return this;
+    }
+
+    /**
+     * OptionalListWithNullableItems
+     */
+    public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+      this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+      return this;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    @JsonProperty("optionalNullableListWithNullableItems")
+    public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+      this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
@@ -5614,8 +6005,12 @@ public class NecessityAndNullabilityDto {
       additionalProperties.remove("requiredNullableStringVal");
       additionalProperties.remove("optionalStringVal");
       additionalProperties.remove("optionalNullableStringVal");
+      additionalProperties.remove("requiredListWithNullableItems");
+      additionalProperties.remove("requiredNullableListWithNullableItems");
+      additionalProperties.remove("optionalListWithNullableItems");
+      additionalProperties.remove("optionalNullableListWithNullableItems");
 
-      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
     }
   }
 
@@ -5684,15 +6079,53 @@ public class NecessityAndNullabilityDto {
       /**
        * RequiredNullableStringVal
        */
-      public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
-        return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      public FullPropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+        return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
       }
 
       /**
        * RequiredNullableStringVal
        */
-      public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-        return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+        return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      }
+    }
+
+    public static final class FullPropertyBuilder2 {
+      private final Builder builder;
+
+      private FullPropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredListWithNullableItems
+       */
+      public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+        return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder3 {
+      private final Builder builder;
+
+      private FullPropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
       }
     }
 
@@ -5748,16 +6181,61 @@ public class NecessityAndNullabilityDto {
         this.builder = builder;
       }
 
-      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public FullOptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+        return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
 
-      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
-        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public FullOptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+        return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
 
-      public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-        return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public static final class FullOptPropertyBuilder3 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+    }
+
+    public static final class FullOptPropertyBuilder4 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder4(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
       }
 
       public NecessityAndNullabilityDto build(){
@@ -5807,6 +6285,44 @@ public class NecessityAndNullabilityDto {
       private final Builder builder;
 
       private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredListWithNullableItems
+       */
+      public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+        return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+      }
+
+    }
+
+    public static final class PropertyBuilder3 {
+      private final Builder builder;
+
+      private PropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public PropertyBuilder4 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+        return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public PropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+        return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+      }
+    }
+
+    public static final class PropertyBuilder4 {
+      private final Builder builder;
+
+      private PropertyBuilder4(Builder builder) {
         this.builder = builder;
       }
 
@@ -5875,16 +6391,61 @@ public class NecessityAndNullabilityDto {
         this.builder = builder;
       }
 
-      public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public OptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+        return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
 
-      public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
-        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public OptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+        return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
 
-      public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-        return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public static final class OptPropertyBuilder3 {
+      private final Builder builder;
+
+      private OptPropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+        return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+        return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+    }
+
+    public static final class OptPropertyBuilder4 {
+      private final Builder builder;
+
+      private OptPropertyBuilder4(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
       }
 
       public NecessityAndNullabilityDto build(){

@@ -56,11 +56,7 @@ public class GetterGenerator {
   }
 
   private static boolean isNullableListItemsMember(JavaPojoMember member) {
-    return member
-        .getJavaType()
-        .onArrayType()
-        .map(arrayType -> arrayType.getItemType().getNullability().isNullable())
-        .orElse(false);
+    return member.getJavaType().isNullableItemsArrayType();
   }
 
   private static boolean isNotNullableListItemsMember(JavaPojoMember member) {

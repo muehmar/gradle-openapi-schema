@@ -1,5 +1,6 @@
 enabledSafeBuilder=[
 com.github.muehmar.openapi.util.Tristate
+java.util.List
 java.util.Map
 java.util.Optional
 
@@ -68,15 +69,53 @@ public static final class BuilderStages {
     /**
      * RequiredNullableStringVal
      */
-    public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    public FullPropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+      return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
     }
 
     /**
      * RequiredNullableStringVal
      */
-    public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+      return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+    }
+  }
+
+  public static final class FullPropertyBuilder2 {
+    private final Builder builder;
+
+    private FullPropertyBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredListWithNullableItems
+     */
+    public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+      return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+    }
+
+  }
+
+  public static final class FullPropertyBuilder3 {
+    private final Builder builder;
+
+    private FullPropertyBuilder3(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+      return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+      return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
     }
   }
 
@@ -132,16 +171,61 @@ public static final class BuilderStages {
       this.builder = builder;
     }
 
-    public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalListWithNullableItems
+     */
+    public FullOptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+      return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
     }
 
-    public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
-      return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalListWithNullableItems
+     */
+    public FullOptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+      return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
     }
 
-    public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public static final class FullOptPropertyBuilder3 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder3(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+      return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+      return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+    }
+  }
+
+  public static final class FullOptPropertyBuilder4 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder4(Builder builder) {
+      this.builder = builder;
+    }
+
+    public FullOptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
+      return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
+      return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new FullOptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
     }
 
     public NecessityAndNullabilityDto build(){
@@ -191,6 +275,44 @@ public static final class BuilderStages {
     private final Builder builder;
 
     private PropertyBuilder2(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredListWithNullableItems
+     */
+    public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+      return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+    }
+
+  }
+
+  public static final class PropertyBuilder3 {
+    private final Builder builder;
+
+    private PropertyBuilder3(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    public PropertyBuilder4 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+      return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    public PropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+      return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+    }
+  }
+
+  public static final class PropertyBuilder4 {
+    private final Builder builder;
+
+    private PropertyBuilder4(Builder builder) {
       this.builder = builder;
     }
 
@@ -259,16 +381,61 @@ public static final class BuilderStages {
       this.builder = builder;
     }
 
-    public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalListWithNullableItems
+     */
+    public OptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+      return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
     }
 
-    public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
-      return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalListWithNullableItems
+     */
+    public OptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+      return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
     }
 
-    public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public static final class OptPropertyBuilder3 {
+    private final Builder builder;
+
+    private OptPropertyBuilder3(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+      return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+      return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+    }
+  }
+
+  public static final class OptPropertyBuilder4 {
+    private final Builder builder;
+
+    private OptPropertyBuilder4(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
+      return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
+      return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
     }
 
     public NecessityAndNullabilityDto build(){

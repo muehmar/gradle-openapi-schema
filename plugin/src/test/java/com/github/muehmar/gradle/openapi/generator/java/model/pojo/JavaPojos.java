@@ -4,8 +4,12 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Test
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredColorEnum;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
@@ -212,7 +216,11 @@ public class JavaPojos {
                 requiredString(),
                 requiredNullableString(),
                 optionalString(),
-                optionalNullableString()))
+                optionalNullableString(),
+                requiredListWithNullableItems(),
+                requiredNullableListWithNullableItems(),
+                optionalListWithNullableItems(),
+                optionalNullableListWithNullableItems()))
         .requiredAdditionalProperties(PList.empty())
         .constraints(constraints)
         .additionalProperties(anyTypeAllowed())

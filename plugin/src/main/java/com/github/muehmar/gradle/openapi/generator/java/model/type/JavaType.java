@@ -63,6 +63,14 @@ public interface JavaType {
     return onArrayType().isPresent();
   }
 
+  default boolean isNullableItemsArrayType() {
+    return onArrayType()
+        .map(JavaArrayType::getItemType)
+        .map(JavaType::getNullability)
+        .map(Nullability::isNullable)
+        .orElse(false);
+  }
+
   default boolean isMapType() {
     return fold(
         JavaMapType.class::isInstance,

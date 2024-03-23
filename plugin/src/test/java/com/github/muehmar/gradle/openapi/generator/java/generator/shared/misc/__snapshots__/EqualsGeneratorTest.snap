@@ -13,6 +13,13 @@ public boolean equals(Object obj) {
       && Objects.deepEquals(this.isOptionalStringValNotNull, other.isOptionalStringValNotNull)
       && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
       && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+      && Objects.deepEquals(this.requiredListWithNullableItems, other.requiredListWithNullableItems)
+      && Objects.deepEquals(this.requiredNullableListWithNullableItems, other.requiredNullableListWithNullableItems)
+      && Objects.deepEquals(this.isRequiredNullableListWithNullableItemsPresent, other.isRequiredNullableListWithNullableItemsPresent)
+      && Objects.deepEquals(this.optionalListWithNullableItems, other.optionalListWithNullableItems)
+      && Objects.deepEquals(this.isOptionalListWithNullableItemsNotNull, other.isOptionalListWithNullableItemsNotNull)
+      && Objects.deepEquals(this.optionalNullableListWithNullableItems, other.optionalNullableListWithNullableItems)
+      && Objects.deepEquals(this.isOptionalNullableListWithNullableItemsNull, other.isOptionalNullableListWithNullableItemsNull)
       && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
 }
 ]

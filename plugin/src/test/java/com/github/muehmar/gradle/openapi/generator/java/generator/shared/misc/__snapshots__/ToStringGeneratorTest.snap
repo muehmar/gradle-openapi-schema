@@ -9,6 +9,13 @@ public String toString() {
     "isOptionalStringValNotNull=" + isOptionalStringValNotNull + ", " +
     "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
     "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+    "requiredListWithNullableItems=" + requiredListWithNullableItems + ", " +
+    "requiredNullableListWithNullableItems=" + requiredNullableListWithNullableItems + ", " +
+    "isRequiredNullableListWithNullableItemsPresent=" + isRequiredNullableListWithNullableItemsPresent + ", " +
+    "optionalListWithNullableItems=" + optionalListWithNullableItems + ", " +
+    "isOptionalListWithNullableItemsNotNull=" + isOptionalListWithNullableItemsNotNull + ", " +
+    "optionalNullableListWithNullableItems=" + optionalNullableListWithNullableItems + ", " +
+    "isOptionalNullableListWithNullableItemsNull=" + isOptionalNullableListWithNullableItemsNull + ", " +
     "additionalProperties=" + additionalProperties +
     "}";
 }

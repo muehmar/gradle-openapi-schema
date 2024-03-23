@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder.fullWitherContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither.WitherContentBuilder.fullWitherContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder.fullConstructorContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder.fullHashCodeContentBuilder;
@@ -12,7 +12,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;

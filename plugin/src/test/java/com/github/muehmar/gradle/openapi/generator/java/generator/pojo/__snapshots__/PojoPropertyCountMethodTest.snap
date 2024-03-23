@@ -27,6 +27,10 @@ public int getPropertyCount() {
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
     ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    (requiredListWithNullableItems != null ? 1 : 0) +
+    (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
+    (optionalListWithNullableItems != null ? 1 : 0) +
+    ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
     (stringVal != null ? 1 : 0) +
     (intVal != null ? 1 : 0) +
     (doubleVal != null ? 1 : 0) +
@@ -52,6 +56,10 @@ public int getPropertyCount() {
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
     ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    (requiredListWithNullableItems != null ? 1 : 0) +
+    (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
+    (optionalListWithNullableItems != null ? 1 : 0) +
+    ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
     additionalProperties.size();
 }
 ]
@@ -72,6 +80,10 @@ public int getPropertyCount() {
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
     ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    (requiredListWithNullableItems != null ? 1 : 0) +
+    (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
+    (optionalListWithNullableItems != null ? 1 : 0) +
+    ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
     additionalProperties.size();
 }
 ]
@@ -90,6 +102,10 @@ public int getPropertyCount() {
     (isRequiredNullableStringValPresent ? 1 : 0) +
     (optionalStringVal != null ? 1 : 0) +
     ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+    (requiredListWithNullableItems != null ? 1 : 0) +
+    (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
+    (optionalListWithNullableItems != null ? 1 : 0) +
+    ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
     additionalProperties.size();
 }
 ]
