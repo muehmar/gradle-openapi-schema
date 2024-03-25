@@ -1,0 +1,184 @@
+allNecessityAndNullabilityVariants[optionalListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonProperty("optionalListWithNullableItems")
+public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = optionalListWithNullableItems;
+  this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+  return this;
+}
+
+/**
+ * OptionalListWithNullableItems
+ */
+public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+  this.isOptionalListWithNullableItemsNotNull = true;
+  return this;
+}
+
+]
+
+
+allNecessityAndNullabilityVariants[optionalNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+@JsonProperty("optionalNullableListWithNullableItems")
+public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+  this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+  return this;
+}
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+  this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+  return this;
+}
+
+]
+
+
+allNecessityAndNullabilityVariants[optionalNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * OptionalNullableStringVal
+ */
+@JsonProperty("optionalNullableStringVal")
+public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
+  this.optionalNullableStringVal = optionalNullableStringVal;
+  this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+  return this;
+}
+
+/**
+ * OptionalNullableStringVal
+ */
+public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
+  this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+  this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+  return this;
+}
+
+]
+
+
+allNecessityAndNullabilityVariants[optionalStringVal]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+
+/**
+ * OptionalStringVal
+ */
+@JsonProperty("optionalStringVal")
+public Builder setOptionalStringVal(String optionalStringVal) {
+  this.optionalStringVal = optionalStringVal;
+  this.isOptionalStringValNotNull = optionalStringVal != null;
+  return this;
+}
+
+/**
+ * OptionalStringVal
+ */
+public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
+  this.optionalStringVal = optionalStringVal.orElse(null);
+  this.isOptionalStringValNotNull = true;
+  return this;
+}
+
+]
+
+
+allNecessityAndNullabilityVariants[requiredListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonProperty
+
+/**
+ * RequiredListWithNullableItems
+ */
+@JsonProperty("requiredListWithNullableItems")
+private Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+  this.requiredListWithNullableItems = requiredListWithNullableItems;
+  return this;
+}
+
+]
+
+
+allNecessityAndNullabilityVariants[requiredNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+
+/**
+ * RequiredNullableListWithNullableItems
+ */
+@JsonProperty("requiredNullableListWithNullableItems")
+private Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+  this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+  this.isRequiredNullableListWithNullableItemsPresent = true;
+  return this;
+}
+
+/**
+ * RequiredNullableListWithNullableItems
+ */
+private Builder setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+  this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.orElse(null);
+  this.isRequiredNullableListWithNullableItemsPresent = true;
+  return this;
+}
+
+]
+
+
+allNecessityAndNullabilityVariants[requiredNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+
+/**
+ * RequiredNullableStringVal
+ */
+@JsonProperty("requiredNullableStringVal")
+private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
+  this.requiredNullableStringVal = requiredNullableStringVal;
+  this.isRequiredNullableStringValPresent = true;
+  return this;
+}
+
+/**
+ * RequiredNullableStringVal
+ */
+private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+  this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
+  this.isRequiredNullableStringValPresent = true;
+  return this;
+}
+
+]
+
+
+allNecessityAndNullabilityVariants[requiredStringVal]=[
+com.fasterxml.jackson.annotation.JsonProperty
+
+/**
+ * RequiredStringVal
+ */
+@JsonProperty("requiredStringVal")
+private Builder setRequiredStringVal(String requiredStringVal) {
+  this.requiredStringVal = requiredStringVal;
+  return this;
+}
+
+]

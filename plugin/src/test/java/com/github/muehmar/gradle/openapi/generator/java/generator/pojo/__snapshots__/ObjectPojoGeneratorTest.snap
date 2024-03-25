@@ -2046,6 +2046,7 @@ public class UserDto {
      */
     public Builder setLevel(Optional<Long> level) {
       this.level = level.orElse(null);
+      this.isLevelNotNull = true;
       return this;
     }
 
@@ -2063,6 +2064,7 @@ public class UserDto {
      */
     public Builder setUppercase(Optional<String> uppercase) {
       this.uppercase = uppercase.orElse(null);
+      this.isUppercaseNotNull = true;
       return this;
     }
 
@@ -2080,6 +2082,7 @@ public class UserDto {
      */
     public Builder setMultipleOfValue(Optional<Long> multipleOfValue) {
       this.multipleOfValue = multipleOfValue.orElse(null);
+      this.isMultipleOfValueNotNull = true;
       return this;
     }
 
@@ -2097,6 +2100,7 @@ public class UserDto {
      */
     public Builder setAnotherPojo(Optional<AnotherPojo> anotherPojo) {
       this.anotherPojo = anotherPojo.orElse(null);
+      this.isAnotherPojoNotNull = true;
       return this;
     }
 
@@ -2780,6 +2784,7 @@ public class UserDto {
      */
     public Builder setLevel(Optional<Long> level) {
       this.level = level.orElse(null);
+      this.isLevelNotNull = true;
       return this;
     }
 
@@ -2797,6 +2802,7 @@ public class UserDto {
      */
     public Builder setUppercase(Optional<String> uppercase) {
       this.uppercase = uppercase.orElse(null);
+      this.isUppercaseNotNull = true;
       return this;
     }
 
@@ -2814,6 +2820,7 @@ public class UserDto {
      */
     public Builder setMultipleOfValue(Optional<Long> multipleOfValue) {
       this.multipleOfValue = multipleOfValue.orElse(null);
+      this.isMultipleOfValueNotNull = true;
       return this;
     }
 
@@ -2831,6 +2838,7 @@ public class UserDto {
      */
     public Builder setAnotherPojo(Optional<AnotherPojo> anotherPojo) {
       this.anotherPojo = anotherPojo.orElse(null);
+      this.isAnotherPojoNotNull = true;
       return this;
     }
 
@@ -3162,6 +3170,7 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
@@ -4814,6 +4823,7 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
@@ -5140,6 +5150,7 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
@@ -5894,6 +5905,7 @@ public class NecessityAndNullabilityDto {
      */
     public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
       this.optionalStringVal = optionalStringVal.orElse(null);
+      this.isOptionalStringValNotNull = true;
       return this;
     }
 
@@ -5959,6 +5971,7 @@ public class NecessityAndNullabilityDto {
      */
     public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
       this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+      this.isOptionalListWithNullableItemsNotNull = true;
       return this;
     }
 
@@ -8965,6 +8978,7 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
@@ -9268,6 +9282,7 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
@@ -9571,6 +9586,7 @@ public class ObjectPojo1Dto {
      */
     public Builder setBirthdate(Optional<LocalDate> birthdate) {
       this.birthdate = birthdate.orElse(null);
+      this.isBirthdateNotNull = true;
       return this;
     }
 

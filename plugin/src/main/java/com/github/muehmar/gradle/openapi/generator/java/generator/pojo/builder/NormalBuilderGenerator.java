@@ -5,7 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.bu
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.DtoSetterGenerator.dtoSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.MemberDeclarationGenerator.memberDeclarationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.RequiredAdditionalPropertiesSetterGenerator.requiredAdditionalPropertiesSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.SetterGenerator.setterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterGenerator.setterGenerator;
 import static io.github.muehmar.codegenerator.java.JavaModifier.FINAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;

@@ -72,6 +72,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
+    this.isOptionalStringValNotNull = true;
     return this;
   }
 
@@ -137,6 +138,7 @@ public static final class Builder {
    */
   public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+    this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
 
@@ -265,6 +267,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
+    this.isOptionalStringValNotNull = true;
     return this;
   }
 
@@ -326,6 +329,7 @@ public static final class Builder {
    */
   public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+    this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
 
@@ -456,6 +460,7 @@ public static final class Builder {
    */
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
+    this.isOptionalStringValNotNull = true;
     return this;
   }
 
@@ -521,6 +526,7 @@ public static final class Builder {
    */
   public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+    this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
 
