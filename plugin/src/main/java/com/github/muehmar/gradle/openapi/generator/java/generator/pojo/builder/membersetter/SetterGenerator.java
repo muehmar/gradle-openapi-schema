@@ -37,6 +37,7 @@ public class SetterGenerator {
                     memberSetter
                         .getMember()
                         .prefixedMethodName(settings.getBuilderMethodPrefix())
+                        .append(memberSetter.methodSuffix())
                         .asString())
             .singleArgument(
                 memberSetter ->

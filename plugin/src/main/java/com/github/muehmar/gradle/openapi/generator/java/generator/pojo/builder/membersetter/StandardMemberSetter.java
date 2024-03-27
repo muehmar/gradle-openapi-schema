@@ -12,6 +12,7 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
+/** The standard setter is used for every property as JSON setter. */
 @Value
 class StandardMemberSetter implements MemberSetter {
   JavaPojoMember member;
