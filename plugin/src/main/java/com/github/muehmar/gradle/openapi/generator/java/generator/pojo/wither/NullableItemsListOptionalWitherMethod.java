@@ -30,6 +30,11 @@ class NullableItemsListOptionalWitherMethod extends WitherMethod {
   }
 
   @Override
+  String witherName() {
+    return delegate.witherName();
+  }
+
+  @Override
   Map<JavaName, String> propertyNameReplacementForConstructorCall() {
     return delegate.nullableItemsListPropertyNameReplacement();
   }

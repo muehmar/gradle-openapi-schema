@@ -39,4 +39,8 @@ class NullableItemsListDelegate {
         String.format("%s(%s)", UnwrapNullableItemsListMethod.METHOD_NAME, argument));
     return adjustedPropertyNameReplacement;
   }
+
+  String witherName() {
+    return delegate.witherName().concat("_");
+  }
 }

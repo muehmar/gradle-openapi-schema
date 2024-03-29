@@ -23,23 +23,40 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @SnapshotTest
 class WitherGeneratorTest {
   private Expect expect;
 
-  @Test
+  @ParameterizedTest
+  @MethodSource("allNullabilityAndNecessityVariantsSingleMember")
   @SnapshotName("allNullabilityAndNecessityVariants")
-  void generate_when_calledWithNullabilityAndNecessityVariants_then_correctOutput() {
+  void generate_when_calledWithNullabilityAndNecessityVariants_then_correctOutput(
+      WitherGenerator.WitherContent witherContent, JavaPojoMember member) {
     final Generator<WitherGenerator.WitherContent, PojoSettings> generator = witherGenerator();
-    final Writer writer =
-        generator.generate(
-            JavaPojos.allNecessityAndNullabilityVariants().getWitherContent(),
-            defaultTestSettings(),
-            javaWriter());
 
-    expect.toMatchSnapshot(writerSnapshot(writer));
+    final WitherGenerator.WitherContent singleMemberWitherContent =
+        WitherContentBuilder.fullWitherContentBuilder()
+            .className(witherContent.getClassName())
+            .membersForWithers(PList.single(member))
+            .technicalPojoMembers(witherContent.getTechnicalPojoMembers())
+            .build();
+
+    final Writer writer =
+        generator.generate(singleMemberWitherContent, defaultTestSettings(), javaWriter());
+
+    expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  static Stream<Arguments> allNullabilityAndNecessityVariantsSingleMember() {
+    final JavaObjectPojo pojo = JavaPojos.allNecessityAndNullabilityVariants();
+    final WitherGenerator.WitherContent witherContent = pojo.getWitherContent();
+    return pojo.getMembers().map(member -> Arguments.of(witherContent, member)).toStream();
   }
 
   @Test
