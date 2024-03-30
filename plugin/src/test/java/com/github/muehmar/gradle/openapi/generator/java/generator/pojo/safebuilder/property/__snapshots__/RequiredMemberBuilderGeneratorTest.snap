@@ -53,6 +53,14 @@ public static final class FullPropertyBuilder2 {
   public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
+.
+.
+  /**
+   * RequiredListWithNullableItems
+   */
+  public FullPropertyBuilder3 setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+    return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+  }
 
 }
 
@@ -75,6 +83,20 @@ public static final class FullPropertyBuilder3 {
    */
   public FullPropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
     return new FullPropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullPropertyBuilder4 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+    return new FullPropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullPropertyBuilder4 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+    return new FullPropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
   }
 }
 
@@ -157,6 +179,14 @@ public static final class PropertyBuilder2 {
   public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
+.
+.
+  /**
+   * RequiredListWithNullableItems
+   */
+  public PropertyBuilder3 setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+    return new PropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+  }
 
 }
 
@@ -179,6 +209,20 @@ public static final class PropertyBuilder3 {
    */
   public PropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
     return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
   }
 }
 
@@ -261,6 +305,14 @@ public static final class FullPropertyBuilder2 {
   public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
+.
+.
+  /**
+   * RequiredListWithNullableItems
+   */
+  public FullPropertyBuilder3 setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+    return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+  }
 
 }
 
@@ -283,6 +335,20 @@ public static final class FullPropertyBuilder3 {
    */
   public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
     return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
   }
 }
 ]
@@ -343,6 +409,14 @@ public static final class PropertyBuilder2 {
   public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
+.
+.
+  /**
+   * RequiredListWithNullableItems
+   */
+  public PropertyBuilder3 setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+    return new PropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+  }
 
 }
 
@@ -365,6 +439,20 @@ public static final class PropertyBuilder3 {
    */
   public PropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
     return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
   }
 }
 ]
