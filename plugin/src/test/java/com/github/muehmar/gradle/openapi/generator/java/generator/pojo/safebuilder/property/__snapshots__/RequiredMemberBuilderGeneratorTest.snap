@@ -38,6 +38,7 @@ public static final class FullPropertyBuilder1 {
   public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
+
 }
 
 public static final class FullPropertyBuilder2 {
@@ -53,8 +54,7 @@ public static final class FullPropertyBuilder2 {
   public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
-.
-.
+
   /**
    * RequiredListWithNullableItems
    */
@@ -120,6 +120,7 @@ public static final class FullPropertyBuilder4 {
   public FullOptPropertyBuilder0 setProp1(Optional<Object> prop1) {
     return new FullOptPropertyBuilder0(builder.setProp1(prop1));
   }
+
 }
 ]
 
@@ -164,6 +165,7 @@ public static final class PropertyBuilder1 {
   public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
+
 }
 
 public static final class PropertyBuilder2 {
@@ -179,8 +181,7 @@ public static final class PropertyBuilder2 {
   public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
-.
-.
+
   /**
    * RequiredListWithNullableItems
    */
@@ -246,6 +247,7 @@ public static final class PropertyBuilder4 {
   public PropertyBuilder5 setProp1(Optional<Object> prop1) {
     return new PropertyBuilder5(builder.setProp1(prop1));
   }
+
 }
 ]
 
@@ -290,6 +292,7 @@ public static final class FullPropertyBuilder1 {
   public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
+
 }
 
 public static final class FullPropertyBuilder2 {
@@ -305,8 +308,7 @@ public static final class FullPropertyBuilder2 {
   public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
-.
-.
+
   /**
    * RequiredListWithNullableItems
    */
@@ -394,6 +396,7 @@ public static final class PropertyBuilder1 {
   public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
   }
+
 }
 
 public static final class PropertyBuilder2 {
@@ -409,8 +412,7 @@ public static final class PropertyBuilder2 {
   public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
   }
-.
-.
+
   /**
    * RequiredListWithNullableItems
    */
@@ -475,6 +477,7 @@ public FullOptPropertyBuilder0 setBirthdate(LocalDate birthdate) {
 public FullOptPropertyBuilder0 setBirthdate(Optional<LocalDate> birthdate) {
   return new FullOptPropertyBuilder0(builder.setBirthdate(birthdate));
 }
+
 ]
 
 
@@ -495,4 +498,5 @@ public PropertyBuilder1 setBirthdate(LocalDate birthdate) {
 public PropertyBuilder1 setBirthdate(Optional<LocalDate> birthdate) {
   return new PropertyBuilder1(builder.setBirthdate(birthdate));
 }
+
 ]

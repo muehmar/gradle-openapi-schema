@@ -3773,6 +3773,7 @@ public class Illegal_IdentifierDto {
       public FullOptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
         return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
       }
+
     }
 
     public static final class FullOptPropertyBuilder1 {
@@ -3795,6 +3796,7 @@ public class Illegal_IdentifierDto {
       public FullOptPropertyBuilder2 setPoint_(Tristate<String> point_) {
         return new FullOptPropertyBuilder2(builder.setPoint_(point_));
       }
+
     }
 
     public static final class FullOptPropertyBuilder2 {
@@ -3861,6 +3863,7 @@ public class Illegal_IdentifierDto {
       public OptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
         return new OptPropertyBuilder1(builder.setSwitch(switch_));
       }
+
     }
 
     public static final class OptPropertyBuilder1 {
@@ -3883,6 +3886,7 @@ public class Illegal_IdentifierDto {
       public OptPropertyBuilder2 setPoint_(Tristate<String> point_) {
         return new OptPropertyBuilder2(builder.setPoint_(point_));
       }
+
     }
 
     public static final class OptPropertyBuilder2 {
@@ -6164,6 +6168,7 @@ public class NecessityAndNullabilityDto {
       public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
         return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
       }
+
     }
 
     public static final class FullPropertyBuilder2 {
@@ -6179,8 +6184,7 @@ public class NecessityAndNullabilityDto {
       public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
         return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
       }
-.
-.
+
       /**
        * RequiredListWithNullableItems
        */
@@ -6269,6 +6273,7 @@ public class NecessityAndNullabilityDto {
       public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
         return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
       }
+
     }
 
     public static final class FullOptPropertyBuilder2 {
@@ -6291,8 +6296,7 @@ public class NecessityAndNullabilityDto {
       public FullOptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
         return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
-.
-.
+
       /**
        * OptionalListWithNullableItems
        */
@@ -6405,6 +6409,7 @@ public class NecessityAndNullabilityDto {
       public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
         return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
       }
+
     }
 
     public static final class PropertyBuilder2 {
@@ -6420,8 +6425,7 @@ public class NecessityAndNullabilityDto {
       public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
         return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
       }
-.
-.
+
       /**
        * RequiredListWithNullableItems
        */
@@ -6530,6 +6534,7 @@ public class NecessityAndNullabilityDto {
       public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
         return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
       }
+
     }
 
     public static final class OptPropertyBuilder2 {
@@ -6552,8 +6557,7 @@ public class NecessityAndNullabilityDto {
       public OptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
         return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
-.
-.
+
       /**
        * OptionalListWithNullableItems
        */

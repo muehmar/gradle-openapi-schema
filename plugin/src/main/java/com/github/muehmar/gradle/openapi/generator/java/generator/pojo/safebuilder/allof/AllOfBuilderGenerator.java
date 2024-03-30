@@ -9,11 +9,9 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.DefaultSetterMember;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.NullableListItemsSetterMember;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.Setter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.SetterBuilderImpl.SetterType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.SetterMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -47,54 +45,48 @@ public class AllOfBuilderGenerator {
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> normalSetter() {
-    final Setter<SetterMember> setter =
+    final Setter setter =
         fullSetterBuilder()
+            .type(SetterType.DEFAULT)
             .includeInBuilder(ignore -> true)
             .typeFormat("%s")
             .addRefs(writer -> writer)
             .build();
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
         .appendOptional(
-            singleMemberSetterGenerator(setter),
-            AllOfBuilderGenerator::standardSetterMemberFromStage)
-        .appendSingleBlankLine()
-        .appendOptional(
-            singleMemberSetterGenerator(setter),
-            AllOfBuilderGenerator::nullableListItemSetterMemberFromStage);
+            singleMemberSetterGenerator(
+                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+            AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> optionalSetter() {
-    final Setter<SetterMember> setter =
+    final Setter setter =
         fullSetterBuilder()
+            .type(SetterType.DEFAULT)
             .includeInBuilder(AllOfBuilderGenerator::isJavaOptional)
             .typeFormat("Optional<%s>")
             .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
         .appendOptional(
-            singleMemberSetterGenerator(setter),
-            AllOfBuilderGenerator::standardSetterMemberFromStage)
-        .appendSingleBlankLine()
-        .appendOptional(
-            singleMemberSetterGenerator(setter),
-            AllOfBuilderGenerator::nullableListItemSetterMemberFromStage);
+            singleMemberSetterGenerator(
+                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+            AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> tristateSetter() {
-    final Setter<SetterMember> setter =
+    final Setter setter =
         fullSetterBuilder()
+            .type(SetterType.DEFAULT)
             .includeInBuilder(m -> m.getMember().isOptionalAndNullable())
             .typeFormat("Tristate<%s>")
             .addRefs(writer -> writer.ref(OpenApiUtilRefs.TRISTATE))
             .build();
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
         .appendOptional(
-            singleMemberSetterGenerator(setter),
-            AllOfBuilderGenerator::standardSetterMemberFromStage)
-        .appendSingleBlankLine()
-        .appendOptional(
-            singleMemberSetterGenerator(setter),
-            AllOfBuilderGenerator::nullableListItemSetterMemberFromStage);
+            singleMemberSetterGenerator(
+                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+            AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> dtoSetter() {
@@ -154,48 +146,7 @@ public class AllOfBuilderGenerator {
         .getMemberStageObjects()
         .map(
             memberStageObjects ->
-                new DefaultSetterMember() {
-
-                  @Override
-                  public String stageClassName() {
-                    return stage.getName();
-                  }
-
-                  @Override
-                  public String nextStageClassName() {
-                    return memberStageObjects.getNextStage().getName();
-                  }
-
-                  @Override
-                  public JavaPojoMember getMember() {
-                    return memberStageObjects.getMember();
-                  }
-                });
-  }
-
-  private static Optional<SetterMember> nullableListItemSetterMemberFromStage(
-      AllOfBuilderStage stage) {
-    return stage
-        .getMemberStageObjects()
-        .<SetterMember>map(
-            memberStageObjects ->
-                new NullableListItemsSetterMember() {
-
-                  @Override
-                  public String stageClassName() {
-                    return stage.getName();
-                  }
-
-                  @Override
-                  public String nextStageClassName() {
-                    return memberStageObjects.getNextStage().getName();
-                  }
-
-                  @Override
-                  public JavaPojoMember getMember() {
-                    return memberStageObjects.getMember();
-                  }
-                })
-        .filter(m -> m.getMember().getJavaType().isNullableItemsArrayType());
+                new SetterMember(
+                    memberStageObjects.getNextStage(), memberStageObjects.getMember()));
   }
 }

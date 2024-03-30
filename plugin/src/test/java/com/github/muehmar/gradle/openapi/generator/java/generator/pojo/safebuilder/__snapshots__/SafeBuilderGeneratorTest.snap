@@ -79,6 +79,7 @@ public static final class BuilderStages {
     public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
       return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
     }
+
   }
 
   public static final class FullPropertyBuilder2 {
@@ -94,8 +95,7 @@ public static final class BuilderStages {
     public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
       return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
     }
-.
-.
+
     /**
      * RequiredListWithNullableItems
      */
@@ -184,6 +184,7 @@ public static final class BuilderStages {
     public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
       return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
     }
+
   }
 
   public static final class FullOptPropertyBuilder2 {
@@ -206,8 +207,7 @@ public static final class BuilderStages {
     public FullOptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
       return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
     }
-.
-.
+
     /**
      * OptionalListWithNullableItems
      */
@@ -320,6 +320,7 @@ public static final class BuilderStages {
     public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
       return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
     }
+
   }
 
   public static final class PropertyBuilder2 {
@@ -335,8 +336,7 @@ public static final class BuilderStages {
     public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
       return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
     }
-.
-.
+
     /**
      * RequiredListWithNullableItems
      */
@@ -445,6 +445,7 @@ public static final class BuilderStages {
     public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
       return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
     }
+
   }
 
   public static final class OptPropertyBuilder2 {
@@ -467,8 +468,7 @@ public static final class BuilderStages {
     public OptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
       return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
     }
-.
-.
+
     /**
      * OptionalListWithNullableItems
      */

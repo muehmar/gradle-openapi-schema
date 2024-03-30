@@ -1,16 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import lombok.Value;
 
-public interface SetterMember {
-  String stageClassName();
+@Value
+public class SetterMember {
+  BuilderStage nextStage;
+  JavaPojoMember member;
 
-  String nextStageClassName();
-
-  JavaPojoMember getMember();
-
-  String builderMethodName(PojoSettings settings);
-
-  String argumentType();
+  public String nextStageClassName() {
+    return nextStage.getName();
+  }
 }

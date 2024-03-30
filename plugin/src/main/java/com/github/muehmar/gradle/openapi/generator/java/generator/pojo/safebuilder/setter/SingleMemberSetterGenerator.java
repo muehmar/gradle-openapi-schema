@@ -15,46 +15,39 @@ import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 public class SingleMemberSetterGenerator {
   private SingleMemberSetterGenerator() {}
 
-  public static <T extends SetterMember> Generator<T, PojoSettings> singleMemberSetterGenerator(
-      Setter<T> setter) {
+  public static Generator<SetterMember, PojoSettings> singleMemberSetterGenerator(Setter setter) {
     return singleMemberSetterGenerator(PList.single(setter));
   }
 
-  public static <T extends SetterMember> Generator<T, PojoSettings> singleMemberSetterGenerator(
-      PList<Setter<T>> setters) {
+  public static Generator<SetterMember, PojoSettings> singleMemberSetterGenerator(
+      PList<Setter> setters) {
     return setters
-        .map(
-            setter ->
-                SingleMemberSetterGenerator.<T>builderSetter(setter.argumentFormat())
-                    .append(setter::addRefs)
-                    .filter(setter::includeInBuilder))
+        .map(SingleMemberSetterGenerator::setterMethodForSetter)
         .reduce((gen1, gen2) -> gen1.appendSingleBlankLine().append(gen2))
         .orElse(Generator.emptyGen());
   }
 
-  private static <T extends SetterMember> Generator<T, PojoSettings> builderSetter(
-      String argumentFormat) {
-    final Generator<T, PojoSettings> method =
-        MethodGenBuilder.<T, PojoSettings>create()
+  private static Generator<SetterMember, PojoSettings> setterMethodForSetter(Setter setter) {
+    final Generator<SetterMember, PojoSettings> method =
+        MethodGenBuilder.<SetterMember, PojoSettings>create()
             .modifiers(PUBLIC)
             .noGenericTypes()
-            .returnType(T::nextStageClassName)
-            .methodName(SetterMember::builderMethodName)
+            .returnType(SetterMember::nextStageClassName)
+            .methodName(setter::methodName)
             .singleArgument(
-                m ->
-                    new Argument(
-                        String.format(argumentFormat, m.argumentType()),
-                        m.getMember().getName().asString()))
+                m -> new Argument(setter.argumentType(m), m.getMember().getName().asString()))
             .doesNotThrow()
             .content(
                 (m, s, w) ->
                     w.println(
                         "return new %s(builder.%s(%s));",
-                        m.nextStageClassName(), m.builderMethodName(s), m.getMember().getName()))
+                        m.nextStageClassName(), setter.methodName(m, s), m.getMember().getName()))
             .build()
             .append(fieldRefs(), SetterMember::getMember);
     return JavaDocGenerator.<PojoSettings>javaDoc()
-        .<T>contraMap(m -> m.getMember().getDescription())
-        .append(method);
+        .<SetterMember>contraMap(m -> m.getMember().getDescription())
+        .append(method)
+        .append(setter::addRefs)
+        .filter(setter::includeInBuilder);
   }
 }

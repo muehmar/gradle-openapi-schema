@@ -46,6 +46,7 @@ public static final class FullOptPropertyBuilder1 {
   public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
+
 }
 
 public static final class FullOptPropertyBuilder2 {
@@ -68,8 +69,7 @@ public static final class FullOptPropertyBuilder2 {
   public FullOptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
     return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
   }
-.
-.
+
   /**
    * OptionalListWithNullableItems
    */
@@ -172,6 +172,7 @@ public static final class OptPropertyBuilder1 {
   public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
+
 }
 
 public static final class OptPropertyBuilder2 {
@@ -194,8 +195,7 @@ public static final class OptPropertyBuilder2 {
   public OptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
     return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
   }
-.
-.
+
   /**
    * OptionalListWithNullableItems
    */
