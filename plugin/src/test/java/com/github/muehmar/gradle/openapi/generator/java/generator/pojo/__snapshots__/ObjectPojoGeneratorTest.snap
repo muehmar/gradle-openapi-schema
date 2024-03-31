@@ -3662,6 +3662,7 @@ public class Illegal_IdentifierDto {
     /**
      * Switch
      */
+    @JsonIgnore
     public Builder setSwitch(Tristate<String> switch_) {
       this.switch_ = switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isSwitchNull = switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -3681,6 +3682,7 @@ public class Illegal_IdentifierDto {
     /**
      * Point
      */
+    @JsonIgnore
     public Builder setPoint_(Tristate<String> point_) {
       this.point_ = point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isPoint_Null = point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -4825,6 +4827,7 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
+    @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
       this.isLanguageNotNull = true;
@@ -5888,6 +5891,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableStringVal
      */
+    @JsonIgnore
     private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
       this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
       this.isRequiredNullableStringValPresent = true;
@@ -5907,6 +5911,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
+    @JsonIgnore
     public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
       this.optionalStringVal = optionalStringVal.orElse(null);
       this.isOptionalStringValNotNull = true;
@@ -5926,6 +5931,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableStringVal
      */
+    @JsonIgnore
     public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -5944,6 +5950,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredListWithNullableItems
      */
+    @JsonIgnore
     private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
       this.requiredListWithNullableItems = unwrapNullableItemsList(requiredListWithNullableItems);
       return this;
@@ -5962,6 +5969,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableListWithNullableItems
      */
+    @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.orElse(null);
       this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -5971,6 +5979,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableListWithNullableItems
      */
+    @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems = unwrapNullableItemsList(requiredNullableListWithNullableItems);
       this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -5980,6 +5989,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableListWithNullableItems
      */
+    @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
       this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -5999,6 +6009,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalListWithNullableItems
      */
+    @JsonIgnore
     public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
       this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
       this.isOptionalListWithNullableItemsNotNull = true;
@@ -6008,6 +6019,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalListWithNullableItems
      */
+    @JsonIgnore
     public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
       this.optionalListWithNullableItems = unwrapNullableItemsList(optionalListWithNullableItems);
       this.isOptionalListWithNullableItemsNotNull = true;
@@ -6017,6 +6029,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalListWithNullableItems
      */
+    @JsonIgnore
     public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
       this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
       this.isOptionalListWithNullableItemsNotNull = true;
@@ -6036,6 +6049,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableListWithNullableItems
      */
+    @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -6045,6 +6059,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableListWithNullableItems
      */
+    @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems = unwrapNullableItemsList(optionalNullableListWithNullableItems);
       isOptionalNullableListWithNullableItemsNull = false;
@@ -6054,6 +6069,7 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableListWithNullableItems
      */
+    @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -9448,6 +9464,7 @@ public class UserDto {
      * * `GERMAN`: German language<br>
      * * `ENGLISH`: English language
      */
+    @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
       this.isLanguageNotNull = true;
@@ -9752,6 +9769,7 @@ public class ObjectPojo1Dto {
     /**
      * Birthdate
      */
+    @JsonIgnore
     public Builder setBirthdate(Optional<LocalDate> birthdate) {
       this.birthdate = birthdate.orElse(null);
       this.isBirthdateNotNull = true;

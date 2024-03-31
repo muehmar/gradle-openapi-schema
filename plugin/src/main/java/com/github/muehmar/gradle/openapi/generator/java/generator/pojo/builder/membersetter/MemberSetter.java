@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist.NullableItemsListMemberSetters;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -25,7 +26,7 @@ public interface MemberSetter {
   JavaPojoMember getMember();
 
   default Generator<MemberSetter, PojoSettings> annotationGenerator() {
-    return Generator.emptyGen();
+    return JacksonAnnotationGenerator.jsonIgnore();
   }
 
   default String methodSuffix() {
