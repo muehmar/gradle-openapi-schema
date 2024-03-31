@@ -23,7 +23,7 @@ class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMembe
   @Override
   public String memberValue() {
     return String.format(
-        "%s.onValue(this::%s).onNull(() -> null).onAbsent(() -> null)",
+        "%s.onValue(l -> %s(l)).onNull(() -> null).onAbsent(() -> null)",
         member.getName(), UnwrapNullableItemsListMethod.METHOD_NAME);
   }
 

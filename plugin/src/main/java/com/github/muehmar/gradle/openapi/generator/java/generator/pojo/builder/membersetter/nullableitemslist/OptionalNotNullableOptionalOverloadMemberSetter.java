@@ -19,7 +19,7 @@ class OptionalNotNullableOptionalOverloadMemberSetter extends OptionalNotNullabl
   @Override
   public String memberValue() {
     return String.format(
-        "%s.map(this::%s).orElse(null)",
+        "%s.map(l -> %s(l)).orElse(null)",
         member.getName(), UnwrapNullableItemsListMethod.METHOD_NAME);
   }
 }

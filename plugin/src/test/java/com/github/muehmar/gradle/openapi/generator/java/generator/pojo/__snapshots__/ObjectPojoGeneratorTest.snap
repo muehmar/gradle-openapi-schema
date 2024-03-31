@@ -5981,7 +5981,7 @@ public class NecessityAndNullabilityDto {
      * RequiredNullableListWithNullableItems
      */
     private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(this::unwrapNullableItemsList).orElse(null);
+      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
       this.isRequiredNullableListWithNullableItemsPresent = true;
       return this;
     }
@@ -6018,7 +6018,7 @@ public class NecessityAndNullabilityDto {
      * OptionalListWithNullableItems
      */
     public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
-      this.optionalListWithNullableItems = optionalListWithNullableItems.map(this::unwrapNullableItemsList).orElse(null);
+      this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
       this.isOptionalListWithNullableItemsNotNull = true;
       return this;
     }
@@ -6055,7 +6055,7 @@ public class NecessityAndNullabilityDto {
      * OptionalNullableListWithNullableItems
      */
     public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(this::unwrapNullableItemsList).onNull(() -> null).onAbsent(() -> null);
+      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
