@@ -3,7 +3,7 @@ java.util.List
 java.util.Optional
 java.util.stream.Collectors
 
-private static <T> List<T> unwrapNullableItemsList(Optional<List<T>> list) {
+private static <T> List<T> unwrapNullableItemsList(List<Optional<T>> list) {
   return list.stream().map(value -> value.orElse(null)).collect(Collectors.toList());
 }
 ]

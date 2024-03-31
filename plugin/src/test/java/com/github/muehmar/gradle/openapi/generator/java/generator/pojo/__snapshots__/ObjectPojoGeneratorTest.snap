@@ -5642,7 +5642,7 @@ public class NecessityAndNullabilityDto {
     return list.stream().map(Optional::ofNullable).collect(Collectors.toList());
   }
 
-  private static <T> List<T> unwrapNullableItemsList(Optional<List<T>> list) {
+  private static <T> List<T> unwrapNullableItemsList(List<Optional<T>> list) {
     return list.stream().map(value -> value.orElse(null)).collect(Collectors.toList());
   }
 

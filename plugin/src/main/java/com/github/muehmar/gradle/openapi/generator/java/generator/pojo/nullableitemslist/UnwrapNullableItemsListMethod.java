@@ -23,7 +23,7 @@ public class UnwrapNullableItemsListMethod {
         .singleGenericType(ignore -> "T")
         .returnType("List<T>")
         .methodName(METHOD_NAME)
-        .singleArgument(ignore -> new MethodGen.Argument("Optional<List<T>>", "list"))
+        .singleArgument(ignore -> new MethodGen.Argument("List<Optional<T>>", "list"))
         .doesNotThrow()
         .content(
             "return list.stream().map(value -> value.orElse(null)).collect(Collectors.toList());")
