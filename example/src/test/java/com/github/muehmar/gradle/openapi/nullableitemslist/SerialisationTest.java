@@ -76,7 +76,6 @@ public class SerialisationTest {
         "{\"ids\":[\"id-1234\"],\"usernames\":null}", OBJECT_MAPPER.writeValueAsString(userDto));
   }
 
-  // -*-----
   @Test
   void writeValueAsString_when_nullableItemsSettersAndPresentItems_then_matchJson()
       throws JsonProcessingException {
