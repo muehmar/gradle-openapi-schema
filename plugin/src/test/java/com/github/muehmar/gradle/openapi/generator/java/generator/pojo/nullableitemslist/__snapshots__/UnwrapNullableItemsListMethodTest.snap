@@ -4,6 +4,9 @@ java.util.Optional
 java.util.stream.Collectors
 
 private static <T> List<T> unwrapNullableItemsList(List<Optional<T>> list) {
+  if (list == null) {
+    return null;
+  }
   return list.stream().map(value -> value.orElse(null)).collect(Collectors.toList());
 }
 ]

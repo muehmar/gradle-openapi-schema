@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.Re
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_LIST;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_STREAM_COLLECTORS;
+import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
 
@@ -25,10 +26,20 @@ public class WrapNullableItemsListMethod {
         .methodName(METHOD_NAME)
         .singleArgument(ignore -> new MethodGen.Argument("List<T>", "list"))
         .doesNotThrow()
-        .content("return list.stream().map(Optional::ofNullable).collect(Collectors.toList());")
+        .content(content())
         .build()
         .append(ref(JAVA_UTIL_OPTIONAL))
         .append(ref(JAVA_UTIL_LIST))
         .append(ref(JAVA_UTIL_STREAM_COLLECTORS));
+  }
+
+  private static <A> Generator<A, PojoSettings> content() {
+    return Generator.<A, PojoSettings>emptyGen()
+        .append(constant("if (list == null) {"))
+        .append(constant("return null;"), 1)
+        .append(constant("}"))
+        .append(
+            constant(
+                "return list.stream().map(Optional::ofNullable).collect(Collectors.toList());"));
   }
 }

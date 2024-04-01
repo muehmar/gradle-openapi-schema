@@ -1,13 +1,28 @@
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.NullableItemsListWrappersTest.generate_when_nullableItemsListMembers_then_matchSnapshot=[
+com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.stream.Collectors
 
 private static <T> List<Optional<T>> wrapNullableItemsList(List<T> list) {
+  if (list == null) {
+    return null;
+  }
   return list.stream().map(Optional::ofNullable).collect(Collectors.toList());
 }
 
 private static <T> List<T> unwrapNullableItemsList(List<Optional<T>> list) {
+  if (list == null) {
+    return null;
+  }
   return list.stream().map(value -> value.orElse(null)).collect(Collectors.toList());
+}
+
+private static <T> Optional<List<T>> unwrapOptionalNullableItemsList(Optional<List<Optional<T>>> list) {
+  return list.map(l -> unwrapNullableItemsList(l));
+}
+
+private static <T> Tristate<List<T>> unwrapTristateNullableItemsList(Tristate<List<Optional<T>>> list) {
+  return list.map(l -> unwrapNullableItemsList(l));
 }
 ]

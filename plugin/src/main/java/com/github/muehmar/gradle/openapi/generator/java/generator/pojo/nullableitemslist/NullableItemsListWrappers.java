@@ -11,6 +11,10 @@ public class NullableItemsListWrappers {
     return WrapNullableItemsListMethod.<JavaObjectPojo>wrapNullableItemsListMethod()
         .appendSingleBlankLine()
         .append(UnwrapNullableItemsListMethod.unwrapNullableItemsListMethod())
+        .appendSingleBlankLine()
+        .append(UnwrapOptionalNullableItemsListMethod.unwrapOptionalNullableItemsListMethod())
+        .appendSingleBlankLine()
+        .append(UnwrapTristateNullableItemsListMethod.unwrapTristateNullableItemsListMethod())
         .filter(NullableItemsListWrappers::needsNullableItemsListWrappers);
   }
 
