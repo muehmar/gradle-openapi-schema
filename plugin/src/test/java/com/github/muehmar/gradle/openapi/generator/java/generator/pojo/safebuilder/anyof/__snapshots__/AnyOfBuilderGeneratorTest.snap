@@ -314,6 +314,7 @@ public static final class AnyOfBuilder1 {
 
 
 anyOfPojoWithoutRequiredProperties[FULL]=[
+com.github.muehmar.openapi.util.Tristate
 java.util.Map
 
 public static final class FullAnyOfBuilder0 {
@@ -359,6 +360,10 @@ public static final class FullAnyOfBuilder1 {
   }
 
   public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
     return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
   }
 

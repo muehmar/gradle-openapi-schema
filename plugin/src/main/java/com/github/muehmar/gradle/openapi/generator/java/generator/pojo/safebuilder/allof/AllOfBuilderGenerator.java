@@ -1,16 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.allof;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator.singleMemberSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.SingleMemberSetterGenerator.singleMemberSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.SetterBuilder.fullSetterBuilder;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.BuilderStage;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SafeBuilderVariant;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SetterBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleBuilderClassGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.SingleMemberSetterGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.Setter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.SetterBuilderImpl.SetterType;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.safebuilder.setter.model.SetterMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -44,36 +45,48 @@ public class AllOfBuilderGenerator {
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> normalSetter() {
-    final SingleMemberSetterGenerator.Setter<AllOfMember> setter =
-        SetterBuilder.<AllOfMember>create()
+    final Setter setter =
+        fullSetterBuilder()
+            .type(SetterType.DEFAULT)
             .includeInBuilder(ignore -> true)
             .typeFormat("%s")
             .addRefs(writer -> writer)
             .build();
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
-        .appendOptional(singleMemberSetterGenerator(setter), AllOfMember::fromStage);
+        .appendOptional(
+            singleMemberSetterGenerator(
+                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+            AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> optionalSetter() {
-    final SingleMemberSetterGenerator.Setter<AllOfMember> setter =
-        SetterBuilder.<AllOfMember>create()
-            .includeInBuilder(AllOfMember::isJavaOptional)
+    final Setter setter =
+        fullSetterBuilder()
+            .type(SetterType.DEFAULT)
+            .includeInBuilder(AllOfBuilderGenerator::isJavaOptional)
             .typeFormat("Optional<%s>")
             .addRefs(writer -> writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL))
             .build();
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
-        .appendOptional(singleMemberSetterGenerator(setter), AllOfMember::fromStage);
+        .appendOptional(
+            singleMemberSetterGenerator(
+                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+            AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> tristateSetter() {
-    final SingleMemberSetterGenerator.Setter<AllOfMember> setter =
-        SetterBuilder.<AllOfMember>create()
-            .includeInBuilder(AllOfMember::isJavaTristate)
+    final Setter setter =
+        fullSetterBuilder()
+            .type(SetterType.DEFAULT)
+            .includeInBuilder(m -> m.getMember().isOptionalAndNullable())
             .typeFormat("Tristate<%s>")
             .addRefs(writer -> writer.ref(OpenApiUtilRefs.TRISTATE))
             .build();
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
-        .appendOptional(singleMemberSetterGenerator(setter), AllOfMember::fromStage);
+        .appendOptional(
+            singleMemberSetterGenerator(
+                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+            AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
   private static Generator<AllOfBuilderStage, PojoSettings> dtoSetter() {
@@ -111,6 +124,7 @@ public class AllOfBuilderGenerator {
 
   @Value
   private static class AllOfPojoStage {
+
     AllOfBuilderStage allOfBuilderStage;
     BuilderStage nextStage;
 
@@ -122,37 +136,17 @@ public class AllOfBuilderGenerator {
     }
   }
 
-  @Value
-  private static class AllOfMember implements SingleMemberSetterGenerator.Member {
-    AllOfBuilderStage stage;
-    JavaPojoMember member;
-    BuilderStage nextStage;
+  private static boolean isJavaOptional(SetterMember setterMember) {
+    return setterMember.getMember().isRequiredAndNullable()
+        || setterMember.getMember().isOptionalAndNotNullable();
+  }
 
-    static Optional<AllOfMember> fromStage(AllOfBuilderStage stage) {
-      return stage
-          .getMemberStageObjects()
-          .map(
-              memberStageObjects ->
-                  new AllOfMember(
-                      stage, memberStageObjects.getMember(), memberStageObjects.getNextStage()));
-    }
-
-    @Override
-    public String stageClassName() {
-      return stage.getName();
-    }
-
-    @Override
-    public String nextStageClassName() {
-      return nextStage.getName();
-    }
-
-    public boolean isJavaOptional() {
-      return member.isOptionalAndNotNullable() || member.isRequiredAndNullable();
-    }
-
-    public boolean isJavaTristate() {
-      return member.isOptionalAndNullable();
-    }
+  private static Optional<SetterMember> standardSetterMemberFromStage(AllOfBuilderStage stage) {
+    return stage
+        .getMemberStageObjects()
+        .map(
+            memberStageObjects ->
+                new SetterMember(
+                    memberStageObjects.getNextStage(), memberStageObjects.getMember()));
   }
 }

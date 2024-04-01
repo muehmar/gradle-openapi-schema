@@ -1,4 +1,5 @@
 allNecessityAndNullabilityVariants=[
+java.util.List
 java.util.Map
 
 private final String requiredStringVal;
@@ -8,6 +9,13 @@ private final String optionalStringVal;
 private final boolean isOptionalStringValNotNull;
 private final String optionalNullableStringVal;
 private final boolean isOptionalNullableStringValNull;
+private final List<String> requiredListWithNullableItems;
+private final List<String> requiredNullableListWithNullableItems;
+private final boolean isRequiredNullableListWithNullableItemsPresent;
+private final List<String> optionalListWithNullableItems;
+private final boolean isOptionalListWithNullableItemsNotNull;
+private final List<String> optionalNullableListWithNullableItems;
+private final boolean isOptionalNullableListWithNullableItemsNull;
 private final Map<String, Object> additionalProperties;
 ]
 

@@ -7,12 +7,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -74,17 +78,32 @@ public class PersonDto {
     return asUserDto();
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -162,8 +181,8 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -252,19 +271,29 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -395,6 +424,10 @@ public class PersonDto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -498,6 +531,10 @@ public class PersonDto {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -521,6 +558,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -530,6 +569,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
@@ -588,17 +628,32 @@ public class PersonDto {
     return username;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -747,8 +802,8 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -836,19 +891,29 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -983,6 +1048,10 @@ public class PersonDto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -1090,6 +1159,10 @@ public class PersonDto {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -1111,11 +1184,16 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -1131,9 +1209,17 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, @NotNull Object> getAdditionalProperties_() {
     return additionalProperties;
+  }
+
+  @JsonIgnore
+  public List<AdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> new AdditionalProperty<>(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -1160,15 +1246,15 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
-      return true;
+      return additionalPropertiesValue != null;
     }
 
     private boolean isValid() {
@@ -1209,6 +1295,11 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<Object> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -1272,6 +1363,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -1292,6 +1387,10 @@ public class ObjectPojo1Dto {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -1309,12 +1408,16 @@ enableValidation[jakarta-2]=[
 package com.github.muehmar;
 
 import com.github.muehmar.openapi.util.EmailValidator;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.DecimalMax;
@@ -1530,16 +1633,30 @@ public class UserDto {
     return isAnotherPojoNotNull;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  @Valid
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -1748,8 +1865,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -1929,6 +2046,7 @@ public class UserDto {
      */
     public Builder setLevel(Optional<Long> level) {
       this.level = level.orElse(null);
+      this.isLevelNotNull = true;
       return this;
     }
 
@@ -1946,6 +2064,7 @@ public class UserDto {
      */
     public Builder setUppercase(Optional<String> uppercase) {
       this.uppercase = uppercase.orElse(null);
+      this.isUppercaseNotNull = true;
       return this;
     }
 
@@ -1963,6 +2082,7 @@ public class UserDto {
      */
     public Builder setMultipleOfValue(Optional<Long> multipleOfValue) {
       this.multipleOfValue = multipleOfValue.orElse(null);
+      this.isMultipleOfValueNotNull = true;
       return this;
     }
 
@@ -1980,11 +2100,20 @@ public class UserDto {
      */
     public Builder setAnotherPojo(Optional<AnotherPojo> anotherPojo) {
       this.anotherPojo = anotherPojo.orElse(null);
+      this.isAnotherPojoNotNull = true;
       return this;
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -2017,6 +2146,8 @@ enableValidation[jakarta-3]=[
 package com.github.muehmar;
 
 import com.github.muehmar.openapi.util.EmailValidator;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
@@ -2030,9 +2161,11 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * User of the Application
@@ -2238,16 +2371,30 @@ public class UserDto {
     return isAnotherPojoNotNull;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  @Valid
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -2456,8 +2603,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -2637,6 +2784,7 @@ public class UserDto {
      */
     public Builder setLevel(Optional<Long> level) {
       this.level = level.orElse(null);
+      this.isLevelNotNull = true;
       return this;
     }
 
@@ -2654,6 +2802,7 @@ public class UserDto {
      */
     public Builder setUppercase(Optional<String> uppercase) {
       this.uppercase = uppercase.orElse(null);
+      this.isUppercaseNotNull = true;
       return this;
     }
 
@@ -2671,6 +2820,7 @@ public class UserDto {
      */
     public Builder setMultipleOfValue(Optional<Long> multipleOfValue) {
       this.multipleOfValue = multipleOfValue.orElse(null);
+      this.isMultipleOfValueNotNull = true;
       return this;
     }
 
@@ -2688,11 +2838,20 @@ public class UserDto {
      */
     public Builder setAnotherPojo(Optional<AnotherPojo> anotherPojo) {
       this.anotherPojo = anotherPojo.orElse(null);
+      this.isAnotherPojoNotNull = true;
       return this;
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -2724,8 +2883,11 @@ public class UserDto {
 enabledSafeBuilder=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -2830,16 +2992,29 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -2899,8 +3074,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -2995,11 +3170,20 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -3122,6 +3306,10 @@ public class UserDto {
         return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
       }
@@ -3217,6 +3405,10 @@ public class UserDto {
         return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
       }
@@ -3241,12 +3433,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 @JsonDeserialize(builder = Illegal_IdentifierDto.Builder.class)
 public class Illegal_IdentifierDto {
@@ -3308,17 +3504,32 @@ public class Illegal_IdentifierDto {
     return point_;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -3374,8 +3585,8 @@ public class Illegal_IdentifierDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -3451,6 +3662,7 @@ public class Illegal_IdentifierDto {
     /**
      * Switch
      */
+    @JsonIgnore
     public Builder setSwitch(Tristate<String> switch_) {
       this.switch_ = switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isSwitchNull = switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -3470,6 +3682,7 @@ public class Illegal_IdentifierDto {
     /**
      * Point
      */
+    @JsonIgnore
     public Builder setPoint_(Tristate<String> point_) {
       this.point_ = point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isPoint_Null = point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -3479,6 +3692,14 @@ public class Illegal_IdentifierDto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -3554,6 +3775,7 @@ public class Illegal_IdentifierDto {
       public FullOptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
         return new FullOptPropertyBuilder1(builder.setSwitch(switch_));
       }
+
     }
 
     public static final class FullOptPropertyBuilder1 {
@@ -3576,6 +3798,7 @@ public class Illegal_IdentifierDto {
       public FullOptPropertyBuilder2 setPoint_(Tristate<String> point_) {
         return new FullOptPropertyBuilder2(builder.setPoint_(point_));
       }
+
     }
 
     public static final class FullOptPropertyBuilder2 {
@@ -3586,6 +3809,10 @@ public class Illegal_IdentifierDto {
       }
 
       public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
         return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
       }
 
@@ -3638,6 +3865,7 @@ public class Illegal_IdentifierDto {
       public OptPropertyBuilder1 setSwitch(Tristate<String> switch_) {
         return new OptPropertyBuilder1(builder.setSwitch(switch_));
       }
+
     }
 
     public static final class OptPropertyBuilder1 {
@@ -3660,6 +3888,7 @@ public class Illegal_IdentifierDto {
       public OptPropertyBuilder2 setPoint_(Tristate<String> point_) {
         return new OptPropertyBuilder2(builder.setPoint_(point_));
       }
+
     }
 
     public static final class OptPropertyBuilder2 {
@@ -3670,6 +3899,10 @@ public class Illegal_IdentifierDto {
       }
 
       public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder2 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
       }
 
@@ -3696,14 +3929,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -3767,12 +4004,31 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, ColorEnum> getAdditionalProperties() {
+  private Map<String, @NotNull ColorEnum> getAdditionalProperties_() {
     final Map<String, ColorEnum> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
+  }
+
+  @JsonIgnore
+  public List<AdditionalProperty<ColorEnum>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .flatMap(
+            entry -> 
+                castAdditionalProperty(entry.getValue())
+                    .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                    .map(Stream::of)
+                    .orElseGet(Stream::empty))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -3785,6 +4041,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<ColorEnum> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((ColorEnum) property);
     } catch (ClassCastException e) {
@@ -3808,15 +4067,15 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(ColorEnum additionalPropertiesValue) {
-      return true;
+      return additionalPropertiesValue != null;
     }
 
     private boolean isValid() {
@@ -3828,7 +4087,10 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -3869,6 +4131,11 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, ColorEnum value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<ColorEnum> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -3932,6 +4199,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<ColorEnum> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -3949,6 +4220,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, ColorEnum value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<ColorEnum> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -3973,12 +4248,18 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -3994,12 +4275,31 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Integer> getAdditionalProperties() {
+  private Map<String, @NotNull Integer> getAdditionalProperties_() {
     final Map<String, Integer> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
+  }
+
+  @JsonIgnore
+  public List<AdditionalProperty<Integer>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .flatMap(
+            entry -> 
+                castAdditionalProperty(entry.getValue())
+                    .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                    .map(Stream::of)
+                    .orElseGet(Stream::empty))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -4012,6 +4312,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<Integer> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((Integer) property);
     } catch (ClassCastException e) {
@@ -4035,15 +4338,15 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
     }
 
     private boolean isAdditionalPropertiesValueValid(Integer additionalPropertiesValue) {
-      return true;
+      return additionalPropertiesValue != null;
     }
 
     private boolean isValid() {
@@ -4055,7 +4358,10 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of Integer")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -4096,6 +4402,11 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Integer value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<Integer> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -4159,6 +4470,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<Integer> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Integer> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -4176,6 +4491,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Integer value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<Integer> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -4204,8 +4523,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -4322,16 +4644,30 @@ public class UserDto {
   }
 
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -4392,8 +4728,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -4491,14 +4827,24 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
+    @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -4523,8 +4869,11 @@ public class UserDto {
 minimalPojoSetting=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -4629,16 +4978,29 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -4698,8 +5060,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -4795,11 +5157,20 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -4832,15 +5203,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * NecessityAndNullability
@@ -4854,6 +5230,13 @@ public class NecessityAndNullabilityDto {
   private final boolean isOptionalStringValNotNull;
   private final String optionalNullableStringVal;
   private final boolean isOptionalNullableStringValNull;
+  private final List<String> requiredListWithNullableItems;
+  private final List<String> requiredNullableListWithNullableItems;
+  private final boolean isRequiredNullableListWithNullableItemsPresent;
+  private final List<String> optionalListWithNullableItems;
+  private final boolean isOptionalListWithNullableItemsNotNull;
+  private final List<String> optionalNullableListWithNullableItems;
+  private final boolean isOptionalNullableListWithNullableItemsNull;
   private final Map<String, Object> additionalProperties;
 
   public NecessityAndNullabilityDto(
@@ -4864,6 +5247,13 @@ public class NecessityAndNullabilityDto {
       boolean isOptionalStringValNotNull,
       String optionalNullableStringVal,
       boolean isOptionalNullableStringValNull,
+      List<String> requiredListWithNullableItems,
+      List<String> requiredNullableListWithNullableItems,
+      boolean isRequiredNullableListWithNullableItemsPresent,
+      List<String> optionalListWithNullableItems,
+      boolean isOptionalListWithNullableItemsNotNull,
+      List<String> optionalNullableListWithNullableItems,
+      boolean isOptionalNullableListWithNullableItemsNull,
       Map<String, Object> additionalProperties
     ) {
     this.requiredStringVal = requiredStringVal;
@@ -4873,6 +5263,13 @@ public class NecessityAndNullabilityDto {
     this.isOptionalStringValNotNull = isOptionalStringValNotNull;
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+    this.requiredListWithNullableItems = requiredListWithNullableItems;
+    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+    this.isRequiredNullableListWithNullableItemsPresent = isRequiredNullableListWithNullableItemsPresent;
+    this.optionalListWithNullableItems = optionalListWithNullableItems;
+    this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
+    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+    this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -4962,17 +5359,122 @@ public class NecessityAndNullabilityDto {
     return optionalNullableStringVal;
   }
 
-  @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
+  public List<Optional<String>> getRequiredListWithNullableItems() {
+    return wrapNullableItemsList(requiredListWithNullableItems);
+  }
+.
+.
+  @NotNull
+  @Size(min = 5, max = 10)
+  @JsonProperty("requiredListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
+    return requiredListWithNullableItems;
   }
 
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * RequiredNullableListWithNullableItems
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  @JsonIgnore
+  public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems() {
+    return Optional.ofNullable(wrapNullableItemsList(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  @JsonIgnore
+  public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Optional<String>> defaultValue) {
+    return this.requiredNullableListWithNullableItems == null ? defaultValue : wrapNullableItemsList(this.requiredNullableListWithNullableItems);
+  }
+.
+.
+  @Size(min = 5, max = 10)
+  @JsonProperty("requiredNullableListWithNullableItems")
+  private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
+    return requiredNullableListWithNullableItems;
+  }
+
+  @AssertTrue(message = "requiredNullableListWithNullableItems is required but it is not present")
+  @JsonIgnore
+  private boolean isRequiredNullableListWithNullableItemsPresent() {
+    return isRequiredNullableListWithNullableItemsPresent;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
+  public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
+    return Optional.ofNullable(wrapNullableItemsList(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
+  public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<String>> defaultValue) {
+    return this.optionalListWithNullableItems == null ? defaultValue : wrapNullableItemsList(this.optionalListWithNullableItems);
+  }
+.
+.
+  @Size(min = 5, max = 10)
+  @JsonProperty("optionalListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+    return optionalListWithNullableItems;
+  }
+
+  @AssertTrue(message = "optionalListWithNullableItems is required to be non-null but is null")
+  @JsonIgnore
+  private boolean isOptionalListWithNullableItemsNotNull() {
+    return isOptionalListWithNullableItemsNotNull;
+  }
+
+  @JsonIgnore
+  public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
+    return Tristate.ofNullableAndNullFlag(wrapNullableItemsList(optionalNullableListWithNullableItems), isOptionalNullableListWithNullableItemsNull);
+  }
+
+  @JsonProperty("optionalNullableListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableListWithNullableItemsJackson() {
+    return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
+  }
+.
+.
+  @JsonIgnore
+  @Size(min = 5, max = 10)
+  private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
+    return optionalNullableListWithNullableItems;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -4985,6 +5487,10 @@ public class NecessityAndNullabilityDto {
       (isRequiredNullableStringValPresent ? 1 : 0) +
       (optionalStringVal != null ? 1 : 0) +
       ((isOptionalNullableStringValNull || optionalNullableStringVal != null) ? 1 : 0) +
+      (requiredListWithNullableItems != null ? 1 : 0) +
+      (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
+      (optionalListWithNullableItems != null ? 1 : 0) +
+      ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
       additionalProperties.size();
   }
 
@@ -4992,49 +5498,169 @@ public class NecessityAndNullabilityDto {
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, false, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, false, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, unwrapNullableItemsList(requiredListWithNullableItems), requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems.orElse(null), requiredNullableListWithNullableItems.isPresent(), optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems), true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)), requiredNullableListWithNullableItems.isPresent(), optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems.orElse(null), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, unwrapNullableItemsList(optionalListWithNullableItems), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, unwrapNullableItemsList(optionalListWithNullableItems.orElse(null)), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, false, additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, unwrapNullableItemsList(optionalNullableListWithNullableItems), false, additionalProperties);
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, unwrapNullableItemsList(optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)), optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+  }
+
+  private static <T> List<Optional<T>> wrapNullableItemsList(List<T> list) {
+    if (list == null) {
+      return null;
+    }
+    return list.stream().map(Optional::ofNullable).collect(Collectors.toList());
+  }
+
+  private static <T> List<T> unwrapNullableItemsList(List<Optional<T>> list) {
+    if (list == null) {
+      return null;
+    }
+    return list.stream().map(value -> value.orElse(null)).collect(Collectors.toList());
+  }
+
+  private static <T> Optional<List<T>> unwrapOptionalNullableItemsList(Optional<List<Optional<T>>> list) {
+    return list.map(l -> unwrapNullableItemsList(l));
+  }
+
+  private static <T> Tristate<List<T>> unwrapTristateNullableItemsList(Tristate<List<Optional<T>>> list) {
+    return list.map(l -> unwrapNullableItemsList(l));
   }
 
   boolean isValid() {
@@ -5074,9 +5700,81 @@ public class NecessityAndNullabilityDto {
       return true;
     }
 
+    private boolean isRequiredListWithNullableItemsValid() {
+      if(requiredListWithNullableItems != null) {
+        return 5 <= requiredListWithNullableItems.size()
+            && requiredListWithNullableItems.size() <= 10
+            && requiredListWithNullableItems.stream().allMatch(this::isRequiredListWithNullableItemsValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isRequiredListWithNullableItemsValueValid(String requiredListWithNullableItemsValue) {
+      if(requiredListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
+    private boolean isRequiredNullableListWithNullableItemsValid() {
+      if(requiredNullableListWithNullableItems != null) {
+        return 5 <= requiredNullableListWithNullableItems.size()
+            && requiredNullableListWithNullableItems.size() <= 10
+            && requiredNullableListWithNullableItems.stream().allMatch(this::isRequiredNullableListWithNullableItemsValueValid);
+      }
+
+      return isRequiredNullableListWithNullableItemsPresent;
+    }
+
+    private boolean isRequiredNullableListWithNullableItemsValueValid(String requiredNullableListWithNullableItemsValue) {
+      if(requiredNullableListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredNullableListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalListWithNullableItemsValid() {
+      if(optionalListWithNullableItems != null) {
+        return 5 <= optionalListWithNullableItems.size()
+            && optionalListWithNullableItems.size() <= 10
+            && optionalListWithNullableItems.stream().allMatch(this::isOptionalListWithNullableItemsValueValid);
+      }
+
+      return isOptionalListWithNullableItemsNotNull;
+    }
+
+    private boolean isOptionalListWithNullableItemsValueValid(String optionalListWithNullableItemsValue) {
+      if(optionalListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalNullableListWithNullableItemsValid() {
+      if(optionalNullableListWithNullableItems != null) {
+        return 5 <= optionalNullableListWithNullableItems.size()
+            && optionalNullableListWithNullableItems.size() <= 10
+            && optionalNullableListWithNullableItems.stream().allMatch(this::isOptionalNullableListWithNullableItemsValueValid);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalNullableListWithNullableItemsValueValid(String optionalNullableListWithNullableItemsValue) {
+      if(optionalNullableListWithNullableItemsValue != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalNullableListWithNullableItemsValue);
+      }
+
+      return true;
+    }
+
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -5091,6 +5789,10 @@ public class NecessityAndNullabilityDto {
           && isRequiredNullableStringValValid()
           && isOptionalStringValValid()
           && isOptionalNullableStringValValid()
+          && isRequiredListWithNullableItemsValid()
+          && isRequiredNullableListWithNullableItemsValid()
+          && isOptionalListWithNullableItemsValid()
+          && isOptionalNullableListWithNullableItemsValid()
           && isAdditionalPropertiesValid();
     }
   }
@@ -5107,6 +5809,13 @@ public class NecessityAndNullabilityDto {
         && Objects.deepEquals(this.isOptionalStringValNotNull, other.isOptionalStringValNotNull)
         && Objects.deepEquals(this.optionalNullableStringVal, other.optionalNullableStringVal)
         && Objects.deepEquals(this.isOptionalNullableStringValNull, other.isOptionalNullableStringValNull)
+        && Objects.deepEquals(this.requiredListWithNullableItems, other.requiredListWithNullableItems)
+        && Objects.deepEquals(this.requiredNullableListWithNullableItems, other.requiredNullableListWithNullableItems)
+        && Objects.deepEquals(this.isRequiredNullableListWithNullableItemsPresent, other.isRequiredNullableListWithNullableItemsPresent)
+        && Objects.deepEquals(this.optionalListWithNullableItems, other.optionalListWithNullableItems)
+        && Objects.deepEquals(this.isOptionalListWithNullableItemsNotNull, other.isOptionalListWithNullableItemsNotNull)
+        && Objects.deepEquals(this.optionalNullableListWithNullableItems, other.optionalNullableListWithNullableItems)
+        && Objects.deepEquals(this.isOptionalNullableListWithNullableItemsNull, other.isOptionalNullableListWithNullableItemsNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -5120,6 +5829,13 @@ public class NecessityAndNullabilityDto {
       isOptionalStringValNotNull,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
+      requiredListWithNullableItems,
+      requiredNullableListWithNullableItems,
+      isRequiredNullableListWithNullableItemsPresent,
+      optionalListWithNullableItems,
+      isOptionalListWithNullableItemsNotNull,
+      optionalNullableListWithNullableItems,
+      isOptionalNullableListWithNullableItemsNull,
       additionalProperties
     );
   }
@@ -5134,6 +5850,13 @@ public class NecessityAndNullabilityDto {
       "isOptionalStringValNotNull=" + isOptionalStringValNotNull + ", " +
       "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
       "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+      "requiredListWithNullableItems=" + requiredListWithNullableItems + ", " +
+      "requiredNullableListWithNullableItems=" + requiredNullableListWithNullableItems + ", " +
+      "isRequiredNullableListWithNullableItemsPresent=" + isRequiredNullableListWithNullableItemsPresent + ", " +
+      "optionalListWithNullableItems=" + optionalListWithNullableItems + ", " +
+      "isOptionalListWithNullableItemsNotNull=" + isOptionalListWithNullableItemsNotNull + ", " +
+      "optionalNullableListWithNullableItems=" + optionalNullableListWithNullableItems + ", " +
+      "isOptionalNullableListWithNullableItemsNull=" + isOptionalNullableListWithNullableItemsNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -5151,6 +5874,13 @@ public class NecessityAndNullabilityDto {
     private boolean isOptionalStringValNotNull = true;
     private String optionalNullableStringVal;
     private boolean isOptionalNullableStringValNull = false;
+    private List<String> requiredListWithNullableItems;
+    private List<String> requiredNullableListWithNullableItems;
+    private boolean isRequiredNullableListWithNullableItemsPresent = false;
+    private List<String> optionalListWithNullableItems;
+    private boolean isOptionalListWithNullableItemsNotNull = true;
+    private List<String> optionalNullableListWithNullableItems;
+    private boolean isOptionalNullableListWithNullableItemsNull = false;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
@@ -5175,6 +5905,7 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableStringVal
      */
+    @JsonIgnore
     private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
       this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
       this.isRequiredNullableStringValPresent = true;
@@ -5194,8 +5925,10 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
+    @JsonIgnore
     public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
       this.optionalStringVal = optionalStringVal.orElse(null);
+      this.isOptionalStringValNotNull = true;
       return this;
     }
 
@@ -5212,15 +5945,162 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableStringVal
      */
+    @JsonIgnore
     public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
 
+    /**
+     * RequiredListWithNullableItems
+     */
+    @JsonProperty("requiredListWithNullableItems")
+    private Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+      this.requiredListWithNullableItems = requiredListWithNullableItems;
+      return this;
+    }
+
+    /**
+     * RequiredListWithNullableItems
+     */
+    @JsonIgnore
+    private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+      this.requiredListWithNullableItems = unwrapNullableItemsList(requiredListWithNullableItems);
+      return this;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    @JsonProperty("requiredNullableListWithNullableItems")
+    private Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+      this.isRequiredNullableListWithNullableItemsPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    @JsonIgnore
+    private Builder setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.orElse(null);
+      this.isRequiredNullableListWithNullableItemsPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    @JsonIgnore
+    private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+      this.requiredNullableListWithNullableItems = unwrapNullableItemsList(requiredNullableListWithNullableItems);
+      this.isRequiredNullableListWithNullableItemsPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableListWithNullableItems
+     */
+    @JsonIgnore
+    private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+      this.isRequiredNullableListWithNullableItemsPresent = true;
+      return this;
+    }
+
+    /**
+     * OptionalListWithNullableItems
+     */
+    @JsonProperty("optionalListWithNullableItems")
+    public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+      this.optionalListWithNullableItems = optionalListWithNullableItems;
+      this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+      return this;
+    }
+
+    /**
+     * OptionalListWithNullableItems
+     */
+    @JsonIgnore
+    public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+      this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+      this.isOptionalListWithNullableItemsNotNull = true;
+      return this;
+    }
+
+    /**
+     * OptionalListWithNullableItems
+     */
+    @JsonIgnore
+    public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
+      this.optionalListWithNullableItems = unwrapNullableItemsList(optionalListWithNullableItems);
+      this.isOptionalListWithNullableItemsNotNull = true;
+      return this;
+    }
+
+    /**
+     * OptionalListWithNullableItems
+     */
+    @JsonIgnore
+    public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
+      this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+      this.isOptionalListWithNullableItemsNotNull = true;
+      return this;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    @JsonProperty("optionalNullableListWithNullableItems")
+    public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+      this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    @JsonIgnore
+    public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    @JsonIgnore
+    public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
+      this.optionalNullableListWithNullableItems = unwrapNullableItemsList(optionalNullableListWithNullableItems);
+      isOptionalNullableListWithNullableItemsNull = false;
+      return this;
+    }
+
+    /**
+     * OptionalNullableListWithNullableItems
+     */
+    @JsonIgnore
+    public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -5234,8 +6114,12 @@ public class NecessityAndNullabilityDto {
       additionalProperties.remove("requiredNullableStringVal");
       additionalProperties.remove("optionalStringVal");
       additionalProperties.remove("optionalNullableStringVal");
+      additionalProperties.remove("requiredListWithNullableItems");
+      additionalProperties.remove("requiredNullableListWithNullableItems");
+      additionalProperties.remove("optionalListWithNullableItems");
+      additionalProperties.remove("optionalNullableListWithNullableItems");
 
-      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, additionalProperties);
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
     }
   }
 
@@ -5304,15 +6188,75 @@ public class NecessityAndNullabilityDto {
       /**
        * RequiredNullableStringVal
        */
-      public FullOptPropertyBuilder0 setRequiredNullableStringVal(String requiredNullableStringVal) {
-        return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      public FullPropertyBuilder2 setRequiredNullableStringVal(String requiredNullableStringVal) {
+        return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
       }
 
       /**
        * RequiredNullableStringVal
        */
-      public FullOptPropertyBuilder0 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-        return new FullOptPropertyBuilder0(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
+        return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder2 {
+      private final Builder builder;
+
+      private FullPropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredListWithNullableItems
+       */
+      public FullPropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+        return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+      }
+
+      /**
+       * RequiredListWithNullableItems
+       */
+      public FullPropertyBuilder3 setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+        return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder3 {
+      private final Builder builder;
+
+      private FullPropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
       }
     }
 
@@ -5359,6 +6303,7 @@ public class NecessityAndNullabilityDto {
       public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
         return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
       }
+
     }
 
     public static final class FullOptPropertyBuilder2 {
@@ -5368,12 +6313,89 @@ public class NecessityAndNullabilityDto {
         this.builder = builder;
       }
 
-      public FullOptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-        return new FullOptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public FullOptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+        return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
 
-      public FullOptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-        return new FullOptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public FullOptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+        return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+      }
+
+      /**
+       * OptionalListWithNullableItems
+       */
+      public FullOptPropertyBuilder3 setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
+        return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+      }
+
+      /**
+       * OptionalListWithNullableItems
+       */
+      public FullOptPropertyBuilder3 setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
+        return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder3 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+        return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+      }
+    }
+
+    public static final class FullOptPropertyBuilder4 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder4(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
       }
 
       public NecessityAndNullabilityDto build(){
@@ -5417,12 +6439,72 @@ public class NecessityAndNullabilityDto {
       public PropertyBuilder2 setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
         return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
       }
+
     }
 
     public static final class PropertyBuilder2 {
       private final Builder builder;
 
       private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredListWithNullableItems
+       */
+      public PropertyBuilder3 setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
+        return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+      }
+
+      /**
+       * RequiredListWithNullableItems
+       */
+      public PropertyBuilder3 setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
+        return new PropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+      }
+
+    }
+
+    public static final class PropertyBuilder3 {
+      private final Builder builder;
+
+      private PropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public PropertyBuilder4 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+        return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public PropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+        return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public PropertyBuilder4 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+        return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+      }
+
+      /**
+       * RequiredNullableListWithNullableItems
+       */
+      public PropertyBuilder4 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+        return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+      }
+    }
+
+    public static final class PropertyBuilder4 {
+      private final Builder builder;
+
+      private PropertyBuilder4(Builder builder) {
         this.builder = builder;
       }
 
@@ -5482,6 +6564,7 @@ public class NecessityAndNullabilityDto {
       public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
         return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
       }
+
     }
 
     public static final class OptPropertyBuilder2 {
@@ -5491,12 +6574,89 @@ public class NecessityAndNullabilityDto {
         this.builder = builder;
       }
 
-      public OptPropertyBuilder2 addAdditionalProperty(String key, Object value) {
-        return new OptPropertyBuilder2(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public OptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+        return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
       }
 
-      public OptPropertyBuilder2 setAdditionalProperties(Map<String, Object> additionalProperties) {
-        return new OptPropertyBuilder2(builder.setAdditionalProperties(additionalProperties));
+      /**
+       * OptionalListWithNullableItems
+       */
+      public OptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+        return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+      }
+
+      /**
+       * OptionalListWithNullableItems
+       */
+      public OptPropertyBuilder3 setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
+        return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+      }
+
+      /**
+       * OptionalListWithNullableItems
+       */
+      public OptPropertyBuilder3 setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
+        return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+      }
+
+    }
+
+    public static final class OptPropertyBuilder3 {
+      private final Builder builder;
+
+      private OptPropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+        return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+        return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public OptPropertyBuilder4 setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
+        return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+      }
+
+      /**
+       * OptionalNullableListWithNullableItems
+       */
+      public OptPropertyBuilder4 setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+        return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+      }
+    }
+
+    public static final class OptPropertyBuilder4 {
+      private final Builder builder;
+
+      private OptPropertyBuilder4(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
       }
 
       public NecessityAndNullabilityDto build(){
@@ -5515,6 +6675,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -5589,6 +6750,14 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     private Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    private Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -5672,13 +6841,18 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -5694,12 +6868,31 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, @Valid HelloDto> getAdditionalProperties() {
+  private Map<String, @NotNull @Valid HelloDto> getAdditionalProperties_() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
+  }
+
+  @JsonIgnore
+  public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .flatMap(
+            entry -> 
+                castAdditionalProperty(entry.getValue())
+                    .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                    .map(Stream::of)
+                    .orElseGet(Stream::empty))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -5712,6 +6905,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<HelloDto> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((HelloDto) property);
     } catch (ClassCastException e) {
@@ -5735,8 +6931,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -5747,7 +6943,7 @@ public class ObjectPojo1Dto {
         return additionalPropertiesValue.isValid();
       }
 
-      return true;
+      return false;
     }
 
     private boolean isValid() {
@@ -5759,7 +6955,10 @@ public class ObjectPojo1Dto {
   @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of HelloDto")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -5800,6 +6999,11 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, HelloDto value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Optional<HelloDto> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
       return this;
     }
 
@@ -5863,6 +7067,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -5880,6 +7088,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -5904,11 +7116,15 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
 public class ObjectPojo1Dto {
@@ -5925,11 +7141,29 @@ public class ObjectPojo1Dto {
   }
 
   @JsonAnyGetter
-  public Map<String, HelloDto> getAdditionalProperties() {
+  private Map<String, HelloDto> getAdditionalProperties_() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
+  }
+
+  @JsonIgnore
+  public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .flatMap(
+            entry -> 
+                castAdditionalProperty(entry.getValue())
+                    .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                    .map(Stream::of)
+                    .orElseGet(Stream::empty))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -5942,6 +7176,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<HelloDto> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((HelloDto) property);
     } catch (ClassCastException e) {
@@ -5965,8 +7202,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -5977,7 +7214,7 @@ public class ObjectPojo1Dto {
         return additionalPropertiesValue.isValid();
       }
 
-      return true;
+      return false;
     }
 
     private boolean isValid() {
@@ -5988,7 +7225,10 @@ public class ObjectPojo1Dto {
 
   @JsonIgnore
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -6032,6 +7272,11 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Optional<HelloDto> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -6092,6 +7337,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6112,6 +7361,10 @@ public class ObjectPojo1Dto {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
         return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6128,13 +7381,18 @@ public class ObjectPojo1Dto {
 objectMapNoJsonSupport=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
@@ -6149,11 +7407,29 @@ public class ObjectPojo1Dto {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
-  public Map<String, @Valid HelloDto> getAdditionalProperties() {
+  @Valid
+  private Map<String, @NotNull @Valid HelloDto> getAdditionalProperties_() {
     final Map<String, HelloDto> props = new HashMap<>();
     additionalProperties.forEach(
-        (key, value) -> castAdditionalProperty(value).ifPresent(v -> props.put(key, v)));
+        (key, value) -> {
+          if (value == null) {
+            props.put(key, null);
+          } else {
+            castAdditionalProperty(value).ifPresent(val -> props.put(key, val));
+          }
+        });
     return props;
+  }
+
+  public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .flatMap(
+            entry -> 
+                castAdditionalProperty(entry.getValue())
+                    .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                    .map(Stream::of)
+                    .orElseGet(Stream::empty))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -6166,6 +7442,9 @@ public class ObjectPojo1Dto {
   }
 
   private Optional<HelloDto> castAdditionalProperty(Object property) {
+    if (property == null) {
+      return Optional.empty();
+    }
     try {
       return Optional.of((HelloDto) property);
     } catch (ClassCastException e) {
@@ -6188,8 +7467,8 @@ public class ObjectPojo1Dto {
   private class Validator {
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -6200,7 +7479,7 @@ public class ObjectPojo1Dto {
         return additionalPropertiesValue.isValid();
       }
 
-      return true;
+      return false;
     }
 
     private boolean isValid() {
@@ -6211,7 +7490,10 @@ public class ObjectPojo1Dto {
 
   @AssertTrue(message = "Not all additional properties are instances of HelloDto")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
-    return getAdditionalProperties().size() == additionalProperties.size();
+    return additionalProperties.values()
+        .stream()
+        .filter(Objects::nonNull)
+        .allMatch(v -> castAdditionalProperty(v).isPresent());
   }
 
   @Override
@@ -6253,6 +7535,11 @@ public class ObjectPojo1Dto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Optional<HelloDto> value) {
+      value.ifPresent(val -> this.additionalProperties.put(key, val));
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -6313,6 +7600,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, HelloDto> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6330,6 +7621,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, HelloDto value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Optional<HelloDto> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
@@ -6355,6 +7650,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6362,6 +7659,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
@@ -6382,21 +7681,36 @@ public class ObjectPojo1Dto {
    * List
    */
   @NotNull
-  public List<String> getListVal() {
+  public List<@NotNull String> getListVal() {
     return listVal;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -6431,12 +7745,12 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isListValValueValid(String listValValue) {
-      return true;
+      return listValValue != null;
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -6503,6 +7817,14 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -6584,6 +7906,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6640,6 +7966,10 @@ public class ObjectPojo1Dto {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6662,12 +7992,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -6689,21 +8024,36 @@ public class ObjectPojo1Dto {
    */
   @NotNull
   @Size(min = 3, max = 8)
-  public Map<String, UUID> getMapVal() {
+  public Map<String, @NotNull UUID> getMapVal() {
     return mapVal;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -6739,12 +8089,12 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isMapValValueValid(UUID mapValValue) {
-      return true;
+      return mapValValue != null;
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -6806,6 +8156,14 @@ public class ObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -6887,6 +8245,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6943,6 +8305,10 @@ public class ObjectPojo1Dto {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -6966,14 +8332,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
@@ -7032,17 +8402,32 @@ public class PersonDto {
     return username;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -7217,8 +8602,8 @@ public class PersonDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -7306,19 +8691,29 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -7429,6 +8824,10 @@ public class PersonDto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -7512,6 +8911,10 @@ public class PersonDto {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -7528,13 +8931,17 @@ public class PersonDto {
 pojoWithEnumAndEnumDescription=[
 package com.github.muehmar;
 
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -7633,16 +9040,30 @@ public class UserDto {
     return isLanguageNotNull;
   }
 
-  public Map<String, Object> getAdditionalProperties() {
+  @Valid
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -7682,8 +9103,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -7755,11 +9176,20 @@ public class UserDto {
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -7791,13 +9221,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 
 /**
@@ -7905,17 +9339,32 @@ public class UserDto {
     return isLanguageNotNull;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -7956,8 +9405,8 @@ public class UserDto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -8029,14 +9478,24 @@ public class UserDto {
      * * `GERMAN`: German language<br>
      * * `ENGLISH`: English language
      */
+    @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
       return this;
     }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -8067,12 +9526,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.EmailValidator;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -8154,17 +9618,32 @@ public class ObjectPojo1Dto {
     return value == null || value instanceof String;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -8221,8 +9700,8 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -8304,14 +9783,24 @@ public class ObjectPojo1Dto {
     /**
      * Birthdate
      */
+    @JsonIgnore
     public Builder setBirthdate(Optional<LocalDate> birthdate) {
       this.birthdate = birthdate.orElse(null);
+      this.isBirthdateNotNull = true;
       return this;
     }
 
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -8437,6 +9926,10 @@ public class ObjectPojo1Dto {
         return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
       }
@@ -8529,6 +10022,10 @@ public class ObjectPojo1Dto {
       }
 
       public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
       }
 

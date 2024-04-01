@@ -1,0 +1,98 @@
+notNullableAnyType=[
+java.util.Optional
+
+/**
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
+ */
+public Optional<Object> getAdditionalProperty(String key) {
+  return Optional.ofNullable(additionalProperties.get(key));
+}
+]
+
+
+notNullableListType=[
+java.util.List
+java.util.Optional
+
+/**
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
+ */
+public Optional<List<String>> getAdditionalProperty(String key) {
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+]
+
+
+notNullableObjectType=[
+java.util.Optional
+
+/**
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
+ */
+public Optional<ObjectDto> getAdditionalProperty(String key) {
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty);
+}
+]
+
+
+nullableAnyType=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+
+/**
+ * Returns the additional property with {@code key} where the {@link Tristate}
+ * class represents the possible three states of the property: present and
+ * non-null, present and null, absent.
+ */
+public Tristate<Object> getAdditionalProperty(String key) {
+  if (additionalProperties.containsKey(key)) {
+    return Optional.ofNullable(additionalProperties.get(key))
+        .map(Tristate::ofValue)
+        .orElseGet(Tristate::ofNull);
+  } else {
+    return Tristate.ofAbsent();
+  }
+}
+]
+
+
+nullableListType=[
+com.github.muehmar.openapi.util.Tristate
+java.util.List
+
+/**
+ * Returns the additional property with {@code key} where the {@link Tristate}
+ * class represents the possible three states of the property: present and
+ * non-null, present and null, absent.
+ */
+public Tristate<List<String>> getAdditionalProperty(String key) {
+  if (additionalProperties.containsKey(key)) {
+    return castAdditionalProperty(additionalProperties.get(key));
+  } else {
+    return Tristate.ofAbsent();
+  }
+}
+]
+
+
+nullableObjectType=[
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * Returns the additional property with {@code key} where the {@link Tristate}
+ * class represents the possible three states of the property: present and
+ * non-null, present and null, absent.
+ */
+public Tristate<ObjectDto> getAdditionalProperty(String key) {
+  if (additionalProperties.containsKey(key)) {
+    return castAdditionalProperty(additionalProperties.get(key));
+  } else {
+    return Tristate.ofAbsent();
+  }
+}
+]

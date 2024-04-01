@@ -8,7 +8,9 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Java
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ARRAY_VALUE;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.OBJECT_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ONE_OF_MEMBER;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.nullableitemslist.NullableItemsListGetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -23,11 +25,14 @@ public class GetterGenerator {
 
   private static Generator<JavaPojoMember, PojoSettings> membersGenerator() {
     return singleGetterGenerator(STANDARD)
+        .append(nullableItemsListGetterGenerator(STANDARD))
         .filter(m -> m.getType().equals(OBJECT_MEMBER) || m.getType().equals(ARRAY_VALUE));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> allOfGenerator() {
-    return singleGetterGenerator(NO_VALIDATION).filter(m -> m.getType().equals(ALL_OF_MEMBER));
+    return singleGetterGenerator(NO_VALIDATION)
+        .append(nullableItemsListGetterGenerator(NO_VALIDATION))
+        .filter(m -> m.getType().equals(ALL_OF_MEMBER));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> oneOfAndAnyOfGenerator() {
@@ -35,12 +40,27 @@ public class GetterGenerator {
         .filter(m -> m.getType().equals(ONE_OF_MEMBER) || m.getType().equals(ANY_OF_MEMBER));
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> singleGetterGenerator(
+  private static Generator<JavaPojoMember, PojoSettings> singleGetterGenerator(
       GeneratorOption option) {
     return RequiredNotNullableGetter.requiredNotNullableGetterGenerator(option)
         .append(RequiredNullableGetter.requiredNullableGetterGenerator(option))
         .append(OptionalNotNullableGetter.optionalNotNullableGetterGenerator(option))
-        .append(OptionalNullableGetter.optionalNullableGetterGenerator(option));
+        .append(OptionalNullableGetter.optionalNullableGetterGenerator(option))
+        .filter(GetterGenerator::isNotNullableListItemsMember);
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> nullableItemsListGetterGenerator(
+      GeneratorOption option) {
+    return NullableItemsListGetterGenerator.nullableItemsListGetterGenerator(option)
+        .filter(GetterGenerator::isNullableListItemsMember);
+  }
+
+  private static boolean isNullableListItemsMember(JavaPojoMember member) {
+    return member.getJavaType().isNullableItemsArrayType();
+  }
+
+  private static boolean isNotNullableListItemsMember(JavaPojoMember member) {
+    return not(isNullableListItemsMember(member));
   }
 
   public enum GeneratorOption {

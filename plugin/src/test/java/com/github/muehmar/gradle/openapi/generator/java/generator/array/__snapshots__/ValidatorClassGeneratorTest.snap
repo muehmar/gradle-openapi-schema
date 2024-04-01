@@ -9,7 +9,7 @@ private class Validator {
   }
 
   private boolean isItemsValueValid(Double itemsValue) {
-    return true;
+    return itemsValue != null;
   }
 
   private boolean isValid() {
@@ -31,7 +31,7 @@ private class Validator {
   }
 
   private boolean isItemsValueValid(Double itemsValue) {
-    return true;
+    return itemsValue != null;
   }
 
   private boolean isValid() {

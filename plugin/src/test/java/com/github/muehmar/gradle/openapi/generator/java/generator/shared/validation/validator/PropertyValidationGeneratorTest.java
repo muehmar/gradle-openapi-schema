@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.valida
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.memberValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.list;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.map;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredInteger;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
@@ -125,6 +126,42 @@ class PropertyValidationGeneratorTest {
   }
 
   @Test
+  @SnapshotName("optionalNotNullableStringWithCondition")
+  void generate_when_optionalNotNullableStringWithCondition_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember stringType =
+        optionalString()
+            .withJavaType(
+                JavaStringType.wrap(
+                        StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(5))),
+                        TypeMappings.empty())
+                    .withNullability(NOT_NULLABLE));
+
+    final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("optionalNullableStringWithCondition")
+  void generate_when_optionalNullableStringWithCondition_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember stringType =
+        optionalString()
+            .withJavaType(
+                JavaStringType.wrap(
+                        StringType.noFormat().withConstraints(Constraints.ofSize(Size.ofMin(5))),
+                        TypeMappings.empty())
+                    .withNullability(NULLABLE));
+
+    final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("integerWithMinAndMax")
   void generate_when_integerWithMinAndMax_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
@@ -148,6 +185,23 @@ class PropertyValidationGeneratorTest {
                     TypeMappings.empty()));
 
     final Writer writer = generator.generate(stringType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("listWithStringItemsWithConstraints")
+  void generate_when_listWithStringItemsWithConstraints_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember listType =
+        list(
+            StringType.noFormat().withConstraints(Constraints.ofSize(Size.of(10, 50))),
+            REQUIRED,
+            NOT_NULLABLE,
+            Constraints.empty());
+
+    final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
@@ -179,6 +233,23 @@ class PropertyValidationGeneratorTest {
   }
 
   @Test
+  @SnapshotName("listNullableItems")
+  void generate_when_listNullableItems_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember listType =
+        list(
+            StringType.noFormat().withNullability(NULLABLE),
+            REQUIRED,
+            NOT_NULLABLE,
+            Constraints.empty());
+
+    final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("mapWithSize")
   void generate_when_mapWithMinAndMaxLength_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
@@ -187,6 +258,24 @@ class PropertyValidationGeneratorTest {
         map(
             StringType.noFormat(),
             StringType.noFormat(),
+            REQUIRED,
+            NOT_NULLABLE,
+            Constraints.ofSize(Size.of(10, 50)));
+
+    final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("mapWithNullableProperties")
+  void generate_when_mapWithNullableProperties_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember listType =
+        map(
+            StringType.noFormat(),
+            StringType.noFormat().withNullability(NULLABLE),
             REQUIRED,
             NOT_NULLABLE,
             Constraints.ofSize(Size.of(10, 50)));

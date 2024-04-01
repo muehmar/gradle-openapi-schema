@@ -11,6 +11,13 @@ public int hashCode() {
     isOptionalStringValNotNull,
     optionalNullableStringVal,
     isOptionalNullableStringValNull,
+    requiredListWithNullableItems,
+    requiredNullableListWithNullableItems,
+    isRequiredNullableListWithNullableItemsPresent,
+    optionalListWithNullableItems,
+    isOptionalListWithNullableItemsNotNull,
+    optionalNullableListWithNullableItems,
+    isOptionalNullableListWithNullableItemsNull,
     additionalProperties
   );
 }

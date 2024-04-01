@@ -1,5 +1,6 @@
 allNecessityAndNullabilityVariantsPojo=[
 com.fasterxml.jackson.annotation.JsonAnySetter
+com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 .
@@ -7,6 +8,14 @@ java.util.Map
 @JsonAnySetter
 public Builder addAdditionalProperty(String key, Object value) {
   this.additionalProperties.put(key, value);
+  return this;
+}
+
+public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+  value
+      .onValue(val -> this.additionalProperties.put(key, val))
+      .onNull(() -> this.additionalProperties.put(key, null))
+      .onAbsent(() -> null);
   return this;
 }
 
@@ -19,6 +28,7 @@ public Builder setAdditionalProperties(Map<String, Object> additionalProperties)
 
 objectPojoAnyTypeAdditionalProperties=[
 com.fasterxml.jackson.annotation.JsonAnySetter
+com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 .
@@ -26,6 +36,14 @@ java.util.Map
 @JsonAnySetter
 public Builder addAdditionalProperty(String key, Object value) {
   this.additionalProperties.put(key, value);
+  return this;
+}
+
+public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+  value
+      .onValue(val -> this.additionalProperties.put(key, val))
+      .onNull(() -> this.additionalProperties.put(key, null))
+      .onAbsent(() -> null);
   return this;
 }
 
@@ -40,6 +58,7 @@ objectPojoSpecificTypeAdditionalProperties=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 java.util.HashMap
 java.util.Map
+java.util.Optional
 
 private Builder addAdditionalProperty(String key, Object value) {
   this.additionalProperties.put(key, value);
@@ -49,6 +68,11 @@ private Builder addAdditionalProperty(String key, Object value) {
 @JsonAnySetter
 public Builder addAdditionalProperty(String key, UserDto value) {
   this.additionalProperties.put(key, value);
+  return this;
+}
+
+public Builder addAdditionalProperty(String key, Optional<UserDto> value) {
+  value.ifPresent(val -> this.additionalProperties.put(key, val));
   return this;
 }
 

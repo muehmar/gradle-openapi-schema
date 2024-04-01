@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.va
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -60,6 +61,23 @@ class AdditionalPropertiesTypeValidationGeneratorTest {
         generator.generate(
             sampleObjectPojo1()
                 .withAdditionalProperties(JavaAdditionalProperties.allowedFor(stringType())),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("sampleObjectPojo1WithNullableNonObjectValueType")
+  void generate_when_sampleObjectPojo1WithNullableNonObjectValueType_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        additionalPropertiesTypeValidationGenerator();
+
+    final Writer writer =
+        generator.generate(
+            sampleObjectPojo1()
+                .withAdditionalProperties(
+                    JavaAdditionalProperties.allowedFor(stringType().withNullability(NULLABLE))),
             defaultTestSettings(),
             javaWriter());
 

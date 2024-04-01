@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -283,9 +284,49 @@ class ValidationAnnotationGeneratorTest {
     assertEquals("@Pattern(regexp=\"Hello\")", writer.asString());
   }
 
+  @Test
+  void validationAnnotationsForType_when_notNullableStringType_then_correctAnnotations() {
+    final Generator<ValidationAnnotationGenerator.PropertyType, PojoSettings> generator =
+        validationAnnotationsForPropertyType();
+
+    final PropertyInfoName propertyInfoName =
+        PropertyInfoName.fromPojoNameAndMemberName(invoiceName(), JavaName.fromString("property"));
+
+    final JavaStringType stringType =
+        createStringType(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")));
+
+    final ValidationAnnotationGenerator.PropertyType propertyType =
+        new ValidationAnnotationGenerator.PropertyType(
+            propertyInfoName, stringType.withNullability(NOT_NULLABLE));
+
+    final Writer writer = generator.generate(propertyType, defaultTestSettings(), javaWriter());
+
+    assertEquals("@NotNull\n@Pattern(regexp=\"Hello\")", writer.asString());
+  }
+
+  @Test
+  void validationAnnotationsForType_when_nullableStringType_then_correctAnnotations() {
+    final Generator<ValidationAnnotationGenerator.PropertyType, PojoSettings> generator =
+        validationAnnotationsForPropertyType();
+
+    final PropertyInfoName propertyInfoName =
+        PropertyInfoName.fromPojoNameAndMemberName(invoiceName(), JavaName.fromString("property"));
+
+    final JavaStringType stringType =
+        createStringType(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")));
+
+    final ValidationAnnotationGenerator.PropertyType propertyType =
+        new ValidationAnnotationGenerator.PropertyType(
+            propertyInfoName, stringType.withNullability(NULLABLE));
+
+    final Writer writer = generator.generate(propertyType, defaultTestSettings(), javaWriter());
+
+    assertEquals("@Pattern(regexp=\"Hello\")", writer.asString());
+  }
+
   @ParameterizedTest
   @MethodSource("unsupportedConstraintsForType")
-  void validationAnnotationsForType_when_unsupportedConstraintForType_then_notOutput(
+  void validationAnnotationsForType_when_unsupportedConstraintForType_then_noOutput(
       JavaType javaType) {
     final Generator<ValidationAnnotationGenerator.PropertyType, PojoSettings> generator =
         validationAnnotationsForPropertyType();
@@ -294,7 +335,8 @@ class ValidationAnnotationGeneratorTest {
     final PropertyInfoName propertyInfoName =
         PropertyInfoName.fromPojoNameAndMemberName(invoiceName(), JavaName.fromString("property"));
     final ValidationAnnotationGenerator.PropertyType propertyType =
-        new ValidationAnnotationGenerator.PropertyType(propertyInfoName, javaType);
+        new ValidationAnnotationGenerator.PropertyType(
+            propertyInfoName, javaType.withNullability(NULLABLE));
 
     final Writer writer =
         generator.generate(

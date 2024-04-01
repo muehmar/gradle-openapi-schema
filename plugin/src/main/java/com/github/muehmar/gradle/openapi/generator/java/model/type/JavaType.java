@@ -15,15 +15,15 @@ import java.util.function.Function;
 public interface JavaType {
   QualifiedClassName getQualifiedClassName();
 
+  /**
+   * Returns the qualified classnames used for this type, including the classes of possible type
+   * parameters
+   */
+  PList<QualifiedClassName> getAllQualifiedClassNames();
+
   Nullability getNullability();
 
   JavaType withNullability(Nullability nullability);
-
-  /**
-   * Returns the qualified classnames used for this type, including the classes of possible type
-   * parameters.s
-   */
-  PList<QualifiedClassName> getAllQualifiedClassNames();
 
   ParameterizedClassName getParameterizedClassName();
 
@@ -46,17 +46,29 @@ public interface JavaType {
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType);
 
-  default boolean isArrayType() {
+  default Optional<JavaArrayType> onArrayType() {
     return fold(
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance,
-        JavaArrayType.class::isInstance);
+        Optional::of,
+        javaBooleanType -> Optional.empty(),
+        javaEnumType -> Optional.empty(),
+        javaMapType -> Optional.empty(),
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        javaObjectType -> Optional.empty(),
+        javaStringType -> Optional.empty());
+  }
+
+  default boolean isArrayType() {
+    return onArrayType().isPresent();
+  }
+
+  default boolean isNullableItemsArrayType() {
+    return onArrayType()
+        .map(JavaArrayType::getItemType)
+        .map(JavaType::getNullability)
+        .map(Nullability::isNullable)
+        .orElse(false);
   }
 
   default boolean isMapType() {

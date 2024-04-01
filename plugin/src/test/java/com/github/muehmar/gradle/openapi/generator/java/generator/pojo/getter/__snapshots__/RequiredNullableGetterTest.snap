@@ -119,6 +119,7 @@ public Optional<String> getStringVal() {
 public String getStringValOr(String defaultValue) {
   return this.stringVal == null ? defaultValue : this.stringVal;
 }
+
 ]
 
 
@@ -206,6 +207,7 @@ public Optional<String> getStringValReqNull() {
 public String getStringValOr(String defaultValue) {
   return this.stringVal == null ? defaultValue : this.stringVal;
 }
+
 ]
 
 
@@ -217,6 +219,7 @@ java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Max
 javax.validation.constraints.Min
+javax.validation.constraints.NotNull
 javax.validation.constraints.Size
 
 /**
@@ -237,7 +240,7 @@ public List<Integer> getListValOr(List<Integer> defaultValue) {
 
 @Size(min = 5)
 @JsonProperty("listVal")
-private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
+private List<@NotNull @Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
   return listVal;
 }
 

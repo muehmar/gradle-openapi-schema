@@ -59,6 +59,20 @@ class AllOfBuilderGeneratorTest {
   }
 
   @Test
+  @SnapshotName("allOfPojoWithAllNecessityAndNullabilityVariants")
+  void generate_when_allOfPojoWithAllNecessityAndNullabilityVariants_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = allOfBuilderGenerator(STANDARD);
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.allOfPojo(JavaPojos.allNecessityAndNullabilityVariants()),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("allOfPojoFullBuilder")
   void generate_when_allOfPojoFullBuilder_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = allOfBuilderGenerator(FULL);

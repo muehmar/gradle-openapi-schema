@@ -47,15 +47,21 @@ public class ParameterizedClassName {
         genericTypes.reverse().headOption());
   }
 
-  public String asStringWithValueTypeAnnotations(
-      Function<JavaType, String> createAnnotationsForValueType) {
+  private String asStringWithValueTypeAnnotations(
+      Function<JavaType, String> createAnnotationsForValueType, boolean wrapNullableValueType) {
     final Optional<String> annotatedValueType =
         genericValueType.map(
-            type ->
-                String.format(
-                        "%s %s",
-                        createAnnotationsForValueType.apply(type), type.getParameterizedClassName())
-                    .trim());
+            type -> {
+              final String typeFormat =
+                  wrapNullableValueType && type.getNullability().isNullable()
+                      ? "Optional<%s>"
+                      : "%s";
+              return String.format(
+                      "%s " + typeFormat,
+                      createAnnotationsForValueType.apply(type),
+                      type.getParameterizedClassName())
+                  .trim();
+            });
     final PList<Name> formattedGenericTypes =
         this.genericTypes
             .map(JavaType::getParameterizedClassName)
@@ -65,8 +71,17 @@ public class ParameterizedClassName {
     return qualifiedClassName.getClassNameWithGenerics(formattedGenericTypes).asString();
   }
 
+  public String asStringWithValueTypeAnnotations(
+      Function<JavaType, String> createAnnotationsForValueType) {
+    return asStringWithValueTypeAnnotations(createAnnotationsForValueType, false);
+  }
+
   public String asString() {
     return asStringWithValueTypeAnnotations(ignore -> "");
+  }
+
+  public String asStringWrappingNullableValueType() {
+    return asStringWithValueTypeAnnotations(ignore -> "", true);
   }
 
   @Override

@@ -13,9 +13,9 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ConditionsWriter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValidationGenerator.PropertyValue;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValue;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
@@ -100,9 +100,7 @@ public class ValidatorClassGenerator {
               .concat(dtoConditions);
       final PList<Writer> conditionWriters =
           allConditions.map(gen -> gen.generate(pojo, settings, javaWriter()));
-      final ReturningAndConditions returningAndConditions =
-          ReturningAndConditions.forConditions(conditionWriters);
-      return writer.append(returningAndConditions.getWriter());
+      return writer.append(ConditionsWriter.andConditions(conditionWriters));
     };
   }
 

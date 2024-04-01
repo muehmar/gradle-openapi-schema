@@ -5,7 +5,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ReturningAndConditions;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ConditionsWriter;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -55,9 +55,7 @@ public class ValidatorClassGenerator {
     return (pojo, settings, writer) -> {
       final PList<Writer> conditionWriters =
           PList.fromArray(conditions).map(gen -> gen.generate(pojo, settings, javaWriter()));
-      final ReturningAndConditions returningAndConditions =
-          ReturningAndConditions.forConditions(conditionWriters);
-      return writer.append(returningAndConditions.getWriter());
+      return writer.append(ConditionsWriter.andConditions(conditionWriters));
     };
   }
 

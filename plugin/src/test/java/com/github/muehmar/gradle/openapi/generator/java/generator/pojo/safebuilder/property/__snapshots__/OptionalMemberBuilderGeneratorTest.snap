@@ -1,5 +1,6 @@
 allNecessityAndNullabilityVariants[FULL]=[
 com.github.muehmar.openapi.util.Tristate
+java.util.List
 java.util.Optional
 
 public static final class FullOptPropertyBuilder0 {
@@ -45,12 +46,87 @@ public static final class FullOptPropertyBuilder1 {
   public FullOptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new FullOptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
   }
+
+}
+
+public static final class FullOptPropertyBuilder2 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public FullOptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+    return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public FullOptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+    return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public FullOptPropertyBuilder3 setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
+    return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public FullOptPropertyBuilder3 setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
+    return new FullOptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+  }
+
+}
+
+public static final class FullOptPropertyBuilder3 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder3(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder4 setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  }
 }
 ]
 
 
 allNecessityAndNullabilityVariants[STANDARD]=[
 com.github.muehmar.openapi.util.Tristate
+java.util.List
 java.util.Optional
 
 public static final class OptPropertyBuilder0 {
@@ -95,6 +171,80 @@ public static final class OptPropertyBuilder1 {
    */
   public OptPropertyBuilder2 setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     return new OptPropertyBuilder2(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+
+}
+
+public static final class OptPropertyBuilder2 {
+  private final Builder builder;
+
+  private OptPropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public OptPropertyBuilder3 setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
+    return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public OptPropertyBuilder3 setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
+    return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public OptPropertyBuilder3 setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
+    return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public OptPropertyBuilder3 setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
+    return new OptPropertyBuilder3(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+  }
+
+}
+
+public static final class OptPropertyBuilder3 {
+  private final Builder builder;
+
+  private OptPropertyBuilder3(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+    return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public OptPropertyBuilder4 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+    return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public OptPropertyBuilder4 setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
+    return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public OptPropertyBuilder4 setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+    return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
   }
 }
 ]

@@ -34,7 +34,7 @@ public class PosologyDto {
    * Doses to be taken
    */
   @NotNull
-  public List<Double> getItems() {
+  public List<@NotNull Double> getItems() {
     return items;
   }
 
@@ -59,7 +59,7 @@ public class PosologyDto {
     }
 
     private boolean isItemsValueValid(Double itemsValue) {
-      return true;
+      return itemsValue != null;
     }
 
     private boolean isValid() {
@@ -160,12 +160,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -221,17 +226,32 @@ public class SampleObjectPojo1Dto {
     return doubleVal;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -299,8 +319,8 @@ public class SampleObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -390,6 +410,14 @@ public class SampleObjectPojo1Dto {
     @JsonAnySetter
     public Builder addAdditionalProperty(String key, Object value) {
       this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
       return this;
     }
 
@@ -505,6 +533,10 @@ public class SampleObjectPojo1Dto {
         return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
       public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
         return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
       }
@@ -590,6 +622,10 @@ public class SampleObjectPojo1Dto {
       }
 
       public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
         return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
       }
 

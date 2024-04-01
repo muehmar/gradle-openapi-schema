@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -52,5 +53,27 @@ class ParameterizedClassNameTest {
         parameterizedClassName.asStringWithValueTypeAnnotations(ignore -> "@Test");
 
     assertEquals("Map<String, @Test Integer>", classNameString);
+  }
+
+  @Test
+  void asStringWrappingNullableValueType_when_notNullableValueType_then_notWrapped() {
+    final ParameterizedClassName parameterizedClassName =
+        ParameterizedClassName.fromGenericClass(
+            QualifiedClassNames.LIST, PList.of(JavaTypes.stringType()));
+
+    final String classNameString = parameterizedClassName.asStringWrappingNullableValueType();
+
+    assertEquals("List<String>", classNameString);
+  }
+
+  @Test
+  void asStringWrappingNullableValueType_when_nullableValueType_then_wrappedIntoOptional() {
+    final ParameterizedClassName parameterizedClassName =
+        ParameterizedClassName.fromGenericClass(
+            QualifiedClassNames.LIST, PList.of(JavaTypes.stringType().withNullability(NULLABLE)));
+
+    final String classNameString = parameterizedClassName.asStringWrappingNullableValueType();
+
+    assertEquals("List<Optional<String>>", classNameString);
   }
 }

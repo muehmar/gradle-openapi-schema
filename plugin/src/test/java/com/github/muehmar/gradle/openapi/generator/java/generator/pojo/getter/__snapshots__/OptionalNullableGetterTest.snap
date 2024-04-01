@@ -122,6 +122,7 @@ public Tristate<String> getStringVal() {
 private Object getStringValJackson() {
   return isStringValNull ? new JacksonNullContainer<>(stringVal) : stringVal;
 }
+
 ]
 
 
@@ -134,6 +135,7 @@ com.github.muehmar.openapi.util.Tristate
 public Tristate<String> getStringValOptNull() {
   return Tristate.ofNullableAndNullFlag(stringVal, isStringValNull);
 }
+
 ]
 
 
@@ -146,6 +148,7 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 javax.validation.constraints.Max
 javax.validation.constraints.Min
+javax.validation.constraints.NotNull
 javax.validation.constraints.Size
 
 /**
@@ -164,7 +167,7 @@ private Object getListValJackson() {
 
 @Size(min = 5)
 @JsonIgnore
-private List<@Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
+private List<@NotNull @Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
   return listVal;
 }
 ]
