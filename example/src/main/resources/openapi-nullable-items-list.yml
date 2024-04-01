@@ -24,8 +24,8 @@ components:
           items:
             type: string
             nullable: true
-            minLength: 2
-            maxLength: 4
+            minLength: 9
+            maxLength: 12
           nullable: true
           minItems: 3
           maxItems: 4
@@ -34,7 +34,7 @@ components:
           items:
             type: string
             nullable: true
-            pattern: '[A-Za-z0-9]+@[A-Za-z0-9]+\.[a-z]+'
+            pattern: '[a-z]+-[0-9]{4}'
           minItems: 5
           maxItems: 6
         phones:
@@ -42,7 +42,7 @@ components:
           items:
             type: string
             nullable: true
-          pattern: '\+41[0-9]{7}'
+            pattern: 'phone-[0-9]{4}'
           minItems: 7
           maxItems: 8
           nullable: true
