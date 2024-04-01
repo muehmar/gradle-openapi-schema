@@ -46,3 +46,27 @@ components:
           minItems: 7
           maxItems: 8
           nullable: true
+
+    SuperUser:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    SuperOneOfUser:
+      oneOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    SuperAnyOfUser:
+      anyOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            superUserId:
+              type: string

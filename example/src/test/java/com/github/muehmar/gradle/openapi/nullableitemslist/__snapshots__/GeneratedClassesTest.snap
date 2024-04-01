@@ -1,3 +1,11 @@
 allGeneratedClasses=[
+SuperAnyOfUserAnyOfContainerDto
+SuperAnyOfUserAnyOfDto
+SuperAnyOfUserDto
+SuperOneOfUserDto
+SuperOneOfUserOneOfContainerDto
+SuperOneOfUserOneOfDto
+SuperUserAllOfDto
+SuperUserDto
 UserDto
 ]

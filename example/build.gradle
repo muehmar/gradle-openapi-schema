@@ -69,7 +69,8 @@ def specifications =
                 [name: 'additionalproperties', file: 'openapi-additional-properties.yml'],
                 [name: 'sasis', file: 'sasis-api.json'],
                 [name: 'promotion', file: 'openapi-promotion.yml'],
-                [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml']
+                [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml'],
+                [name: 'nullableitemslist', file: 'openapi-nullable-items-list.yml']
         ]
 
 def issueNumbers = [
