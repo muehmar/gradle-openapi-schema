@@ -27,7 +27,7 @@ public class RequiredAdditionalPropertiesSetterGenerator {
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
       requiredAdditionalPropertiesSetter() {
     return MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
-        .modifiers((p, s) -> JavaModifiers.of(s.isEnableSafeBuilder() ? PRIVATE : PUBLIC))
+        .modifiers((p, s) -> JavaModifiers.of(s.isEnableStagedBuilder() ? PRIVATE : PUBLIC))
         .noGenericTypes()
         .returnType("Builder")
         .methodName(RequiredAdditionalPropertiesSetterGenerator::createMethodName)

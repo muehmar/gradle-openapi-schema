@@ -17,7 +17,7 @@ public class PojoSettings implements Serializable {
   JsonSupport jsonSupport;
   String packageName;
   String suffix;
-  boolean enableSafeBuilder;
+  StagedBuilderSettings stagedBuilder;
   String builderMethodPrefix;
   boolean enableValidation;
 
@@ -65,12 +65,16 @@ public class PojoSettings implements Serializable {
         PList.fromIter(excludeSchemas).map(Name::ofString));
   }
 
-  public boolean isEnableSafeBuilder() {
-    return enableSafeBuilder;
+  public boolean isEnableStagedBuilder() {
+    return stagedBuilder.isEnabled();
   }
 
-  public boolean isDisableSafeBuilder() {
-    return !isEnableSafeBuilder();
+  public boolean isDisableStagedBuilder() {
+    return !isEnableStagedBuilder();
+  }
+
+  public StagedBuilderSettings getStagedBuilder() {
+    return stagedBuilder;
   }
 
   @FieldBuilder(fieldName = "classTypeMappings")

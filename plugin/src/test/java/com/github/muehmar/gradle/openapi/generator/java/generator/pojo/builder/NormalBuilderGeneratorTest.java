@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
+import static com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder.fullStagedBuilderSettingsBuilder;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -88,7 +89,8 @@ class NormalBuilderGeneratorTest {
     final Writer writer =
         generator.generate(
             allNecessityAndNullabilityVariants(),
-            defaultTestSettings().withEnableSafeBuilder(false),
+            defaultTestSettings()
+                .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build()),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));

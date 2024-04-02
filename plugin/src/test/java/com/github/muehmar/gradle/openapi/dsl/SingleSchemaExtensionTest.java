@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Optional;
 import org.gradle.api.Action;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class SingleSchemaExtensionTest {
 
@@ -182,5 +184,44 @@ class SingleSchemaExtensionTest {
     assertFalse(resultingWarnings.getDisableWarnings());
     assertTrue(resultingWarnings.getFailOnWarnings());
     assertFalse(resultingWarnings.getFailOnUnsupportedValidation());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void withCommonStagedBuilder_when_nothingSet_then_commonSettingsUsed(boolean enabled) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final Action<StagedBuilder> stagedBuilderAction = config -> {};
+    extension.stagedBuilder(stagedBuilderAction);
+
+    final StagedBuilder commonStagedBuilder = StagedBuilder.allUndefined();
+    commonStagedBuilder.setEnabled(enabled);
+
+    // method call
+    extension.withCommonStagedBuilder(commonStagedBuilder);
+
+    final StagedBuilder stagedBuilder = extension.getStagedBuilder();
+
+    assertEquals(commonStagedBuilder.getEnabled(), stagedBuilder.getEnabled());
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void withCommonStagedBuilder_when_alreadySet_then_commonSettingsDiscarded(boolean enabled) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final Action<StagedBuilder> stagedBuilderAction =
+        config -> {
+          config.setEnabled(true);
+        };
+    extension.stagedBuilder(stagedBuilderAction);
+
+    final StagedBuilder commonStagedBuilder = StagedBuilder.allUndefined();
+    commonStagedBuilder.setEnabled(enabled);
+
+    // method call
+    extension.withCommonStagedBuilder(commonStagedBuilder);
+
+    final StagedBuilder stagedBuilder = extension.getStagedBuilder();
+
+    assertEquals(Optional.of(true), stagedBuilder.getEnabled());
   }
 }

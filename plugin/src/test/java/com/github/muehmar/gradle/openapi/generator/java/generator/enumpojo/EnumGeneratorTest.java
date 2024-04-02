@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo;
 
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder.fullStagedBuilderSettingsBuilder;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -29,7 +30,7 @@ class EnumGeneratorTest {
     final PojoSettings pojoSettings =
         defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
-            .withEnableSafeBuilder(false)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
             .withEnableValidation(true);
 
     final String content =
@@ -43,7 +44,9 @@ class EnumGeneratorTest {
     final EnumGenerator generator = EnumGenerator.topLevel();
 
     final PojoSettings pojoSettings =
-        defaultTestSettings().withEnableSafeBuilder(false).withEnableValidation(true);
+        defaultTestSettings()
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
+            .withEnableValidation(true);
 
     final String content =
         generator.generate(GENDER_ENUM_POJO.asEnumContent(), pojoSettings, javaWriter()).asString();

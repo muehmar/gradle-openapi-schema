@@ -24,7 +24,7 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
 
   @Override
   public JavaModifier modifier(PojoSettings settings) {
-    return settings.isEnableSafeBuilder() ? PRIVATE : PUBLIC;
+    return settings.isEnableStagedBuilder() ? PRIVATE : PUBLIC;
   }
 
   @Override

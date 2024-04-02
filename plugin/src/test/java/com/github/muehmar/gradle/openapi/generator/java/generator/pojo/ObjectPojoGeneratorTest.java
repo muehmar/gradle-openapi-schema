@@ -14,6 +14,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requ
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
+import static com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder.fullStagedBuilderSettingsBuilder;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -118,7 +119,7 @@ class ObjectPojoGeneratorTest {
     final PojoSettings pojoSettings =
         defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
-            .withEnableSafeBuilder(false)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
             .withEnableValidation(false);
 
     final String content =
@@ -133,7 +134,9 @@ class ObjectPojoGeneratorTest {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =
-        defaultTestSettings().withEnableSafeBuilder(false).withEnableValidation(false);
+        defaultTestSettings()
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
+            .withEnableValidation(false);
 
     final String content =
         generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, javaWriter()).asString();
@@ -149,7 +152,7 @@ class ObjectPojoGeneratorTest {
     final PojoSettings pojoSettings =
         defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
-            .withEnableSafeBuilder(true)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(true).build())
             .withEnableValidation(false);
 
     final String content =
@@ -167,7 +170,7 @@ class ObjectPojoGeneratorTest {
     final PojoSettings pojoSettings =
         defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
-            .withEnableSafeBuilder(false)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
             .withEnableValidation(true)
             .withValidationApi(validationApi);
 
@@ -277,7 +280,7 @@ class ObjectPojoGeneratorTest {
     final PojoSettings pojoSettings =
         defaultTestSettings()
             .withJsonSupport(JsonSupport.NONE)
-            .withEnableSafeBuilder(false)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
             .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
 
     final JavaObjectPojo pojo =
@@ -319,7 +322,7 @@ class ObjectPojoGeneratorTest {
 
     final PojoSettings pojoSettings =
         defaultTestSettings()
-            .withEnableSafeBuilder(false)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
             .withEnumDescriptionSettings(EnumDescriptionSettings.enabled("`__ENUM__`:", false));
 
     final JavaObjectPojo pojo =
@@ -362,7 +365,8 @@ class ObjectPojoGeneratorTest {
         generator
             .generate(
                 JavaPojos.allNecessityAndNullabilityVariants(),
-                defaultTestSettings().withEnableSafeBuilder(true),
+                defaultTestSettings()
+                    .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(true).build()),
                 javaWriter())
             .asString();
 

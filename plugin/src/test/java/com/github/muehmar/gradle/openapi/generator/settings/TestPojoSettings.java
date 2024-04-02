@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import static com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder.fullPojoSettingsBuilder;
+import static com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder.fullStagedBuilderSettingsBuilder;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
@@ -15,7 +16,7 @@ public class TestPojoSettings {
         .jsonSupport(JsonSupport.JACKSON)
         .packageName("com.github.muehmar")
         .suffix("Dto")
-        .enableSafeBuilder(true)
+        .stagedBuilder(defaultStagedBuilderSettings())
         .builderMethodPrefix("set")
         .enableValidation(true)
         .validationApi(ValidationApi.JAKARTA_2_0)
@@ -28,6 +29,10 @@ public class TestPojoSettings {
         .pojoNameMappings(PojoNameMappings.noMappings())
         .taskIdentifier(TaskIdentifier.fromString(UUID.randomUUID().toString()))
         .build();
+  }
+
+  public static StagedBuilderSettings defaultStagedBuilderSettings() {
+    return fullStagedBuilderSettingsBuilder().enabled(true).build();
   }
 
   public static PList<PojoSettings> validationVariants() {

@@ -41,7 +41,7 @@ public class StagedBuilderGenerator implements Generator<JavaObjectPojo, PojoSet
             .append(factoryMethods(STANDARD))
             .appendSingleBlankLine()
             .append(builderStagesClass())
-            .filter(Filters.isSafeBuilder());
+            .filter(Filters.isStagedBuilder());
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> factoryMethods(

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.stagedbuilder;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder.fullStagedBuilderSettingsBuilder;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -24,7 +25,8 @@ class StagedBuilderGeneratorTest {
     final Writer writer =
         gen.generate(
             JavaPojos.allNecessityAndNullabilityVariants(),
-            defaultTestSettings().withEnableSafeBuilder(true),
+            defaultTestSettings()
+                .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(true).build()),
             javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
@@ -38,7 +40,8 @@ class StagedBuilderGeneratorTest {
     final Writer writer =
         gen.generate(
             JavaPojos.allNecessityAndNullabilityVariants(),
-            defaultTestSettings().withEnableSafeBuilder(false),
+            defaultTestSettings()
+                .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build()),
             javaWriter());
 
     assertEquals("", writer.asString());
