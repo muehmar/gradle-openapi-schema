@@ -49,7 +49,7 @@ public class NormalBuilderGenerator {
         .append(Generator.constant("return new Builder();"), 1)
         .append(Generator.constant("}"))
         .appendNewLine()
-        .filter((data, settings) -> settings.isDisableSafeBuilder());
+        .filter((data, settings) -> settings.isDisableStagedBuilder());
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> content() {
@@ -77,6 +77,6 @@ public class NormalBuilderGenerator {
             .noArguments()
             .noContent()
             .build();
-    return constructor.appendNewLine().filter((data, settings) -> settings.isEnableSafeBuilder());
+    return constructor.appendNewLine().filter((data, settings) -> settings.isEnableStagedBuilder());
   }
 }

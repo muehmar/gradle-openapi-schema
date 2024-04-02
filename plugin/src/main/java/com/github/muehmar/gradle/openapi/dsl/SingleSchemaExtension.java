@@ -8,8 +8,11 @@ import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilde
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,7 @@ public class SingleSchemaExtension implements Serializable {
   private ValidationMethods validationMethods;
   private String packageName;
   private String jsonSupport;
-  private Boolean enableSafeBuilder;
+  private StagedBuilder stagedBuilder;
   private String builderMethodPrefix;
   private Boolean enableValidation;
   private String validationApi;
@@ -58,6 +61,7 @@ public class SingleSchemaExtension implements Serializable {
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
+    this.stagedBuilder = StagedBuilder.allUndefined();
     this.validationMethods = ValidationMethods.allUndefined();
     this.constantSchemaNameMappings = new ArrayList<>();
     this.excludeSchemas = new ArrayList<>();
@@ -173,13 +177,13 @@ public class SingleSchemaExtension implements Serializable {
     this.jsonSupport = jsonSupport;
   }
 
-  public boolean getEnableSafeBuilder() {
-    return Optional.ofNullable(enableSafeBuilder).orElse(true);
+  public StagedBuilder getStagedBuilder() {
+    return stagedBuilder;
   }
 
   // DSL API
-  public void setEnableSafeBuilder(Boolean enableSafeBuilder) {
-    this.enableSafeBuilder = enableSafeBuilder;
+  public void stagedBuilder(Action<StagedBuilder> action) {
+    action.execute(stagedBuilder);
   }
 
   public boolean getEnableValidation() {
@@ -340,11 +344,16 @@ public class SingleSchemaExtension implements Serializable {
                 .andAllOptionals()
                 .build();
 
+    final StagedBuilderSettings stagedBuilderSettings =
+        StagedBuilderSettingsBuilder.fullStagedBuilderSettingsBuilder()
+            .enabled(stagedBuilder.getEnabledOrDefault())
+            .build();
+
     return fullPojoSettingsBuilder()
         .jsonSupport(getJsonSupport())
         .packageName(getPackageName(project))
         .suffix(getSuffix())
-        .enableSafeBuilder(getEnableSafeBuilder())
+        .stagedBuilder(stagedBuilderSettings)
         .builderMethodPrefix(getBuilderMethodPrefix())
         .enableValidation(getEnableValidation())
         .validationApi(getValidationApi())
@@ -392,10 +401,11 @@ public class SingleSchemaExtension implements Serializable {
     return this;
   }
 
-  SingleSchemaExtension withCommonEnableSafeBuilder(Optional<Boolean> commonEnableSafeBuilder) {
-    if (enableSafeBuilder == null) {
-      commonEnableSafeBuilder.ifPresent(this::setEnableSafeBuilder);
-    }
+  SingleSchemaExtension withCommonStagedBuilder(StagedBuilder commonStagedBuilder) {
+    stagedBuilder =
+        StagedBuilderBuilder.fullStagedBuilderBuilder()
+            .enabled(Optionals.or(stagedBuilder.getEnabled(), commonStagedBuilder.getEnabled()))
+            .build();
     return this;
   }
 

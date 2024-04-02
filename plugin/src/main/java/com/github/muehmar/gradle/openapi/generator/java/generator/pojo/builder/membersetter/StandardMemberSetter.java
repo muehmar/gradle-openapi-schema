@@ -33,7 +33,7 @@ class StandardMemberSetter implements MemberSetter {
 
   @Override
   public JavaModifier modifier(PojoSettings settings) {
-    return settings.isEnableSafeBuilder() && member.isRequired() ? PRIVATE : PUBLIC;
+    return settings.isEnableStagedBuilder() && member.isRequired() ? PRIVATE : PUBLIC;
   }
 
   @Override
