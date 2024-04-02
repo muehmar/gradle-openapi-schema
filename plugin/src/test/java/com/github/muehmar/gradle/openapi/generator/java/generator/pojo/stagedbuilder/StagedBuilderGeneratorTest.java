@@ -18,8 +18,8 @@ class StagedBuilderGeneratorTest {
   private Expect expect;
 
   @Test
-  @SnapshotName("enabledSafeBuilder")
-  void generate_when_enabledSafeBuilder_then_correctOutput() {
+  @SnapshotName("enabledStagedBuilder")
+  void generate_when_enabledStagedBuilder_then_correctOutput() {
     final StagedBuilderGenerator gen = new StagedBuilderGenerator();
 
     final Writer writer =
@@ -33,8 +33,7 @@ class StagedBuilderGeneratorTest {
   }
 
   @Test
-  @SnapshotName("disabledSafeBuilder")
-  void generate_when_disabledSafeBuilder_then_correctOutput() {
+  void generate_when_disabledStagedBuilder_then_noOutput() {
     final StagedBuilderGenerator gen = new StagedBuilderGenerator();
 
     final Writer writer =

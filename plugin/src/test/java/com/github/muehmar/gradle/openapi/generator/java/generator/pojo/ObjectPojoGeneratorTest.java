@@ -145,8 +145,8 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
-  @SnapshotName("enabledSafeBuilder")
-  void generatePojo_when_enabledSafeBuilder_then_correctPojoGenerated() {
+  @SnapshotName("enabledStagedBuilder")
+  void generatePojo_when_enabledStagedBuilder_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
     final PojoSettings pojoSettings =

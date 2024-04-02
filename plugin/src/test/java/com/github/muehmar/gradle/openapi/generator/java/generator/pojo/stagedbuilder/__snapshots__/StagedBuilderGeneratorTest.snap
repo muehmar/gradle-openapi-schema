@@ -1,4 +1,4 @@
-enabledSafeBuilder=[
+enabledStagedBuilder=[
 com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Map

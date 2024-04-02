@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class SafeBuilderTest {
+class StagedBuilderTest {
   @Test
   void andAllOptionals_when_useEmptyAndNonEmptyOptionals_then_allValuesCorrectSet() {
     final SampleDto dto =

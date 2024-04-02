@@ -523,7 +523,7 @@ public static final class Builder {
 ]
 
 
-allNecessityAndNullabilityVariantsDisabledSafeBuilder=[
+allNecessityAndNullabilityVariantsDisabledStagedBuilder=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty

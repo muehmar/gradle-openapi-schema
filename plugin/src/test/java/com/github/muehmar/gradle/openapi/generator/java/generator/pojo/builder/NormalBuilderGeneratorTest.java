@@ -82,8 +82,8 @@ class NormalBuilderGeneratorTest {
   }
 
   @Test
-  @SnapshotName("allNecessityAndNullabilityVariantsDisabledSafeBuilder")
-  void generate_when_allNecessityAndNullabilityVariantsDisabledSafeBuilder_then_correctOutput() {
+  @SnapshotName("allNecessityAndNullabilityVariantsDisabledStagedBuilder")
+  void generate_when_allNecessityAndNullabilityVariantsDisabledStagedBuilder_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = normalBuilderGenerator();
 
     final Writer writer =
