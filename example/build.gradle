@@ -142,6 +142,10 @@ openApiGenerator {
         replacement = ""
     }
 
+    stagedBuilder {
+        enabled = true
+    }
+
     schemas {
         apiV1 {
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
