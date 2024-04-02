@@ -129,6 +129,10 @@ openApiGenerator {
     validationMethods {
        // global config goes here
     }
+    
+    stagedBuilder {
+        enabled = true
+    }
 }
 ```
 
@@ -148,7 +152,6 @@ specification if necessary.
 | packageName         | &cross;               | String                       | ${project.group}.${project.name}.api.model             | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
 | suffix              | &check;               | String                       |                                                        | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
 | jsonSupport         | &check;               | String                       | jackson                                                | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
-| enableSafeBuilder   | &check;               | Boolean                      | true                                                   | Enables creating the safe builder.                                                                                                                                                                                                                                                   |
 | enableValidation    | &check;               | Boolean                      | false                                                  | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                            |
 | validationApi       | &check;               | String                       | jakarta-2                                              | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                              |
 | builderMethodPrefix | &check;               | String                       |                                                        | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
@@ -157,6 +160,19 @@ specification if necessary.
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
 the schema, in the example above a task `generateApiV1Model` and a task `generateApiV2Model` would get created. The
 tasks are automatically registered as dependency of the corresponding java-compile task.
+
+### Staged Builder
+
+The plugin generates a staged builder for each DTO, see [Staged Builder](doc/060_staged_builder.md) for more information.
+The staged builder can be configured globally and / or for each schema separately.
+
+Currently, the only option is to enable or disable the staged builder while the staged builder is enabled by default.
+
+```
+stagedBuilder {
+    enabled = true
+}
+```
 
 ### Class Mappings
 

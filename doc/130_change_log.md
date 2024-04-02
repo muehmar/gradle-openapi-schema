@@ -106,7 +106,7 @@
     * Fix javadoc rendering
 * 0.12.0 - Improve adding optional properties also for the standard Builder
 * 0.11.0 - Unreleased (gradle plugin portal problems)
-* 0.10.0 - Improve adding optional properties with 'Safe Builder'
+* 0.10.0 - Improve adding optional properties with 'Staged Builder'
 * 0.9.1 - Escape patterns for Java
 * 0.9.0
     * Create top level enums for root enum definitions
@@ -130,7 +130,7 @@
 * 0.2.1 - Fix the setter name for booleans
 * 0.2.0
     * Support incremental build
-    * Add the 'Safe Builder' pattern
+    * Add the 'Staged Builder' pattern
     * Extend the supported types/formats
     * Make the JSON support optional
 * 0.1.0 - Initial release
