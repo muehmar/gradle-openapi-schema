@@ -35,7 +35,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '2.6.1'
+    id 'com.github.muehmar.openapischema' version '3.0.0'
 }
 ```
 and configure the generation:
