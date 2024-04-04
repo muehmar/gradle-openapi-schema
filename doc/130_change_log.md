@@ -1,4 +1,15 @@
 ## Change Log
+* 3.0.0 
+    * Support discriminator with anyOf compositions (issue `#150`)
+    * Rename value to items in array classes (issue `#187`)
+    * Improve allOf builder stages for duplicated properties (issue `#227`)
+    * Allow settings nested allOf properties in staged builder (issue `#244`)
+    * Validate optional and not nullable properties (issue `#142`)
+    * Move builder stages into inner static classes to improve code completion in IDE's (issue `#149`)
+    * Proper support for nullable keyword (issue `#159`)
+    * Support nullable keyword in root type definitions (issue `#248`)
+    * Support for nullable array items and additional properties (issue `#158`)
+    * Rename SafeBuilder to StagedBuilder (issue `#237`)
 * 2.6.1 - Fix anyOf builder stage with only optional properties of full-buider (issue `#238`)
 * 2.6.0 - Support making nested allOf properties required (issue `#234`)
 * 2.5.1 - Fix determination of enum origin for discriminator (issue `#231`)
