@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "3.0.0-SNAPSHOT"
+    id "com.github.muehmar.openapischema" version "3.0.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
     id 'java-test-fixtures'
