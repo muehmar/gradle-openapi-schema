@@ -1,7 +1,85 @@
+allOfPojo=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal(dto.getStringVal());
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+
+private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
+  setRequiredStringVal(dto.getRequiredStringVal());
+  setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
+  setOptionalStringVal(dto.getOptionalStringVal());
+  setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
+  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
+  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItems()));
+  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItems()));
+  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItems()));
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
+anyOfPojo=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal(dto.getStringVal());
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+
+private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
+  setRequiredStringVal(dto.getRequiredStringVal());
+  setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
+  setOptionalStringVal(dto.getOptionalStringVal());
+  setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
+  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
+  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItems()));
+  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItems()));
+  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItems()));
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
+anyOfPojoWithDiscriminator=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal("SampleObjectPojo1");
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+
+private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+  setStringVal("SampleObjectPojo2");
+  setBirthdate(dto.getBirthdate());
+  setEmail(dto.getEmail());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
 composedPojoHasNoAdditionalPropertiesAllowed=[
 .
 .
-
 private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
   intVal(dto.getIntVal());
@@ -13,22 +91,45 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   stringVal(dto.getStringVal());
   birthdate(dto.getBirthdate());
   email(dto.getEmail());
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
+composedPojoHasNotNullableAdditionalProperties=[
+.
+.
+private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  stringVal(dto.getStringVal());
+  intVal(dto.getIntVal());
+  doubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue()));
   return this;
 }
 
+private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+  stringVal(dto.getStringVal());
+  birthdate(dto.getBirthdate());
+  email(dto.getEmail());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
 ]
 
 
 noBuilderSetMethodPrefix=[
 .
 .
-
 private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
   intVal(dto.getIntVal());
   doubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
 
@@ -36,22 +137,22 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   stringVal(dto.getStringVal());
   birthdate(dto.getBirthdate());
   email(dto.getEmail());
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
-
 ]
 
 
 oneOfPojo=[
 .
 .
-
 private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
 
@@ -60,22 +161,26 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringValOpt1());
   setOptionalStringVal(dto.getOptionalStringValOpt2());
   setOptionalNullableStringVal(dto.getOptionalNullableStringValTristate());
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
+  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItemsOpt1()));
+  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItemsOpt2()));
+  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItemsTristate()));
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
-
 ]
 
 
 oneOfPojoWithDiscriminator=[
 .
 .
-
 private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal("SampleObjectPojo1");
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
 
@@ -83,29 +188,29 @@ private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   setStringVal("SampleObjectPojo2");
   setBirthdate(dto.getBirthdate());
   setEmail(dto.getEmail());
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
-
 ]
 
 
 oneOfPojoWithEnumDiscriminator=[
 .
 .
-
 private Builder setYellowDto(YellowDto dto) {
   setStringVal(dto.getStringVal());
   setColor(BaseDto.Color.YELLOW);
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
 
 private Builder setOrangeDto(OrangeDto dto) {
   setBirthdate(dto.getBirthdate());
   setColor(BaseDto.Color.ORANGE);
-  dto.getAdditionalProperties().forEach(this::addAdditionalProperty);
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
-
 ]

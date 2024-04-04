@@ -1,17 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder.fullWitherContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither.WitherContentBuilder.fullWitherContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder.fullConstructorContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder.fullHashCodeContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder.fullToStringContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder.javaPojoMemberBuilder;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
@@ -23,7 +24,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
@@ -79,14 +79,13 @@ public class JavaArrayPojo implements JavaPojo {
 
   private static JavaPojoMember createItemTypeMember(
       ArrayPojo arrayPojo, JavaPojoName pojoName, JavaArrayType javaArrayType) {
-    final JavaName name = JavaName.fromString("value");
+    final JavaName name = JavaName.fromString("items");
     return javaPojoMemberBuilder()
         .pojoName(pojoName)
         .name(name)
         .description(arrayPojo.getDescription())
         .javaType(javaArrayType)
         .necessity(Necessity.REQUIRED)
-        .nullability(Nullability.NOT_NULLABLE)
         .type(JavaPojoMember.MemberType.ARRAY_VALUE)
         .andAllOptionals()
         .build();
@@ -94,9 +93,9 @@ public class JavaArrayPojo implements JavaPojo {
 
   private static JavaArrayType createJavaArrayType(ArrayPojo arrayPojo, TypeMappings typeMappings) {
     final ArrayType arrayType =
-        ArrayType.ofItemType(arrayPojo.getItemType()).withConstraints(arrayPojo.getConstraints());
-    final JavaArrayType javaArrayType = JavaArrayType.wrap(arrayType, typeMappings);
-    return javaArrayType;
+        ArrayType.ofItemType(arrayPojo.getItemType(), NOT_NULLABLE)
+            .withConstraints(arrayPojo.getConstraints());
+    return JavaArrayType.wrap(arrayType, typeMappings);
   }
 
   @Override

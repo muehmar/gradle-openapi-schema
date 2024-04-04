@@ -3,24 +3,32 @@ package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredColorEnum;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.DiscriminatorType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -109,8 +117,8 @@ public class JavaPojos {
 
   public static JavaObjectPojo allOfPojo(JavaAllOfComposition javaAllOfComposition) {
     return JavaObjectPojoBuilder.create()
-        .name(JavaPojoNames.fromNameAndSuffix("OneOfPojo1", "Dto"))
-        .schemaName(SchemaName.ofString("OneOfPojo1"))
+        .name(JavaPojoNames.fromNameAndSuffix("AllOfPojo1", "Dto"))
+        .schemaName(SchemaName.ofString("AllOfPojo1"))
         .description("")
         .members(JavaPojoMembers.empty())
         .type(PojoType.DEFAULT)
@@ -154,6 +162,14 @@ public class JavaPojos {
   }
 
   public static JavaObjectPojo anyOfPojo(NonEmptyList<JavaPojo> anyOfPojos) {
+    return anyOfPojo(JavaAnyOfComposition.fromPojos(anyOfPojos));
+  }
+
+  public static JavaObjectPojo anyOfPojo(JavaPojo anyOfPojo, JavaPojo... anyOfPojos) {
+    return anyOfPojo(NonEmptyList.single(anyOfPojo).concat(PList.fromArray(anyOfPojos)));
+  }
+
+  public static JavaObjectPojo anyOfPojo(JavaAnyOfComposition anyOfComposition) {
     return JavaObjectPojoBuilder.create()
         .name(JavaPojoNames.fromNameAndSuffix("AnyOfPojo1", "Dto"))
         .schemaName(SchemaName.ofString("AnyOfPojo1"))
@@ -164,12 +180,8 @@ public class JavaPojos {
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
         .constraints(Constraints.empty())
         .andOptionals()
-        .anyOfComposition(JavaAnyOfComposition.fromPojos(anyOfPojos))
+        .anyOfComposition(anyOfComposition)
         .build();
-  }
-
-  public static JavaObjectPojo anyOfPojo(JavaPojo anyOfPojo, JavaPojo... anyOfPojos) {
-    return anyOfPojo(NonEmptyList.single(anyOfPojo).concat(PList.fromArray(anyOfPojos)));
   }
 
   public static JavaObjectPojo objectPojo(PList<JavaPojoMember> members) {
@@ -198,12 +210,17 @@ public class JavaPojos {
     return ObjectPojoBuilder.create()
         .name(componentName("NecessityAndNullability", "Dto"))
         .description("NecessityAndNullability")
+        .nullability(NOT_NULLABLE)
         .members(
             PList.of(
                 requiredString(),
                 requiredNullableString(),
                 optionalString(),
-                optionalNullableString()))
+                optionalNullableString(),
+                requiredListWithNullableItems(),
+                requiredNullableListWithNullableItems(),
+                optionalListWithNullableItems(),
+                optionalNullableListWithNullableItems()))
         .requiredAdditionalProperties(PList.empty())
         .constraints(constraints)
         .additionalProperties(anyTypeAllowed())
@@ -215,6 +232,7 @@ public class JavaPojos {
         ArrayPojo.of(
             componentName("Posology", "Dto"),
             "Doses to be taken",
+            NOT_NULLABLE,
             NumericType.formatDouble(),
             constraints);
     return JavaArrayPojo.wrap(arrayPojo, TypeMappings.empty());
@@ -245,6 +263,12 @@ public class JavaPojos {
         objectPojo(requiredColorEnum()).withName(JavaPojoNames.fromNameAndSuffix("Base", "Dto"));
     final Optional<JavaAllOfComposition> allOfComposition =
         Optional.of(JavaAllOfComposition.fromPojos(NonEmptyList.of(allOfPojo)));
+    final EnumType enumType =
+        EnumType.ofNameAndMembers(
+            requiredColorEnum().getName().getOriginalName(),
+            ((JavaEnumType) requiredColorEnum().getJavaType())
+                .getMembers()
+                .map(EnumConstantName::getOriginalConstant));
 
     final JavaOneOfComposition javaOneOfComposition =
         JavaOneOfCompositions.fromPojosAndDiscriminator(
@@ -258,9 +282,19 @@ public class JavaPojos {
                     .withSchemaName(SchemaName.ofString("Orange"))
                     .withName(JavaPojoNames.fromNameAndSuffix("Orange", "Dto"))),
             untypedDiscriminator,
-            DiscriminatorType.fromEnumType((EnumType) requiredColorEnum().getJavaType().getType()));
+            DiscriminatorType.fromEnumType(enumType));
 
     return JavaPojos.oneOfPojo(javaOneOfComposition)
         .withName(JavaPojoNames.fromNameAndSuffix("OneOf", "Dto"));
+  }
+
+  public static JavaObjectPojo anyOfPojoWithDiscriminator() {
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyName(
+            TestJavaPojoMembers.requiredString().getName().getOriginalName());
+    final JavaAnyOfComposition javaAnyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
+    return JavaPojos.anyOfPojo(javaAnyOfComposition);
   }
 }

@@ -1,14 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.foldAnyOfMethodName;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.foldOneOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldMethodJavaDocGenerator.multiResultFoldJavaDoc;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldMethodJavaDocGenerator.singleResultFoldJavaDoc;
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ANY_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.foldCompositionMethodName;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
@@ -16,160 +19,97 @@ import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 import java.util.Optional;
+import java.util.function.Function;
 import lombok.Value;
 
 public class FoldMethodGenerator {
-
-  private static final String JAVA_DOC_ONE_OF_FOLD =
-      "Folds the oneOf part of this instance using the given mapping functions for the DTO's. If this instance is valid "
-          + "against exactly one of the specified schemas, its corresponding mapping function gets executed with the "
-          + "DTO as input and its result is returned.\n\n";
-
-  private static final String JAVA_DOC_ANY_OF_FOLD =
-      "Folds the anyOf part of this instance using the given mapping functions for the DTO's. All mapping functions "
-          + "gets executed with its corresponding DTO as input if this instance is valid against the corresponding "
-          + "schema and the results are returned in a list. The order of the elements in the returned list is "
-          + "deterministic: The order corresponds to the order of the mapping function arguments, i.e. the result of "
-          + "the first mapping function will always be at the first position in the list (if the function gets "
-          + "executed).\n\n";
-
-  private static final String JAVA_DOC_EXAMPLE =
-      "I.e. if the JSON was valid against the schema '%s', the mapping method {@code %s} "
-          + "gets executed with the {@link %s} as argument.\n\n";
-
-  private static final String JAVA_DOC_ONE_OF_THROWS =
-      "This method assumes this instance is either manually or automatically validated, i.e. the JSON is valid "
-          + "against exactly one of the oneOf schemas. If it is either valid against no schema or multiple schemas, "
-          + "it will throw an {@link IllegalStateException}.";
-
-  private static final String JAVA_DOC_ANY_OF_INVALID =
-      "This method assumes this instance is either manually or automatically validated, i.e. "
-          + "the JSON is valid against at least one of the anyOf schemas. If it is valid against no schema, "
-          + "it will simply return an empty list.";
-
-  private static final String JAVA_DOC_ONE_OF_FULL_FOLD =
-      "Unlike %s, this method accepts as last parameter a {@link Supplier} which gets called in case this instance "
-          + "is not valid against exactly one of the defined oneOf schemas and its value is returned.";
-
   private FoldMethodGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> foldMethodGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(oneOfFoldMethods(), OneOfPojo::fromObjectPojo)
+        .appendList(singleResultFoldMethods(), SingleResultFoldContainer::fromObjectPojo)
         .appendSingleBlankLine()
-        .appendOptional(anyOfFoldMethods(), AnyOfPojo::fromObjectPojo);
+        .appendOptional(multiResultFoldMethods(), MultiResultFoldContainer::fromObjectPojo);
   }
 
-  private static Generator<OneOfPojo, PojoSettings> oneOfFoldMethods() {
-    return fullFoldOneOfJavaDoc()
-        .append(fullOneOfFoldMethod())
+  private static Generator<SingleResultFoldContainer, PojoSettings> singleResultFoldMethods() {
+    return singleResultFoldJavaDoc(true)
+        .append(fullSingleResultFoldMethod())
         .appendSingleBlankLine()
-        .append(standardFoldOneOfJavaDoc())
-        .append(standardOneOfFoldMethod());
+        .append(singleResultFoldJavaDoc(false))
+        .append(standardSingleResultFoldMethod());
   }
 
-  private static Generator<AnyOfPojo, PojoSettings> anyOfFoldMethods() {
-    return standardFoldAnyOfJavaDoc().append(standardAnyOfFoldMethod());
+  private static Generator<MultiResultFoldContainer, PojoSettings> multiResultFoldMethods() {
+    return multiResultFoldJavaDoc().append(standardMultipleResultFoldMethod());
   }
 
-  private static Generator<AnyOfPojo, PojoSettings> standardFoldAnyOfJavaDoc() {
-    return JavaDocGenerator.javaDoc(
-        (p, s) ->
-            JAVA_DOC_ANY_OF_FOLD + getJavaDocExample(p.getMemberPojos()) + JAVA_DOC_ANY_OF_INVALID);
-  }
-
-  private static Generator<OneOfPojo, PojoSettings> standardFoldOneOfJavaDoc() {
-    return JavaDocGenerator.javaDoc(
-        (p, s) ->
-            JAVA_DOC_ONE_OF_FOLD + getJavaDocExample(p.getMemberPojos()) + JAVA_DOC_ONE_OF_THROWS);
-  }
-
-  private static Generator<OneOfPojo, PojoSettings> fullFoldOneOfJavaDoc() {
-    return JavaDocGenerator.javaDoc(
-        (p, s) ->
-            JAVA_DOC_ONE_OF_FOLD
-                + getJavaDocExample(p.getMemberPojos())
-                + getJavaDocFullFoldString(p));
-  }
-
-  private static String getJavaDocExample(NonEmptyList<JavaObjectPojo> pojos) {
-    final JavaObjectPojo ep = pojos.head();
-    return String.format(
-        JAVA_DOC_EXAMPLE,
-        ep.getSchemaName().getOriginalName(),
-        MethodNames.Composition.dtoMappingArgumentName(ep),
-        ep.getClassName());
-  }
-
-  private static String getJavaDocFullFoldString(OneOfPojo oneOf) {
-    final String unsafeFoldRef =
-        String.format(
-            "{@link %s#%s(%s)}",
-            oneOf.getPojo().getClassName(),
-            foldOneOfMethodName(),
-            oneOf.getMemberPojos().map(ignore -> "Function").toPList().mkString(", "));
-    return String.format(JAVA_DOC_ONE_OF_FULL_FOLD, unsafeFoldRef);
-  }
-
-  private static Generator<OneOfPojo, PojoSettings> fullOneOfFoldMethod() {
-    return MethodGenBuilder.<OneOfPojo, PojoSettings>create()
+  private static Generator<SingleResultFoldContainer, PojoSettings> fullSingleResultFoldMethod() {
+    return MethodGenBuilder.<SingleResultFoldContainer, PojoSettings>create()
         .modifiers(PUBLIC)
         .genericTypes("T")
         .returnType("T")
-        .methodName(foldOneOfMethodName().asString())
+        .methodName(FoldMethodGenerator::singleResultFoldMethodName)
         .arguments(p -> fullFoldMethodArguments(p.getComposition().getPojos()).toPList())
         .doesNotThrow()
-        .content(fullFoldMethodContent())
+        .content(fullSingleResultFoldMethodContent())
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_FUNCTION))
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_SUPPLIER));
   }
 
-  private static Generator<OneOfPojo, PojoSettings> standardOneOfFoldMethod() {
-    return MethodGenBuilder.<OneOfPojo, PojoSettings>create()
+  private static Generator<SingleResultFoldContainer, PojoSettings>
+      standardSingleResultFoldMethod() {
+    return MethodGenBuilder.<SingleResultFoldContainer, PojoSettings>create()
         .modifiers(PUBLIC)
         .genericTypes("T")
         .returnType("T")
-        .methodName(foldOneOfMethodName().asString())
+        .methodName(FoldMethodGenerator::singleResultFoldMethodName)
         .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
         .doesNotThrow()
-        .content(standardOneOfFoldMethodContent())
+        .content(standardSingleResultFoldMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_FUNCTION));
   }
 
-  private static Generator<AnyOfPojo, PojoSettings> standardAnyOfFoldMethod() {
-    return MethodGenBuilder.<AnyOfPojo, PojoSettings>create()
+  static String singleResultFoldMethodName(SingleResultFoldContainer container) {
+    return foldCompositionMethodName(container.getType()).asString();
+  }
+
+  private static Generator<MultiResultFoldContainer, PojoSettings>
+      standardMultipleResultFoldMethod() {
+    return MethodGenBuilder.<MultiResultFoldContainer, PojoSettings>create()
         .modifiers(PUBLIC)
         .genericTypes("T")
         .returnType("List<T>")
-        .methodName(foldAnyOfMethodName().asString())
+        .methodName(foldCompositionMethodName(ANY_OF).asString())
         .arguments(pojo -> standardFoldMethodArguments(pojo.getComposition().getPojos()).toPList())
         .doesNotThrow()
-        .content(standardAnyOfFoldMethodContent())
+        .content(standardMultipleResultFoldMethodContent())
         .build()
         .append(ref(JavaRefs.JAVA_UTIL_FUNCTION))
         .append(ref(JavaRefs.JAVA_UTIL_LIST));
   }
 
-  private static Generator<OneOfPojo, PojoSettings> fullFoldMethodContent() {
-    return Generator.<OneOfPojo, PojoSettings>emptyGen()
-        .appendList(oneOfFoldConditionAndContent(), OneOfPojo::getOneOfMembers)
+  private static Generator<SingleResultFoldContainer, PojoSettings>
+      fullSingleResultFoldMethodContent() {
+    return Generator.<SingleResultFoldContainer, PojoSettings>emptyGen()
+        .appendList(singleResultFoldConditionAndContent(), SingleResultFoldContainer::getMembers)
         .append(constant("else {"))
         .append(constant("return onInvalid.get();"), 1)
         .append(constant("}"));
   }
 
-  private static Generator<OneOfPojo, PojoSettings> standardOneOfFoldMethodContent() {
-    return Generator.<OneOfPojo, PojoSettings>emptyGen()
-        .append(w -> w.println("return %s(", foldOneOfMethodName()))
+  private static Generator<SingleResultFoldContainer, PojoSettings>
+      standardSingleResultFoldMethodContent() {
+    return Generator.<SingleResultFoldContainer, PojoSettings>emptyGen()
+        .append((c, s, w) -> w.println("return %s(", singleResultFoldMethodName(c)))
         .appendList(
             (p, s, w) -> w.tab(1).println("%s,", p.dtoMappingArgument()),
-            OneOfPojo::getOneOfMembers)
+            SingleResultFoldContainer::getMembers)
         .append(
             (p, s, w) ->
                 w.println(
@@ -178,24 +118,32 @@ public class FoldMethodGenerator {
         .append(constant(");"));
   }
 
-  private static Generator<AnyOfPojo, PojoSettings> standardAnyOfFoldMethodContent() {
-    return Generator.<AnyOfPojo, PojoSettings>emptyGen()
+  private static Generator<MultiResultFoldContainer, PojoSettings>
+      standardMultipleResultFoldMethodContent() {
+    return Generator.<MultiResultFoldContainer, PojoSettings>emptyGen()
         .append(constant("final List<T> result = new ArrayList<>();"))
-        .appendList(singleAnyOfFold(), AnyOfPojo::getAnyOfMembers)
+        .appendList(multipleResultFoldSinglePojoApply(), MultiResultFoldContainer::getAnyOfMembers)
         .append(constant("return result;"))
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_LIST))
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_ARRAY_LIST));
   }
 
-  private static String getOnInvalidMessage(OneOfPojo oneOfPojo) {
+  private static String getOnInvalidMessage(SingleResultFoldContainer singleResultFoldContainer) {
     return String.format(
-        "Unable to fold the oneOf part of %s: Not valid against one of the schemas [%s].",
-        oneOfPojo.getPojo().getClassName(),
-        oneOfPojo.getComposition().getPojos().map(JavaPojo::getClassName).toPList().mkString(", "));
+        "Unable to fold the %s part of %s: Not valid against one of the schemas [%s] or not valid against the schema described by the discriminator.",
+        singleResultFoldContainer.getType().getName().startLowerCase(),
+        singleResultFoldContainer.getPojo().getClassName(),
+        singleResultFoldContainer
+            .getComposition()
+            .getPojos()
+            .map(JavaPojo::getClassName)
+            .toPList()
+            .mkString(", "));
   }
 
-  private static Generator<AnyOfMemberPojo, PojoSettings> singleAnyOfFold() {
-    return Generator.<AnyOfMemberPojo, PojoSettings>emptyGen()
+  private static Generator<MultiResultFoldMemberPojo, PojoSettings>
+      multipleResultFoldSinglePojoApply() {
+    return Generator.<MultiResultFoldMemberPojo, PojoSettings>emptyGen()
         .append((p, s, w) -> w.println("if (%s()) {", p.isValidAgainstMethodName()))
         .append(
             (p, s, w) ->
@@ -206,8 +154,9 @@ public class FoldMethodGenerator {
         .append(constant("}"));
   }
 
-  private static Generator<OneOfMemberPojo, PojoSettings> oneOfFoldConditionAndContent() {
-    return Generator.<OneOfMemberPojo, PojoSettings>emptyGen()
+  private static Generator<SingleResultFoldMemberPojo, PojoSettings>
+      singleResultFoldConditionAndContent() {
+    return Generator.<SingleResultFoldMemberPojo, PojoSettings>emptyGen()
         .append(
             (pojo, s, w) ->
                 w.println(
@@ -239,30 +188,42 @@ public class FoldMethodGenerator {
   }
 
   @Value
-  private static class OneOfPojo {
+  static class SingleResultFoldContainer {
     JavaObjectPojo pojo;
-    JavaOneOfComposition composition;
+    DiscriminatableJavaComposition composition;
 
-    private static Optional<OneOfPojo> fromObjectPojo(JavaObjectPojo pojo) {
-      return pojo.getOneOfComposition().map(composition -> new OneOfPojo(pojo, composition));
+    private static PList<SingleResultFoldContainer> fromObjectPojo(JavaObjectPojo pojo) {
+      final Optional<SingleResultFoldContainer> oneOfCompositionPojo =
+          pojo.getOneOfComposition()
+              .map(composition -> new SingleResultFoldContainer(pojo, composition));
+      final Optional<SingleResultFoldContainer> anyOfCompositionWithDiscriminatorPojo =
+          pojo.getAnyOfComposition()
+              .filter(DiscriminatableJavaComposition::hasDiscriminator)
+              .map(composition -> new SingleResultFoldContainer(pojo, composition));
+      return PList.of(oneOfCompositionPojo, anyOfCompositionWithDiscriminatorPojo)
+          .flatMapOptional(Function.identity());
     }
 
     private NonEmptyList<JavaObjectPojo> getMemberPojos() {
       return composition.getPojos();
     }
 
-    private NonEmptyList<OneOfMemberPojo> getOneOfMembers() {
-      return composition.getPojos().map(member -> new OneOfMemberPojo(this, member));
+    private NonEmptyList<SingleResultFoldMemberPojo> getMembers() {
+      return composition.getPojos().map(member -> new SingleResultFoldMemberPojo(this, member));
+    }
+
+    public DiscriminatableJavaComposition.Type getType() {
+      return composition.getType();
     }
   }
 
   @Value
-  private static class OneOfMemberPojo {
-    OneOfPojo oneOfPojo;
+  static class SingleResultFoldMemberPojo {
+    SingleResultFoldContainer singleResultFoldContainer;
     JavaObjectPojo memberPojo;
 
     private String discriminatorCondition() {
-      return oneOfPojo
+      return singleResultFoldContainer
           .getComposition()
           .getDiscriminator()
           .map(
@@ -276,7 +237,9 @@ public class FoldMethodGenerator {
     }
 
     private String ifOrElseIf() {
-      return oneOfPojo.getComposition().getPojos().head().equals(memberPojo) ? "if" : "else if";
+      return singleResultFoldContainer.getComposition().getPojos().head().equals(memberPojo)
+          ? "if"
+          : "else if";
     }
 
     private Name isValidAgainstMethodName() {
@@ -293,26 +256,28 @@ public class FoldMethodGenerator {
   }
 
   @Value
-  private static class AnyOfPojo {
+  static class MultiResultFoldContainer {
     JavaObjectPojo pojo;
-    JavaAnyOfComposition composition;
+    DiscriminatableJavaComposition composition;
 
-    private static Optional<AnyOfPojo> fromObjectPojo(JavaObjectPojo pojo) {
-      return pojo.getAnyOfComposition().map(composition -> new AnyOfPojo(pojo, composition));
+    private static Optional<MultiResultFoldContainer> fromObjectPojo(JavaObjectPojo pojo) {
+      return pojo.getAnyOfComposition()
+          .filter(anyOfComposition -> not(anyOfComposition.hasDiscriminator()))
+          .map(composition -> new MultiResultFoldContainer(pojo, composition));
     }
 
     private NonEmptyList<JavaObjectPojo> getMemberPojos() {
       return composition.getPojos();
     }
 
-    private NonEmptyList<AnyOfMemberPojo> getAnyOfMembers() {
-      return composition.getPojos().map(member -> new AnyOfMemberPojo(this, member));
+    private NonEmptyList<MultiResultFoldMemberPojo> getAnyOfMembers() {
+      return composition.getPojos().map(member -> new MultiResultFoldMemberPojo(this, member));
     }
   }
 
   @Value
-  private static class AnyOfMemberPojo {
-    AnyOfPojo anyOfPojo;
+  static class MultiResultFoldMemberPojo {
+    MultiResultFoldContainer multiResultFoldContainer;
     JavaObjectPojo memberPojo;
 
     private Name isValidAgainstMethodName() {

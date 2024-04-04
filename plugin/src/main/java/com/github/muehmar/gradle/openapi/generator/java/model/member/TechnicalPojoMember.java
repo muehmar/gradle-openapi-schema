@@ -7,10 +7,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaBooleanType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import lombok.Value;
 
 /**
@@ -26,8 +24,8 @@ public class TechnicalPojoMember {
   JavaType javaType;
 
   public static TechnicalPojoMember additionalProperties(JavaType valueType) {
-    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), valueType.getType());
-    final JavaMapType javaMapType = JavaMapType.wrap(mapType, TypeMappings.empty());
+    final JavaMapType javaMapType =
+        JavaMapType.ofKeyAndValueType(JavaStringType.noFormat(), valueType);
     return new TechnicalPojoMember(additionalPropertiesName(), javaMapType);
   }
 
@@ -36,6 +34,10 @@ public class TechnicalPojoMember {
   }
 
   public static TechnicalPojoMember isNullFlagMember(JavaName name) {
+    return new TechnicalPojoMember(name, JavaBooleanType.createPrimitive());
+  }
+
+  public static TechnicalPojoMember isNotNullFlagMember(JavaName name) {
     return new TechnicalPojoMember(name, JavaBooleanType.createPrimitive());
   }
 

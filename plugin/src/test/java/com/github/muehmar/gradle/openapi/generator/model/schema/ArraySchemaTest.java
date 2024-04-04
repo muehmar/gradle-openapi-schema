@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -22,9 +25,12 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ArraySchemaTest {
 
@@ -34,8 +40,32 @@ class ArraySchemaTest {
         new io.swagger.v3.oas.models.media.ArraySchema().items(new DateTimeSchema());
     final MemberSchemaMapResult mappedSchema = mapToMemberType(arraySchema);
     final StringType itemType = StringType.ofFormat(StringType.Format.DATE_TIME);
-    assertEquals(ArrayType.ofItemType(itemType), mappedSchema.getType());
+    assertEquals(ArrayType.ofItemType(itemType, NOT_NULLABLE), mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
+  }
+
+  @Test
+  void mapToMemberType_when_nullableFlagIsTrue_then_typeIsNullable() {
+    final io.swagger.v3.oas.models.media.ArraySchema arraySchema =
+        new io.swagger.v3.oas.models.media.ArraySchema().items(new DateTimeSchema());
+    arraySchema.setNullable(true);
+
+    final MemberSchemaMapResult mappedSchema = mapToMemberType(arraySchema);
+
+    assertEquals(NULLABLE, mappedSchema.getType().getNullability());
+  }
+
+  @Test
+  void mapToMemberType_when_objectItemTypeAndNullableFlagIsTrue_then_typeIsNullable() {
+    final ObjectSchema objectSchema = new ObjectSchema();
+    objectSchema.setName("Person");
+    final io.swagger.v3.oas.models.media.ArraySchema arraySchema =
+        new io.swagger.v3.oas.models.media.ArraySchema().items(objectSchema);
+    arraySchema.setNullable(true);
+
+    final MemberSchemaMapResult mappedSchema = mapToMemberType(arraySchema);
+
+    assertEquals(NULLABLE, mappedSchema.getType().getNullability());
   }
 
   @Test
@@ -53,7 +83,7 @@ class ArraySchemaTest {
         mapToMemberType(componentName, pojoMemberName, arraySchema);
     final ObjectType itemType =
         ObjectType.ofName(componentName.deriveMemberSchemaName(pojoMemberName).getPojoName());
-    assertEquals(ArrayType.ofItemType(itemType), mappedSchema.getType());
+    assertEquals(ArrayType.ofItemType(itemType, NOT_NULLABLE), mappedSchema.getType());
     assertEquals(
         UnmappedItems.ofPojoSchema(
             new PojoSchema(componentName.deriveMemberSchemaName(pojoMemberName), composedSchema)),
@@ -68,7 +98,8 @@ class ArraySchemaTest {
 
     final StringType itemType = StringType.ofFormat(StringType.Format.DATE_TIME);
     assertEquals(
-        ArrayType.ofItemType(itemType).withConstraints(Constraints.ofSize(Size.ofMin(10))),
+        ArrayType.ofItemType(itemType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.ofMin(10))),
         mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
@@ -81,7 +112,8 @@ class ArraySchemaTest {
 
     final StringType itemType = StringType.ofFormat(StringType.Format.DATE_TIME);
     assertEquals(
-        ArrayType.ofItemType(itemType).withConstraints(Constraints.ofSize(Size.ofMax(50))),
+        ArrayType.ofItemType(itemType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.ofMax(50))),
         mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
@@ -97,7 +129,8 @@ class ArraySchemaTest {
 
     final StringType itemType = StringType.ofFormat(StringType.Format.DATE_TIME);
     assertEquals(
-        ArrayType.ofItemType(itemType).withConstraints(Constraints.ofSize(Size.of(10, 50))),
+        ArrayType.ofItemType(itemType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.of(10, 50))),
         mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
@@ -109,15 +142,18 @@ class ArraySchemaTest {
 
     final StringType itemType = StringType.ofFormat(StringType.Format.DATE_TIME);
     assertEquals(
-        ArrayType.ofItemType(itemType).withConstraints(Constraints.ofUniqueItems(true)),
+        ArrayType.ofItemType(itemType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofUniqueItems(true)),
         mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
   }
 
-  @Test
-  void mapToPojo_when_stringItem_then_mappedToCorrectPojo() {
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void mapToPojo_when_stringItem_then_mappedToCorrectPojo(boolean nullable) {
     final ArraySchema arraySchema = new ArraySchema();
     arraySchema.setDescription("Test description");
+    arraySchema.setNullable(nullable);
     arraySchema.setItems(new io.swagger.v3.oas.models.media.StringSchema());
 
     final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
@@ -131,7 +167,11 @@ class ArraySchemaTest {
 
     final ArrayPojo expectedPojo =
         ArrayPojo.of(
-            pojoSchema.getName(), "Test description", StringType.noFormat(), Constraints.empty());
+            pojoSchema.getName(),
+            "Test description",
+            Nullability.fromBoolean(nullable),
+            StringType.noFormat(),
+            Constraints.empty());
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }

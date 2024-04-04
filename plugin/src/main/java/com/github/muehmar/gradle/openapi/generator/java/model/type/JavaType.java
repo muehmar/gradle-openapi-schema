@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -14,13 +15,15 @@ import java.util.function.Function;
 public interface JavaType {
   QualifiedClassName getQualifiedClassName();
 
-  Type getType();
-
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
-   * parameters.s
+   * parameters
    */
   PList<QualifiedClassName> getAllQualifiedClassNames();
+
+  Nullability getNullability();
+
+  JavaType withNullability(Nullability nullability);
 
   ParameterizedClassName getParameterizedClassName();
 
@@ -43,30 +46,81 @@ public interface JavaType {
       Function<JavaObjectType, T> onObjectType,
       Function<JavaStringType, T> onStringType);
 
-  default boolean isArrayType() {
+  default Optional<JavaArrayType> onArrayType() {
     return fold(
-        javaArrayType -> true,
-        javaBooleanType -> false,
-        javaEnumType -> false,
-        javaMapType -> false,
-        javaAnyType -> false,
-        javaNumericType -> false,
-        javaIntegerType -> false,
-        javaObjectType -> false,
-        javaStringType -> false);
+        Optional::of,
+        javaBooleanType -> Optional.empty(),
+        javaEnumType -> Optional.empty(),
+        javaMapType -> Optional.empty(),
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        javaObjectType -> Optional.empty(),
+        javaStringType -> Optional.empty());
+  }
+
+  default boolean isArrayType() {
+    return onArrayType().isPresent();
+  }
+
+  default boolean isNullableItemsArrayType() {
+    return onArrayType()
+        .map(JavaArrayType::getItemType)
+        .map(JavaType::getNullability)
+        .map(Nullability::isNullable)
+        .orElse(false);
   }
 
   default boolean isMapType() {
     return fold(
-        javaArrayType -> false,
-        javaBooleanType -> false,
-        javaEnumType -> false,
-        javaMapType -> true,
-        javaAnyType -> false,
-        javaNumericType -> false,
-        javaIntegerType -> false,
-        javaObjectType -> false,
-        javaStringType -> false);
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance,
+        JavaMapType.class::isInstance);
+  }
+
+  default boolean isAnyType() {
+    return fold(
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance,
+        JavaAnyType.class::isInstance);
+  }
+
+  default boolean isIntegerType() {
+    return fold(
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance,
+        JavaIntegerType.class::isInstance);
+  }
+
+  default boolean isNumericType() {
+    return fold(
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance,
+        JavaNumericType.class::isInstance);
   }
 
   default boolean isObjectType() {
@@ -102,10 +156,10 @@ public interface JavaType {
         numericType -> JavaIntegerType.wrap(numericType, typeMappings),
         stringType -> JavaStringType.wrap(stringType, typeMappings),
         arrayType -> JavaArrayType.wrap(arrayType, typeMappings),
-        booleanType -> JavaBooleanType.wrap(typeMappings),
+        booleanType -> JavaBooleanType.wrap(booleanType, typeMappings),
         JavaObjectType::wrap,
         enumType -> JavaEnumType.wrap(enumType, typeMappings),
         mapType -> JavaMapType.wrap(mapType, typeMappings),
-        noType -> JavaAnyType.create());
+        JavaAnyType::javaAnyType);
   }
 }

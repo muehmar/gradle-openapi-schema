@@ -1,8 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.notNullableValidationMethodWithAnnotation;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isValidationEnabled;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJsonOrValidation;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
@@ -12,7 +13,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -24,8 +24,12 @@ class OptionalNotNullableGetter {
       GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
+        .appendSingleBlankLine()
         .append(alternateGetter())
+        .appendSingleBlankLine()
         .append(rawGetter(option))
+        .appendSingleBlankLine()
+        .append(notNullableValidationMethodWithAnnotation().filter(option.validationFilter()))
         .append(RefsGenerator.fieldRefs())
         .filter(JavaPojoMember::isOptionalAndNotNullable);
   }
@@ -39,7 +43,6 @@ class OptionalNotNullableGetter {
 
   private static Generator<JavaPojoMember, PojoSettings> alternateGetter() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .appendNewLine()
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(jsonIgnore())
         .append(CommonGetter.wrapNullableInOptionalGetterOrMethod());
@@ -47,12 +50,11 @@ class OptionalNotNullableGetter {
 
   private static Generator<JavaPojoMember, PojoSettings> rawGetter(GeneratorOption option) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .appendNewLine()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
         .append(validationAnnotationsForMember().filter(option.validationFilter()))
-        .append(CommonGetter.rawGetterMethod())
-        .filter(Filters.<JavaPojoMember>isJacksonJson().or(isValidationEnabled()));
+        .append(CommonGetter.rawGetterMethod(option))
+        .filter(isJacksonJsonOrValidation());
   }
 }

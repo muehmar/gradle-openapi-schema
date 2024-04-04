@@ -10,10 +10,11 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.oneOfPojo;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,6 +27,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
@@ -33,13 +35,17 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
+import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
@@ -95,6 +101,7 @@ class JavaObjectPojoTest {
         ObjectPojoBuilder.create()
             .name(componentName("Object", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.single(pojoMember))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -120,6 +127,7 @@ class JavaObjectPojoTest {
         ObjectPojoBuilder.create()
             .name(componentName("Object", "Dto"))
             .description("Description")
+            .nullability(NOT_NULLABLE)
             .members(PList.of(pojoMember1, pojoMember2))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -233,9 +241,9 @@ class JavaObjectPojoTest {
   @Test
   void promote_when_pojoWithAllCompositions_then_promotedCorrectly() {
     final JavaRequiredAdditionalProperty requiredBirthdateAddProp =
-        new JavaRequiredAdditionalProperty(optionalBirthdate().getName(), javaAnyType());
+        new JavaRequiredAdditionalProperty(optionalBirthdate().getName(), anyType());
     final JavaRequiredAdditionalProperty requiredStringAddProp =
-        new JavaRequiredAdditionalProperty(optionalString().getName(), javaAnyType());
+        new JavaRequiredAdditionalProperty(optionalString().getName(), anyType());
 
     final JavaObjectPojo allOfSubPojo =
         JavaPojos.objectPojo(optionalString(), requiredEmail())
@@ -326,5 +334,49 @@ class JavaObjectPojoTest {
     assertEquals(
         JavaPojoNames.fromNameAndSuffix("ParentOneOfSub", "Dto"),
         promotedOneOfPojo.getJavaPojoName());
+  }
+
+  @Test
+  void
+      multiPojoMergeMethodGenerator_when_oneOfAndAnyOfCompositionWithDiscriminator_then_twoSinglePojoContainers() {
+    final JavaAnyOfComposition anyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
+            UntypedDiscriminator.fromPropertyName(Name.ofString("discrminatorName")));
+    final JavaObjectPojo pojo =
+        oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
+            .withAnyOfComposition(Optional.of(anyOfComposition))
+            .withName(JavaPojoNames.invoiceName());
+
+    final PList<SinglePojoContainer> singlePojoContainers = pojo.getSinglePojoContainers();
+    final PList<MultiPojoContainer> multiPojoContainers = pojo.getMultiPojoContainer();
+
+    assertEquals(
+        PList.of("InvoiceOneOfContainerDto", "InvoiceAnyOfContainerDto").toHashSet(),
+        singlePojoContainers.map(container -> container.getContainerName().asString()).toHashSet());
+
+    assertEquals(0, multiPojoContainers.size());
+  }
+
+  @Test
+  void
+      multiPojoMergeMethodGenerator_when_oneOfAndAnyOfCompositionWithoutDiscriminator_then_singelAndMultiPojoContainer() {
+    final JavaAnyOfComposition anyOfComposition =
+        JavaAnyOfComposition.fromPojos(NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()));
+    final JavaObjectPojo pojo =
+        oneOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
+            .withAnyOfComposition(Optional.of(anyOfComposition))
+            .withName(JavaPojoNames.invoiceName());
+
+    final PList<SinglePojoContainer> singlePojoContainers = pojo.getSinglePojoContainers();
+    final PList<MultiPojoContainer> multiPojoContainers = pojo.getMultiPojoContainer();
+
+    assertEquals(
+        PList.of("InvoiceOneOfContainerDto").toHashSet(),
+        singlePojoContainers.map(container -> container.getContainerName().asString()).toHashSet());
+
+    assertEquals(
+        PList.of("InvoiceAnyOfContainerDto").toHashSet(),
+        multiPojoContainers.map(container -> container.getContainerName().asString()).toHashSet());
   }
 }

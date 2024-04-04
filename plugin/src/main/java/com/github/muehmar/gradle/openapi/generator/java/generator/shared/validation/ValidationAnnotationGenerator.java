@@ -46,11 +46,21 @@ public class ValidationAnnotationGenerator {
   public static Generator<JavaPojoMember, PojoSettings> validationAnnotationsForMember() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(notNullAnnotationForMember())
-        .append(validationAnnotationsForPropertyType(), PropertyType::fromMember)
+        .append(validationAnnotationsForPropertyTypeWithoutNotNull(), PropertyType::fromMember)
         .filter(Filters.isValidationEnabled());
   }
 
   public static Generator<PropertyType, PojoSettings> validationAnnotationsForPropertyType() {
+    return Generator.<PropertyType, PojoSettings>emptyGen()
+        .append(
+            ValidationAnnotationGenerator.<PropertyType>notNullAnnotation()
+                .filter(propertyType -> propertyType.getType().getNullability().isNotNullable()))
+        .append(validationAnnotationsForPropertyTypeWithoutNotNull())
+        .filter(Filters.isValidationEnabled());
+  }
+
+  private static Generator<PropertyType, PojoSettings>
+      validationAnnotationsForPropertyTypeWithoutNotNull() {
     return Generator.<PropertyType, PojoSettings>emptyGen()
         .append(validAnnotationForType(), PropertyType::getType)
         .append(emailAnnotation())

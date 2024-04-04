@@ -38,7 +38,7 @@ public class UniqueItemsValidationMethodGenerator {
   }
 
   private static boolean generateMethod(JavaPojoMember member, PojoSettings settings) {
-    return member.getJavaType().getType().isArrayType()
+    return member.getJavaType().isArrayType()
         && member.getJavaType().getConstraints().isUniqueItems();
   }
 }

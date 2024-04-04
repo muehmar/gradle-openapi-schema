@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder.fullMemberContentBuilder;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherContentBuilder.fullWitherContentBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither.WitherContentBuilder.fullWitherContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ConstructorContentBuilder.fullConstructorContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsContentBuilder.fullEqualsContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeContentBuilder.fullHashCodeContentBuilder;
@@ -17,13 +17,14 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.WitherGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither.WitherGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition.AllOfCompositionPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
@@ -35,8 +36,8 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -193,7 +194,10 @@ public class JavaObjectPojo implements JavaPojo {
     final Optional<JavaAnyOfComposition> anyOfComposition =
         objectPojo
             .getAnyOfComposition()
-            .map(comp -> JavaAnyOfComposition.wrap(comp, type, typeMappings));
+            .map(
+                comp ->
+                    JavaAnyOfComposition.wrap(
+                        comp, objectPojo.getDiscriminator(), type, typeMappings));
     return fullJavaObjectPojoBuilder()
         .name(pojoName)
         .schemaName(objectPojo.getName().getSchemaName())
@@ -311,10 +315,6 @@ public class JavaObjectPojo implements JavaPojo {
         && not(anyOfComposition.isPresent());
   }
 
-  public boolean hasRequiredMembers() {
-    return members.hasRequiredMembers();
-  }
-
   public PList<JavaPojoMember> getMembers() {
     return members.asList();
   }
@@ -359,13 +359,6 @@ public class JavaObjectPojo implements JavaPojo {
     return oneOfComposition;
   }
 
-  public PList<JavaObjectPojo> getOneOfPojos() {
-    return oneOfComposition
-        .map(JavaOneOfComposition::getPojos)
-        .map(NonEmptyList::toPList)
-        .orElseGet(PList::empty);
-  }
-
   public boolean hasOneOfComposition() {
     return oneOfComposition.isPresent();
   }
@@ -383,6 +376,12 @@ public class JavaObjectPojo implements JavaPojo {
 
   public boolean hasAnyOfComposition() {
     return anyOfComposition.isPresent();
+  }
+
+  public PList<DiscriminatableJavaComposition> getDiscriminatableCompositions() {
+    return PList.<Optional<DiscriminatableJavaComposition>>of(
+            getOneOfComposition().map(c -> c), getAnyOfComposition().map(c -> c))
+        .flatMapOptional(Function.identity());
   }
 
   public PList<JavaRequiredAdditionalProperty> getRequiredAdditionalProperties() {
@@ -451,12 +450,20 @@ public class JavaObjectPojo implements JavaPojo {
         .build();
   }
 
-  public Optional<OneOfContainer> getOneOfContainer() {
-    return oneOfComposition.map(composition -> new OneOfContainer(name, composition));
+  public PList<SinglePojoContainer> getSinglePojoContainers() {
+    return PList.of(
+            oneOfComposition.map(c -> new SinglePojoContainer(name, c)),
+            anyOfComposition
+                .filter(DiscriminatableJavaComposition::hasDiscriminator)
+                .map(c -> new SinglePojoContainer(name, c)))
+        .flatMapOptional(Function.identity());
   }
 
-  public Optional<AnyOfContainer> getAnyOfContainer() {
-    return anyOfComposition.map(composition -> new AnyOfContainer(name, composition));
+  public PList<MultiPojoContainer> getMultiPojoContainer() {
+    return PList.fromOptional(
+        anyOfComposition
+            .filter(composition -> not(composition.hasDiscriminator()))
+            .map(composition -> new MultiPojoContainer(name, composition)));
   }
 
   public boolean hasCompositions() {

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -37,7 +38,7 @@ class AdditionalPropertiesSchemaTest {
         additionalPropertiesSchema.getAdditionalPropertiesType(componentName("Map", "Dto"));
 
     assertTrue(additionalPropertiesSchema.isAllowed());
-    assertEquals(AnyType.create(), additionalPropertiesType);
+    assertEquals(AnyType.create(NULLABLE), additionalPropertiesType);
   }
 
   @Test
@@ -62,7 +63,7 @@ class AdditionalPropertiesSchemaTest {
 
     assertTrue(additionalPropertiesSchema.isAllowed());
     assertEquals(
-        MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create()),
+        MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create(NULLABLE)),
         additionalPropertiesType);
   }
 

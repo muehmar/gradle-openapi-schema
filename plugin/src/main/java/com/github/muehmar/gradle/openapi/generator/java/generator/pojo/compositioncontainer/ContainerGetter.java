@@ -2,9 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static io.github.muehmar.codegenerator.Generator.newLine;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.AnyOfContainer;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliaryy.OneOfContainer;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -14,19 +13,11 @@ public class ContainerGetter {
 
   private ContainerGetter() {}
 
-  public static Generator<OneOfContainer, PojoSettings> oneOfContainerGetter() {
-    return Generator.<OneOfContainer, PojoSettings>emptyGen()
+  public static Generator<DiscriminatableJavaComposition, PojoSettings> containerGetter() {
+    return Generator.<DiscriminatableJavaComposition, PojoSettings>emptyGen()
         .appendList(
             technicalGetter(),
-            container -> container.getComposition().getPojosAsTechnicalMembers(),
-            newLine());
-  }
-
-  public static Generator<AnyOfContainer, PojoSettings> anyOfContainerGetter() {
-    return Generator.<AnyOfContainer, PojoSettings>emptyGen()
-        .appendList(
-            technicalGetter(),
-            container -> container.getComposition().getPojosAsTechnicalMembers(),
+            DiscriminatableJavaComposition::getPojosAsTechnicalMembers,
             newLine());
   }
 

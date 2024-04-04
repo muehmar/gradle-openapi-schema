@@ -1,9 +1,9 @@
 arrayPojo=[
 @JsonCreator
 public PosologyDto(
-    List<Double> value
+    List<Double> items
   ) {
-  this.value = value;
+  this.items = items;
 }
 ]
 
@@ -31,16 +31,32 @@ public NecessityAndNullabilityDto(
     String requiredNullableStringVal,
     boolean isRequiredNullableStringValPresent,
     String optionalStringVal,
+    boolean isOptionalStringValNotNull,
     String optionalNullableStringVal,
     boolean isOptionalNullableStringValNull,
+    List<String> requiredListWithNullableItems,
+    List<String> requiredNullableListWithNullableItems,
+    boolean isRequiredNullableListWithNullableItemsPresent,
+    List<String> optionalListWithNullableItems,
+    boolean isOptionalListWithNullableItemsNotNull,
+    List<String> optionalNullableListWithNullableItems,
+    boolean isOptionalNullableListWithNullableItemsNull,
     Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
   this.requiredNullableStringVal = requiredNullableStringVal;
   this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
   this.optionalStringVal = optionalStringVal;
+  this.isOptionalStringValNotNull = isOptionalStringValNotNull;
   this.optionalNullableStringVal = optionalNullableStringVal;
   this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  this.requiredListWithNullableItems = requiredListWithNullableItems;
+  this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+  this.isRequiredNullableListWithNullableItemsPresent = isRequiredNullableListWithNullableItemsPresent;
+  this.optionalListWithNullableItems = optionalListWithNullableItems;
+  this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
+  this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+  this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
   this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]
@@ -52,16 +68,32 @@ public NecessityAndNullabilityDto(
     String requiredNullableStringVal,
     boolean isRequiredNullableStringValPresent,
     String optionalStringVal,
+    boolean isOptionalStringValNotNull,
     String optionalNullableStringVal,
     boolean isOptionalNullableStringValNull,
+    List<String> requiredListWithNullableItems,
+    List<String> requiredNullableListWithNullableItems,
+    boolean isRequiredNullableListWithNullableItemsPresent,
+    List<String> optionalListWithNullableItems,
+    boolean isOptionalListWithNullableItemsNotNull,
+    List<String> optionalNullableListWithNullableItems,
+    boolean isOptionalNullableListWithNullableItemsNull,
     Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
   this.requiredNullableStringVal = requiredNullableStringVal;
   this.isRequiredNullableStringValPresent = isRequiredNullableStringValPresent;
   this.optionalStringVal = optionalStringVal;
+  this.isOptionalStringValNotNull = isOptionalStringValNotNull;
   this.optionalNullableStringVal = optionalNullableStringVal;
   this.isOptionalNullableStringValNull = isOptionalNullableStringValNull;
+  this.requiredListWithNullableItems = requiredListWithNullableItems;
+  this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+  this.isRequiredNullableListWithNullableItemsPresent = isRequiredNullableListWithNullableItemsPresent;
+  this.optionalListWithNullableItems = optionalListWithNullableItems;
+  this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
+  this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+  this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
   this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]

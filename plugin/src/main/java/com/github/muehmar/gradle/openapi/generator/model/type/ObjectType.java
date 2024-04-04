@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
@@ -12,13 +13,15 @@ import lombok.ToString;
 @ToString
 public class ObjectType implements Type {
   private final PojoName name;
+  private final Nullability nullability;
 
-  private ObjectType(PojoName name) {
+  private ObjectType(PojoName name, Nullability nullability) {
     this.name = name;
+    this.nullability = nullability;
   }
 
   public static ObjectType ofName(PojoName name) {
-    return new ObjectType(name);
+    return new ObjectType(name, Nullability.NOT_NULLABLE);
   }
 
   public PojoName getName() {
@@ -27,12 +30,21 @@ public class ObjectType implements Type {
 
   @Override
   public ObjectType applyMapping(PojoNameMapping pojoNameMapping) {
-    return new ObjectType(pojoNameMapping.map(name));
+    return new ObjectType(pojoNameMapping.map(name), nullability);
+  }
+
+  public ObjectType withNullability(Nullability nullability) {
+    return new ObjectType(name, nullability);
   }
 
   @Override
   public Constraints getConstraints() {
     return Constraints.empty();
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

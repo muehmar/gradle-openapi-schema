@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
@@ -32,64 +31,56 @@ class NestedRequiredPropertyResolverTest {
           "firstName",
           StringType.noFormat(),
           PropertyScope.DEFAULT,
-          Necessity.OPTIONAL,
-          Nullability.NOT_NULLABLE);
+          Necessity.OPTIONAL);
   private static final PojoMember MIDDLE_NAME =
       new PojoMember(
           Name.ofString("middleName"),
           "middleName",
           StringType.noFormat(),
           PropertyScope.DEFAULT,
-          Necessity.OPTIONAL,
-          Nullability.NOT_NULLABLE);
+          Necessity.OPTIONAL);
   private static final PojoMember LAST_NAME =
       new PojoMember(
           Name.ofString("lastName"),
           "lastName",
           StringType.noFormat(),
           PropertyScope.DEFAULT,
-          REQUIRED,
-          Nullability.NOT_NULLABLE);
+          REQUIRED);
   private static final PojoMember STREET =
       new PojoMember(
           Name.ofString("street"),
           "street",
           StringType.noFormat(),
           PropertyScope.DEFAULT,
-          REQUIRED,
-          Nullability.NOT_NULLABLE);
+          REQUIRED);
   private static final PojoMember HOUSR_NR =
       new PojoMember(
           Name.ofString("housenr"),
           "housenr",
           IntegerType.formatInteger(),
           PropertyScope.DEFAULT,
-          Necessity.OPTIONAL,
-          Nullability.NOT_NULLABLE);
+          Necessity.OPTIONAL);
   private static final PojoMember ZIP =
       new PojoMember(
           Name.ofString("zip"),
           "zip",
           IntegerType.formatInteger(),
           PropertyScope.DEFAULT,
-          Necessity.OPTIONAL,
-          Nullability.NOT_NULLABLE);
+          Necessity.OPTIONAL);
   private static final PojoMember CITY_CODE =
       new PojoMember(
           Name.ofString("cityCode"),
           "cityCode",
           IntegerType.formatInteger(),
           PropertyScope.DEFAULT,
-          Necessity.OPTIONAL,
-          Nullability.NOT_NULLABLE);
+          Necessity.OPTIONAL);
   private static final PojoMember CITY_NAME =
       new PojoMember(
           Name.ofString("cityName"),
           "cityName",
           IntegerType.formatInteger(),
           PropertyScope.DEFAULT,
-          REQUIRED,
-          Nullability.NOT_NULLABLE);
+          REQUIRED);
 
   @Test
   void resolve_when_allOfPojoWithRequiredPropertiesPojo_then_correctResolved() {

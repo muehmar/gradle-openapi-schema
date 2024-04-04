@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
@@ -18,7 +19,16 @@ import java.util.function.UnaryOperator;
 public interface Type {
   Constraints getConstraints();
 
+  Nullability getNullability();
+
   Type applyMapping(PojoNameMapping pojoNameMapping);
+
+  default Type adjustNullablePojo(PojoName nullablePojo) {
+    return asObjectType()
+        .filter(objectType -> objectType.getName().equals(nullablePojo))
+        .<Type>map(objectType -> objectType.withNullability(Nullability.NULLABLE))
+        .orElse(this);
+  }
 
   <T> T fold(
       Function<NumericType, T> onNumericType,
@@ -59,32 +69,6 @@ public interface Type {
 
   default boolean isObjectType() {
     return asObjectType().isPresent();
-  }
-
-  default Optional<NumericType> asNumericType() {
-    return fold(
-        Optional::of,
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty());
-  }
-
-  default Optional<IntegerType> asIntegerType() {
-    return fold(
-        ignore -> Optional.empty(),
-        Optional::of,
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        ignore -> Optional.empty());
   }
 
   default Optional<ArrayType> asArrayType() {

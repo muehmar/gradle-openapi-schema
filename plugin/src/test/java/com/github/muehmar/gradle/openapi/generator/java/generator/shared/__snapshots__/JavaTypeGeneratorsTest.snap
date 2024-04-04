@@ -1,6 +1,7 @@
 arrayType=[
+javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
-List<@Size(min = 5) @Pattern(regexp="pattern") String>
+List<@NotNull @Size(min = 5) @Pattern(regexp="pattern") String>
 ]

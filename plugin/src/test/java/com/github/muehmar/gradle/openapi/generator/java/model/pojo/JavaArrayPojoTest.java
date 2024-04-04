@@ -21,13 +21,14 @@ class JavaArrayPojoTest {
         ArrayPojo.of(
             componentName("Posology", "Dto"),
             "Posology",
+            Nullability.NOT_NULLABLE,
             NumericType.formatDouble(),
             Constraints.ofSize(Size.ofMax(4)));
     final JavaArrayPojo javaArrayPojo = JavaArrayPojo.wrap(arrayPojo, TypeMappings.empty());
 
     final JavaPojoMember arrayPojoMember = javaArrayPojo.getArrayPojoMember();
 
-    assertEquals(JavaName.fromString("value"), arrayPojoMember.getName());
+    assertEquals(JavaName.fromString("items"), arrayPojoMember.getName());
     assertEquals(arrayPojo.getDescription(), arrayPojoMember.getDescription());
     assertEquals(arrayPojo.getConstraints(), arrayPojoMember.getJavaType().getConstraints());
     assertEquals(

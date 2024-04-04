@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -16,25 +17,28 @@ public class EnumType implements Type {
   private final Name name;
   private final PList<String> members;
   private final Optional<String> format;
+  private final Nullability nullability;
 
-  private EnumType(Name name, PList<String> members, Optional<String> format) {
+  private EnumType(
+      Name name, PList<String> members, Optional<String> format, Nullability nullability) {
     this.name = name;
     this.members = members;
     this.format = format;
+    this.nullability = nullability;
   }
 
   public static EnumType ofNameAndMembersAndFormat(
       Name name, PList<String> members, String format) {
-    return new EnumType(name, members, Optional.of(format));
+    return new EnumType(name, members, Optional.of(format), Nullability.NOT_NULLABLE);
   }
 
   public static EnumType ofNameAndMembersAndFormat(
       Name name, PList<String> members, Optional<String> format) {
-    return new EnumType(name, members, format);
+    return new EnumType(name, members, format, Nullability.NOT_NULLABLE);
   }
 
   public static EnumType ofNameAndMembers(Name name, PList<String> members) {
-    return new EnumType(name, members, Optional.empty());
+    return new EnumType(name, members, Optional.empty(), Nullability.NOT_NULLABLE);
   }
 
   public Name getName() {
@@ -57,6 +61,11 @@ public class EnumType implements Type {
   @Override
   public EnumType applyMapping(PojoNameMapping pojoNameMapping) {
     return this;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

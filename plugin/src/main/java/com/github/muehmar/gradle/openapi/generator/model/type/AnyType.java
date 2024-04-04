@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -10,9 +11,14 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class AnyType implements Type {
+  private final Nullability nullability;
 
-  public static AnyType create() {
-    return new AnyType();
+  private AnyType(Nullability nullability) {
+    this.nullability = nullability;
+  }
+
+  public static AnyType create(Nullability nullability) {
+    return new AnyType(nullability);
   }
 
   @Override
@@ -23,6 +29,11 @@ public class AnyType implements Type {
   @Override
   public AnyType applyMapping(PojoNameMapping pojoNameMapping) {
     return this;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

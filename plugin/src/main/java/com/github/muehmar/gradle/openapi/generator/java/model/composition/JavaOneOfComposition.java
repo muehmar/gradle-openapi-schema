@@ -22,7 +22,7 @@ import lombok.Value;
 
 @EqualsAndHashCode
 @ToString
-public class JavaOneOfComposition {
+public class JavaOneOfComposition implements DiscriminatableJavaComposition {
   private final JavaComposition javaComposition;
   private final Optional<JavaDiscriminator> discriminator;
 
@@ -54,6 +54,7 @@ public class JavaOneOfComposition {
         new JavaComposition(assertAllObjectPojos(pojos)), Optional.empty());
   }
 
+  @Override
   public NonEmptyList<JavaObjectPojo> getPojos() {
     return javaComposition.getPojos();
   }
@@ -62,12 +63,19 @@ public class JavaOneOfComposition {
     return javaComposition.getMembers(JavaPojoMember::asOneOfMember);
   }
 
+  @Override
   public PList<TechnicalPojoMember> getPojosAsTechnicalMembers() {
     return javaComposition.getPojosAsTechnicalMembers();
   }
 
+  @Override
   public Optional<JavaDiscriminator> getDiscriminator() {
     return discriminator;
+  }
+
+  @Override
+  public Type getType() {
+    return Type.ONE_OF;
   }
 
   public OneOfCompositionPromotionResult promote(

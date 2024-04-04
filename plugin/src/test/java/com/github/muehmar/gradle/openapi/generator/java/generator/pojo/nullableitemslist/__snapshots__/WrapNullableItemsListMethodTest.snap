@@ -1,0 +1,23 @@
+wrapNullableInOptionalGetterMethod=[
+java.util.List
+java.util.Optional
+java.util.stream.Collectors
+
+private static <T> List<Optional<T>> wrapNullableItemsList(List<T> list) {
+  return list.stream().map(Optional::ofNullable).collect(Collectors.toList());
+}
+]
+
+
+wrapNullableItemsList=[
+java.util.List
+java.util.Optional
+java.util.stream.Collectors
+
+private static <T> List<Optional<T>> wrapNullableItemsList(List<T> list) {
+  if (list == null) {
+    return null;
+  }
+  return list.stream().map(Optional::ofNullable).collect(Collectors.toList());
+}
+]

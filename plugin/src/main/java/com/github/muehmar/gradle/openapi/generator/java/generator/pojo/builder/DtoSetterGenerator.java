@@ -7,7 +7,10 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapOptionalNullableItemsListMethod;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapTristateNullableItemsListMethod;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -24,11 +27,7 @@ public class DtoSetterGenerator {
 
   public static Generator<JavaObjectPojo, PojoSettings> dtoSetterGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(dtoSetters(), ParentPojoAndComposedPojos::forAllOfComposition)
-        .appendSingleBlankLine()
-        .appendOptional(dtoSetters(), ParentPojoAndComposedPojos::forOneOfComposition)
-        .appendSingleBlankLine()
-        .appendOptional(dtoSetters(), ParentPojoAndComposedPojos::forAnyOfComposition);
+        .appendList(dtoSetters(), ParentPojoAndComposedPojos::fromParentPojo, newLine());
   }
 
   private static Generator<ParentPojoAndComposedPojos, PojoSettings> dtoSetters() {
@@ -52,15 +51,19 @@ public class DtoSetterGenerator {
   }
 
   private static Generator<ParentPojoAndComposedPojo, PojoSettings> dtoSetterContent() {
+    final Generator<PojosAndMember, PojoSettings> singleMemberSetter =
+        setSingleNonDiscriminatorAndNonNullableItemsListMember()
+            .append(setSingleNullableItemsListMember())
+            .append(setSingleDiscriminatorMember());
     return Generator.<ParentPojoAndComposedPojo, PojoSettings>emptyGen()
-        .appendList(
-            setSingleNonDiscriminatorMember().append(setSingleDiscriminatorMember()),
-            ParentPojoAndComposedPojo::getMembers)
-        .append(setAdditionalProperties())
+        .appendList(singleMemberSetter, ParentPojoAndComposedPojo::getMembers)
+        .append(setNullableAdditionalProperties())
+        .append(setNotNullableAdditionalProperties())
         .append(constant("return this;"));
   }
 
-  private static Generator<PojosAndMember, PojoSettings> setSingleNonDiscriminatorMember() {
+  private static Generator<PojosAndMember, PojoSettings>
+      setSingleNonDiscriminatorAndNonNullableItemsListMember() {
     return Generator.<PojosAndMember, PojoSettings>emptyGen()
         .append(
             (member, s, w) ->
@@ -68,7 +71,29 @@ public class DtoSetterGenerator {
                     "%s(dto.%s());",
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
-        .filter(PojosAndMember::isNotDiscriminatorMember);
+        .filter(PojosAndMember::isNotDiscriminatorAndNotNullableItemsListMember);
+  }
+
+  private static Generator<PojosAndMember, PojoSettings> setSingleNullableItemsListMember() {
+    return Generator.<PojosAndMember, PojoSettings>emptyGen()
+        .append(
+            (member, s, w) ->
+                w.println(
+                    "%s(%s(dto.%s()));",
+                    member.prefixedMethodName(s.getBuilderMethodPrefix()),
+                    unwrapMethodForNullableItemsListMember(member.getMember()),
+                    member.getGetterNameWithSuffix(s)))
+        .filter(PojosAndMember::isNullableItemsListMember);
+  }
+
+  private static String unwrapMethodForNullableItemsListMember(JavaPojoMember member) {
+    if (member.isRequiredAndNotNullable()) {
+      return UnwrapNullableItemsListMethod.METHOD_NAME;
+    } else if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
+      return UnwrapOptionalNullableItemsListMethod.METHOD_NAME;
+    } else {
+      return UnwrapTristateNullableItemsListMethod.METHOD_NAME;
+    }
   }
 
   private static Generator<PojosAndMember, PojoSettings> setSingleDiscriminatorMember() {
@@ -82,54 +107,63 @@ public class DtoSetterGenerator {
         .filter(PojosAndMember::isDiscriminatorMember);
   }
 
-  private static <B> Generator<ParentPojoAndComposedPojo, B> setAdditionalProperties() {
-    return Generator.<ParentPojoAndComposedPojo, B>constant(
-            "dto.getAdditionalProperties().forEach(this::addAdditionalProperty);")
+  private static <B> Generator<ParentPojoAndComposedPojo, B> setNotNullableAdditionalProperties() {
+    return Generator.<ParentPojoAndComposedPojo, B>constant("dto.getAdditionalProperties()")
+        .append(
+            constant(".forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue()));"),
+            2)
+        .filter(ParentPojoAndComposedPojo::hasNotNullableAdditionalProperties)
+        .filter(ppcp -> ppcp.getComposedPojo().getAdditionalProperties().isAllowed());
+  }
+
+  private static <B> Generator<ParentPojoAndComposedPojo, B> setNullableAdditionalProperties() {
+    return Generator.<ParentPojoAndComposedPojo, B>constant("dto.getAdditionalProperties()")
+        .append(
+            constant(
+                ".forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));"),
+            2)
+        .filter(ParentPojoAndComposedPojo::hasNullableAdditionalProperties)
         .filter(ppcp -> ppcp.getComposedPojo().getAdditionalProperties().isAllowed());
   }
 
   @Value
   private static class ParentPojoAndComposedPojos {
     JavaObjectPojo parentPojo;
+    Optional<JavaDiscriminator> discriminator;
     NonEmptyList<JavaObjectPojo> composedPojos;
 
-    private static Optional<ParentPojoAndComposedPojos> forAllOfComposition(
-        JavaObjectPojo parentPojo) {
-      return parentPojo
-          .getAllOfComposition()
-          .map(
-              allOfComposition ->
-                  new ParentPojoAndComposedPojos(parentPojo, allOfComposition.getPojos()));
-    }
-
-    private static Optional<ParentPojoAndComposedPojos> forOneOfComposition(
-        JavaObjectPojo parentPojo) {
-      return parentPojo
-          .getOneOfComposition()
-          .map(
-              oneOfComposition ->
-                  new ParentPojoAndComposedPojos(parentPojo, oneOfComposition.getPojos()));
-    }
-
-    private static Optional<ParentPojoAndComposedPojos> forAnyOfComposition(
-        JavaObjectPojo parentPojo) {
-      return parentPojo
-          .getAnyOfComposition()
-          .map(
-              anyOfComposition ->
-                  new ParentPojoAndComposedPojos(parentPojo, anyOfComposition.getPojos()));
+    private static PList<ParentPojoAndComposedPojos> fromParentPojo(JavaObjectPojo parentPojo) {
+      final PList<ParentPojoAndComposedPojos> mappedAllOf =
+          PList.fromOptional(
+              parentPojo
+                  .getAllOfComposition()
+                  .map(
+                      composition ->
+                          new ParentPojoAndComposedPojos(
+                              parentPojo, Optional.empty(), composition.getPojos())));
+      final PList<ParentPojoAndComposedPojos> mappedOneOfAndAnyOf =
+          parentPojo
+              .getDiscriminatableCompositions()
+              .map(
+                  composition ->
+                      new ParentPojoAndComposedPojos(
+                          parentPojo, composition.getDiscriminator(), composition.getPojos()));
+      return mappedAllOf.concat(mappedOneOfAndAnyOf);
     }
 
     public PList<ParentPojoAndComposedPojo> getComposedPojos() {
       return composedPojos
           .toPList()
-          .map(composedPojo -> new ParentPojoAndComposedPojo(parentPojo, composedPojo));
+          .map(
+              composedPojo ->
+                  new ParentPojoAndComposedPojo(parentPojo, discriminator, composedPojo));
     }
   }
 
   @Value
   private static class ParentPojoAndComposedPojo {
     JavaObjectPojo parentPojo;
+    Optional<JavaDiscriminator> discriminator;
     JavaObjectPojo composedPojo;
 
     public JavaName prefixedClassNameForMethod(String prefix) {
@@ -139,13 +173,22 @@ public class DtoSetterGenerator {
     private PList<PojosAndMember> getMembers() {
       return composedPojo
           .getAllMembers()
-          .map(member -> new PojosAndMember(parentPojo, composedPojo, member));
+          .map(member -> new PojosAndMember(parentPojo, discriminator, composedPojo, member));
+    }
+
+    private boolean hasNullableAdditionalProperties() {
+      return composedPojo.getAdditionalProperties().getType().getNullability().isNullable();
+    }
+
+    private boolean hasNotNullableAdditionalProperties() {
+      return not(hasNullableAdditionalProperties());
     }
   }
 
   @Value
   private static class PojosAndMember {
     JavaObjectPojo parentPojo;
+    Optional<JavaDiscriminator> discriminator;
     JavaObjectPojo composedPojo;
     JavaPojoMember member;
 
@@ -157,14 +200,12 @@ public class DtoSetterGenerator {
       return member.getGetterNameWithSuffix(settings);
     }
 
-    public String getDiscriminatorValue() {
+    String getDiscriminatorValue() {
       final Name schemaName = composedPojo.getSchemaName().getOriginalName();
-      return parentPojo
-          .getOneOfComposition()
-          .flatMap(JavaOneOfComposition::getDiscriminator)
+      return discriminator
           .map(
-              discriminator ->
-                  discriminator.getValueForSchemaName(
+              d ->
+                  d.getValueForSchemaName(
                       schemaName,
                       strValue -> String.format("\"%s\"", strValue),
                       enumName ->
@@ -175,16 +216,18 @@ public class DtoSetterGenerator {
           .orElse("");
     }
 
-    private boolean isDiscriminatorMember() {
-      return parentPojo
-          .getOneOfComposition()
-          .flatMap(JavaOneOfComposition::getDiscriminator)
-          .filter(discriminator -> discriminator.getPropertyName().equals(member.getName()))
-          .isPresent();
+    private boolean isNotDiscriminatorAndNotNullableItemsListMember() {
+      return not(isDiscriminatorMember()) && not(isNullableItemsListMember());
     }
 
-    private boolean isNotDiscriminatorMember() {
-      return not(isDiscriminatorMember());
+    private boolean isNullableItemsListMember() {
+      return not(isDiscriminatorMember()) && member.getJavaType().isNullableItemsArrayType();
+    }
+
+    private boolean isDiscriminatorMember() {
+      return discriminator
+          .filter(discriminator -> discriminator.getPropertyName().equals(member.getName()))
+          .isPresent();
     }
   }
 }

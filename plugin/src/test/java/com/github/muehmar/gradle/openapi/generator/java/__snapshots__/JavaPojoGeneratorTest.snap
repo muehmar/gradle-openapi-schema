@@ -13,13 +13,13 @@ import javax.validation.constraints.NotNull;
  */
 public class PosologyDto {
   @JsonValue
-  private final List<Double> value;
+  private final List<Double> items;
 
   @JsonCreator
   public PosologyDto(
-      List<Double> value
+      List<Double> items
     ) {
-    this.value = value;
+    this.items = items;
   }
 
   public static PosologyDto fromItems(List<Double> items) {
@@ -34,15 +34,15 @@ public class PosologyDto {
    * Doses to be taken
    */
   @NotNull
-  public List<Double> getValue() {
-    return value;
+  public List<@NotNull Double> getItems() {
+    return items;
   }
 
   /**
    * Doses to be taken
    */
-  public PosologyDto withValue(List<Double> value) {
-    return new PosologyDto(value);
+  public PosologyDto withItems(List<Double> items) {
+    return new PosologyDto(items);
   }
 
   boolean isValid() {
@@ -50,20 +50,20 @@ public class PosologyDto {
   }
 
   private class Validator {
-    private boolean isValueValid() {
-      if(value != null) {
-        return value.stream().allMatch(this::isValueValueValid);
+    private boolean isItemsValid() {
+      if(items != null) {
+        return items.stream().allMatch(this::isItemsValueValid);
       }
 
       return false;
     }
 
-    private boolean isValueValueValid(Double valueValue) {
-      return true;
+    private boolean isItemsValueValid(Double itemsValue) {
+      return itemsValue != null;
     }
 
     private boolean isValid() {
-      return isValueValid();
+      return isItemsValid();
     }
   }
 
@@ -72,20 +72,20 @@ public class PosologyDto {
     if (this == obj) return true;
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final PosologyDto other = (PosologyDto) obj;
-    return Objects.deepEquals(this.value, other.value);
+    return Objects.deepEquals(this.items, other.items);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-      value
+      items
     );
   }
 
   @Override
   public String toString() {
     return "PosologyDto{" +
-      "value=" + value +
+      "items=" + items +
       "}";
   }
 }
@@ -160,12 +160,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -221,17 +226,32 @@ public class SampleObjectPojo1Dto {
     return doubleVal;
   }
 
+  @Valid
   @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
+  private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
   /**
-   * Returns the additional property with {@code key} wrapped in an {@link Optional}
-   * if present, {@link Optional#empty()} otherwise
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
    */
-  public Optional<Object> getAdditionalProperty(String key) {
-    return Optional.ofNullable(additionalProperties.get(key));
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
   }
 
   /**
@@ -299,8 +319,8 @@ public class SampleObjectPojo1Dto {
     }
 
     private boolean isAdditionalPropertiesValid() {
-      if(getAdditionalProperties() != null) {
-        return getAdditionalProperties().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
       }
 
       return false;
@@ -393,6 +413,14 @@ public class SampleObjectPojo1Dto {
       return this;
     }
 
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
     public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
       this.additionalProperties = new HashMap<>(additionalProperties);
       return this;
@@ -412,8 +440,8 @@ public class SampleObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullBuilder() {
-    return new FullPropertyBuilder0(new Builder());
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -421,76 +449,8 @@ public class SampleObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static FullPropertyBuilder0 fullSampleObjectPojo1DtoBuilder() {
-    return new FullPropertyBuilder0(new Builder());
-  }
-
-  public static final class FullPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * stringVal
-     */
-    public FullPropertyBuilder1 setStringVal(String stringVal) {
-      return new FullPropertyBuilder1(builder.setStringVal(stringVal));
-    }
-
-  }
-
-  public static final class FullPropertyBuilder1 {
-    private final Builder builder;
-
-    private FullPropertyBuilder1(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * intVal
-     */
-    public FullPropertyBuilder2 setIntVal(Integer intVal) {
-      return new FullPropertyBuilder2(builder.setIntVal(intVal));
-    }
-
-  }
-
-  public static final class FullPropertyBuilder2 {
-    private final Builder builder;
-
-    private FullPropertyBuilder2(Builder builder) {
-      this.builder = builder;
-    }
-
-    /**
-     * doubleVal
-     */
-    public FullOptPropertyBuilder0 setDoubleVal(Double doubleVal) {
-      return new FullOptPropertyBuilder0(builder.setDoubleVal(doubleVal));
-    }
-
-  }
-
-  public static final class FullOptPropertyBuilder0 {
-    private final Builder builder;
-
-    private FullOptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
-
-    public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
-
-    public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public SampleObjectPojo1Dto build(){
-      return builder.build();
-    }
+  public static BuilderStages.FullPropertyBuilder0 fullSampleObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
   }
 
   /**
@@ -498,8 +458,8 @@ public class SampleObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 builder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
   /**
@@ -507,95 +467,175 @@ public class SampleObjectPojo1Dto {
    * additional properties, i.e. an additional property with the same name as an
    * explicit property will be discarded.
    */
-  public static PropertyBuilder0 sampleObjectPojo1DtoBuilder() {
-    return new PropertyBuilder0(new Builder());
+  public static BuilderStages.PropertyBuilder0 sampleObjectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
-  public static final class PropertyBuilder0 {
-    private final Builder builder;
+  public static final class BuilderStages {
+    private BuilderStages() {}
 
-    private PropertyBuilder0(Builder builder) {
-      this.builder = builder;
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * stringVal
+       */
+      public FullPropertyBuilder1 setStringVal(String stringVal) {
+        return new FullPropertyBuilder1(builder.setStringVal(stringVal));
+      }
+
     }
 
-    /**
-     * stringVal
-     */
-    public PropertyBuilder1 setStringVal(String stringVal) {
-      return new PropertyBuilder1(builder.setStringVal(stringVal));
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * intVal
+       */
+      public FullPropertyBuilder2 setIntVal(Integer intVal) {
+        return new FullPropertyBuilder2(builder.setIntVal(intVal));
+      }
+
     }
 
-  }
+    public static final class FullPropertyBuilder2 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder1 {
-    private final Builder builder;
+      private FullPropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder1(Builder builder) {
-      this.builder = builder;
+      /**
+       * doubleVal
+       */
+      public FullOptPropertyBuilder0 setDoubleVal(Double doubleVal) {
+        return new FullOptPropertyBuilder0(builder.setDoubleVal(doubleVal));
+      }
+
     }
 
-    /**
-     * intVal
-     */
-    public PropertyBuilder2 setIntVal(Integer intVal) {
-      return new PropertyBuilder2(builder.setIntVal(intVal));
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public SampleObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-  }
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder2 {
-    private final Builder builder;
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder2(Builder builder) {
-      this.builder = builder;
+      /**
+       * stringVal
+       */
+      public PropertyBuilder1 setStringVal(String stringVal) {
+        return new PropertyBuilder1(builder.setStringVal(stringVal));
+      }
+
     }
 
-    /**
-     * doubleVal
-     */
-    public PropertyBuilder3 setDoubleVal(Double doubleVal) {
-      return new PropertyBuilder3(builder.setDoubleVal(doubleVal));
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * intVal
+       */
+      public PropertyBuilder2 setIntVal(Integer intVal) {
+        return new PropertyBuilder2(builder.setIntVal(intVal));
+      }
+
     }
 
-  }
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
 
-  public static final class PropertyBuilder3 {
-    private final Builder builder;
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
 
-    private PropertyBuilder3(Builder builder) {
-      this.builder = builder;
+      /**
+       * doubleVal
+       */
+      public PropertyBuilder3 setDoubleVal(Double doubleVal) {
+        return new PropertyBuilder3(builder.setDoubleVal(doubleVal));
+      }
+
     }
 
-    public OptPropertyBuilder0 andAllOptionals(){
-      return new OptPropertyBuilder0(builder);
+    public static final class PropertyBuilder3 {
+      private final Builder builder;
+
+      private PropertyBuilder3(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public SampleObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
 
-    public Builder andOptionals(){
-      return builder;
-    }
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
 
-    public SampleObjectPojo1Dto build(){
-      return builder.build();
-    }
-  }
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
 
-  public static final class OptPropertyBuilder0 {
-    private final Builder builder;
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
 
-    private OptPropertyBuilder0(Builder builder) {
-      this.builder = builder;
-    }
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
 
-    public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
-    }
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
 
-    public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
-    }
-
-    public SampleObjectPojo1Dto build(){
-      return builder.build();
+      public SampleObjectPojo1Dto build(){
+        return builder.build();
+      }
     }
   }
 }

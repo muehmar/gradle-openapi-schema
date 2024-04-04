@@ -1,9 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.birthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.byteArrayMember;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
+import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,7 +34,7 @@ class JavaCompositionTest {
   void
       getMembers_when_calledForPojosWithSameMembers_then_resultingMembersAreUniqueAndTheLeastRestrictive() {
     final JavaObjectPojo pojo1 =
-        JavaPojos.objectPojo(requiredString(), requiredBirthdate().withNullability(NULLABLE));
+        JavaPojos.objectPojo(requiredString(), birthdate(REQUIRED, NULLABLE));
     final JavaObjectPojo pojo2 =
         JavaPojos.objectPojo(
             requiredString().withNecessity(OPTIONAL), requiredBirthdate(), byteArrayMember());
@@ -45,7 +47,7 @@ class JavaCompositionTest {
     final PList<JavaPojoMember> expectedMembers =
         PList.of(
                 requiredString().withNecessity(OPTIONAL),
-                requiredBirthdate().withNullability(NULLABLE),
+                birthdate(REQUIRED, NULLABLE),
                 byteArrayMember())
             .map(JavaPojoMember::asOneOfMember);
 
@@ -55,7 +57,7 @@ class JavaCompositionTest {
   @Test
   void promote_when_noPromotableMembers_then_noNewPojosAndCompositionUnchanged() {
     final JavaObjectPojo pojo1 =
-        JavaPojos.objectPojo(requiredString(), requiredBirthdate().withNullability(NULLABLE));
+        JavaPojos.objectPojo(requiredString(), birthdate(REQUIRED, NULLABLE));
     final JavaObjectPojo pojo2 =
         JavaPojos.objectPojo(
             requiredString().withNecessity(OPTIONAL), requiredBirthdate(), byteArrayMember());

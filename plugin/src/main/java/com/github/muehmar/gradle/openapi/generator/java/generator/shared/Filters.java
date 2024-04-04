@@ -14,7 +14,11 @@ public class Filters {
     return (ignore, settings) -> settings.isJacksonJson();
   }
 
-  public static <T> BiPredicate<T, PojoSettings> isSafeBuilder() {
-    return (ignore, settings) -> settings.isEnableSafeBuilder();
+  public static <T> BiPredicate<T, PojoSettings> isStagedBuilder() {
+    return (ignore, settings) -> settings.isEnableStagedBuilder();
+  }
+
+  public static <T> BiPredicate<T, PojoSettings> isJacksonJsonOrValidation() {
+    return Filters.<T>isJacksonJson().or(isValidationEnabled());
   }
 }

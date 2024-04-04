@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -103,6 +105,26 @@ class InvalidCompositionDtoGetterGeneratorTest {
     final Writer writer =
         generator.generate(
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("anyOfPojoWithDiscriminator")
+  void generate_when_anyOfPojoWithDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        invalidCompositionDtoGetterGenerator();
+
+    final JavaAnyOfComposition anyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
+            UntypedDiscriminator.fromPropertyName(Name.ofString("type")));
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.objectPojo().withAnyOfComposition(Optional.of(anyOfComposition)),
             defaultTestSettings(),
             javaWriter());
 

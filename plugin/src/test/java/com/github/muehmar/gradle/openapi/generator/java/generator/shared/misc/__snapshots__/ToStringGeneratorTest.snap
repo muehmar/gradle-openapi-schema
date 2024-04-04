@@ -6,8 +6,16 @@ public String toString() {
     "requiredNullableStringVal=" + "'" + requiredNullableStringVal + "'" + ", " +
     "isRequiredNullableStringValPresent=" + isRequiredNullableStringValPresent + ", " +
     "optionalStringVal=" + "'" + optionalStringVal + "'" + ", " +
+    "isOptionalStringValNotNull=" + isOptionalStringValNotNull + ", " +
     "optionalNullableStringVal=" + "'" + optionalNullableStringVal + "'" + ", " +
     "isOptionalNullableStringValNull=" + isOptionalNullableStringValNull + ", " +
+    "requiredListWithNullableItems=" + requiredListWithNullableItems + ", " +
+    "requiredNullableListWithNullableItems=" + requiredNullableListWithNullableItems + ", " +
+    "isRequiredNullableListWithNullableItemsPresent=" + isRequiredNullableListWithNullableItemsPresent + ", " +
+    "optionalListWithNullableItems=" + optionalListWithNullableItems + ", " +
+    "isOptionalListWithNullableItemsNotNull=" + isOptionalListWithNullableItemsNotNull + ", " +
+    "optionalNullableListWithNullableItems=" + optionalNullableListWithNullableItems + ", " +
+    "isOptionalNullableListWithNullableItemsNull=" + isOptionalNullableListWithNullableItemsNull + ", " +
     "additionalProperties=" + additionalProperties +
     "}";
 }
@@ -18,7 +26,7 @@ arrayPojo=[
 @Override
 public String toString() {
   return "PosologyDto{" +
-    "value=" + value +
+    "items=" + items +
     "}";
 }
 ]

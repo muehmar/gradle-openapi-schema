@@ -10,6 +10,7 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -46,6 +47,7 @@ class FactoryMethodGeneratorTest {
         ArrayPojo.of(
             componentName("Posology", "Dto"),
             "Doses to be taken",
+            Nullability.NOT_NULLABLE,
             NumericType.formatDouble(),
             Constraints.empty());
 

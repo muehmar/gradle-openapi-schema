@@ -35,7 +35,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '2.6.1'
+    id 'com.github.muehmar.openapischema' version '3.0.0'
 }
 ```
 and configure the generation:
@@ -55,7 +55,7 @@ openaApiGenerator {
 3. [Warnings](doc/030_warnings.md)
 4. [Compositions](doc/040_compositions.md)
 5. [Nullability](doc/050_nullability.md)
-6. [Safe Builder](doc/060_staged_builder.md)
+6. [Staged Builder](doc/060_staged_builder.md)
 7. [Validation](doc/070_validation.md)
 8. [Extraction of enum-description](doc/080_extraction_of_enum_description.md)
 9. [Parameters](doc/090_parameters.md)

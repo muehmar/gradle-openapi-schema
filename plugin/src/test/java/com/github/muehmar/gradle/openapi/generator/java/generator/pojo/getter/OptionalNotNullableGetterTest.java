@@ -28,13 +28,15 @@ import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @SnapshotTest
 class OptionalNotNullableGetterTest {
   private Expect expect;
 
   private static final JavaPojoMember POJO_MEMBER =
-      TestJavaPojoMembers.requiredString().withNecessity(OPTIONAL).withNullability(NOT_NULLABLE);
+      TestJavaPojoMembers.string(OPTIONAL, NOT_NULLABLE);
 
   @Test
   void generator_when_enabledJackson_then_correctOutputAndRefs() {
@@ -136,5 +138,20 @@ class OptionalNotNullableGetterTest {
         generator.generate(member, defaultTestSettings().withEnableValidation(true), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @MethodSource(
+      "com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers#allNecessityAndNullabilityVariantsTestSource")
+  @SnapshotName("allNecessityAndNullabilityVariants")
+  void generate_when_allNecessityAndNullabilityVariants_then_matchSnapshot(JavaPojoMember member) {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        optionalNotNullableGetterGenerator(STANDARD);
+
+    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+
+    expect
+        .scenario(member.getNullability().name().concat("_").concat(member.getNecessity().name()))
+        .toMatchSnapshot(writerSnapshot(writer));
   }
 }

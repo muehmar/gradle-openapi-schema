@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
+
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
@@ -48,7 +50,7 @@ class AdditionalPropertiesSchema {
       ComponentName name, Name memberName) {
     return schema
         .map(s -> mapAdditionalPropertiesSchema(s, name, memberName))
-        .orElse(MemberSchemaMapResult.ofType(AnyType.create()));
+        .orElse(MemberSchemaMapResult.ofType(AnyType.create(NULLABLE)));
   }
 
   public MemberSchemaMapResult getAdditionalPropertiesMapResult(ComponentName name) {

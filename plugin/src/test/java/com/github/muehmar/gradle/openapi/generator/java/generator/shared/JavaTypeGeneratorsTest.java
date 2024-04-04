@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
+import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -38,7 +39,7 @@ class JavaTypeGeneratorsTest {
         Constraints.ofSize(Size.ofMin(5))
             .and(Constraints.ofPattern(Pattern.ofUnescapedString("pattern")));
     final StringType itemType = StringType.noFormat().withConstraints(itemTypeConstraints);
-    final ArrayType arrayType = ArrayType.ofItemType(itemType);
+    final ArrayType arrayType = ArrayType.ofItemType(itemType, NOT_NULLABLE);
     final JavaType javaType = JavaType.wrap(arrayType, TypeMappings.empty());
     final PropertyInfoName propertyInfoName =
         PropertyInfoName.fromPojoNameAndMemberName(

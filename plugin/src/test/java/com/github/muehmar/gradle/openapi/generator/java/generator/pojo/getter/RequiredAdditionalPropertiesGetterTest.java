@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter.requiredAdditionalPropertiesGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -105,8 +105,7 @@ class RequiredAdditionalPropertiesGetterTest {
         sampleObjectPojo1()
             .withRequiredAdditionalProperties(
                 PList.single(
-                    new JavaRequiredAdditionalProperty(
-                        JavaName.fromString("prop1"), javaAnyType())));
+                    new JavaRequiredAdditionalProperty(JavaName.fromString("prop1"), anyType())));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

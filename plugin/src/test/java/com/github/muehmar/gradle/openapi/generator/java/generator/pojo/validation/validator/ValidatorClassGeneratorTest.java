@@ -12,6 +12,8 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
@@ -101,6 +103,23 @@ class ValidatorClassGeneratorTest {
         JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2())
             .withMembers(
                 JavaPojoMembers.fromMembers(PList.of(TestJavaPojoMembers.requiredColorEnum())));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("anyOfPojoWithDiscriminator")
+  void generate_when_anyOfPojoWithDiscriminator_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaAnyOfComposition javaAnyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
+            UntypedDiscriminator.fromPropertyName(Name.ofString("type")));
+
+    final JavaObjectPojo pojo = JavaPojos.anyOfPojo(javaAnyOfComposition);
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

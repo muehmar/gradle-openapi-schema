@@ -120,15 +120,11 @@ public class MultipleOfValidationMethodGenerator {
     }
 
     public boolean isIntegerType() {
-      return member.getJavaType().getType().asIntegerType().isPresent();
+      return member.getJavaType().isIntegerType();
     }
 
     public boolean isNumericType() {
-      return member.getJavaType().getType().asNumericType().isPresent();
-    }
-
-    public boolean isIntegerOrNumericType() {
-      return isIntegerType() || isNumericType();
+      return member.getJavaType().isNumericType();
     }
   }
 }

@@ -8,8 +8,16 @@ public int hashCode() {
     requiredNullableStringVal,
     isRequiredNullableStringValPresent,
     optionalStringVal,
+    isOptionalStringValNotNull,
     optionalNullableStringVal,
     isOptionalNullableStringValNull,
+    requiredListWithNullableItems,
+    requiredNullableListWithNullableItems,
+    isRequiredNullableListWithNullableItemsPresent,
+    optionalListWithNullableItems,
+    isOptionalListWithNullableItemsNotNull,
+    optionalNullableListWithNullableItems,
+    isOptionalNullableListWithNullableItemsNull,
     additionalProperties
   );
 }
@@ -22,7 +30,7 @@ java.util.Objects
 @Override
 public int hashCode() {
   return Objects.hash(
-    value
+    items
   );
 }
 ]

@@ -76,6 +76,23 @@ private boolean isIntValValid() {
 ]
 
 
+listNullableItems=[
+.
+.
+private boolean isListValValid() {
+  if(listVal != null) {
+    return listVal.stream().allMatch(this::isListValValueValid);
+  }
+
+  return false;
+}
+
+private boolean isListValValueValid(String listValValue) {
+  return true;
+}
+]
+
+
 listUniqueItems=[
 .
 .
@@ -89,7 +106,7 @@ private boolean isListValValid() {
 }
 
 private boolean isListValValueValid(String listValValue) {
-  return true;
+  return listValValue != null;
 }
 ]
 
@@ -108,7 +125,29 @@ private boolean isListValValid() {
 }
 
 private boolean isListValValueValid(String listValValue) {
-  return true;
+  return listValValue != null;
+}
+]
+
+
+listWithStringItemsWithConstraints=[
+.
+.
+private boolean isListValValid() {
+  if(listVal != null) {
+    return listVal.stream().allMatch(this::isListValValueValid);
+  }
+
+  return false;
+}
+
+private boolean isListValValueValid(String listValValue) {
+  if(listValValue != null) {
+    return 10 <= listValValue.length()
+        && listValValue.length() <= 50;
+  }
+
+  return false;
 }
 ]
 
@@ -132,7 +171,7 @@ private boolean isMapValValueValid(List<String> mapValValue) {
         && mapValValue.stream().allMatch(this::isMapValValueValueValid);
   }
 
-  return true;
+  return false;
 }
 
 private boolean isMapValValueValueValid(String mapValValueValue) {
@@ -140,6 +179,25 @@ private boolean isMapValValueValueValid(String mapValValueValue) {
     return mapValValueValue.length() <= 50;
   }
 
+  return false;
+}
+]
+
+
+mapWithNullableProperties=[
+.
+.
+private boolean isMapValValid() {
+  if(mapVal != null) {
+    return 10 <= mapVal.size()
+        && mapVal.size() <= 50
+        && mapVal.values().stream().allMatch(this::isMapValValueValid);
+  }
+
+  return false;
+}
+
+private boolean isMapValValueValid(String mapValValue) {
   return true;
 }
 ]
@@ -159,7 +217,7 @@ private boolean isMapValValid() {
 }
 
 private boolean isMapValValueValid(String mapValValue) {
-  return true;
+  return mapValValue != null;
 }
 ]
 
@@ -178,7 +236,7 @@ private boolean isMapValValid() {
 }
 
 private boolean isMapValValueValid(String mapValValue) {
-  return true;
+  return mapValValue != null;
 }
 ]
 
@@ -192,6 +250,32 @@ private boolean isObjectValid() {
   }
 
   return false;
+}
+]
+
+
+optionalNotNullableStringWithCondition=[
+.
+.
+private boolean isOptionalStringValValid() {
+  if(optionalStringVal != null) {
+    return 5 <= optionalStringVal.length();
+  }
+
+  return isOptionalStringValNotNull;
+}
+]
+
+
+optionalNullableStringWithCondition=[
+.
+.
+private boolean isOptionalStringValValid() {
+  if(optionalStringVal != null) {
+    return 5 <= optionalStringVal.length();
+  }
+
+  return true;
 }
 ]
 

@@ -1,0 +1,8 @@
+unwrapOptionalNullableItemsList=[
+java.util.List
+java.util.Optional
+
+private static <T> Optional<List<T>> unwrapOptionalNullableItemsList(Optional<List<Optional<T>>> list) {
+  return list.map(l -> unwrapNullableItemsList(l));
+}
+]

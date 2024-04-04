@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import com.github.muehmar.gradle.openapi.generator.mapper.ConstraintsMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
@@ -63,6 +64,7 @@ public class IntegerSchema implements OpenApiSchema {
     final IntegerType.Format integerFormat =
         format.flatMap(IntegerType.Format::parseString).orElse(IntegerType.Format.INTEGER);
 
-    return IntegerType.ofFormat(integerFormat).withConstraints(constraints);
+    return IntegerType.ofFormat(integerFormat, Nullability.fromBoolean(isNullable()))
+        .withConstraints(constraints);
   }
 }

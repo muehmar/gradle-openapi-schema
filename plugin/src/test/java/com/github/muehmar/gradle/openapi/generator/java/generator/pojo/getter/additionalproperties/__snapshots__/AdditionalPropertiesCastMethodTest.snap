@@ -1,0 +1,30 @@
+additionalPropertiesTypeIsNotNullableString=[
+java.util.Optional
+
+private Optional<String> castAdditionalProperty(Object property) {
+  if (property == null) {
+    return Optional.empty();
+  }
+  try {
+    return Optional.of((String) property);
+  } catch (ClassCastException e) {
+    return Optional.empty();
+  }
+}
+]
+
+
+additionalPropertiesTypeIsNullableString=[
+com.github.muehmar.openapi.util.Tristate
+
+private Tristate<String> castAdditionalProperty(Object property) {
+  if (property == null) {
+    return Tristate.ofNull();
+  }
+  try {
+    return Tristate.ofValue((String) property);
+  } catch (ClassCastException e) {
+    return Tristate.ofAbsent();
+  }
+}
+]

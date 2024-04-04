@@ -7,7 +7,9 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 
 public class PojoMembers {
@@ -19,8 +21,7 @@ public class PojoMembers {
         "Username",
         StringType.noFormat(),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember requiredBirthdate() {
@@ -33,8 +34,7 @@ public class PojoMembers {
         "Birthdate",
         StringType.ofFormat(StringType.Format.DATE),
         propertyScope,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember requiredString() {
@@ -48,8 +48,7 @@ public class PojoMembers {
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         propertyScope,
-        Necessity.REQUIRED,
-        Nullability.NOT_NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember requiredNullableString() {
@@ -57,10 +56,10 @@ public class PojoMembers {
         Name.ofString("requiredNullableStringVal"),
         "RequiredNullableStringVal",
         StringType.noFormat()
-            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED,
-        NULLABLE);
+        Necessity.REQUIRED);
   }
 
   public static PojoMember optionalString() {
@@ -70,8 +69,7 @@ public class PojoMembers {
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         PropertyScope.DEFAULT,
-        OPTIONAL,
-        NOT_NULLABLE);
+        OPTIONAL);
   }
 
   public static PojoMember optionalNullableString() {
@@ -79,19 +77,84 @@ public class PojoMembers {
         Name.ofString("optionalNullableStringVal"),
         "OptionalNullableStringVal",
         StringType.noFormat()
-            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        OPTIONAL,
-        NULLABLE);
+        OPTIONAL);
+  }
+
+  public static PojoMember requiredListWithNullableItems() {
+    final StringType itemType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE);
+    return new PojoMember(
+        Name.ofString("requiredListWithNullableItems"),
+        "RequiredListWithNullableItems",
+        ArrayType.ofItemType(itemType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.of(5, 10))),
+        PropertyScope.DEFAULT,
+        REQUIRED);
+  }
+
+  public static PojoMember requiredNullableListWithNullableItems() {
+    final StringType itemType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE);
+    return new PojoMember(
+        Name.ofString("requiredNullableListWithNullableItems"),
+        "RequiredNullableListWithNullableItems",
+        ArrayType.ofItemType(itemType, NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.of(5, 10))),
+        PropertyScope.DEFAULT,
+        REQUIRED);
+  }
+
+  public static PojoMember optionalListWithNullableItems() {
+    final StringType itemType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE);
+    return new PojoMember(
+        Name.ofString("optionalListWithNullableItems"),
+        "OptionalListWithNullableItems",
+        ArrayType.ofItemType(itemType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.of(5, 10))),
+        PropertyScope.DEFAULT,
+        OPTIONAL);
+  }
+
+  public static PojoMember optionalNullableListWithNullableItems() {
+    final StringType itemType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE);
+    return new PojoMember(
+        Name.ofString("optionalNullableListWithNullableItems"),
+        "OptionalNullableListWithNullableItems",
+        ArrayType.ofItemType(itemType, NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.of(5, 10))),
+        PropertyScope.DEFAULT,
+        OPTIONAL);
+  }
+
+  public static PojoMember optionalNullableNullableItemsList() {
+    final StringType itemType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
+            .withNullability(NULLABLE);
+    return new PojoMember(
+        Name.ofString("optionalNullableItemsList"),
+        "OptionalNullableItemsList",
+        ArrayType.ofItemType(itemType, NOT_NULLABLE)
+            .withConstraints(Constraints.ofSize(Size.of(5, 10))),
+        PropertyScope.DEFAULT,
+        OPTIONAL);
   }
 
   public static PojoMember ofType(Type type) {
     return new PojoMember(
-        Name.ofString("member"),
-        "description",
-        type,
-        PropertyScope.DEFAULT,
-        REQUIRED,
-        NOT_NULLABLE);
+        Name.ofString("member"), "description", type, PropertyScope.DEFAULT, REQUIRED);
   }
 }

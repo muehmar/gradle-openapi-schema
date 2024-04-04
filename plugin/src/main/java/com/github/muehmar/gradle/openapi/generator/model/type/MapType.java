@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -12,16 +13,18 @@ import lombok.ToString;
 public class MapType implements Type {
   private final Type key;
   private final Type value;
+  private final Nullability nullability;
   private final Constraints constraints;
 
-  private MapType(Type key, Type value, Constraints constraints) {
+  private MapType(Type key, Type value, Nullability nullability, Constraints constraints) {
     this.key = key;
     this.value = value;
+    this.nullability = nullability;
     this.constraints = constraints;
   }
 
   public static MapType ofKeyAndValueType(Type key, Type value) {
-    return new MapType(key, value, Constraints.empty());
+    return new MapType(key, value, Nullability.NOT_NULLABLE, Constraints.empty());
   }
 
   public Type getKey() {
@@ -33,7 +36,11 @@ public class MapType implements Type {
   }
 
   public MapType withConstraints(Constraints constraints) {
-    return new MapType(key, value, constraints);
+    return new MapType(key, value, nullability, constraints);
+  }
+
+  public MapType withNullability(Nullability nullability) {
+    return new MapType(key, value, nullability, constraints);
   }
 
   @Override
@@ -44,7 +51,15 @@ public class MapType implements Type {
   @Override
   public MapType applyMapping(PojoNameMapping pojoNameMapping) {
     return new MapType(
-        key.applyMapping(pojoNameMapping), value.applyMapping(pojoNameMapping), constraints);
+        key.applyMapping(pojoNameMapping),
+        value.applyMapping(pojoNameMapping),
+        nullability,
+        constraints);
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

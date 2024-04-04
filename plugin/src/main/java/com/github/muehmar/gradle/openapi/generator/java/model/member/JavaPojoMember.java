@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.member;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator.EnumContent;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNotNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -39,7 +40,6 @@ public class JavaPojoMember {
   private final String description;
   private final JavaType javaType;
   private final Necessity necessity;
-  private final Nullability nullability;
   private final MemberType type;
 
   private static final String TRISTATE_TO_PROPERTY =
@@ -53,14 +53,12 @@ public class JavaPojoMember {
       String description,
       JavaType javaType,
       Necessity necessity,
-      Nullability nullability,
       MemberType type) {
     this.pojoName = pojoName;
     this.javaType = javaType;
     this.name = name;
     this.description = description;
     this.necessity = necessity;
-    this.nullability = nullability;
     this.type = type;
   }
 
@@ -73,7 +71,6 @@ public class JavaPojoMember {
         pojoMember.getDescription(),
         javaType,
         pojoMember.getNecessity(),
-        pojoMember.getNullability(),
         MemberType.OBJECT_MEMBER);
   }
 
@@ -86,7 +83,7 @@ public class JavaPojoMember {
   }
 
   public Nullability getNullability() {
-    return nullability;
+    return javaType.getNullability();
   }
 
   public Necessity getNecessity() {
@@ -110,7 +107,7 @@ public class JavaPojoMember {
   }
 
   public MemberKey getMemberKey() {
-    return new MemberKey(name, javaType);
+    return MemberKey.memberKey(name, javaType);
   }
 
   public JavaPojoMember asAllOfMember() {
@@ -134,11 +131,11 @@ public class JavaPojoMember {
   }
 
   public boolean isNullable() {
-    return nullability.isNullable();
+    return getNullability().isNullable();
   }
 
   public boolean isNotNullable() {
-    return nullability.isNotNullable();
+    return getNullability().isNotNullable();
   }
 
   public boolean isRequiredAndNullable() {
@@ -167,6 +164,10 @@ public class JavaPojoMember {
 
   public JavaName getIsNullFlagName() {
     return IsNullFlagName.fromName(name).getName();
+  }
+
+  public JavaName getIsNotNullFlagName() {
+    return IsNotNullFlagName.fromName(name).getName();
   }
 
   public JavaName getGetterName() {
@@ -204,6 +205,9 @@ public class JavaPojoMember {
     if (isRequiredAndNullable()) {
       return PList.of(
           technicalPojoMember, TechnicalPojoMember.isPresentFlagMember(getIsPresentFlagName()));
+    } else if (isOptionalAndNotNullable()) {
+      return PList.of(
+          technicalPojoMember, TechnicalPojoMember.isNotNullFlagMember(getIsNotNullFlagName()));
     } else if (isOptionalAndNullable()) {
       return PList.of(
           technicalPojoMember, TechnicalPojoMember.isNullFlagMember(getIsNullFlagName()));
@@ -227,7 +231,7 @@ public class JavaPojoMember {
       final Necessity leastRestrictiveNecessity =
           Necessity.leastRestrictive(this.getNecessity(), other.getNecessity());
       return Optional.of(
-          this.withNullability(leastRestrictiveNullability)
+          this.withJavaType(javaType.withNullability(leastRestrictiveNullability))
               .withNecessity(leastRestrictiveNecessity));
     } else {
       return Optional.empty();
@@ -241,7 +245,8 @@ public class JavaPojoMember {
       final Necessity mostRestrictiveNecessity =
           Necessity.mostRestrictive(this.getNecessity(), other.getNecessity());
       return Optional.of(
-          this.withNullability(mostRestrictiveNullability).withNecessity(mostRestrictiveNecessity));
+          this.withJavaType(javaType.withNullability(mostRestrictiveNullability))
+              .withNecessity(mostRestrictiveNecessity));
     } else {
       return Optional.empty();
     }
@@ -285,7 +290,7 @@ public class JavaPojoMember {
             integerType -> integerType,
             objectType -> objectType,
             stringType -> stringType);
-    return new JavaPojoMember(pojoName, name, description, newType, necessity, nullability, type);
+    return new JavaPojoMember(pojoName, name, description, newType, necessity, type);
   }
 
   public enum MemberType {

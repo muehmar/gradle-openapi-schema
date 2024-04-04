@@ -5,13 +5,14 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
+import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
 public class AnyOfComposition {
-  NonEmptyList<Pojo> pojos;
+  private final NonEmptyList<Pojo> pojos;
 
   private AnyOfComposition(NonEmptyList<Pojo> pojos) {
     this.pojos = pojos;
@@ -19,6 +20,13 @@ public class AnyOfComposition {
 
   public static AnyOfComposition fromPojos(NonEmptyList<Pojo> pojos) {
     return new AnyOfComposition(pojos);
+  }
+
+  public Optional<Discriminator> determineDiscriminator(
+      Optional<UntypedDiscriminator> objectPojoDiscriminator) {
+    final DiscriminatorDeterminator discriminatorDeterminator =
+        new DiscriminatorDeterminator(pojos);
+    return discriminatorDeterminator.determineDiscriminator(objectPojoDiscriminator);
   }
 
   public NonEmptyList<Pojo> getPojos() {
@@ -30,6 +38,11 @@ public class AnyOfComposition {
     final NonEmptyList<Pojo> mappedPojos =
         pojos.map(
             pojo -> pojo.inlineObjectReference(referenceName, referenceDescription, referenceType));
+    return new AnyOfComposition(mappedPojos);
+  }
+
+  public AnyOfComposition adjustNullablePojo(PojoName nullablePojo) {
+    final NonEmptyList<Pojo> mappedPojos = pojos.map(pojo -> pojo.adjustNullablePojo(nullablePojo));
     return new AnyOfComposition(mappedPojos);
   }
 

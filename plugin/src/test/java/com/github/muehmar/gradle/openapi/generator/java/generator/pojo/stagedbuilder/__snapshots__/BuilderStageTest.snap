@@ -1,0 +1,322 @@
+allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties[FULL]=[
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for requiredStringVal(0), next stage FullPropertyBuilder1
+RequiredPropertyBuilderStage - FullPropertyBuilder1 for requiredNullableStringVal(1), next stage FullPropertyBuilder2
+RequiredPropertyBuilderStage - FullPropertyBuilder2 for requiredListWithNullableItems(2), next stage FullPropertyBuilder3
+RequiredPropertyBuilderStage - FullPropertyBuilder3 for requiredNullableListWithNullableItems(3), next stage FullPropertyBuilder4
+RequiredPropertyBuilderStage - FullPropertyBuilder4 for Prop2(4), next stage FullOptPropertyBuilder0
+OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
+OptionalPropertyBuilderStage - FullOptPropertyBuilder1 for optionalNullableStringVal(1), next stage FullOptPropertyBuilder2
+OptionalPropertyBuilderStage - FullOptPropertyBuilder2 for optionalListWithNullableItems(2), next stage FullOptPropertyBuilder3
+OptionalPropertyBuilderStage - FullOptPropertyBuilder3 for optionalNullableListWithNullableItems(3), next stage FullOptPropertyBuilder4
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder4
+]
+
+
+allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties[STANDARD]=[
+RequiredPropertyBuilderStage - PropertyBuilder0 for requiredStringVal(0), next stage PropertyBuilder1
+RequiredPropertyBuilderStage - PropertyBuilder1 for requiredNullableStringVal(1), next stage PropertyBuilder2
+RequiredPropertyBuilderStage - PropertyBuilder2 for requiredListWithNullableItems(2), next stage PropertyBuilder3
+RequiredPropertyBuilderStage - PropertyBuilder3 for requiredNullableListWithNullableItems(3), next stage PropertyBuilder4
+RequiredPropertyBuilderStage - PropertyBuilder4 for Prop2(4), next stage PropertyBuilder5
+LastRequiredPropertyBuilderStage - PropertyBuilder5, next stage OptPropertyBuilder0
+OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
+OptionalPropertyBuilderStage - OptPropertyBuilder1 for optionalNullableStringVal(1), next stage OptPropertyBuilder2
+OptionalPropertyBuilderStage - OptPropertyBuilder2 for optionalListWithNullableItems(2), next stage OptPropertyBuilder3
+OptionalPropertyBuilderStage - OptPropertyBuilder3 for optionalNullableListWithNullableItems(3), next stage OptPropertyBuilder4
+LastOptionalPropertyBuilderStage - OptPropertyBuilder4
+]
+
+
+allOfPojoWithMembers[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability0 for requiredStringVal(0), next stage: FullAllOfBuilderNecessityAndNullability1, next pojo stage: FullAllOfBuilderSampleObjectPojo1
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability1 for requiredNullableStringVal(1), next stage: FullAllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability2 for optionalStringVal(2), next stage: FullAllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability3 for optionalNullableStringVal(3), next stage: FullAllOfBuilderNecessityAndNullability4
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: FullAllOfBuilderNecessityAndNullability5
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: FullAllOfBuilderNecessityAndNullability6
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: FullAllOfBuilderNecessityAndNullability7
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: FullAllOfBuilderNecessityAndNullability8
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: FullAllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: FullAllOfBuilderSampleObjectPojo11
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo11 for intVal(1), next stage: FullAllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: FullPropertyBuilder0
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo1, next pojo stage: FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for data(0), next stage FullOptPropertyBuilder0
+OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder1
+]
+
+
+allOfPojoWithMembers[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability0 for requiredStringVal(0), next stage: AllOfBuilderNecessityAndNullability1, next pojo stage: AllOfBuilderSampleObjectPojo1
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability1 for requiredNullableStringVal(1), next stage: AllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability2 for optionalStringVal(2), next stage: AllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability3 for optionalNullableStringVal(3), next stage: AllOfBuilderNecessityAndNullability4
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: AllOfBuilderNecessityAndNullability5
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: AllOfBuilderNecessityAndNullability6
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: AllOfBuilderNecessityAndNullability7
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: AllOfBuilderNecessityAndNullability8
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: AllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: AllOfBuilderSampleObjectPojo11
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo11 for intVal(1), next stage: AllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: PropertyBuilder0
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo1, next pojo stage: PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for data(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
+LastOptionalPropertyBuilderStage - OptPropertyBuilder1
+]
+
+
+allOfPojoWithOneOfSubPojo[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability, next pojo stage: FullAllOfBuilderOneOfPojo1
+AllOfBuilderStage - FullAllOfBuilderOneOfPojo1, next pojo stage: FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for stringVal(0), next stage FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+allOfPojoWithOneOfSubPojo[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability, next pojo stage: AllOfBuilderOneOfPojo1
+AllOfBuilderStage - AllOfBuilderOneOfPojo1, next pojo stage: PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for stringVal(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+allOfPojoWithRequiredProperties[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability0 for requiredStringVal(0), next stage: FullAllOfBuilderNecessityAndNullability1, next pojo stage: FullAllOfBuilderSampleObjectPojo1
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability1 for requiredNullableStringVal(1), next stage: FullAllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability2 for optionalStringVal(2), next stage: FullAllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability3 for optionalNullableStringVal(3), next stage: FullAllOfBuilderNecessityAndNullability4
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: FullAllOfBuilderNecessityAndNullability5
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: FullAllOfBuilderNecessityAndNullability6
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: FullAllOfBuilderNecessityAndNullability7
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: FullAllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: FullAllOfBuilderSampleObjectPojo11
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo11 for intVal(1), next stage: FullAllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: FullPropertyBuilder0
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo1, next pojo stage: FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for Prop2(0), next stage FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+allOfPojoWithRequiredProperties[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability0 for requiredStringVal(0), next stage: AllOfBuilderNecessityAndNullability1, next pojo stage: AllOfBuilderSampleObjectPojo1
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability1 for requiredNullableStringVal(1), next stage: AllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability2 for optionalStringVal(2), next stage: AllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability3 for optionalNullableStringVal(3), next stage: AllOfBuilderNecessityAndNullability4
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: AllOfBuilderNecessityAndNullability5
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: AllOfBuilderNecessityAndNullability6
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: AllOfBuilderNecessityAndNullability7
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: AllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: AllOfBuilderSampleObjectPojo11
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo11 for intVal(1), next stage: AllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: PropertyBuilder0
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo1, next pojo stage: PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for Prop2(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+allOfPojoWithSameMemberInAllOfSubPojos[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: FullAllOfBuilderSampleObjectPojo11, next pojo stage: FullAllOfBuilderSampleObjectPojo2
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo11 for intVal(1), next stage: FullAllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: FullAllOfBuilderSampleObjectPojo21
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo21 for birthdate(1), next stage: FullAllOfBuilderSampleObjectPojo22
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo22 for email(2), next stage: FullOptPropertyBuilder0
+AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo2, next pojo stage: FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+allOfPojoWithSameMemberInAllOfSubPojos[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: AllOfBuilderSampleObjectPojo11, next pojo stage: AllOfBuilderSampleObjectPojo2
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo11 for intVal(1), next stage: AllOfBuilderSampleObjectPojo12
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: AllOfBuilderSampleObjectPojo21
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo21 for birthdate(1), next stage: AllOfBuilderSampleObjectPojo22
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo22 for email(2), next stage: PropertyBuilder0
+AllOfBuilderStage - AllOfBuilderSampleObjectPojo2, next pojo stage: PropertyBuilder0
+LastRequiredPropertyBuilderStage - PropertyBuilder0, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+allOfPojoWithSubschemaWithoutProperties[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderObjectPojo1, next pojo stage: FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+allOfPojoWithSubschemaWithoutProperties[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderObjectPojo1, next pojo stage: PropertyBuilder0
+LastRequiredPropertyBuilderStage - PropertyBuilder0, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+anyOfPojoWithDiscriminatorAndMembers[FULL]=[
+AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for data(0), next stage FullOptPropertyBuilder0
+OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder1
+]
+
+
+anyOfPojoWithDiscriminatorAndMembers[STANDARD]=[
+AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for data(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
+LastOptionalPropertyBuilderStage - OptPropertyBuilder1
+]
+
+
+anyOfPojoWithMembers[FULL]=[
+AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullPropertyBuilder0
+AnyOfBuilderStage - FullAnyOfBuilder1, type REMAINING_STAGE and next stage FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for data(0), next stage FullOptPropertyBuilder0
+OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder1
+]
+
+
+anyOfPojoWithMembers[STANDARD]=[
+AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
+AnyOfBuilderStage - AnyOfBuilder1, type REMAINING_STAGE and next stage PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for data(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
+LastOptionalPropertyBuilderStage - OptPropertyBuilder1
+]
+
+
+anyOfPojoWithRequiredProperties[FULL]=[
+AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullPropertyBuilder0
+AnyOfBuilderStage - FullAnyOfBuilder1, type REMAINING_STAGE and next stage FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for Prop2(0), next stage FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+anyOfPojoWithRequiredProperties[STANDARD]=[
+AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
+AnyOfBuilderStage - AnyOfBuilder1, type REMAINING_STAGE and next stage PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for Prop2(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+anyOfPojoWithSubschemaWithoutProperties[FULL]=[
+AnyOfBuilderStage - FullAnyOfBuilder0, type FIRST_STAGE and next stage FullOptPropertyBuilder0
+AnyOfBuilderStage - FullAnyOfBuilder1, type REMAINING_STAGE and next stage FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+anyOfPojoWithSubschemaWithoutProperties[STANDARD]=[
+AnyOfBuilderStage - AnyOfBuilder0, type FIRST_STAGE and next stage PropertyBuilder0
+AnyOfBuilderStage - AnyOfBuilder1, type REMAINING_STAGE and next stage PropertyBuilder0
+LastRequiredPropertyBuilderStage - PropertyBuilder0, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+nestedAllOfPojo[FULL]=[
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability0 for requiredStringVal(0), next stage: FullAllOfBuilderNecessityAndNullability1, next pojo stage: FullAllOfBuilderAllOfPojo1
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability1 for requiredNullableStringVal(1), next stage: FullAllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability2 for optionalStringVal(2), next stage: FullAllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability3 for optionalNullableStringVal(3), next stage: FullAllOfBuilderNecessityAndNullability4
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: FullAllOfBuilderNecessityAndNullability5
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: FullAllOfBuilderNecessityAndNullability6
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: FullAllOfBuilderNecessityAndNullability7
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: FullAllOfBuilderNecessityAndNullability8
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: FullAllOfBuilderAllOfPojo10
+AllOfBuilderStage - FullAllOfBuilderAllOfPojo10 for stringVal(0), next stage: FullAllOfBuilderAllOfPojo11
+AllOfBuilderStage - FullAllOfBuilderAllOfPojo11 for intVal(1), next stage: FullAllOfBuilderAllOfPojo12
+AllOfBuilderStage - FullAllOfBuilderAllOfPojo12 for doubleVal(2), next stage: FullAllOfBuilderAllOfPojo14
+AllOfBuilderStage - FullAllOfBuilderAllOfPojo14 for birthdate(4), next stage: FullAllOfBuilderAllOfPojo15
+AllOfBuilderStage - FullAllOfBuilderAllOfPojo15 for email(5), next stage: FullOptPropertyBuilder0
+AllOfBuilderStage - FullAllOfBuilderAllOfPojo1, next pojo stage: FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+nestedAllOfPojo[STANDARD]=[
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability0 for requiredStringVal(0), next stage: AllOfBuilderNecessityAndNullability1, next pojo stage: AllOfBuilderAllOfPojo1
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability1 for requiredNullableStringVal(1), next stage: AllOfBuilderNecessityAndNullability2
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability2 for optionalStringVal(2), next stage: AllOfBuilderNecessityAndNullability3
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability3 for optionalNullableStringVal(3), next stage: AllOfBuilderNecessityAndNullability4
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: AllOfBuilderNecessityAndNullability5
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: AllOfBuilderNecessityAndNullability6
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: AllOfBuilderNecessityAndNullability7
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: AllOfBuilderNecessityAndNullability8
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: AllOfBuilderAllOfPojo10
+AllOfBuilderStage - AllOfBuilderAllOfPojo10 for stringVal(0), next stage: AllOfBuilderAllOfPojo11
+AllOfBuilderStage - AllOfBuilderAllOfPojo11 for intVal(1), next stage: AllOfBuilderAllOfPojo12
+AllOfBuilderStage - AllOfBuilderAllOfPojo12 for doubleVal(2), next stage: AllOfBuilderAllOfPojo14
+AllOfBuilderStage - AllOfBuilderAllOfPojo14 for birthdate(4), next stage: AllOfBuilderAllOfPojo15
+AllOfBuilderStage - AllOfBuilderAllOfPojo15 for email(5), next stage: PropertyBuilder0
+AllOfBuilderStage - AllOfBuilderAllOfPojo1, next pojo stage: PropertyBuilder0
+LastRequiredPropertyBuilderStage - PropertyBuilder0, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+oneOfPojoWithMembers[FULL]=[
+OneOfBuilderStage - FullOneOfBuilder, next stage FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for data(0), next stage FullOptPropertyBuilder0
+OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder1
+]
+
+
+oneOfPojoWithMembers[STANDARD]=[
+OneOfBuilderStage - OneOfBuilder, next stage PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for data(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
+LastOptionalPropertyBuilderStage - OptPropertyBuilder1
+]
+
+
+oneOfPojoWithRequiredProperties[FULL]=[
+OneOfBuilderStage - FullOneOfBuilder, next stage FullPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder0 for Prop2(0), next stage FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+oneOfPojoWithRequiredProperties[STANDARD]=[
+OneOfBuilderStage - OneOfBuilder, next stage PropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder0 for Prop2(0), next stage PropertyBuilder1
+LastRequiredPropertyBuilderStage - PropertyBuilder1, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+oneOfPojoWithSubschemaWithoutProperties[FULL]=[
+OneOfBuilderStage - FullOneOfBuilder, next stage FullOptPropertyBuilder0
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+oneOfPojoWithSubschemaWithoutProperties[STANDARD]=[
+OneOfBuilderStage - OneOfBuilder, next stage PropertyBuilder0
+LastRequiredPropertyBuilderStage - PropertyBuilder0, next stage OptPropertyBuilder0
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]
+
+
+simpleMapPojo[FULL]=[
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder0
+]
+
+
+simpleMapPojo[STANDARD]=[
+LastOptionalPropertyBuilderStage - OptPropertyBuilder0
+]

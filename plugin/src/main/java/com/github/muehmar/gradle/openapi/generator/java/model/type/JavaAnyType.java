@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import java.util.function.Function;
@@ -13,16 +14,16 @@ import lombok.ToString;
 public class JavaAnyType extends NonGenericJavaType {
   private static final QualifiedClassName CLASS_NAME = QualifiedClassNames.OBJECT;
 
-  private JavaAnyType() {
-    super(CLASS_NAME, AnyType.create());
+  private JavaAnyType(Nullability nullability) {
+    super(CLASS_NAME, nullability);
   }
 
-  public static JavaAnyType create() {
-    return new JavaAnyType();
+  public static JavaAnyType javaAnyType(AnyType anyType) {
+    return new JavaAnyType(anyType.getNullability());
   }
 
-  public static JavaAnyType javaAnyType() {
-    return new JavaAnyType();
+  public static JavaAnyType javaAnyType(Nullability nullability) {
+    return new JavaAnyType(nullability);
   }
 
   @Override
@@ -33,6 +34,11 @@ public class JavaAnyType extends NonGenericJavaType {
   @Override
   public Constraints getConstraints() {
     return Constraints.empty();
+  }
+
+  @Override
+  public JavaType withNullability(Nullability nullability) {
+    return new JavaAnyType(nullability);
   }
 
   @Override

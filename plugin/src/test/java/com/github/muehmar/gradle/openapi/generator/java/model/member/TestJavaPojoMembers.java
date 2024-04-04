@@ -15,8 +15,10 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClas
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
@@ -27,6 +29,8 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.*;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.provider.Arguments;
 
 public class TestJavaPojoMembers {
   public TestJavaPojoMembers() {}
@@ -39,7 +43,6 @@ public class TestJavaPojoMembers {
         .javaType(
             JavaType.wrap(StringType.ofFormat(StringType.Format.BINARY), TypeMappings.empty()))
         .necessity(Necessity.REQUIRED)
-        .nullability(Nullability.NOT_NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -50,12 +53,8 @@ public class TestJavaPojoMembers {
         .pojoName(invoiceName())
         .name(JavaName.fromString("birthdate"))
         .description("Birthdate")
-        .javaType(
-            JavaType.wrap(
-                StringType.ofFormat(StringType.Format.DATE).withConstraints(constraints),
-                TypeMappings.empty()))
+        .javaType(JavaTypes.date(constraints).withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -90,9 +89,9 @@ public class TestJavaPojoMembers {
         .name(JavaName.fromString("ref"))
         .description("ref")
         .javaType(
-            JavaType.wrap(ObjectType.ofName(pojoName("SomeObject", "Dto")), TypeMappings.empty()))
+            JavaType.wrap(ObjectType.ofName(pojoName("SomeObject", "Dto")), TypeMappings.empty())
+                .withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -108,10 +107,11 @@ public class TestJavaPojoMembers {
         .description("email")
         .javaType(
             JavaType.wrap(
-                StringType.ofFormat(StringType.Format.EMAIL).withConstraints(Constraints.ofEmail()),
-                TypeMappings.empty()))
+                    StringType.ofFormat(StringType.Format.EMAIL)
+                        .withConstraints(Constraints.ofEmail()),
+                    TypeMappings.empty())
+                .withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -127,11 +127,11 @@ public class TestJavaPojoMembers {
         .description("intVal")
         .javaType(
             JavaType.wrap(
-                IntegerType.formatInteger()
-                    .withConstraints(Constraints.ofMin(new Min(10)).withMax(new Max(50))),
-                TypeMappings.empty()))
+                    IntegerType.formatInteger()
+                        .withConstraints(Constraints.ofMin(new Min(10)).withMax(new Max(50))),
+                    TypeMappings.empty())
+                .withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -147,13 +147,13 @@ public class TestJavaPojoMembers {
         .description("doubleVal")
         .javaType(
             JavaType.wrap(
-                NumericType.formatDouble()
-                    .withConstraints(
-                        Constraints.ofDecimalMin(new DecimalMin("12.5", true))
-                            .withDecimalMax(new DecimalMax("50.1", false))),
-                TypeMappings.empty()))
+                    NumericType.formatDouble()
+                        .withConstraints(
+                            Constraints.ofDecimalMin(new DecimalMin("12.5", true))
+                                .withDecimalMax(new DecimalMax("50.1", false))),
+                    TypeMappings.empty())
+                .withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -166,9 +166,10 @@ public class TestJavaPojoMembers {
         .description("List")
         .javaType(
             JavaType.wrap(
-                ArrayType.ofItemType(itemType).withConstraints(constraints), TypeMappings.empty()))
+                    ArrayType.ofItemType(itemType, NOT_NULLABLE).withConstraints(constraints),
+                    TypeMappings.empty())
+                .withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -190,10 +191,10 @@ public class TestJavaPojoMembers {
         .description("Map")
         .javaType(
             JavaType.wrap(
-                MapType.ofKeyAndValueType(keyType, valueType).withConstraints(constraints),
-                TypeMappings.empty()))
+                    MapType.ofKeyAndValueType(keyType, valueType).withConstraints(constraints),
+                    TypeMappings.empty())
+                .withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -209,11 +210,11 @@ public class TestJavaPojoMembers {
         .description("stringVal")
         .javaType(
             JavaType.wrap(
-                StringType.noFormat()
-                    .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-                TypeMappings.empty()))
+                    StringType.noFormat()
+                        .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+                    TypeMappings.empty())
+                .withNullability(nullability))
         .necessity(necessity)
-        .nullability(nullability)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -225,11 +226,11 @@ public class TestJavaPojoMembers {
         .description("RequiredNullableStringVal")
         .javaType(
             JavaType.wrap(
-                StringType.noFormat()
-                    .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-                TypeMappings.empty()))
+                    StringType.noFormat()
+                        .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+                    TypeMappings.empty())
+                .withNullability(NULLABLE))
         .necessity(REQUIRED)
-        .nullability(NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -245,7 +246,6 @@ public class TestJavaPojoMembers {
                     .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
                 TypeMappings.empty()))
         .necessity(OPTIONAL)
-        .nullability(NOT_NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -257,11 +257,11 @@ public class TestJavaPojoMembers {
         .description("OptionalNullableStringVal")
         .javaType(
             JavaType.wrap(
-                StringType.noFormat()
-                    .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-                TypeMappings.empty()))
+                    StringType.noFormat()
+                        .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+                    TypeMappings.empty())
+                .withNullability(NULLABLE))
         .necessity(OPTIONAL)
-        .nullability(NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -277,7 +277,6 @@ public class TestJavaPojoMembers {
                     Name.ofString("Color"), PList.of("yellow", "orange", "red")),
                 TypeMappings.empty()))
         .necessity(REQUIRED)
-        .nullability(NOT_NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -293,9 +292,28 @@ public class TestJavaPojoMembers {
                     Name.ofString("Direction"), PList.of("north", "east", "south", "west")),
                 TypeMappings.empty()))
         .necessity(REQUIRED)
-        .nullability(NOT_NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
+  }
+
+  public static JavaPojoMember requiredListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.requiredListWithNullableItems(), invoiceName(), TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredNullableListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.requiredNullableListWithNullableItems(), invoiceName(), TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.optionalListWithNullableItems(), invoiceName(), TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalNullableListWithNullableItems() {
+    return JavaPojoMember.wrap(
+        PojoMembers.optionalNullableListWithNullableItems(), invoiceName(), TypeMappings.empty());
   }
 
   public static JavaPojoMember keywordNameString() {
@@ -303,9 +321,8 @@ public class TestJavaPojoMembers {
         .pojoName(invoiceName())
         .name(JavaName.fromString("switch"))
         .description("Switch")
-        .javaType(JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))
+        .javaType(JavaStringType.noFormat().withNullability(NULLABLE))
         .necessity(OPTIONAL)
-        .nullability(NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -315,9 +332,8 @@ public class TestJavaPojoMembers {
         .pojoName(invoiceName())
         .name(JavaName.fromString("point."))
         .description("Point")
-        .javaType(JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))
+        .javaType(JavaStringType.noFormat().withNullability(NULLABLE))
         .necessity(OPTIONAL)
-        .nullability(NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
   }
@@ -337,8 +353,16 @@ public class TestJavaPojoMembers {
         .description("Object")
         .javaType(objectType)
         .necessity(REQUIRED)
-        .nullability(NOT_NULLABLE)
         .type(OBJECT_MEMBER)
         .build();
+  }
+
+  private static PList<JavaPojoMember> allNecessityAndNullabilityVariants() {
+    return PList.of(
+        requiredString(), requiredNullableString(), optionalString(), optionalNullableString());
+  }
+
+  private static Stream<Arguments> allNecessityAndNullabilityVariantsTestSource() {
+    return allNecessityAndNullabilityVariants().map(Arguments::of).toStream();
   }
 }

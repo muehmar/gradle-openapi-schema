@@ -11,6 +11,8 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.NonEmptyList;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
@@ -126,6 +128,50 @@ class FoldMethodGeneratorTest {
             JavaPojos.anyOfPojo(sampleObjectPojo1(), sampleObjectPojo2()),
             defaultTestSettings(),
             javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("AnyOfDiscriminatorWithoutMapping")
+  void generate_when_anyOfDiscriminatorWithoutMapping_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
+
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyName(
+            TestJavaPojoMembers.requiredString().getName().getOriginalName());
+    final JavaAnyOfComposition javaAnyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()), discriminator);
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.anyOfPojo(javaAnyOfComposition), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("AnyOfDiscriminatorWithMapping")
+  void generate_when_anyOfDiscriminatorWithMapping_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldMethodGenerator();
+    final JavaObjectPojo sampleObjectPojo1 = sampleObjectPojo1();
+    final JavaObjectPojo sampleObjectPojo2 = sampleObjectPojo2();
+
+    final HashMap<String, Name> mapping = new HashMap<>();
+    mapping.put("obj1", sampleObjectPojo1.getSchemaName().getOriginalName());
+    mapping.put("obj2", sampleObjectPojo2.getSchemaName().getOriginalName());
+
+    final UntypedDiscriminator discriminator =
+        UntypedDiscriminator.fromPropertyNameAndMapping(
+            TestJavaPojoMembers.requiredString().getName().getOriginalName(), mapping);
+    final JavaAnyOfComposition javaAnyOfComposition =
+        JavaAnyOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1, sampleObjectPojo2), discriminator);
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.anyOfPojo(javaAnyOfComposition), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

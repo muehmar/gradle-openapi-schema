@@ -2,14 +2,14 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composit
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.AnyOf.foldAnyOfMethodName;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.OneOf.foldOneOfMethodName;
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ANY_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ONE_OF;
+import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.foldCompositionMethodName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
-import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -26,25 +26,22 @@ public class CompositionGetterGenerator {
           String.format(
               "Returns {@link %s} of the %s composition in case it is valid against the schema %s wrapped in an "
                   + "{@link Optional}, empty otherwise.",
-              cp.getPojo().getClassName(), cp.getType().getName(), cp.getPojo().getSchemaName());
+              cp.getPojo().getClassName(),
+              cp.getType().getName().startLowerCase(),
+              cp.getPojo().getSchemaName());
 
   private CompositionGetterGenerator() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> compositionGetterGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendOptional(oneOfGetterGenerator(), JavaObjectPojo::getOneOfComposition)
+        .appendOptional(getterGenerator(), JavaObjectPojo::getOneOfComposition)
         .appendSingleBlankLine()
-        .appendOptional(anyOfGetterGenerator(), JavaObjectPojo::getAnyOfComposition);
+        .appendOptional(getterGenerator(), JavaObjectPojo::getAnyOfComposition);
   }
 
-  private static Generator<JavaOneOfComposition, PojoSettings> oneOfGetterGenerator() {
-    return Generator.<JavaOneOfComposition, PojoSettings>emptyGen()
-        .appendList(singleGetter(), CompositionAndPojo::fromComposition, newLine())
-        .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL));
-  }
-
-  private static Generator<JavaAnyOfComposition, PojoSettings> anyOfGetterGenerator() {
-    return Generator.<JavaAnyOfComposition, PojoSettings>emptyGen()
+  private static <T extends DiscriminatableJavaComposition>
+      Generator<T, PojoSettings> getterGenerator() {
+    return Generator.<T, PojoSettings>emptyGen()
         .appendList(singleGetter(), CompositionAndPojo::fromComposition, newLine())
         .append(ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
@@ -73,18 +70,15 @@ public class CompositionGetterGenerator {
 
   @Value
   private static class CompositionAndPojo {
-    Type type;
+    DiscriminatableJavaComposition.Type type;
     PList<JavaObjectPojo> composedPojos;
+    DiscriminatableJavaComposition composition;
     JavaObjectPojo pojo;
 
-    static PList<CompositionAndPojo> fromComposition(JavaOneOfComposition composition) {
+    static PList<CompositionAndPojo> fromComposition(DiscriminatableJavaComposition composition) {
       final PList<JavaObjectPojo> pojos = composition.getPojos().toPList();
-      return pojos.map(pojo -> new CompositionAndPojo(Type.ONE_OF, pojos, pojo));
-    }
-
-    static PList<CompositionAndPojo> fromComposition(JavaAnyOfComposition composition) {
-      final PList<JavaObjectPojo> pojos = composition.getPojos().toPList();
-      return pojos.map(pojo -> new CompositionAndPojo(Type.ANY_OF, pojos, pojo));
+      return pojos.map(
+          pojo -> new CompositionAndPojo(composition.getType(), pojos, composition, pojo));
     }
 
     String getReturnType() {
@@ -95,9 +89,13 @@ public class CompositionGetterGenerator {
       return String.format("get%s", pojo.getClassName());
     }
 
+    boolean isSingleResultComposition() {
+      return type.equals(ONE_OF) || (type.equals(ANY_OF) && composition.hasDiscriminator());
+    }
+
     String getArguments() {
       final PList<String> additionalArguments =
-          type.equals(Type.ONE_OF) ? PList.single("Optional::empty") : PList.empty();
+          isSingleResultComposition() ? PList.single("Optional::empty") : PList.empty();
       return composedPojos
           .map(p -> p.equals(pojo) ? "Optional::of" : "ignore -> Optional.empty()")
           .concat(additionalArguments)
@@ -105,28 +103,13 @@ public class CompositionGetterGenerator {
     }
 
     String getMethodCall() {
-      if (type.equals(Type.ONE_OF)) {
-        return String.format("%s(%s)", foldOneOfMethodName(), getArguments());
+      if (isSingleResultComposition()) {
+        return String.format("%s(%s)", foldCompositionMethodName(type), getArguments());
       } else {
         return String.format(
             "this.<Optional<%s>>%s(%s).stream().findFirst().flatMap(Function.identity())",
-            pojo.getClassName(), foldAnyOfMethodName(), getArguments());
+            pojo.getClassName(), foldCompositionMethodName(type), getArguments());
       }
-    }
-  }
-
-  private enum Type {
-    ONE_OF("oneOf"),
-    ANY_OF("anyOf");
-
-    private final String name;
-
-    Type(String name) {
-      this.name = name;
-    }
-
-    public String getName() {
-      return name;
     }
   }
 }

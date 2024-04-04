@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAl
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -133,13 +134,7 @@ public class ConversionMethodGenerator {
     JavaPojoMember member;
 
     private PList<JavaName> getFieldNames() {
-      if (member.isRequiredAndNotNullable() || member.isOptionalAndNotNullable()) {
-        return PList.single(member.getName());
-      } else if (member.isRequiredAndNullable()) {
-        return PList.of(member.getName(), member.getIsPresentFlagName());
-      } else {
-        return PList.of(member.getName(), member.getIsNullFlagName());
-      }
+      return member.getTechnicalMembers().map(TechnicalPojoMember::getName);
     }
   }
 }

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -10,11 +11,14 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class BooleanType implements Type {
+  private final Nullability nullability;
 
-  private BooleanType() {}
+  private BooleanType(Nullability nullability) {
+    this.nullability = nullability;
+  }
 
-  public static BooleanType create() {
-    return new BooleanType();
+  public static BooleanType create(Nullability nullability) {
+    return new BooleanType(nullability);
   }
 
   @Override
@@ -25,6 +29,11 @@ public class BooleanType implements Type {
   @Override
   public BooleanType applyMapping(PojoNameMapping pojoNameMapping) {
     return this;
+  }
+
+  @Override
+  public Nullability getNullability() {
+    return nullability;
   }
 
   @Override

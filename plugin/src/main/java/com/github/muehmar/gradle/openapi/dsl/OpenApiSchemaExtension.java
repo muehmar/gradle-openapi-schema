@@ -22,7 +22,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private String outputDir;
   private String suffix;
   private String jsonSupport;
-  private Boolean enableSafeBuilder;
+  private StagedBuilder stagedBuilder;
   private Boolean enableValidation;
   private String validationApi;
   private String builderMethodPrefix;
@@ -43,6 +43,7 @@ public class OpenApiSchemaExtension implements Serializable {
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.validationMethods = ValidationMethods.allUndefined();
     this.warnings = WarningsConfig.allUndefined();
+    this.stagedBuilder = StagedBuilder.defaultStagedBuilder();
   }
 
   // DSL API
@@ -69,11 +70,6 @@ public class OpenApiSchemaExtension implements Serializable {
   // DSL API
   public void setJsonSupport(String jsonSupport) {
     this.jsonSupport = jsonSupport;
-  }
-
-  // DSL API
-  public void setEnableSafeBuilder(Boolean enableSafeBuilder) {
-    this.enableSafeBuilder = enableSafeBuilder;
   }
 
   // DSL API
@@ -119,6 +115,11 @@ public class OpenApiSchemaExtension implements Serializable {
   // DSL API
   public void getterSuffixes(Action<GetterSuffixes> action) {
     action.execute(getterSuffixes);
+  }
+
+  // DSL API
+  public void stagedBuilder(Action<StagedBuilder> action) {
+    action.execute(stagedBuilder);
   }
 
   // DSL API
@@ -182,8 +183,8 @@ public class OpenApiSchemaExtension implements Serializable {
     return Optional.ofNullable(jsonSupport);
   }
 
-  private Optional<Boolean> getCommonEnableSafeBuilder() {
-    return Optional.ofNullable(enableSafeBuilder);
+  private StagedBuilder getCommonStagedBuilder() {
+    return stagedBuilder;
   }
 
   private Optional<Boolean> getCommonEnableValidation() {
@@ -204,7 +205,7 @@ public class OpenApiSchemaExtension implements Serializable {
         .map(ext -> ext.withCommonOutputDir(getCommonOutputDir()))
         .map(ext -> ext.withCommonSuffix(getCommonSuffix()))
         .map(ext -> ext.withCommonJsonSupport(getCommonJsonSupport()))
-        .map(ext -> ext.withCommonEnableSafeBuilder(getCommonEnableSafeBuilder()))
+        .map(ext -> ext.withCommonStagedBuilder(getCommonStagedBuilder()))
         .map(ext -> ext.withCommonEnableValidation(getCommonEnableValidation()))
         .map(ext -> ext.withCommonValidationApi(getCommonValidationApi()))
         .map(ext -> ext.withCommonBuilderMethodPrefix(getCommonBuilderMethodPrefix()))
@@ -234,8 +235,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + ", jsonSupport='"
         + jsonSupport
         + '\''
-        + ", enableSafeBuilder="
-        + enableSafeBuilder
+        + ", stagedBuilder="
+        + stagedBuilder
         + ", enableValidation="
         + enableValidation
         + ", validationApi='"

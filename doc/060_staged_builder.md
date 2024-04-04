@@ -1,12 +1,12 @@
-## Safe Builder
+## Staged Builder
 
-The 'Safe Builder' is an extended builder pattern which enforces one to create valid instances, i.e. every required
+The 'Staged Builder' is an extended builder pattern which enforces one to create valid instances, i.e. every required
 property in a class will be set. A DTO contains two factory methods to create a builder:
 * `builder()`
 * `userDtoBuilder()` Factory method with the classname, can be used to statically import the method
 
-This is done by creating a single builder class for each required property, with a single method setting the
-corresponding property and returning the next builder for the next property. The `build`
+This is done by creating a single builder class (stage) for each required property, with a single method setting the
+corresponding property and returning the next builder stage for the next property. The `build`
 method will only be present after each required property is set.
 
 For example, given the schema:
