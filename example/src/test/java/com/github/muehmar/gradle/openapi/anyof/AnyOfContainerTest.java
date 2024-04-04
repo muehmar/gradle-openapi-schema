@@ -18,6 +18,7 @@ class AnyOfContainerTest {
         AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
+            .setType("admin")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
@@ -28,7 +29,7 @@ class AnyOfContainerTest {
     final AdminOrUserDto dto = AdminOrUserDto.builder().setAnyOfContainer(container).build();
 
     assertEquals(
-        "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5}",
+        "{\"adminname\":\"admin-name\",\"id\":\"admin-id\",\"level\":5,\"type\":\"admin\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -38,6 +39,7 @@ class AnyOfContainerTest {
         UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
+            .setType("user")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -48,7 +50,7 @@ class AnyOfContainerTest {
     final AdminOrUserDto dto = AdminOrUserDto.builder().setAnyOfContainer(container).build();
 
     assertEquals(
-        "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"username\":\"user-name\"}",
+        "{\"age\":25,\"email\":null,\"id\":\"user-id\",\"type\":\"user\",\"username\":\"user-name\"}",
         MAPPER.writeValueAsString(dto));
   }
 
@@ -59,6 +61,7 @@ class AnyOfContainerTest {
         UserDto.builder()
             .setId("id")
             .setUsername("user-name")
+            .setType("user")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -67,6 +70,7 @@ class AnyOfContainerTest {
         AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
+            .setType("admin")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
@@ -80,7 +84,7 @@ class AnyOfContainerTest {
     final AdminOrUserDto dto = AdminOrUserDto.builder().setAnyOfContainer(container).build();
 
     assertEquals(
-        "{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"username\":\"user-name\"}",
+        "{\"adminname\":\"admin-name\",\"age\":25,\"email\":null,\"id\":\"id\",\"level\":5,\"type\":\"user\",\"username\":\"user-name\"}",
         MAPPER.writeValueAsString(dto));
   }
 }

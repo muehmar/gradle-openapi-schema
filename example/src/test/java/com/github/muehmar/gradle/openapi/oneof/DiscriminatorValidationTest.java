@@ -47,7 +47,7 @@ class DiscriminatorValidationTest {
         Arrays.asList(
             "invalidOneOf[User].ageRaw -> must be less than or equal to 199",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
+            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(adminOrUserDto.isValid());
@@ -70,7 +70,7 @@ class DiscriminatorValidationTest {
             "invalidOneOf[User].type -> must not be null",
             "invalidOneOf[User].username -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
+            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));
     assertFalse(adminOrUserDto.isValid());
   }

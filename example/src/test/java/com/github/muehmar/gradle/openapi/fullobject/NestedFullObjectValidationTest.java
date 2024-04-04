@@ -54,7 +54,7 @@ class NestedFullObjectValidationTest {
         Arrays.asList(
             "invalidAnyOf[FullObject].invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
             "invalidAnyOf[FullObject].validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "invalidAnyOf[FullObject].validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator",
+            "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
             "invalidAnyOf[Member].membername -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations));
@@ -74,7 +74,7 @@ class NestedFullObjectValidationTest {
         Arrays.asList(
             "invalidAnyOf[FullObject].invalidOneOf[User].propertyCount -> must be less than or equal to 8",
             "invalidAnyOf[FullObject].validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "invalidAnyOf[FullObject].validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator",
+            "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
             "invalidAnyOf[Member].membername -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations));
@@ -92,7 +92,9 @@ class NestedFullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator",
+            "invalidAnyOf[FullObject].invalidOneOf[Admin].adminname -> must not be null",
+            "invalidAnyOf[FullObject].invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
+            "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
             "invalidAnyOf[Member].membername -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations));
@@ -150,7 +152,7 @@ class NestedFullObjectValidationTest {
         Arrays.asList(
             "invalidAnyOf[FullObject].invalidOneOf[User].username -> size must be between 0 and 9",
             "invalidAnyOf[FullObject].validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "invalidAnyOf[FullObject].validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator",
+            "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
             "invalidAnyOf[Member].membername -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations),

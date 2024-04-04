@@ -1,0 +1,74 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    NullableStringProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: string
+        nullable: true
+
+    NonNullableStringProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: string
+
+    NullableObjectProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: object
+        required:
+          - bar
+        properties:
+          bar:
+            type: string
+            maxLength: 10
+        nullable: true
+
+    NonNullableObjectProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: object
+        required:
+          - bar
+        properties:
+          bar:
+            type: string
+
+    NullableAnyProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties: true
+
+    NullableListProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          maxLength: 10
+        nullable: true
+
+    NonNullableListProperties:
+      properties:
+        foo:
+          type: string
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          maxLength: 10

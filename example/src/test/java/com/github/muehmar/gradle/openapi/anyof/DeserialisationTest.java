@@ -19,7 +19,7 @@ class DeserialisationTest {
   void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"color\":\"yellow\"}",
+            "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"color\":\"yellow\",\"type\":\"admin\"}",
             AdminOrUserDto.class);
 
     final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
@@ -28,6 +28,7 @@ class DeserialisationTest {
         AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
+            .setType("admin")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(AdminDto.ColorEnum.YELLOW)
@@ -42,7 +43,7 @@ class DeserialisationTest {
   void fold_when_matchesAdminOfInlined_then_adminDtoReturned() throws JsonProcessingException {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
-            "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5}}",
+            "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"type\":\"admin\"}}",
             InlinedAnyOfDto.class);
 
     final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
@@ -51,6 +52,7 @@ class DeserialisationTest {
         AdminDto.builder()
             .setId("admin-id")
             .setAdminname("admin-name")
+            .setType("admin")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
@@ -63,7 +65,7 @@ class DeserialisationTest {
   void fold_when_matchesUser_then_userDtoReturned() throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
+            "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"user\"}",
             AdminOrUserDto.class);
 
     final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
@@ -72,6 +74,7 @@ class DeserialisationTest {
         UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
+            .setType("user")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -83,7 +86,7 @@ class DeserialisationTest {
   void fold_when_matchesUserOfInlinedDto_then_userDtoReturned() throws JsonProcessingException {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
-            "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null}}",
+            "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"user\"}}",
             InlinedAnyOfDto.class);
 
     final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
@@ -92,6 +95,7 @@ class DeserialisationTest {
         UserDto.builder()
             .setId("user-id")
             .setUsername("user-name")
+            .setType("user")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -104,7 +108,7 @@ class DeserialisationTest {
       throws JsonProcessingException {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
-            "{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5}",
+            "{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"type\":\"type\",\"level\":5.5}",
             AdminOrUserDto.class);
 
     final List<Object> result = adminOrUserDto.foldAnyOf(admin -> admin, user -> user);
@@ -113,6 +117,7 @@ class DeserialisationTest {
         UserDto.builder()
             .setId("id")
             .setUsername("user-name")
+            .setType("type")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -124,12 +129,13 @@ class DeserialisationTest {
         AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
+            .setType("type")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
             .addAdditionalProperty("username", "user-name")
             .addAdditionalProperty("age", 25)
-            .addAdditionalProperty("email", null)
+            .addAdditionalProperty("email", Tristate.ofNull())
             .build();
 
     final List<Object> expected = new ArrayList<>();
@@ -144,7 +150,7 @@ class DeserialisationTest {
       throws JsonProcessingException {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
-            "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5}}",
+            "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5,\"type\":\"type\"}}",
             InlinedAnyOfDto.class);
 
     final List<Object> result = inlinedDto.getAdminOrUser().foldAnyOf(admin -> admin, user -> user);
@@ -153,6 +159,7 @@ class DeserialisationTest {
         UserDto.builder()
             .setId("id")
             .setUsername("user-name")
+            .setType("type")
             .andAllOptionals()
             .setAge(25)
             .setEmail(Tristate.ofNull())
@@ -164,12 +171,13 @@ class DeserialisationTest {
         AdminDto.builder()
             .setId("id")
             .setAdminname("admin-name")
+            .setType("type")
             .andAllOptionals()
             .setLevel(5L)
             .setColor(Optional.empty())
             .addAdditionalProperty("username", "user-name")
             .addAdditionalProperty("age", 25)
-            .addAdditionalProperty("email", null)
+            .addAdditionalProperty("email", Tristate.ofNull())
             .build();
 
     final List<Object> expected = new ArrayList<>();

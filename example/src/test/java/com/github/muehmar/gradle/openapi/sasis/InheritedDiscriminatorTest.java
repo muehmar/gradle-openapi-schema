@@ -13,7 +13,7 @@ class InheritedDiscriminatorTest {
 
     final boolean containsDiscriminatorValidationMethod =
         Arrays.stream(dtoClass.getDeclaredMethods())
-            .anyMatch(method -> method.getName().equals("isValidAgainstTheCorrectSchema"));
+            .anyMatch(method -> method.getName().equals("isValidAgainstTheCorrectOneOfSchema"));
 
     assertTrue(containsDiscriminatorValidationMethod);
   }

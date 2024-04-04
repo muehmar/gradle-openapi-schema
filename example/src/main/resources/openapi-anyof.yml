@@ -9,11 +9,14 @@ components:
       required:
         - id
         - username
+        - type
       properties:
         id:
           type: string
           minLength: 2
         username:
+          type: string
+        type:
           type: string
         age:
           type: integer
@@ -27,11 +30,14 @@ components:
       required:
         - id
         - adminname
+        - type
       properties:
         id:
           type: string
           minLength: 2
         adminname:
+          type: string
+        type:
           type: string
         level:
           type: integer
@@ -43,10 +49,18 @@ components:
             - yellow
             - orange
             - red
+
     AdminOrUser:
       anyOf:
         - $ref: '#/components/schemas/Admin'
         - $ref: '#/components/schemas/User'
+
+    AdminOrUserDiscriminator:
+      anyOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+      discriminator:
+        propertyName: type
 
     InlinedAnyOf:
       type: object

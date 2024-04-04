@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "2.6.1"
+    id "com.github.muehmar.openapischema" version "3.0.0"
     id "com.diffplug.spotless"
     id 'openapischema.java'
     id 'java-test-fixtures'
@@ -69,8 +69,29 @@ def specifications =
                 [name: 'additionalproperties', file: 'openapi-additional-properties.yml'],
                 [name: 'sasis', file: 'sasis-api.json'],
                 [name: 'promotion', file: 'openapi-promotion.yml'],
-                [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml']
+                [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml'],
+                [name: 'nullableitemslist', file: 'openapi-nullable-items-list.yml']
         ]
+
+def issueNumbers = [
+        '71',
+        '158',
+        '159',
+        '182',
+        '185',
+        '190',
+        '191',
+        '192',
+        '193',
+        '195',
+        '209',
+        '227',
+        '234',
+        '238',
+        '244',
+        '248']
+
+specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
 
 compileJava.dependsOn compileGeneratedJava
 compileJava.dependsOn compileNoJsonJava
@@ -109,6 +130,20 @@ openApiGenerator {
         disableWarnings = false
         failOnWarnings = true
         failOnUnsupportedValidation = true
+    }
+
+    constantSchemaNameMapping {
+        constant = "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1."
+        replacement = ""
+    }
+
+    constantSchemaNameMapping {
+        constant = "."
+        replacement = ""
+    }
+
+    stagedBuilder {
+        enabled = true
     }
 
     schemas {
@@ -220,16 +255,6 @@ openApiGenerator {
                 formatType = "date-time"
                 classType = "java.time.LocalDate"
             }
-
-            constantSchemaNameMapping {
-                constant = "Sasis.Register.CareProvider.Common.Models.ApiGateway.V1."
-                replacement = ""
-            }
-
-            constantSchemaNameMapping {
-                constant = "."
-                replacement = ""
-            }
         }
         promotion {
             inputSpec = "$projectDir/src/main/resources/openapi-promotion.yml"
@@ -250,43 +275,55 @@ openApiGenerator {
             inputSpec = "$projectDir/src/main/resources/openapi-oneof-enum-discriminator.yml"
             packageName = "com.github.muehmar.gradle.openapi.oneofenumdiscriminator"
         }
-        ['71', '182', '185', '190', '191', '192', '193', '195', '209', '234', '238'].forEach {issueNumber -> {
-            "${issueNumber}" {
-                inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
-                packageName = "com.github.muehmar.gradle.openapi.issue${issueNumber}"
+        nullableItemsList {
+            inputSpec = "$projectDir/src/main/resources/openapi-nullable-items-list.yml"
+            packageName = "com.github.muehmar.gradle.openapi.nullableitemslist"
+        }
+        issueNumbers.forEach { issueNumber ->
+            {
+                "Issue${issueNumber}" {
+                    inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
+                    packageName = "com.github.muehmar.gradle.openapi.issues.issue${issueNumber}"
+                }
             }
-        }}
+        }
 
-        specifications.forEach {spec -> {
-            "noValidation${spec.name}" {
-                sourceSet = "noValidation"
-                outputDir = project.layout.buildDirectory.dir("generated/openapi-no-validation")
-                inputSpec = "$projectDir/src/main/resources/${spec.file}"
-                packageName = "${project.group}.${project.name}.api.novalidation.${spec.name}.model"
-                enableValidation = false
+        specifications.forEach { spec ->
+            {
+                "noValidation${spec.name}" {
+                    sourceSet = "noValidation"
+                    outputDir = project.layout.buildDirectory.dir("generated/openapi-no-validation")
+                    inputSpec = "$projectDir/src/main/resources/${spec.file}"
+                    packageName = "${project.group}.${project.name}.api.novalidation.${spec.name}.model"
+                    enableValidation = false
+                }
             }
-        }}
+        }
 
-        specifications.forEach {spec -> {
-            "noJsonSupport${spec.name}" {
-                sourceSet = "noJson"
-                outputDir = project.layout.buildDirectory.dir("generated/openapi-no-json")
-                inputSpec = "$projectDir/src/main/resources/${spec.file}"
-                packageName = "${project.group}.${project.name}.api.nojsonsupport.${spec.name}.model"
-                jsonSupport = "none"
+        specifications.forEach { spec ->
+            {
+                "noJsonSupport${spec.name}" {
+                    sourceSet = "noJson"
+                    outputDir = project.layout.buildDirectory.dir("generated/openapi-no-json")
+                    inputSpec = "$projectDir/src/main/resources/${spec.file}"
+                    packageName = "${project.group}.${project.name}.api.nojsonsupport.${spec.name}.model"
+                    jsonSupport = "none"
+                }
             }
-        }}
+        }
 
-        specifications.forEach {spec -> {
-            "noJsonSupportAndValidation${spec.name}" {
-                sourceSet = "noJsonAndValidation"
-                outputDir = project.layout.buildDirectory.dir("generated/openapi-no-json-no-validation")
-                inputSpec = "$projectDir/src/main/resources/${spec.file}"
-                packageName = "${project.group}.${project.name}.api.nojsonsupportandvalidation.${spec.name}.model"
-                jsonSupport = "none"
-                enableValidation = false
+        specifications.forEach { spec ->
+            {
+                "noJsonSupportAndValidation${spec.name}" {
+                    sourceSet = "noJsonAndValidation"
+                    outputDir = project.layout.buildDirectory.dir("generated/openapi-no-json-no-validation")
+                    inputSpec = "$projectDir/src/main/resources/${spec.file}"
+                    packageName = "${project.group}.${project.name}.api.nojsonsupportandvalidation.${spec.name}.model"
+                    jsonSupport = "none"
+                    enableValidation = false
+                }
             }
-        }}
+        }
     }
 }
 

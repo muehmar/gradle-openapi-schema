@@ -1,0 +1,72 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - ids
+        - usernames
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            nullable: true
+            minLength: 6
+            maxLength: 10
+          minItems: 1
+          maxItems: 2
+        usernames:
+          type: array
+          items:
+            type: string
+            nullable: true
+            minLength: 9
+            maxLength: 12
+          nullable: true
+          minItems: 3
+          maxItems: 4
+        emails:
+          type: array
+          items:
+            type: string
+            nullable: true
+            pattern: '[a-z]+-[0-9]{4}'
+          minItems: 5
+          maxItems: 6
+        phones:
+          type: array
+          items:
+            type: string
+            nullable: true
+            pattern: 'phone-[0-9]{4}'
+          minItems: 7
+          maxItems: 8
+          nullable: true
+
+    SuperUser:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    SuperOneOfUser:
+      oneOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    SuperAnyOfUser:
+      anyOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            superUserId:
+              type: string

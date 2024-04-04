@@ -1,0 +1,45 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Person:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - gender
+      properties:
+        firstName:
+          type: string
+          description: first name
+          nullable: true
+        lastName:
+          type: string
+          description: last name
+          nullable: true
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - other
+            - unknown
+          nullable: true
+
+    Patient:
+      type: object
+      required:
+        - name
+        - age
+        - data
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        data:
+          nullable: false

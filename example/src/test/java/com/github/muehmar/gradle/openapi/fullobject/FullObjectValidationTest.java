@@ -54,7 +54,7 @@ class FullObjectValidationTest {
         Arrays.asList(
             "invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
+            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }
@@ -72,7 +72,7 @@ class FullObjectValidationTest {
         Arrays.asList(
             "invalidOneOf[User].propertyCount -> must be less than or equal to 8",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
+            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }
@@ -88,7 +88,9 @@ class FullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
+            "invalidOneOf[Admin].adminname -> must not be null",
+            "invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
+            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }
@@ -136,7 +138,7 @@ class FullObjectValidationTest {
         Arrays.asList(
             "invalidOneOf[User].username -> size must be between 0 and 9",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectSchema -> Not valid against the schema described by the discriminator"),
+            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());
