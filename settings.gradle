@@ -9,7 +9,8 @@ rootProject.name = 'openapi-schema'
 include 'plugin'
 include 'example'
 include 'example-jakarta-3'
-include 'spring-example'
+include 'spring2-example'
+include 'spring3-example'
 include 'java-snapshot'
 
 dependencyResolutionManagement {
@@ -77,6 +78,7 @@ dependencyResolutionManagement {
             // Plugins
             plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.0.0')
             plugin('springboot2', 'org.springframework.boot').version('2.7.9')
+            plugin('springboot3', 'org.springframework.boot').version('3.2.3')
             plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.4')
             plugin('integrationTest', 'com.coditory.integration-test').version('1.4.5')
         }

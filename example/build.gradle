@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.openApiSchema)
     id "com.diffplug.spotless"
-    id 'openapischema.java'
+    id 'openapischema.java8'
     id 'java-test-fixtures'
 }
 
