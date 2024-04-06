@@ -19,24 +19,20 @@ task createClasspathManifest {
 }
 
 dependencies {
-    implementation group: 'io.swagger.parser.v3', name: 'swagger-parser-v3', version: '2.1.19'
+    implementation libs.swaggerParser
 
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 
-    implementation "io.github.muehmar:pojo-builder-annotations:1.4.2"
-    annotationProcessor "io.github.muehmar:pojo-builder:1.4.2"
+    implementation libs.pojoBuilder.annotations
+    annotationProcessor libs.pojoBuilder
 
-    implementation "io.github.muehmar:code-generator:0.19.0"
+    implementation libs.codeGenerator
 
     testImplementation testFixtures(project(":java-snapshot"))
 
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.11.0'
-    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.11.0'
-    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.11.0'
+    testImplementation libs.bundles.mockito
 
-    def junitVersion = "5.10.1"
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junitVersion
     testRuntimeOnly files(createClasspathManifest)
 }
 

@@ -1,22 +1,19 @@
 plugins {
-    id "com.github.muehmar.openapischema" version "3.0.0"
+    alias(libs.plugins.openApiSchema)
     id "com.diffplug.spotless"
     id 'openapischema.java'
 }
 
 dependencies {
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.3'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.3'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.15.3'
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.3'
+    implementation libs.bundles.jackson
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.10.1'
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.10.1'
+    implementation libs.jakarta3.validation.api
 
-    testImplementation group: 'org.hibernate', name: 'hibernate-validator', version: '8.0.1.Final'
-    testImplementation group: 'org.glassfish', name: 'jakarta.el', version: '4.0.2'
+    testImplementation libs.junit
+    testImplementation libs.junit.params
 
-    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
+    testImplementation libs.hibernate8.validator
+    testRuntimeOnly libs.glassfish.jakarta.el4
 }
 
 openApiGenerator {
