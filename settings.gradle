@@ -9,5 +9,78 @@ rootProject.name = 'openapi-schema'
 include 'plugin'
 include 'example'
 include 'example-jakarta-3'
-include 'spring-example'
+include 'spring2-example'
+include 'spring3-example'
 include 'java-snapshot'
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            // Plugin dependencies
+            version('swaggerParser', '2.1.19')
+            library('swaggerParser', 'io.swagger.parser.v3','swagger-parser-v3').versionRef('swaggerParser')
+
+            version('pojo-builder', '1.5.0')
+            library('pojoBuilder-annotations', 'io.github.muehmar','pojo-builder-annotations').versionRef('pojo-builder')
+            library('pojoBuilder', 'io.github.muehmar','pojo-builder').versionRef('pojo-builder')
+
+            version('code-generator', '0.22.0')
+            library('codeGenerator', 'io.github.muehmar','code-generator').versionRef('code-generator')
+
+            version('lombok', '1.18.30')
+            library('lombok', 'org.projectlombok','lombok').versionRef('lombok')
+
+            // Dependencies for sample projects
+            version('hibernate8', '8.0.1.Final')
+            library('hibernate8-validator', 'org.hibernate','hibernate-validator').versionRef('hibernate8')
+
+            version('hibernate6', '6.2.0.Final')
+            library('hibernate6-validator', 'org.hibernate','hibernate-validator').versionRef('hibernate6')
+
+            version('glassfishJakartaEl4', '4.0.2')
+            library('glassfish-jakarta-el4', 'org.glassfish','jakarta.el').versionRef('glassfishJakartaEl4')
+
+            version('glassfishJavaxEl3', '3.0.0')
+            library('glassfish-javax-el3', 'org.glassfish','javax.el').versionRef('glassfishJavaxEl3')
+
+            version('jakarta3Validation', '3.0.2')
+            library('jakarta3-validation-api', 'jakarta.validation','jakarta.validation-api').versionRef('jakarta3Validation')
+
+            version('javax2Validation', '2.0.1.Final')
+            library('javax2-validation-api', 'javax.validation','validation-api').versionRef('javax2Validation')
+
+            version('jackson', '2.15.3')
+            library('jackson-core', 'com.fasterxml.jackson.core','jackson-core').versionRef('jackson')
+            library('jackson-databind', 'com.fasterxml.jackson.core','jackson-databind').versionRef('jackson')
+            library('jackson-annotations', 'com.fasterxml.jackson.core','jackson-annotations').versionRef('jackson')
+            library('jackson-datatype', 'com.fasterxml.jackson.datatype','jackson-datatype-jsr310').versionRef('jackson')
+            bundle('jackson', ['jackson-core', 'jackson-databind', 'jackson-annotations', 'jackson-datatype'])
+
+            // Test dependencies
+            version('mockito', '4.11.0')
+            library('mockito-core', 'org.mockito','mockito-core').versionRef('mockito')
+            library('mockito-junit-jupiter', 'org.mockito','mockito-junit-jupiter').versionRef('mockito')
+            library('mockito-inline', 'org.mockito','mockito-inline').versionRef('mockito')
+            bundle('mockito', ['mockito-core', 'mockito-junit-jupiter', 'mockito-inline'])
+
+            version('javaSnapshot', '4.0.6')
+            library('javaSnapshot', 'io.github.origin-energy','java-snapshot-testing-junit5').versionRef('javaSnapshot')
+
+            version('junit', '5.10.1')
+            library('junit', 'org.junit.jupiter','junit-jupiter').versionRef('junit')
+            library('junit-api', 'org.junit.jupiter','junit-jupiter-api').versionRef('junit')
+            library('junit-params', 'org.junit.jupiter','junit-jupiter-params').versionRef('junit')
+            bundle('junit', ['junit', 'junit-api', 'junit-params'])
+
+            version('reflections', '0.10.2')
+            library('reflections', 'org.reflections','reflections').versionRef('reflections')
+
+            // Plugins
+            plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.0.0')
+            plugin('springboot2', 'org.springframework.boot').version('2.7.9')
+            plugin('springboot3', 'org.springframework.boot').version('3.2.3')
+            plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.4')
+            plugin('integrationTest', 'com.coditory.integration-test').version('1.4.5')
+        }
+    }
+}

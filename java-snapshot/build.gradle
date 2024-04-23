@@ -1,13 +1,11 @@
 plugins {
-    id 'openapischema.java'
+    id 'openapischema.java8'
     id 'java-test-fixtures'
 }
 
 dependencies {
-    testFixturesImplementation "io.github.muehmar:code-generator:0.19.0"
-    testFixturesApi 'io.github.origin-energy:java-snapshot-testing-junit5:4.0.6'
+    testFixturesImplementation libs.codeGenerator
+    testFixturesApi libs.javaSnapshot
 
-    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.10.1'
-    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.1'
-    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.10.1'
+    testFixturesApi libs.junit
 }
