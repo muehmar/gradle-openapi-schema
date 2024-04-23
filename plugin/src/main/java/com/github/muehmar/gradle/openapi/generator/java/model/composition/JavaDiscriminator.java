@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.Discriminator;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import java.util.Collections;
@@ -64,9 +65,29 @@ public class JavaDiscriminator {
                 .map(EnumConstantName::asJavaConstant)
                 .map(onEnumType)
                 .orElseThrow(
-                    () ->
-                        new OpenApiGeneratorException(
-                            "Value '%s' is not a valid mapping for the discriminator %s for schema %s..",
-                            stringValue, propertyName, schemaName)));
+                    () -> createInvalidEnumMappingException(enumType, schemaName, stringValue)));
+  }
+
+  private OpenApiGeneratorException createInvalidEnumMappingException(
+      JavaEnumType enumType, Name schemaName, String stringValue) {
+    final String originalConstants =
+        enumType.getMembers().map(EnumConstantName::getOriginalConstant).mkString(", ");
+    final StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(
+        String.format(
+            "Discriminator '%s' does not have a constant '%s' to point to schema '%s'.\n",
+            propertyName, stringValue, schemaName));
+    if (stringValue.equals(schemaName.asString())) {
+      stringBuilder.append(
+          String.format(
+              "Each constant of the enum property %s should be equal to a schema name (case sensitive).",
+              propertyName));
+      stringBuilder.append(
+          " If you cannot change the constants of the enum, you can define a mapping for the discriminator "
+              + "(property discriminator/mapping, see the openapi specification for type name mappings for discriminators).\n");
+    }
+    stringBuilder.append(
+        String.format("The enum has the following constants [%s].", originalConstants));
+    return new OpenApiGeneratorException(stringBuilder.toString());
   }
 }
