@@ -20,11 +20,11 @@ dependencyResolutionManagement {
             version('swaggerParser', '2.1.19')
             library('swaggerParser', 'io.swagger.parser.v3','swagger-parser-v3').versionRef('swaggerParser')
 
-            version('pojo-builder', '1.4.2')
+            version('pojo-builder', '1.5.0')
             library('pojoBuilder-annotations', 'io.github.muehmar','pojo-builder-annotations').versionRef('pojo-builder')
             library('pojoBuilder', 'io.github.muehmar','pojo-builder').versionRef('pojo-builder')
 
-            version('code-generator', '0.19.0')
+            version('code-generator', '0.22.0')
             library('codeGenerator', 'io.github.muehmar','code-generator').versionRef('code-generator')
 
             version('lombok', '1.18.30')

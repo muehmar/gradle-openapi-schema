@@ -31,6 +31,7 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ValidatorClassGenerator {
@@ -64,7 +65,9 @@ public class ValidatorClassGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> additionalPropertiesValidationMethods() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .append(propertyValueValidationGenerator(), PropertyValue::fromAdditionalProperties)
+        .append(
+            propertyValueValidationGenerator(),
+            (Function<JavaObjectPojo, PropertyValue>) PropertyValue::fromAdditionalProperties)
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 
