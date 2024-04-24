@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import java.util.function.Function;
@@ -15,15 +16,14 @@ import lombok.ToString;
 public class EnumObjectType implements ObjectType {
   private final PojoName name;
   private final PList<String> members;
-  private final Optional<String> format;
-  private final Nullability nullability;
 
-  public EnumObjectType(
-      PojoName name, PList<String> members, Optional<String> format, Nullability nullability) {
+  public EnumObjectType(PojoName name, PList<String> members) {
     this.name = name;
     this.members = members;
-    this.format = format;
-    this.nullability = nullability;
+  }
+
+  public static EnumObjectType ofEnumPojo(EnumPojo enumPojo) {
+    return new EnumObjectType(enumPojo.getName().getPojoName(), enumPojo.getMembers());
   }
 
   public PojoName getName() {
@@ -32,7 +32,7 @@ public class EnumObjectType implements ObjectType {
 
   @Override
   public EnumObjectType withNullability(Nullability nullability) {
-    return new EnumObjectType(name, members, format, nullability);
+    return this;
   }
 
   @Override
@@ -47,12 +47,12 @@ public class EnumObjectType implements ObjectType {
 
   @Override
   public Nullability getNullability() {
-    return nullability;
+    return Nullability.NOT_NULLABLE;
   }
 
   @Override
   public EnumObjectType applyMapping(PojoNameMapping pojoNameMapping) {
-    return new EnumObjectType(pojoNameMapping.map(name), members, format, nullability);
+    return new EnumObjectType(pojoNameMapping.map(name), members);
   }
 
   @Override

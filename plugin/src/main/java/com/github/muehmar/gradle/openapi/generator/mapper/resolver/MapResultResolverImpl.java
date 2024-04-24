@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumObjectType;
 import java.util.Optional;
 
 public class MapResultResolverImpl implements MapResultResolver {
@@ -27,7 +28,7 @@ public class MapResultResolverImpl implements MapResultResolver {
         Optional.of(pojos)
             .map(p -> UnresolvedObjectPojoResolver.resolve(unresolvedObjectPojos, p))
             .map(p -> inlineMemberReferences(p, pojoMemberReferences))
-            .map(this::addEnumDescription)
+            .map(this::resolveEnumObjectPojos)
             .map(NullableRootPojoResolver::resolve)
             .orElse(PList.empty());
     return MapResult.of(
@@ -43,13 +44,13 @@ public class MapResultResolverImpl implements MapResultResolver {
         (pojos, memberReference) ->
             pojos.map(
                 pojo ->
-                    pojo.inlineObjectReference(
+                    pojo.replaceObjectType(
                         memberReference.getName(),
                         memberReference.getDescription(),
                         memberReference.getType())));
   }
 
-  private PList<Pojo> addEnumDescription(PList<Pojo> inputPojos) {
+  private PList<Pojo> resolveEnumObjectPojos(PList<Pojo> inputPojos) {
     return inputPojos
         .flatMapOptional(Pojo::asEnumPojo)
         .foldLeft(
@@ -58,7 +59,9 @@ public class MapResultResolverImpl implements MapResultResolver {
                 p.map(
                     pojo -> {
                       final PojoName enumName = enumPojo.getName().getPojoName();
-                      return pojo.addObjectTypeDescription(enumName, enumPojo.getDescription());
+                      final EnumObjectType enumObjectType = EnumObjectType.ofEnumPojo(enumPojo);
+                      return pojo.replaceObjectType(
+                          enumName, enumPojo.getDescription(), enumObjectType);
                     }));
   }
 }

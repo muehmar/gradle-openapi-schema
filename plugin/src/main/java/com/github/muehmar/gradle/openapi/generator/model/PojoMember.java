@@ -29,18 +29,11 @@ public class PojoMember {
     this.necessity = necessity;
   }
 
-  public PojoMember addObjectTypeDescription(PojoName objectTypeName, String description) {
+  public PojoMember replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
     return type.asObjectType()
         .filter(objType -> objType.getName().equals(objectTypeName))
-        .map(ignore -> withDescription(description))
-        .orElse(this);
-  }
-
-  public PojoMember inlineObjectReference(
-      PojoName referenceName, String referenceDescription, Type referenceType) {
-    return type.asObjectType()
-        .filter(objType -> objType.getName().equals(referenceName))
-        .map(ignore -> withDescription(referenceDescription).withType(referenceType))
+        .map(ignore -> withDescription(newObjectTypeDescription).withType(newObjectType))
         .orElse(this);
   }
 

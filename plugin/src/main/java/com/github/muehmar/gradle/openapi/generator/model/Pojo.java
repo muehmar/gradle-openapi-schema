@@ -14,10 +14,8 @@ public interface Pojo {
 
   String getDescription();
 
-  Pojo addObjectTypeDescription(PojoName objectTypeName, String description);
-
-  Pojo inlineObjectReference(
-      PojoName referenceName, String referenceDescription, Type referenceType);
+  Pojo replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType);
 
   Pojo adjustNullablePojo(PojoName nullablePojo);
 

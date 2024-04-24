@@ -44,6 +44,7 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSp
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
@@ -849,12 +850,13 @@ class SpecificationMapperImplTest {
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
     assertEquals(2, pojos.size());
-    assertEquals(
+    final EnumPojo expectedEnumPojo =
         EnumPojo.of(
             componentName("Gender", "Dto"),
             "Gender of a user",
-            PList.of("FEMALE", "MALE", "UNKNOWN")),
-        pojos.apply(0));
+            PList.of("FEMALE", "MALE", "UNKNOWN"));
+
+    assertEquals(expectedEnumPojo, pojos.apply(0));
     assertEquals(
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
@@ -864,8 +866,8 @@ class SpecificationMapperImplTest {
                 PList.single(
                     new PojoMember(
                         Name.ofString("gender"),
-                        "Gender of a user",
-                        StandardObjectType.ofName(pojoName("Gender", "Dto")),
+                        expectedEnumPojo.getDescription(),
+                        EnumObjectType.ofEnumPojo(expectedEnumPojo),
                         PropertyScope.DEFAULT,
                         OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())

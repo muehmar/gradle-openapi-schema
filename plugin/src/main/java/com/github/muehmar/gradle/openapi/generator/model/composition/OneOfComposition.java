@@ -33,11 +33,12 @@ public class OneOfComposition {
     return pojos;
   }
 
-  public OneOfComposition inlineObjectReference(
-      PojoName referenceName, String referenceDescription, Type referenceType) {
+  public OneOfComposition replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
     final NonEmptyList<Pojo> mappedPojos =
         pojos.map(
-            pojo -> pojo.inlineObjectReference(referenceName, referenceDescription, referenceType));
+            pojo ->
+                pojo.replaceObjectType(objectTypeName, newObjectTypeDescription, newObjectType));
     return new OneOfComposition(mappedPojos);
   }
 
