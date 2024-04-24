@@ -11,8 +11,8 @@ class MapTypeTest {
   void applyMapping_when_called_then_nameMappedCorrectly() {
     final MapType mapType =
         MapType.ofKeyAndValueType(
-            ObjectType.ofName(pojoName("KeyType", "Dto")),
-            ObjectType.ofName(pojoName("ValueType", "Dto")));
+            StandardObjectType.ofName(pojoName("KeyType", "Dto")),
+            StandardObjectType.ofName(pojoName("ValueType", "Dto")));
 
     final MapType mapTypeMapped = mapType.applyMapping(name -> name.appendToName("Mapped"));
 

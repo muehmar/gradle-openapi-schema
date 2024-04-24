@@ -11,7 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 
@@ -54,7 +54,8 @@ public class JavaTypes {
   }
 
   public static JavaObjectType objectType() {
-    return JavaObjectType.wrap(ObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))));
+    return JavaObjectType.wrap(
+        StandardObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))));
   }
 
   public static JavaAnyType anyType() {

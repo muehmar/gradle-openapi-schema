@@ -18,7 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringTyp
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -39,7 +39,7 @@ class AdditionalPropertiesGetterTest {
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
-            JavaObjectType.wrap(ObjectType.ofName(pojoName("Object", "Dto"))));
+            JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Object", "Dto"))));
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 
     final Writer writer =

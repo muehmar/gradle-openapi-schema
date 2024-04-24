@@ -22,7 +22,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.JavaModifier;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -169,7 +169,7 @@ class FrameworkAdditionalPropertiesGetterTest {
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
-            JavaObjectType.wrap(ObjectType.ofName(pojoName("Object", "Dto")))
+            JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Object", "Dto")))
                 .withNullability(NOT_NULLABLE));
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);
@@ -187,7 +187,7 @@ class FrameworkAdditionalPropertiesGetterTest {
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
-            JavaObjectType.wrap(ObjectType.ofName(pojoName("Object", "Dto")))
+            JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Object", "Dto")))
                 .withNullability(NULLABLE));
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);

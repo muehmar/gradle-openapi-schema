@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,8 @@ class JavaTypeTest {
     final MapType mapType =
         MapType.ofKeyAndValueType(
             StringType.noFormat(),
-            ArrayType.ofItemType(ObjectType.ofName(pojoName("Object", "Dto")), NOT_NULLABLE));
+            ArrayType.ofItemType(
+                StandardObjectType.ofName(pojoName("Object", "Dto")), NOT_NULLABLE));
     final JavaMapType javaMapType = JavaMapType.wrap(mapType, TypeMappings.empty());
 
     assertEquals(PList.of("java.util.Map", "java.util.List"), javaMapType.getImportsAsString());

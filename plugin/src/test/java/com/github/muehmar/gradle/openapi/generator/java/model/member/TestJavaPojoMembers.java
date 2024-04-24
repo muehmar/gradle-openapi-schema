@@ -89,7 +89,8 @@ public class TestJavaPojoMembers {
         .name(JavaName.fromString("ref"))
         .description("ref")
         .javaType(
-            JavaType.wrap(ObjectType.ofName(pojoName("SomeObject", "Dto")), TypeMappings.empty())
+            JavaType.wrap(
+                    StandardObjectType.ofName(pojoName("SomeObject", "Dto")), TypeMappings.empty())
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)

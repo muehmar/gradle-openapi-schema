@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -45,7 +46,7 @@ public class ReferenceSchema implements OpenApiSchema {
         ComponentName.fromSchemaStringAndSuffix(
             schemaReference.getSchemaName().asString(),
             parentComponentName.getPojoName().getSuffix());
-    final ObjectType objectType = ObjectType.ofName(name.getPojoName());
+    final ObjectType objectType = StandardObjectType.ofName(name.getPojoName());
     return MemberSchemaMapResult.ofType(objectType).addOpenApiSpec(schemaReference.getRemoteSpec());
   }
 

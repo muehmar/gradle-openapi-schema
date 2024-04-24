@@ -18,7 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfCompos
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -92,7 +92,7 @@ class NestedRequiredPropertyResolverTest {
                 PList.of(
                     STREET,
                     HOUSR_NR,
-                    PojoMembers.ofType(ObjectType.ofName(cityDto.getName().getPojoName()))
+                    PojoMembers.ofType(StandardObjectType.ofName(cityDto.getName().getPojoName()))
                         .withName(Name.ofString("city"))))
             .withName(componentName("Address", "Dto"));
     final ObjectPojo userDto =
@@ -101,7 +101,8 @@ class NestedRequiredPropertyResolverTest {
                     FIRST_NAME,
                     MIDDLE_NAME,
                     LAST_NAME,
-                    PojoMembers.ofType(ObjectType.ofName(addressDto.getName().getPojoName()))
+                    PojoMembers.ofType(
+                            StandardObjectType.ofName(addressDto.getName().getPojoName()))
                         .withName(Name.ofString("address"))
                         .withNecessity(OPTIONAL)))
             .withName(componentName("User", "Dto"));
@@ -115,7 +116,7 @@ class NestedRequiredPropertyResolverTest {
         Pojos.objectPojo(
                 PList.of(
                     PojoMembers.ofType(
-                            ObjectType.ofName(requiredCityPropsDto.getName().getPojoName()))
+                            StandardObjectType.ofName(requiredCityPropsDto.getName().getPojoName()))
                         .withName(Name.ofString("city"))))
             .withRequiredAdditionalProperties(PList.of(HOUSR_NR.getName()))
             .withName(componentName("RequiredAddressProps", "Dto"));
@@ -124,7 +125,8 @@ class NestedRequiredPropertyResolverTest {
         Pojos.objectPojo(
                 PList.of(
                     PojoMembers.ofType(
-                            ObjectType.ofName(requiredAddressPropsDto.getName().getPojoName()))
+                            StandardObjectType.ofName(
+                                requiredAddressPropsDto.getName().getPojoName()))
                         .withNecessity(REQUIRED)
                         .withName(Name.ofString("address"))))
             .withRequiredAdditionalProperties(PList.of(FIRST_NAME.getName()))
@@ -170,7 +172,8 @@ class NestedRequiredPropertyResolverTest {
                 PList.of(
                     STREET,
                     HOUSR_NR.withNecessity(REQUIRED),
-                    PojoMembers.ofType(ObjectType.ofName(resolvedCityDto.getName().getPojoName()))
+                    PojoMembers.ofType(
+                            StandardObjectType.ofName(resolvedCityDto.getName().getPojoName()))
                         .withName(Name.ofString("city"))))
             .withName(componentName("UpdateUserAddress", "Dto", "Address"));
     final ObjectPojo resolvedUserDto =
@@ -181,7 +184,7 @@ class NestedRequiredPropertyResolverTest {
                     MIDDLE_NAME,
                     LAST_NAME,
                     PojoMembers.ofType(
-                            ObjectType.ofName(resolvedAddressDto.getName().getPojoName()))
+                            StandardObjectType.ofName(resolvedAddressDto.getName().getPojoName()))
                         .withNecessity(REQUIRED)
                         .withName(Name.ofString("address"))))
             .withName(componentName("UpdateUserUser", "Dto", "User"));
@@ -213,7 +216,7 @@ class NestedRequiredPropertyResolverTest {
     final ObjectPojo addressDto =
         Pojos.objectPojo(
                 PList.of(
-                    PojoMembers.ofType(ObjectType.ofName(cityDto.getName().getPojoName()))
+                    PojoMembers.ofType(StandardObjectType.ofName(cityDto.getName().getPojoName()))
                         .withName(Name.ofString("city"))))
             .withAllOfComposition(
                 Optional.of(AllOfComposition.fromPojos(NonEmptyList.of(streetCommonDto))))
@@ -224,7 +227,8 @@ class NestedRequiredPropertyResolverTest {
                     FIRST_NAME,
                     MIDDLE_NAME,
                     LAST_NAME,
-                    PojoMembers.ofType(ObjectType.ofName(addressDto.getName().getPojoName()))
+                    PojoMembers.ofType(
+                            StandardObjectType.ofName(addressDto.getName().getPojoName()))
                         .withName(Name.ofString("address"))
                         .withNecessity(OPTIONAL)))
             .withName(componentName("User", "Dto"));
@@ -238,7 +242,7 @@ class NestedRequiredPropertyResolverTest {
         Pojos.objectPojo(
                 PList.of(
                     PojoMembers.ofType(
-                            ObjectType.ofName(requiredCityPropsDto.getName().getPojoName()))
+                            StandardObjectType.ofName(requiredCityPropsDto.getName().getPojoName()))
                         .withName(Name.ofString("city"))))
             .withRequiredAdditionalProperties(PList.of(HOUSR_NR.getName()))
             .withName(componentName("RequiredAddressProps", "Dto"));
@@ -247,7 +251,8 @@ class NestedRequiredPropertyResolverTest {
         Pojos.objectPojo(
                 PList.of(
                     PojoMembers.ofType(
-                            ObjectType.ofName(requiredAddressPropsDto.getName().getPojoName()))
+                            StandardObjectType.ofName(
+                                requiredAddressPropsDto.getName().getPojoName()))
                         .withNecessity(REQUIRED)
                         .withName(Name.ofString("address"))))
             .withRequiredAdditionalProperties(PList.of(FIRST_NAME.getName()))
@@ -298,7 +303,8 @@ class NestedRequiredPropertyResolverTest {
         addressDto
             .withMembers(
                 PList.of(
-                    PojoMembers.ofType(ObjectType.ofName(resolvedCityDto.getName().getPojoName()))
+                    PojoMembers.ofType(
+                            StandardObjectType.ofName(resolvedCityDto.getName().getPojoName()))
                         .withName(Name.ofString("city"))))
             .withAllOfComposition(
                 Optional.of(AllOfComposition.fromPojos(NonEmptyList.of(resolvedStreetCommonDto))))
@@ -311,7 +317,7 @@ class NestedRequiredPropertyResolverTest {
                     MIDDLE_NAME,
                     LAST_NAME,
                     PojoMembers.ofType(
-                            ObjectType.ofName(resolvedAddressDto.getName().getPojoName()))
+                            StandardObjectType.ofName(resolvedAddressDto.getName().getPojoName()))
                         .withNecessity(REQUIRED)
                         .withName(Name.ofString("address"))))
             .withName(componentName("UpdateUserUser", "Dto", "User"));
