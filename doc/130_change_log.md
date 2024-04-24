@@ -1,5 +1,7 @@
 ## Change Log
-* 3.0.0 
+
+* 3.1.0 - Support referenced enum as discriminator (issue `#229`)
+* 3.0.0
     * Support discriminator with anyOf compositions (issue `#150`)
     * Rename value to items in array classes (issue `#187`)
     * Improve allOf builder stages for duplicated properties (issue `#227`)
