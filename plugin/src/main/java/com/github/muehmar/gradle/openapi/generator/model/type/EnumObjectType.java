@@ -30,6 +30,10 @@ public class EnumObjectType implements ObjectType {
     return name;
   }
 
+  public PList<String> getMembers() {
+    return members;
+  }
+
   @Override
   public EnumObjectType withNullability(Nullability nullability) {
     return this;

@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.composition;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.DiscriminatorType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.function.Function;
 
@@ -28,7 +29,12 @@ public class JavaDiscriminatorType {
         stringType ->
             JavaDiscriminatorType.fromStringType(
                 JavaStringType.wrap(stringType, TypeMappings.empty())),
-        enumType -> JavaDiscriminatorType.fromEnumType(JavaEnumType.wrap(enumType)));
+        enumType -> JavaDiscriminatorType.fromEnumType(JavaEnumType.wrap(enumType)),
+        enumObjectType ->
+            JavaDiscriminatorType.fromEnumType(
+                JavaEnumType.wrap(
+                    EnumType.ofNameAndMembers(
+                        enumObjectType.getName().getName(), enumObjectType.getMembers()))));
   }
 
   public <T> T fold(
