@@ -1,0 +1,42 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - username
+        - usertype
+      properties:
+        username:
+          type: string
+        usertype:
+          $ref: '#/components/schemas/UserType'
+
+    Admin:
+      required:
+        - adminname
+        - usertype
+      properties:
+        adminname:
+          type: string
+        usertype:
+          $ref: '#/components/schemas/UserType'
+
+    UserType:
+      type: string
+      enum:
+        - user
+        - admin
+
+    AdminOrUser:
+      oneOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Admin'
+      discriminator:
+        propertyName: usertype
+        mapping:
+          admin: '#/components/schemas/Admin'
+          user: '#/components/schemas/User'
