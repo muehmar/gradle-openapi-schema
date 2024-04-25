@@ -46,34 +46,29 @@ public class ObjectPojo implements Pojo {
   Optional<UntypedDiscriminator> discriminator;
 
   @Override
-  public Pojo addObjectTypeDescription(PojoName objectTypeName, String description) {
-    return mapMembers(member -> member.addObjectTypeDescription(objectTypeName, description));
-  }
-
-  @Override
-  public ObjectPojo inlineObjectReference(
-      PojoName referenceName, String referenceDescription, Type referenceType) {
+  public ObjectPojo replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
     final PList<PojoMember> mappedMembers =
         members.map(
             member ->
-                member.inlineObjectReference(referenceName, referenceDescription, referenceType));
+                member.replaceObjectType(objectTypeName, newObjectTypeDescription, newObjectType));
     final Optional<AllOfComposition> mappedAllOfComposition =
         allOfComposition.map(
             composition ->
-                composition.inlineObjectReference(
-                    referenceName, referenceDescription, referenceType));
+                composition.replaceObjectType(
+                    objectTypeName, newObjectTypeDescription, newObjectType));
     final Optional<OneOfComposition> mappedOneOfComposition =
         oneOfComposition.map(
             composition ->
-                composition.inlineObjectReference(
-                    referenceName, referenceDescription, referenceType));
+                composition.replaceObjectType(
+                    objectTypeName, newObjectTypeDescription, newObjectType));
     final Optional<AnyOfComposition> mappedAnyOfComposition =
         anyOfComposition.map(
             composition ->
-                composition.inlineObjectReference(
-                    referenceName, referenceDescription, referenceType));
+                composition.replaceObjectType(
+                    objectTypeName, newObjectTypeDescription, newObjectType));
     final AdditionalProperties mappedAdditionalProperties =
-        additionalProperties.inlineObjectReference(referenceName, referenceType);
+        additionalProperties.replaceObjectType(objectTypeName, newObjectType);
     return fullObjectPojoBuilder()
         .name(name)
         .description(description)

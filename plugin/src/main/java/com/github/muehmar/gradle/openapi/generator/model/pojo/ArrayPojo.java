@@ -33,13 +33,8 @@ public class ArrayPojo implements Pojo {
   }
 
   @Override
-  public Pojo addObjectTypeDescription(PojoName objectTypeName, String description) {
-    return this;
-  }
-
-  @Override
-  public Pojo inlineObjectReference(
-      PojoName referenceName, String referenceDescription, Type referenceType) {
+  public Pojo replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
     return this;
   }
 

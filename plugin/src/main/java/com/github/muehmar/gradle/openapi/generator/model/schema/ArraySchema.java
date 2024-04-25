@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -61,7 +62,7 @@ public class ArraySchema implements OpenApiSchema {
     final Nullability nullability = Nullability.fromBoolean(isNullable());
     if (getItemSchema() instanceof ObjectSchema) {
       final ComponentName memberSchemaName = parentComponentName.deriveMemberSchemaName(memberName);
-      final ObjectType itemType = ObjectType.ofName(memberSchemaName.getPojoName());
+      final ObjectType itemType = StandardObjectType.ofName(memberSchemaName.getPojoName());
       final ArrayType arrayType =
           ArrayType.ofItemType(itemType, nullability).withConstraints(getArrayConstraints());
       final PojoSchema pojoSchema = new PojoSchema(memberSchemaName, getItemSchema());

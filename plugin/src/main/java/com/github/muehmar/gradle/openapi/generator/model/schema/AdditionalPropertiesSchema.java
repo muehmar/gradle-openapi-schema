@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
@@ -62,7 +63,7 @@ class AdditionalPropertiesSchema {
     final MemberSchemaMapResult result = schema.mapToMemberType(name, memberName);
     if (result.getType().isArrayType()) {
       final ComponentName arrayComponentName = name.deriveMemberSchemaName(memberName);
-      final ObjectType type = ObjectType.ofName(arrayComponentName.getPojoName());
+      final ObjectType type = StandardObjectType.ofName(arrayComponentName.getPojoName());
       final PojoSchema arrayPojoSchema = new PojoSchema(arrayComponentName, schema);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(type, arrayPojoSchema);
     }

@@ -12,7 +12,7 @@ class ArrayTypeTest {
   @Test
   void applyMapping_when_called_then_nameMappedCorrectly() {
     final ArrayType arrayType =
-        ArrayType.ofItemType(ObjectType.ofName(pojoName("Posology", "Dto")), NOT_NULLABLE);
+        ArrayType.ofItemType(StandardObjectType.ofName(pojoName("Posology", "Dto")), NOT_NULLABLE);
 
     final ArrayType arrayTypeMapped = arrayType.applyMapping(name -> name.appendToName("Mapped"));
 

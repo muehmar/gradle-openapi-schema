@@ -13,7 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
@@ -82,7 +82,7 @@ class AdditionalPropertiesSchemaTest {
 
     final ComponentName newComponentName =
         componentName.deriveMemberSchemaName(Name.ofString("Property"));
-    assertEquals(ObjectType.ofName(newComponentName.getPojoName()), mapResult.getType());
+    assertEquals(StandardObjectType.ofName(newComponentName.getPojoName()), mapResult.getType());
 
     assertEquals(1, mapResult.getUnmappedItems().getPojoSchemas().size());
     assertEquals(

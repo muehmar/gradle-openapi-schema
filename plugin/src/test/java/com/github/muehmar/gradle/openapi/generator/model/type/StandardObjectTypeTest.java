@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-class ObjectTypeTest {
+class StandardObjectTypeTest {
   @Test
   void applyMapping_when_called_then_nameMappedCorrectly() {
-    final ObjectType objectType = ObjectType.ofName(pojoName("Object", "Dto"));
+    final StandardObjectType objectType = StandardObjectType.ofName(pojoName("Object", "Dto"));
 
-    final ObjectType objectTypeMapped =
+    final StandardObjectType objectTypeMapped =
         objectType.applyMapping(name -> name.appendToName("Mapped"));
 
     assertEquals("ObjectMappedDto", objectTypeMapped.getName().asString());

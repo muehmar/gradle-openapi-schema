@@ -17,7 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectTyp
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
@@ -41,7 +41,8 @@ class RequiredAdditionalPropertiesGetterTest {
                     new JavaRequiredAdditionalProperty(
                         JavaName.fromString("prop1"),
                         JavaObjectType.wrap(
-                            ObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto")))))));
+                            StandardObjectType.ofName(
+                                PojoName.ofName(Name.ofString("AdminDto")))))));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -61,7 +62,8 @@ class RequiredAdditionalPropertiesGetterTest {
                     new JavaRequiredAdditionalProperty(
                         JavaName.fromString("prop1"),
                         JavaObjectType.wrap(
-                            ObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto")))))));
+                            StandardObjectType.ofName(
+                                PojoName.ofName(Name.ofString("AdminDto")))))));
 
     final Writer writer =
         generator.generate(

@@ -37,6 +37,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -69,7 +70,7 @@ class ObjectSchemaTest {
     final MemberSchemaMapResult result = mapToMemberType(componentName, memberName, schema);
 
     final ComponentName expectedPojoName = componentName.deriveMemberSchemaName(memberName);
-    assertEquals(ObjectType.ofName(expectedPojoName.getPojoName()), result.getType());
+    assertEquals(StandardObjectType.ofName(expectedPojoName.getPojoName()), result.getType());
     assertEquals(
         UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, schema)),
         result.getUnmappedItems());
@@ -132,7 +133,7 @@ class ObjectSchemaTest {
                     new PojoMember(
                         Name.ofString("objectVal"),
                         null,
-                        ObjectType.ofName(memberObjectComponentName.getPojoName()),
+                        StandardObjectType.ofName(memberObjectComponentName.getPojoName()),
                         PropertyScope.DEFAULT,
                         Necessity.OPTIONAL),
                     new PojoMember(
@@ -144,7 +145,7 @@ class ObjectSchemaTest {
                     new PojoMember(
                         Name.ofString("refVal"),
                         null,
-                        ObjectType.ofName(pojoName("ReferenceSchema1", "Dto")),
+                        StandardObjectType.ofName(pojoName("ReferenceSchema1", "Dto")),
                         PropertyScope.DEFAULT,
                         Necessity.OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
@@ -367,7 +368,8 @@ class ObjectSchemaTest {
 
     final MapType expectedType =
         MapType.ofKeyAndValueType(
-            StringType.noFormat(), ObjectType.ofName(PojoName.ofName(Name.ofString("Gender"))));
+            StringType.noFormat(),
+            StandardObjectType.ofName(PojoName.ofName(Name.ofString("Gender"))));
 
     assertEquals(expectedType, result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
@@ -397,7 +399,7 @@ class ObjectSchemaTest {
                     Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(4, 7)))
                 .additionalProperties(
                     AdditionalProperties.allowed(
-                        ObjectType.ofName(PojoName.ofName(Name.ofString("Gender")))))
+                        StandardObjectType.ofName(PojoName.ofName(Name.ofString("Gender")))))
                 .build());
 
     assertEquals(expectedContext, mapContext);
@@ -422,7 +424,8 @@ class ObjectSchemaTest {
         componentName.deriveMemberSchemaName(Name.ofString("page"));
     final MapType expectedType =
         MapType.ofKeyAndValueType(
-                StringType.noFormat(), ObjectType.ofName(invoicePageComponentName.getPojoName()))
+                StringType.noFormat(),
+                StandardObjectType.ofName(invoicePageComponentName.getPojoName()))
             .withConstraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(5)));
 
     assertEquals(expectedType, result.getType());
@@ -460,7 +463,7 @@ class ObjectSchemaTest {
                     .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(12)))
                     .additionalProperties(
                         AdditionalProperties.allowed(
-                            ObjectType.ofName(objectComponentName.getPojoName())))
+                            StandardObjectType.ofName(objectComponentName.getPojoName())))
                     .build())
             .addUnmappedItems(UnmappedItems.ofPojoSchema(pojoSchema));
 
@@ -510,7 +513,7 @@ class ObjectSchemaTest {
 
     final ComponentName expectedComponentName =
         componentName.deriveMemberSchemaName(pojoMemberName);
-    final ObjectType expectedType = ObjectType.ofName(expectedComponentName.getPojoName());
+    final ObjectType expectedType = StandardObjectType.ofName(expectedComponentName.getPojoName());
 
     assertEquals(expectedType, result.getType());
     assertEquals(

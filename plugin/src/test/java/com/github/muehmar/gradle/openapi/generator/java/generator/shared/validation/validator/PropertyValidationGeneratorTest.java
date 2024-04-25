@@ -39,7 +39,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -432,7 +432,7 @@ class PropertyValidationGeneratorTest {
 
     final JavaPojoMember objectMember =
         TestJavaPojoMembers.object(
-            ObjectType.ofName(PojoName.ofNameAndSuffix("OpenapiObject", "Dto")));
+            StandardObjectType.ofName(PojoName.ofNameAndSuffix("OpenapiObject", "Dto")));
 
     final Writer writer = generator.generate(objectMember, defaultTestSettings(), javaWriter());
 

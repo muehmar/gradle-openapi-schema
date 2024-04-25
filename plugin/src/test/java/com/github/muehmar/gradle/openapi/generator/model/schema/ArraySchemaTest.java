@@ -21,6 +21,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -82,7 +83,8 @@ class ArraySchemaTest {
     final MemberSchemaMapResult mappedSchema =
         mapToMemberType(componentName, pojoMemberName, arraySchema);
     final ObjectType itemType =
-        ObjectType.ofName(componentName.deriveMemberSchemaName(pojoMemberName).getPojoName());
+        StandardObjectType.ofName(
+            componentName.deriveMemberSchemaName(pojoMemberName).getPojoName());
     assertEquals(ArrayType.ofItemType(itemType, NOT_NULLABLE), mappedSchema.getType());
     assertEquals(
         UnmappedItems.ofPojoSchema(

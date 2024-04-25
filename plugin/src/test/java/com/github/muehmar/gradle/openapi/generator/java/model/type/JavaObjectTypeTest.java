@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import java.util.Comparator;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class JavaObjectTypeTest {
   @Test
   void wrap_when_objectTypeWrapped_then_correctWrapped() {
-    final ObjectType objectType = ObjectType.ofName(pojoName("User", "Dto"));
+    final ObjectType objectType = StandardObjectType.ofName(pojoName("User", "Dto"));
     final JavaObjectType javaType = JavaObjectType.wrap(objectType);
 
     assertEquals("UserDto", javaType.getParameterizedClassName().asString());
@@ -29,7 +30,7 @@ class JavaObjectTypeTest {
 
   @Test
   void wrap_when_pojoNameWithSpecialCharacters_then_correctType() {
-    final ObjectType objectType = ObjectType.ofName(pojoName("Prefixed.User", "Dto"));
+    final ObjectType objectType = StandardObjectType.ofName(pojoName("Prefixed.User", "Dto"));
     final JavaObjectType javaType = JavaObjectType.wrap(objectType);
 
     assertEquals("Prefixed_UserDto", javaType.getParameterizedClassName().asString());

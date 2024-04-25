@@ -36,6 +36,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
@@ -162,7 +163,7 @@ class ValidationAnnotationGeneratorTest {
   void validationAnnotations_when_calledForObjectList_then_validAnnotation() {
     final JavaPojoMember member =
         TestJavaPojoMembers.list(
-            ObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))),
+            StandardObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))),
             OPTIONAL,
             NOT_NULLABLE,
             Constraints.empty());
@@ -189,7 +190,8 @@ class ValidationAnnotationGeneratorTest {
   }
 
   public static Stream<Arguments> mapObjectTypes() {
-    final ObjectType objectType = ObjectType.ofName(PojoName.ofName(Name.ofString("AnyDto")));
+    final ObjectType objectType =
+        StandardObjectType.ofName(PojoName.ofName(Name.ofString("AnyDto")));
     final ArrayType objectList = ArrayType.ofItemType(objectType, NOT_NULLABLE);
     return Stream.of(
         Arguments.of(objectType, objectType),

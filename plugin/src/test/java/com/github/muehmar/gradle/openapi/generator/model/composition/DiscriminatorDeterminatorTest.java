@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.opti
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
+import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojos;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import java.util.Optional;
@@ -155,6 +157,37 @@ class DiscriminatorDeterminatorTest {
     final Discriminator expectedDiscriminator =
         Discriminator.typeDiscriminator(
             untypedDiscriminator, DiscriminatorType.fromEnumType(enumType));
+    assertEquals(Optional.of(expectedDiscriminator), discriminator);
+  }
+
+  @Test
+  void determineDiscriminator_when_enumDiscriminatorAsEnumObjectType_then_correctDiscriminator() {
+    final EnumObjectType enumObjectType =
+        new EnumObjectType(pojoName("Role", "Dto"), PList.of("Admin", "User"));
+    final ObjectPojo parentPojo = Pojos.objectPojo(PList.of(ofType(enumObjectType)));
+    final ObjectPojo pojo1 =
+        Pojos.objectPojo(PList.of(requiredBirthdate(), optionalNullableString()))
+            .withAllOfComposition(
+                Optional.of(AllOfComposition.fromPojos(NonEmptyList.of(parentPojo))));
+    final ObjectPojo pojo2 =
+        Pojos.objectPojo(PList.of(optionalString()))
+            .withAllOfComposition(
+                Optional.of(AllOfComposition.fromPojos(NonEmptyList.of(parentPojo))));
+
+    final NonEmptyList<Pojo> pojos = NonEmptyList.of(pojo1, pojo2);
+    final UntypedDiscriminator untypedDiscriminator =
+        UntypedDiscriminator.fromPropertyName(ofType(enumObjectType).getName());
+
+    final DiscriminatorDeterminator discriminatorDeterminator =
+        new DiscriminatorDeterminator(pojos);
+
+    // Method call
+    final Optional<Discriminator> discriminator =
+        discriminatorDeterminator.determineDiscriminator(Optional.of(untypedDiscriminator));
+
+    final Discriminator expectedDiscriminator =
+        Discriminator.typeDiscriminator(
+            untypedDiscriminator, DiscriminatorType.fromEnumObjectType(enumObjectType));
     assertEquals(Optional.of(expectedDiscriminator), discriminator);
   }
 

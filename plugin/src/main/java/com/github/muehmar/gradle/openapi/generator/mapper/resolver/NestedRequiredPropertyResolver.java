@@ -14,7 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -440,7 +440,7 @@ public class NestedRequiredPropertyResolver {
               .asObjectType()
               .<Type>map(
                   type ->
-                      ObjectType.ofName(
+                      StandardObjectType.ofName(
                           rootPojoName.appendToName(type.getName().getName().asString())))
               .orElse(member.getType());
       return Optional.ofNullable(children.get(member.getName()))

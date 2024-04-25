@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import io.swagger.v3.oas.models.media.Schema;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,8 @@ class ReferenceSchemaTest {
 
     final MemberSchemaMapResult result = mapToMemberType(schema);
 
-    final ObjectType expectedType = ObjectType.ofName(PojoName.ofName(Name.ofString("Person")));
+    final ObjectType expectedType =
+        StandardObjectType.ofName(PojoName.ofName(Name.ofString("Person")));
     assertEquals(expectedType, result.getType());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
@@ -31,7 +33,8 @@ class ReferenceSchemaTest {
 
     final MemberSchemaMapResult result = mapToMemberType(refSchema);
 
-    final ObjectType expectedType = ObjectType.ofName(PojoName.ofName(Name.ofString("Street")));
+    final ObjectType expectedType =
+        StandardObjectType.ofName(PojoName.ofName(Name.ofString("Street")));
     assertEquals(expectedType, result.getType());
     assertEquals(
         UnmappedItems.ofSpec(OpenApiSpec.fromString("../components.yml")),

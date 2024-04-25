@@ -24,11 +24,11 @@ public class AdditionalProperties {
     return new AdditionalProperties(false, AnyType.create(NULLABLE));
   }
 
-  public AdditionalProperties inlineObjectReference(PojoName referenceName, Type referenceType) {
+  public AdditionalProperties replaceObjectType(PojoName objectTypeName, Type newObjectType) {
     final Type newType =
         type.asObjectType()
-            .filter(objectType -> objectType.getName().equals(referenceName))
-            .map(ignore -> referenceType)
+            .filter(objectType -> objectType.getName().equals(objectTypeName))
+            .map(ignore -> newObjectType)
             .orElse(type);
     return new AdditionalProperties(allowed, newType);
   }

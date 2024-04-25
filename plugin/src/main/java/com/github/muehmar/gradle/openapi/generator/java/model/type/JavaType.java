@@ -123,23 +123,6 @@ public interface JavaType {
         JavaNumericType.class::isInstance);
   }
 
-  default boolean isObjectType() {
-    return onObjectType().isPresent();
-  }
-
-  default Optional<JavaObjectType> onObjectType() {
-    return fold(
-        javaArrayType -> Optional.empty(),
-        javaBooleanType -> Optional.empty(),
-        javaEnumType -> Optional.empty(),
-        javaMapType -> Optional.empty(),
-        javaAnyType -> Optional.empty(),
-        javaNumericType -> Optional.empty(),
-        javaIntegerType -> Optional.empty(),
-        Optional::of,
-        javaStringType -> Optional.empty());
-  }
-
   default PList<QualifiedClassName> getImports() {
     return getAllQualifiedClassNames()
         .filter(qualifiedClassName -> qualifiedClassName.getPackageName().isPresent())

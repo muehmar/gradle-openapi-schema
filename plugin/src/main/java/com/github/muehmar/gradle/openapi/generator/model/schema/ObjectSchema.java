@@ -26,6 +26,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.schema.SchemaCompositions.CompositionMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.Collections;
@@ -160,7 +161,7 @@ public class ObjectSchema implements OpenApiSchema {
     } else {
       final ComponentName openApiPojoName = parentComponentName.deriveMemberSchemaName(memberName);
       final ObjectType objectType =
-          ObjectType.ofName(openApiPojoName.getPojoName()).withNullability(nullability);
+          StandardObjectType.ofName(openApiPojoName.getPojoName()).withNullability(nullability);
       final PojoSchema pojoSchema = new PojoSchema(openApiPojoName, this);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(objectType, pojoSchema);
     }

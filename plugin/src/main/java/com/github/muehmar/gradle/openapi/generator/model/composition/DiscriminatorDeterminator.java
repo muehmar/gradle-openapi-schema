@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.util.Optional;
@@ -127,7 +128,12 @@ class DiscriminatorDeterminator {
     final Optional<DiscriminatorType> enumTypeDiscriminator =
         type.asEnumType().map(DiscriminatorType::fromEnumType);
 
-    return Optionals.or(stringTypeDiscriminator, enumTypeDiscriminator)
+    final Optional<DiscriminatorType> enumObjectTypeDiscriminator =
+        type.asObjectType()
+            .flatMap(ObjectType::asEnumObjectType)
+            .map(DiscriminatorType::fromEnumObjectType);
+
+    return Optionals.or(stringTypeDiscriminator, enumTypeDiscriminator, enumObjectTypeDiscriminator)
         .map(discriminatorType -> new PojoDiscriminatorType(pojo, discriminatorType))
         .orElseThrow(
             () ->
@@ -196,24 +202,22 @@ class DiscriminatorDeterminator {
           new OpenApiGeneratorException(
               "Property for discriminator %s of schemas [%s] are required to have the same type",
               propertyName, schemaNames.toPList().mkString(", "));
+      if (not(discriminatorType.equals(other.discriminatorType))) {
+        throw notSameTypeException;
+      }
       other.discriminatorType.fold(
-          stringType -> {
-            if (not(discriminatorType.equals(other.discriminatorType))) {
-              throw notSameTypeException;
-            }
-            return true;
-          },
+          stringType -> true,
           enumType -> {
-            if (not(discriminatorType.equals(other.discriminatorType))) {
-              throw notSameTypeException;
-            }
             if (not(pojo.equals(other.pojo))) {
               throw new OpenApiGeneratorException(
-                  "An enum as discriminator (property %s for schemas [%s]) is only supported if it is defined in a single parent schema.",
+                  "An enum as discriminator (property %s for schemas [%s]) is not supported if it is define inline. "
+                      + "It should be either defined in a single parent schema or as root definition and referenced "
+                      + "in each subschema.",
                   propertyName, schemaNames.toPList().mkString(", "));
             }
             return true;
-          });
+          },
+          enumObjectType -> true);
     }
   }
 }

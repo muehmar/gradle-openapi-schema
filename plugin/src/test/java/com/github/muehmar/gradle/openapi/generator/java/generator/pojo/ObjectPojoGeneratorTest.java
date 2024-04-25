@@ -54,7 +54,7 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
-import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
@@ -254,7 +254,7 @@ class ObjectPojoGeneratorTest {
                                 new PojoMember(
                                     Name.ofString("anotherPojo"),
                                     "Another Pojo",
-                                    ObjectType.ofName(
+                                    StandardObjectType.ofName(
                                         PojoName.ofName(Name.ofString("AnotherPojo"))),
                                     PropertyScope.DEFAULT,
                                     OPTIONAL)))
@@ -453,7 +453,7 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(ObjectType.ofName(pojoName("Hello", "Dto")))));
+                JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Hello", "Dto")))));
     final String content =
         generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 
@@ -495,7 +495,7 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(ObjectType.ofName(pojoName("Hello", "Dto")))));
+                JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Hello", "Dto")))));
     final String content =
         generator
             .generate(objectPojo, defaultTestSettings().withEnableValidation(false), javaWriter())
@@ -512,7 +512,7 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(ObjectType.ofName(pojoName("Hello", "Dto")))));
+                JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Hello", "Dto")))));
     final String content =
         generator
             .generate(

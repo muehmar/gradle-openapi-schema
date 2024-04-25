@@ -44,11 +44,13 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSp
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ExcludedSchemas;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -296,7 +298,7 @@ class SpecificationMapperImplTest {
                         "",
                         MapType.ofKeyAndValueType(
                             StringType.noFormat(),
-                            ObjectType.ofName(pojoName("UserInterests", "Dto"))),
+                            StandardObjectType.ofName(pojoName("UserInterests", "Dto"))),
                         PropertyScope.DEFAULT,
                         OPTIONAL),
                     new PojoMember(
@@ -304,7 +306,7 @@ class SpecificationMapperImplTest {
                         "",
                         MapType.ofKeyAndValueType(
                             StringType.noFormat(),
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
+                            StandardObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
                         PropertyScope.DEFAULT,
                         OPTIONAL),
                     new PojoMember(
@@ -312,7 +314,7 @@ class SpecificationMapperImplTest {
                         "",
                         MapType.ofKeyAndValueType(
                             StringType.noFormat(),
-                            ObjectType.ofName(pojoName("UserHobbies", "Dto"))),
+                            StandardObjectType.ofName(pojoName("UserHobbies", "Dto"))),
                         PropertyScope.DEFAULT,
                         OPTIONAL),
                     new PojoMember(
@@ -337,14 +339,14 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("owner"),
                         "",
-                        ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
+                        StandardObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
                         PropertyScope.DEFAULT,
                         OPTIONAL),
                     new PojoMember(
                         Name.ofString("members"),
                         "",
                         ArrayType.ofItemType(
-                            ObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
+                            StandardObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
                             NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL),
@@ -352,7 +354,8 @@ class SpecificationMapperImplTest {
                         Name.ofString("languages"),
                         "",
                         ArrayType.ofItemType(
-                            ObjectType.ofName(pojoName("UserGroupLanguages", "Dto")), NOT_NULLABLE),
+                            StandardObjectType.ofName(pojoName("UserGroupLanguages", "Dto")),
+                            NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
@@ -418,7 +421,7 @@ class SpecificationMapperImplTest {
             componentName("User", "Dto").deriveMemberSchemaName(Name.ofString("interests")),
             "",
             NOT_NULLABLE,
-            ObjectType.ofName(pojoName("UserInterestsValue", "Dto")),
+            StandardObjectType.ofName(pojoName("UserInterestsValue", "Dto")),
             Constraints.empty()),
         pojos.apply(5));
 
@@ -847,12 +850,13 @@ class SpecificationMapperImplTest {
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
     assertEquals(2, pojos.size());
-    assertEquals(
+    final EnumPojo expectedEnumPojo =
         EnumPojo.of(
             componentName("Gender", "Dto"),
             "Gender of a user",
-            PList.of("FEMALE", "MALE", "UNKNOWN")),
-        pojos.apply(0));
+            PList.of("FEMALE", "MALE", "UNKNOWN"));
+
+    assertEquals(expectedEnumPojo, pojos.apply(0));
     assertEquals(
         ObjectPojoBuilder.create()
             .name(componentName("User", "Dto"))
@@ -862,8 +866,8 @@ class SpecificationMapperImplTest {
                 PList.single(
                     new PojoMember(
                         Name.ofString("gender"),
-                        "Gender of a user",
-                        ObjectType.ofName(pojoName("Gender", "Dto")),
+                        expectedEnumPojo.getDescription(),
+                        EnumObjectType.ofEnumPojo(expectedEnumPojo),
                         PropertyScope.DEFAULT,
                         OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())
@@ -1002,7 +1006,8 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("address"),
                         "",
-                        ObjectType.ofName(pojoName("Address", "Dto")).withNullability(NULLABLE),
+                        StandardObjectType.ofName(pojoName("Address", "Dto"))
+                            .withNullability(NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL)))
             .requiredAdditionalProperties(PList.empty())

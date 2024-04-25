@@ -3,14 +3,18 @@
 
 # Gradle OpenApi Schema Codegen
 
-This is a gradle plugin to generate Java code given an openapi 3.0.x or 3.1.0 specification. Unlike other codegen tools, this
-focuses mainly on the `#/component/schema` section. It generates immutable classes and a staged builder to
-support a safe way creating instances. The data classes support JSON conversions via jackson.
+This is a gradle plugin to generate Java code given an openapi 3.0.x or 3.1.0 specification. Unlike other codegen tools,
+this focuses mainly on the `#/component/schema` section. It generates immutable classes and a staged builder to support
+a safe way creating instances. The data classes support JSON conversions via jackson.
 
 This plugin has three main advantages over using the standard swagger code generator for schemas:
-* Extended support of schema specifications: The generator can create classes for almost every possible schema definition
-* Extended validation: The generated code can be validated automatically against every constraint one can define in the specification
-* Improved compile-time safety: The generated classes do reflect more property attributes to improve the compile-time safety
+
+* Extended support of schema specifications: The generator can create classes for almost every possible schema
+  definition
+* Extended validation: The generated code can be validated automatically against every constraint one can define in the
+  specification
+* Improved compile-time safety: The generated classes do reflect more property attributes to improve the compile-time
+  safety
 
 The main features are:
 
@@ -35,10 +39,12 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '3.0.0'
+    id 'com.github.muehmar.openapischema' version '3.1.0'
 }
 ```
+
 and configure the generation:
+
 ```
 openaApiGenerator {
    schemas {
@@ -50,6 +56,7 @@ openaApiGenerator {
 ```
 
 ## Documentation
+
 1. [Configuration](doc/010_configuration.md)
 2. [Supported OpenAPI versions](doc/020_openapi_support.md)
 3. [Warnings](doc/030_warnings.md)
