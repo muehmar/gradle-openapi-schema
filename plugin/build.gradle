@@ -31,7 +31,7 @@ dependencies {
 
     testImplementation testFixtures(project(":java-snapshot"))
 
-    testImplementation libs.bundles.mockito
+    testImplementation testLibs.bundles.mockito
 
     testRuntimeOnly files(createClasspathManifest)
 }

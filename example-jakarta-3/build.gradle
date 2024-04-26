@@ -1,19 +1,19 @@
 plugins {
-    alias(libs.plugins.openApiSchema)
+    alias(pluginLibs.plugins.openApiSchema)
     id "com.diffplug.spotless"
     id 'openapischema.java8'
 }
 
 dependencies {
-    implementation libs.bundles.jackson
+    implementation sampleLibs.bundles.jackson
 
-    implementation libs.jakarta3.validation.api
+    implementation sampleLibs.jakarta3.validation.api
 
-    testImplementation libs.junit
-    testImplementation libs.junit.params
+    testImplementation testLibs.junit
+    testImplementation testLibs.junit.params
 
-    testImplementation libs.hibernate8.validator
-    testRuntimeOnly libs.glassfish.jakarta.el4
+    testImplementation sampleLibs.hibernate8.validator
+    testRuntimeOnly sampleLibs.glassfish.jakarta.el4
 }
 
 openApiGenerator {
