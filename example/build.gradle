@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.openApiSchema)
+    alias(pluginLibs.plugins.openApiSchema)
     id "com.diffplug.spotless"
     id 'openapischema.java8'
     id 'java-test-fixtures'
@@ -26,21 +26,21 @@ sourceSets {
 }
 
 dependencies {
-    implementation libs.bundles.jackson
-    implementation libs.javax2.validation.api
+    implementation sampleLibs.bundles.jackson
+    implementation sampleLibs.javax2.validation.api
 
-    noValidationImplementation libs.jackson.databind
-    noValidationImplementation libs.jackson.annotations
+    noValidationImplementation sampleLibs.jackson.databind
+    noValidationImplementation sampleLibs.jackson.annotations
 
-    noJsonImplementation libs.javax2.validation.api
+    noJsonImplementation sampleLibs.javax2.validation.api
 
-    testImplementation libs.junit
-    testImplementation libs.junit.params
+    testImplementation testLibs.junit
+    testImplementation testLibs.junit.params
 
-    testImplementation libs.hibernate6.validator
-    testRuntimeOnly libs.glassfish.javax.el3
+    testImplementation sampleLibs.hibernate6.validator
+    testRuntimeOnly sampleLibs.glassfish.javax.el3
 
-    testImplementation libs.reflections
+    testImplementation testLibs.reflections
     testImplementation testFixtures(project(":java-snapshot"))
 }
 
