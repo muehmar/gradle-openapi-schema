@@ -11,7 +11,10 @@ class RequiredNullableStandardOverloadMemberSetter extends RequiredNullableMembe
 
   @Override
   public String argumentType() {
-    return member.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType();
+    return member
+        .getJavaType()
+        .getInternalParameterizedClassName()
+        .asStringWrappingNullableValueType();
   }
 
   @Override

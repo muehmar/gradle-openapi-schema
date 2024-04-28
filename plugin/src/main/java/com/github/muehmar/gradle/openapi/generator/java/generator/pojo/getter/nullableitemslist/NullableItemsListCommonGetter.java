@@ -23,7 +23,7 @@ class NullableItemsListCommonGetter {
                 String.format(
                     "Optional<%s>",
                     f.getJavaType()
-                        .getParameterizedClassName()
+                        .getInternalParameterizedClassName()
                         .asStringWrappingNullableValueType()))
         .methodName(getterName())
         .noArguments()
@@ -42,12 +42,17 @@ class NullableItemsListCommonGetter {
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(
-            f -> f.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType())
+            f ->
+                f.getJavaType()
+                    .getInternalParameterizedClassName()
+                    .asStringWrappingNullableValueType())
         .methodName(f -> String.format("%sOr", f.getGetterName()))
         .singleArgument(
             f ->
                 argument(
-                    f.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType(),
+                    f.getJavaType()
+                        .getInternalParameterizedClassName()
+                        .asStringWrappingNullableValueType(),
                     "defaultValue"))
         .doesNotThrow()
         .content(

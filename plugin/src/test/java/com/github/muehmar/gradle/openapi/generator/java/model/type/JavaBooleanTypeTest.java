@@ -3,12 +3,14 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +19,11 @@ class JavaBooleanTypeTest {
   void wrap_when_noTypeMappings_then_correctWrapped() {
     final JavaBooleanType javaType = JavaTypes.booleanType();
 
-    assertEquals("Boolean", javaType.getParameterizedClassName().asString());
-    assertEquals("Boolean", javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(Optional.empty(), javaType.getApiClassName());
+    assertEquals(Optional.empty(), javaType.getApiParameterizedClassName());
+
+    assertEquals("Boolean", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("Boolean", javaType.getInternalClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang.Boolean"),
         javaType
@@ -35,10 +40,17 @@ class JavaBooleanTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Boolean", "com.custom.CustomBoolean")));
 
-    assertEquals("CustomBoolean", javaType.getParameterizedClassName().asString());
-    assertEquals("CustomBoolean", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomBoolean"),
+        Optional.of("CustomBoolean"),
+        javaType.getApiClassName().map(cn -> cn.getClassName().asString()));
+    assertEquals(
+        Optional.of("CustomBoolean"),
+        javaType.getApiParameterizedClassName().map(ParameterizedClassName::asString));
+
+    assertEquals("Boolean", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("Boolean", javaType.getInternalClassName().getClassName().asString());
+    assertEquals(
+        PList.of("com.custom.CustomBoolean", "java.lang.Boolean"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)

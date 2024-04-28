@@ -42,7 +42,7 @@ public class JavaConstraints {
   private JavaConstraints() {}
 
   public static boolean isSupported(JavaType javaType, ConstraintType constraintType) {
-    return isSupported(javaType.getQualifiedClassName(), constraintType);
+    return isSupported(javaType.getInternalClassName(), constraintType);
   }
 
   private static boolean isSupported(QualifiedClassName className, ConstraintType constraintType) {

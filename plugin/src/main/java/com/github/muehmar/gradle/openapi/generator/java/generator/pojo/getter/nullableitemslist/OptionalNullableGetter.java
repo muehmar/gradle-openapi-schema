@@ -42,7 +42,7 @@ class OptionalNullableGetter {
                     String.format(
                         "Tristate<%s>",
                         f.getJavaType()
-                            .getParameterizedClassName()
+                            .getInternalParameterizedClassName()
                             .asStringWrappingNullableValueType()))
             .methodName(getterName())
             .noArguments()

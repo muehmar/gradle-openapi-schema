@@ -49,7 +49,8 @@ public class CommonGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(JavaModifiers.of(javaModifiers))
         .noGenericTypes()
-        .returnType(f -> String.format("Optional<%s>", f.getJavaType().getParameterizedClassName()))
+        .returnType(
+            f -> String.format("Optional<%s>", f.getJavaType().getInternalParameterizedClassName()))
         .methodName(getterName())
         .noArguments()
         .doesNotThrow()
@@ -62,9 +63,10 @@ public class CommonGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(f -> f.getJavaType().getParameterizedClassName())
+        .returnType(f -> f.getJavaType().getInternalParameterizedClassName())
         .methodName(f -> String.format("%sOr", f.getGetterName()))
-        .singleArgument(f -> argument(f.getJavaType().getParameterizedClassName(), "defaultValue"))
+        .singleArgument(
+            f -> argument(f.getJavaType().getInternalParameterizedClassName(), "defaultValue"))
         .doesNotThrow()
         .content(
             f ->
@@ -79,7 +81,8 @@ public class CommonGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(JavaModifiers.of(javaModifiers))
         .noGenericTypes()
-        .returnType(f -> String.format("Tristate<%s>", f.getJavaType().getParameterizedClassName()))
+        .returnType(
+            f -> String.format("Tristate<%s>", f.getJavaType().getInternalParameterizedClassName()))
         .methodName(getterName())
         .noArguments()
         .doesNotThrow()
@@ -113,7 +116,8 @@ public class CommonGetter {
       GetterGenerator.GeneratorOption option) {
     final Generator<JavaPojoMember, PojoSettings> noValidationReturnType =
         Generator.<JavaPojoMember, PojoSettings>emptyGen()
-            .append((m, s, w) -> w.println("%s", m.getJavaType().getParameterizedClassName()))
+            .append(
+                (m, s, w) -> w.println("%s", m.getJavaType().getInternalParameterizedClassName()))
             .filter(option.<JavaPojoMember>validationFilter().negate());
     final Generator<JavaPojoMember, PojoSettings> validationReturnType =
         deepAnnotatedParameterizedClassName()

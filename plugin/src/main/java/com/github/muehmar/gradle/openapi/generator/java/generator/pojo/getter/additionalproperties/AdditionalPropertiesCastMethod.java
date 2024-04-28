@@ -30,7 +30,8 @@ public class AdditionalPropertiesCastMethod {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
-        .returnType(p -> String.format("Optional<%s>", p.getType().getParameterizedClassName()))
+        .returnType(
+            p -> String.format("Optional<%s>", p.getType().getInternalParameterizedClassName()))
         .methodName(METHOD_NAME)
         .singleArgument(p -> new MethodGen.Argument("Object", "property"))
         .doesNotThrow()
@@ -50,7 +51,8 @@ public class AdditionalPropertiesCastMethod {
         .append(
             (p, s, w) ->
                 w.println(
-                    "return Optional.of((%s) property);", p.getType().getParameterizedClassName()),
+                    "return Optional.of((%s) property);",
+                    p.getType().getInternalParameterizedClassName()),
             1)
         .append(constant("} catch (ClassCastException e) {"))
         .append(constant("return Optional.empty();"), 1)
@@ -63,7 +65,8 @@ public class AdditionalPropertiesCastMethod {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
         .modifiers(PRIVATE)
         .noGenericTypes()
-        .returnType(p -> String.format("Tristate<%s>", p.getType().getParameterizedClassName()))
+        .returnType(
+            p -> String.format("Tristate<%s>", p.getType().getInternalParameterizedClassName()))
         .methodName(METHOD_NAME)
         .singleArgument(p -> new MethodGen.Argument("Object", "property"))
         .doesNotThrow()
@@ -84,7 +87,7 @@ public class AdditionalPropertiesCastMethod {
             (p, s, w) ->
                 w.println(
                     "return Tristate.ofValue((%s) property);",
-                    p.getType().getParameterizedClassName()),
+                    p.getType().getInternalParameterizedClassName()),
             1)
         .append(constant("} catch (ClassCastException e) {"))
         .append(constant("return Tristate.ofAbsent();"), 1)

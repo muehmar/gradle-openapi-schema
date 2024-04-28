@@ -67,20 +67,24 @@ class QualifiedClassNameTest {
 
   @Test
   void mapWithClassMappings_when_matchingClass_then_correctMapped() {
-    final QualifiedClassName className =
+    final Optional<QualifiedClassName> maybeClassName =
         QualifiedClassNames.DOUBLE.mapWithClassMappings(
             PList.single(new ClassTypeMapping("Double", "com.custom.CustomDouble")));
+
+    assertTrue(maybeClassName.isPresent());
+    final QualifiedClassName className = maybeClassName.get();
+
     assertEquals("CustomDouble", className.getClassName().asString());
     assertEquals("com.custom.CustomDouble", className.asName().asString());
   }
 
   @Test
-  void mapWithClassMappings_when_noMatchingClass_then_notMapped() {
-    final QualifiedClassName className =
+  void mapWithClassMappings_when_noMatchingClass_then_emptyMappingReturned() {
+    final Optional<QualifiedClassName> maybeClassName =
         QualifiedClassNames.INTEGER.mapWithClassMappings(
             PList.single(new ClassTypeMapping("Double", "com.custom.CustomDouble")));
-    assertEquals("Integer", className.getClassName().asString());
-    assertEquals("java.lang.Integer", className.asName().asString());
+
+    assertEquals(Optional.empty(), maybeClassName);
   }
 
   @Test

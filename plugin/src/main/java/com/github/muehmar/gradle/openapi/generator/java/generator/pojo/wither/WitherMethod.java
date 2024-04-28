@@ -51,7 +51,8 @@ abstract class WitherMethod {
   PList<MethodGen.Argument> argument() {
     return PList.single(
         new MethodGen.Argument(
-            String.format(argumentType(pojoMember.getJavaType().getParameterizedClassName())),
+            String.format(
+                argumentType(pojoMember.getJavaType().getInternalParameterizedClassName())),
             pojoMember.getName().asString()));
   }
 

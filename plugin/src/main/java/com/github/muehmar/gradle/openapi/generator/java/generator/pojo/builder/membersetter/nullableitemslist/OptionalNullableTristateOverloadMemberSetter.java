@@ -17,7 +17,10 @@ class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMembe
   public String argumentType() {
     return String.format(
         "Tristate<%s>",
-        member.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType());
+        member
+            .getJavaType()
+            .getInternalParameterizedClassName()
+            .asStringWrappingNullableValueType());
   }
 
   @Override

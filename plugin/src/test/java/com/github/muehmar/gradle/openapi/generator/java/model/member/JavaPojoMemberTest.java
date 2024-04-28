@@ -137,7 +137,7 @@ class JavaPojoMemberTest {
     final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaName.fromString("AdminDto"));
     assertEquals(
         "AdminDto.Color",
-        mappedMember.getJavaType().getQualifiedClassName().getClassName().asString());
+        mappedMember.getJavaType().getInternalClassName().getClassName().asString());
   }
 
   @ParameterizedTest

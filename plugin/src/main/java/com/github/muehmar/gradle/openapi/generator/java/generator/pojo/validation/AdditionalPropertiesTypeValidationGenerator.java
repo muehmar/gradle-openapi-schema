@@ -31,7 +31,7 @@ public class AdditionalPropertiesTypeValidationGenerator {
                 props ->
                     String.format(
                         "Not all additional properties are instances of %s",
-                        props.getType().getQualifiedClassName().getClassName())))
+                        props.getType().getInternalClassName().getClassName())))
         .append(correctTypeMethod());
   }
 

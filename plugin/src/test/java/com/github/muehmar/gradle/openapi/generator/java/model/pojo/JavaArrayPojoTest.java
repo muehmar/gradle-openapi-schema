@@ -32,7 +32,8 @@ class JavaArrayPojoTest {
     assertEquals(arrayPojo.getDescription(), arrayPojoMember.getDescription());
     assertEquals(arrayPojo.getConstraints(), arrayPojoMember.getJavaType().getConstraints());
     assertEquals(
-        "List<Double>", arrayPojoMember.getJavaType().getParameterizedClassName().asString());
+        "List<Double>",
+        arrayPojoMember.getJavaType().getInternalParameterizedClassName().asString());
     assertEquals(Necessity.REQUIRED, arrayPojoMember.getNecessity());
     assertEquals(Nullability.NOT_NULLABLE, arrayPojoMember.getNullability());
   }

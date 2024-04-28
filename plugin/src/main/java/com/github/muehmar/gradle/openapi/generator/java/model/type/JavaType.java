@@ -13,7 +13,18 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface JavaType {
-  QualifiedClassName getQualifiedClassName();
+  /**
+   * Returns the qualified classname of the java type used internally in the DTO for serialization
+   * and validation.
+   */
+  QualifiedClassName getInternalClassName();
+
+  /**
+   * Returns the qualified classname of the user defined type. This type is meant to be used for the
+   * api of the DTO. If the user specified no mapping, this method returns an empty optional and the
+   * internal type is used instead.
+   */
+  Optional<QualifiedClassName> getApiClassName();
 
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
@@ -25,7 +36,11 @@ public interface JavaType {
 
   JavaType withNullability(Nullability nullability);
 
-  ParameterizedClassName getParameterizedClassName();
+  /** Returns the parameterized classname of the java type used internally. */
+  ParameterizedClassName getInternalParameterizedClassName();
+
+  /** Returns the parameterized classname of the user defined type for the API of the DTO. */
+  Optional<ParameterizedClassName> getApiParameterizedClassName();
 
   /**
    * Returns true in case this class is a java array (not to be confused with the openapi

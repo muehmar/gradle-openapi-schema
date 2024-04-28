@@ -201,7 +201,7 @@ class JavaObjectPojoTest {
     assertEquals(2, members.size());
     assertEquals(
         PList.of("Direction", "ColorPojoDto.Color"),
-        members.map(m -> m.getJavaType().getParameterizedClassName().asString()));
+        members.map(m -> m.getJavaType().getInternalParameterizedClassName().asString()));
   }
 
   @Test

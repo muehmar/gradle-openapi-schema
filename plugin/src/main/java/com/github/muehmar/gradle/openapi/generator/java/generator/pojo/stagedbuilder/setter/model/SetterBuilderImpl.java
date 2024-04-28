@@ -62,13 +62,13 @@ public class SetterBuilderImpl {
         final String unwrappedArgumentType;
         if (setter.type.equals(SetterType.DEFAULT)) {
           unwrappedArgumentType =
-              member.getMember().getJavaType().getParameterizedClassName().asString();
+              member.getMember().getJavaType().getInternalParameterizedClassName().asString();
         } else {
           unwrappedArgumentType =
               member
                   .getMember()
                   .getJavaType()
-                  .getParameterizedClassName()
+                  .getInternalParameterizedClassName()
                   .asStringWrappingNullableValueType();
         }
         return String.format(setter.typeFormat, unwrappedArgumentType);

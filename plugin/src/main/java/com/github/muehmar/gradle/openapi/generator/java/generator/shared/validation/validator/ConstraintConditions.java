@@ -119,17 +119,17 @@ class ConstraintConditions {
 
     if (isSupportedConstraint(propertyValue, SIZE, settings)) {
 
-      if (propertyValueType.getQualifiedClassName().equals(QualifiedClassNames.STRING)) {
+      if (propertyValueType.getInternalClassName().equals(QualifiedClassNames.STRING)) {
         return Optional.of("length()");
       }
 
       if (QualifiedClassNames.ALL_MAP_CLASSNAMES.exists(
-          propertyValueType.getQualifiedClassName()::equals)) {
+          propertyValueType.getInternalClassName()::equals)) {
         return Optional.of("size()");
       }
 
       if (QualifiedClassNames.ALL_LIST_CLASSNAMES.exists(
-          propertyValueType.getQualifiedClassName()::equals)) {
+          propertyValueType.getInternalClassName()::equals)) {
         return Optional.of("size()");
       }
     }

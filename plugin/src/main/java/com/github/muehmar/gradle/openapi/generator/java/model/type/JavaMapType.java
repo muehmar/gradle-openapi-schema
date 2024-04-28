@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,21 +18,21 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaMapType implements JavaType {
-  private static final QualifiedClassName JAVA_CLASS_NAME = QualifiedClassNames.MAP;
+  private static final QualifiedClassName INTERNAL_JAVA_CLASS_NAME = QualifiedClassNames.MAP;
 
-  private final QualifiedClassName qualifiedClassName;
+  private final Optional<QualifiedClassName> apiClassName;
   private final JavaType key;
   private final JavaType value;
   private final Nullability nullability;
   private final Constraints constraints;
 
   private JavaMapType(
-      QualifiedClassName qualifiedClassName,
+      Optional<QualifiedClassName> apiClassName,
       JavaType key,
       JavaType value,
       Nullability nullability,
       Constraints constraints) {
-    this.qualifiedClassName = qualifiedClassName;
+    this.apiClassName = apiClassName;
     this.key = key;
     this.value = value;
     this.nullability = nullability;
@@ -39,33 +40,45 @@ public class JavaMapType implements JavaType {
   }
 
   public static JavaMapType wrap(MapType mapType, TypeMappings typeMappings) {
-    final QualifiedClassName className =
-        JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    final Optional<QualifiedClassName> apiClassName =
+        INTERNAL_JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     final JavaType key = JavaType.wrap(mapType.getKey(), typeMappings);
     final JavaType value = JavaType.wrap(mapType.getValue(), typeMappings);
     return new JavaMapType(
-        className, key, value, mapType.getNullability(), mapType.getConstraints());
+        apiClassName, key, value, mapType.getNullability(), mapType.getConstraints());
   }
 
   public static JavaMapType ofKeyAndValueType(JavaType key, JavaType value) {
-    return new JavaMapType(JAVA_CLASS_NAME, key, value, NOT_NULLABLE, Constraints.empty());
+    return new JavaMapType(Optional.empty(), key, value, NOT_NULLABLE, Constraints.empty());
   }
 
   @Override
-  public QualifiedClassName getQualifiedClassName() {
-    return qualifiedClassName;
+  public QualifiedClassName getInternalClassName() {
+    return INTERNAL_JAVA_CLASS_NAME;
+  }
+
+  @Override
+  public Optional<QualifiedClassName> getApiClassName() {
+    return apiClassName;
   }
 
   @Override
   public PList<QualifiedClassName> getAllQualifiedClassNames() {
-    return PList.single(qualifiedClassName)
+    return PList.single(getInternalClassName())
+        .concat(PList.fromOptional(getApiClassName()))
         .concat(key.getAllQualifiedClassNames())
         .concat(value.getAllQualifiedClassNames());
   }
 
   @Override
-  public ParameterizedClassName getParameterizedClassName() {
-    return ParameterizedClassName.fromGenericClass(qualifiedClassName, PList.of(key, value));
+  public ParameterizedClassName getInternalParameterizedClassName() {
+    return ParameterizedClassName.fromGenericClass(getInternalClassName(), PList.of(key, value));
+  }
+
+  @Override
+  public Optional<ParameterizedClassName> getApiParameterizedClassName() {
+    return getApiClassName()
+        .map(cn -> ParameterizedClassName.fromGenericClass(cn, PList.of(key, value)));
   }
 
   @Override
@@ -80,7 +93,7 @@ public class JavaMapType implements JavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaMapType(qualifiedClassName, key, value, nullability, constraints);
+    return new JavaMapType(apiClassName, key, value, nullability, constraints);
   }
 
   @Override

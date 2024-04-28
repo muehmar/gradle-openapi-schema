@@ -38,7 +38,7 @@ class StandardMemberSetter implements MemberSetter {
 
   @Override
   public String argumentType() {
-    return member.getJavaType().getParameterizedClassName().asString();
+    return member.getJavaType().getInternalParameterizedClassName().asString();
   }
 
   @Override
