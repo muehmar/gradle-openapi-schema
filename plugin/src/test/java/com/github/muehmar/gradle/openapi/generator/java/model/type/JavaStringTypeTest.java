@@ -3,12 +3,14 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -24,8 +26,11 @@ class JavaStringTypeTest {
     final StringType stringType = StringType.ofFormat(format);
     final JavaStringType javaType = JavaStringType.wrap(stringType, TypeMappings.empty());
 
-    assertEquals(className, javaType.getParameterizedClassName().asString());
-    assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(Optional.empty(), javaType.getApiClassName());
+    assertEquals(Optional.empty(), javaType.getApiParameterizedClassName());
+
+    assertEquals(className, javaType.getInternalParameterizedClassName().asString());
+    assertEquals(className, javaType.getInternalClassName().getClassName().asString());
     assertEquals(
         PList.of(qualifiedClassName),
         javaType
@@ -54,10 +59,17 @@ class JavaStringTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("UUID", "com.custom.CustomUUID")));
 
-    assertEquals("CustomUUID", javaType.getParameterizedClassName().asString());
-    assertEquals("CustomUUID", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomUUID"),
+        Optional.of("CustomUUID"),
+        javaType.getApiClassName().map(cn -> cn.getClassName().asString()));
+    assertEquals(
+        Optional.of("CustomUUID"),
+        javaType.getApiParameterizedClassName().map(ParameterizedClassName::asString));
+
+    assertEquals("UUID", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("UUID", javaType.getInternalClassName().getClassName().asString());
+    assertEquals(
+        PList.of("com.custom.CustomUUID", "java.util.UUID"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
@@ -73,10 +85,17 @@ class JavaStringTypeTest {
             TypeMappings.ofSingleFormatTypeMapping(
                 new FormatTypeMapping("binary", "com.custom.CustomBinary")));
 
-    assertEquals("CustomBinary", javaType.getParameterizedClassName().asString());
-    assertEquals("CustomBinary", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomBinary"),
+        Optional.of("CustomBinary"),
+        javaType.getApiClassName().map(cn -> cn.getClassName().asString()));
+    assertEquals(
+        Optional.of("CustomBinary"),
+        javaType.getApiParameterizedClassName().map(ParameterizedClassName::asString));
+
+    assertEquals("byte[]", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("byte[]", javaType.getInternalClassName().getClassName().asString());
+    assertEquals(
+        PList.of("com.custom.CustomBinary", "java.lang.byte[]"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)

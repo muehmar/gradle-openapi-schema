@@ -53,7 +53,8 @@ public class PropertyValidationGenerator {
                 pv ->
                     pv.isNested()
                         ? PList.single(
-                            argument(pv.getType().getParameterizedClassName(), pv.getName()))
+                            argument(
+                                pv.getType().getInternalParameterizedClassName(), pv.getName()))
                         : PList.empty())
             .doesNotThrow()
             .content(singlePropertyValueValidationGenerator())

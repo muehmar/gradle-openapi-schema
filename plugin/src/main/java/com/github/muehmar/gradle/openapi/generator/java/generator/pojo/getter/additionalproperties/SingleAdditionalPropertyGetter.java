@@ -61,7 +61,7 @@ class SingleAdditionalPropertyGetter {
 
   private static String methodReturnType(JavaAdditionalProperties props) {
     final ParameterizedClassName parameterizedClassName =
-        props.getType().getParameterizedClassName();
+        props.getType().getInternalParameterizedClassName();
     if (props.getType().getNullability().isNullable()) {
       return String.format("Tristate<%s>", parameterizedClassName);
     } else {

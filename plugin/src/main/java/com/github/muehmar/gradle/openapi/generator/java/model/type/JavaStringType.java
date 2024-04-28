@@ -2,14 +2,13 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
@@ -38,37 +37,45 @@ public class JavaStringType extends NonGenericJavaType {
   }
 
   protected JavaStringType(
-      QualifiedClassName className, Nullability nullability, Constraints constraints) {
-    super(className, nullability);
+      QualifiedClassName className,
+      Optional<QualifiedClassName> apiClassName,
+      Nullability nullability,
+      Constraints constraints) {
+    super(className, apiClassName, nullability);
     this.constraints = constraints;
   }
 
   public static JavaStringType wrap(StringType stringType, TypeMappings typeMappings) {
-    final QualifiedClassName className =
-        classNameFromFormat(stringType, typeMappings.getFormatTypeMappings());
-    final QualifiedClassName finalClassName =
-        className.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    final QualifiedClassName internalClassName = internalClassNameFromFormat(stringType);
+    final Optional<QualifiedClassName> apiClassName =
+        determineApiClassName(stringType, typeMappings, internalClassName);
     return new JavaStringType(
-        finalClassName, stringType.getNullability(), stringType.getConstraints());
+        internalClassName, apiClassName, stringType.getNullability(), stringType.getConstraints());
+  }
+
+  private static Optional<QualifiedClassName> determineApiClassName(
+      StringType stringType, TypeMappings typeMappings, QualifiedClassName internalClassName) {
+    final Optional<QualifiedClassName> formatMappedClassName =
+        QualifiedClassName.fromFormatTypeMapping(
+            stringType.getFormatString(), typeMappings.getFormatTypeMappings());
+    final Optional<QualifiedClassName> classNameMappedClassName =
+        internalClassName.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    return Optionals.or(formatMappedClassName, classNameMappedClassName);
   }
 
   public static JavaStringType noFormat() {
-    return new JavaStringType(QualifiedClassNames.STRING, NOT_NULLABLE, Constraints.empty());
+    return new JavaStringType(
+        QualifiedClassNames.STRING, Optional.empty(), NOT_NULLABLE, Constraints.empty());
   }
 
-  private static QualifiedClassName classNameFromFormat(
-      StringType stringType, PList<FormatTypeMapping> formatTypeMappings) {
-    final Optional<QualifiedClassName> userFormatMappedClassName =
-        QualifiedClassName.fromFormatTypeMapping(stringType.getFormatString(), formatTypeMappings);
-    final QualifiedClassName formatMappedClassName =
-        Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(stringType.getFormat()))
-            .orElse(QualifiedClassNames.STRING);
-    return userFormatMappedClassName.orElse(formatMappedClassName);
+  private static QualifiedClassName internalClassNameFromFormat(StringType stringType) {
+    return Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(stringType.getFormat()))
+        .orElse(QualifiedClassNames.STRING);
   }
 
   @Override
   public boolean isJavaArray() {
-    return qualifiedClassName.equals(QualifiedClassNames.BYTE_ARRAY);
+    return internalClassName.equals(QualifiedClassNames.BYTE_ARRAY);
   }
 
   @Override
@@ -78,7 +85,7 @@ public class JavaStringType extends NonGenericJavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaStringType(qualifiedClassName, nullability, constraints);
+    return new JavaStringType(internalClassName, apiClassName, nullability, constraints);
   }
 
   @Override

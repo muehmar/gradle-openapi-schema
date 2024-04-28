@@ -106,12 +106,11 @@ public class QualifiedClassName {
     return getClassName().append(genericString);
   }
 
-  public QualifiedClassName mapWithClassMappings(PList<ClassTypeMapping> classMappings) {
+  public Optional<QualifiedClassName> mapWithClassMappings(PList<ClassTypeMapping> classMappings) {
     return classMappings
         .filter(classMapping -> classMapping.getFromClass().equals(name.asString()))
         .headOption()
-        .map(QualifiedClassName::fromClassTypeMapping)
-        .orElse(this);
+        .map(QualifiedClassName::fromClassTypeMapping);
   }
 
   public QualifiedClassName asInnerClassOf(JavaName outerClassName) {

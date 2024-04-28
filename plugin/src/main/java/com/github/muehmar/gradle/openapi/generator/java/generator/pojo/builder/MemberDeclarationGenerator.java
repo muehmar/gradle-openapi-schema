@@ -29,7 +29,8 @@ class MemberDeclarationGenerator {
   private static <B> Generator<JavaPojoMember, B> normalMemberDeclaration() {
     return ((member, settings, writer) ->
         writer.println(
-            "private %s %s;", member.getJavaType().getParameterizedClassName(), member.getName()));
+            "private %s %s;",
+            member.getJavaType().getInternalParameterizedClassName(), member.getName()));
   }
 
   private static <B> Generator<JavaPojoMember, B> memberIsPresentFlagDeclaration() {

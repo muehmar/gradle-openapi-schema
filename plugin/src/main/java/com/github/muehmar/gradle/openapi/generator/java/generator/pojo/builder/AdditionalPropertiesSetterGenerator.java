@@ -59,7 +59,7 @@ class AdditionalPropertiesSetterGenerator {
                         new Argument(
                             forAnyType
                                 ? "Object"
-                                : props.getType().getParameterizedClassName().asString(),
+                                : props.getType().getInternalParameterizedClassName().asString(),
                             "value")))
             .doesNotThrow()
             .content(
@@ -91,7 +91,9 @@ class AdditionalPropertiesSetterGenerator {
                 PList.of(
                     new Argument("String", "key"),
                     new Argument(
-                        "Optional<" + props.getType().getParameterizedClassName().asString() + ">",
+                        "Optional<"
+                            + props.getType().getInternalParameterizedClassName().asString()
+                            + ">",
                         "value")))
         .doesNotThrow()
         .content(singleOptionalAdditionalPropertiesSetterContent())
@@ -121,7 +123,9 @@ class AdditionalPropertiesSetterGenerator {
                 PList.of(
                     new Argument("String", "key"),
                     new Argument(
-                        "Tristate<" + props.getType().getParameterizedClassName().asString() + ">",
+                        "Tristate<"
+                            + props.getType().getInternalParameterizedClassName().asString()
+                            + ">",
                         "value")))
         .doesNotThrow()
         .content(singleTristateAdditionalPropertiesSetterContent())
@@ -150,7 +154,7 @@ class AdditionalPropertiesSetterGenerator {
         .singleArgument(
             props ->
                 argument(
-                    props.getMapContainerType().getParameterizedClassName(),
+                    props.getMapContainerType().getInternalParameterizedClassName(),
                     additionalPropertiesName()))
         .doesNotThrow()
         .content(

@@ -31,7 +31,9 @@ public class FactoryMethodGenerator {
         .methodName("fromItems")
         .singleArgument(
             p ->
-                argument(p.getArrayPojoMember().getJavaType().getParameterizedClassName(), "items"))
+                argument(
+                    p.getArrayPojoMember().getJavaType().getInternalParameterizedClassName(),
+                    "items"))
         .doesNotThrow()
         .content(p -> String.format("return new %s(items);", p.getClassName()))
         .build()
@@ -54,6 +56,6 @@ public class FactoryMethodGenerator {
   }
 
   private static boolean arrayPojoHasStandardListType(JavaArrayPojo arrayPojo) {
-    return arrayPojo.getJavaArrayType().getQualifiedClassName().equals(QualifiedClassNames.LIST);
+    return arrayPojo.getJavaArrayType().getInternalClassName().equals(QualifiedClassNames.LIST);
   }
 }

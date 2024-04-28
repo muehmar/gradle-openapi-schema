@@ -69,7 +69,7 @@ public class ToStringGenerator {
   private static String toRightHandExpression(TechnicalPojoMember member) {
     if (member.getJavaType().isJavaArray()) {
       return String.format("Arrays.toString(%s)", member.getName());
-    } else if (member.getJavaType().getQualifiedClassName().equals(QualifiedClassNames.STRING)) {
+    } else if (member.getJavaType().getInternalClassName().equals(QualifiedClassNames.STRING)) {
       return String.format("\"'\" + %s + \"'\"", member.getName());
     } else {
       return member.getName().asString();

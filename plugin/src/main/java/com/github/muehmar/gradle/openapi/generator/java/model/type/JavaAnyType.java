@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClas
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,7 +16,7 @@ public class JavaAnyType extends NonGenericJavaType {
   private static final QualifiedClassName CLASS_NAME = QualifiedClassNames.OBJECT;
 
   private JavaAnyType(Nullability nullability) {
-    super(CLASS_NAME, nullability);
+    super(CLASS_NAME, Optional.empty(), nullability);
   }
 
   public static JavaAnyType javaAnyType(AnyType anyType) {

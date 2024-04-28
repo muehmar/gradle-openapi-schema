@@ -1,13 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
-import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,29 +22,38 @@ public class JavaIntegerType extends NonGenericJavaType {
   private final Constraints constraints;
 
   protected JavaIntegerType(
-      QualifiedClassName className, Constraints constraints, Nullability nullability) {
-    super(className, nullability);
+      QualifiedClassName className,
+      Optional<QualifiedClassName> apiClassName,
+      Constraints constraints,
+      Nullability nullability) {
+    super(className, apiClassName, nullability);
     this.constraints = constraints;
   }
 
   public static JavaIntegerType wrap(IntegerType integerType, TypeMappings typeMappings) {
-    final QualifiedClassName className =
-        classNameFromFormat(integerType, typeMappings.getFormatTypeMappings());
-    final QualifiedClassName finalClassName =
-        className.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    final QualifiedClassName internalClassName = internalClassNameFormFormat(integerType);
+    final Optional<QualifiedClassName> apiClassName =
+        determineApiClassName(integerType, typeMappings, internalClassName);
     return new JavaIntegerType(
-        finalClassName, integerType.getConstraints(), integerType.getNullability());
+        internalClassName,
+        apiClassName,
+        integerType.getConstraints(),
+        integerType.getNullability());
   }
 
-  private static QualifiedClassName classNameFromFormat(
-      IntegerType integerType, PList<FormatTypeMapping> formatTypeMappings) {
-    final Optional<QualifiedClassName> userFormatMappedClassName =
+  private static Optional<QualifiedClassName> determineApiClassName(
+      IntegerType integerType, TypeMappings typeMappings, QualifiedClassName internalClassName) {
+    final Optional<QualifiedClassName> formatMappedClassName =
         QualifiedClassName.fromFormatTypeMapping(
-            integerType.getFormat().asString(), formatTypeMappings);
-    final QualifiedClassName formatMappedClassName =
-        Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(integerType.getFormat()))
-            .orElse(QualifiedClassNames.DOUBLE);
-    return userFormatMappedClassName.orElse(formatMappedClassName);
+            integerType.getFormat().asString(), typeMappings.getFormatTypeMappings());
+    final Optional<QualifiedClassName> classNameMappedClassName =
+        internalClassName.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    return Optionals.or(formatMappedClassName, classNameMappedClassName);
+  }
+
+  private static QualifiedClassName internalClassNameFormFormat(IntegerType integerType) {
+    return Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(integerType.getFormat()))
+        .orElse(QualifiedClassNames.DOUBLE);
   }
 
   private static Map<IntegerType.Format, QualifiedClassName> createFormatClassNameMap() {
@@ -62,7 +70,7 @@ public class JavaIntegerType extends NonGenericJavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaIntegerType(qualifiedClassName, constraints, nullability);
+    return new JavaIntegerType(internalClassName, apiClassName, constraints, nullability);
   }
 
   @Override

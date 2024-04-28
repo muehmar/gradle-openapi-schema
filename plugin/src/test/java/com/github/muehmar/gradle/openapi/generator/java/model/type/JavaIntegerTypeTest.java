@@ -4,12 +4,14 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -25,8 +27,11 @@ class JavaIntegerTypeTest {
     final IntegerType integerType = IntegerType.ofFormat(format, NOT_NULLABLE);
     final JavaIntegerType javaType = JavaIntegerType.wrap(integerType, TypeMappings.empty());
 
-    assertEquals(className, javaType.getParameterizedClassName().asString());
-    assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(Optional.empty(), javaType.getApiClassName());
+    assertEquals(Optional.empty(), javaType.getApiParameterizedClassName());
+
+    assertEquals(className, javaType.getInternalParameterizedClassName().asString());
+    assertEquals(className, javaType.getInternalClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang." + className),
         javaType
@@ -50,10 +55,17 @@ class JavaIntegerTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Long", "com.custom.CustomLong")));
 
-    assertEquals("CustomLong", javaType.getParameterizedClassName().asString());
-    assertEquals("CustomLong", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomLong"),
+        Optional.of("CustomLong"),
+        javaType.getApiClassName().map(cn -> cn.getClassName().asString()));
+    assertEquals(
+        Optional.of("CustomLong"),
+        javaType.getApiParameterizedClassName().map(ParameterizedClassName::asString));
+
+    assertEquals("Long", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("Long", javaType.getInternalClassName().getClassName().asString());
+    assertEquals(
+        PList.of("com.custom.CustomLong", "java.lang.Long"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
@@ -69,10 +81,17 @@ class JavaIntegerTypeTest {
             TypeMappings.ofSingleFormatTypeMapping(
                 new FormatTypeMapping("int64", "com.custom.CustomLong")));
 
-    assertEquals("CustomLong", javaType.getParameterizedClassName().asString());
-    assertEquals("CustomLong", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomLong"),
+        Optional.of("CustomLong"),
+        javaType.getApiClassName().map(cn -> cn.getClassName().asString()));
+    assertEquals(
+        Optional.of("CustomLong"),
+        javaType.getApiParameterizedClassName().map(ParameterizedClassName::asString));
+
+    assertEquals("Long", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("Long", javaType.getInternalClassName().getClassName().asString());
+    assertEquals(
+        PList.of("com.custom.CustomLong", "java.lang.Long"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)

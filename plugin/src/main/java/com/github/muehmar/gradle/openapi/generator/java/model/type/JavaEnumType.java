@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,33 +19,41 @@ public class JavaEnumType extends NonGenericJavaType {
   private final PList<EnumConstantName> members;
 
   private JavaEnumType(
-      QualifiedClassName className, PList<EnumConstantName> members, Nullability nullability) {
-    super(className, nullability);
+      QualifiedClassName className,
+      Optional<QualifiedClassName> apiClassName,
+      PList<EnumConstantName> members,
+      Nullability nullability) {
+    super(className, apiClassName, nullability);
     this.members = members;
   }
 
-  public static JavaEnumType wrap(EnumType enumType) {
+  public static JavaEnumType wrap(EnumType enumType, Optional<QualifiedClassName> apiClassName) {
     final QualifiedClassName className = QualifiedClassName.ofName(enumType.getName());
     return new JavaEnumType(
         className,
+        apiClassName,
         enumType.getMembers().map(EnumConstantName::ofString),
         enumType.getNullability());
   }
 
+  public static JavaEnumType wrap(EnumType enumType) {
+    return wrap(enumType, Optional.empty());
+  }
+
   public static JavaType wrap(EnumType enumType, TypeMappings typeMappings) {
-    return enumType
-        .getFormat()
-        .flatMap(
-            format ->
-                QualifiedClassName.fromFormatTypeMapping(
-                    format, typeMappings.getFormatTypeMappings()))
-        .<JavaType>map(JavaObjectType::fromClassName)
-        .orElse(JavaEnumType.wrap(enumType));
+    final Optional<QualifiedClassName> apiClassName =
+        enumType
+            .getFormat()
+            .flatMap(
+                format ->
+                    QualifiedClassName.fromFormatTypeMapping(
+                        format, typeMappings.getFormatTypeMappings()));
+    return wrap(enumType, apiClassName);
   }
 
   public JavaEnumType asInnerClassOf(JavaName outerClassName) {
     return new JavaEnumType(
-        qualifiedClassName.asInnerClassOf(outerClassName), members, getNullability());
+        internalClassName.asInnerClassOf(outerClassName), apiClassName, members, getNullability());
   }
 
   @Override
@@ -54,7 +63,7 @@ public class JavaEnumType extends NonGenericJavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaEnumType(qualifiedClassName, members, nullability);
+    return new JavaEnumType(internalClassName, apiClassName, members, nullability);
   }
 
   @Override

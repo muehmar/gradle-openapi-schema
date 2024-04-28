@@ -4,12 +4,14 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -25,8 +27,11 @@ class JavaNumericTypeTest {
     final NumericType numericType = NumericType.ofFormat(format, NOT_NULLABLE);
     final JavaNumericType javaType = JavaNumericType.wrap(numericType, TypeMappings.empty());
 
-    assertEquals(className, javaType.getParameterizedClassName().asString());
-    assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(Optional.empty(), javaType.getApiClassName());
+    assertEquals(Optional.empty(), javaType.getApiParameterizedClassName());
+
+    assertEquals(className, javaType.getInternalParameterizedClassName().asString());
+    assertEquals(className, javaType.getInternalClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang." + className),
         javaType
@@ -50,10 +55,17 @@ class JavaNumericTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Double", "com.custom.CustomDouble")));
 
-    assertEquals("CustomDouble", javaType.getParameterizedClassName().asString());
-    assertEquals("CustomDouble", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomDouble"),
+        Optional.of("CustomDouble"),
+        javaType.getApiClassName().map(cn -> cn.getClassName().asString()));
+    assertEquals(
+        Optional.of("CustomDouble"),
+        javaType.getApiParameterizedClassName().map(ParameterizedClassName::asString));
+
+    assertEquals("Double", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("Double", javaType.getInternalClassName().getClassName().asString());
+    assertEquals(
+        PList.of("com.custom.CustomDouble", "java.lang.Double"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
@@ -69,10 +81,10 @@ class JavaNumericTypeTest {
             TypeMappings.ofSingleFormatTypeMapping(
                 new FormatTypeMapping("double", "com.custom.CustomDouble")));
 
-    assertEquals("CustomDouble", javaType.getParameterizedClassName().asString());
-    assertEquals("CustomDouble", javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals("Double", javaType.getInternalParameterizedClassName().asString());
+    assertEquals("Double", javaType.getInternalClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomDouble"),
+        PList.of("com.custom.CustomDouble", "java.lang.Double"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
