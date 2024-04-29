@@ -38,7 +38,7 @@ class JavaBooleanTypeTest {
         JavaBooleanType.wrap(
             BooleanType.create(Nullability.NOT_NULLABLE),
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Boolean", "com.custom.CustomBoolean")));
+                new ClassTypeMapping("Boolean", "com.custom.CustomBoolean", Optional.empty())));
 
     assertEquals(
         Optional.of("CustomBoolean"),

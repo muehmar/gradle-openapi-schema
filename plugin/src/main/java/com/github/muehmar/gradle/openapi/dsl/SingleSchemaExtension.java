@@ -244,6 +244,7 @@ public class SingleSchemaExtension implements Serializable {
   public void classMapping(Action<ClassMapping> action) {
     final ClassMapping classMapping = new ClassMapping();
     action.execute(classMapping);
+    classMapping.assertCompleteTypeConversion();
     classMappings.add(classMapping);
   }
 
@@ -260,6 +261,7 @@ public class SingleSchemaExtension implements Serializable {
   public void formatTypeMapping(Action<FormatTypeMapping> action) {
     final FormatTypeMapping formatTypeMapping = new FormatTypeMapping();
     action.execute(formatTypeMapping);
+    formatTypeMapping.assertCompleteTypeConversion();
     formatTypeMappings.add(formatTypeMapping);
   }
 

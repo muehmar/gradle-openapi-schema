@@ -2,9 +2,11 @@ package com.github.muehmar.gradle.openapi.dsl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
 import java.util.Collections;
 import java.util.Optional;
@@ -223,5 +225,33 @@ class SingleSchemaExtensionTest {
     final StagedBuilder stagedBuilder = extension.getStagedBuilder();
 
     assertEquals(Optional.of(true), stagedBuilder.getEnabled());
+  }
+
+  @Test
+  void classMapping_when_invalidConversionConfig_then_throwsOpenApiGeneratorException() {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final Action<ClassMapping> classMappingAction =
+        mapping -> {
+          mapping.setFromClass("List");
+          mapping.setToClass("java.util.ArrayList");
+          mapping.getConversion().setToCustomType("value");
+        };
+
+    assertThrows(OpenApiGeneratorException.class, () -> extension.classMapping(classMappingAction));
+  }
+
+  @Test
+  void formatTypeMapping_when_invalidConversionConfig_then_throwsOpenApiGeneratorException() {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final Action<FormatTypeMapping> formatTypeMappingAction =
+        mapping -> {
+          mapping.setClassType("List");
+          mapping.setFormatType("list");
+          mapping.getConversion().setFromCustomType("value");
+        };
+
+    assertThrows(
+        OpenApiGeneratorException.class,
+        () -> extension.formatTypeMapping(formatTypeMappingAction));
   }
 }

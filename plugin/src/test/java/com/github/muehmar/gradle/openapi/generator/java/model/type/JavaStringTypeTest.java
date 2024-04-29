@@ -57,7 +57,7 @@ class JavaStringTypeTest {
         JavaStringType.wrap(
             stringType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("UUID", "com.custom.CustomUUID")));
+                new ClassTypeMapping("UUID", "com.custom.CustomUUID", Optional.empty())));
 
     assertEquals(
         Optional.of("CustomUUID"),
@@ -83,7 +83,7 @@ class JavaStringTypeTest {
         JavaStringType.wrap(
             stringType,
             TypeMappings.ofSingleFormatTypeMapping(
-                new FormatTypeMapping("binary", "com.custom.CustomBinary")));
+                new FormatTypeMapping("binary", "com.custom.CustomBinary", Optional.empty())));
 
     assertEquals(
         Optional.of("CustomBinary"),

@@ -40,7 +40,7 @@ class JavaMapTypeTest {
         JavaMapType.wrap(
             mapType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Map", "com.custom.CustomMap")));
+                new ClassTypeMapping("Map", "com.custom.CustomMap", Optional.empty())));
 
     assertEquals(
         Optional.of("CustomMap"),
