@@ -1,25 +1,23 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import java.io.Serializable;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.util.Optional;
+import lombok.Value;
 
-@EqualsAndHashCode
-@ToString
+@Value
 public class FormatTypeMapping implements Serializable {
-  private final String formatType;
-  private final String classType;
+  String formatType;
+  String classType;
+  TypeConversion typeConversion;
 
-  public FormatTypeMapping(String formatType, String classType) {
+  public FormatTypeMapping(
+      String formatType, String classType, Optional<TypeConversion> typeConversion) {
     this.formatType = formatType;
     this.classType = classType;
+    this.typeConversion = typeConversion.orElse(null);
   }
 
-  public String getFormatType() {
-    return formatType;
-  }
-
-  public String getClassType() {
-    return classType;
+  public Optional<TypeConversion> getTypeConversion() {
+    return Optional.ofNullable(typeConversion);
   }
 }

@@ -53,7 +53,7 @@ class JavaNumericTypeTest {
         JavaNumericType.wrap(
             numericType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Double", "com.custom.CustomDouble")));
+                new ClassTypeMapping("Double", "com.custom.CustomDouble", Optional.empty())));
 
     assertEquals(
         Optional.of("CustomDouble"),
@@ -79,7 +79,7 @@ class JavaNumericTypeTest {
         JavaNumericType.wrap(
             numericType,
             TypeMappings.ofSingleFormatTypeMapping(
-                new FormatTypeMapping("double", "com.custom.CustomDouble")));
+                new FormatTypeMapping("double", "com.custom.CustomDouble", Optional.empty())));
 
     assertEquals("Double", javaType.getInternalParameterizedClassName().asString());
     assertEquals("Double", javaType.getInternalClassName().getClassName().asString());

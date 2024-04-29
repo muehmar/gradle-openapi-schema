@@ -20,6 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
@@ -55,7 +56,8 @@ class FactoryMethodGeneratorTest {
         JavaArrayPojo.wrap(
             arrayPojo,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping(JavaRefs.JAVA_UTIL_LIST, "custom.CustomList")));
+                new ClassTypeMapping(
+                    JavaRefs.JAVA_UTIL_LIST, "custom.CustomList", Optional.empty())));
 
     final Writer writer = generator.generate(javaArrayPojo, defaultTestSettings(), javaWriter());
 

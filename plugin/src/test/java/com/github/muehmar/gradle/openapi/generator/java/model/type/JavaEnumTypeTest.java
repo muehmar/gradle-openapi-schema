@@ -42,7 +42,8 @@ class JavaEnumTypeTest {
             Name.ofString("Gender"), PList.of("male", "female", "divers"), "Gender");
     final TypeMappings typeMappings =
         TypeMappings.ofSingleFormatTypeMapping(
-            new FormatTypeMapping("Gender", "com.github.muehmar.gradle.openapi.CustomGender"));
+            new FormatTypeMapping(
+                "Gender", "com.github.muehmar.gradle.openapi.CustomGender", Optional.empty()));
     final JavaType javaType = JavaEnumType.wrap(enumType, typeMappings);
 
     assertEquals(

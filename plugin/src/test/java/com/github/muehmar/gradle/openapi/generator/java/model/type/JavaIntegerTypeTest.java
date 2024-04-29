@@ -53,7 +53,7 @@ class JavaIntegerTypeTest {
         JavaIntegerType.wrap(
             integerType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Long", "com.custom.CustomLong")));
+                new ClassTypeMapping("Long", "com.custom.CustomLong", Optional.empty())));
 
     assertEquals(
         Optional.of("CustomLong"),
@@ -79,7 +79,7 @@ class JavaIntegerTypeTest {
         JavaIntegerType.wrap(
             integerType,
             TypeMappings.ofSingleFormatTypeMapping(
-                new FormatTypeMapping("int64", "com.custom.CustomLong")));
+                new FormatTypeMapping("int64", "com.custom.CustomLong", Optional.empty())));
 
     assertEquals(
         Optional.of("CustomLong"),
