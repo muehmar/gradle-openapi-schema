@@ -4,11 +4,15 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ConversionMethod;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.FromApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Comparator;
 import java.util.Optional;
@@ -27,11 +31,10 @@ class JavaNumericTypeTest {
     final NumericType numericType = NumericType.ofFormat(format, NOT_NULLABLE);
     final JavaNumericType javaType = JavaNumericType.wrap(numericType, TypeMappings.empty());
 
-    assertEquals(Optional.empty(), javaType.getApiClassName());
-    assertEquals(Optional.empty(), javaType.getApiParameterizedClassName());
+    assertEquals(Optional.empty(), javaType.getApiType());
 
-    assertEquals(className, javaType.getInternalParameterizedClassName().asString());
-    assertEquals(className, javaType.getInternalClassName().getClassName().asString());
+    assertEquals(className, javaType.getParameterizedClassName().asString());
+    assertEquals(className, javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("java.lang." + className),
         javaType
@@ -55,17 +58,12 @@ class JavaNumericTypeTest {
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping("Double", "com.custom.CustomDouble", Optional.empty())));
 
-    assertEquals(
-        Optional.of("CustomDouble"),
-        javaType.getApiClassName().map(cn -> cn.getClassName().asString()));
-    assertEquals(
-        Optional.of("CustomDouble"),
-        javaType.getApiParameterizedClassName().map(ParameterizedClassName::asString));
+    assertEquals(Optional.empty(), javaType.getApiType());
 
-    assertEquals("Double", javaType.getInternalParameterizedClassName().asString());
-    assertEquals("Double", javaType.getInternalClassName().getClassName().asString());
+    assertEquals("CustomDouble", javaType.getParameterizedClassName().asString());
+    assertEquals("CustomDouble", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
-        PList.of("com.custom.CustomDouble", "java.lang.Double"),
+        PList.of("com.custom.CustomDouble"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
@@ -81,8 +79,47 @@ class JavaNumericTypeTest {
             TypeMappings.ofSingleFormatTypeMapping(
                 new FormatTypeMapping("double", "com.custom.CustomDouble", Optional.empty())));
 
-    assertEquals("Double", javaType.getInternalParameterizedClassName().asString());
-    assertEquals("Double", javaType.getInternalClassName().getClassName().asString());
+    assertEquals(Optional.empty(), javaType.getApiType());
+
+    assertEquals("CustomDouble", javaType.getParameterizedClassName().asString());
+    assertEquals("CustomDouble", javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(
+        PList.of("com.custom.CustomDouble"),
+        javaType
+            .getAllQualifiedClassNames()
+            .map(QualifiedClassName::asString)
+            .sort(Comparator.comparing(Function.identity())));
+  }
+
+  @Test
+  void wrap_when_numericTypeWrappedWithFormatMappingConversion_then_correctTypeMapped() {
+    final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE, NOT_NULLABLE);
+    final TypeConversion typeConversion =
+        new TypeConversion("toDouble", "com.ucstom.CustomDouble#fromDouble");
+    final FormatTypeMapping formatTypeMapping =
+        new FormatTypeMapping("double", "com.custom.CustomDouble", Optional.of(typeConversion));
+    final JavaNumericType javaType =
+        JavaNumericType.wrap(
+            numericType, TypeMappings.ofSingleFormatTypeMapping(formatTypeMapping));
+
+    assertEquals(
+        Optional.of("com.custom.CustomDouble"),
+        javaType.getApiType().map(apiType -> apiType.getClassName().asString()));
+    assertEquals(
+        Optional.of("CustomDouble"),
+        javaType.getApiType().map(apiType -> apiType.getParameterizedClassName().asString()));
+    assertEquals(
+        Optional.of(
+            new ToApiTypeConversion(ConversionMethod.ofString(typeConversion.getToCustomType()))),
+        javaType.getApiType().map(ApiType::getToApiTypeConversion));
+    assertEquals(
+        Optional.of(
+            new FromApiTypeConversion(
+                ConversionMethod.ofString(typeConversion.getFromCustomType()))),
+        javaType.getApiType().map(ApiType::getFromApiTypeConversion));
+
+    assertEquals("Double", javaType.getParameterizedClassName().asString());
+    assertEquals("Double", javaType.getQualifiedClassName().getClassName().asString());
     assertEquals(
         PList.of("com.custom.CustomDouble", "java.lang.Double"),
         javaType

@@ -25,9 +25,7 @@ public class MapFactoryMethodeGenerator {
                 new Argument(
                     String.format(
                         "Map<String, %s>",
-                        pojo.getAdditionalProperties()
-                            .getType()
-                            .getInternalParameterizedClassName()),
+                        pojo.getAdditionalProperties().getType().getParameterizedClassName()),
                     "properties"))
         .doesNotThrow()
         .content(methodContent())

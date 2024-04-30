@@ -28,7 +28,7 @@ public class JavaTypeGenerators {
     final String parameterizedClassNameWithAnnotations =
         propertyType
             .getType()
-            .getInternalParameterizedClassName()
+            .getParameterizedClassName()
             .asStringWithValueTypeAnnotations(
                 valueType -> createAnnotationsString(propertyType, settings, valueType, imports));
     return imports

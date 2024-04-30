@@ -37,7 +37,7 @@ class RequiredNotNullableGetter {
             member ->
                 member
                     .getJavaType()
-                    .getInternalParameterizedClassName()
+                    .getParameterizedClassName()
                     .asStringWrappingNullableValueType())
         .methodName(getterName())
         .noArguments()

@@ -59,12 +59,12 @@ public class ParameterizedClassName {
               return String.format(
                       "%s " + typeFormat,
                       createAnnotationsForValueType.apply(type),
-                      type.getInternalParameterizedClassName())
+                      type.getParameterizedClassName())
                   .trim();
             });
     final PList<Name> formattedGenericTypes =
         this.genericTypes
-            .map(JavaType::getInternalParameterizedClassName)
+            .map(JavaType::getParameterizedClassName)
             .map(ParameterizedClassName::asString)
             .concat(PList.fromOptional(annotatedValueType))
             .map(Name::ofString);

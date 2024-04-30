@@ -45,7 +45,7 @@ public class RequiredAdditionalPropertiesGetter {
     return MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(prop -> prop.getJavaType().getInternalParameterizedClassName())
+        .returnType(prop -> prop.getJavaType().getParameterizedClassName())
         .methodName(prop -> String.format("get%s", prop.getName().startUpperCase()))
         .noArguments()
         .doesNotThrow()
@@ -74,7 +74,7 @@ public class RequiredAdditionalPropertiesGetter {
             (prop, s, w) ->
                 w.println(
                     "return (%s) %s.get(\"%s\");",
-                    prop.getJavaType().getInternalParameterizedClassName(),
+                    prop.getJavaType().getParameterizedClassName(),
                     additionalPropertiesName(),
                     prop.getName()),
             1)
@@ -117,7 +117,7 @@ public class RequiredAdditionalPropertiesGetter {
                 prop ->
                     String.format(
                         "Value is not an instance of %s",
-                        prop.getJavaType().getInternalClassName().getClassName())))
+                        prop.getJavaType().getQualifiedClassName().getClassName())))
         .append(
             MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
                 .modifiers(SettingsFunctions::validationMethodModifiers)
@@ -138,7 +138,7 @@ public class RequiredAdditionalPropertiesGetter {
                             (prop, s, w) ->
                                 w.println(
                                     "return value == null || value instanceof %s;",
-                                    prop.getJavaType().getInternalClassName().getClassName())))
+                                    prop.getJavaType().getQualifiedClassName().getClassName())))
                 .build())
         .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType)
         .filter(JavaRequiredAdditionalProperty::isNotAnyType)

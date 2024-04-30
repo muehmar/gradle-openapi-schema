@@ -58,7 +58,7 @@ class ComposedPropertiesGetter {
   private static String jsonMethodReturnType(JavaPojoMember member) {
     return member.isNullable()
         ? "Object"
-        : member.getJavaType().getInternalParameterizedClassName().asString();
+        : member.getJavaType().getParameterizedClassName().asString();
   }
 
   private static Generator<JavaPojoMember, PojoSettings> jsonMethodContent() {

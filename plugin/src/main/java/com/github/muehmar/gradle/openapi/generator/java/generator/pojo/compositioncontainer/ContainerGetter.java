@@ -25,7 +25,7 @@ public class ContainerGetter {
     return MethodGenBuilder.<TechnicalPojoMember, PojoSettings>create()
         .modifiers()
         .noGenericTypes()
-        .returnType(member -> member.getJavaType().getInternalParameterizedClassName())
+        .returnType(member -> member.getJavaType().getParameterizedClassName())
         .methodName(
             member ->
                 String.format("get%s", Name.ofString(member.getName().asString()).startUpperCase()))

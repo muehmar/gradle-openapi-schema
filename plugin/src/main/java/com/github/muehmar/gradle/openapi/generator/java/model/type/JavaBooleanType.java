@@ -4,6 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 
 import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -23,17 +25,16 @@ public class JavaBooleanType extends NonGenericJavaType {
       QualifiedClassName.ofPackageAndName(PackageNames.JAVA_LANG, Name.ofString("boolean"));
 
   private JavaBooleanType(
-      QualifiedClassName className,
-      Optional<QualifiedClassName> apiClassName,
-      Nullability nullability) {
-    super(className, apiClassName, nullability);
+      QualifiedClassName className, Optional<ApiType> apiType, Nullability nullability) {
+    super(className, apiType, nullability);
   }
 
   public static JavaBooleanType wrap(BooleanType booleanType, TypeMappings typeMappings) {
-    final Optional<QualifiedClassName> apiClassName =
-        INTERNAL_JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    final TypeMapping typeMapping =
+        TypeMapping.fromClassMappings(
+            INTERNAL_JAVA_CLASS_NAME, typeMappings.getClassTypeMappings());
     return new JavaBooleanType(
-        INTERNAL_JAVA_CLASS_NAME, apiClassName, booleanType.getNullability());
+        typeMapping.getClassName(), typeMapping.getApiType(), booleanType.getNullability());
   }
 
   public static JavaBooleanType createPrimitive() {
@@ -47,7 +48,7 @@ public class JavaBooleanType extends NonGenericJavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaBooleanType(internalClassName, apiClassName, nullability);
+    return new JavaBooleanType(className, apiType, nullability);
   }
 
   @Override

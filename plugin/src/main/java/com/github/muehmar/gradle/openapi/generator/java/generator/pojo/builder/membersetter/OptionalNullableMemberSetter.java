@@ -24,7 +24,7 @@ class OptionalNullableMemberSetter implements MemberSetter {
 
   @Override
   public String argumentType() {
-    return String.format("Tristate<%s>", member.getJavaType().getInternalParameterizedClassName());
+    return String.format("Tristate<%s>", member.getJavaType().getParameterizedClassName());
   }
 
   @Override

@@ -26,7 +26,7 @@ public class JavaParameter {
   }
 
   public Name getTypeClassName() {
-    return javaType.getInternalClassName().getClassName();
+    return javaType.getQualifiedClassName().getClassName();
   }
 
   public Name getParamClassName() {
@@ -118,7 +118,7 @@ public class JavaParameter {
   }
 
   private boolean isJavaStringClass() {
-    return getJavaType().getInternalClassName().equals(QualifiedClassNames.STRING);
+    return getJavaType().getQualifiedClassName().equals(QualifiedClassNames.STRING);
   }
 
   public String formatConstant(Object value) {
@@ -136,14 +136,14 @@ public class JavaParameter {
   }
 
   private String formatNumericConstant(JavaNumericType numericType, Object value) {
-    if (numericType.getInternalClassName().equals(QualifiedClassNames.FLOAT)) {
+    if (numericType.getQualifiedClassName().equals(QualifiedClassNames.FLOAT)) {
       return value + "f";
     }
     return value + "";
   }
 
   private String formatIntegerConstant(JavaIntegerType integerType, Object value) {
-    if (integerType.getInternalClassName().equals(QualifiedClassNames.LONG)) {
+    if (integerType.getQualifiedClassName().equals(QualifiedClassNames.LONG)) {
       return value + "L";
     }
     return value + "";
