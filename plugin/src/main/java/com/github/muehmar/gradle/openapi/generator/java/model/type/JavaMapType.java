@@ -6,6 +6,8 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
@@ -20,19 +22,22 @@ import lombok.ToString;
 public class JavaMapType implements JavaType {
   private static final QualifiedClassName INTERNAL_JAVA_CLASS_NAME = QualifiedClassNames.MAP;
 
-  private final Optional<QualifiedClassName> apiClassName;
+  private final QualifiedClassName className;
+  private final Optional<ApiType> apiType;
   private final JavaType key;
   private final JavaType value;
   private final Nullability nullability;
   private final Constraints constraints;
 
   private JavaMapType(
-      Optional<QualifiedClassName> apiClassName,
+      QualifiedClassName className,
+      Optional<ApiType> apiType,
       JavaType key,
       JavaType value,
       Nullability nullability,
       Constraints constraints) {
-    this.apiClassName = apiClassName;
+    this.className = className;
+    this.apiType = apiType;
     this.key = key;
     this.value = value;
     this.nullability = nullability;
@@ -40,45 +45,46 @@ public class JavaMapType implements JavaType {
   }
 
   public static JavaMapType wrap(MapType mapType, TypeMappings typeMappings) {
-    final Optional<QualifiedClassName> apiClassName =
-        INTERNAL_JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
     final JavaType key = JavaType.wrap(mapType.getKey(), typeMappings);
     final JavaType value = JavaType.wrap(mapType.getValue(), typeMappings);
+    final TypeMapping typeMapping =
+        TypeMapping.fromClassMappings(
+            INTERNAL_JAVA_CLASS_NAME, typeMappings.getClassTypeMappings(), PList.of(key, value));
     return new JavaMapType(
-        apiClassName, key, value, mapType.getNullability(), mapType.getConstraints());
+        typeMapping.getClassName(),
+        typeMapping.getApiType(),
+        key,
+        value,
+        mapType.getNullability(),
+        mapType.getConstraints());
   }
 
   public static JavaMapType ofKeyAndValueType(JavaType key, JavaType value) {
-    return new JavaMapType(Optional.empty(), key, value, NOT_NULLABLE, Constraints.empty());
+    return new JavaMapType(
+        INTERNAL_JAVA_CLASS_NAME, Optional.empty(), key, value, NOT_NULLABLE, Constraints.empty());
   }
 
   @Override
-  public QualifiedClassName getInternalClassName() {
-    return INTERNAL_JAVA_CLASS_NAME;
+  public QualifiedClassName getQualifiedClassName() {
+    return className;
   }
 
   @Override
-  public Optional<QualifiedClassName> getApiClassName() {
-    return apiClassName;
+  public Optional<ApiType> getApiType() {
+    return apiType;
   }
 
   @Override
   public PList<QualifiedClassName> getAllQualifiedClassNames() {
-    return PList.single(getInternalClassName())
-        .concat(PList.fromOptional(getApiClassName()))
+    return PList.single(getQualifiedClassName())
+        .concat(PList.fromOptional(getApiType().map(ApiType::getClassName)))
         .concat(key.getAllQualifiedClassNames())
         .concat(value.getAllQualifiedClassNames());
   }
 
   @Override
-  public ParameterizedClassName getInternalParameterizedClassName() {
-    return ParameterizedClassName.fromGenericClass(getInternalClassName(), PList.of(key, value));
-  }
-
-  @Override
-  public Optional<ParameterizedClassName> getApiParameterizedClassName() {
-    return getApiClassName()
-        .map(cn -> ParameterizedClassName.fromGenericClass(cn, PList.of(key, value)));
+  public ParameterizedClassName getParameterizedClassName() {
+    return ParameterizedClassName.fromGenericClass(getQualifiedClassName(), PList.of(key, value));
   }
 
   @Override
@@ -93,7 +99,7 @@ public class JavaMapType implements JavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaMapType(apiClassName, key, value, nullability, constraints);
+    return new JavaMapType(className, apiType, key, value, nullability, constraints);
   }
 
   @Override

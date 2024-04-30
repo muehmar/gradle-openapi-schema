@@ -59,7 +59,7 @@ public class PojoConstructorGenerator {
 
   private static String createArgument(TechnicalPojoMember member) {
     return String.format(
-        "%s %s", member.getJavaType().getInternalParameterizedClassName(), member.getName());
+        "%s %s", member.getJavaType().getParameterizedClassName(), member.getName());
   }
 
   private static PList<String> createAdditionalPropertyArgument(ConstructorContent content) {

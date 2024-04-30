@@ -16,7 +16,7 @@ public class Warning {
     final String message =
         String.format(
             "The type %s of property %s can not be validated against the constraint '%s', i.e. no annotations or code is generated for validation.",
-            javaType.getInternalClassName().asString(),
+            javaType.getQualifiedClassName().asString(),
             propertyInfoName,
             constraintType.name().toLowerCase());
     return new Warning(WarningType.UNSUPPORTED_VALIDATION, message);

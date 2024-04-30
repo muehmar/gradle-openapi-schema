@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -17,14 +18,9 @@ public interface JavaType {
    * Returns the qualified classname of the java type used internally in the DTO for serialization
    * and validation.
    */
-  QualifiedClassName getInternalClassName();
+  QualifiedClassName getQualifiedClassName();
 
-  /**
-   * Returns the qualified classname of the user defined type. This type is meant to be used for the
-   * api of the DTO. If the user specified no mapping, this method returns an empty optional and the
-   * internal type is used instead.
-   */
-  Optional<QualifiedClassName> getApiClassName();
+  Optional<ApiType> getApiType();
 
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
@@ -37,10 +33,7 @@ public interface JavaType {
   JavaType withNullability(Nullability nullability);
 
   /** Returns the parameterized classname of the java type used internally. */
-  ParameterizedClassName getInternalParameterizedClassName();
-
-  /** Returns the parameterized classname of the user defined type for the API of the DTO. */
-  Optional<ParameterizedClassName> getApiParameterizedClassName();
+  ParameterizedClassName getParameterizedClassName();
 
   /**
    * Returns true in case this class is a java array (not to be confused with the openapi

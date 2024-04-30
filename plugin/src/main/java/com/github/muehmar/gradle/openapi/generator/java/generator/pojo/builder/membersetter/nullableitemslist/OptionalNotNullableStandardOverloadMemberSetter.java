@@ -11,10 +11,7 @@ class OptionalNotNullableStandardOverloadMemberSetter extends OptionalNotNullabl
 
   @Override
   public String argumentType() {
-    return member
-        .getJavaType()
-        .getInternalParameterizedClassName()
-        .asStringWrappingNullableValueType();
+    return member.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType();
   }
 
   @Override

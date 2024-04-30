@@ -211,7 +211,7 @@ public class DtoSetterGenerator {
                       enumName ->
                           String.format(
                               "%s.%s",
-                              member.getJavaType().getInternalClassName().getClassName(),
+                              member.getJavaType().getQualifiedClassName().getClassName(),
                               enumName)))
           .orElse("");
     }

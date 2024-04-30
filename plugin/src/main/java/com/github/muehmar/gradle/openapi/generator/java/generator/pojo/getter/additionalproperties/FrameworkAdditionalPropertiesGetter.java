@@ -76,7 +76,7 @@ public class FrameworkAdditionalPropertiesGetter {
             (p, s, w) ->
                 w.println(
                     "final Map<String, %s> props = new HashMap<>();",
-                    p.getType().getInternalParameterizedClassName()))
+                    p.getType().getParameterizedClassName()))
         .append(constant("%s.forEach(", additionalPropertiesName()))
         .append(getterContentForSpecificNullableTypeLambda())
         .append(getterContentForSpecificNotNullableTypeLambda())

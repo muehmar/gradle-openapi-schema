@@ -47,8 +47,7 @@ class GetAdditionalPropertiesList {
             ? NullableAdditionalPropertyClassGenerator.CLASSNAME
             : AdditionalPropertyClassGenerator.CLASSNAME;
     return String.format(
-        "List<%s<%s>>",
-        additionalPropertyClassName, props.getType().getInternalParameterizedClassName());
+        "List<%s<%s>>", additionalPropertyClassName, props.getType().getParameterizedClassName());
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> methodContent() {

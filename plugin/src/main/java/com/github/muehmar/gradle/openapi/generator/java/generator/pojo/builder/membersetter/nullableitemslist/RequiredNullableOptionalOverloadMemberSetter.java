@@ -13,10 +13,7 @@ class RequiredNullableOptionalOverloadMemberSetter extends RequiredNullableMembe
   public String argumentType() {
     return String.format(
         "Optional<%s>",
-        member
-            .getJavaType()
-            .getInternalParameterizedClassName()
-            .asStringWrappingNullableValueType());
+        member.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType());
   }
 
   @Override

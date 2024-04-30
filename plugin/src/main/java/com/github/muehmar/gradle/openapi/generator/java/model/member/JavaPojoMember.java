@@ -258,7 +258,7 @@ public class JavaPojoMember {
         enumType ->
             Optional.of(
                 EnumContentBuilder.create()
-                    .className(JavaName.fromName(enumType.getInternalClassName().getClassName()))
+                    .className(JavaName.fromName(enumType.getQualifiedClassName().getClassName()))
                     .description(getDescription())
                     .members(enumType.getMembers())
                     .build());
