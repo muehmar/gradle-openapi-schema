@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -51,6 +52,7 @@ class JavaEnumTypeTest {
     // method call
     final JavaType javaType = JavaEnumType.wrap(enumType, typeMappings);
 
+    assertInstanceOf(JavaObjectType.class, javaType);
     assertEquals(Optional.empty(), javaType.getApiType());
 
     assertEquals("CustomGender", javaType.getParameterizedClassName().asString());

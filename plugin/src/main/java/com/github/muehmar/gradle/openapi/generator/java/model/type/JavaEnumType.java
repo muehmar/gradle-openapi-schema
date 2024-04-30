@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -51,6 +53,11 @@ public class JavaEnumType extends NonGenericJavaType {
                     TypeMapping.fromFormatMappings(
                         className, format, typeMappings.getFormatTypeMappings()))
             .orElseGet(() -> TypeMapping.fromClassName(className));
+    if (not(typeMapping.getApiType().isPresent())
+        && not(typeMapping.getClassName().equals(className))) {
+      return JavaObjectType.fromClassName(typeMapping.getClassName());
+    }
+
     return of(enumType, typeMapping);
   }
 
