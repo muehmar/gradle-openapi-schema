@@ -1,0 +1,12 @@
+apiTypeWithFactoryMethods=[
+com.github.muehmar.UserId
+
+field != null ? UserId.fromString(field) : null
+]
+
+
+apiTypeWithInstanceMethods=[
+.
+.
+field != null ? field.toCounter() : null
+]
