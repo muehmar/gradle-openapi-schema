@@ -2,9 +2,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
@@ -20,8 +20,12 @@ public class RefsGenerator {
     return (f, s, w) -> ref.map(w::ref).orElse(w);
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> fieldRefs() {
+  public static <B> Generator<JavaPojoMember, B> fieldRefs() {
     return (f, s, w) -> addRefs(w, f.getJavaType().getImportsAsString());
+  }
+
+  public static <B> Generator<QualifiedClassName, B> classNameRef() {
+    return (className, s, w) -> w.ref(className.asString());
   }
 
   public static <A, B> Generator<A, B> optionalRef() {
