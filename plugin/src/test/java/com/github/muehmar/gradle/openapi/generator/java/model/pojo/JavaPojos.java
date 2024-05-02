@@ -40,6 +40,8 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.HashMap;
 import java.util.Map;
@@ -204,6 +206,19 @@ public class JavaPojos {
 
   public static JavaObjectPojo allNecessityAndNullabilityVariants() {
     return allNecessityAndNullabilityVariants(Constraints.empty());
+  }
+
+  public static JavaObjectPojo allNecessityAndNullabilityVariantsTypeMapped() {
+    final ClassTypeMapping classTypeMapping =
+        new ClassTypeMapping(
+            "String",
+            "com.custom.CustomString",
+            Optional.of(new TypeConversion("asString", "com.custom.CustomString#fromString")));
+    return (JavaObjectPojo)
+        JavaPojo.wrap(
+                allNecessityAndNullabilityVariantsPojo(Constraints.empty()),
+                TypeMappings.ofSingleClassTypeMapping(classTypeMapping))
+            .getDefaultPojo();
   }
 
   private static ObjectPojo allNecessityAndNullabilityVariantsPojo(Constraints constraints) {

@@ -9,6 +9,7 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
+import java.util.function.Function;
 
 public interface MemberSetter {
 
@@ -18,6 +19,9 @@ public interface MemberSetter {
             new RequiredNullableMemberSetter(member),
             new OptionalNotNullableMemberSetter(member),
             new OptionalNullableMemberSetter(member))
+        .concat(
+            PList.of(ApiRequiredNullableMemberSetter.fromMember(member))
+                .flatMapOptional(Function.identity()))
         .concat(NullableItemsListMemberSetters.fromMember(member));
   }
 
