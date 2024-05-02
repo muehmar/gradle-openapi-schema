@@ -17,7 +17,7 @@ class RequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed() {
-    return member.isRequiredAndNullable();
+    return member.isRequiredAndNullable() && member.getJavaType().hasNoApiType();
   }
 
   @Override

@@ -139,20 +139,6 @@ public class PojoMembers {
         OPTIONAL);
   }
 
-  public static PojoMember optionalNullableNullableItemsList() {
-    final StringType itemType =
-        StringType.noFormat()
-            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
-            .withNullability(NULLABLE);
-    return new PojoMember(
-        Name.ofString("optionalNullableItemsList"),
-        "OptionalNullableItemsList",
-        ArrayType.ofItemType(itemType, NOT_NULLABLE)
-            .withConstraints(Constraints.ofSize(Size.of(5, 10))),
-        PropertyScope.DEFAULT,
-        OPTIONAL);
-  }
-
   public static PojoMember ofType(Type type) {
     return new PojoMember(
         Name.ofString("member"), "description", type, PropertyScope.DEFAULT, REQUIRED);

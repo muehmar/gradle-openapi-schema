@@ -22,6 +22,14 @@ public interface JavaType {
 
   Optional<ApiType> getApiType();
 
+  default boolean hasApiType() {
+    return getApiType().isPresent();
+  }
+
+  default boolean hasNoApiType() {
+    return not(hasApiType());
+  }
+
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
    * parameters

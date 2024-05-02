@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterGenerator.memberSetterMethods;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -24,9 +25,9 @@ class SetterGeneratorTest {
   @ParameterizedTest
   @MethodSource("allNecessityAndNullabilityVariants")
   @SnapshotName("allNecessityAndNullabilityVariants")
-  void setterGenerator_when_calledWithNullabilityAndNecessityVariants_then_matchSnapshot(
+  void memberSetterMethods_when_calledWithNullabilityAndNecessityVariants_then_matchSnapshot(
       JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = SetterGenerator.memberSetterMethods();
+    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterMethods();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -37,6 +38,27 @@ class SetterGeneratorTest {
 
   public static Stream<Arguments> allNecessityAndNullabilityVariants() {
     return JavaPojos.allNecessityAndNullabilityVariants()
+        .getMembers()
+        .map(Arguments::of)
+        .toStream();
+  }
+
+  @ParameterizedTest
+  @MethodSource("allNecessityAndNullabilityVariantsTypeMapped")
+  @SnapshotName("allNecessityAndNullabilityVariantsTypeMapped")
+  void memberSetterMethods_when_calledWithNecessityAndNullabilityVariantsTypeMapped(
+      JavaPojoMember member) {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterMethods();
+
+    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+
+    expect
+        .scenario(member.getName().asString())
+        .toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  public static Stream<Arguments> allNecessityAndNullabilityVariantsTypeMapped() {
+    return JavaPojos.allNecessityAndNullabilityVariantsTypeMapped()
         .getMembers()
         .map(Arguments::of)
         .toStream();

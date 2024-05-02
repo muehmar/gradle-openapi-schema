@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype;
 
-import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
@@ -8,37 +8,37 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiTypes;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 @SnapshotTest
 class FromApiTypeConversionTest {
   private Expect expect;
 
-  @Test
+  @ParameterizedTest
+  @EnumSource(ConversionGenerationMode.class)
   @SnapshotName("apiTypeWithFactoryMethods")
-  void generate_when_apiTypeWithFactoryMethods_then_matchSnapshot() {
-    final Generator<ApiType, PojoSettings> generator =
-        FromApiTypeConversion.fromApiTypeConversion("field");
+  void generate_when_apiTypeWithFactoryMethods_then_matchSnapshot(ConversionGenerationMode mode) {
+    final Generator<ApiType, Void> generator =
+        FromApiTypeConversion.fromApiTypeConversion("field", mode);
 
-    final Writer writer =
-        generator.generate(ApiTypes.userId(), defaultTestSettings(), javaWriter());
+    final Writer writer = generator.generate(ApiTypes.userId(), noSettings(), javaWriter());
 
-    expect.toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(mode.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 
-  @Test
+  @ParameterizedTest
+  @EnumSource(ConversionGenerationMode.class)
   @SnapshotName("apiTypeWithInstanceMethods")
-  void generate_when_apiTypeWithInstanceMethods_then_matchSnapshot() {
-    final Generator<ApiType, PojoSettings> generator =
-        FromApiTypeConversion.fromApiTypeConversion("field");
+  void generate_when_apiTypeWithInstanceMethods_then_matchSnapshot(ConversionGenerationMode mode) {
+    final Generator<ApiType, Void> generator =
+        FromApiTypeConversion.fromApiTypeConversion("field", mode);
 
-    final Writer writer =
-        generator.generate(ApiTypes.counter(), defaultTestSettings(), javaWriter());
+    final Writer writer = generator.generate(ApiTypes.counter(), noSettings(), javaWriter());
 
-    expect.toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(mode.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 }
