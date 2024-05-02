@@ -20,7 +20,9 @@ public interface MemberSetter {
             new OptionalNotNullableMemberSetter(member),
             new OptionalNullableMemberSetter(member))
         .concat(
-            PList.of(ApiRequiredNullableMemberSetter.fromMember(member))
+            PList.of(
+                    ApiRequiredNullableMemberSetter.fromMember(member),
+                    ApiOptionalNotNullableMemberSetter.fromMember(member))
                 .flatMapOptional(Function.identity()))
         .concat(NullableItemsListMemberSetters.fromMember(member));
   }

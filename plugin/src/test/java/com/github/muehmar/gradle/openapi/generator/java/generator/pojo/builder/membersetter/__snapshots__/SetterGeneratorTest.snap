@@ -124,6 +124,7 @@ public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStr
 
 
 allNecessityAndNullabilityVariantsTypeMapped[optionalStringVal]=[
+com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
@@ -142,8 +143,8 @@ public Builder setOptionalStringVal(String optionalStringVal) {
  * OptionalStringVal
  */
 @JsonIgnore
-public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
-  this.optionalStringVal = optionalStringVal.orElse(null);
+public Builder setOptionalStringVal(Optional<CustomString> optionalStringVal) {
+  this.optionalStringVal = optionalStringVal.map(val -> val.asString()).orElse(null);
   this.isOptionalStringValNotNull = true;
   return this;
 }
