@@ -256,6 +256,8 @@ private Builder setRequiredNullableStringVal(Optional<CustomString> requiredNull
 
 
 allNecessityAndNullabilityVariantsTypeMapped[requiredStringVal]=[
+com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -264,6 +266,15 @@ com.fasterxml.jackson.annotation.JsonProperty
 @JsonProperty("requiredStringVal")
 private Builder setRequiredStringVal(String requiredStringVal) {
   this.requiredStringVal = requiredStringVal;
+  return this;
+}
+
+/**
+ * RequiredStringVal
+ */
+@JsonIgnore
+private Builder setRequiredStringVal(CustomString requiredStringVal) {
+  this.requiredStringVal = requiredStringVal.asString();
   return this;
 }
 
