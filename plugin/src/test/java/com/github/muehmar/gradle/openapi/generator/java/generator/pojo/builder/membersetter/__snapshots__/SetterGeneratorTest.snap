@@ -115,6 +115,16 @@ public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
  * OptionalNullableStringVal
  */
 @JsonIgnore
+private Builder setOptionalNullableStringVal(CustomString optionalNullableStringVal) {
+  this.optionalNullableStringVal = optionalNullableStringVal != null ? optionalNullableStringVal.asString() : null;
+  this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+  return this;
+}
+
+/**
+ * OptionalNullableStringVal
+ */
+@JsonIgnore
 public Builder setOptionalNullableStringVal(Tristate<CustomString> optionalNullableStringVal) {
   this.optionalNullableStringVal = optionalNullableStringVal.map(val -> val.asString()).onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
   this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -136,6 +146,16 @@ java.util.Optional
 @JsonProperty("optionalStringVal")
 public Builder setOptionalStringVal(String optionalStringVal) {
   this.optionalStringVal = optionalStringVal;
+  this.isOptionalStringValNotNull = optionalStringVal != null;
+  return this;
+}
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+private Builder setOptionalStringVal(CustomString optionalStringVal) {
+  this.optionalStringVal = optionalStringVal != null ? optionalStringVal.asString() : null;
   this.isOptionalStringValNotNull = optionalStringVal != null;
   return this;
 }
@@ -247,6 +267,16 @@ private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
  * RequiredNullableStringVal
  */
 @JsonIgnore
+private Builder setRequiredNullableStringVal(CustomString requiredNullableStringVal) {
+  this.requiredNullableStringVal = requiredNullableStringVal != null ? requiredNullableStringVal.asString() : null;
+  this.isRequiredNullableStringValPresent = true;
+  return this;
+}
+
+/**
+ * RequiredNullableStringVal
+ */
+@JsonIgnore
 private Builder setRequiredNullableStringVal(Optional<CustomString> requiredNullableStringVal) {
   this.requiredNullableStringVal = requiredNullableStringVal.map(val -> val.asString()).orElse(null);
   this.isRequiredNullableStringValPresent = true;
@@ -275,7 +305,7 @@ private Builder setRequiredStringVal(String requiredStringVal) {
  */
 @JsonIgnore
 private Builder setRequiredStringVal(CustomString requiredStringVal) {
-  this.requiredStringVal = requiredStringVal.asString();
+  this.requiredStringVal = requiredStringVal != null ? requiredStringVal.asString() : null;
   return this;
 }
 

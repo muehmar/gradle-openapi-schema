@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NULL_SAFE;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class ApiRequiredNotNullableMemberSetter implements MemberSetter {
+public class ApiStandardMemberSetter implements MemberSetter {
   JavaPojoMember member;
   ApiType apiType;
 
@@ -20,12 +20,12 @@ public class ApiRequiredNotNullableMemberSetter implements MemberSetter {
     return member
         .getJavaType()
         .getApiType()
-        .map(apiType -> new ApiRequiredNotNullableMemberSetter(member, apiType));
+        .map(apiType -> new ApiStandardMemberSetter(member, apiType));
   }
 
   @Override
   public boolean shouldBeUsed() {
-    return member.isRequiredAndNotNullable();
+    return true;
   }
 
   @Override
@@ -45,7 +45,7 @@ public class ApiRequiredNotNullableMemberSetter implements MemberSetter {
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.empty();
+    return FlagAssignments.forStandardMemberSetter(member);
   }
 
   @Override
@@ -59,6 +59,6 @@ public class ApiRequiredNotNullableMemberSetter implements MemberSetter {
 
   private Writer conversionWriter() {
     return FromApiTypeConversion.fromApiTypeConversion(
-        apiType, member.getName().asString(), NO_NULL_CHECK);
+        apiType, member.getName().asString(), NULL_SAFE);
   }
 }

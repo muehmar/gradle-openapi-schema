@@ -48,14 +48,7 @@ class StandardMemberSetter implements MemberSetter {
 
   @Override
   public Optional<String> flagAssignment() {
-    if (member.isRequiredAndNullable()) {
-      return Optional.of(FlagAssignments.requiredNullableFlagAssignment(member));
-    } else if (member.isOptionalAndNotNullable()) {
-      return Optional.of(FlagAssignments.optionalNotNullableFlagAssignment(member));
-    } else if (member.isOptionalAndNullable()) {
-      return Optional.of(FlagAssignments.optionalNullableFlagAssignment(member));
-    }
-    return Optional.empty();
+    return FlagAssignments.forStandardMemberSetter(member);
   }
 
   @Override
