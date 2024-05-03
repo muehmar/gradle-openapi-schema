@@ -96,6 +96,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
 
 
 allNecessityAndNullabilityVariantsTypeMapped[optionalNullableStringVal]=[
+com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
@@ -114,8 +115,8 @@ public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
  * OptionalNullableStringVal
  */
 @JsonIgnore
-public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-  this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+public Builder setOptionalNullableStringVal(Tristate<CustomString> optionalNullableStringVal) {
+  this.optionalNullableStringVal = optionalNullableStringVal.map(val -> val.asString()).onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
   this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }

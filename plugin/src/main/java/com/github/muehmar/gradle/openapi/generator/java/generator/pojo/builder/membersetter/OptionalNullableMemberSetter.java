@@ -14,7 +14,7 @@ class OptionalNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed() {
-    return member.isOptionalAndNullable();
+    return member.isOptionalAndNullable() && member.getJavaType().hasNoApiType();
   }
 
   @Override
