@@ -21,7 +21,7 @@ public interface MemberSetter {
             new OptionalNullableMemberSetter(member))
         .concat(
             PList.of(
-                    ApiRequiredNotNullableMemberSetter.fromMember(member),
+                    ApiStandardMemberSetter.fromMember(member),
                     ApiRequiredNullableMemberSetter.fromMember(member),
                     ApiOptionalNotNullableMemberSetter.fromMember(member),
                     ApiOptionalNullableMemberSetter.fromMember(member))
