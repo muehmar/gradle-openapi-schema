@@ -1,8 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
-import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
-
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -33,7 +31,7 @@ class StandardMemberSetter implements MemberSetter {
 
   @Override
   public JavaModifier modifier(PojoSettings settings) {
-    return settings.isEnableStagedBuilder() && member.isRequired() ? PRIVATE : PUBLIC;
+    return SetterModifier.forMember(member, settings, SetterJavaType.DEFAULT);
   }
 
   @Override
