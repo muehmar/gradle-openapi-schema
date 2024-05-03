@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NULL_SAFE;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -30,7 +31,7 @@ public class ApiStandardMemberSetter implements MemberSetter {
 
   @Override
   public JavaModifier modifier(PojoSettings settings) {
-    return settings.isEnableStagedBuilder() ? JavaModifier.PRIVATE : JavaModifier.PUBLIC;
+    return SetterModifier.forMember(member, settings, SetterJavaType.API);
   }
 
   @Override

@@ -1,9 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -33,7 +32,7 @@ public class ApiRequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public JavaModifier modifier(PojoSettings settings) {
-    return settings.isEnableStagedBuilder() ? PRIVATE : PUBLIC;
+    return SetterModifier.forMember(member, settings, SetterJavaType.API);
   }
 
   @Override
