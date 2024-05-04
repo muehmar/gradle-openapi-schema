@@ -1,0 +1,12 @@
+mapListItem=[
+java.util.List
+java.util.function.Function
+java.util.stream.Collectors
+
+private static <S, T> List<T> mapListItem(List<S> list, Function<S, T> mapItem) {
+  if (list == null) {
+    return null;
+  }
+  return list.stream().map(mapItem).collect(Collectors.toList());
+}
+]
