@@ -1,7 +1,9 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
