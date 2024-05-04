@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype.ApiTypeMemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist.NullableItemsListMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -9,7 +10,6 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
-import java.util.function.Function;
 
 public interface MemberSetter {
 
@@ -19,13 +19,7 @@ public interface MemberSetter {
             new RequiredNullableMemberSetter(member),
             new OptionalNotNullableMemberSetter(member),
             new OptionalNullableMemberSetter(member))
-        .concat(
-            PList.of(
-                    ApiStandardMemberSetter.fromMember(member),
-                    ApiRequiredNullableMemberSetter.fromMember(member),
-                    ApiOptionalNotNullableMemberSetter.fromMember(member),
-                    ApiOptionalNullableMemberSetter.fromMember(member))
-                .flatMapOptional(Function.identity()))
+        .concat(ApiTypeMemberSetter.fromMember(member))
         .concat(NullableItemsListMemberSetters.fromMember(member));
   }
 
