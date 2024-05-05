@@ -29,7 +29,7 @@ public class ApiRequiredNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public boolean shouldBeUsed() {
+  public boolean shouldBeUsed(PojoSettings settings) {
     return member.isRequiredAndNullable();
   }
 

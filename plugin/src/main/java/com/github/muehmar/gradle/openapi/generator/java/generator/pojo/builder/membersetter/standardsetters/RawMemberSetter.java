@@ -1,32 +1,33 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.standardsetters;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.Necessity;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
-/** The standard setter is used for every property as JSON setter. */
+/**
+ * Setter which uses the actual type directly without any wrapping. Use used for all {@link
+ * Necessity} and {@link Nullability} combinations.
+ */
 @Value
-class StandardMemberSetter implements MemberSetter {
+class RawMemberSetter implements MemberSetter {
   JavaPojoMember member;
 
-  public StandardMemberSetter(JavaPojoMember member) {
+  public RawMemberSetter(JavaPojoMember member) {
     this.member = member;
   }
 
   @Override
-  public boolean shouldBeUsed() {
-    return true;
-  }
-
-  @Override
-  public Generator<MemberSetter, PojoSettings> annotationGenerator() {
-    return JacksonAnnotationGenerator.jsonProperty().contraMap(MemberSetter::getMember);
+  public boolean shouldBeUsed(PojoSettings settings) {
+    return member.getJavaType().hasNoApiType();
   }
 
   @Override

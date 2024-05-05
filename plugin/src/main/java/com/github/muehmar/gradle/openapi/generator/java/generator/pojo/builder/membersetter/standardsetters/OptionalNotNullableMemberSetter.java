@@ -1,5 +1,7 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.standardsetters;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
@@ -14,7 +16,7 @@ class OptionalNotNullableMemberSetter implements MemberSetter {
   JavaPojoMember member;
 
   @Override
-  public boolean shouldBeUsed() {
+  public boolean shouldBeUsed(PojoSettings settings) {
     return member.isOptionalAndNotNullable() && member.getJavaType().hasNoApiType();
   }
 

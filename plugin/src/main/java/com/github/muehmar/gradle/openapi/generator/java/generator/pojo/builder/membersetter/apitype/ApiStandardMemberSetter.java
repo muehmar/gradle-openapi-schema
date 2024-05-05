@@ -28,7 +28,7 @@ public class ApiStandardMemberSetter implements MemberSetter {
   }
 
   @Override
-  public boolean shouldBeUsed() {
+  public boolean shouldBeUsed(PojoSettings settings) {
     return true;
   }
 

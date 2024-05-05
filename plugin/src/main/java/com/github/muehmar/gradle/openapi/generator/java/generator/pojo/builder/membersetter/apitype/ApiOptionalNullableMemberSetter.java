@@ -29,7 +29,7 @@ public class ApiOptionalNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public boolean shouldBeUsed() {
+  public boolean shouldBeUsed(PojoSettings settings) {
     return member.isOptionalAndNullable();
   }
 

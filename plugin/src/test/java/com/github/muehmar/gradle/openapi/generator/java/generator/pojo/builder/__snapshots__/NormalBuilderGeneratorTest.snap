@@ -34,6 +34,15 @@ public static final class Builder {
    * RequiredStringVal
    */
   @JsonProperty("requiredStringVal")
+  private Builder setRequiredStringValJson(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonIgnore
   private Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
     return this;
@@ -43,6 +52,16 @@ public static final class Builder {
    * RequiredNullableStringVal
    */
   @JsonProperty("requiredNullableStringVal")
+  private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
   private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
@@ -63,6 +82,16 @@ public static final class Builder {
    * OptionalStringVal
    */
   @JsonProperty("optionalStringVal")
+  private Builder setOptionalStringValJson(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = optionalStringVal != null;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
     this.isOptionalStringValNotNull = optionalStringVal != null;
@@ -83,6 +112,16 @@ public static final class Builder {
    * OptionalNullableStringVal
    */
   @JsonProperty("optionalNullableStringVal")
+  private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
@@ -103,6 +142,15 @@ public static final class Builder {
    * RequiredListWithNullableItems
    */
   @JsonProperty("requiredListWithNullableItems")
+  private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
+    this.requiredListWithNullableItems = requiredListWithNullableItems;
+    return this;
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  @JsonIgnore
   private Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
     return this;
@@ -121,6 +169,16 @@ public static final class Builder {
    * RequiredNullableListWithNullableItems
    */
   @JsonProperty("requiredNullableListWithNullableItems")
+  private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
+    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+    this.isRequiredNullableListWithNullableItemsPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -161,6 +219,16 @@ public static final class Builder {
    * OptionalListWithNullableItems
    */
   @JsonProperty("optionalListWithNullableItems")
+  private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
+    this.optionalListWithNullableItems = optionalListWithNullableItems;
+    this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+    return this;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
     this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
@@ -201,6 +269,16 @@ public static final class Builder {
    * OptionalNullableListWithNullableItems
    */
   @JsonProperty("optionalNullableListWithNullableItems")
+  private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
+    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+    this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
@@ -560,6 +638,15 @@ public static final class Builder {
    * RequiredStringVal
    */
   @JsonProperty("requiredStringVal")
+  private Builder setRequiredStringValJson(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonIgnore
   public Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
     return this;
@@ -569,6 +656,16 @@ public static final class Builder {
    * RequiredNullableStringVal
    */
   @JsonProperty("requiredNullableStringVal")
+  private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
   public Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
@@ -589,6 +686,16 @@ public static final class Builder {
    * OptionalStringVal
    */
   @JsonProperty("optionalStringVal")
+  private Builder setOptionalStringValJson(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = optionalStringVal != null;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
     this.isOptionalStringValNotNull = optionalStringVal != null;
@@ -609,6 +716,16 @@ public static final class Builder {
    * OptionalNullableStringVal
    */
   @JsonProperty("optionalNullableStringVal")
+  private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
@@ -629,6 +746,15 @@ public static final class Builder {
    * RequiredListWithNullableItems
    */
   @JsonProperty("requiredListWithNullableItems")
+  private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
+    this.requiredListWithNullableItems = requiredListWithNullableItems;
+    return this;
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
     return this;
@@ -647,6 +773,16 @@ public static final class Builder {
    * RequiredNullableListWithNullableItems
    */
   @JsonProperty("requiredNullableListWithNullableItems")
+  private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
+    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+    this.isRequiredNullableListWithNullableItemsPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -687,6 +823,16 @@ public static final class Builder {
    * OptionalListWithNullableItems
    */
   @JsonProperty("optionalListWithNullableItems")
+  private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
+    this.optionalListWithNullableItems = optionalListWithNullableItems;
+    this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+    return this;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
     this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
@@ -727,6 +873,16 @@ public static final class Builder {
    * OptionalNullableListWithNullableItems
    */
   @JsonProperty("optionalNullableListWithNullableItems")
+  private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
+    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+    this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
@@ -844,6 +1000,7 @@ public static final class Builder {
 
 nestedRequiredAdditionalPropertiesInAllOfSubPojos=[
 com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
@@ -867,6 +1024,15 @@ public static final class Builder {
    * stringVal
    */
   @JsonProperty("stringVal")
+  private Builder setStringValJson(String stringVal) {
+    this.stringVal = stringVal;
+    return this;
+  }
+
+  /**
+   * stringVal
+   */
+  @JsonIgnore
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
     return this;
@@ -876,6 +1042,15 @@ public static final class Builder {
    * intVal
    */
   @JsonProperty("intVal")
+  private Builder setIntValJson(Integer intVal) {
+    this.intVal = intVal;
+    return this;
+  }
+
+  /**
+   * intVal
+   */
+  @JsonIgnore
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
     return this;
@@ -885,6 +1060,15 @@ public static final class Builder {
    * doubleVal
    */
   @JsonProperty("doubleVal")
+  private Builder setDoubleValJson(Double doubleVal) {
+    this.doubleVal = doubleVal;
+    return this;
+  }
+
+  /**
+   * doubleVal
+   */
+  @JsonIgnore
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
     return this;
@@ -894,6 +1078,15 @@ public static final class Builder {
    * Birthdate
    */
   @JsonProperty("birthdate")
+  private Builder setBirthdateJson(LocalDate birthdate) {
+    this.birthdate = birthdate;
+    return this;
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonIgnore
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
     return this;
@@ -903,6 +1096,15 @@ public static final class Builder {
    * email
    */
   @JsonProperty("email")
+  private Builder setEmailJson(String email) {
+    this.email = email;
+    return this;
+  }
+
+  /**
+   * email
+   */
+  @JsonIgnore
   private Builder setEmail(String email) {
     this.email = email;
     return this;
@@ -959,6 +1161,7 @@ public static final class Builder {
 
 oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
@@ -982,6 +1185,15 @@ public static final class Builder {
    * stringVal
    */
   @JsonProperty("stringVal")
+  private Builder setStringValJson(String stringVal) {
+    this.stringVal = stringVal;
+    return this;
+  }
+
+  /**
+   * stringVal
+   */
+  @JsonIgnore
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
     return this;
@@ -991,6 +1203,15 @@ public static final class Builder {
    * intVal
    */
   @JsonProperty("intVal")
+  private Builder setIntValJson(Integer intVal) {
+    this.intVal = intVal;
+    return this;
+  }
+
+  /**
+   * intVal
+   */
+  @JsonIgnore
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
     return this;
@@ -1000,6 +1221,15 @@ public static final class Builder {
    * doubleVal
    */
   @JsonProperty("doubleVal")
+  private Builder setDoubleValJson(Double doubleVal) {
+    this.doubleVal = doubleVal;
+    return this;
+  }
+
+  /**
+   * doubleVal
+   */
+  @JsonIgnore
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
     return this;
@@ -1009,6 +1239,15 @@ public static final class Builder {
    * Birthdate
    */
   @JsonProperty("birthdate")
+  private Builder setBirthdateJson(LocalDate birthdate) {
+    this.birthdate = birthdate;
+    return this;
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonIgnore
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
     return this;
@@ -1018,6 +1257,15 @@ public static final class Builder {
    * email
    */
   @JsonProperty("email")
+  private Builder setEmailJson(String email) {
+    this.email = email;
+    return this;
+  }
+
+  /**
+   * email
+   */
+  @JsonIgnore
   private Builder setEmail(String email) {
     this.email = email;
     return this;

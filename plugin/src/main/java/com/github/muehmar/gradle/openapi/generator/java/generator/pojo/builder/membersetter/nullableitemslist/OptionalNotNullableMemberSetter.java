@@ -22,7 +22,7 @@ abstract class OptionalNotNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public boolean shouldBeUsed() {
+  public boolean shouldBeUsed(PojoSettings settings) {
     return member.isOptionalAndNotNullable() && member.getJavaType().isNullableItemsArrayType();
   }
 
