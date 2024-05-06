@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.standardsetters;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
@@ -7,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
-import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
@@ -41,7 +41,7 @@ class OptionalNotNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public Writer addRefs(Writer writer) {
-    return writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL);
+  public PList<String> getRefs() {
+    return PList.single(JavaRefs.JAVA_UTIL_OPTIONAL);
   }
 }

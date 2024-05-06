@@ -2,11 +2,11 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
-import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 
 abstract class OptionalNotNullableMemberSetter implements MemberSetter {
@@ -42,7 +42,7 @@ abstract class OptionalNotNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public Writer addRefs(Writer writer) {
-    return writer.ref(JAVA_UTIL_OPTIONAL);
+  public PList<String> getRefs() {
+    return PList.single(JAVA_UTIL_OPTIONAL);
   }
 }

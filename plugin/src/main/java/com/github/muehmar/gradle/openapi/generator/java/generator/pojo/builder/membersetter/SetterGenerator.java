@@ -49,13 +49,12 @@ public class SetterGenerator {
                       writer.println(
                           "this.%s = %s;",
                           memberSetter.getMember().getName(), memberSetter.memberValue());
-                  final Writer flagAssigmentWriter =
-                      memberSetter
-                          .flagAssignment()
-                          .map(valueAssigmentWriter::println)
-                          .orElse(valueAssigmentWriter)
-                          .println("return this;");
-                  return memberSetter.addRefs(flagAssigmentWriter);
+                  return memberSetter
+                      .flagAssignment()
+                      .map(valueAssigmentWriter::println)
+                      .orElse(valueAssigmentWriter)
+                      .println("return this;")
+                      .refs(memberSetter.getRefs());
                 }))
             .build();
     return Generator.<MemberSetter, PojoSettings>emptyGen()

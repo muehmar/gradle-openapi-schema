@@ -9,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
-import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
@@ -48,10 +47,5 @@ class RawMemberSetter implements MemberSetter {
   @Override
   public Optional<String> flagAssignment() {
     return FlagAssignments.forStandardMemberSetter(member);
-  }
-
-  @Override
-  public Writer addRefs(Writer writer) {
-    return writer;
   }
 }
