@@ -1,10 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
-import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 
 class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMemberSetter {
@@ -33,7 +33,7 @@ class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMembe
   }
 
   @Override
-  public Writer addRefs(Writer writer) {
-    return super.addRefs(writer).ref(OpenApiUtilRefs.TRISTATE);
+  public PList<String> getRefs() {
+    return super.getRefs().cons(OpenApiUtilRefs.TRISTATE);
   }
 }

@@ -4,12 +4,12 @@ import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
-import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 
 abstract class RequiredNullableMemberSetter implements MemberSetter {
@@ -45,7 +45,7 @@ abstract class RequiredNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public Writer addRefs(Writer writer) {
-    return writer.ref(JAVA_UTIL_OPTIONAL);
+  public PList<String> getRefs() {
+    return PList.single(JAVA_UTIL_OPTIONAL);
   }
 }

@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
@@ -56,13 +57,12 @@ public class ApiOptionalNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public Writer addRefs(Writer writer) {
+  public PList<String> getRefs() {
     final Writer conversionWriter = conversionWriter();
     return conversionWriter
         .getRefs()
-        .foldLeft(writer, Writer::ref)
-        .ref(OpenApiUtilRefs.TRISTATE)
-        .ref(apiType.getClassName().asString());
+        .cons(OpenApiUtilRefs.TRISTATE)
+        .cons(apiType.getClassName().asString());
   }
 
   private Writer conversionWriter() {
