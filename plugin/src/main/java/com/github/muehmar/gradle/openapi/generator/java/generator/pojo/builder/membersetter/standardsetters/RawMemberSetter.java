@@ -1,9 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.standardsetters;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -13,8 +16,8 @@ import java.util.Optional;
 import lombok.Value;
 
 /**
- * Setter which uses the actual type directly without any wrapping. Use used for all {@link
- * Necessity} and {@link Nullability} combinations.
+ * Setter which uses the actual type directly without any wrapping. Used for all {@link Necessity}
+ * and {@link Nullability} combinations.
  */
 @Value
 class RawMemberSetter implements MemberSetter {
@@ -26,7 +29,8 @@ class RawMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.getJavaType().hasNoApiType();
+    return member.getJavaType().hasNoApiType()
+        && not(ApiTypeListConditions.groupCondition().test(member));
   }
 
   @Override

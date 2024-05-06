@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype.ApiTypeMemberSetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist.NullableItemsListMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.standardsetters.StandardMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
@@ -17,6 +18,7 @@ public interface MemberSetter {
     return PList.<MemberSetter>single(new JacksonMemberSetter(member))
         .concat(StandardMemberSetters.fromMember(member))
         .concat(ApiTypeMemberSetter.fromMember(member))
+        .concat(ApiTypeListMemberSetters.fromMember(member))
         .concat(NullableItemsListMemberSetters.fromMember(member));
   }
 
