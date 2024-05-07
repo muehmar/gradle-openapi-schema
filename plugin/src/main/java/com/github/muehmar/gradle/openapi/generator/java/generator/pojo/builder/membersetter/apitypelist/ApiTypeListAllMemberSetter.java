@@ -11,6 +11,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.m
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.maplistitem.MapListItemMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
@@ -44,11 +46,9 @@ class ApiTypeListAllMemberSetter implements MemberSetter {
 
   @Override
   public String argumentType() {
-    return member
-        .getJavaType()
-        .getApiType()
-        .map(apiType -> apiType.getParameterizedClassName().asString())
-        .orElseGet(() -> member.getJavaType().getParameterizedClassName().asString());
+    return ParameterizedApiClassName.fromJavaType(javaArrayType)
+        .map(ParameterizedApiClassName::asString)
+        .orElseGet(() -> javaArrayType.getParameterizedClassName().asString());
   }
 
   @Override
@@ -65,7 +65,14 @@ class ApiTypeListAllMemberSetter implements MemberSetter {
 
   @Override
   public PList<String> getRefs() {
-    return listWriter().getRefs().concat(itemWriter().getRefs());
+    return listWriter()
+        .getRefs()
+        .concat(itemWriter().getRefs())
+        .concat(
+            ParameterizedApiClassName.fromJavaType(javaArrayType)
+                .map(ParameterizedApiClassName::getAllQualifiedClassNames)
+                .orElseGet(PList::empty)
+                .map(QualifiedClassName::asString));
   }
 
   private Writer listWriter() {
