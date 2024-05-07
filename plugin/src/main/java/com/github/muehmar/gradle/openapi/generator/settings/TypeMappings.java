@@ -16,6 +16,10 @@ public class TypeMappings {
     return new TypeMappings(PList.single(classTypeMapping), PList.empty());
   }
 
+  public static TypeMappings ofSingleClassTypeMappings(ClassTypeMapping... classTypeMapping) {
+    return new TypeMappings(PList.fromArray(classTypeMapping), PList.empty());
+  }
+
   public static TypeMappings ofSingleFormatTypeMapping(FormatTypeMapping formatTypeMapping) {
     return new TypeMappings(PList.empty(), PList.single(formatTypeMapping));
   }
