@@ -8,7 +8,9 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil;
 import io.github.muehmar.codegenerator.Generator;
@@ -46,8 +48,9 @@ class SetterGeneratorTest {
   @ParameterizedTest
   @MethodSource("allNecessityAndNullabilityVariantsTypeMapped")
   @SnapshotName("allNecessityAndNullabilityVariantsTypeMapped")
-  void memberSetterMethods_when_calledWithNecessityAndNullabilityVariantsTypeMapped(
-      JavaPojoMember member) {
+  void
+      memberSetterMethods_when_calledWithNecessityAndNullabilityVariantsTypeMapped_then_matchSnapshot(
+          JavaPojoMember member) {
     final Generator<JavaPojoMember, PojoSettings> generator = memberSetterMethods();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
@@ -60,6 +63,32 @@ class SetterGeneratorTest {
   public static Stream<Arguments> allNecessityAndNullabilityVariantsTypeMapped() {
     return JavaPojos.allNecessityAndNullabilityVariantsTypeMapped()
         .getMembers()
+        .map(Arguments::of)
+        .toStream();
+  }
+
+  @ParameterizedTest
+  @MethodSource("allListNecessityAndNullabilityVariantsFullyTypeMapped")
+  @SnapshotName("allListNecessityAndNullabilityVariantsFullyTypeMapped")
+  void
+      memberSetterMethods_when_allListNecessityAndNullabilityVariantsFullyTypeMapped_then_matchSnapshot(
+          JavaPojoMember member) {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterMethods();
+
+    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+
+    expect
+        .scenario(member.getName().asString())
+        .toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  public static Stream<Arguments> allListNecessityAndNullabilityVariantsFullyTypeMapped() {
+    return JavaPojos.allNecessityAndNullabilityVariantsTypeMapped(
+            TypeMappings.ofClassTypeMappings(
+                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+                ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION))
+        .getMembers()
+        .filter(member -> member.getJavaType().isArrayType())
         .map(Arguments::of)
         .toStream();
   }

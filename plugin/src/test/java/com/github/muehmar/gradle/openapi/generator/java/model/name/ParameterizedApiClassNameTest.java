@@ -62,7 +62,7 @@ class ParameterizedApiClassNameTest {
     final JavaArrayType javaArrayType =
         JavaArrayType.wrap(
             arrayType,
-            TypeMappings.ofSingleClassTypeMappings(
+            TypeMappings.ofClassTypeMappings(
                 ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
                 ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION));
 
