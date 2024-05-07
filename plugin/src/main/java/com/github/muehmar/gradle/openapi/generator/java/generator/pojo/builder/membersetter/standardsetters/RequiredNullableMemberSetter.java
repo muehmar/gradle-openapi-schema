@@ -1,10 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.standardsetters;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -18,7 +21,9 @@ class RequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isRequiredAndNullable() && member.getJavaType().hasNoApiType();
+    return member.isRequiredAndNullable()
+        && member.getJavaType().hasNoApiType()
+        && not(ApiTypeListConditions.groupCondition().test(member));
   }
 
   @Override
