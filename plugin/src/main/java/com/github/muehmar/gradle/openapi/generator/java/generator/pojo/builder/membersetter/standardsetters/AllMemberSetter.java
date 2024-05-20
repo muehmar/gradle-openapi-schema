@@ -20,10 +20,10 @@ import lombok.Value;
  * and {@link Nullability} combinations.
  */
 @Value
-class RawMemberSetter implements MemberSetter {
+class AllMemberSetter implements MemberSetter {
   JavaPojoMember member;
 
-  public RawMemberSetter(JavaPojoMember member) {
+  public AllMemberSetter(JavaPojoMember member) {
     this.member = member;
   }
 

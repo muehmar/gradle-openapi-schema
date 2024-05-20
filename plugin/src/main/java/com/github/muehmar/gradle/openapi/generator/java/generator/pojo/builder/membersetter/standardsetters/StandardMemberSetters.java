@@ -14,7 +14,7 @@ public class StandardMemberSetters {
 
   public static PList<MemberSetter> fromMember(JavaPojoMember member) {
     return PList.of(
-        new RawMemberSetter(member),
+        new AllMemberSetter(member),
         new RequiredNullableMemberSetter(member),
         new OptionalNotNullableMemberSetter(member),
         new OptionalNullableMemberSetter(member));

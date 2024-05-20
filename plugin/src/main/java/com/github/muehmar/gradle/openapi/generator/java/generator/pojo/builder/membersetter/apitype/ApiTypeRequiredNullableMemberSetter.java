@@ -1,11 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -17,7 +20,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class ApiOptionalNotNullableMemberSetter implements MemberSetter {
+public class ApiTypeRequiredNullableMemberSetter implements MemberSetter {
   JavaPojoMember member;
   ApiType apiType;
 
@@ -25,12 +28,13 @@ public class ApiOptionalNotNullableMemberSetter implements MemberSetter {
     return member
         .getJavaType()
         .getApiType()
-        .map(apiType -> new ApiOptionalNotNullableMemberSetter(member, apiType));
+        .map(apiType -> new ApiTypeRequiredNullableMemberSetter(member, apiType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isOptionalAndNotNullable();
+    return member.isRequiredAndNullable()
+        && not(ApiTypeListConditions.groupCondition().test(member));
   }
 
   @Override
@@ -51,7 +55,7 @@ public class ApiOptionalNotNullableMemberSetter implements MemberSetter {
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(String.format("this.%s = true;", member.getIsNotNullFlagName()));
+    return Optional.of(FlagAssignments.requiredNullableFlagAssignment(member));
   }
 
   @Override

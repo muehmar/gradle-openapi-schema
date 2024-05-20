@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NULL_SAFE;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
@@ -12,7 +12,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.m
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
-import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -20,7 +19,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class ApiRequiredNullableMemberSetter implements MemberSetter {
+public class ApiTypeAllMemberSetter implements MemberSetter {
   JavaPojoMember member;
   ApiType apiType;
 
@@ -28,13 +27,12 @@ public class ApiRequiredNullableMemberSetter implements MemberSetter {
     return member
         .getJavaType()
         .getApiType()
-        .map(apiType -> new ApiRequiredNullableMemberSetter(member, apiType));
+        .map(apiType -> new ApiTypeAllMemberSetter(member, apiType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isRequiredAndNullable()
-        && not(ApiTypeListConditions.groupCondition().test(member));
+    return not(ApiTypeListConditions.groupCondition().test(member));
   }
 
   @Override
@@ -44,30 +42,27 @@ public class ApiRequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public String argumentType() {
-    return String.format("Optional<%s>", apiType.getParameterizedClassName());
+    return apiType.getParameterizedClassName().asString();
   }
 
   @Override
   public String memberValue() {
-    final Writer writer = conversionWriter();
-    return String.format("%s.map(val -> %s).orElse(null)", member.getName(), writer.asString());
+    return conversionWriter().asString();
   }
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.requiredNullableFlagAssignment(member));
+    return FlagAssignments.forStandardMemberSetter(member);
   }
 
   @Override
   public PList<String> getRefs() {
     final Writer conversionWriter = conversionWriter();
-    return conversionWriter
-        .getRefs()
-        .cons(JavaRefs.JAVA_UTIL_OPTIONAL)
-        .cons(apiType.getClassName().asString());
+    return conversionWriter.getRefs().cons(apiType.getClassName().asString());
   }
 
   private Writer conversionWriter() {
-    return FromApiTypeConversion.fromApiTypeConversion(apiType, "val", NO_NULL_CHECK);
+    return FromApiTypeConversion.fromApiTypeConversion(
+        apiType, member.getName().asString(), NULL_SAFE);
   }
 }
