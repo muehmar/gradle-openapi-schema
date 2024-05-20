@@ -10,15 +10,15 @@ import java.util.function.Function;
  * Setters for types with an {@link ApiType}. Does not include generic types where value-types have
  * an {@link ApiType}, e.g. maps and lists.
  */
-public class ApiTypeMemberSetter {
-  private ApiTypeMemberSetter() {}
+public class ApiTypeMemberSetters {
+  private ApiTypeMemberSetters() {}
 
   public static PList<MemberSetter> fromMember(JavaPojoMember member) {
     return PList.of(
-            ApiStandardMemberSetter.fromMember(member),
-            ApiRequiredNullableMemberSetter.fromMember(member),
-            ApiOptionalNotNullableMemberSetter.fromMember(member),
-            ApiOptionalNullableMemberSetter.fromMember(member))
+            ApiTypeAllMemberSetter.fromMember(member),
+            ApiTypeRequiredNullableMemberSetter.fromMember(member),
+            ApiTypeOptionalNotNullableMemberSetter.fromMember(member),
+            ApiTypeOptionalNullableMemberSetter.fromMember(member))
         .flatMapOptional(Function.identity());
   }
 }

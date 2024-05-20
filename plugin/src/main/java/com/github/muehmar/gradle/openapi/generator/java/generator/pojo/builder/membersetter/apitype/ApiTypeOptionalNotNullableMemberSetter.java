@@ -3,14 +3,13 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
-import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -18,7 +17,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class ApiOptionalNullableMemberSetter implements MemberSetter {
+public class ApiTypeOptionalNotNullableMemberSetter implements MemberSetter {
   JavaPojoMember member;
   ApiType apiType;
 
@@ -26,12 +25,12 @@ public class ApiOptionalNullableMemberSetter implements MemberSetter {
     return member
         .getJavaType()
         .getApiType()
-        .map(apiType -> new ApiOptionalNullableMemberSetter(member, apiType));
+        .map(apiType -> new ApiTypeOptionalNotNullableMemberSetter(member, apiType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isOptionalAndNullable();
+    return member.isOptionalAndNotNullable();
   }
 
   @Override
@@ -41,19 +40,18 @@ public class ApiOptionalNullableMemberSetter implements MemberSetter {
 
   @Override
   public String argumentType() {
-    return String.format("Tristate<%s>", apiType.getParameterizedClassName());
+    return String.format("Optional<%s>", apiType.getParameterizedClassName());
   }
 
   @Override
   public String memberValue() {
     final Writer writer = conversionWriter();
-    return String.format(
-        "%s.map(val -> %s).%s", member.getName(), writer.asString(), member.tristateToProperty());
+    return String.format("%s.map(val -> %s).orElse(null)", member.getName(), writer.asString());
   }
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.wrappedOptionalNullableFlagAssignment(member));
+    return Optional.of(String.format("this.%s = true;", member.getIsNotNullFlagName()));
   }
 
   @Override
@@ -61,7 +59,7 @@ public class ApiOptionalNullableMemberSetter implements MemberSetter {
     final Writer conversionWriter = conversionWriter();
     return conversionWriter
         .getRefs()
-        .cons(OpenApiUtilRefs.TRISTATE)
+        .cons(JavaRefs.JAVA_UTIL_OPTIONAL)
         .cons(apiType.getClassName().asString());
   }
 
