@@ -14,6 +14,10 @@ public class Max {
     return value;
   }
 
+  public String getValueAsLiteralString() {
+    return String.format("%dL", value);
+  }
+
   @Override
   public boolean equals(Object o) {
 

@@ -14,6 +14,10 @@ public class Min {
     return value;
   }
 
+  public String getValueAsLiteralString() {
+    return String.format("%dL", value);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

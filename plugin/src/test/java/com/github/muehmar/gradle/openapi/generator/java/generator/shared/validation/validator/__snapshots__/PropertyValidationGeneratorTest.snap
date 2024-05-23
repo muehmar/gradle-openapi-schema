@@ -67,8 +67,8 @@ integerWithMinAndMax=[
 .
 private boolean isIntValValid() {
   if(intVal != null) {
-    return 10 <= intVal
-        && intVal <= 50;
+    return 10L <= intVal
+        && intVal <= 50L;
   }
 
   return false;

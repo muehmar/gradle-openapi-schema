@@ -45,7 +45,10 @@ class ConstraintConditions {
             .getType()
             .getConstraints()
             .getMin()
-            .map(min -> writer.print("%d <= %s", min.getValue(), propertyValue.getAccessor()))
+            .map(
+                min ->
+                    writer.print(
+                        "%s <= %s", min.getValueAsLiteralString(), propertyValue.getAccessor()))
             .filter(ignore -> isSupportedConstraint(propertyValue, MIN, settings))
             .orElse(writer);
   }
@@ -56,7 +59,10 @@ class ConstraintConditions {
             .getType()
             .getConstraints()
             .getMax()
-            .map(max -> writer.print("%s <= %d", propertyValue.getAccessor(), max.getValue()))
+            .map(
+                max ->
+                    writer.print(
+                        "%s <= %s", propertyValue.getAccessor(), max.getValueAsLiteralString()))
             .filter(ignore -> isSupportedConstraint(propertyValue, MAX, settings))
             .orElse(writer);
   }
