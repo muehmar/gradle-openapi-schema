@@ -125,7 +125,7 @@ public class ValidationAnnotationGenerator {
   private static Generator<PropertyType, PojoSettings> minAnnotation() {
     final Generator<Min, PojoSettings> gen =
         Generator.<Min, PojoSettings>emptyGen()
-            .append((min, s, w) -> w.println("@Min(value = %d)", min.getValue()))
+            .append((min, s, w) -> w.println("@Min(value = %s)", min.getValueAsLiteralString()))
             .append(jakarta2Ref(Jakarta2ValidationRefs.MIN))
             .append(jakarta3Ref(Jakarta3ValidationRefs.MIN));
     return constraintsCheckingGenerator(gen, Constraints::getMin, ConstraintType.MIN);
@@ -134,7 +134,7 @@ public class ValidationAnnotationGenerator {
   private static Generator<PropertyType, PojoSettings> maxAnnotation() {
     final Generator<Max, PojoSettings> gen =
         Generator.<Max, PojoSettings>emptyGen()
-            .append((max, s, w) -> w.println("@Max(value = %d)", max.getValue()))
+            .append((max, s, w) -> w.println("@Max(value = %s)", max.getValueAsLiteralString()))
             .append(jakarta2Ref(Jakarta2ValidationRefs.MAX))
             .append(jakarta3Ref(Jakarta3ValidationRefs.MAX));
     return constraintsCheckingGenerator(gen, Constraints::getMax, ConstraintType.MAX);

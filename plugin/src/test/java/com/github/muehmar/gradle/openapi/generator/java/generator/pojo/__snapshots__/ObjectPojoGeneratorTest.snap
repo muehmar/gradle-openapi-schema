@@ -1487,7 +1487,7 @@ public class UserDto {
    * ID of this user
    */
   @NotNull
-  @Max(value = 50)
+  @Max(value = 50L)
   public Long getId() {
     return id;
   }
@@ -1552,7 +1552,7 @@ public class UserDto {
     return this.level == null ? defaultValue : this.level;
   }
 
-  @Min(value = 5)
+  @Min(value = 5L)
   private Long getLevelRaw() {
     return level;
   }
@@ -1784,7 +1784,7 @@ public class UserDto {
   private class Validator {
     private boolean isIdValid() {
       if(id != null) {
-        return id <= 50;
+        return id <= 50L;
       }
 
       return false;
@@ -1834,7 +1834,7 @@ public class UserDto {
 
     private boolean isLevelValid() {
       if(level != null) {
-        return 5 <= level;
+        return 5L <= level;
       }
 
       return isLevelNotNull;
@@ -2225,7 +2225,7 @@ public class UserDto {
    * ID of this user
    */
   @NotNull
-  @Max(value = 50)
+  @Max(value = 50L)
   public Long getId() {
     return id;
   }
@@ -2290,7 +2290,7 @@ public class UserDto {
     return this.level == null ? defaultValue : this.level;
   }
 
-  @Min(value = 5)
+  @Min(value = 5L)
   private Long getLevelRaw() {
     return level;
   }
@@ -2522,7 +2522,7 @@ public class UserDto {
   private class Validator {
     private boolean isIdValid() {
       if(id != null) {
-        return id <= 50;
+        return id <= 50L;
       }
 
       return false;
@@ -2572,7 +2572,7 @@ public class UserDto {
 
     private boolean isLevelValid() {
       if(level != null) {
-        return 5 <= level;
+        return 5L <= level;
       }
 
       return isLevelNotNull;

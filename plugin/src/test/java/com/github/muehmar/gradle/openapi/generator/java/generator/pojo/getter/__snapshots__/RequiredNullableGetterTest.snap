@@ -240,7 +240,7 @@ public List<Integer> getListValOr(List<Integer> defaultValue) {
 
 @Size(min = 5)
 @JsonProperty("listVal")
-private List<@NotNull @Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
+private List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListValRaw() {
   return listVal;
 }
 

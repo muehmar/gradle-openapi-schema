@@ -210,8 +210,8 @@ public class SampleObjectPojo1Dto {
    * intVal
    */
   @NotNull
-  @Min(value = 10)
-  @Max(value = 50)
+  @Min(value = 10L)
+  @Max(value = 50L)
   public Integer getIntVal() {
     return intVal;
   }
@@ -302,8 +302,8 @@ public class SampleObjectPojo1Dto {
 
     private boolean isIntValValid() {
       if(intVal != null) {
-        return 10 <= intVal
-            && intVal <= 50;
+        return 10L <= intVal
+            && intVal <= 50L;
       }
 
       return false;
