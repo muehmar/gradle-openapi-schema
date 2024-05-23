@@ -244,7 +244,7 @@ class ValidationAnnotationGeneratorTest {
 
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MIN::equals));
     assertTrue(writer.getRefs().exists(Jakarta2ValidationRefs.MAX::equals));
-    assertEquals("@Min(value = 10)\n" + "@Max(value = 50)", writer.asString());
+    assertEquals("@Min(value = 10L)\n" + "@Max(value = 50L)", writer.asString());
   }
 
   @Test

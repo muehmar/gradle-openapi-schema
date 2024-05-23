@@ -248,7 +248,7 @@ public List<Integer> getListValOr(List<Integer> defaultValue) {
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Size(min = 5)
-private List<@NotNull @Min(value = 5) @Max(value = 10) Integer> getListValRaw() {
+private List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListValRaw() {
   return listVal;
 }
 
