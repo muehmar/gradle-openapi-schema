@@ -1,5 +1,6 @@
 ## Change Log
 
+* 3.1.1 - Fix compile error for large integer constraints (issue `#259`)
 * 3.1.0 - Support referenced enum as discriminator (issue `#229`)
 * 3.0.0
     * Support discriminator with anyOf compositions (issue `#150`)
