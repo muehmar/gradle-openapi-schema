@@ -76,7 +76,7 @@ dependencyResolutionManagement {
             library('reflections', 'org.reflections', 'reflections').versionRef('reflections')
 
             // Plugins
-            plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.1.0')
+            plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.1.1')
             plugin('springboot2', 'org.springframework.boot').version('2.7.9')
             plugin('springboot3', 'org.springframework.boot').version('3.2.3')
             plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.4')
