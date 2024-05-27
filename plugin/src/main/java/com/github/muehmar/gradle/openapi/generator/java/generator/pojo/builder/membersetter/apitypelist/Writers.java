@@ -13,7 +13,7 @@ import io.github.muehmar.codegenerator.writer.Writer;
 class Writers {
   private Writers() {}
 
-  public static Writer itemWriter(JavaPojoMember member, JavaArrayType javaArrayType) {
+  public static Writer itemMappingWriter(JavaPojoMember member, JavaArrayType javaArrayType) {
     final String variableName = "item" + (member.getName().asString().equals("item") ? "_" : "");
     return javaArrayType
         .getItemType()
@@ -27,12 +27,26 @@ class Writers {
         .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
   }
 
-  public static Writer listWriter(JavaPojoMember member, JavaArrayType javaArrayType) {
+  public static Writer tristateListArgumentWriter(
+      JavaPojoMember member, JavaArrayType javaArrayType) {
+    final String unwrapList =
+        String.format(
+            "%s.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null)",
+            member.getName());
+    return listArgumentWriter(unwrapList, javaArrayType).ref(JavaRefs.JAVA_UTIL_FUNCTION);
+  }
+
+  public static Writer optionalListArgumentWriter(
+      JavaPojoMember member, JavaArrayType javaArrayType) {
     final String unwrapList = String.format("%s.orElse(null)", member.getName());
+    return listArgumentWriter(unwrapList, javaArrayType);
+  }
+
+  public static Writer listArgumentWriter(String argument, JavaArrayType javaArrayType) {
     return javaArrayType
         .getApiType()
-        .map(listApiType -> conversionWriter(listApiType, unwrapList))
-        .orElse(javaWriter().print(unwrapList));
+        .map(listApiType -> conversionWriter(listApiType, argument))
+        .orElse(javaWriter().print(argument));
   }
 
   public static Writer conversionWriter(ApiType apiType, String variableName) {

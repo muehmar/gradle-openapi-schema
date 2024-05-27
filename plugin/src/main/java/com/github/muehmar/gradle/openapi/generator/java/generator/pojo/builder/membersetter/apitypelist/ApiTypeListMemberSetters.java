@@ -13,7 +13,8 @@ public class ApiTypeListMemberSetters {
     return PList.of(
             ApiTypeListAllMemberSetter.fromMember(member),
             ApiTypeListRequiredNullableMemberSetter.fromMember(member),
-            ApiTypeListOptionalNotNullableMemberSetter.fromMember(member))
+            ApiTypeListOptionalNotNullableMemberSetter.fromMember(member),
+            ApiTypeListOptionalNullableMemberSetter.fromMember(member))
         .flatMapOptional(Function.identity());
   }
 }

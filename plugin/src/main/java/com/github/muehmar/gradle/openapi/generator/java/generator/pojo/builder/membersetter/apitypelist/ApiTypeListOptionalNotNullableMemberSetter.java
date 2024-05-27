@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.itemWriter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.listWriter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.itemMappingWriter;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
@@ -54,8 +53,8 @@ public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter 
     return String.format(
         "%s(%s, %s)",
         MapListItemMethod.METHOD_NAME,
-        listWriter(member, javaArrayType).asString(),
-        itemWriter(member, javaArrayType).asString());
+        Writers.optionalListArgumentWriter(member, javaArrayType).asString(),
+        itemMappingWriter(member, javaArrayType).asString());
   }
 
   @Override
@@ -65,9 +64,9 @@ public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter 
 
   @Override
   public PList<String> getRefs() {
-    return listWriter(member, javaArrayType)
+    return Writers.optionalListArgumentWriter(member, javaArrayType)
         .getRefs()
-        .concat(itemWriter(member, javaArrayType).getRefs())
+        .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(Refs.forApiType(javaArrayType))
         .cons(JavaRefs.JAVA_UTIL_OPTIONAL);
   }
