@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.conversionWriter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.itemWriter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.itemMappingWriter;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
@@ -55,7 +55,7 @@ class ApiTypeListAllMemberSetter implements MemberSetter {
         "%s(%s, %s)",
         MapListItemMethod.METHOD_NAME,
         listWriter().asString(),
-        itemWriter(member, javaArrayType).asString());
+        itemMappingWriter(member, javaArrayType).asString());
   }
 
   @Override
@@ -67,7 +67,7 @@ class ApiTypeListAllMemberSetter implements MemberSetter {
   public PList<String> getRefs() {
     return listWriter()
         .getRefs()
-        .concat(itemWriter(member, javaArrayType).getRefs())
+        .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(
             ParameterizedApiClassName.fromJavaType(javaArrayType)
                 .map(ParameterizedApiClassName::getAllQualifiedClassNames)
