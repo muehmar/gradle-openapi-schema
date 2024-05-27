@@ -41,7 +41,7 @@ abstract class RequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.requiredNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Raw.requiredNullableFlagAssignment(member));
   }
 
   @Override

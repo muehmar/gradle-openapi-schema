@@ -29,7 +29,7 @@ class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMembe
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.wrappedOptionalNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Wrapped.optionalNullableFlagAssignment(member));
   }
 
   @Override

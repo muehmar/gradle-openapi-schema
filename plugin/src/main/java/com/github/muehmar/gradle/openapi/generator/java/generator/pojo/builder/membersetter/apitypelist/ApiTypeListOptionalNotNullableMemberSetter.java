@@ -18,7 +18,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class ApiTypeListRequiredNullableMemberSetter implements MemberSetter {
+public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
 
@@ -26,12 +26,13 @@ public class ApiTypeListRequiredNullableMemberSetter implements MemberSetter {
     return member
         .getJavaType()
         .onArrayType()
-        .map(javaArrayType -> new ApiTypeListRequiredNullableMemberSetter(member, javaArrayType));
+        .map(
+            javaArrayType -> new ApiTypeListOptionalNotNullableMemberSetter(member, javaArrayType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return ApiTypeListConditions.groupCondition().test(member) && member.isRequiredAndNullable();
+    return ApiTypeListConditions.groupCondition().test(member) && member.isOptionalAndNotNullable();
   }
 
   @Override
@@ -59,7 +60,7 @@ public class ApiTypeListRequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.Wrapped.requiredNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Wrapped.optionalNotNullableFlagAssignment(member));
   }
 
   @Override

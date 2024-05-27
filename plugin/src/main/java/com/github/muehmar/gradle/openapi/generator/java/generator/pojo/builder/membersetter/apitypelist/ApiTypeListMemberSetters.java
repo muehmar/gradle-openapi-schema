@@ -12,7 +12,8 @@ public class ApiTypeListMemberSetters {
   public static PList<MemberSetter> fromMember(JavaPojoMember member) {
     return PList.of(
             ApiTypeListAllMemberSetter.fromMember(member),
-            ApiTypeListRequiredNullableMemberSetter.fromMember(member))
+            ApiTypeListRequiredNullableMemberSetter.fromMember(member),
+            ApiTypeListOptionalNotNullableMemberSetter.fromMember(member))
         .flatMapOptional(Function.identity());
   }
 }

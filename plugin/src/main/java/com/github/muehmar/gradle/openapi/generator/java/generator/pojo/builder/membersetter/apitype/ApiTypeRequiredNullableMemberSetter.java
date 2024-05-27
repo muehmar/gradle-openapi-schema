@@ -55,7 +55,7 @@ public class ApiTypeRequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.requiredNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Wrapped.requiredNullableFlagAssignment(member));
   }
 
   @Override
