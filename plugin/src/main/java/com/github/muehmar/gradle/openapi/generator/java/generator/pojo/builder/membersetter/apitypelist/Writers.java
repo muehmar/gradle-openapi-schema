@@ -27,6 +27,14 @@ class Writers {
         .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
   }
 
+  public static Writer listWriter(JavaPojoMember member, JavaArrayType javaArrayType) {
+    final String unwrapList = String.format("%s.orElse(null)", member.getName());
+    return javaArrayType
+        .getApiType()
+        .map(listApiType -> conversionWriter(listApiType, unwrapList))
+        .orElse(javaWriter().print(unwrapList));
+  }
+
   public static Writer conversionWriter(ApiType apiType, String variableName) {
     return FromApiTypeConversion.fromApiTypeConversion(apiType, variableName, NULL_SAFE);
   }
