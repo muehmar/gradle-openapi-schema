@@ -64,6 +64,11 @@ public class EnumType implements Type {
   }
 
   @Override
+  public Type makeNullable() {
+    return new EnumType(name, members, format, Nullability.NULLABLE);
+  }
+
+  @Override
   public Nullability getNullability() {
     return nullability;
   }

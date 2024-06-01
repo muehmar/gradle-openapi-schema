@@ -49,6 +49,11 @@ public class IntegerType implements Type {
     return this;
   }
 
+  @Override
+  public Type makeNullable() {
+    return new IntegerType(format, Nullability.NULLABLE, constraints);
+  }
+
   public Format getFormat() {
     return format;
   }

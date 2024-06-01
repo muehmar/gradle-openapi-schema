@@ -58,6 +58,11 @@ public class MapType implements Type {
   }
 
   @Override
+  public Type makeNullable() {
+    return withNullability(Nullability.NULLABLE);
+  }
+
+  @Override
   public Nullability getNullability() {
     return nullability;
   }

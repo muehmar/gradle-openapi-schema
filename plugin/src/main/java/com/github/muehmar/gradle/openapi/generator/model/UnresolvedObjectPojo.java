@@ -85,6 +85,22 @@ public class UnresolvedObjectPojo {
     return anyOfComposition;
   }
 
+  public Nullability getNullability() {
+    return nullability;
+  }
+
+  public PList<PojoMember> getMembers() {
+    return members;
+  }
+
+  public PList<Name> getRequiredAdditionalProperties() {
+    return requiredAdditionalProperties;
+  }
+
+  public AdditionalProperties getAdditionalProperties() {
+    return additionalProperties;
+  }
+
   private static boolean bothPresentOrAbsent(Optional<?> a, Optional<?> b) {
     return not(a.isPresent() ^ b.isPresent());
   }

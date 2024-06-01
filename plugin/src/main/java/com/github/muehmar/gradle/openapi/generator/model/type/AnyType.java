@@ -32,6 +32,11 @@ public class AnyType implements Type {
   }
 
   @Override
+  public Type makeNullable() {
+    return new AnyType(Nullability.NULLABLE);
+  }
+
+  @Override
   public Nullability getNullability() {
     return nullability;
   }
