@@ -32,6 +32,11 @@ public class BooleanType implements Type {
   }
 
   @Override
+  public Type makeNullable() {
+    return new BooleanType(Nullability.NULLABLE);
+  }
+
+  @Override
   public Nullability getNullability() {
     return nullability;
   }

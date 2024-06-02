@@ -44,6 +44,11 @@ public class ArrayType implements Type {
   }
 
   @Override
+  public Type makeNullable() {
+    return new ArrayType(constraints, itemType.makeNullable(), nullability);
+  }
+
+  @Override
   public Nullability getNullability() {
     return nullability;
   }

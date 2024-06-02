@@ -29,4 +29,8 @@ public class PojoMemberReference {
   public Type getType() {
     return type;
   }
+
+  public PojoMemberReference makeNullable() {
+    return new PojoMemberReference(name, description, type.makeNullable());
+  }
 }

@@ -23,6 +23,8 @@ public interface Type {
 
   Type applyMapping(PojoNameMapping pojoNameMapping);
 
+  Type makeNullable();
+
   default Type adjustNullablePojo(PojoName nullablePojo) {
     return asObjectType()
         .filter(objectType -> objectType.getName().equals(nullablePojo))

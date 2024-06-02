@@ -55,6 +55,11 @@ public class NumericType implements Type {
   }
 
   @Override
+  public Type makeNullable() {
+    return new NumericType(format, Nullability.NULLABLE, constraints);
+  }
+
+  @Override
   public Nullability getNullability() {
     return nullability;
   }
