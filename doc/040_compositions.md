@@ -3,6 +3,11 @@
 The OpenAPI specification supports the composition of schemas via `oneOf`, `anyOf` and `allOf` keyword. The plugin
 supports the generation of DTO's for these compositions as well as automatic validation.
 
+### Limitations
+
+In general, only object types are supported in compositions. Some specific cases with other types are supported, see
+chapter [Supported non-object type compositions](#supported-non-object-type-compositions).
+
 ### AllOf
 
 With `allOf`, the plugin will generate a DTO with all properties of the specified schemas. Consider the following
@@ -217,3 +222,31 @@ simply return an empty list.
 * [Validation](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/ValidationTest.java)
 * [Object creation and serialisation with discriminator](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DiscriminatorSerialisationTest.java)
 * [Deserialisation and decomposition with discriminator](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DiscriminatorDeserialisationTest.java)
+
+### Supported non-object type compositions
+
+#### Single allOf reference
+
+If a schema defines a non-object type, it can be referenced as single component of an allOf composition. This can be
+used in case one wants to use the same type for a property but make it nullable.
+
+The following example uses the string defined in the schema `Foo` in the schema `Bar` as property `foo`, but makes it
+nullable:
+
+```
+Bar:
+  required:
+    - hello
+    - foo
+  type: object
+  properties:
+    hello:
+      type: string
+    foo:
+      nullable: true
+      allOf:
+        - $ref: '#/components/schemas/Foo'
+
+Foo:
+  type: string
+```
