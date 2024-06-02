@@ -128,7 +128,10 @@ public class UnresolvedObjectPojoResolver {
       final String singleMessages =
           objectPojos.map(this::createUnresolvableMessageForPojo).mkString("\n");
       return String.format(
-          "%s\nIf the schema is present in the specification, it may not be detected properly as object type, adding 'type: object' explicitly to the definition may help.",
+          "%s\nIf the schema is present in the specification, it may not be detected properly as object type, "
+              + "adding 'type: object' explicitly to the definition may help. Another reason may be that the schema is "
+              + "not an object type which is currently not or only partially supported. See "
+              + "https://github.com/muehmar/gradle-openapi-schema/issues/263.",
           singleMessages);
     }
 
