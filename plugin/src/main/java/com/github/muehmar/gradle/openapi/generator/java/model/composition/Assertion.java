@@ -16,7 +16,8 @@ class Assertion {
           } else {
             throw new OpenApiGeneratorException(
                 String.format(
-                    "Only object schemas are supported for compositions but '%s' is a non-object schema ",
+                    "Only object schemas are supported for compositions but '%s' is a non-object schema. See "
+                        + "https://github.com/muehmar/gradle-openapi-schema/issues/265.",
                     pojo.getSchemaName()));
           }
         });
