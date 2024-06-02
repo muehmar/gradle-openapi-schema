@@ -1,5 +1,8 @@
 ## Change Log
 
+* 3.1.2
+    * Support for making referenced property nullable (issue `#263`)
+    * Improve error message in case of unsupported schemas concerning compositions (issue `#264`)
 * 3.1.1 - Fix compile error for large integer constraints (issue `#259`)
 * 3.1.0 - Support referenced enum as discriminator (issue `#229`)
 * 3.0.0

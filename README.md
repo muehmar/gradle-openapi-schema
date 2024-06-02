@@ -39,7 +39,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '3.1.1'
+    id 'com.github.muehmar.openapischema' version '3.1.2'
 }
 ```
 
