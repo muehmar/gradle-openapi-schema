@@ -87,7 +87,8 @@ def issueNumbers = [
         '238',
         '244',
         '248',
-        '259']
+        '259',
+        '263']
 
 specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
 

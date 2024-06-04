@@ -1,0 +1,34 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Bar1:
+      required:
+        - hello
+        - foo
+      type: object
+      properties:
+        hello:
+          type: string
+        foo:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Foo'
+
+    Bar2:
+      required:
+        - hello
+        - foo
+      type: object
+      properties:
+        hello:
+          type: string
+        foo:
+          allOf:
+            - $ref: '#/components/schemas/Foo'
+
+    Foo:
+      type: string
