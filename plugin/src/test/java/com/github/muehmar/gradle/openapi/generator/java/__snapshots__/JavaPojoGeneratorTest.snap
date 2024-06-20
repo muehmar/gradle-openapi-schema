@@ -194,7 +194,7 @@ public class SampleObjectPojo1Dto {
     this.stringVal = stringVal;
     this.intVal = intVal;
     this.doubleVal = doubleVal;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**

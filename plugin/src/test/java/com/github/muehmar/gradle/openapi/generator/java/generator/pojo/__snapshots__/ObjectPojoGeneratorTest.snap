@@ -40,7 +40,7 @@ public class PersonDto {
     this.requiredStringVal = requiredStringVal;
     this.birthdate = birthdate;
     this.username = username;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -594,7 +594,7 @@ public class PersonDto {
     this.requiredStringVal = requiredStringVal;
     this.birthdate = birthdate;
     this.username = username;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -1202,7 +1202,7 @@ public class ObjectPojo1Dto {
   ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   public static ObjectPojo1Dto fromProperties(Map<String, Object> properties) {
@@ -1480,7 +1480,7 @@ public class UserDto {
     this.isMultipleOfValueNotNull = isMultipleOfValueNotNull;
     this.anotherPojo = anotherPojo;
     this.isAnotherPojoNotNull = isAnotherPojoNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2218,7 +2218,7 @@ public class UserDto {
     this.isMultipleOfValueNotNull = isMultipleOfValueNotNull;
     this.anotherPojo = anotherPojo;
     this.isAnotherPojoNotNull = isAnotherPojoNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -2916,7 +2916,7 @@ public class UserDto {
     this.name = name;
     this.language = language;
     this.isLanguageNotNull = isLanguageNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -3463,7 +3463,7 @@ public class Illegal_IdentifierDto {
     this.isSwitchNull = isSwitchNull;
     this.point_ = point_;
     this.isPoint_Null = isPoint_Null;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -3949,7 +3949,7 @@ public class ObjectPojo1Dto {
   ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -4268,7 +4268,7 @@ public class ObjectPojo1Dto {
   ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   public static ObjectPojo1Dto fromProperties(Map<String, Integer> properties) {
@@ -4557,7 +4557,7 @@ public class UserDto {
     this.name = name;
     this.language = language;
     this.isLanguageNotNull = isLanguageNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -4902,7 +4902,7 @@ public class UserDto {
     this.name = name;
     this.language = language;
     this.isLanguageNotNull = isLanguageNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -5270,7 +5270,7 @@ public class NecessityAndNullabilityDto {
     this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -6689,7 +6689,7 @@ public class ObjectPojo1Dto {
   ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -6861,7 +6861,7 @@ public class ObjectPojo1Dto {
   ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   public static ObjectPojo1Dto fromProperties(Map<String, HelloDto> properties) {
@@ -7133,7 +7133,7 @@ public class ObjectPojo1Dto {
   ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   public static ObjectPojo1Dto fromProperties(Map<String, HelloDto> properties) {
@@ -7400,7 +7400,7 @@ public class ObjectPojo1Dto {
   ObjectPojo1Dto(
       Map<String, Object> additionalProperties
     ) {
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   public static ObjectPojo1Dto fromProperties(Map<String, HelloDto> properties) {
@@ -7674,7 +7674,7 @@ public class ObjectPojo1Dto {
       Map<String, Object> additionalProperties
     ) {
     this.listVal = listVal;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -8016,7 +8016,7 @@ public class ObjectPojo1Dto {
       Map<String, Object> additionalProperties
     ) {
     this.mapVal = mapVal;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -8368,7 +8368,7 @@ public class PersonDto {
     this.requiredStringVal = requiredStringVal;
     this.birthdate = birthdate;
     this.username = username;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -8959,7 +8959,7 @@ public class UserDto {
     ) {
     this.language = language;
     this.isLanguageNotNull = isLanguageNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -9250,7 +9250,7 @@ public class UserDto {
     ) {
     this.language = language;
     this.isLanguageNotNull = isLanguageNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**
@@ -9557,7 +9557,7 @@ public class ObjectPojo1Dto {
     this.email = email;
     this.birthdate = birthdate;
     this.isBirthdateNotNull = isBirthdateNotNull;
-    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+    this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
   }
 
   /**

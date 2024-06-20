@@ -87,7 +87,7 @@ public class PojoConstructorGenerator {
         .map(
             props ->
                 String.format(
-                    "this.%s = Collections.unmodifiableMap(%s);",
+                    "this.%s = %s == null ? Collections.emptyMap() : Collections.unmodifiableMap(%2$s);",
                     additionalPropertiesName(), additionalPropertiesName()));
   }
 

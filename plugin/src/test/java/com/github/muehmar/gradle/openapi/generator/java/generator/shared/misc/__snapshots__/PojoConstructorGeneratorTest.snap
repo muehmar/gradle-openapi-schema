@@ -20,7 +20,7 @@ public Illegal_IdentifierDto(
   this.isSwitchNull = isSwitchNull;
   this.point_ = point_;
   this.isPoint_Null = isPoint_Null;
-  this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
 }
 ]
 
@@ -57,7 +57,7 @@ public NecessityAndNullabilityDto(
   this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
   this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
-  this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
 }
 ]
 
@@ -94,6 +94,6 @@ public NecessityAndNullabilityDto(
   this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
   this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
-  this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  this.additionalProperties = additionalProperties == null ? Collections.emptyMap() : Collections.unmodifiableMap(additionalProperties);
 }
 ]
