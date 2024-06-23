@@ -10,12 +10,14 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 
@@ -542,6 +544,13 @@ public class SuperUserRefactorDto {
         + "}";
   }
 
+  private static <S, T> List<T> mapListItem(List<S> list, Function<S, T> mapItem) {
+    if (list == null) {
+      return null;
+    }
+    return list.stream().map(mapItem).collect(Collectors.toList());
+  }
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -558,6 +567,8 @@ public class SuperUserRefactorDto {
     private boolean isSuperUserIdNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
+    // Method signature is the same after type erasure in case the list is not mapped to another
+    // type
     @JsonProperty("ids")
     private Builder setIds(List<String> ids) {
       this.ids = ids;
@@ -565,8 +576,17 @@ public class SuperUserRefactorDto {
     }
 
     @JsonIgnore
-    private Builder setIds_(List<Optional<String>> ids) {
-      this.ids = unwrapNullableItemsList(ids);
+    private Builder setIds(ArrayList<Integer> ids) {
+      this.ids = mapListItem(ids.stream().collect(Collectors.toList()), i -> i.toString());
+      return this;
+    }
+
+    @JsonIgnore
+    private Builder setIds_(ArrayList<Optional<Integer>> ids) {
+      this.ids =
+          mapListItem(
+              unwrapNullableItemsList(ids.stream().collect(Collectors.toList())),
+              i -> i.toString());
       return this;
     }
 
