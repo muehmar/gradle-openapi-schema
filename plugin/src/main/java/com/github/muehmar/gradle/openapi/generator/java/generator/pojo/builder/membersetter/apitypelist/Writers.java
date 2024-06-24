@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NULL_SAFE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -10,7 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import io.github.muehmar.codegenerator.writer.Writer;
 
-class Writers {
+public class Writers {
   private Writers() {}
 
   public static Writer itemMappingWriter(JavaPojoMember member, JavaArrayType javaArrayType) {
@@ -18,7 +18,9 @@ class Writers {
     return javaArrayType
         .getItemType()
         .getApiType()
-        .map(itemApiType -> conversionWriter(itemApiType, variableName))
+        .map(
+            itemApiType ->
+                conversionWriter(itemApiType, variableName, ConversionGenerationMode.NULL_SAFE))
         .map(
             writer ->
                 javaWriter()
@@ -27,29 +29,45 @@ class Writers {
         .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
   }
 
-  public static Writer tristateListArgumentWriter(
+  public static Writer tristateListArgumentConversionWriter(
       JavaPojoMember member, JavaArrayType javaArrayType) {
     final String unwrapList =
         String.format(
             "%s.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null)",
             member.getName());
-    return listArgumentWriter(unwrapList, javaArrayType).ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    return nullSafeListArgumentConversionWriter(unwrapList, javaArrayType)
+        .ref(JavaRefs.JAVA_UTIL_FUNCTION);
   }
 
-  public static Writer optionalListArgumentWriter(
+  public static Writer optionalListArgumentConversionWriter(
       JavaPojoMember member, JavaArrayType javaArrayType) {
     final String unwrapList = String.format("%s.orElse(null)", member.getName());
-    return listArgumentWriter(unwrapList, javaArrayType);
+    return nullSafeListArgumentConversionWriter(unwrapList, javaArrayType);
   }
 
-  public static Writer listArgumentWriter(String argument, JavaArrayType javaArrayType) {
+  public static Writer nullSafeListArgumentConversionWriter(
+      String argument, JavaArrayType javaArrayType) {
     return javaArrayType
         .getApiType()
-        .map(listApiType -> conversionWriter(listApiType, argument))
+        .map(
+            listApiType ->
+                conversionWriter(listApiType, argument, ConversionGenerationMode.NULL_SAFE))
         .orElse(javaWriter().print(argument));
   }
 
-  public static Writer conversionWriter(ApiType apiType, String variableName) {
-    return FromApiTypeConversion.fromApiTypeConversion(apiType, variableName, NULL_SAFE);
+  public static Writer noNullCheckListArgumentConversionWriter(
+      String argument, JavaArrayType javaArrayType) {
+    return javaArrayType
+        .getApiType()
+        .map(
+            listApiType ->
+                conversionWriter(listApiType, argument, ConversionGenerationMode.NO_NULL_CHECK))
+        .orElse(javaWriter().print(argument));
+  }
+
+  public static Writer conversionWriter(
+      ApiType apiType, String variableName, ConversionGenerationMode conversionGenerationMode) {
+    return FromApiTypeConversion.fromApiTypeConversion(
+        apiType, variableName, conversionGenerationMode);
   }
 }
