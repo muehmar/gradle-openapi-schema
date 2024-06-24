@@ -123,7 +123,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Cust
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems_(CustomList<Optional<CustomString>> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalNullableListWithNullableItems != null ? CustomList.toList(optionalNullableListWithNullableItems) : null), item -> item != null ? CustomString.toString(item) : null);
-  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
 
@@ -360,7 +360,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Stri
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems_(CustomList<Optional<String>> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalNullableListWithNullableItems != null ? CustomList.toList(optionalNullableListWithNullableItems) : null), Function.identity());
-  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
 
@@ -598,7 +598,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<List<CustomStri
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems_(List<Optional<CustomString>> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalNullableListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
-  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
 

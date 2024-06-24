@@ -70,7 +70,7 @@ public class OptionalNullableStandardOverloadMemberSetter implements MemberSette
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.Wrapped.optionalNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Raw.optionalNullableFlagAssignment(member));
   }
 
   @Override
