@@ -46,6 +46,11 @@ public class Writers {
   }
 
   public static Writer nullSafeListArgumentConversionWriter(
+      JavaPojoMember member, JavaArrayType javaArrayType) {
+    return nullSafeListArgumentConversionWriter(member.getName().asString(), javaArrayType);
+  }
+
+  public static Writer nullSafeListArgumentConversionWriter(
       String argument, JavaArrayType javaArrayType) {
     return javaArrayType
         .getApiType()
@@ -56,13 +61,16 @@ public class Writers {
   }
 
   public static Writer noNullCheckListArgumentConversionWriter(
-      String argument, JavaArrayType javaArrayType) {
+      JavaPojoMember member, JavaArrayType javaArrayType) {
     return javaArrayType
         .getApiType()
         .map(
             listApiType ->
-                conversionWriter(listApiType, argument, ConversionGenerationMode.NO_NULL_CHECK))
-        .orElse(javaWriter().print(argument));
+                conversionWriter(
+                    listApiType,
+                    member.getName().asString(),
+                    ConversionGenerationMode.NO_NULL_CHECK))
+        .orElse(javaWriter().print(member.getName().asString()));
   }
 
   public static Writer conversionWriter(

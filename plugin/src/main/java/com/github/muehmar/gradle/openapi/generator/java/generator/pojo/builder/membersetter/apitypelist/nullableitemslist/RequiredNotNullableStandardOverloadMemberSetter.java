@@ -63,8 +63,7 @@ class RequiredNotNullableStandardOverloadMemberSetter implements MemberSetter {
         "%s(%s(%s), %s)",
         MapListItemMethod.METHOD_NAME,
         UnwrapNullableItemsListMethod.METHOD_NAME,
-        noNullCheckListArgumentConversionWriter(member.getName().asString(), javaArrayType)
-            .asString(),
+        noNullCheckListArgumentConversionWriter(member, javaArrayType).asString(),
         itemMappingWriter(member, javaArrayType).asString());
   }
 
@@ -75,7 +74,7 @@ class RequiredNotNullableStandardOverloadMemberSetter implements MemberSetter {
 
   @Override
   public PList<String> getRefs() {
-    return noNullCheckListArgumentConversionWriter(member.getName().asString(), javaArrayType)
+    return noNullCheckListArgumentConversionWriter(member, javaArrayType)
         .getRefs()
         .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(Refs.forApiType(javaArrayType));

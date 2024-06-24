@@ -45,6 +45,16 @@ public Builder setOptionalListWithNullableItems(Optional<CustomList<CustomString
   return this;
 }
 
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalListWithNullableItems_(CustomList<Optional<CustomString>> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalListWithNullableItems != null ? CustomList.toList(optionalListWithNullableItems) : null), item -> item != null ? CustomString.toString(item) : null);
+  this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+  return this;
+}
+
 ]
 
 
@@ -243,6 +253,16 @@ public Builder setOptionalListWithNullableItems(Optional<CustomList<String>> opt
   return this;
 }
 
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalListWithNullableItems_(CustomList<Optional<String>> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalListWithNullableItems != null ? CustomList.toList(optionalListWithNullableItems) : null), Function.identity());
+  this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+  return this;
+}
+
 ]
 
 
@@ -437,6 +457,16 @@ public Builder setOptionalListWithNullableItems(List<CustomString> optionalListW
 public Builder setOptionalListWithNullableItems(Optional<List<CustomString>> optionalListWithNullableItems) {
   this.optionalListWithNullableItems = mapListItem(optionalListWithNullableItems.orElse(null), item -> item != null ? CustomString.toString(item) : null);
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems.map(ignore -> true).orElse(false);
+  return this;
+}
+
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalListWithNullableItems_(List<Optional<CustomString>> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
+  this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
 
