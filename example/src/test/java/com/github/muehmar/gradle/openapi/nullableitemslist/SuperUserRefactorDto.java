@@ -597,7 +597,7 @@ public class SuperUserRefactorDto {
       return this;
     }
 
-    @JsonProperty("usernames")
+    @JsonIgnore
     private Builder setUsernames(ArrayList<Integer> usernames) {
       this.usernames =
           mapListItem(usernames.stream().collect(Collectors.toList()), i -> i.toString());
@@ -641,29 +641,54 @@ public class SuperUserRefactorDto {
     }
 
     @JsonProperty("emails")
-    public Builder setEmails(List<String> emails) {
+    public Builder setEmailsJson(List<String> emails) {
       this.emails = emails;
       this.isEmailsNotNull = emails != null;
       return this;
     }
 
     @JsonIgnore
-    public Builder setEmails(Optional<List<String>> emails) {
-      this.emails = emails.orElse(null);
+    public Builder setEmails(ArrayList<Integer> emails) {
+      this.emails =
+          mapListItem(
+              emails != null ? emails.stream().collect(Collectors.toList()) : null,
+              i -> i.toString());
+      this.isEmailsNotNull = emails != null;
+      return this;
+    }
+
+    @JsonIgnore
+    public Builder setEmails(Optional<ArrayList<Integer>> emails) {
+      this.emails =
+          mapListItem(
+              emails.orElse(null) != null
+                  ? emails.orElse(null).stream().collect(Collectors.toList())
+                  : null,
+              i -> i.toString());
       this.isEmailsNotNull = true;
       return this;
     }
 
     @JsonIgnore
-    public Builder setEmails_(List<Optional<String>> emails) {
-      this.emails = unwrapNullableItemsList(emails);
+    public Builder setEmails_(ArrayList<Optional<Integer>> emails) {
+      this.emails =
+          mapListItem(
+              unwrapNullableItemsList(
+                  emails != null ? emails.stream().collect(Collectors.toList()) : null),
+              i -> i.toString());
       this.isEmailsNotNull = true;
       return this;
     }
 
     @JsonIgnore
-    public Builder setEmails_(Optional<List<Optional<String>>> emails) {
-      this.emails = emails.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    public Builder setEmails_(Optional<ArrayList<Optional<Integer>>> emails) {
+      this.emails =
+          mapListItem(
+              unwrapNullableItemsList(
+                  emails.orElse(null) != null
+                      ? emails.orElse(null).stream().collect(Collectors.toList())
+                      : null),
+              i -> i.toString());
       this.isEmailsNotNull = true;
       return this;
     }
