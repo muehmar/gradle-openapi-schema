@@ -117,6 +117,16 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Cust
   return this;
 }
 
+/**
+ * OptionalNullableListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalNullableListWithNullableItems_(CustomList<Optional<CustomString>> optionalNullableListWithNullableItems) {
+  this.optionalNullableListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalNullableListWithNullableItems != null ? CustomList.toList(optionalNullableListWithNullableItems) : null), item -> item != null ? CustomString.toString(item) : null);
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+  return this;
+}
+
 ]
 
 
@@ -331,6 +341,16 @@ public Builder setOptionalNullableListWithNullableItems(CustomList<String> optio
 public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<String>> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = mapListItem(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null) != null ? CustomList.toList(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null)) : null, Function.identity());
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+  return this;
+}
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalNullableListWithNullableItems_(CustomList<Optional<String>> optionalNullableListWithNullableItems) {
+  this.optionalNullableListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalNullableListWithNullableItems != null ? CustomList.toList(optionalNullableListWithNullableItems) : null), Function.identity());
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
 
@@ -549,6 +569,16 @@ public Builder setOptionalNullableListWithNullableItems(List<CustomString> optio
 public Builder setOptionalNullableListWithNullableItems(Tristate<List<CustomString>> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = mapListItem(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null), item -> item != null ? CustomString.toString(item) : null);
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+  return this;
+}
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalNullableListWithNullableItems_(List<Optional<CustomString>> optionalNullableListWithNullableItems) {
+  this.optionalNullableListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalNullableListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
+  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
 
