@@ -591,29 +591,51 @@ public class SuperUserRefactorDto {
     }
 
     @JsonProperty("usernames")
-    private Builder setUsernames(List<String> usernames) {
+    private Builder setUsernamesJson(List<String> usernames) {
       this.usernames = usernames;
       this.isUsernamesPresent = true;
       return this;
     }
 
-    @JsonIgnore
-    private Builder setUsernames(Optional<List<String>> usernames) {
-      this.usernames = usernames.orElse(null);
+    @JsonProperty("usernames")
+    private Builder setUsernames(ArrayList<Integer> usernames) {
+      this.usernames =
+          mapListItem(usernames.stream().collect(Collectors.toList()), i -> i.toString());
       this.isUsernamesPresent = true;
       return this;
     }
 
     @JsonIgnore
-    private Builder setUsernames_(List<Optional<String>> usernames) {
-      this.usernames = unwrapNullableItemsList(usernames);
+    private Builder setUsernames(Optional<ArrayList<Integer>> usernames) {
+      this.usernames =
+          mapListItem(
+              usernames.orElse(null) == null
+                  ? usernames.orElse(null).stream().collect(Collectors.toList())
+                  : null,
+              i -> i.toString());
       this.isUsernamesPresent = true;
       return this;
     }
 
     @JsonIgnore
-    private Builder setUsernames_(Optional<List<Optional<String>>> usernames) {
-      this.usernames = usernames.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    private Builder setUsernames_(ArrayList<Optional<Integer>> usernames) {
+      this.usernames =
+          mapListItem(
+              unwrapNullableItemsList(usernames.stream().collect(Collectors.toList())),
+              i -> i.toString());
+      this.isUsernamesPresent = true;
+      return this;
+    }
+
+    @JsonIgnore
+    private Builder setUsernames_(Optional<ArrayList<Optional<Integer>>> usernames) {
+      this.usernames =
+          mapListItem(
+              unwrapNullableItemsList(
+                  usernames.orElse(null) == null
+                      ? usernames.orElse(null).stream().collect(Collectors.toList())
+                      : null),
+              i -> i.toString());
       this.isUsernamesPresent = true;
       return this;
     }
