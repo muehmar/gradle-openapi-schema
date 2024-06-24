@@ -55,6 +55,16 @@ public Builder setOptionalListWithNullableItems_(CustomList<Optional<CustomStrin
   return this;
 }
 
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalListWithNullableItems_(Optional<CustomList<Optional<CustomString>>> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalListWithNullableItems.orElse(null) != null ? CustomList.toList(optionalListWithNullableItems.orElse(null)) : null), item -> item != null ? CustomString.toString(item) : null);
+  this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems.map(ignore -> true).orElse(false);
+  return this;
+}
+
 ]
 
 
@@ -263,6 +273,16 @@ public Builder setOptionalListWithNullableItems_(CustomList<Optional<String>> op
   return this;
 }
 
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalListWithNullableItems_(Optional<CustomList<Optional<String>>> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalListWithNullableItems.orElse(null) != null ? CustomList.toList(optionalListWithNullableItems.orElse(null)) : null), Function.identity());
+  this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems.map(ignore -> true).orElse(false);
+  return this;
+}
+
 ]
 
 
@@ -467,6 +487,16 @@ public Builder setOptionalListWithNullableItems(Optional<List<CustomString>> opt
 public Builder setOptionalListWithNullableItems_(List<Optional<CustomString>> optionalListWithNullableItems) {
   this.optionalListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+  return this;
+}
+
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonIgnore
+public Builder setOptionalListWithNullableItems_(Optional<List<Optional<CustomString>>> optionalListWithNullableItems) {
+  this.optionalListWithNullableItems = mapListItem(unwrapNullableItemsList(optionalListWithNullableItems.orElse(null)), item -> item != null ? CustomString.toString(item) : null);
+  this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems.map(ignore -> true).orElse(false);
   return this;
 }
 

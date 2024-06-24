@@ -11,7 +11,8 @@ public class ApiTypeListNullableItemsListOverloadMemberSetters {
             RequiredNotNullableStandardOverloadMemberSetter.fromMember(member),
             RequiredNullableStandardOverloadMemberSetter.fromMember(member),
             RequiredNullableOptionalOverloadMemberSetter.fromMember(member),
-            OptionalNotNullableStandardOverloadMemberSetter.fromMember(member))
+            OptionalNotNullableStandardOverloadMemberSetter.fromMember(member),
+            OptionalNotNullableOptionalOverloadMemberSetter.fromMember(member))
         .flatMapOptional(Function.identity());
   }
 }
