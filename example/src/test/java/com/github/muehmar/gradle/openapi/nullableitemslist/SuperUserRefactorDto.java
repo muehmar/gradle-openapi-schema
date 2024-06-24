@@ -694,30 +694,56 @@ public class SuperUserRefactorDto {
     }
 
     @JsonProperty("phones")
-    public Builder setPhones(List<String> phones) {
+    public Builder setPhonesJson(List<String> phones) {
       this.phones = phones;
       this.isPhonesNull = phones == null;
       return this;
     }
 
     @JsonIgnore
-    public Builder setPhones(Tristate<List<String>> phones) {
-      this.phones = phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    public Builder setPhones(ArrayList<Integer> phones) {
+      this.phones =
+          mapListItem(
+              phones != null ? phones.stream().collect(Collectors.toList()) : null,
+              i -> i.toString());
+      this.isPhonesNull = phones == null;
+      return this;
+    }
+
+    @JsonIgnore
+    public Builder setPhones(Tristate<ArrayList<Integer>> phones) {
+      this.phones =
+          mapListItem(
+              phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null) != null
+                  ? phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null).stream()
+                      .collect(Collectors.toList())
+                  : null,
+              i -> i.toString());
       this.isPhonesNull = phones.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
 
     @JsonIgnore
-    public Builder setPhones_(List<Optional<String>> phones) {
-      this.phones = unwrapNullableItemsList(phones);
+    public Builder setPhones_(ArrayList<Optional<Integer>> phones) {
+      this.phones =
+          mapListItem(
+              unwrapNullableItemsList(
+                  phones != null ? phones.stream().collect(Collectors.toList()) : null),
+              i -> i.toString());
       isPhonesNull = false;
       return this;
     }
 
     @JsonIgnore
-    public Builder setPhones_(Tristate<List<Optional<String>>> phones) {
+    public Builder setPhones_(Tristate<ArrayList<Optional<Integer>>> phones) {
       this.phones =
-          phones.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
+          mapListItem(
+              unwrapNullableItemsList(
+                  phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null) != null
+                      ? phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null).stream()
+                          .collect(Collectors.toList())
+                      : null),
+              i -> i.toString());
       this.isPhonesNull = phones.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
