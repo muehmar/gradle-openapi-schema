@@ -35,9 +35,7 @@ public class FlagAssignments {
     }
 
     public static String optionalNotNullableFlagAssignment(JavaPojoMember member) {
-      return String.format(
-          "this.%s = %s.map(ignore -> true).orElse(false);",
-          member.getIsNotNullFlagName(), member.getName());
+      return String.format("this.%s = true;", member.getIsNotNullFlagName());
     }
 
     public static String optionalNullableFlagAssignment(JavaPojoMember member) {
