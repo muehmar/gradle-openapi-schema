@@ -46,7 +46,7 @@ plugins {
 and configure the generation:
 
 ```
-openaApiGenerator {
+openApiGenerator {
    schemas {
        apiV1 {
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
