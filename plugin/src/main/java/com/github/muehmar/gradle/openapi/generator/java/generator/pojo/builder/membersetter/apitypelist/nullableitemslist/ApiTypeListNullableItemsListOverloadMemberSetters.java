@@ -13,7 +13,8 @@ public class ApiTypeListNullableItemsListOverloadMemberSetters {
             RequiredNullableOptionalOverloadMemberSetter.fromMember(member),
             OptionalNotNullableStandardOverloadMemberSetter.fromMember(member),
             OptionalNotNullableOptionalOverloadMemberSetter.fromMember(member),
-            OptionalNullableStandardOverloadMemberSetter.fromMember(member))
+            OptionalNullableStandardOverloadMemberSetter.fromMember(member),
+            OptionalNullableTristateOverloadMemberSetter.fromMember(member))
         .flatMapOptional(Function.identity());
   }
 }
