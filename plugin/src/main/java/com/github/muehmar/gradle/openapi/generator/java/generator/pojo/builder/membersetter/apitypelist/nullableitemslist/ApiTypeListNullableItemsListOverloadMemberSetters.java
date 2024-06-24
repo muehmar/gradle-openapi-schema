@@ -10,7 +10,8 @@ public class ApiTypeListNullableItemsListOverloadMemberSetters {
     return PList.of(
             RequiredNotNullableStandardOverloadMemberSetter.fromMember(member),
             RequiredNullableStandardOverloadMemberSetter.fromMember(member),
-            RequiredNullableOptionalOverloadMemberSetter.fromMember(member))
+            RequiredNullableOptionalOverloadMemberSetter.fromMember(member),
+            OptionalNotNullableStandardOverloadMemberSetter.fromMember(member))
         .flatMapOptional(Function.identity());
   }
 }
