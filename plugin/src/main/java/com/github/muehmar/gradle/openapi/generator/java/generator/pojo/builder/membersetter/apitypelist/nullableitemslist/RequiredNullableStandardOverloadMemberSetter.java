@@ -4,14 +4,15 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.bu
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.noNullCheckListArgumentConversionWriter;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Refs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.maplistitem.MapListItemMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
@@ -19,7 +20,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-class ApiTypeListRequiredNotNullableStandardOverloadMemberSetter implements MemberSetter {
+class RequiredNullableStandardOverloadMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
 
@@ -29,14 +30,13 @@ class ApiTypeListRequiredNotNullableStandardOverloadMemberSetter implements Memb
         .onArrayType()
         .map(
             javaArrayType ->
-                new ApiTypeListRequiredNotNullableStandardOverloadMemberSetter(
-                    member, javaArrayType));
+                new RequiredNullableStandardOverloadMemberSetter(member, javaArrayType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
     return ApiTypeListConditions.groupCondition().test(member)
-        && member.isRequiredAndNotNullable()
+        && member.isRequiredAndNullable()
         && member.getJavaType().isNullableItemsArrayType();
   }
 
@@ -71,7 +71,7 @@ class ApiTypeListRequiredNotNullableStandardOverloadMemberSetter implements Memb
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.empty();
+    return Optional.of(FlagAssignments.Raw.requiredNullableFlagAssignment(member));
   }
 
   @Override
@@ -79,10 +79,6 @@ class ApiTypeListRequiredNotNullableStandardOverloadMemberSetter implements Memb
     return noNullCheckListArgumentConversionWriter(member.getName().asString(), javaArrayType)
         .getRefs()
         .concat(itemMappingWriter(member, javaArrayType).getRefs())
-        .concat(
-            ParameterizedApiClassName.fromJavaType(javaArrayType)
-                .map(ParameterizedApiClassName::getAllQualifiedClassNames)
-                .orElseGet(PList::empty)
-                .map(QualifiedClassName::asString));
+        .concat(Refs.forApiType(javaArrayType));
   }
 }

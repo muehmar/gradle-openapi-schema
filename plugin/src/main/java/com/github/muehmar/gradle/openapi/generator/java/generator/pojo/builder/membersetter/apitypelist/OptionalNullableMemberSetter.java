@@ -17,7 +17,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter {
+class OptionalNullableMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
 
@@ -25,13 +25,12 @@ public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter 
     return member
         .getJavaType()
         .onArrayType()
-        .map(
-            javaArrayType -> new ApiTypeListOptionalNotNullableMemberSetter(member, javaArrayType));
+        .map(javaArrayType -> new OptionalNullableMemberSetter(member, javaArrayType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return ApiTypeListConditions.groupCondition().test(member) && member.isOptionalAndNotNullable();
+    return ApiTypeListConditions.groupCondition().test(member) && member.isOptionalAndNullable();
   }
 
   @Override
@@ -45,7 +44,7 @@ public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter 
         ParameterizedApiClassName.fromJavaType(javaArrayType)
             .map(ParameterizedApiClassName::asString)
             .orElseGet(() -> javaArrayType.getParameterizedClassName().asString());
-    return String.format("Optional<%s>", parameterizedType);
+    return String.format("Tristate<%s>", parameterizedType);
   }
 
   @Override
@@ -53,18 +52,18 @@ public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter 
     return String.format(
         "%s(%s, %s)",
         MapListItemMethod.METHOD_NAME,
-        Writers.optionalListArgumentConversionWriter(member, javaArrayType).asString(),
+        Writers.tristateListArgumentConversionWriter(member, javaArrayType).asString(),
         itemMappingWriter(member, javaArrayType).asString());
   }
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.Wrapped.optionalNotNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Wrapped.optionalNullableFlagAssignment(member));
   }
 
   @Override
   public PList<String> getRefs() {
-    return Writers.optionalListArgumentConversionWriter(member, javaArrayType)
+    return Writers.tristateListArgumentConversionWriter(member, javaArrayType)
         .getRefs()
         .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(Refs.forApiType(javaArrayType))

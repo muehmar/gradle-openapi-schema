@@ -22,7 +22,8 @@ abstract class OptionalNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isOptionalAndNullable() && member.getJavaType().isNullableItemsArrayType();
+    return NullableItemsListConditions.groupCondition().test(member)
+        && member.isOptionalAndNullable();
   }
 
   @Override

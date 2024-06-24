@@ -19,7 +19,8 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isRequiredAndNotNullable() && member.getJavaType().isNullableItemsArrayType();
+    return NullableItemsListConditions.groupCondition().test(member)
+        && member.isRequiredAndNotNullable();
   }
 
   @Override
