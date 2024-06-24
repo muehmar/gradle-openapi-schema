@@ -1,12 +1,16 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.nullableitemslist;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.itemMappingWriter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.optionalListArgumentConversionWriter;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Refs;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.maplistitem.MapListItemMethod;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -17,7 +21,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-public class ApiTypeListOptionalNullableMemberSetter implements MemberSetter {
+class RequiredNullableOptionalOverloadMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
 
@@ -25,12 +29,21 @@ public class ApiTypeListOptionalNullableMemberSetter implements MemberSetter {
     return member
         .getJavaType()
         .onArrayType()
-        .map(javaArrayType -> new ApiTypeListOptionalNullableMemberSetter(member, javaArrayType));
+        .map(
+            javaArrayType ->
+                new RequiredNullableOptionalOverloadMemberSetter(member, javaArrayType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return ApiTypeListConditions.groupCondition().test(member) && member.isOptionalAndNullable();
+    return ApiTypeListConditions.groupCondition().test(member)
+        && member.isRequiredAndNullable()
+        && member.getJavaType().isNullableItemsArrayType();
+  }
+
+  @Override
+  public String methodSuffix() {
+    return "_";
   }
 
   @Override
@@ -42,28 +55,31 @@ public class ApiTypeListOptionalNullableMemberSetter implements MemberSetter {
   public String argumentType() {
     final String parameterizedType =
         ParameterizedApiClassName.fromJavaType(javaArrayType)
-            .map(ParameterizedApiClassName::asString)
-            .orElseGet(() -> javaArrayType.getParameterizedClassName().asString());
-    return String.format("Tristate<%s>", parameterizedType);
+            .map(ParameterizedApiClassName::asStringWrappingNullableValueType)
+            .orElseGet(
+                () ->
+                    javaArrayType.getParameterizedClassName().asStringWrappingNullableValueType());
+    return String.format("Optional<%s>", parameterizedType);
   }
 
   @Override
   public String memberValue() {
     return String.format(
-        "%s(%s, %s)",
+        "%s(%s(%s), %s)",
         MapListItemMethod.METHOD_NAME,
-        Writers.tristateListArgumentConversionWriter(member, javaArrayType).asString(),
+        UnwrapNullableItemsListMethod.METHOD_NAME,
+        optionalListArgumentConversionWriter(member, javaArrayType).asString(),
         itemMappingWriter(member, javaArrayType).asString());
   }
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.Wrapped.optionalNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Raw.requiredNullableFlagAssignment(member));
   }
 
   @Override
   public PList<String> getRefs() {
-    return Writers.tristateListArgumentConversionWriter(member, javaArrayType)
+    return optionalListArgumentConversionWriter(member, javaArrayType)
         .getRefs()
         .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(Refs.forApiType(javaArrayType))

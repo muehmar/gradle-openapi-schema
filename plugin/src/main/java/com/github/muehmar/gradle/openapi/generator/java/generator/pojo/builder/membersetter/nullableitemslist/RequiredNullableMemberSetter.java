@@ -21,7 +21,8 @@ abstract class RequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isRequiredAndNullable() && member.getJavaType().isNullableItemsArrayType();
+    return NullableItemsListConditions.groupCondition().test(member)
+        && member.isRequiredAndNullable();
   }
 
   @Override

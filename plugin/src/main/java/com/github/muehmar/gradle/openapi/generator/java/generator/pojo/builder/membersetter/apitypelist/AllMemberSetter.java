@@ -19,7 +19,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-class ApiTypeListAllMemberSetter implements MemberSetter {
+class AllMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
 
@@ -27,7 +27,7 @@ class ApiTypeListAllMemberSetter implements MemberSetter {
     return member
         .getJavaType()
         .onArrayType()
-        .map(javaArrayType -> new ApiTypeListAllMemberSetter(member, javaArrayType));
+        .map(javaArrayType -> new AllMemberSetter(member, javaArrayType));
   }
 
   @Override

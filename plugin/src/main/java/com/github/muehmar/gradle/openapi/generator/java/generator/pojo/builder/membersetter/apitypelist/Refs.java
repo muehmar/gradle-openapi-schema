@@ -5,7 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.Parameterized
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 
-class Refs {
+public class Refs {
   private Refs() {}
 
   public static PList<String> forApiType(JavaType javaType) {
