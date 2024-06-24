@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.bu
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.noNullCheckListArgumentConversionWriter;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
@@ -19,7 +20,7 @@ import java.util.Optional;
 import lombok.Value;
 
 @Value
-class ApiTypeListRequiredNotNullableStandardOverloadMemberSetter implements MemberSetter {
+class ApiTypeListRequiredNullableStandardOverloadMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
 
@@ -29,14 +30,13 @@ class ApiTypeListRequiredNotNullableStandardOverloadMemberSetter implements Memb
         .onArrayType()
         .map(
             javaArrayType ->
-                new ApiTypeListRequiredNotNullableStandardOverloadMemberSetter(
-                    member, javaArrayType));
+                new ApiTypeListRequiredNullableStandardOverloadMemberSetter(member, javaArrayType));
   }
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
     return ApiTypeListConditions.groupCondition().test(member)
-        && member.isRequiredAndNotNullable()
+        && member.isRequiredAndNullable()
         && member.getJavaType().isNullableItemsArrayType();
   }
 
@@ -71,7 +71,7 @@ class ApiTypeListRequiredNotNullableStandardOverloadMemberSetter implements Memb
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.empty();
+    return Optional.of(FlagAssignments.Raw.requiredNullableFlagAssignment(member));
   }
 
   @Override
