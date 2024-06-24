@@ -53,7 +53,7 @@ public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter 
     return String.format(
         "%s(%s, %s)",
         MapListItemMethod.METHOD_NAME,
-        Writers.optionalListArgumentWriter(member, javaArrayType).asString(),
+        Writers.optionalListArgumentConversionWriter(member, javaArrayType).asString(),
         itemMappingWriter(member, javaArrayType).asString());
   }
 
@@ -64,7 +64,7 @@ public class ApiTypeListOptionalNotNullableMemberSetter implements MemberSetter 
 
   @Override
   public PList<String> getRefs() {
-    return Writers.optionalListArgumentWriter(member, javaArrayType)
+    return Writers.optionalListArgumentConversionWriter(member, javaArrayType)
         .getRefs()
         .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(Refs.forApiType(javaArrayType))

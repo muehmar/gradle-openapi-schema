@@ -52,7 +52,7 @@ public class ApiTypeListOptionalNullableMemberSetter implements MemberSetter {
     return String.format(
         "%s(%s, %s)",
         MapListItemMethod.METHOD_NAME,
-        Writers.tristateListArgumentWriter(member, javaArrayType).asString(),
+        Writers.tristateListArgumentConversionWriter(member, javaArrayType).asString(),
         itemMappingWriter(member, javaArrayType).asString());
   }
 
@@ -63,7 +63,7 @@ public class ApiTypeListOptionalNullableMemberSetter implements MemberSetter {
 
   @Override
   public PList<String> getRefs() {
-    return Writers.tristateListArgumentWriter(member, javaArrayType)
+    return Writers.tristateListArgumentConversionWriter(member, javaArrayType)
         .getRefs()
         .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(Refs.forApiType(javaArrayType))

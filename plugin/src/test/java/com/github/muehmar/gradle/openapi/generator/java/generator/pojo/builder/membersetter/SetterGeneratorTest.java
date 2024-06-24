@@ -92,4 +92,28 @@ class SetterGeneratorTest {
         .map(Arguments::of)
         .toStream();
   }
+
+  @ParameterizedTest
+  @MethodSource("allListNecessityAndNullabilityVariantsOnlyListTypeMapped")
+  @SnapshotName("allListNecessityAndNullabilityVariantsOnlyListTypeMapped")
+  void
+      memberSetterMethods_when_allListNecessityAndNullabilityVariantsOnlyListTypeMapped_then_matchSnapshot(
+          JavaPojoMember member) {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterMethods();
+
+    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+
+    expect
+        .scenario(member.getName().asString())
+        .toMatchSnapshot(SnapshotUtil.writerSnapshot(writer));
+  }
+
+  public static Stream<Arguments> allListNecessityAndNullabilityVariantsOnlyListTypeMapped() {
+    return JavaPojos.allNecessityAndNullabilityVariantsTypeMapped(
+            TypeMappings.ofClassTypeMappings(ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION))
+        .getMembers()
+        .filter(member -> member.getJavaType().isArrayType())
+        .map(Arguments::of)
+        .toStream();
+  }
 }
