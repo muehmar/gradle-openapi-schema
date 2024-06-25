@@ -551,6 +551,34 @@ public class SuperUserRefactorDto {
     return list.stream().map(mapItem).collect(Collectors.toList());
   }
 
+  private static <A, B, C, D, E> List<E> unmapList(
+      A list,
+      Function<A, B> unwrapList,
+      Function<B, List<C>> unmapListType,
+      Function<C, D> unwrapListItem,
+      Function<D, E> unmapListItem) {
+    if (list == null) {
+      return null;
+    }
+
+    final B unwrappedList = unwrapList.apply(list);
+
+    if (unwrappedList == null) {
+      return null;
+    }
+
+    final List<C> unmappedListType = unmapListType.apply(unwrappedList);
+
+    if (unmappedListType == null) {
+      return null;
+    }
+
+    return unmappedListType.stream()
+        .map(i -> i != null ? unwrapListItem.apply(i) : null)
+        .map(i -> i != null ? unmapListItem.apply(i) : null)
+        .collect(Collectors.toList());
+  }
+
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
@@ -567,25 +595,32 @@ public class SuperUserRefactorDto {
     private boolean isSuperUserIdNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    // Method signature is the same after type erasure in case the list is not mapped to another
-    // type
     @JsonProperty("ids")
-    private Builder setIds(List<String> ids) {
+    private Builder setIdsJson(List<String> ids) {
       this.ids = ids;
       return this;
     }
 
     @JsonIgnore
     private Builder setIds(ArrayList<Integer> ids) {
-      this.ids = mapListItem(ids.stream().collect(Collectors.toList()), i -> i.toString());
+      this.ids =
+          unmapList(
+              ids,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              Function.identity(),
+              i -> i.toString());
       return this;
     }
 
     @JsonIgnore
     private Builder setIds_(ArrayList<Optional<Integer>> ids) {
       this.ids =
-          mapListItem(
-              unwrapNullableItemsList(ids.stream().collect(Collectors.toList())),
+          unmapList(
+              ids,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              i -> i.orElse(null),
               i -> i.toString());
       return this;
     }
@@ -600,7 +635,12 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     private Builder setUsernames(ArrayList<Integer> usernames) {
       this.usernames =
-          mapListItem(usernames.stream().collect(Collectors.toList()), i -> i.toString());
+          unmapList(
+              usernames,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              Function.identity(),
+              i -> i.toString());
       this.isUsernamesPresent = true;
       return this;
     }
@@ -608,10 +648,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     private Builder setUsernames(Optional<ArrayList<Integer>> usernames) {
       this.usernames =
-          mapListItem(
-              usernames.orElse(null) == null
-                  ? usernames.orElse(null).stream().collect(Collectors.toList())
-                  : null,
+          unmapList(
+              usernames,
+              l -> l.orElse(null),
+              l -> l.stream().collect(Collectors.toList()),
+              Function.identity(),
               i -> i.toString());
       this.isUsernamesPresent = true;
       return this;
@@ -620,8 +661,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     private Builder setUsernames_(ArrayList<Optional<Integer>> usernames) {
       this.usernames =
-          mapListItem(
-              unwrapNullableItemsList(usernames.stream().collect(Collectors.toList())),
+          unmapList(
+              usernames,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              i -> i.orElse(null),
               i -> i.toString());
       this.isUsernamesPresent = true;
       return this;
@@ -630,11 +674,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     private Builder setUsernames_(Optional<ArrayList<Optional<Integer>>> usernames) {
       this.usernames =
-          mapListItem(
-              unwrapNullableItemsList(
-                  usernames.orElse(null) == null
-                      ? usernames.orElse(null).stream().collect(Collectors.toList())
-                      : null),
+          unmapList(
+              usernames,
+              l -> l.orElse(null),
+              l -> l.stream().collect(Collectors.toList()),
+              i -> i.orElse(null),
               i -> i.toString());
       this.isUsernamesPresent = true;
       return this;
@@ -650,8 +694,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setEmails(ArrayList<Integer> emails) {
       this.emails =
-          mapListItem(
-              emails != null ? emails.stream().collect(Collectors.toList()) : null,
+          unmapList(
+              emails,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              Function.identity(),
               i -> i.toString());
       this.isEmailsNotNull = emails != null;
       return this;
@@ -660,10 +707,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setEmails(Optional<ArrayList<Integer>> emails) {
       this.emails =
-          mapListItem(
-              emails.orElse(null) != null
-                  ? emails.orElse(null).stream().collect(Collectors.toList())
-                  : null,
+          unmapList(
+              emails,
+              l -> l.orElse(null),
+              l -> l.stream().collect(Collectors.toList()),
+              Function.identity(),
               i -> i.toString());
       this.isEmailsNotNull = true;
       return this;
@@ -672,9 +720,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setEmails_(ArrayList<Optional<Integer>> emails) {
       this.emails =
-          mapListItem(
-              unwrapNullableItemsList(
-                  emails != null ? emails.stream().collect(Collectors.toList()) : null),
+          unmapList(
+              emails,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              i -> i.orElse(null),
               i -> i.toString());
       this.isEmailsNotNull = true;
       return this;
@@ -683,11 +733,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setEmails_(Optional<ArrayList<Optional<Integer>>> emails) {
       this.emails =
-          mapListItem(
-              unwrapNullableItemsList(
-                  emails.orElse(null) != null
-                      ? emails.orElse(null).stream().collect(Collectors.toList())
-                      : null),
+          unmapList(
+              emails,
+              l -> l.orElse(null),
+              l -> l.stream().collect(Collectors.toList()),
+              i -> i.orElse(null),
               i -> i.toString());
       this.isEmailsNotNull = true;
       return this;
@@ -703,8 +753,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setPhones(ArrayList<Integer> phones) {
       this.phones =
-          mapListItem(
-              phones != null ? phones.stream().collect(Collectors.toList()) : null,
+          unmapList(
+              phones,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              Function.identity(),
               i -> i.toString());
       this.isPhonesNull = phones == null;
       return this;
@@ -713,11 +766,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setPhones(Tristate<ArrayList<Integer>> phones) {
       this.phones =
-          mapListItem(
-              phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null) != null
-                  ? phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null).stream()
-                      .collect(Collectors.toList())
-                  : null,
+          unmapList(
+              phones,
+              l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+              l -> l.stream().collect(Collectors.toList()),
+              Function.identity(),
               i -> i.toString());
       this.isPhonesNull = phones.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
@@ -726,9 +779,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setPhones_(ArrayList<Optional<Integer>> phones) {
       this.phones =
-          mapListItem(
-              unwrapNullableItemsList(
-                  phones != null ? phones.stream().collect(Collectors.toList()) : null),
+          unmapList(
+              phones,
+              Function.identity(),
+              l -> l.stream().collect(Collectors.toList()),
+              i -> i.orElse(null),
               i -> i.toString());
       isPhonesNull = false;
       return this;
@@ -737,12 +792,11 @@ public class SuperUserRefactorDto {
     @JsonIgnore
     public Builder setPhones_(Tristate<ArrayList<Optional<Integer>>> phones) {
       this.phones =
-          mapListItem(
-              unwrapNullableItemsList(
-                  phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null) != null
-                      ? phones.onValue(val -> val).onNull(() -> null).onAbsent(() -> null).stream()
-                          .collect(Collectors.toList())
-                      : null),
+          unmapList(
+              phones,
+              l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+              l -> l.stream().collect(Collectors.toList()),
+              i -> i.orElse(null),
               i -> i.toString());
       this.isPhonesNull = phones.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
