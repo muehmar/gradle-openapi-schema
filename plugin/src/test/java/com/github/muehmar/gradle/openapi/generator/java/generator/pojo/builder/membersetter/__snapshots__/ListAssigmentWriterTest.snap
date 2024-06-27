@@ -1,0 +1,50 @@
+allUnnecessary=[
+java.util.function.Function
+
+this.optionalListWithNullableItems =
+    unmapList(
+        optionalListWithNullableItems,
+        Function.identity(),
+        Function.identity(),
+        Function.identity(),
+        Function.identity(),
+]
+
+
+customTypeMappings=[
+java.util.function.Function
+
+this.optionalListWithNullableItems =
+    unmapList(
+        optionalListWithNullableItems,
+        Function.identity(),
+        l -> l.toList(),
+        Function.identity(),
+        i -> i.toString(),
+]
+
+
+unwrapOptionalListAndListItem=[
+java.util.function.Function
+
+this.optionalListWithNullableItems =
+    unmapList(
+        optionalListWithNullableItems,
+        l -> l.orElse(null),
+        Function.identity(),
+        i -> i.orElse(null),
+        Function.identity(),
+]
+
+
+unwrapTristateList=[
+java.util.function.Function
+
+this.optionalListWithNullableItems =
+    unmapList(
+        optionalListWithNullableItems,
+        l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        Function.identity(),
+        Function.identity(),
+        Function.identity(),
+]
