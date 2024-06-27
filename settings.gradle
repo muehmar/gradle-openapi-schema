@@ -20,7 +20,7 @@ dependencyResolutionManagement {
             version('swaggerParser', '2.1.19')
             library('swaggerParser', 'io.swagger.parser.v3', 'swagger-parser-v3').versionRef('swaggerParser')
 
-            version('pojo-builder', '1.5.0')
+            version('pojo-builder', '1.8.0')
             library('pojoBuilder-annotations', 'io.github.muehmar', 'pojo-builder-annotations').versionRef('pojo-builder')
             library('pojoBuilder', 'io.github.muehmar', 'pojo-builder').versionRef('pojo-builder')
 

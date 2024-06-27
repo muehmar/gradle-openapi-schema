@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype.ApiTypeMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListMemberSetters;
@@ -10,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 
 public interface MemberSetter {
@@ -38,7 +41,13 @@ public interface MemberSetter {
 
   String argumentType();
 
-  String memberValue();
+  default String memberValue() {
+    return getMember().getName().asString();
+  }
+
+  default Writer memberAssigment() {
+    return javaWriter().println("this.%s = %s;", getMember().getName(), memberValue());
+  }
 
   Optional<String> flagAssignment();
 
