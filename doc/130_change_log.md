@@ -1,5 +1,6 @@
 ## Change Log
 
+* 3.1.3 - Fix unresolved array items (issue `#275`)
 * 3.1.2
     * Support for making referenced property nullable (issue `#263`)
     * Improve error message in case of unsupported schemas concerning compositions (issue `#264`)
