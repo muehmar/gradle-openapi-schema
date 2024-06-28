@@ -33,9 +33,13 @@ public class ArrayPojo implements Pojo {
   }
 
   @Override
-  public Pojo replaceObjectType(
+  public ArrayPojo replaceObjectType(
       PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
-    return this;
+    return itemType
+        .asObjectType()
+        .filter(objType -> objType.getName().equals(objectTypeName))
+        .map(ignore -> new ArrayPojo(name, description, nullability, newObjectType, constraints))
+        .orElse(this);
   }
 
   @Override
