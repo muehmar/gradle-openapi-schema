@@ -4,6 +4,7 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 
 /**
  * OptionalListWithNullableItems
@@ -30,7 +31,13 @@ public Builder setOptionalListWithNullableItems(Optional<CustomList<CustomString
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems(CustomList<CustomString> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = mapListItem(CustomList.toList(optionalListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -40,7 +47,13 @@ public Builder setOptionalListWithNullableItems(CustomList<CustomString> optiona
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems(Optional<CustomList<CustomString>> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = mapListItem(optionalListWithNullableItems.orElse(null) != null ? CustomList.toList(optionalListWithNullableItems.orElse(null)) : null, item -> item != null ? CustomString.toString(item) : null);
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          l -> l.orElse(null),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -102,7 +115,13 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Cust
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems(CustomList<CustomString> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = mapListItem(CustomList.toList(optionalNullableListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -112,7 +131,13 @@ public Builder setOptionalNullableListWithNullableItems(CustomList<CustomString>
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<CustomString>> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = mapListItem(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null) != null ? CustomList.toList(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null)) : null, item -> item != null ? CustomString.toString(item) : null);
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -145,6 +170,7 @@ com.custom.CustomList
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.function.Function
 
 /**
  * RequiredListWithNullableItems
@@ -160,7 +186,13 @@ private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWi
  */
 @JsonIgnore
 private Builder setRequiredListWithNullableItems(CustomList<CustomString> requiredListWithNullableItems) {
-  this.requiredListWithNullableItems = mapListItem(CustomList.toList(requiredListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
+  this.requiredListWithNullableItems =
+      unmapList(
+          requiredListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          i -> CustomString.toString(i),
   return this;
 }
 
@@ -182,6 +214,7 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 
 /**
  * RequiredNullableListWithNullableItems
@@ -198,7 +231,13 @@ private Builder setRequiredNullableListWithNullableItemsJson(List<String> requir
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems(CustomList<CustomString> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = mapListItem(CustomList.toList(requiredNullableListWithNullableItems), item -> item != null ? CustomString.toString(item) : null);
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -208,7 +247,13 @@ private Builder setRequiredNullableListWithNullableItems(CustomList<CustomString
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems(Optional<CustomList<CustomString>> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = mapListItem(requiredNullableListWithNullableItems.orElse(null) != null ? CustomList.toList(requiredNullableListWithNullableItems.orElse(null)) : null, item -> item != null ? CustomString.toString(item) : null);
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          l -> l.orElse(null),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -268,7 +313,13 @@ public Builder setOptionalListWithNullableItems(Optional<CustomList<String>> opt
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems(CustomList<String> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = mapListItem(CustomList.toList(optionalListWithNullableItems), Function.identity());
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          Function.identity(),
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -278,7 +329,13 @@ public Builder setOptionalListWithNullableItems(CustomList<String> optionalListW
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems(Optional<CustomList<String>> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = mapListItem(optionalListWithNullableItems.orElse(null) != null ? CustomList.toList(optionalListWithNullableItems.orElse(null)) : null, Function.identity());
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          l -> l.orElse(null),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          Function.identity(),
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -339,7 +396,13 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Stri
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems(CustomList<String> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = mapListItem(CustomList.toList(optionalNullableListWithNullableItems), Function.identity());
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          Function.identity(),
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -349,7 +412,13 @@ public Builder setOptionalNullableListWithNullableItems(CustomList<String> optio
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<String>> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = mapListItem(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null) != null ? CustomList.toList(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null)) : null, Function.identity());
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          Function.identity(),
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -397,7 +466,13 @@ private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWi
  */
 @JsonIgnore
 private Builder setRequiredListWithNullableItems(CustomList<String> requiredListWithNullableItems) {
-  this.requiredListWithNullableItems = mapListItem(CustomList.toList(requiredListWithNullableItems), Function.identity());
+  this.requiredListWithNullableItems =
+      unmapList(
+          requiredListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          Function.identity(),
   return this;
 }
 
@@ -435,7 +510,13 @@ private Builder setRequiredNullableListWithNullableItemsJson(List<String> requir
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems(CustomList<String> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = mapListItem(CustomList.toList(requiredNullableListWithNullableItems), Function.identity());
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          Function.identity(),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -445,7 +526,13 @@ private Builder setRequiredNullableListWithNullableItems(CustomList<String> requ
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems(Optional<CustomList<String>> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = mapListItem(requiredNullableListWithNullableItems.orElse(null) != null ? CustomList.toList(requiredNullableListWithNullableItems.orElse(null)) : null, Function.identity());
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          l -> l.orElse(null),
+          l -> CustomList.toList(l),
+          Function.identity(),
+          Function.identity(),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -479,6 +566,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
+java.util.function.Function
 
 /**
  * OptionalListWithNullableItems
@@ -505,7 +593,13 @@ public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalL
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems(List<CustomString> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = mapListItem(optionalListWithNullableItems, item -> item != null ? CustomString.toString(item) : null);
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -515,7 +609,13 @@ public Builder setOptionalListWithNullableItems(List<CustomString> optionalListW
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems(Optional<List<CustomString>> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = mapListItem(optionalListWithNullableItems.orElse(null), item -> item != null ? CustomString.toString(item) : null);
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -577,7 +677,13 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> o
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems(List<CustomString> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = mapListItem(optionalNullableListWithNullableItems, item -> item != null ? CustomString.toString(item) : null);
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -587,7 +693,13 @@ public Builder setOptionalNullableListWithNullableItems(List<CustomString> optio
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems(Tristate<List<CustomString>> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = mapListItem(optionalNullableListWithNullableItems.onValue(Function.identity()).onNull(() -> null).onAbsent(() -> null), item -> item != null ? CustomString.toString(item) : null);
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -698,6 +810,7 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
+java.util.function.Function
 
 /**
  * RequiredListWithNullableItems
@@ -713,7 +826,13 @@ private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWi
  */
 @JsonIgnore
 private Builder setRequiredListWithNullableItems(List<CustomString> requiredListWithNullableItems) {
-  this.requiredListWithNullableItems = mapListItem(requiredListWithNullableItems, item -> item != null ? CustomString.toString(item) : null);
+  this.requiredListWithNullableItems =
+      unmapList(
+          requiredListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i),
   return this;
 }
 
@@ -735,6 +854,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
+java.util.function.Function
 
 /**
  * RequiredNullableListWithNullableItems
@@ -751,7 +871,13 @@ private Builder setRequiredNullableListWithNullableItemsJson(List<String> requir
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems(List<CustomString> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = mapListItem(requiredNullableListWithNullableItems, item -> item != null ? CustomString.toString(item) : null);
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -761,7 +887,13 @@ private Builder setRequiredNullableListWithNullableItems(List<CustomString> requ
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems(Optional<List<CustomString>> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = mapListItem(requiredNullableListWithNullableItems.orElse(null), item -> item != null ? CustomString.toString(item) : null);
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }

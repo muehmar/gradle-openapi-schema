@@ -1,9 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.conversionWriter;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.unmaplist.UnmapListMethod;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.BuildMethod;
@@ -45,6 +48,16 @@ public class ListAssigmentWriter {
     static Writer unmapListType(String unmapListType) {
       return javaWriter().print(unmapListType);
     }
+
+    static Writer unmapListType(JavaArrayType javaArrayType) {
+      return javaArrayType
+          .getApiType()
+          .map(
+              listApiType ->
+                  conversionWriter(listApiType, "l", ConversionGenerationMode.NO_NULL_CHECK))
+          .map(writer -> javaWriter().print("l -> %s", writer.asString()).refs(writer.getRefs()))
+          .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    }
   }
 
   @FieldBuilder(fieldName = "unwrapListItem", disableDefaultMethods = true)
@@ -66,6 +79,17 @@ public class ListAssigmentWriter {
 
     static Writer unmapListItemType(String unmapListItemType) {
       return javaWriter().print(unmapListItemType);
+    }
+
+    static Writer unmapListItemType(JavaArrayType javaArrayType) {
+      return javaArrayType
+          .getItemType()
+          .getApiType()
+          .map(
+              itemApiType ->
+                  conversionWriter(itemApiType, "i", ConversionGenerationMode.NO_NULL_CHECK))
+          .map(writer -> javaWriter().print("i -> %s", writer.asString()).refs(writer.getRefs()))
+          .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
     }
   }
 
