@@ -1,18 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.itemMappingWriter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.maplistitem.MapListItemMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
@@ -20,6 +20,20 @@ import lombok.Value;
 class OptionalNotNullableMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
+  Writer listAssigmentWriter;
+
+  public OptionalNotNullableMemberSetter(JavaPojoMember member, JavaArrayType javaArrayType) {
+    this.member = member;
+    this.javaArrayType = javaArrayType;
+    this.listAssigmentWriter =
+        fullListAssigmentWriterBuilder()
+            .member(member)
+            .unwrapOptionalList()
+            .unmapListType(javaArrayType)
+            .unwrapListItemNotNecessary()
+            .unmapListItemType(javaArrayType)
+            .build();
+  }
 
   public static Optional<MemberSetter> fromMember(JavaPojoMember member) {
     return member
@@ -48,12 +62,8 @@ class OptionalNotNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public String memberValue() {
-    return String.format(
-        "%s(%s, %s)",
-        MapListItemMethod.METHOD_NAME,
-        Writers.optionalListArgumentConversionWriter(member, javaArrayType).asString(),
-        itemMappingWriter(member, javaArrayType).asString());
+  public Writer memberAssigment() {
+    return listAssigmentWriter;
   }
 
   @Override
@@ -63,9 +73,8 @@ class OptionalNotNullableMemberSetter implements MemberSetter {
 
   @Override
   public PList<String> getRefs() {
-    return Writers.optionalListArgumentConversionWriter(member, javaArrayType)
+    return listAssigmentWriter
         .getRefs()
-        .concat(itemMappingWriter(member, javaArrayType).getRefs())
         .concat(Refs.forApiType(javaArrayType))
         .cons(JavaRefs.JAVA_UTIL_OPTIONAL);
   }
