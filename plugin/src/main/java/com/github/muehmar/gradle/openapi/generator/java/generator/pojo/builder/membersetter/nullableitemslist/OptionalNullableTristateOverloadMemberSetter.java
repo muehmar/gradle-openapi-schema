@@ -1,10 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
+import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 
 class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMemberSetter {
@@ -21,10 +23,14 @@ class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMembe
   }
 
   @Override
-  public String memberValue() {
-    return String.format(
-        "%s.onValue(l -> %s(l)).onNull(() -> null).onAbsent(() -> null)",
-        member.getName(), UnwrapNullableItemsListMethod.METHOD_NAME);
+  public Writer memberAssigment() {
+    return fullListAssigmentWriterBuilder()
+        .member(member)
+        .unwrapTristateList()
+        .unmapListTypeNotNecessary()
+        .unwrapOptionalListItem()
+        .unmapListItemTypeNotNecessary()
+        .build();
   }
 
   @Override
