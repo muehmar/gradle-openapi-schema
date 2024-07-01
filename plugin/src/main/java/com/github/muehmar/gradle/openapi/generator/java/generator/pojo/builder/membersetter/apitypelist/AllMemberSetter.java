@@ -1,20 +1,18 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.itemMappingWriter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.noNullCheckListArgumentConversionWriter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.maplistitem.MapListItemMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
@@ -22,6 +20,20 @@ import lombok.Value;
 class AllMemberSetter implements MemberSetter {
   JavaPojoMember member;
   JavaArrayType javaArrayType;
+  Writer listAssigmentWriter;
+
+  public AllMemberSetter(JavaPojoMember member, JavaArrayType javaArrayType) {
+    this.member = member;
+    this.javaArrayType = javaArrayType;
+    this.listAssigmentWriter =
+        fullListAssigmentWriterBuilder()
+            .member(member)
+            .unwrapListNotNecessary()
+            .unmapListType(javaArrayType)
+            .unwrapListItemNotNecessary()
+            .unmapListItemType(javaArrayType)
+            .build();
+  }
 
   public static Optional<MemberSetter> fromMember(JavaPojoMember member) {
     return member
@@ -48,12 +60,8 @@ class AllMemberSetter implements MemberSetter {
   }
 
   @Override
-  public String memberValue() {
-    return String.format(
-        "%s(%s, %s)",
-        MapListItemMethod.METHOD_NAME,
-        noNullCheckListArgumentConversionWriter(member, javaArrayType).asString(),
-        itemMappingWriter(member, javaArrayType).asString());
+  public Writer memberAssigment() {
+    return listAssigmentWriter;
   }
 
   @Override
@@ -63,13 +71,6 @@ class AllMemberSetter implements MemberSetter {
 
   @Override
   public PList<String> getRefs() {
-    return noNullCheckListArgumentConversionWriter(member, javaArrayType)
-        .getRefs()
-        .concat(itemMappingWriter(member, javaArrayType).getRefs())
-        .concat(
-            ParameterizedApiClassName.fromJavaType(javaArrayType)
-                .map(ParameterizedApiClassName::getAllQualifiedClassNames)
-                .orElseGet(PList::empty)
-                .map(QualifiedClassName::asString));
+    return listAssigmentWriter.getRefs().concat(Refs.forApiType(javaArrayType));
   }
 }
