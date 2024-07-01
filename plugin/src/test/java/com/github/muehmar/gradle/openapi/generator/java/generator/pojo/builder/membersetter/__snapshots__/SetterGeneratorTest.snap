@@ -858,6 +858,7 @@ allNecessityAndNullabilityVariants[optionalListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 
 /**
  * OptionalListWithNullableItems
@@ -894,7 +895,13 @@ public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalL
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = unwrapNullableItemsList(optionalListWithNullableItems);
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity(),
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -904,7 +911,13 @@ public Builder setOptionalListWithNullableItems_(List<Optional<String>> optional
  */
 @JsonIgnore
 public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+  this.optionalListWithNullableItems =
+      unmapList(
+          optionalListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity(),
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -917,6 +930,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.Optional
+java.util.function.Function
 
 /**
  * OptionalNullableListWithNullableItems
@@ -953,7 +967,13 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> o
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = unwrapNullableItemsList(optionalNullableListWithNullableItems);
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity(),
   isOptionalNullableListWithNullableItemsNull = false;
   return this;
 }
@@ -963,7 +983,13 @@ public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> 
  */
 @JsonIgnore
 public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
+  this.optionalNullableListWithNullableItems =
+      unmapList(
+          optionalNullableListWithNullableItems,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity(),
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -1051,6 +1077,7 @@ allNecessityAndNullabilityVariants[requiredListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 
 /**
  * RequiredListWithNullableItems
@@ -1075,7 +1102,13 @@ private Builder setRequiredListWithNullableItems(List<String> requiredListWithNu
  */
 @JsonIgnore
 private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
-  this.requiredListWithNullableItems = unwrapNullableItemsList(requiredListWithNullableItems);
+  this.requiredListWithNullableItems =
+      unmapList(
+          requiredListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity(),
   return this;
 }
 
@@ -1086,6 +1119,7 @@ allNecessityAndNullabilityVariants[requiredNullableListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 
 /**
  * RequiredNullableListWithNullableItems
@@ -1122,7 +1156,13 @@ private Builder setRequiredNullableListWithNullableItems(Optional<List<String>> 
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = unwrapNullableItemsList(requiredNullableListWithNullableItems);
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity(),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -1132,7 +1172,13 @@ private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>>
  */
 @JsonIgnore
 private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-  this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+  this.requiredNullableListWithNullableItems =
+      unmapList(
+          requiredNullableListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity(),
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }

@@ -5319,6 +5319,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
@@ -6123,7 +6124,13 @@ public class NecessityAndNullabilityDto {
      */
     @JsonIgnore
     private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
-      this.requiredListWithNullableItems = unwrapNullableItemsList(requiredListWithNullableItems);
+      this.requiredListWithNullableItems =
+          unmapList(
+              requiredListWithNullableItems,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity(),
       return this;
     }
 
@@ -6162,7 +6169,13 @@ public class NecessityAndNullabilityDto {
      */
     @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
-      this.requiredNullableListWithNullableItems = unwrapNullableItemsList(requiredNullableListWithNullableItems);
+      this.requiredNullableListWithNullableItems =
+          unmapList(
+              requiredNullableListWithNullableItems,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity(),
       this.isRequiredNullableListWithNullableItemsPresent = true;
       return this;
     }
@@ -6172,7 +6185,13 @@ public class NecessityAndNullabilityDto {
      */
     @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-      this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+      this.requiredNullableListWithNullableItems =
+          unmapList(
+              requiredNullableListWithNullableItems,
+              l -> l.orElse(null),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity(),
       this.isRequiredNullableListWithNullableItemsPresent = true;
       return this;
     }
@@ -6212,7 +6231,13 @@ public class NecessityAndNullabilityDto {
      */
     @JsonIgnore
     public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
-      this.optionalListWithNullableItems = unwrapNullableItemsList(optionalListWithNullableItems);
+      this.optionalListWithNullableItems =
+          unmapList(
+              optionalListWithNullableItems,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity(),
       this.isOptionalListWithNullableItemsNotNull = true;
       return this;
     }
@@ -6222,7 +6247,13 @@ public class NecessityAndNullabilityDto {
      */
     @JsonIgnore
     public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
-      this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+      this.optionalListWithNullableItems =
+          unmapList(
+              optionalListWithNullableItems,
+              l -> l.orElse(null),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity(),
       this.isOptionalListWithNullableItemsNotNull = true;
       return this;
     }
@@ -6262,7 +6293,13 @@ public class NecessityAndNullabilityDto {
      */
     @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
-      this.optionalNullableListWithNullableItems = unwrapNullableItemsList(optionalNullableListWithNullableItems);
+      this.optionalNullableListWithNullableItems =
+          unmapList(
+              optionalNullableListWithNullableItems,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity(),
       isOptionalNullableListWithNullableItemsNull = false;
       return this;
     }
@@ -6272,7 +6309,13 @@ public class NecessityAndNullabilityDto {
      */
     @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-      this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
+      this.optionalNullableListWithNullableItems =
+          unmapList(
+              optionalNullableListWithNullableItems,
+              l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity(),
       this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }

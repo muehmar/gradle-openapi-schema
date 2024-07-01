@@ -1,15 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_FUNCTION;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
@@ -39,8 +41,14 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public String memberValue() {
-    return String.format("%s(%s)", UnwrapNullableItemsListMethod.METHOD_NAME, member.getName());
+  public Writer memberAssigment() {
+    return fullListAssigmentWriterBuilder()
+        .member(member)
+        .unwrapListNotNecessary()
+        .unmapListTypeNotNecessary()
+        .unwrapOptionalListItem()
+        .unmapListItemTypeNotNecessary()
+        .build();
   }
 
   @Override
@@ -50,6 +58,6 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
 
   @Override
   public PList<String> getRefs() {
-    return PList.single(JavaRefs.JAVA_UTIL_OPTIONAL);
+    return PList.of(JAVA_UTIL_OPTIONAL, JAVA_UTIL_FUNCTION);
   }
 }

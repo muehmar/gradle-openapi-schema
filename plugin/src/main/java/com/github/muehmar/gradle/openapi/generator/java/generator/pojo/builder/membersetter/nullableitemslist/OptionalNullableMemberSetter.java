@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist;
 
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_FUNCTION;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
 
 import ch.bluecare.commons.data.PList;
@@ -38,6 +39,6 @@ abstract class OptionalNullableMemberSetter implements MemberSetter {
 
   @Override
   public PList<String> getRefs() {
-    return PList.single(JAVA_UTIL_OPTIONAL);
+    return PList.of(JAVA_UTIL_OPTIONAL, JAVA_UTIL_FUNCTION);
   }
 }

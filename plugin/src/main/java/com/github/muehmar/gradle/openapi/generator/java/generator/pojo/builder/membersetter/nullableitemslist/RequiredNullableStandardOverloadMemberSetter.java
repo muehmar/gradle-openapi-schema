@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
+
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 class RequiredNullableStandardOverloadMemberSetter extends RequiredNullableMemberSetter {
 
@@ -15,7 +17,13 @@ class RequiredNullableStandardOverloadMemberSetter extends RequiredNullableMembe
   }
 
   @Override
-  public String memberValue() {
-    return String.format("%s(%s)", UnwrapNullableItemsListMethod.METHOD_NAME, member.getName());
+  public Writer memberAssigment() {
+    return fullListAssigmentWriterBuilder()
+        .member(member)
+        .unwrapListNotNecessary()
+        .unmapListTypeNotNecessary()
+        .unwrapOptionalListItem()
+        .unmapListItemTypeNotNecessary()
+        .build();
   }
 }
