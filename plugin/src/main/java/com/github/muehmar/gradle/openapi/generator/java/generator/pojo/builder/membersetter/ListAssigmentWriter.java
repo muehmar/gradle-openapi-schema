@@ -1,12 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Writers.conversionWriter;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.unmaplist.UnmapListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.BuildMethod;
@@ -52,9 +53,7 @@ public class ListAssigmentWriter {
     static Writer unmapListType(JavaArrayType javaArrayType) {
       return javaArrayType
           .getApiType()
-          .map(
-              listApiType ->
-                  conversionWriter(listApiType, "l", ConversionGenerationMode.NO_NULL_CHECK))
+          .map(listApiType -> conversionWriter(listApiType, "l"))
           .map(writer -> javaWriter().print("l -> %s", writer.asString()).refs(writer.getRefs()))
           .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
     }
@@ -85,9 +84,7 @@ public class ListAssigmentWriter {
       return javaArrayType
           .getItemType()
           .getApiType()
-          .map(
-              itemApiType ->
-                  conversionWriter(itemApiType, "i", ConversionGenerationMode.NO_NULL_CHECK))
+          .map(itemApiType -> conversionWriter(itemApiType, "i"))
           .map(writer -> javaWriter().print("i -> %s", writer.asString()).refs(writer.getRefs()))
           .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
     }
@@ -105,5 +102,10 @@ public class ListAssigmentWriter {
         .append(4, listAssigmentWriter.unmapListType.println(","))
         .append(4, listAssigmentWriter.unwrapListItem.println(","))
         .append(4, listAssigmentWriter.unmapListItemType.println(","));
+  }
+
+  private static Writer conversionWriter(ApiType apiType, String variableName) {
+    return FromApiTypeConversion.fromApiTypeConversion(
+        apiType, variableName, ConversionGenerationMode.NO_NULL_CHECK);
   }
 }
