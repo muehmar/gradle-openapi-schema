@@ -37,7 +37,8 @@ public Builder setOptionalListWithNullableItems(CustomList<CustomString> optiona
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -53,7 +54,8 @@ public Builder setOptionalListWithNullableItems(Optional<CustomList<CustomString
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -69,7 +71,8 @@ public Builder setOptionalListWithNullableItems_(CustomList<Optional<CustomStrin
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -85,7 +88,8 @@ public Builder setOptionalListWithNullableItems_(Optional<CustomList<Optional<Cu
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -133,7 +137,8 @@ public Builder setOptionalNullableListWithNullableItems(CustomList<CustomString>
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -149,7 +154,8 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Cust
           l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -165,7 +171,8 @@ public Builder setOptionalNullableListWithNullableItems_(CustomList<Optional<Cus
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -181,7 +188,8 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<CustomList<Opt
           l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -216,7 +224,8 @@ private Builder setRequiredListWithNullableItems(CustomList<CustomString> requir
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   return this;
 }
 
@@ -231,7 +240,8 @@ private Builder setRequiredListWithNullableItems_(CustomList<Optional<CustomStri
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   return this;
 }
 
@@ -267,7 +277,8 @@ private Builder setRequiredNullableListWithNullableItems(CustomList<CustomString
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -283,7 +294,8 @@ private Builder setRequiredNullableListWithNullableItems(Optional<CustomList<Cus
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -299,7 +311,8 @@ private Builder setRequiredNullableListWithNullableItems_(CustomList<Optional<Cu
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -315,7 +328,8 @@ private Builder setRequiredNullableListWithNullableItems_(Optional<CustomList<Op
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -361,7 +375,8 @@ public Builder setOptionalListWithNullableItems(CustomList<String> optionalListW
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -377,7 +392,8 @@ public Builder setOptionalListWithNullableItems(Optional<CustomList<String>> opt
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           Function.identity(),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -393,7 +409,8 @@ public Builder setOptionalListWithNullableItems_(CustomList<Optional<String>> op
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -409,7 +426,8 @@ public Builder setOptionalListWithNullableItems_(Optional<CustomList<Optional<St
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -456,7 +474,8 @@ public Builder setOptionalNullableListWithNullableItems(CustomList<String> optio
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -472,7 +491,8 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Stri
           l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           Function.identity(),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -488,7 +508,8 @@ public Builder setOptionalNullableListWithNullableItems_(CustomList<Optional<Str
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -504,7 +525,8 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<CustomList<Opt
           l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -538,7 +560,8 @@ private Builder setRequiredListWithNullableItems(CustomList<String> requiredList
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          Function.identity(),
+          Function.identity()
+      );
   return this;
 }
 
@@ -553,7 +576,8 @@ private Builder setRequiredListWithNullableItems_(CustomList<Optional<String>> r
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   return this;
 }
 
@@ -588,7 +612,8 @@ private Builder setRequiredNullableListWithNullableItems(CustomList<String> requ
           Function.identity(),
           l -> CustomList.toList(l),
           Function.identity(),
-          Function.identity(),
+          Function.identity()
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -604,7 +629,8 @@ private Builder setRequiredNullableListWithNullableItems(Optional<CustomList<Str
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           Function.identity(),
-          Function.identity(),
+          Function.identity()
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -620,7 +646,8 @@ private Builder setRequiredNullableListWithNullableItems_(CustomList<Optional<St
           Function.identity(),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -636,7 +663,8 @@ private Builder setRequiredNullableListWithNullableItems_(Optional<CustomList<Op
           l -> l.orElse(null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -683,7 +711,8 @@ public Builder setOptionalListWithNullableItems(List<CustomString> optionalListW
           Function.identity(),
           Function.identity(),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -699,7 +728,8 @@ public Builder setOptionalListWithNullableItems(Optional<List<CustomString>> opt
           l -> l.orElse(null),
           Function.identity(),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -715,7 +745,8 @@ public Builder setOptionalListWithNullableItems_(List<Optional<CustomString>> op
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
   return this;
 }
@@ -731,7 +762,8 @@ public Builder setOptionalListWithNullableItems_(Optional<List<Optional<CustomSt
           l -> l.orElse(null),
           Function.identity(),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -779,7 +811,8 @@ public Builder setOptionalNullableListWithNullableItems(List<CustomString> optio
           Function.identity(),
           Function.identity(),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -795,7 +828,8 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<List<CustomStri
           l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -811,7 +845,8 @@ public Builder setOptionalNullableListWithNullableItems_(List<Optional<CustomStr
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
   return this;
 }
@@ -827,7 +862,8 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
           l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -940,7 +976,8 @@ private Builder setRequiredListWithNullableItems(List<CustomString> requiredList
           Function.identity(),
           Function.identity(),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   return this;
 }
 
@@ -955,7 +992,8 @@ private Builder setRequiredListWithNullableItems_(List<Optional<CustomString>> r
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   return this;
 }
 
@@ -991,7 +1029,8 @@ private Builder setRequiredNullableListWithNullableItems(List<CustomString> requ
           Function.identity(),
           Function.identity(),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -1007,7 +1046,8 @@ private Builder setRequiredNullableListWithNullableItems(Optional<List<CustomStr
           l -> l.orElse(null),
           Function.identity(),
           Function.identity(),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -1023,7 +1063,8 @@ private Builder setRequiredNullableListWithNullableItems_(List<Optional<CustomSt
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -1039,7 +1080,8 @@ private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional
           l -> l.orElse(null),
           Function.identity(),
           i -> i.orElse(null),
-          i -> CustomString.toString(i),
+          i -> CustomString.toString(i)
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -1159,7 +1201,8 @@ public Builder setOptionalListWithNullableItems_(List<Optional<String>> optional
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -1175,7 +1218,8 @@ public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>
           l -> l.orElse(null),
           Function.identity(),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalListWithNullableItemsNotNull = true;
   return this;
 }
@@ -1231,7 +1275,8 @@ public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> 
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   isOptionalNullableListWithNullableItemsNull = false;
   return this;
 }
@@ -1247,7 +1292,8 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
           l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
@@ -1366,7 +1412,8 @@ private Builder setRequiredListWithNullableItems_(List<Optional<String>> require
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   return this;
 }
 
@@ -1420,7 +1467,8 @@ private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>>
           Function.identity(),
           Function.identity(),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }
@@ -1436,7 +1484,8 @@ private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional
           l -> l.orElse(null),
           Function.identity(),
           i -> i.orElse(null),
-          Function.identity(),
+          Function.identity()
+      );
   this.isRequiredNullableListWithNullableItemsPresent = true;
   return this;
 }

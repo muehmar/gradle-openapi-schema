@@ -101,7 +101,9 @@ public class ListAssigmentWriter {
         .append(4, listAssigmentWriter.unwrapList.println(","))
         .append(4, listAssigmentWriter.unmapListType.println(","))
         .append(4, listAssigmentWriter.unwrapListItem.println(","))
-        .append(4, listAssigmentWriter.unmapListItemType.println(","));
+        .append(4, listAssigmentWriter.unmapListItemType)
+        .tab(2)
+        .println(");");
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {
