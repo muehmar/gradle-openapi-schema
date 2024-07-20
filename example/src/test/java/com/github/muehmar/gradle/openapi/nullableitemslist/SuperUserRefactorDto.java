@@ -817,10 +817,10 @@ public class SuperUserRefactorDto {
     }
 
     private Builder setUserDto(UserDto dto) {
-      setIds_(dto.getIds());
-      setUsernames_(dto.getUsernamesOpt());
-      setEmails_(dto.getEmailsOpt());
-      setPhones_(dto.getPhonesTristate());
+      setIds_(null);
+      setUsernames_(Optional.empty());
+      setEmails_(Optional.empty());
+      setPhones_(Tristate.ofAbsent());
       dto.getAdditionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
@@ -919,11 +919,11 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public FullAllOfBuilderUser1 setIds(List<String> ids) {
+      public FullAllOfBuilderUser1 setIds(ArrayList<Integer> ids) {
         return new FullAllOfBuilderUser1(builder.setIds(ids));
       }
 
-      public FullAllOfBuilderUser1 setIds_(List<Optional<String>> ids) {
+      public FullAllOfBuilderUser1 setIds_(ArrayList<Optional<Integer>> ids) {
         return new FullAllOfBuilderUser1(builder.setIds_(ids));
       }
 
@@ -939,19 +939,19 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public FullAllOfBuilderUser2 setUsernames(List<String> usernames) {
+      public FullAllOfBuilderUser2 setUsernames(ArrayList<Integer> usernames) {
         return new FullAllOfBuilderUser2(builder.setUsernames(usernames));
       }
 
-      public FullAllOfBuilderUser2 setUsernames_(List<Optional<String>> usernames) {
+      public FullAllOfBuilderUser2 setUsernames_(ArrayList<Optional<Integer>> usernames) {
         return new FullAllOfBuilderUser2(builder.setUsernames_(usernames));
       }
 
-      public FullAllOfBuilderUser2 setUsernames(Optional<List<String>> usernames) {
+      public FullAllOfBuilderUser2 setUsernames(Optional<ArrayList<Integer>> usernames) {
         return new FullAllOfBuilderUser2(builder.setUsernames(usernames));
       }
 
-      public FullAllOfBuilderUser2 setUsernames_(Optional<List<Optional<String>>> usernames) {
+      public FullAllOfBuilderUser2 setUsernames_(Optional<ArrayList<Optional<Integer>>> usernames) {
         return new FullAllOfBuilderUser2(builder.setUsernames_(usernames));
       }
     }
@@ -963,19 +963,19 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public FullAllOfBuilderUser3 setEmails(List<String> emails) {
+      public FullAllOfBuilderUser3 setEmails(ArrayList<Integer> emails) {
         return new FullAllOfBuilderUser3(builder.setEmails(emails));
       }
 
-      public FullAllOfBuilderUser3 setEmails_(List<Optional<String>> emails) {
+      public FullAllOfBuilderUser3 setEmails_(ArrayList<Optional<Integer>> emails) {
         return new FullAllOfBuilderUser3(builder.setEmails_(emails));
       }
 
-      public FullAllOfBuilderUser3 setEmails(Optional<List<String>> emails) {
+      public FullAllOfBuilderUser3 setEmails(Optional<ArrayList<Integer>> emails) {
         return new FullAllOfBuilderUser3(builder.setEmails(emails));
       }
 
-      public FullAllOfBuilderUser3 setEmails_(Optional<List<Optional<String>>> emails) {
+      public FullAllOfBuilderUser3 setEmails_(Optional<ArrayList<Optional<Integer>>> emails) {
         return new FullAllOfBuilderUser3(builder.setEmails_(emails));
       }
     }
@@ -987,19 +987,20 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public FullAllOfBuilderSuperUserAllOf0 setPhones(List<String> phones) {
+      public FullAllOfBuilderSuperUserAllOf0 setPhones(ArrayList<Integer> phones) {
         return new FullAllOfBuilderSuperUserAllOf0(builder.setPhones(phones));
       }
 
-      public FullAllOfBuilderSuperUserAllOf0 setPhones_(List<Optional<String>> phones) {
+      public FullAllOfBuilderSuperUserAllOf0 setPhones_(ArrayList<Optional<Integer>> phones) {
         return new FullAllOfBuilderSuperUserAllOf0(builder.setPhones_(phones));
       }
 
-      public FullAllOfBuilderSuperUserAllOf0 setPhones(Tristate<List<String>> phones) {
+      public FullAllOfBuilderSuperUserAllOf0 setPhones(Tristate<ArrayList<Integer>> phones) {
         return new FullAllOfBuilderSuperUserAllOf0(builder.setPhones(phones));
       }
 
-      public FullAllOfBuilderSuperUserAllOf0 setPhones_(Tristate<List<Optional<String>>> phones) {
+      public FullAllOfBuilderSuperUserAllOf0 setPhones_(
+          Tristate<ArrayList<Optional<Integer>>> phones) {
         return new FullAllOfBuilderSuperUserAllOf0(builder.setPhones_(phones));
       }
     }
@@ -1064,11 +1065,11 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public AllOfBuilderUser1 setIds(List<String> ids) {
+      public AllOfBuilderUser1 setIds(ArrayList<Integer> ids) {
         return new AllOfBuilderUser1(builder.setIds(ids));
       }
 
-      public AllOfBuilderUser1 setIds_(List<Optional<String>> ids) {
+      public AllOfBuilderUser1 setIds_(ArrayList<Optional<Integer>> ids) {
         return new AllOfBuilderUser1(builder.setIds_(ids));
       }
 
@@ -1084,19 +1085,19 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public AllOfBuilderUser2 setUsernames(List<String> usernames) {
+      public AllOfBuilderUser2 setUsernames(ArrayList<Integer> usernames) {
         return new AllOfBuilderUser2(builder.setUsernames(usernames));
       }
 
-      public AllOfBuilderUser2 setUsernames_(List<Optional<String>> usernames) {
+      public AllOfBuilderUser2 setUsernames_(ArrayList<Optional<Integer>> usernames) {
         return new AllOfBuilderUser2(builder.setUsernames_(usernames));
       }
 
-      public AllOfBuilderUser2 setUsernames(Optional<List<String>> usernames) {
+      public AllOfBuilderUser2 setUsernames(Optional<ArrayList<Integer>> usernames) {
         return new AllOfBuilderUser2(builder.setUsernames(usernames));
       }
 
-      public AllOfBuilderUser2 setUsernames_(Optional<List<Optional<String>>> usernames) {
+      public AllOfBuilderUser2 setUsernames_(Optional<ArrayList<Optional<Integer>>> usernames) {
         return new AllOfBuilderUser2(builder.setUsernames_(usernames));
       }
     }
@@ -1108,19 +1109,19 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public AllOfBuilderUser3 setEmails(List<String> emails) {
+      public AllOfBuilderUser3 setEmails(ArrayList<Integer> emails) {
         return new AllOfBuilderUser3(builder.setEmails(emails));
       }
 
-      public AllOfBuilderUser3 setEmails_(List<Optional<String>> emails) {
+      public AllOfBuilderUser3 setEmails_(ArrayList<Optional<Integer>> emails) {
         return new AllOfBuilderUser3(builder.setEmails_(emails));
       }
 
-      public AllOfBuilderUser3 setEmails(Optional<List<String>> emails) {
+      public AllOfBuilderUser3 setEmails(Optional<ArrayList<Integer>> emails) {
         return new AllOfBuilderUser3(builder.setEmails(emails));
       }
 
-      public AllOfBuilderUser3 setEmails_(Optional<List<Optional<String>>> emails) {
+      public AllOfBuilderUser3 setEmails_(Optional<ArrayList<Optional<Integer>>> emails) {
         return new AllOfBuilderUser3(builder.setEmails_(emails));
       }
     }
@@ -1132,19 +1133,19 @@ public class SuperUserRefactorDto {
         this.builder = builder;
       }
 
-      public AllOfBuilderSuperUserAllOf0 setPhones(List<String> phones) {
+      public AllOfBuilderSuperUserAllOf0 setPhones(ArrayList<Integer> phones) {
         return new AllOfBuilderSuperUserAllOf0(builder.setPhones(phones));
       }
 
-      public AllOfBuilderSuperUserAllOf0 setPhones_(List<Optional<String>> phones) {
+      public AllOfBuilderSuperUserAllOf0 setPhones_(ArrayList<Optional<Integer>> phones) {
         return new AllOfBuilderSuperUserAllOf0(builder.setPhones_(phones));
       }
 
-      public AllOfBuilderSuperUserAllOf0 setPhones(Tristate<List<String>> phones) {
+      public AllOfBuilderSuperUserAllOf0 setPhones(Tristate<ArrayList<Integer>> phones) {
         return new AllOfBuilderSuperUserAllOf0(builder.setPhones(phones));
       }
 
-      public AllOfBuilderSuperUserAllOf0 setPhones_(Tristate<List<Optional<String>>> phones) {
+      public AllOfBuilderSuperUserAllOf0 setPhones_(Tristate<ArrayList<Optional<Integer>>> phones) {
         return new AllOfBuilderSuperUserAllOf0(builder.setPhones_(phones));
       }
     }
