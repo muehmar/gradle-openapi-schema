@@ -15,10 +15,10 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
   setOptionalStringVal(dto.getOptionalStringVal());
   setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
-  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
-  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItems()));
-  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItems()));
-  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItems()));
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItems());
+  setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
@@ -43,10 +43,10 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
   setOptionalStringVal(dto.getOptionalStringVal());
   setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
-  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
-  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItems()));
-  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItems()));
-  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItems()));
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItems());
+  setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
@@ -161,10 +161,10 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringValOpt1());
   setOptionalStringVal(dto.getOptionalStringValOpt2());
   setOptionalNullableStringVal(dto.getOptionalNullableStringValTristate());
-  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
-  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItemsOpt1()));
-  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItemsOpt2()));
-  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItemsTristate()));
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItemsOpt1());
+  setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItemsOpt2());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItemsTristate());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;

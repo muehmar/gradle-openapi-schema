@@ -7,9 +7,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapOptionalNullableItemsListMethod;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapTristateNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -79,21 +76,10 @@ public class DtoSetterGenerator {
         .append(
             (member, s, w) ->
                 w.println(
-                    "%s(%s(dto.%s()));",
+                    "%s_(dto.%s());",
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
-                    unwrapMethodForNullableItemsListMember(member.getMember()),
                     member.getGetterNameWithSuffix(s)))
         .filter(PojosAndMember::isNullableItemsListMember);
-  }
-
-  private static String unwrapMethodForNullableItemsListMember(JavaPojoMember member) {
-    if (member.isRequiredAndNotNullable()) {
-      return UnwrapNullableItemsListMethod.METHOD_NAME;
-    } else if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
-      return UnwrapOptionalNullableItemsListMethod.METHOD_NAME;
-    } else {
-      return UnwrapTristateNullableItemsListMethod.METHOD_NAME;
-    }
   }
 
   private static Generator<PojosAndMember, PojoSettings> setSingleDiscriminatorMember() {
