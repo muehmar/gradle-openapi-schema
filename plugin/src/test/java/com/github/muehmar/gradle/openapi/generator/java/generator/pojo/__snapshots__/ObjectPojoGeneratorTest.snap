@@ -5773,6 +5773,34 @@ public class NecessityAndNullabilityDto {
     return list.map(l -> unwrapNullableItemsList(l));
   }
 
+  private static <A, B, C, D, E> List<E> unmapList(
+      A list,
+      Function<A, B> unwrapList,
+      Function<B, List<C>> unmapListType,
+      Function<C, D> unwrapListItem,
+      Function<D, E> unmapListItemType) {
+    if (list == null) {
+      return null;
+    }
+
+    final B unwrappedList = unwrapList.apply(list);
+
+    if (unwrappedList == null) {
+      return null;
+    }
+
+    final List<C> unmappedListType = unmapListType.apply(unwrappedList);
+
+    if (unmappedListType == null) {
+      return null;
+    }
+
+    return unmappedListType.stream()
+        .map(i -> i != null ? unwrapListItem.apply(i) : null)
+        .map(i -> i != null ? unmapListItemType.apply(i) : null)
+        .collect(Collectors.toList());
+  }
+
   boolean isValid() {
     return new Validator().isValid();
   }
