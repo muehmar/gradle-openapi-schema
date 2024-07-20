@@ -817,10 +817,10 @@ public class SuperUserRefactorDto {
     }
 
     private Builder setUserDto(UserDto dto) {
-      setIds(unwrapNullableItemsList(dto.getIds()));
-      setUsernames(unwrapOptionalNullableItemsList(dto.getUsernamesOpt()));
-      setEmails(unwrapOptionalNullableItemsList(dto.getEmailsOpt()));
-      setPhones(unwrapTristateNullableItemsList(dto.getPhonesTristate()));
+      setIds_(dto.getIds());
+      setUsernames_(dto.getUsernamesOpt());
+      setEmails_(dto.getEmailsOpt());
+      setPhones_(dto.getPhonesTristate());
       dto.getAdditionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
