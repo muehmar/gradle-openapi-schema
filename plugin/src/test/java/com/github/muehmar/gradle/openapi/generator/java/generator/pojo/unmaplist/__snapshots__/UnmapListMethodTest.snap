@@ -27,4 +27,5 @@ private static <A, B, C, D, E> List<E> unmapList(
       .map(i -> i != null ? unwrapListItem.apply(i) : null)
       .map(i -> i != null ? unmapListItemType.apply(i) : null)
       .collect(Collectors.toList());
+}
 ]

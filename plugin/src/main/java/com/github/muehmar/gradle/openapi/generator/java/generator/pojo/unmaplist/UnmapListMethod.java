@@ -35,6 +35,7 @@ public class UnmapListMethod {
         .append(constant("return unmappedListType.stream()"), 1)
         .append(constant(".map(i -> i != null ? unwrapListItem.apply(i) : null)"), 3)
         .append(constant(".map(i -> i != null ? unmapListItemType.apply(i) : null)"), 3)
-        .append(constant(".collect(Collectors.toList());"), 3);
+        .append(constant(".collect(Collectors.toList());"), 3)
+        .append(constant("}"));
   }
 }
