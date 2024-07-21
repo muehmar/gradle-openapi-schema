@@ -57,8 +57,8 @@ public class SuperUserRefactorDto {
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
-  public List<Optional<String>> getIds() {
-    return wrapNullableItemsList(ids);
+  public ArrayList<Optional<Integer>> getIds() {
+    return mapList(ids, Integer::parseInt, Optional::ofNullable, ArrayList::new, l -> l);
   }
 
   @JsonProperty("ids")
@@ -99,8 +99,13 @@ public class SuperUserRefactorDto {
   }
 
   @JsonIgnore
-  public Tristate<List<Optional<String>>> getPhonesTristate() {
-    return Tristate.ofNullableAndNullFlag(wrapNullableItemsList(phones), isPhonesNull);
+  public Tristate<ArrayList<Optional<Integer>>> getPhonesTristate() {
+    return mapList(
+        phones,
+        Integer::parseInt,
+        Optional::ofNullable,
+        ArrayList::new,
+        l -> Tristate.ofNullableAndNullFlag(l, isPhonesNull));
   }
 
   @JsonProperty("phones")
@@ -542,6 +547,25 @@ public class SuperUserRefactorDto {
         + "additionalProperties="
         + additionalProperties
         + "}";
+  }
+
+  private static <A, B, C, D, E> E mapList(
+      List<A> list,
+      Function<A, B> mapListItemType,
+      Function<B, C> wrapListItem,
+      Function<List<C>, D> mapListType,
+      Function<D, E> wrapListType) {
+    if (list == null) {
+      return wrapListType.apply(null);
+    }
+
+    final List<C> mappedListType =
+        list.stream()
+            .map(i -> i != null ? mapListItemType.apply(i) : null)
+            .map(wrapListItem)
+            .collect(Collectors.toList());
+
+    return wrapListType.apply(mapListType.apply(mappedListType));
   }
 
   private static <S, T> List<T> mapListItem(List<S> list, Function<S, T> mapItem) {
