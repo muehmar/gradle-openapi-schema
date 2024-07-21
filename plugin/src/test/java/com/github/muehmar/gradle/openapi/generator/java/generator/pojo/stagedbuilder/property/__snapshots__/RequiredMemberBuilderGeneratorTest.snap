@@ -1,3 +1,215 @@
+allNecessityAndNullabilityVariantsFullyTypeMapped[FULL]=[
+com.custom.CustomList
+com.custom.CustomString
+java.util.List
+java.util.Optional
+
+public static final class FullPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public FullPropertyBuilder1 setRequiredStringVal(CustomString requiredStringVal) {
+    return new FullPropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+}
+
+public static final class FullPropertyBuilder1 {
+  private final Builder builder;
+
+  private FullPropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public FullPropertyBuilder2 setRequiredNullableStringVal(CustomString requiredNullableStringVal) {
+    return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public FullPropertyBuilder2 setRequiredNullableStringVal(Optional<CustomString> requiredNullableStringVal) {
+    return new FullPropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+}
+
+public static final class FullPropertyBuilder2 {
+  private final Builder builder;
+
+  private FullPropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public FullPropertyBuilder3 setRequiredListWithNullableItems(CustomList<CustomString> requiredListWithNullableItems) {
+    return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public FullPropertyBuilder3 setRequiredListWithNullableItems_(CustomList<Optional<CustomString>> requiredListWithNullableItems) {
+    return new FullPropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+  }
+
+}
+
+public static final class FullPropertyBuilder3 {
+  private final Builder builder;
+
+  private FullPropertyBuilder3(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(CustomList<CustomString> requiredNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(Optional<CustomList<CustomString>> requiredNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(CustomList<Optional<CustomString>> requiredNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(Optional<CustomList<Optional<CustomString>>> requiredNullableListWithNullableItems) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+}
+]
+
+
+allNecessityAndNullabilityVariantsFullyTypeMapped[STANDARD]=[
+com.custom.CustomList
+com.custom.CustomString
+java.util.List
+java.util.Optional
+
+public static final class PropertyBuilder0 {
+  private final Builder builder;
+
+  private PropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public PropertyBuilder1 setRequiredStringVal(CustomString requiredStringVal) {
+    return new PropertyBuilder1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+}
+
+public static final class PropertyBuilder1 {
+  private final Builder builder;
+
+  private PropertyBuilder1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder2 setRequiredNullableStringVal(CustomString requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public PropertyBuilder2 setRequiredNullableStringVal(Optional<CustomString> requiredNullableStringVal) {
+    return new PropertyBuilder2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+}
+
+public static final class PropertyBuilder2 {
+  private final Builder builder;
+
+  private PropertyBuilder2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public PropertyBuilder3 setRequiredListWithNullableItems(CustomList<CustomString> requiredListWithNullableItems) {
+    return new PropertyBuilder3(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public PropertyBuilder3 setRequiredListWithNullableItems_(CustomList<Optional<CustomString>> requiredListWithNullableItems) {
+    return new PropertyBuilder3(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+  }
+
+}
+
+public static final class PropertyBuilder3 {
+  private final Builder builder;
+
+  private PropertyBuilder3(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems(CustomList<CustomString> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<CustomList<CustomString>> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems_(CustomList<Optional<CustomString>> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public PropertyBuilder4 setRequiredNullableListWithNullableItems_(Optional<CustomList<Optional<CustomString>>> requiredNullableListWithNullableItems) {
+    return new PropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+}
+]
+
+
 allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties[FULL]=[
 java.util.List
 java.util.Optional

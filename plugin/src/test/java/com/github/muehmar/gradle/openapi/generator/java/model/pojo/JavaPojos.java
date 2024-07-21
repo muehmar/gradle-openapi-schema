@@ -212,6 +212,13 @@ public class JavaPojos {
         TypeMappings.ofClassTypeMappings(ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
   }
 
+  public static JavaObjectPojo allNecessityAndNullabilityVariantsFullyTypeMapped() {
+    return allNecessityAndNullabilityVariantsTypeMapped(
+        TypeMappings.ofClassTypeMappings(
+            ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION));
+  }
+
   public static JavaObjectPojo allNecessityAndNullabilityVariantsTypeMapped(
       TypeMappings typeMappings) {
     return (JavaObjectPojo)

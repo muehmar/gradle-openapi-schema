@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.stagedbuilder.property;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.stagedbuilder.property.RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAnyType.javaAnyType;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
@@ -35,8 +36,7 @@ class RequiredMemberBuilderGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctOutput(
       StagedBuilderVariant variant) {
-    final Generator<JavaObjectPojo, PojoSettings> gen =
-        RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator(variant);
+    final Generator<JavaObjectPojo, PojoSettings> gen = requiredMemberBuilderGenerator(variant);
 
     final Writer writer =
         gen.generate(
@@ -49,12 +49,27 @@ class RequiredMemberBuilderGeneratorTest {
 
   @ParameterizedTest
   @EnumSource(StagedBuilderVariant.class)
+  @SnapshotName("allNecessityAndNullabilityVariantsFullyTypeMapped")
+  void generate_when_allNecessityAndNullabilityVariantsFullyTypeMapped_then_correctOutput(
+      StagedBuilderVariant variant) {
+    final Generator<JavaObjectPojo, PojoSettings> gen = requiredMemberBuilderGenerator(variant);
+
+    final Writer writer =
+        gen.generate(
+            JavaPojos.allNecessityAndNullabilityVariantsFullyTypeMapped(),
+            TestPojoSettings.defaultTestSettings(),
+            javaWriter());
+
+    expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @EnumSource(StagedBuilderVariant.class)
   @SnapshotName("allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties")
   void
       generate_when_allNecessityAndNullabilityVariantsWithRequiredAdditionalProperties_then_correctOutput(
           StagedBuilderVariant variant) {
-    final Generator<JavaObjectPojo, PojoSettings> gen =
-        RequiredMemberBuilderGenerator.requiredMemberBuilderGenerator(variant);
+    final Generator<JavaObjectPojo, PojoSettings> gen = requiredMemberBuilderGenerator(variant);
     final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
         PList.single(
             JavaRequiredAdditionalProperty.fromNameAndType(
