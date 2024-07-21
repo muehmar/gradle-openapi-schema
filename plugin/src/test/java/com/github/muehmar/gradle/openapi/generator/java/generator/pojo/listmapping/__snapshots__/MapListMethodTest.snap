@@ -1,0 +1,22 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MapListMethodTest.mapListMethod_when_called_then_correctOutput=[
+.
+.
+private static <A, B, C, D, E> E mapList(
+    A list,
+    Function<A, B> mapListItemType,
+    Function<B, C> wrapListItem,
+    Function<List<C>, D> mapListType,
+    Function<D, E> wrapListType) {
+  if (list == null) {
+    return wrapListType.apply(null);
+  }
+
+  final List<C> mappedListType =
+      list.stream()
+          .map(i -> i != null ? mapListItemType.apply(i) : null)
+          .map(wrapListItem)
+          .collect(Collectors.toList());
+
+  return wrapListType.apply(mapListType.apply(mappedListType));
+}
+]

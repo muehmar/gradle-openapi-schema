@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.unmaplist;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping;
 
 import static io.github.muehmar.codegenerator.Generator.constant;
 
