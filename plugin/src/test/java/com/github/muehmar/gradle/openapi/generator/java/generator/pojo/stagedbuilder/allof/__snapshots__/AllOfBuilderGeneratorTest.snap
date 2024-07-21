@@ -483,6 +483,237 @@ public static final class AllOfBuilderNecessityAndNullability7 {
 ]
 
 
+allOfPojoWithAllNecessityAndNullabilityVariantsFullyTypeMapped=[
+com.custom.CustomList
+com.custom.CustomString
+com.github.muehmar.openapi.util.Tristate
+java.util.List
+java.util.Optional
+
+public static final class AllOfBuilderNecessityAndNullability0 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability0(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  public AllOfBuilderNecessityAndNullability1 setRequiredStringVal(CustomString requiredStringVal) {
+    return new AllOfBuilderNecessityAndNullability1(builder.setRequiredStringVal(requiredStringVal));
+  }
+
+  public PropertyBuilder0 setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
+    return new PropertyBuilder0(builder.setNecessityAndNullabilityDto(dto));
+  }
+}
+
+public static final class AllOfBuilderNecessityAndNullability1 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability1(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public AllOfBuilderNecessityAndNullability2 setRequiredNullableStringVal(CustomString requiredNullableStringVal) {
+    return new AllOfBuilderNecessityAndNullability2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  public AllOfBuilderNecessityAndNullability2 setRequiredNullableStringVal(Optional<CustomString> requiredNullableStringVal) {
+    return new AllOfBuilderNecessityAndNullability2(builder.setRequiredNullableStringVal(requiredNullableStringVal));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability2 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability2(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public AllOfBuilderNecessityAndNullability3 setOptionalStringVal(CustomString optionalStringVal) {
+    return new AllOfBuilderNecessityAndNullability3(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  public AllOfBuilderNecessityAndNullability3 setOptionalStringVal(Optional<CustomString> optionalStringVal) {
+    return new AllOfBuilderNecessityAndNullability3(builder.setOptionalStringVal(optionalStringVal));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability3 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability3(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public AllOfBuilderNecessityAndNullability4 setOptionalNullableStringVal(CustomString optionalNullableStringVal) {
+    return new AllOfBuilderNecessityAndNullability4(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  public AllOfBuilderNecessityAndNullability4 setOptionalNullableStringVal(Tristate<CustomString> optionalNullableStringVal) {
+    return new AllOfBuilderNecessityAndNullability4(builder.setOptionalNullableStringVal(optionalNullableStringVal));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability4 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability4(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability5 setRequiredListWithNullableItems(CustomList<CustomString> requiredListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability5(builder.setRequiredListWithNullableItems(requiredListWithNullableItems));
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability5 setRequiredListWithNullableItems_(CustomList<Optional<CustomString>> requiredListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability5(builder.setRequiredListWithNullableItems_(requiredListWithNullableItems));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability5 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability5(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability6 setRequiredNullableListWithNullableItems(CustomList<CustomString> requiredNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability6(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability6 setRequiredNullableListWithNullableItems_(CustomList<Optional<CustomString>> requiredNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability6(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability6 setRequiredNullableListWithNullableItems(Optional<CustomList<CustomString>> requiredNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability6(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability6 setRequiredNullableListWithNullableItems_(Optional<CustomList<Optional<CustomString>>> requiredNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability6(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability6 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability6(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability7 setOptionalListWithNullableItems(CustomList<CustomString> optionalListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability7(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability7 setOptionalListWithNullableItems_(CustomList<Optional<CustomString>> optionalListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability7(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability7 setOptionalListWithNullableItems(Optional<CustomList<CustomString>> optionalListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability7(builder.setOptionalListWithNullableItems(optionalListWithNullableItems));
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  public AllOfBuilderNecessityAndNullability7 setOptionalListWithNullableItems_(Optional<CustomList<Optional<CustomString>>> optionalListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability7(builder.setOptionalListWithNullableItems_(optionalListWithNullableItems));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability7 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability7(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public PropertyBuilder0 setOptionalNullableListWithNullableItems(CustomList<CustomString> optionalNullableListWithNullableItems) {
+    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public PropertyBuilder0 setOptionalNullableListWithNullableItems_(CustomList<Optional<CustomString>> optionalNullableListWithNullableItems) {
+    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public PropertyBuilder0 setOptionalNullableListWithNullableItems(Tristate<CustomList<CustomString>> optionalNullableListWithNullableItems) {
+    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  public PropertyBuilder0 setOptionalNullableListWithNullableItems_(Tristate<CustomList<Optional<CustomString>>> optionalNullableListWithNullableItems) {
+    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  }
+
+}
+]
+
+
 allOfPojoWithCompositionsInAllOfSubPojos=[
 .
 .

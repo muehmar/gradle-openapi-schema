@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.stagedbuilder.property;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.stagedbuilder.property.OptionalMemberBuilderGenerator.optionalMemberBuilderGenerator;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -25,12 +26,27 @@ class OptionalMemberBuilderGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_correctOutput(
       StagedBuilderVariant variant) {
-    final Generator<JavaObjectPojo, PojoSettings> gen =
-        OptionalMemberBuilderGenerator.optionalMemberBuilderGenerator(variant);
+    final Generator<JavaObjectPojo, PojoSettings> gen = optionalMemberBuilderGenerator(variant);
 
     final Writer writer =
         gen.generate(
             JavaPojos.allNecessityAndNullabilityVariants(), defaultTestSettings(), javaWriter());
+
+    expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @EnumSource(StagedBuilderVariant.class)
+  @SnapshotName("allNecessityAndNullabilityVariantsFullyTypeMapped")
+  void generate_when_allNecessityAndNullabilityVariantsFullyTypeMapped_then_correctOutput(
+      StagedBuilderVariant variant) {
+    final Generator<JavaObjectPojo, PojoSettings> gen = optionalMemberBuilderGenerator(variant);
+
+    final Writer writer =
+        gen.generate(
+            JavaPojos.allNecessityAndNullabilityVariantsFullyTypeMapped(),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(variant.name()).toMatchSnapshot(writerSnapshot(writer));
   }
