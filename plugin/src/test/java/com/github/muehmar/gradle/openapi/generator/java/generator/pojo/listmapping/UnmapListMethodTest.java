@@ -1,8 +1,8 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.unmaplist;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noSettings;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.unmaplist.UnmapListMethod.unmapListMethod;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.UnmapListMethod.unmapListMethod;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 

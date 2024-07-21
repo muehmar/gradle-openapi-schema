@@ -1,4 +1,4 @@
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.unmaplist.UnmapListMethodTest.unmapListMethod_when_called_then_correctOutput=[
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.UnmapListMethodTest.unmapListMethod_when_called_then_correctOutput=[
 .
 .
 private static <A, B, C, D, E> List<E> unmapList(

@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.unmaplist.UnmapListMethod;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.UnmapListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
