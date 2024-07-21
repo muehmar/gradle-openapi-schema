@@ -694,16 +694,6 @@ private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWi
  * OptionalListWithNullableItems
  */
 @JsonIgnore
-public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
-  this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
-  this.isOptionalListWithNullableItemsNotNull = true;
-  return this;
-}
-
-/**
- * OptionalListWithNullableItems
- */
-@JsonIgnore
 public Builder setOptionalListWithNullableItems(List<CustomString> optionalListWithNullableItems) {
   this.optionalListWithNullableItems =
       unmapList(
@@ -787,16 +777,6 @@ java.util.function.Function
 private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
   this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
-  return this;
-}
-
-/**
- * OptionalNullableListWithNullableItems
- */
-@JsonIgnore
-public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
-  this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
-  this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
   return this;
 }
 

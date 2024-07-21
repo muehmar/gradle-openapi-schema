@@ -17,7 +17,8 @@ class OptionalNotNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isOptionalAndNotNullable() && member.getJavaType().hasNoApiType();
+    return member.isOptionalAndNotNullable()
+        && StandardSetterConditions.groupCondition().test(member);
   }
 
   @Override
