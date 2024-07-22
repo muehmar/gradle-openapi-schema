@@ -10,7 +10,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -29,10 +29,10 @@ class OptionalNotNullableGetterTest {
   private Expect expect;
 
   @ParameterizedTest
-  @EnumSource(GetterGenerator.GeneratorOption.class)
+  @EnumSource(GetterType.class)
   @SnapshotName("nullableStringItem")
-  void generate_when_nullableStringItem_then_matchSnapshot(GetterGenerator.GeneratorOption option) {
-    final Generator<JavaPojoMember, PojoSettings> generator = optionalNotNullableGetter(option);
+  void generate_when_nullableStringItem_then_matchSnapshot(GetterType getterType) {
+    final Generator<JavaPojoMember, PojoSettings> generator = optionalNotNullableGetter(getterType);
     final JavaPojoMember member =
         TestJavaPojoMembers.list(
             StringType.noFormat()
@@ -44,6 +44,6 @@ class OptionalNotNullableGetterTest {
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
-    expect.scenario(option.name()).toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(getterType.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 }

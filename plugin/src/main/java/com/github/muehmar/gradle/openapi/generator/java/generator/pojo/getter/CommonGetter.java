@@ -96,12 +96,11 @@ public class CommonGetter {
     return (member, settings) -> member.getGetterNameWithSuffix(settings).asString();
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> rawGetterMethod(
-      GetterGenerator.GeneratorOption option) {
+  public static Generator<JavaPojoMember, PojoSettings> rawGetterMethod(GetterType getterType) {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
-        .returnType(returnTypeForRawGetter(option))
+        .returnType(returnTypeForRawGetter(getterType))
         .methodName((f, s) -> f.getValidationGetterName(s).asString())
         .noArguments()
         .doesNotThrow()
@@ -110,15 +109,15 @@ public class CommonGetter {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> returnTypeForRawGetter(
-      GetterGenerator.GeneratorOption option) {
+      GetterType getterType) {
     final Generator<JavaPojoMember, PojoSettings> noValidationReturnType =
         Generator.<JavaPojoMember, PojoSettings>emptyGen()
             .append((m, s, w) -> w.println("%s", m.getJavaType().getParameterizedClassName()))
-            .filter(option.<JavaPojoMember>validationFilter().negate());
+            .filter(getterType.<JavaPojoMember>validationFilter().negate());
     final Generator<JavaPojoMember, PojoSettings> validationReturnType =
         deepAnnotatedParameterizedClassName()
             .contraMap(ValidationAnnotationGenerator.PropertyType::fromMember)
-            .filter(option.validationFilter());
+            .filter(getterType.validationFilter());
     return validationReturnType.append(noValidationReturnType);
   }
 

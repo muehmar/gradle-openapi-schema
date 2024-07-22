@@ -1,4 +1,4 @@
-nullableStringItem[NO_VALIDATION]=[
+nullableStringItem[API_TYPE]=[
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -19,6 +19,37 @@ public List<Optional<String>> getListVal() {
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private List<String> getListValRaw() {
+  return listVal;
+}
+]
+
+
+nullableStringItem[API_TYPE_FRAMEWORK]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+java.util.Optional
+java.util.function.Function
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+public List<Optional<String>> getListVal() {
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Function.identity()
+  );
+}
+.
+.
+@NotNull
+@Size(min = 5, max = 10)
+@JsonProperty("listVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<@Pattern(regexp="pattern") String> getListValRaw() {
   return listVal;
 }
 ]
@@ -50,6 +81,32 @@ public List<Optional<String>> getListVal() {
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private List<@Pattern(regexp="pattern") String> getListValRaw() {
+  return listVal;
+}
+]
+
+
+nullableStringItem[STANDARD_NO_VALIDATION]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+java.util.Optional
+java.util.function.Function
+
+public List<Optional<String>> getListVal() {
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Function.identity()
+  );
+}
+.
+.
+@JsonProperty("listVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getListValRaw() {
   return listVal;
 }
 ]

@@ -1,7 +1,16 @@
-rawGetterMethodCustomModifierAndSuffix[NO_VALIDATION]=[
+rawGetterMethodCustomModifierAndSuffix[API_TYPE]=[
 .
 .
 public List<String> getOptionalListWithNullableItemsCustomSuffix() {
+  return optionalListWithNullableItems;
+}
+]
+
+
+rawGetterMethodCustomModifierAndSuffix[API_TYPE_FRAMEWORK]=[
+javax.validation.constraints.Pattern
+
+public List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsCustomSuffix() {
   return optionalListWithNullableItems;
 }
 ]
@@ -16,10 +25,28 @@ public List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsCus
 ]
 
 
-rawGetterMethodDefaultSettings[NO_VALIDATION]=[
+rawGetterMethodCustomModifierAndSuffix[STANDARD_NO_VALIDATION]=[
+.
+.
+public List<String> getOptionalListWithNullableItemsCustomSuffix() {
+  return optionalListWithNullableItems;
+}
+]
+
+
+rawGetterMethodDefaultSettings[API_TYPE]=[
 .
 .
 private List<String> getOptionalListWithNullableItemsRaw() {
+  return optionalListWithNullableItems;
+}
+]
+
+
+rawGetterMethodDefaultSettings[API_TYPE_FRAMEWORK]=[
+javax.validation.constraints.Pattern
+
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
   return optionalListWithNullableItems;
 }
 ]
@@ -29,6 +56,15 @@ rawGetterMethodDefaultSettings[STANDARD]=[
 javax.validation.constraints.Pattern
 
 private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+  return optionalListWithNullableItems;
+}
+]
+
+
+rawGetterMethodDefaultSettings[STANDARD_NO_VALIDATION]=[
+.
+.
+private List<String> getOptionalListWithNullableItemsRaw() {
   return optionalListWithNullableItems;
 }
 ]

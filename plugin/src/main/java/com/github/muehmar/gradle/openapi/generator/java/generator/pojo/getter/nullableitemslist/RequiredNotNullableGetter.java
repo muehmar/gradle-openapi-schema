@@ -11,7 +11,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -21,11 +21,11 @@ class RequiredNotNullableGetter {
   private RequiredNotNullableGetter() {}
 
   public static Generator<JavaPojoMember, PojoSettings> requiredNotNullableGetterGenerator(
-      GetterGenerator.GeneratorOption option) {
+      GetterType getterType) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(getterMethod())
         .appendSingleBlankLine()
-        .append(frameworkGetter(option))
+        .append(frameworkGetter(getterType))
         .filter(JavaPojoMember::isRequiredAndNotNullable);
   }
 
@@ -60,15 +60,14 @@ class RequiredNotNullableGetter {
             .build();
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> frameworkGetter(
-      GetterGenerator.GeneratorOption option) {
+  private static Generator<JavaPojoMember, PojoSettings> frameworkGetter(GetterType getterType) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendNewLine()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
-        .append(validationAnnotationsForMember().filter(option.validationFilter()))
+        .append(validationAnnotationsForMember().filter(getterType.validationFilter()))
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
-        .append(CommonGetter.rawGetterMethod(option))
+        .append(CommonGetter.rawGetterMethod(getterType))
         .filter(isJacksonJsonOrValidation());
   }
 }
