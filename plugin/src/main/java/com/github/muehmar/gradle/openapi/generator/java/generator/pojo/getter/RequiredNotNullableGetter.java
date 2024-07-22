@@ -18,7 +18,7 @@ class RequiredNotNullableGetter {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(validationAnnotationsForMember().filter(getterType.validationFilter()))
-        .append(getterMethod(PUBLIC))
+        .append(getterMethod(getterType, PUBLIC))
         .filter(JavaPojoMember::isRequiredAndNotNullable);
   }
 }
