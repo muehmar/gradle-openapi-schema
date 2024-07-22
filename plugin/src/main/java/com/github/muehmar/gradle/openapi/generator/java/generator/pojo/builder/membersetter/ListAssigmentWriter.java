@@ -46,10 +46,6 @@ public class ListAssigmentWriter {
       return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer unmapListType(String unmapListType) {
-      return javaWriter().print(unmapListType);
-    }
-
     static Writer unmapListType(JavaArrayType javaArrayType) {
       return javaArrayType
           .getApiType()
@@ -74,10 +70,6 @@ public class ListAssigmentWriter {
   public static class UnmapListItemTypeFieldBuilder {
     static Writer unmapListItemTypeNotNecessary() {
       return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
-    }
-
-    static Writer unmapListItemType(String unmapListItemType) {
-      return javaWriter().print(unmapListItemType);
     }
 
     static Writer unmapListItemType(JavaArrayType javaArrayType) {

@@ -12,16 +12,18 @@ this.optionalListWithNullableItems =
 ]
 
 
-customTypeMappings=[
+unmapListAndListItemType=[
+com.custom.CustomList
+com.custom.CustomString
 java.util.function.Function
 
 this.optionalListWithNullableItems =
     unmapList(
         optionalListWithNullableItems,
         Function.identity(),
-        l -> l.toList(),
+        l -> CustomList.toList(l),
         Function.identity(),
-        i -> i.toString()
+        i -> CustomString.toString(i)
     );
 ]
 
