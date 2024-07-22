@@ -3,16 +3,16 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.PojoPropertyCountMethod.pojoPropertyCountMethoGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGenerator.normalBuilderGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.CompositionGetterGenerator.compositionGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ConversionMethodGenerator.conversionMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.DiscriminatorValidationMethodGenerator.discriminatorValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldMethodGenerator.foldMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.FoldValidationGenerator.foldValidationGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.InvalidCompositionDtoGetterGenerator.invalidCompositionDtoGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.OneOfAnyOfDtoGetterGenerator.oneOfAnyOfDtoGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidCountMethodGenerator.validCountMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidCountValidationMethod.validCountValidationMethodGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.ValidationMethodGenerator.validationMethodGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ComposedDtoGetterGenerator.composedDtoGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AllOfDtoGetterGenerator.allOfDtoGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter.requiredAdditionalPropertiesGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.AdditionalPropertiesGetter.additionalPropertiesGetterGenerator;
@@ -103,13 +103,13 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendList(getterGenerator(), JavaObjectPojo::getAllMembers, newLine())
         .appendSingleBlankLine()
-        .append(composedDtoGetterGenerator())
+        .append(allOfDtoGetterGenerator())
         .appendSingleBlankLine()
         .append(requiredAdditionalPropertiesGetter())
         .appendSingleBlankLine()
         .append(additionalPropertiesGetterGenerator())
         .appendSingleBlankLine()
-        .append(compositionGetterGenerator())
+        .append(oneOfAnyOfDtoGetterGenerator())
         .appendSingleBlankLine()
         .append(pojoPropertyCountMethoGenerator());
   }
