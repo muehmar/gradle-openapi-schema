@@ -1,8 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ComposedPropertiesGetter.composedPropertiesGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.NO_VALIDATION;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD_NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ARRAY_VALUE;
@@ -14,7 +14,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.nu
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import java.util.function.Predicate;
 
 public class GetterGenerator {
   private GetterGenerator() {}
@@ -30,8 +29,8 @@ public class GetterGenerator {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> allOfGenerator() {
-    return singleGetterGenerator(NO_VALIDATION)
-        .append(nullableItemsListGetterGenerator(NO_VALIDATION))
+    return singleGetterGenerator(STANDARD_NO_VALIDATION)
+        .append(nullableItemsListGetterGenerator(STANDARD_NO_VALIDATION))
         .filter(m -> m.getType().equals(ALL_OF_MEMBER));
   }
 
@@ -41,17 +40,17 @@ public class GetterGenerator {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> singleGetterGenerator(
-      GeneratorOption option) {
-    return RequiredNotNullableGetter.requiredNotNullableGetterGenerator(option)
-        .append(RequiredNullableGetter.requiredNullableGetterGenerator(option))
-        .append(OptionalNotNullableGetter.optionalNotNullableGetterGenerator(option))
-        .append(OptionalNullableGetter.optionalNullableGetterGenerator(option))
+      GetterType getterType) {
+    return RequiredNotNullableGetter.requiredNotNullableGetterGenerator(getterType)
+        .append(RequiredNullableGetter.requiredNullableGetterGenerator(getterType))
+        .append(OptionalNotNullableGetter.optionalNotNullableGetterGenerator(getterType))
+        .append(OptionalNullableGetter.optionalNullableGetterGenerator(getterType))
         .filter(GetterGenerator::isNotNullableListItemsMember);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> nullableItemsListGetterGenerator(
-      GeneratorOption option) {
-    return NullableItemsListGetterGenerator.nullableItemsListGetterGenerator(option)
+      GetterType getterType) {
+    return NullableItemsListGetterGenerator.nullableItemsListGetterGenerator(getterType)
         .filter(GetterGenerator::isNullableListItemsMember);
   }
 
@@ -61,14 +60,5 @@ public class GetterGenerator {
 
   private static boolean isNotNullableListItemsMember(JavaPojoMember member) {
     return not(isNullableListItemsMember(member));
-  }
-
-  public enum GeneratorOption {
-    STANDARD,
-    NO_VALIDATION;
-
-    public <T> Predicate<T> validationFilter() {
-      return ignore -> this.equals(STANDARD);
-    }
   }
 }

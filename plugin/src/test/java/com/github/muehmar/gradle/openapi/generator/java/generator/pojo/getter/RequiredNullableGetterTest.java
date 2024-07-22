@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetter.requiredNullableGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;

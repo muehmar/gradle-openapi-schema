@@ -1,4 +1,4 @@
-nullableStringItem[NO_VALIDATION]=[
+nullableStringItem[API_TYPE]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
@@ -40,6 +40,60 @@ private List<String> getListValRaw() {
   return listVal;
 }
 
+]
+
+
+nullableStringItem[API_TYPE_FRAMEWORK]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+java.util.function.Function
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+/**
+ * List
+ */
+@JsonIgnore
+public Optional<List<Optional<String>>> getListVal() {
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
+}
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) {
+  return this.listVal == null
+      ? defaultValue
+      : mapList(
+          listVal,
+          Function.identity(),
+          Optional::ofNullable,
+          Function.identity(),
+          Function.identity()
+      );
+}
+.
+.
+@Size(min = 5, max = 10)
+@JsonProperty("listVal")
+private List<@Pattern(regexp="pattern") String> getListValRaw() {
+  return listVal;
+}
+
+@AssertTrue(message = "listVal is required but it is not present")
+@JsonIgnore
+private boolean isListValPresent() {
+  return isListValPresent;
+}
 ]
 
 
@@ -94,4 +148,49 @@ private List<@Pattern(regexp="pattern") String> getListValRaw() {
 private boolean isListValPresent() {
   return isListValPresent;
 }
+]
+
+
+nullableStringItem[STANDARD_NO_VALIDATION]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.Optional
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+public Optional<List<Optional<String>>> getListVal() {
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
+}
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) {
+  return this.listVal == null
+      ? defaultValue
+      : mapList(
+          listVal,
+          Function.identity(),
+          Optional::ofNullable,
+          Function.identity(),
+          Function.identity()
+      );
+}
+.
+.
+@JsonProperty("listVal")
+private List<String> getListValRaw() {
+  return listVal;
+}
+
 ]

@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.NO_VALIDATION;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD_NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNotNullableGetter.requiredNotNullableGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
@@ -51,7 +51,7 @@ class RequiredNotNullableGetterTest {
   @SnapshotName("requiredAndNotNullableFieldNoValidationOption")
   void generator_when_requiredAndNotNullableFieldNoValidationOption_then_correctOutputAndRefs() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        requiredNotNullableGetterGenerator(NO_VALIDATION);
+        requiredNotNullableGetterGenerator(STANDARD_NO_VALIDATION);
 
     final Writer writer = generator.generate(POJO_MEMBER, defaultTestSettings(), javaWriter());
 

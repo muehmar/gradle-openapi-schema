@@ -22,23 +22,23 @@ class CommonGetterTest {
   private Expect expect;
 
   @ParameterizedTest
-  @EnumSource(GetterGenerator.GeneratorOption.class)
+  @EnumSource(GetterType.class)
   @SnapshotName("rawGetterMethodDefaultSettings")
-  void rawGetterMethod_when_defaultSettings_then_correctOutput(
-      GetterGenerator.GeneratorOption option) {
-    final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod(option);
+  void rawGetterMethod_when_defaultSettings_then_correctOutput(GetterType getterType) {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        CommonGetter.rawGetterMethod(getterType);
     final Writer writer =
         generator.generate(optionalListWithNullableItems(), defaultTestSettings(), javaWriter());
 
-    expect.scenario(option.name()).toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(getterType.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 
   @ParameterizedTest
-  @EnumSource(GetterGenerator.GeneratorOption.class)
+  @EnumSource(GetterType.class)
   @SnapshotName("rawGetterMethodCustomModifierAndSuffix")
-  void rawGetterMethod_when_customModifierAndSuffix_then_correctOutput(
-      GetterGenerator.GeneratorOption option) {
-    final Generator<JavaPojoMember, PojoSettings> generator = CommonGetter.rawGetterMethod(option);
+  void rawGetterMethod_when_customModifierAndSuffix_then_correctOutput(GetterType getterType) {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        CommonGetter.rawGetterMethod(getterType);
 
     final PojoSettings settings =
         defaultTestSettings()
@@ -49,6 +49,6 @@ class CommonGetterTest {
     final Writer writer =
         generator.generate(optionalListWithNullableItems(), settings, javaWriter());
 
-    expect.scenario(option.name()).toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(getterType.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 }

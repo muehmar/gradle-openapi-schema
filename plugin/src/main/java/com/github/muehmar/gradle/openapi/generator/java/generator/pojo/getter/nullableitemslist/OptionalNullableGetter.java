@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.n
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.getterName;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.jacksonSerialisationMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriterBuilder.fullMemberMapWriterBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJsonOrValidation;
@@ -11,7 +11,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -23,12 +23,12 @@ class OptionalNullableGetter {
   private OptionalNullableGetter() {}
 
   public static Generator<JavaPojoMember, PojoSettings> optionalNullableGetter(
-      GetterGenerator.GeneratorOption option) {
+      GetterType getterType) {
     return tristateGetterMethod()
         .appendSingleBlankLine()
         .append(jacksonSerialisationMethod())
         .appendSingleBlankLine()
-        .append(validationGetter().filter(option.validationFilter()))
+        .append(validationGetter().filter(getterType.validationFilter()))
         .filter(JavaPojoMember::isOptionalAndNullable);
   }
 
