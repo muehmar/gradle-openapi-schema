@@ -5,10 +5,18 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Optional
+java.util.function.Function
 
 @JsonIgnore
 public Tristate<List<Optional<String>>> getListVal() {
-  return Tristate.ofNullableAndNullFlag(wrapNullableItemsList(listVal), isListValNull);
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      l -> Tristate.ofNullableAndNullFlag(l, isListValNull)
+  );
 }
 
 @JsonProperty("listVal")
@@ -27,12 +35,20 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Optional
+java.util.function.Function
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
 @JsonIgnore
 public Tristate<List<Optional<String>>> getListVal() {
-  return Tristate.ofNullableAndNullFlag(wrapNullableItemsList(listVal), isListValNull);
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      l -> Tristate.ofNullableAndNullFlag(l, isListValNull)
+  );
 }
 
 @JsonProperty("listVal")

@@ -23,6 +23,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
@@ -32,7 +33,13 @@ javax.validation.constraints.Size
  */
 @JsonIgnore
 public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
-  return Optional.ofNullable(wrapNullableItemsList(optionalListWithNullableItems));
+  return mapList(
+      optionalListWithNullableItems,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
 
 /**
@@ -40,7 +47,15 @@ public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
  */
 @JsonIgnore
 public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<String>> defaultValue) {
-  return this.optionalListWithNullableItems == null ? defaultValue : wrapNullableItemsList(this.optionalListWithNullableItems);
+  return this.optionalListWithNullableItems == null
+      ? defaultValue
+      : mapList(
+          optionalListWithNullableItems,
+          Function.identity(),
+          Optional::ofNullable,
+          Function.identity(),
+          Function.identity()
+      );
 }
 .
 .
@@ -87,12 +102,20 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Optional
+java.util.function.Function
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
 @JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
-  return Tristate.ofNullableAndNullFlag(wrapNullableItemsList(optionalNullableListWithNullableItems), isOptionalNullableListWithNullableItemsNull);
+  return mapList(
+      optionalNullableListWithNullableItems,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItemsNull)
+  );
 }
 
 @JsonProperty("optionalNullableListWithNullableItems")
@@ -270,12 +293,20 @@ pojoMembers[requiredListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
+java.util.Optional
+java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
 public List<Optional<String>> getRequiredListWithNullableItems() {
-  return wrapNullableItemsList(requiredListWithNullableItems);
+  return mapList(
+      requiredListWithNullableItems,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Function.identity()
+  );
 }
 .
 .
@@ -314,6 +345,7 @@ pojoMembers[requiredNullableListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
@@ -323,7 +355,13 @@ javax.validation.constraints.Size
  */
 @JsonIgnore
 public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems() {
-  return Optional.ofNullable(wrapNullableItemsList(requiredNullableListWithNullableItems));
+  return mapList(
+      requiredNullableListWithNullableItems,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
 
 /**
@@ -331,7 +369,15 @@ public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems
  */
 @JsonIgnore
 public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Optional<String>> defaultValue) {
-  return this.requiredNullableListWithNullableItems == null ? defaultValue : wrapNullableItemsList(this.requiredNullableListWithNullableItems);
+  return this.requiredNullableListWithNullableItems == null
+      ? defaultValue
+      : mapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          Optional::ofNullable,
+          Function.identity(),
+          Function.identity()
+      );
 }
 .
 .

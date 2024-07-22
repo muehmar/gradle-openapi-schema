@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.n
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.getterName;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.jacksonSerialisationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.GeneratorOption.STANDARD;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriterBuilder.fullMemberMapWriterBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJsonOrValidation;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
@@ -11,7 +12,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.WrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -47,16 +47,23 @@ class OptionalNullableGetter {
             .methodName(getterName())
             .noArguments()
             .doesNotThrow()
-            .content(
-                f ->
-                    String.format(
-                        "return Tristate.ofNullableAndNullFlag(%s(%s), %s);",
-                        WrapNullableItemsListMethod.METHOD_NAME,
-                        f.getName(),
-                        f.getIsNullFlagName()))
+            .content(tristateGetterMethodContent())
             .build()
             .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
     return JacksonAnnotationGenerator.<JavaPojoMember>jsonIgnore().append(method);
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> tristateGetterMethodContent() {
+    return (member, settings, writer) ->
+        fullMemberMapWriterBuilder()
+            .member(member)
+            .prefix("return ")
+            .mapListItemTypeNotNecessary()
+            .wrapOptionalListItem()
+            .mapListTypeNotNecessary()
+            .wrapTristateList()
+            .trailingSemicolon()
+            .build();
   }
 
   private static Generator<JavaPojoMember, PojoSettings> validationGetter() {

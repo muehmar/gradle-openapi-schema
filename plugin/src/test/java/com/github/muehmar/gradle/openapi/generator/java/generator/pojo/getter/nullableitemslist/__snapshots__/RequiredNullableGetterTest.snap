@@ -2,13 +2,20 @@ nullableStringItem[NO_VALIDATION]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 
 /**
  * List
  */
 @JsonIgnore
 public Optional<List<Optional<String>>> getListVal() {
-  return Optional.ofNullable(wrapNullableItemsList(listVal));
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
 
 /**
@@ -16,7 +23,15 @@ public Optional<List<Optional<String>>> getListVal() {
  */
 @JsonIgnore
 public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) {
-  return this.listVal == null ? defaultValue : wrapNullableItemsList(this.listVal);
+  return this.listVal == null
+      ? defaultValue
+      : mapList(
+          listVal,
+          Function.identity(),
+          Optional::ofNullable,
+          Function.identity(),
+          Function.identity()
+      );
 }
 .
 .
@@ -32,6 +47,7 @@ nullableStringItem[STANDARD]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
+java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
@@ -41,7 +57,13 @@ javax.validation.constraints.Size
  */
 @JsonIgnore
 public Optional<List<Optional<String>>> getListVal() {
-  return Optional.ofNullable(wrapNullableItemsList(listVal));
+  return mapList(
+      listVal,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
 
 /**
@@ -49,7 +71,15 @@ public Optional<List<Optional<String>>> getListVal() {
  */
 @JsonIgnore
 public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) {
-  return this.listVal == null ? defaultValue : wrapNullableItemsList(this.listVal);
+  return this.listVal == null
+      ? defaultValue
+      : mapList(
+          listVal,
+          Function.identity(),
+          Optional::ofNullable,
+          Function.identity(),
+          Function.identity()
+      );
 }
 .
 .
