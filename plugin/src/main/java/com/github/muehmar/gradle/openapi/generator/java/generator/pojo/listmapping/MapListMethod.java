@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapp
 
 import static io.github.muehmar.codegenerator.Generator.constant;
 
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import io.github.muehmar.codegenerator.Generator;
 
 public class MapListMethod {
@@ -10,8 +11,8 @@ public class MapListMethod {
   private MapListMethod() {}
 
   public static <A, B> Generator<A, B> mapListMethod() {
-    return Generator.<A, B>constant("private static <A, B, C, D, E> E mapList(")
-        .append(constant("A list,"), 2)
+    return Generator.<A, B>constant("private static <A, B, C, D, E> E %s(", METHOD_NAME)
+        .append(constant("List<A> list,"), 2)
         .append(constant("Function<A, B> mapListItemType,"), 2)
         .append(constant("Function<B, C> wrapListItem,"), 2)
         .append(constant("Function<List<C>, D> mapListType,"), 2)
@@ -27,6 +28,9 @@ public class MapListMethod {
         .append(constant(".collect(Collectors.toList());"), 5)
         .appendNewLine()
         .append(constant("return wrapListType.apply(mapListType.apply(mappedListType));"), 1)
-        .append(constant("}"));
+        .append(constant("}"))
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_FUNCTION))
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_LIST))
+        .append(w -> w.ref(JavaRefs.JAVA_UTIL_STREAM_COLLECTORS));
   }
 }

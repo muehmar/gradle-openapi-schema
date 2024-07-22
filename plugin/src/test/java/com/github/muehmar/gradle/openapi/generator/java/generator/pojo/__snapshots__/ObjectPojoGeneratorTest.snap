@@ -5802,7 +5802,7 @@ public class NecessityAndNullabilityDto {
   }
 
   private static <A, B, C, D, E> E mapList(
-      A list,
+      List<A> list,
       Function<A, B> mapListItemType,
       Function<B, C> wrapListItem,
       Function<List<C>, D> mapListType,
