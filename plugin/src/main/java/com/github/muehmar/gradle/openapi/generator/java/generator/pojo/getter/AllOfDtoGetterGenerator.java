@@ -11,10 +11,10 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
-public class ComposedDtoGetterGenerator {
-  private ComposedDtoGetterGenerator() {}
+public class AllOfDtoGetterGenerator {
+  private AllOfDtoGetterGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> composedDtoGetterGenerator() {
+  public static Generator<JavaObjectPojo, PojoSettings> allOfDtoGetterGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(
             allOfDtoGetter(), p -> p.getAllOfComposition().map(JavaAllOfComposition::getPojos));

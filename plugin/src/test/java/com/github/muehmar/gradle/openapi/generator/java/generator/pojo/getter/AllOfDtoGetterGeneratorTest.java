@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ComposedDtoGetterGenerator.composedDtoGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.AllOfDtoGetterGenerator.allOfDtoGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -16,13 +16,13 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
-class ComposedDtoGetterGeneratorTest {
+class AllOfDtoGetterGeneratorTest {
   private Expect expect;
 
   @Test
   @SnapshotName("allOfPojo")
   void generate_when_allOfPojo_then_correctOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = composedDtoGetterGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = allOfDtoGetterGenerator();
 
     final Writer writer =
         generator.generate(

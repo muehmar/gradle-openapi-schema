@@ -20,7 +20,7 @@ import io.github.muehmar.codegenerator.java.MethodGen;
 import java.util.function.Function;
 import lombok.Value;
 
-public class CompositionGetterGenerator {
+public class OneOfAnyOfDtoGetterGenerator {
   private static final Function<CompositionAndPojo, String> JAVA_DOC_FOR_POJO =
       cp ->
           String.format(
@@ -30,9 +30,9 @@ public class CompositionGetterGenerator {
               cp.getType().getName().startLowerCase(),
               cp.getPojo().getSchemaName());
 
-  private CompositionGetterGenerator() {}
+  private OneOfAnyOfDtoGetterGenerator() {}
 
-  public static Generator<JavaObjectPojo, PojoSettings> compositionGetterGenerator() {
+  public static Generator<JavaObjectPojo, PojoSettings> oneOfAnyOfDtoGetterGenerator() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .appendOptional(getterGenerator(), JavaObjectPojo::getOneOfComposition)
         .appendSingleBlankLine()

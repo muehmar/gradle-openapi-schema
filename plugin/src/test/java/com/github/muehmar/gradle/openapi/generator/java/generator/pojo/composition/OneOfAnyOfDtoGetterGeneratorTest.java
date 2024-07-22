@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.CompositionGetterGenerator.compositionGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition.OneOfAnyOfDtoGetterGenerator.oneOfAnyOfDtoGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -19,13 +19,13 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
-class CompositionGetterGeneratorTest {
+class OneOfAnyOfDtoGetterGeneratorTest {
   private Expect expect;
 
   @Test
   @SnapshotName("oneOfPojo")
   void generate_when_oneOfPojo_then_matchSnapshot() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = oneOfAnyOfDtoGetterGenerator();
 
     final Writer writer =
         generator.generate(
@@ -39,7 +39,7 @@ class CompositionGetterGeneratorTest {
   @Test
   @SnapshotName("anyOfPojo")
   void generate_when_anyOfPojo_then_matchSnapshot() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = oneOfAnyOfDtoGetterGenerator();
 
     final Writer writer =
         generator.generate(
@@ -53,7 +53,7 @@ class CompositionGetterGeneratorTest {
   @Test
   @SnapshotName("anyOfPojoWithDiscriminator")
   void generate_when_anyOfPojoWithDiscriminator_then_matchSnapshot() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = oneOfAnyOfDtoGetterGenerator();
 
     final Writer writer =
         generator.generate(
@@ -64,7 +64,7 @@ class CompositionGetterGeneratorTest {
 
   @Test
   void generate_when_noOneOfPojo_then_noOutput() {
-    final Generator<JavaObjectPojo, PojoSettings> generator = compositionGetterGenerator();
+    final Generator<JavaObjectPojo, PojoSettings> generator = oneOfAnyOfDtoGetterGenerator();
 
     final Writer writer =
         generator.generate(sampleObjectPojo1(), defaultTestSettings(), javaWriter());
