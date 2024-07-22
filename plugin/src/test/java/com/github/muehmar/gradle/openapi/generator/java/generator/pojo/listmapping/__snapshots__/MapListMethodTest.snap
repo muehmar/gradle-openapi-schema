@@ -1,8 +1,10 @@
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MapListMethodTest.mapListMethod_when_called_then_correctOutput=[
-.
-.
+java.util.List
+java.util.function.Function
+java.util.stream.Collectors
+
 private static <A, B, C, D, E> E mapList(
-    A list,
+    List<A> list,
     Function<A, B> mapListItemType,
     Function<B, C> wrapListItem,
     Function<List<C>, D> mapListType,

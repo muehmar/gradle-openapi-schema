@@ -1,0 +1,67 @@
+allUnnecessary=[
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    Function.identity()
+)
+]
+
+
+mapListAndListItemType=[
+com.custom.CustomList
+com.custom.CustomString
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    i -> CustomString.fromString(i),
+    Function.identity(),
+    l -> CustomList.fromList(l),
+    Function.identity()
+)
+]
+
+
+prefixAndTrailingSemicolon=[
+java.util.function.Function
+
+return mapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    Function.identity()
+);
+]
+
+
+wrapOptionalListAndListItem=[
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Optional::ofNullable,
+    Function.identity(),
+    Optional::ofNullable
+)
+]
+
+
+wrapTristateList=[
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    l -> Tristate.ofNullableAndNullFlag(l, isOptionalListWithNullableItemsNull)
+)
+]
