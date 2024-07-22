@@ -29,19 +29,32 @@ public class CommonGetter {
   private CommonGetter() {}
 
   public static Generator<JavaPojoMember, PojoSettings> getterMethod(
-      JavaModifier... javaModifiers) {
+      GetterType getterType, JavaModifier... javaModifiers) {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(JavaModifiers.of(javaModifiers))
         .noGenericTypes()
-        .returnType(
-            deepAnnotatedParameterizedClassName()
-                .contraMap(ValidationAnnotationGenerator.PropertyType::fromMember))
+        .returnType(getterMethodReturnType(getterType))
         .methodName(getterName())
         .noArguments()
         .doesNotThrow()
         .content(f -> String.format("return %s;", f.getName()))
         .build()
         .append(RefsGenerator.fieldRefs());
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> getterMethodReturnType(
+      GetterType getterType) {
+    final Generator<JavaPojoMember, PojoSettings> deepAnnotatedReturnType =
+        deepAnnotatedParameterizedClassName()
+            .contraMap(ValidationAnnotationGenerator.PropertyType::fromMember)
+            .filter(getterType.validationFilter());
+
+    final Generator<JavaPojoMember, PojoSettings> standardReturnType =
+        Generator.<JavaPojoMember, PojoSettings>emptyGen()
+            .append((m, s, w) -> w.println("%s", m.getJavaType().getParameterizedClassName()))
+            .filter(getterType.<JavaPojoMember>validationFilter().negate());
+
+    return deepAnnotatedReturnType.append(standardReturnType);
   }
 
   public static Generator<JavaPojoMember, PojoSettings> wrapNullableInOptionalGetterMethod(

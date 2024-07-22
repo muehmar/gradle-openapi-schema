@@ -274,7 +274,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-javax.validation.constraints.Pattern
 
 @JsonProperty("requiredListWithNullableItemsAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -283,7 +282,7 @@ List<String> getRequiredListWithNullableItemsAnyOfJson() {
 }
 
 @JsonIgnore
-List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsAnyOf() {
+List<String> getRequiredListWithNullableItemsAnyOf() {
   return requiredListWithNullableItemsAnyOf;
 }
 ]

@@ -20,7 +20,7 @@ class RequiredNotNullableGetter {
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(validationAnnotationsForMember().filter(getterType.validationFilter()))
         .append(jsonProperty())
-        .append(getterMethod(PUBLIC))
+        .append(getterMethod(getterType, PUBLIC))
         .filter(JavaPojoMember::isRequiredAndNotNullable);
   }
 }

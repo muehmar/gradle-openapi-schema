@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.fieldRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD_NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIncludeNonNull;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
@@ -103,7 +104,7 @@ class ComposedPropertiesGetter {
 
   private static Generator<JavaPojoMember, PojoSettings> internalStandardGetter() {
     return JacksonAnnotationGenerator.<JavaPojoMember>jsonIgnore()
-        .append(CommonGetter.getterMethod())
+        .append(CommonGetter.getterMethod(STANDARD_NO_VALIDATION))
         .filter(JavaPojoMember::isRequiredAndNotNullable);
   }
 
