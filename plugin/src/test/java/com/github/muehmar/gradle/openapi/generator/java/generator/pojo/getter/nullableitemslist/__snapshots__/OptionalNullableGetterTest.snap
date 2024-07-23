@@ -7,6 +7,8 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
 
 @JsonIgnore
 public Tristate<List<Optional<String>>> getListVal() {
@@ -23,6 +25,12 @@ public Tristate<List<Optional<String>>> getListVal() {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getListValJackson() {
   return isListValNull ? new JacksonNullContainer<>(listVal) : listVal;
+}
+
+@Size(min = 5, max = 10)
+@JsonIgnore
+private List<@Pattern(regexp="pattern") String> getListValRaw() {
+  return listVal;
 }
 
 ]
@@ -56,13 +64,13 @@ public Tristate<List<Optional<String>>> getListVal() {
 private Object getListValJackson() {
   return isListValNull ? new JacksonNullContainer<>(listVal) : listVal;
 }
-.
-.
-@JsonIgnore
+
 @Size(min = 5, max = 10)
+@JsonIgnore
 private List<@Pattern(regexp="pattern") String> getListValRaw() {
   return listVal;
 }
+
 ]
 
 
@@ -94,13 +102,13 @@ public Tristate<List<Optional<String>>> getListVal() {
 private Object getListValJackson() {
   return isListValNull ? new JacksonNullContainer<>(listVal) : listVal;
 }
-.
-.
-@JsonIgnore
+
 @Size(min = 5, max = 10)
+@JsonIgnore
 private List<@Pattern(regexp="pattern") String> getListValRaw() {
   return listVal;
 }
+
 ]
 
 
@@ -113,6 +121,8 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
 
 @JsonIgnore
 public Tristate<List<Optional<String>>> getListVal() {
@@ -129,6 +139,12 @@ public Tristate<List<Optional<String>>> getListVal() {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getListValJackson() {
   return isListValNull ? new JacksonNullContainer<>(listVal) : listVal;
+}
+
+@Size(min = 5, max = 10)
+@JsonIgnore
+private List<@Pattern(regexp="pattern") String> getListValRaw() {
+  return listVal;
 }
 
 ]

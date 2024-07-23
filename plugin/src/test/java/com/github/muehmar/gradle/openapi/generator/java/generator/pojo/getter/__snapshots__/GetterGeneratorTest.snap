@@ -57,8 +57,7 @@ public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<S
           Function.identity()
       );
 }
-.
-.
+
 @Size(min = 5, max = 10)
 @JsonProperty("optionalListWithNullableItems")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -123,13 +122,13 @@ public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems
 private Object getOptionalNullableListWithNullableItemsJackson() {
   return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
 }
-.
-.
-@JsonIgnore
+
 @Size(min = 5, max = 10)
+@JsonIgnore
 private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
   return optionalNullableListWithNullableItems;
 }
+
 ]
 
 
@@ -180,6 +179,7 @@ private Object getOptionalNullableStringValJackson() {
 private String getOptionalNullableStringValRaw() {
   return optionalNullableStringVal;
 }
+
 ]
 
 
@@ -226,9 +226,9 @@ public String getOptionalStringValOr(String defaultValue) {
   return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
 }
 
+@Pattern(regexp="Hello")
 @JsonProperty("optionalStringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Pattern(regexp="Hello")
 private String getOptionalStringValRaw() {
   return optionalStringVal;
 }
@@ -266,6 +266,7 @@ private Object getPoint_Jackson() {
 private String getPoint_Raw() {
   return point_;
 }
+
 ]
 
 
@@ -289,7 +290,6 @@ List<String> getRequiredListWithNullableItemsAnyOf() {
 
 
 pojoMembers[requiredListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
@@ -307,15 +307,14 @@ public List<Optional<String>> getRequiredListWithNullableItems() {
       Function.identity()
   );
 }
-.
-.
+
 @NotNull
 @Size(min = 5, max = 10)
 @JsonProperty("requiredListWithNullableItems")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
   return requiredListWithNullableItems;
 }
+
 ]
 
 
@@ -378,8 +377,7 @@ public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Op
           Function.identity()
       );
 }
-.
-.
+
 @Size(min = 5, max = 10)
 @JsonProperty("requiredNullableListWithNullableItems")
 private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
@@ -511,4 +509,5 @@ private Object getSwitchJackson() {
 private String getSwitchRaw() {
   return switch_;
 }
+
 ]

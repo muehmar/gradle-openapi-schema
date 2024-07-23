@@ -4,6 +4,8 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 java.util.function.Function
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
 
 /**
  * List
@@ -34,11 +36,11 @@ public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) 
           Function.identity()
       );
 }
-.
-.
+
+@Size(min = 5, max = 10)
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getListValRaw() {
+private List<@Pattern(regexp="pattern") String> getListValRaw() {
   return listVal;
 }
 
@@ -84,8 +86,7 @@ public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) 
           Function.identity()
       );
 }
-.
-.
+
 @Size(min = 5, max = 10)
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -140,8 +141,7 @@ public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) 
           Function.identity()
       );
 }
-.
-.
+
 @Size(min = 5, max = 10)
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -163,6 +163,8 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 java.util.function.Function
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
 
 /**
  * List
@@ -193,11 +195,11 @@ public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) 
           Function.identity()
       );
 }
-.
-.
+
+@Size(min = 5, max = 10)
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getListValRaw() {
+private List<@Pattern(regexp="pattern") String> getListValRaw() {
   return listVal;
 }
 

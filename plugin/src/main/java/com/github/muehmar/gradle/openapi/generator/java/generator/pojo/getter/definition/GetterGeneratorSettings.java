@@ -12,6 +12,11 @@ public class GetterGeneratorSettings {
     return new GetterGeneratorSettings(PList.empty());
   }
 
+  public static GetterGeneratorSettings getterGeneratorSettings(
+      GetterGeneratorSetting... settings) {
+    return new GetterGeneratorSettings(PList.fromArray(settings));
+  }
+
   public <T> Predicate<T> validationFilter() {
     return ignore -> isValidation();
   }
@@ -21,6 +26,10 @@ public class GetterGeneratorSettings {
   }
 
   public <T> Predicate<T> jsonFilter() {
-    return ignore -> settings.filter(GetterGeneratorSetting.NO_JSON::equals).isEmpty();
+    return ignore -> isJson();
+  }
+
+  public boolean isJson() {
+    return settings.filter(GetterGeneratorSetting.NO_JSON::equals).isEmpty();
   }
 }

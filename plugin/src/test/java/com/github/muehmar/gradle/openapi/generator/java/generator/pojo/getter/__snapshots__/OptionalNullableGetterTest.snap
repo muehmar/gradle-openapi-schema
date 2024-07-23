@@ -39,6 +39,7 @@ private Object getOptionalNullableStringValJackson() {
 private String getOptionalNullableStringValRaw() {
   return optionalNullableStringVal;
 }
+
 ]
 
 
@@ -81,6 +82,7 @@ private Object getStringValJackson() {
 public String getStringValRaw() {
   return stringVal;
 }
+
 ]
 
 
@@ -99,6 +101,7 @@ public Tristate<String> getStringVal() {
 private String getStringValRaw() {
   return stringVal;
 }
+
 ]
 
 
@@ -170,4 +173,5 @@ private Object getListValJackson() {
 private List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListValRaw() {
   return listVal;
 }
+
 ]

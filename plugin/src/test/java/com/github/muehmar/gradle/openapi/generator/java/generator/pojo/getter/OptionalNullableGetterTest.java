@@ -128,7 +128,7 @@ class OptionalNullableGetterTest {
 
   @ParameterizedTest
   @MethodSource(
-      "com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers#allNecessityAndNullabilityVariantsTestSource")
+      "com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers#allNecessityAndNullabilityVariantsTestSourceLegacy")
   @SnapshotName("allNecessityAndNullabilityVariants")
   void generate_when_allNecessityAndNullabilityVariants_then_matchSnapshot(JavaPojoMember member) {
     final Generator<JavaPojoMember, PojoSettings> generator =
