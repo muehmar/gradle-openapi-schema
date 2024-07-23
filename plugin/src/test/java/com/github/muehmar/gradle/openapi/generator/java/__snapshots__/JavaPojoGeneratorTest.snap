@@ -205,7 +205,8 @@ public class SampleObjectPojo1Dto {
   public String getStringVal() {
     return stringVal;
   }
-
+.
+.
   /**
    * intVal
    */
@@ -215,7 +216,8 @@ public class SampleObjectPojo1Dto {
   public Integer getIntVal() {
     return intVal;
   }
-
+.
+.
   /**
    * doubleVal
    */

@@ -1,0 +1,106 @@
+genericType[NO_JAVA_DOC]=[
+java.util.List
+javax.validation.constraints.Email
+javax.validation.constraints.NotNull
+
+@NotNull
+public List<@NotNull @Email String> getListVal() {
+  return listVal;
+}
+]
+
+
+genericType[NO_VALIDATION]=[
+java.util.List
+
+/**
+ * List
+ */
+public List<String> getListVal() {
+  return listVal;
+}
+]
+
+
+genericType[PACKAGE_PRIVATE]=[
+java.util.List
+javax.validation.constraints.Email
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+List<@NotNull @Email String> getListVal() {
+  return listVal;
+}
+]
+
+
+genericType[]=[
+java.util.List
+javax.validation.constraints.Email
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+public List<@NotNull @Email String> getListVal() {
+  return listVal;
+}
+]
+
+
+requiredString[NO_JAVA_DOC]=[
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+@NotNull
+@Pattern(regexp="Hello")
+public String getStringVal() {
+  return stringVal;
+}
+]
+
+
+requiredString[NO_VALIDATION]=[
+.
+.
+/**
+ * stringVal
+ */
+public String getStringVal() {
+  return stringVal;
+}
+]
+
+
+requiredString[PACKAGE_PRIVATE]=[
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+/**
+ * stringVal
+ */
+@NotNull
+@Pattern(regexp="Hello")
+String getStringVal() {
+  return stringVal;
+}
+]
+
+
+requiredString[]=[
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+/**
+ * stringVal
+ */
+@NotNull
+@Pattern(regexp="Hello")
+public String getStringVal() {
+  return stringVal;
+}
+]

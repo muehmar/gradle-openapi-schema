@@ -17,6 +17,7 @@ javax.validation.constraints.Pattern
 public String getStringVal() {
   return stringVal;
 }
+
 ]
 
 
@@ -46,18 +47,7 @@ javax.validation.constraints.Pattern
 public String getStringVal() {
   return stringVal;
 }
-]
 
-
-requiredAndNotNullableFieldNoValidationOption=[
-.
-.
-/**
- * stringVal
- */
-public String getStringVal() {
-  return stringVal;
-}
 ]
 
 
@@ -70,6 +60,7 @@ requiredSuffix=[
 public String getStringValReq() {
   return stringVal;
 }
+
 ]
 
 
@@ -82,6 +73,7 @@ validationDisabled=[
 public String getStringVal() {
   return stringVal;
 }
+
 ]
 
 
@@ -91,7 +83,8 @@ javax.validation.constraints.Max
 javax.validation.constraints.Min
 javax.validation.constraints.NotNull
 javax.validation.constraints.Size
-
+.
+.
 /**
  * List
  */
@@ -100,4 +93,5 @@ javax.validation.constraints.Size
 public List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListVal() {
   return listVal;
 }
+
 ]
