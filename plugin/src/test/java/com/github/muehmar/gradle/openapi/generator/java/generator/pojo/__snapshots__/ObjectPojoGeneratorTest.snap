@@ -52,7 +52,8 @@ public class PersonDto {
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
-
+.
+.
   /**
    * Birthdate
    */
@@ -60,7 +61,8 @@ public class PersonDto {
   public LocalDate getBirthdate() {
     return birthdate;
   }
-
+.
+.
   /**
    * Username
    */
@@ -636,7 +638,8 @@ public class PersonDto {
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
-
+.
+.
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   LocalDate getBirthdateJson() {
@@ -1549,7 +1552,8 @@ public class UserDto {
   public Long getId() {
     return id;
   }
-
+.
+.
   /**
    * Name of this user
    */
@@ -1558,7 +1562,8 @@ public class UserDto {
   public String getName() {
     return name;
   }
-
+.
+.
   /**
    * Lastname of this user
    */
@@ -1567,7 +1572,8 @@ public class UserDto {
   public String getLastName() {
     return lastName;
   }
-
+.
+.
   /**
    * Nickname of this user
    */
@@ -1576,7 +1582,8 @@ public class UserDto {
   public String getNickName() {
     return nickName;
   }
-
+.
+.
   /**
    * Email of this user
    */
@@ -1585,7 +1592,8 @@ public class UserDto {
   public String getEmail() {
     return email;
   }
-
+.
+.
   /**
    * Height of this user
    */
@@ -1595,7 +1603,8 @@ public class UserDto {
   public Double getHeight() {
     return height;
   }
-
+.
+.
   /**
    * Level of this user
    */
@@ -2287,7 +2296,8 @@ public class UserDto {
   public Long getId() {
     return id;
   }
-
+.
+.
   /**
    * Name of this user
    */
@@ -2296,7 +2306,8 @@ public class UserDto {
   public String getName() {
     return name;
   }
-
+.
+.
   /**
    * Lastname of this user
    */
@@ -2305,7 +2316,8 @@ public class UserDto {
   public String getLastName() {
     return lastName;
   }
-
+.
+.
   /**
    * Nickname of this user
    */
@@ -2314,7 +2326,8 @@ public class UserDto {
   public String getNickName() {
     return nickName;
   }
-
+.
+.
   /**
    * Email of this user
    */
@@ -2323,7 +2336,8 @@ public class UserDto {
   public String getEmail() {
     return email;
   }
-
+.
+.
   /**
    * Height of this user
    */
@@ -2333,7 +2347,8 @@ public class UserDto {
   public Double getHeight() {
     return height;
   }
-
+.
+.
   /**
    * Level of this user
    */
@@ -3028,14 +3043,16 @@ public class UserDto {
   public Long getId() {
     return id;
   }
-
+.
+.
   /**
    * Name of this user
    */
   public String getName() {
     return name;
   }
-
+.
+.
   /**
    * Preferred language of this user
    */
@@ -4693,7 +4710,8 @@ public class UserDto {
   public Long getId() {
     return id;
   }
-
+.
+.
   /**
    * Name of this user
    */
@@ -4701,7 +4719,8 @@ public class UserDto {
   public String getName() {
     return name;
   }
-
+.
+.
   /**
    * Preferred language of this user
    */
@@ -5065,14 +5084,16 @@ public class UserDto {
   public Long getId() {
     return id;
   }
-
+.
+.
   /**
    * Name of this user
    */
   public String getName() {
     return name;
   }
-
+.
+.
   /**
    * Preferred language of this user
    */
@@ -5392,7 +5413,8 @@ public class NecessityAndNullabilityDto {
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
-
+.
+.
   /**
    * RequiredNullableStringVal
    */
@@ -8722,7 +8744,8 @@ public class PersonDto {
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
-
+.
+.
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   LocalDate getBirthdateJson() {
@@ -9951,7 +9974,8 @@ public class ObjectPojo1Dto {
   public String getEmail() {
     return email;
   }
-
+.
+.
   /**
    * Birthdate
    */

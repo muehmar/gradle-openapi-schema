@@ -481,6 +481,7 @@ javax.validation.constraints.Pattern
 public String getRequiredStringVal() {
   return requiredStringVal;
 }
+
 ]
 
 

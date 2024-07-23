@@ -36,7 +36,8 @@ public class GetterGroupsDefinition {
             allOfRequiredNullable(),
             allOfOptionalNotNullable(),
             allOfOptionalNullable(),
-            arrayTypeRequiredNotNullable(),
+            arrayTypeRequiredNotNullableNullableItemsList(),
+            arrayTypeRequiredNotNullableNotNullableItemsList(),
             arrayTypeRequiredNullable(),
             arrayTypeOptionalNotNullable(),
             arrayTypeOptionalNullable(),
@@ -122,10 +123,23 @@ public class GetterGroupsDefinition {
         .build();
   }
 
-  private static GetterGroup arrayTypeRequiredNotNullable() {
+  private static GetterGroup arrayTypeRequiredNotNullableNullableItemsList() {
     return fullGetterGroupBuilder()
-        .memberFilter(isArrayTypeMember().and(JavaPojoMember::isRequiredAndNotNullable))
+        .memberFilter(
+            isArrayTypeMember()
+                .and(isNullableItemsList())
+                .and(JavaPojoMember::isRequiredAndNotNullable))
         .generators(generator(LIST_STANDARD_GETTER), generator(FRAMEWORK_GETTER))
+        .build();
+  }
+
+  private static GetterGroup arrayTypeRequiredNotNullableNotNullableItemsList() {
+    return fullGetterGroupBuilder()
+        .memberFilter(
+            isArrayTypeMember()
+                .and(isNullableItemsList().negate())
+                .and(JavaPojoMember::isRequiredAndNotNullable))
+        .generators(generator(STANDARD_GETTER))
         .build();
   }
 
@@ -205,7 +219,7 @@ public class GetterGroupsDefinition {
   }
 
   private static Predicate<JavaPojoMember> allOfMember() {
-    return isAllOfMemberType().and(isNotArrayType()).and(hasApiType());
+    return isAllOfMemberType().and(isNotArrayType()).and(hasNoApiType());
   }
 
   private static Predicate<JavaPojoMember> isArrayTypeMember() {
@@ -213,7 +227,7 @@ public class GetterGroupsDefinition {
   }
 
   private static Predicate<JavaPojoMember> isAllOfArrayTypeMember() {
-    return isAllOfMemberType().and(isArrayType()).and(hasApiType());
+    return isAllOfMemberType().and(isArrayType()).and(hasNoApiType());
   }
 
   private static Predicate<JavaPojoMember> isStandardMemberType() {
@@ -222,6 +236,10 @@ public class GetterGroupsDefinition {
 
   private static Predicate<JavaPojoMember> isAllOfMemberType() {
     return member -> member.getType().equals(ALL_OF_MEMBER);
+  }
+
+  private static Predicate<JavaPojoMember> isNullableItemsList() {
+    return member -> member.getJavaType().isNullableItemsArrayType();
   }
 
   private static Predicate<JavaPojoMember> hasApiType() {

@@ -1,0 +1,121 @@
+genericType[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+javax.validation.constraints.Email
+javax.validation.constraints.NotNull
+
+@NotNull
+@JsonProperty("listVal")
+public List<@NotNull @Email String> getListVal() {
+  return listVal;
+}
+]
+
+
+genericType[NO_VALIDATION]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+
+/**
+ * List
+ */
+@JsonProperty("listVal")
+public List<String> getListVal() {
+  return listVal;
+}
+]
+
+
+genericType[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+javax.validation.constraints.Email
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+@JsonProperty("listVal")
+List<@NotNull @Email String> getListVal() {
+  return listVal;
+}
+]
+
+
+genericType[]=[
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+javax.validation.constraints.Email
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+@JsonProperty("listVal")
+public List<@NotNull @Email String> getListVal() {
+  return listVal;
+}
+]
+
+
+requiredString[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonProperty
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+@NotNull
+@Pattern(regexp="Hello")
+@JsonProperty("stringVal")
+public String getStringVal() {
+  return stringVal;
+}
+]
+
+
+requiredString[NO_VALIDATION]=[
+com.fasterxml.jackson.annotation.JsonProperty
+
+/**
+ * stringVal
+ */
+@JsonProperty("stringVal")
+public String getStringVal() {
+  return stringVal;
+}
+]
+
+
+requiredString[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonProperty
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+/**
+ * stringVal
+ */
+@NotNull
+@Pattern(regexp="Hello")
+@JsonProperty("stringVal")
+String getStringVal() {
+  return stringVal;
+}
+]
+
+
+requiredString[]=[
+com.fasterxml.jackson.annotation.JsonProperty
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+/**
+ * stringVal
+ */
+@NotNull
+@Pattern(regexp="Hello")
+@JsonProperty("stringVal")
+public String getStringVal() {
+  return stringVal;
+}
+]
