@@ -3538,7 +3538,8 @@ public class Illegal_IdentifierDto {
   private String getSwitchRaw() {
     return switch_;
   }
-
+.
+.
   /**
    * Point
    */
@@ -5429,9 +5430,9 @@ public class NecessityAndNullabilityDto {
     return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
   }
 
+  @Pattern(regexp="Hello")
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  @Pattern(regexp="Hello")
   private String getOptionalStringValRaw() {
     return optionalStringVal;
   }
@@ -5461,7 +5462,8 @@ public class NecessityAndNullabilityDto {
   private String getOptionalNullableStringValRaw() {
     return optionalNullableStringVal;
   }
-
+.
+.
   public List<Optional<String>> getRequiredListWithNullableItems() {
     return mapList(
         requiredListWithNullableItems,
@@ -5471,16 +5473,15 @@ public class NecessityAndNullabilityDto {
         Function.identity()
     );
   }
-.
-.
+
   @NotNull
   @Size(min = 5, max = 10)
   @JsonProperty("requiredListWithNullableItems")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
     return requiredListWithNullableItems;
   }
-
+.
+.
   /**
    * RequiredNullableListWithNullableItems
    */
@@ -5510,8 +5511,7 @@ public class NecessityAndNullabilityDto {
             Function.identity()
         );
   }
-.
-.
+
   @Size(min = 5, max = 10)
   @JsonProperty("requiredNullableListWithNullableItems")
   private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
@@ -5553,8 +5553,7 @@ public class NecessityAndNullabilityDto {
             Function.identity()
         );
   }
-.
-.
+
   @Size(min = 5, max = 10)
   @JsonProperty("optionalListWithNullableItems")
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -5584,10 +5583,9 @@ public class NecessityAndNullabilityDto {
   private Object getOptionalNullableListWithNullableItemsJackson() {
     return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
   }
-.
-.
-  @JsonIgnore
+
   @Size(min = 5, max = 10)
+  @JsonIgnore
   private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
     return optionalNullableListWithNullableItems;
   }

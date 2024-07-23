@@ -2,16 +2,11 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.n
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.getterName;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.jacksonSerialisationMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriterBuilder.fullMemberMapWriterBuilder;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJsonOrValidation;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGroupsDefinition;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -27,8 +22,10 @@ class OptionalNullableGetter {
     return tristateGetterMethod()
         .appendSingleBlankLine()
         .append(jacksonSerialisationMethod())
-        .appendSingleBlankLine()
-        .append(validationGetter().filter(getterType.validationFilter()))
+        .append(
+            GetterGroupsDefinition.create()
+                .generator()
+                .filter(JavaPojoMember::isOptionalAndNullable))
         .filter(JavaPojoMember::isOptionalAndNullable);
   }
 
@@ -64,15 +61,5 @@ class OptionalNullableGetter {
             .wrapTristateList()
             .trailingSemicolon()
             .build();
-  }
-
-  private static Generator<JavaPojoMember, PojoSettings> validationGetter() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .appendNewLine()
-        .append(deprecatedJavaDocAndAnnotationForValidationMethod())
-        .append(jsonIgnore())
-        .append(validationAnnotationsForMember())
-        .append(CommonGetter.rawGetterMethod(STANDARD))
-        .filter(isJacksonJsonOrValidation());
   }
 }

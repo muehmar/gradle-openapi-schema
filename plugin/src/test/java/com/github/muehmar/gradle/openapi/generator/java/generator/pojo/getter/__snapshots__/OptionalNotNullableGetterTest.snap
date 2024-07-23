@@ -22,9 +22,9 @@ public String getOptionalStringValOr(String defaultValue) {
   return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
 }
 
+@Pattern(regexp="Hello")
 @JsonProperty("optionalStringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Pattern(regexp="Hello")
 private String getOptionalStringValRaw() {
   return optionalStringVal;
 }
@@ -87,9 +87,9 @@ public String getStringValOr(String defaultValue) {
  * or serialisation.
  */
 @Deprecated
+@Pattern(regexp="Hello")
 @JsonProperty("stringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Pattern(regexp="Hello")
 public String getStringValRaw() {
   return stringVal;
 }
@@ -182,9 +182,9 @@ public String getStringValOr(String defaultValue) {
   return this.stringVal == null ? defaultValue : this.stringVal;
 }
 
+@Pattern(regexp="Hello")
 @JsonProperty("stringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Pattern(regexp="Hello")
 private String getStringValRaw() {
   return stringVal;
 }
@@ -245,9 +245,9 @@ public List<Integer> getListValOr(List<Integer> defaultValue) {
   return this.listVal == null ? defaultValue : this.listVal;
 }
 
+@Size(min = 5)
 @JsonProperty("listVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Size(min = 5)
 private List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListValRaw() {
   return listVal;
 }

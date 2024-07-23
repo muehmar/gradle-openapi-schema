@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIR
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -360,7 +361,21 @@ public class TestJavaPojoMembers {
 
   private static PList<JavaPojoMember> allNecessityAndNullabilityVariants() {
     return PList.of(
-        requiredString(), requiredNullableString(), optionalString(), optionalNullableString());
+        requiredString(),
+        requiredNullableString(),
+        optionalString(),
+        optionalNullableString(),
+        requiredListWithNullableItems(),
+        requiredNullableListWithNullableItems(),
+        optionalListWithNullableItems(),
+        optionalNullableListWithNullableItems());
+  }
+
+  private static Stream<Arguments> allNecessityAndNullabilityVariantsTestSourceLegacy() {
+    return allNecessityAndNullabilityVariants()
+        .filter(member -> not(member.getJavaType().isArrayType()))
+        .map(Arguments::of)
+        .toStream();
   }
 
   private static Stream<Arguments> allNecessityAndNullabilityVariantsTestSource() {
