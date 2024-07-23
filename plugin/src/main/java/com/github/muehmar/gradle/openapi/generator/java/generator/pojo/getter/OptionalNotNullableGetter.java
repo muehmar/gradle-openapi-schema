@@ -19,8 +19,6 @@ class OptionalNotNullableGetter {
       GetterType getterType) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(standardGetter())
-        .appendSingleBlankLine()
-        .append(alternateGetter())
         .append(
             GetterGroupsDefinition.create()
                 .generator()
@@ -36,12 +34,5 @@ class OptionalNotNullableGetter {
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
         .append(jsonIgnore())
         .append(CommonGetter.wrapNullableInOptionalGetterMethod(PUBLIC));
-  }
-
-  private static Generator<JavaPojoMember, PojoSettings> alternateGetter() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
-        .append(jsonIgnore())
-        .append(CommonGetter.wrapNullableInOptionalGetterOrMethod());
   }
 }

@@ -38,8 +38,10 @@ public class GetterGroupsDefinition {
             allOfOptionalNullable(),
             arrayTypeRequiredNotNullableNullableItemsList(),
             arrayTypeRequiredNotNullableNotNullableItemsList(),
-            arrayTypeRequiredNullable(),
-            arrayTypeOptionalNotNullable(),
+            arrayTypeRequiredNullableNullableItemsList(),
+            arrayTypeRequiredNullableNotNullableItemsList(),
+            arrayTypeOptionalNotNullableNullableItemsList(),
+            arrayTypeOptionalNotNullableNotNullableItemsList(),
             arrayTypeOptionalNullable(),
             allOfArrayTypeRequiredNotNullable(),
             allOfArrayTypeRequiredNullable(),
@@ -143,9 +145,12 @@ public class GetterGroupsDefinition {
         .build();
   }
 
-  private static GetterGroup arrayTypeRequiredNullable() {
+  private static GetterGroup arrayTypeRequiredNullableNullableItemsList() {
     return fullGetterGroupBuilder()
-        .memberFilter(isArrayTypeMember().and(JavaPojoMember::isRequiredAndNullable))
+        .memberFilter(
+            isArrayTypeMember()
+                .and(isNullableItemsList())
+                .and(JavaPojoMember::isRequiredAndNullable))
         .generators(
             generator(LIST_OPTIONAL_GETTER),
             generator(LIST_OPTIONAL_OR_GETTER),
@@ -154,12 +159,43 @@ public class GetterGroupsDefinition {
         .build();
   }
 
-  private static GetterGroup arrayTypeOptionalNotNullable() {
+  private static GetterGroup arrayTypeRequiredNullableNotNullableItemsList() {
     return fullGetterGroupBuilder()
-        .memberFilter(isArrayTypeMember().and(JavaPojoMember::isOptionalAndNotNullable))
+        .memberFilter(
+            isArrayTypeMember()
+                .and(isNullableItemsList().negate())
+                .and(JavaPojoMember::isRequiredAndNullable))
+        .generators(
+            generator(OPTIONAL_GETTER),
+            generator(OPTIONAL_OR_GETTER),
+            generator(FRAMEWORK_GETTER),
+            generator(FLAG_VALIDATION_GETTER))
+        .build();
+  }
+
+  private static GetterGroup arrayTypeOptionalNotNullableNullableItemsList() {
+    return fullGetterGroupBuilder()
+        .memberFilter(
+            isArrayTypeMember()
+                .and(isNullableItemsList())
+                .and(JavaPojoMember::isOptionalAndNotNullable))
         .generators(
             generator(LIST_OPTIONAL_GETTER),
             generator(LIST_OPTIONAL_OR_GETTER),
+            generator(FRAMEWORK_GETTER),
+            generator(FLAG_VALIDATION_GETTER))
+        .build();
+  }
+
+  private static GetterGroup arrayTypeOptionalNotNullableNotNullableItemsList() {
+    return fullGetterGroupBuilder()
+        .memberFilter(
+            isArrayTypeMember()
+                .and(isNullableItemsList().negate())
+                .and(JavaPojoMember::isOptionalAndNotNullable))
+        .generators(
+            generator(OPTIONAL_GETTER),
+            generator(OPTIONAL_OR_GETTER),
             generator(FRAMEWORK_GETTER),
             generator(FLAG_VALIDATION_GETTER))
         .build();

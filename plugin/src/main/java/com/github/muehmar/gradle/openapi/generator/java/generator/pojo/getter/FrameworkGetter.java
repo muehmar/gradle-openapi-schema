@@ -25,7 +25,7 @@ public class FrameworkGetter {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod(generatorSettings))
         .append(generatorSettings.validationAnnotationGenerator())
-        .append(jsonIgnore(generatorSettings))
+        .append(generatorSettings.jsonIgnoreGenerator())
         .append(jsonProperty(generatorSettings))
         .append(jsonIncludeNonNull(generatorSettings))
         .append(frameworkGetterMethod(generatorSettings))
