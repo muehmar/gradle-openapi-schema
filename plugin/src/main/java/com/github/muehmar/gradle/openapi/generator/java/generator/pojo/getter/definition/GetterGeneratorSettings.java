@@ -1,8 +1,10 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 
 import ch.bluecare.commons.data.PList;
@@ -47,6 +49,12 @@ public class GetterGeneratorSettings {
 
   public boolean isJavaDoc() {
     return settings.filter(GetterGeneratorSetting.NO_JAVA_DOC::equals).isEmpty();
+  }
+
+  public Generator<JavaPojoMember, PojoSettings> jsonIgnoreGenerator() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(jsonIgnore())
+        .filter(ignore -> not(this.isJson()));
   }
 
   public Generator<JavaPojoMember, PojoSettings> jsonPropertyGenerator() {

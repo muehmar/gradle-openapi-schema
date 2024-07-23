@@ -8,8 +8,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
-import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
@@ -67,22 +65,6 @@ public class CommonGetter {
         .noArguments()
         .doesNotThrow()
         .content(f -> String.format("return Optional.ofNullable(%s);", f.getName()))
-        .build()
-        .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
-  }
-
-  public static Generator<JavaPojoMember, PojoSettings> wrapNullableInOptionalGetterOrMethod() {
-    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers(PUBLIC)
-        .noGenericTypes()
-        .returnType(f -> f.getJavaType().getParameterizedClassName())
-        .methodName(f -> String.format("%sOr", f.getGetterName()))
-        .singleArgument(f -> argument(f.getJavaType().getParameterizedClassName(), "defaultValue"))
-        .doesNotThrow()
-        .content(
-            f ->
-                String.format(
-                    "return this.%s == null ? defaultValue : this.%s;", f.getName(), f.getName()))
         .build()
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }

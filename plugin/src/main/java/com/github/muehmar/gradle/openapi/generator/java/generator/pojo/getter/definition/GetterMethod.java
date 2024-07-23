@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FrameworkGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalOrGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.StandardGetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
 enum GetterMethod {
   FRAMEWORK_GETTER(FrameworkGetter::frameworkGetter),
   STANDARD_GETTER(StandardGetter::standardGetterGenerator),
-  OPTIONAL_GETTER(generatorSettings -> Generator.emptyGen()),
+  OPTIONAL_GETTER(OptionalOrGetter::optionalOrGetterGenerator),
   OPTIONAL_OR_GETTER(generatorSettings -> Generator.emptyGen()),
   TRISTATE_GETTER(generatorSettings -> Generator.emptyGen()),
   TRISTATE_JSON_GETTER(generatorSettings -> Generator.emptyGen()),
