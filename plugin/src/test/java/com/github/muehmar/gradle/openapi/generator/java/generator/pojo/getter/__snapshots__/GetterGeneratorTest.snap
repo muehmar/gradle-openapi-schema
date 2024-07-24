@@ -159,7 +159,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * OptionalNullableStringVal
  */
@@ -248,7 +249,8 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-
+.
+.
 /**
  * Point
  */
@@ -493,7 +495,8 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-
+.
+.
 /**
  * Switch
  */

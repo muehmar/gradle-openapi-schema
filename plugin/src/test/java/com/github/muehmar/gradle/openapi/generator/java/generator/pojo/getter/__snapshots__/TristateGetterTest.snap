@@ -1,0 +1,37 @@
+generatorSettings[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+@JsonIgnore
+public Tristate<String> getOptionalNullableStringVal() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * OptionalNullableStringVal
+ */
+@JsonIgnore
+public Tristate<String> getOptionalNullableStringVal() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+]
+
+
+genericType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * List
+ */
+@JsonIgnore
+public Tristate<List<String>> getStringList() {
+  return Tristate.ofNullableAndNullFlag(stringList, isStringListNull);
+}
+]
