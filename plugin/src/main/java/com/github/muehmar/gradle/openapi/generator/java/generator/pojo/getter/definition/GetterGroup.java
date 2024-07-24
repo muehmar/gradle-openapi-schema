@@ -17,6 +17,7 @@ class GetterGroup {
 
   @FieldBuilder(fieldName = "generators")
   public static class GeneratorsFieldBuilder {
+
     static PList<GetterGenerator> generators(GetterGenerator... generators) {
       return PList.fromArray(generators);
     }
@@ -26,5 +27,9 @@ class GetterGroup {
     return generators
         .map(generator -> generator.create(memberFilter))
         .foldLeft(Generator.emptyGen(), (gen1, gen2) -> gen1.append(gen2).appendSingleBlankLine());
+  }
+
+  public GetterGroup additionalMemberFilter(Predicate<JavaPojoMember> nestedMemberFilter) {
+    return new GetterGroup(memberFilter.and(nestedMemberFilter), generators);
   }
 }
