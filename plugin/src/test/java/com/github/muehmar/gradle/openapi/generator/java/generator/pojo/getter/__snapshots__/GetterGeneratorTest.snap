@@ -2,6 +2,7 @@ pojoMembers[optionalListWithNullableItemsAllOf]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 
@@ -68,6 +69,7 @@ pojoMembers[optionalListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.AssertTrue
@@ -426,6 +428,7 @@ private String getPoint_Raw() {
 pojoMembers[requiredListWithNullableItemsAllOf]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 .
@@ -471,6 +474,7 @@ List<String> getRequiredListWithNullableItemsAnyOf() {
 pojoMembers[requiredListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.NotNull
@@ -502,6 +506,7 @@ private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRa
 pojoMembers[requiredNullableListWithNullableItemsAllOf]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 
@@ -567,6 +572,7 @@ Optional<List<String>> getRequiredNullableListWithNullableItemsAnyOf() {
 pojoMembers[requiredNullableListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.AssertTrue
@@ -760,6 +766,7 @@ public String getRequiredStringVal() {
 pojoMembers[stringListAllOf]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.function.Function
 .
 .
