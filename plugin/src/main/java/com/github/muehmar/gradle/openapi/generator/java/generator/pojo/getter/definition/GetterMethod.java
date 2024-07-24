@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FlagValidationGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FrameworkGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalOrGetter;
@@ -24,7 +25,7 @@ enum GetterMethod {
   LIST_OPTIONAL_OR_GETTER(generatorSettings -> Generator.emptyGen()),
   LIST_TRISTATE_GETTER(generatorSettings -> Generator.emptyGen()),
   COMPOSITION_JSON_GETTER(generatorSettings -> Generator.emptyGen()),
-  FLAG_VALIDATION_GETTER(generatorSettings -> Generator.emptyGen());
+  FLAG_VALIDATION_GETTER(FlagValidationGetter::flagValidationGetterGenerator);
 
   private final Function<GetterGeneratorSettings, Generator<JavaPojoMember, PojoSettings>>
       generator;

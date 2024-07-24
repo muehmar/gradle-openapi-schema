@@ -1628,7 +1628,8 @@ public class UserDto {
   private boolean isLevelNotNull() {
     return isLevelNotNull;
   }
-
+.
+.
   /**
    * Something uppercase
    */
@@ -1652,7 +1653,8 @@ public class UserDto {
   private boolean isUppercaseNotNull() {
     return isUppercaseNotNull;
   }
-
+.
+.
   /**
    * Multiple of value
    */
@@ -1675,7 +1677,8 @@ public class UserDto {
   private boolean isMultipleOfValueNotNull() {
     return isMultipleOfValueNotNull;
   }
-
+.
+.
   /**
    * Another Pojo
    */
@@ -2372,7 +2375,8 @@ public class UserDto {
   private boolean isLevelNotNull() {
     return isLevelNotNull;
   }
-
+.
+.
   /**
    * Something uppercase
    */
@@ -2396,7 +2400,8 @@ public class UserDto {
   private boolean isUppercaseNotNull() {
     return isUppercaseNotNull;
   }
-
+.
+.
   /**
    * Multiple of value
    */
@@ -2419,7 +2424,8 @@ public class UserDto {
   private boolean isMultipleOfValueNotNull() {
     return isMultipleOfValueNotNull;
   }
-
+.
+.
   /**
    * Another Pojo
    */
@@ -5442,7 +5448,8 @@ public class NecessityAndNullabilityDto {
   private boolean isRequiredNullableStringValPresent() {
     return isRequiredNullableStringValPresent;
   }
-
+.
+.
   /**
    * OptionalStringVal
    */
@@ -5471,7 +5478,8 @@ public class NecessityAndNullabilityDto {
   private boolean isOptionalStringValNotNull() {
     return isOptionalStringValNotNull;
   }
-
+.
+.
   /**
    * OptionalNullableStringVal
    */
@@ -5552,7 +5560,8 @@ public class NecessityAndNullabilityDto {
   private boolean isRequiredNullableListWithNullableItemsPresent() {
     return isRequiredNullableListWithNullableItemsPresent;
   }
-
+.
+.
   /**
    * OptionalListWithNullableItems
    */
@@ -5595,7 +5604,8 @@ public class NecessityAndNullabilityDto {
   private boolean isOptionalListWithNullableItemsNotNull() {
     return isOptionalListWithNullableItemsNotNull;
   }
-
+.
+.
   @JsonIgnore
   public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
     return mapList(

@@ -54,6 +54,7 @@ private String getRequiredNullableStringValRaw() {
 private boolean isRequiredNullableStringValPresent() {
   return isRequiredNullableStringValPresent;
 }
+
 ]
 
 
@@ -102,6 +103,7 @@ public String getStringValRaw() {
 public boolean isStringValPresent() {
   return isStringValPresent;
 }
+
 ]
 
 
@@ -155,6 +157,7 @@ private String getStringValRaw() {
 private boolean isStringValPresent() {
   return isStringValPresent;
 }
+
 ]
 
 
@@ -193,6 +196,7 @@ private String getStringValRaw() {
 private boolean isStringValPresent() {
   return isStringValPresent;
 }
+
 ]
 
 
@@ -256,4 +260,5 @@ private List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListValRaw(
 private boolean isListValPresent() {
   return isListValPresent;
 }
+
 ]
