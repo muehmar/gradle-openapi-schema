@@ -3,6 +3,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 java.util.function.Function
+javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
@@ -40,6 +41,12 @@ public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) 
 @JsonProperty("listVal")
 private List<@Pattern(regexp="pattern") String> getListValRaw() {
   return listVal;
+}
+
+@AssertTrue(message = "listVal is required but it is not present")
+@JsonIgnore
+private boolean isListValPresent() {
+  return isListValPresent;
 }
 
 ]
@@ -95,6 +102,7 @@ private List<@Pattern(regexp="pattern") String> getListValRaw() {
 private boolean isListValPresent() {
   return isListValPresent;
 }
+
 ]
 
 
@@ -148,6 +156,7 @@ private List<@Pattern(regexp="pattern") String> getListValRaw() {
 private boolean isListValPresent() {
   return isListValPresent;
 }
+
 ]
 
 
@@ -156,6 +165,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 java.util.function.Function
+javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
@@ -193,6 +203,12 @@ public List<Optional<String>> getListValOr(List<Optional<String>> defaultValue) 
 @JsonProperty("listVal")
 private List<@Pattern(regexp="pattern") String> getListValRaw() {
   return listVal;
+}
+
+@AssertTrue(message = "listVal is required but it is not present")
+@JsonIgnore
+private boolean isListValPresent() {
+  return isListValPresent;
 }
 
 ]

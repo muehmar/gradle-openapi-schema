@@ -70,6 +70,7 @@ private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRa
 private boolean isOptionalListWithNullableItemsNotNull() {
   return isOptionalListWithNullableItemsNotNull;
 }
+
 ]
 
 
@@ -240,6 +241,7 @@ private String getOptionalStringValRaw() {
 private boolean isOptionalStringValNotNull() {
   return isOptionalStringValNotNull;
 }
+
 ]
 
 
@@ -392,6 +394,7 @@ private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullabl
 private boolean isRequiredNullableListWithNullableItemsPresent() {
   return isRequiredNullableListWithNullableItemsPresent;
 }
+
 ]
 
 
@@ -450,6 +453,7 @@ private String getRequiredNullableStringValRaw() {
 private boolean isRequiredNullableStringValPresent() {
   return isRequiredNullableStringValPresent;
 }
+
 ]
 
 

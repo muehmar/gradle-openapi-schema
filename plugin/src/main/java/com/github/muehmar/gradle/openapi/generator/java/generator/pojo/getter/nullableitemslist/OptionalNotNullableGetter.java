@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.nullableitemslist;
 
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.notNullableValidationMethodWithAnnotation;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 
@@ -24,8 +23,6 @@ class OptionalNotNullableGetter {
             GetterGroupsDefinition.create()
                 .generator()
                 .filter(JavaPojoMember::isOptionalAndNotNullable))
-        .appendSingleBlankLine()
-        .append(notNullableValidationMethodWithAnnotation().filter(getterType.validationFilter()))
         .filter(JavaPojoMember::isOptionalAndNotNullable);
   }
 

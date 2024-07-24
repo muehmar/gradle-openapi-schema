@@ -1,7 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.notNullableValidationMethodWithAnnotation;
-
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGroupsDefinition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -16,8 +14,6 @@ class OptionalNotNullableGetter {
     return GetterGroupsDefinition.create()
         .generator()
         .filter(JavaPojoMember::isOptionalAndNotNullable)
-        .appendSingleBlankLine()
-        .append(notNullableValidationMethodWithAnnotation().filter(getterType.validationFilter()))
         .append(RefsGenerator.fieldRefs())
         .filter(JavaPojoMember::isOptionalAndNotNullable);
   }

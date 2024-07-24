@@ -35,6 +35,7 @@ private String getOptionalStringValRaw() {
 private boolean isOptionalStringValNotNull() {
   return isOptionalStringValNotNull;
 }
+
 ]
 
 
@@ -106,6 +107,7 @@ public String getStringValRaw() {
 public boolean isStringValNotNull() {
   return isStringValNotNull;
 }
+
 ]
 
 
@@ -138,6 +140,7 @@ private String getStringValRaw() {
 private boolean isStringValNotNull() {
   return isStringValNotNull;
 }
+
 ]
 
 
@@ -199,6 +202,7 @@ private String getStringValRaw() {
 private boolean isStringValNotNull() {
   return isStringValNotNull;
 }
+
 ]
 
 
@@ -264,4 +268,5 @@ private List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListValRaw(
 private boolean isListValNotNull() {
   return isListValNotNull;
 }
+
 ]
