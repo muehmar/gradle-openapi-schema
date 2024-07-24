@@ -5,7 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Test
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableListWithNullableItems;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.stringList;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringList;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames.invoiceName;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
@@ -152,7 +152,7 @@ class MemberMapWriterTest {
         TypeMappings.ofClassTypeMappings(
             STRING_MAPPING_WITH_CONVERSION, LIST_MAPPING_WITH_CONVERSION);
     return Stream.of(
-            stringList(),
+            requiredStringList(),
             requiredListWithNullableItems(),
             requiredNullableListWithNullableItems(),
             optionalListWithNullableItems(),

@@ -7,6 +7,8 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.Op
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.StandardGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.TristateGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.TristateJsonGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalOrGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListStandardGetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -22,8 +24,8 @@ enum GetterMethod {
   TRISTATE_GETTER(TristateGetter::tristateGetterGenerator),
   TRISTATE_JSON_GETTER(TristateJsonGetter::tristateJsonGetterGenerator),
   LIST_STANDARD_GETTER(ListStandardGetter::listStandardGetterGenerator),
-  LIST_OPTIONAL_GETTER(generatorSettings -> Generator.emptyGen()),
-  LIST_OPTIONAL_OR_GETTER(generatorSettings -> Generator.emptyGen()),
+  LIST_OPTIONAL_GETTER(ListOptionalGetter::listOptionalGetterGenerator),
+  LIST_OPTIONAL_OR_GETTER(ListOptionalOrGetter::listOptionalOrGetterGenerator),
   LIST_TRISTATE_GETTER(generatorSettings -> Generator.emptyGen()),
   COMPOSITION_JSON_GETTER(generatorSettings -> Generator.emptyGen()),
   FLAG_VALIDATION_GETTER(FlagValidationGetter::flagValidationGetterGenerator);

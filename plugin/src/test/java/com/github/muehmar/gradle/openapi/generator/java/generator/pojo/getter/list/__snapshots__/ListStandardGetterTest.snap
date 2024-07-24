@@ -36,14 +36,14 @@ public List<Optional<String>> getRequiredListWithNullableItems() {
 ]
 
 
-listMembers[stringList]=[
+listMembers[requiredStringList]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.function.Function
 
 @JsonIgnore
-public List<String> getStringList() {
+public List<String> getRequiredStringList() {
   return mapList(
-      stringList,
+      requiredStringList,
       Function.identity(),
       Function.identity(),
       Function.identity(),

@@ -114,11 +114,11 @@ mapList(
 ]
 
 
-autoMapped[stringList]=[
+autoMapped[requiredStringList]=[
 java.util.function.Function
 
 mapList(
-    stringList,
+    requiredStringList,
     Function.identity(),
     Function.identity(),
     Function.identity(),
