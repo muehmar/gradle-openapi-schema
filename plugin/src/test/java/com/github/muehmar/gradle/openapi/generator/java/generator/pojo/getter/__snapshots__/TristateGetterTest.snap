@@ -31,7 +31,7 @@ com.github.muehmar.openapi.util.Tristate
  * List
  */
 @JsonIgnore
-public Tristate<List<String>> getStringList() {
-  return Tristate.ofNullableAndNullFlag(stringList, isStringListNull);
+public Tristate<List<String>> getRequiredStringList() {
+  return Tristate.ofNullableAndNullFlag(requiredStringList, isRequiredStringListNull);
 }
 ]

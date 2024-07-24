@@ -39,16 +39,14 @@ class GetterGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
-    expect
-        .scenario(member.getName().getOriginalName().asString())
-        .toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
 
   public static Stream<Arguments> pojoMembers() {
     final PList<JavaPojoMember> members =
         JavaPojos.allNecessityAndNullabilityVariants()
             .getMembers()
-            .add(TestJavaPojoMembers.stringList());
+            .add(TestJavaPojoMembers.requiredStringList());
 
     final PList<JavaPojoMember> anyOfMembers =
         members.map(

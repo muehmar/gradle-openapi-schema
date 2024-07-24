@@ -161,14 +161,24 @@ public class TestJavaPojoMembers {
         .build();
   }
 
-  public static JavaPojoMember stringList() {
+  public static JavaPojoMember requiredStringList() {
     return list(
             StringType.noFormat()
                 .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
             Necessity.REQUIRED,
             Nullability.NOT_NULLABLE,
             Constraints.ofSize(Size.ofMin(1)))
-        .withName(JavaName.fromString("stringList"));
+        .withName(JavaName.fromString("requiredStringList"));
+  }
+
+  public static JavaPojoMember requiredNullableStringList() {
+    return list(
+            StringType.noFormat()
+                .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+            Necessity.REQUIRED,
+            NULLABLE,
+            Constraints.ofSize(Size.ofMin(1)))
+        .withName(JavaName.fromString("requiredNullableStringList"));
   }
 
   public static JavaPojoMember list(

@@ -5,7 +5,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-
+.
+.
 /**
  * OptionalListWithNullableItems
  */
@@ -75,7 +76,8 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-
+.
+.
 /**
  * OptionalListWithNullableItems
  */
@@ -395,7 +397,7 @@ private boolean isOptionalStringValNotNull() {
 ]
 
 
-pojoMembers[point.]=[
+pojoMembers[point_]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
@@ -509,7 +511,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-
+.
+.
 /**
  * RequiredNullableListWithNullableItems
  */
@@ -578,7 +581,8 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-
+.
+.
 /**
  * RequiredNullableListWithNullableItems
  */
@@ -713,6 +717,70 @@ private boolean isRequiredNullableStringValPresent() {
 ]
 
 
+pojoMembers[requiredStringListAllOf]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+java.util.function.Function
+.
+.
+@JsonIgnore
+public List<String> getRequiredStringListAllOf() {
+  return mapList(
+      requiredStringListAllOf,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+
+@JsonProperty("requiredStringListAllOf")
+private List<String> getRequiredStringListAllOfJson() {
+  return requiredStringListAllOf;
+}
+
+]
+
+
+pojoMembers[requiredStringListAnyOf]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+
+@JsonProperty("requiredStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+List<String> getRequiredStringListAnyOfJson() {
+  return requiredStringListAnyOf;
+}
+
+@JsonIgnore
+List<String> getRequiredStringListAnyOf() {
+  return requiredStringListAnyOf;
+}
+]
+
+
+pojoMembers[requiredStringList]=[
+java.util.List
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+.
+.
+/**
+ * List
+ */
+@NotNull
+@Size(min = 1)
+public List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
+  return requiredStringList;
+}
+
+]
+
+
 pojoMembers[requiredStringValAllOf]=[
 .
 .
@@ -763,71 +831,7 @@ public String getRequiredStringVal() {
 ]
 
 
-pojoMembers[stringListAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
-java.util.function.Function
-.
-.
-@JsonIgnore
-public List<String> getStringListAllOf() {
-  return mapList(
-      stringListAllOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
-}
-
-@JsonProperty("stringListAllOf")
-private List<String> getStringListAllOfJson() {
-  return stringListAllOf;
-}
-
-]
-
-
-pojoMembers[stringListAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-com.fasterxml.jackson.annotation.JsonInclude
-com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
-
-@JsonProperty("stringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-List<String> getStringListAnyOfJson() {
-  return stringListAnyOf;
-}
-
-@JsonIgnore
-List<String> getStringListAnyOf() {
-  return stringListAnyOf;
-}
-]
-
-
-pojoMembers[stringList]=[
-java.util.List
-javax.validation.constraints.NotNull
-javax.validation.constraints.Pattern
-javax.validation.constraints.Size
-.
-.
-/**
- * List
- */
-@NotNull
-@Size(min = 1)
-public List<@NotNull @Pattern(regexp="Hello") String> getStringList() {
-  return stringList;
-}
-
-]
-
-
-pojoMembers[switch]=[
+pojoMembers[switch_]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty

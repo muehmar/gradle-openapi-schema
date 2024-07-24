@@ -31,7 +31,7 @@ java.util.Optional
  * List
  */
 @JsonIgnore
-public Optional<List<String>> getStringList() {
-  return Optional.ofNullable(stringList);
+public Optional<List<String>> getRequiredStringList() {
+  return Optional.ofNullable(requiredStringList);
 }
 ]

@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.TristateGetter.tristateGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableString;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.stringList;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringList;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -56,7 +56,8 @@ class TristateGetterTest {
     final Generator<JavaPojoMember, PojoSettings> generator =
         tristateGetterGenerator(GetterGeneratorSettings.empty());
 
-    final Writer writer = generator.generate(stringList(), defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(requiredStringList(), defaultTestSettings(), javaWriter());
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }

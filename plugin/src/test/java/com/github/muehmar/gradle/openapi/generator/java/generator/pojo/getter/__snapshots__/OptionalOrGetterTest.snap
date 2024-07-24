@@ -28,7 +28,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
  * List
  */
 @JsonIgnore
-public List<String> getStringListOr(List<String> defaultValue) {
-  return this.stringList == null ? defaultValue : this.stringList;
+public List<String> getRequiredStringListOr(List<String> defaultValue) {
+  return this.requiredStringList == null ? defaultValue : this.requiredStringList;
 }
 ]

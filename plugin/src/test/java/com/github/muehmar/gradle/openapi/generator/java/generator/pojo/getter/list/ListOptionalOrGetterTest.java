@@ -1,8 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListStandardGetter.listStandardGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredListWithNullableItems;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringList;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalOrGetter.listOptionalOrGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableStringList;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -25,7 +26,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @SnapshotTest
-class ListStandardGetterTest {
+class ListOptionalOrGetterTest {
   private Expect expect;
 
   @ParameterizedTest
@@ -33,7 +34,7 @@ class ListStandardGetterTest {
   @SnapshotName("listMembers")
   void generate_when_listMembers_then_matchSnapshot(JavaPojoMember member) {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        listStandardGetterGenerator(GetterGeneratorSettings.empty());
+        listOptionalOrGetterGenerator(GetterGeneratorSettings.empty());
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -45,10 +46,10 @@ class ListStandardGetterTest {
         TypeMappings.ofClassTypeMappings(
             STRING_MAPPING_WITH_CONVERSION, LIST_MAPPING_WITH_CONVERSION);
     return Stream.of(
-            requiredStringList(),
-            requiredListWithNullableItems(),
-            requiredListWithNullableItems(fullTypeMappings)
-                .withName(JavaName.fromString("requiredListWithNullableItemsFullMapping")))
+            requiredNullableStringList(),
+            requiredNullableListWithNullableItems(),
+            optionalListWithNullableItems(fullTypeMappings)
+                .withName(JavaName.fromString("optionalListWithNullableItemsFullMapping")))
         .map(Arguments::arguments);
   }
 }
