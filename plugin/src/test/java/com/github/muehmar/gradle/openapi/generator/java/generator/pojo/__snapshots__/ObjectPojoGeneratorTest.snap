@@ -5501,6 +5501,7 @@ public class NecessityAndNullabilityDto {
   }
 .
 .
+  @JsonIgnore
   public List<Optional<String>> getRequiredListWithNullableItems() {
     return mapList(
         requiredListWithNullableItems,

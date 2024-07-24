@@ -424,11 +424,13 @@ private String getPoint_Raw() {
 
 
 pojoMembers[requiredListWithNullableItemsAllOf]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
 java.util.Optional
 java.util.function.Function
-
+.
+.
+@JsonIgnore
 public List<Optional<String>> getRequiredListWithNullableItemsAllOf() {
   return mapList(
       requiredListWithNullableItemsAllOf,
@@ -467,14 +469,16 @@ List<String> getRequiredListWithNullableItemsAnyOf() {
 
 
 pojoMembers[requiredListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-
+.
+.
+@JsonIgnore
 public List<Optional<String>> getRequiredListWithNullableItems() {
   return mapList(
       requiredListWithNullableItems,
@@ -754,9 +758,22 @@ public String getRequiredStringVal() {
 
 
 pojoMembers[stringListAllOf]=[
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.function.Function
 .
 .
+@JsonIgnore
+public List<String> getStringListAllOf() {
+  return mapList(
+      stringListAllOf,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+
 @JsonProperty("stringListAllOf")
 private List<String> getStringListAllOfJson() {
   return stringListAllOf;
