@@ -309,24 +309,40 @@ public class TestJavaPojoMembers {
         .build();
   }
 
-  public static JavaPojoMember requiredListWithNullableItems() {
+  public static JavaPojoMember requiredListWithNullableItems(TypeMappings typeMappings) {
     return JavaPojoMember.wrap(
-        PojoMembers.requiredListWithNullableItems(), invoiceName(), TypeMappings.empty());
+        PojoMembers.requiredListWithNullableItems(), invoiceName(), typeMappings);
+  }
+
+  public static JavaPojoMember requiredListWithNullableItems() {
+    return requiredListWithNullableItems(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredNullableListWithNullableItems(TypeMappings typeMappings) {
+    return JavaPojoMember.wrap(
+        PojoMembers.requiredNullableListWithNullableItems(), invoiceName(), typeMappings);
   }
 
   public static JavaPojoMember requiredNullableListWithNullableItems() {
+    return requiredNullableListWithNullableItems(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalListWithNullableItems(TypeMappings typeMappings) {
     return JavaPojoMember.wrap(
-        PojoMembers.requiredNullableListWithNullableItems(), invoiceName(), TypeMappings.empty());
+        PojoMembers.optionalListWithNullableItems(), invoiceName(), typeMappings);
   }
 
   public static JavaPojoMember optionalListWithNullableItems() {
+    return optionalListWithNullableItems(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalNullableListWithNullableItems(TypeMappings typeMappings) {
     return JavaPojoMember.wrap(
-        PojoMembers.optionalListWithNullableItems(), invoiceName(), TypeMappings.empty());
+        PojoMembers.optionalNullableListWithNullableItems(), invoiceName(), typeMappings);
   }
 
   public static JavaPojoMember optionalNullableListWithNullableItems() {
-    return JavaPojoMember.wrap(
-        PojoMembers.optionalNullableListWithNullableItems(), invoiceName(), TypeMappings.empty());
+    return optionalNullableListWithNullableItems(TypeMappings.empty());
   }
 
   public static JavaPojoMember keywordNameString() {

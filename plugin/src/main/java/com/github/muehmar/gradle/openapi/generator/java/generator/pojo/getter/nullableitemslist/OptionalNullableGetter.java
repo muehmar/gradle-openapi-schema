@@ -52,10 +52,10 @@ class OptionalNullableGetter {
         fullMemberMapWriterBuilder()
             .member(member)
             .prefix("return ")
-            .mapListItemTypeNotNecessary()
-            .wrapOptionalListItem()
-            .mapListTypeNotNecessary()
-            .wrapTristateList()
+            .autoMapListItemType()
+            .autoWrapListItem()
+            .autoMapListType()
+            .autoWrapList()
             .trailingSemicolon()
             .build();
   }

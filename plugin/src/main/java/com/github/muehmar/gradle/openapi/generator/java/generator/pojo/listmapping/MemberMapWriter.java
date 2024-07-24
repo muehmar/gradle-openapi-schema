@@ -16,14 +16,14 @@ import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.function.Function;
 import lombok.AllArgsConstructor;
 
-@PojoBuilder
+@PojoBuilder(enableStandardBuilder = false)
 @AllArgsConstructor
 public class MemberMapWriter {
   private final JavaPojoMember member;
   private final String prefix;
-  private final Writer mapListItemType;
-  private final Writer wrapListItem;
-  private final Writer mapListType;
+  private final Function<JavaPojoMember, Writer> mapListItemType;
+  private final Function<JavaPojoMember, Writer> wrapListItem;
+  private final Function<JavaPojoMember, Writer> mapListType;
   private final Function<JavaPojoMember, Writer> wrapList;
   private final boolean trailingSemicolon;
 
@@ -40,43 +40,74 @@ public class MemberMapWriter {
 
   @FieldBuilder(fieldName = "mapListItemType", disableDefaultMethods = true)
   public static class MapListItemTypeFieldBuilder {
-    static Writer mapListItemTypeNotNecessary() {
-      return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    static Function<JavaPojoMember, Writer> mapListItemTypeNotNecessary() {
+      return member -> javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer mapListItemType(JavaArrayType javaArrayType) {
-      return javaArrayType
-          .getItemType()
-          .getApiType()
-          .map(itemApiType -> conversionWriter(itemApiType, "i"))
-          .map(writer -> javaWriter().print("i -> %s", writer.asString()).refs(writer.getRefs()))
-          .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    static Function<JavaPojoMember, Writer> mapListItemType(JavaArrayType javaArrayType) {
+      return member ->
+          javaArrayType
+              .getItemType()
+              .getApiType()
+              .map(itemApiType -> conversionWriter(itemApiType, "i"))
+              .map(
+                  writer -> javaWriter().print("i -> %s", writer.asString()).refs(writer.getRefs()))
+              .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    }
+
+    static Function<JavaPojoMember, Writer> autoMapListItemType() {
+      return member ->
+          member
+              .getJavaType()
+              .onArrayType()
+              .map(MapListItemTypeFieldBuilder::mapListItemType)
+              .orElse(mapListItemTypeNotNecessary())
+              .apply(member);
     }
   }
 
   @FieldBuilder(fieldName = "wrapListItem", disableDefaultMethods = true)
   public static class WrapListItemFieldBuilder {
-    static Writer wrapListItemNotNecessary() {
-      return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    static Function<JavaPojoMember, Writer> wrapListItemNotNecessary() {
+      return member -> javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer wrapOptionalListItem() {
-      return javaWriter().print("Optional::ofNullable").ref(JavaRefs.JAVA_UTIL_OPTIONAL);
+    static Function<JavaPojoMember, Writer> wrapOptionalListItem() {
+      return member -> javaWriter().print("Optional::ofNullable").ref(JavaRefs.JAVA_UTIL_OPTIONAL);
+    }
+
+    static Function<JavaPojoMember, Writer> autoWrapListItem() {
+      return member ->
+          member.getJavaType().isNullableItemsArrayType()
+              ? wrapOptionalListItem().apply(member)
+              : wrapListItemNotNecessary().apply(member);
     }
   }
 
   @FieldBuilder(fieldName = "mapListType", disableDefaultMethods = true)
   public static class MapListTypeFieldBuilder {
-    static Writer mapListTypeNotNecessary() {
-      return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    static Function<JavaPojoMember, Writer> mapListTypeNotNecessary() {
+      return member -> javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer mapListType(JavaArrayType javaArrayType) {
-      return javaArrayType
-          .getApiType()
-          .map(listApiType -> conversionWriter(listApiType, "l"))
-          .map(writer -> javaWriter().print("l -> %s", writer.asString()).refs(writer.getRefs()))
-          .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    static Function<JavaPojoMember, Writer> mapListType(JavaArrayType javaArrayType) {
+      return member ->
+          javaArrayType
+              .getApiType()
+              .map(listApiType -> conversionWriter(listApiType, "l"))
+              .map(
+                  writer -> javaWriter().print("l -> %s", writer.asString()).refs(writer.getRefs()))
+              .orElse(mapListTypeNotNecessary().apply(member));
+    }
+
+    static Function<JavaPojoMember, Writer> autoMapListType() {
+      return member ->
+          member
+              .getJavaType()
+              .onArrayType()
+              .map(MapListTypeFieldBuilder::mapListType)
+              .orElse(mapListTypeNotNecessary())
+              .apply(member);
     }
   }
 
@@ -95,6 +126,18 @@ public class MemberMapWriter {
           javaWriter()
               .print("l -> Tristate.ofNullableAndNullFlag(l, %s)", member.getIsNullFlagName())
               .ref(OpenApiUtilRefs.TRISTATE);
+    }
+
+    static Function<JavaPojoMember, Writer> autoWrapList() {
+      return member -> {
+        if (member.isRequiredAndNotNullable()) {
+          return wrapListNotNecessary().apply(member);
+        } else if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
+          return wrapOptionalList().apply(member);
+        } else {
+          return wrapTristateList().apply(member);
+        }
+      };
     }
   }
 
@@ -115,9 +158,9 @@ public class MemberMapWriter {
         .println("%s%s(", memberMapWriter.prefix, MapListMethod.METHOD_NAME)
         .tab(2)
         .println("%s,", memberMapWriter.member.getName())
-        .append(2, memberMapWriter.mapListItemType.println(","))
-        .append(2, memberMapWriter.wrapListItem.println(","))
-        .append(2, memberMapWriter.mapListType.println(","))
+        .append(2, memberMapWriter.mapListItemType.apply(memberMapWriter.member).println(","))
+        .append(2, memberMapWriter.wrapListItem.apply(memberMapWriter.member).println(","))
+        .append(2, memberMapWriter.mapListType.apply(memberMapWriter.member).println(","))
         .append(2, memberMapWriter.wrapList.apply(memberMapWriter.member))
         .print(")%s", memberMapWriter.trailingSemicolon ? ";" : "");
   }
