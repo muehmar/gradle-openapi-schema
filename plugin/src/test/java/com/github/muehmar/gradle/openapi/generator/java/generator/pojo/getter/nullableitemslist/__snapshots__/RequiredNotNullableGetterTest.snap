@@ -1,6 +1,7 @@
 nullableStringItem[API_TYPE]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.NotNull
@@ -32,6 +33,7 @@ private List<@Pattern(regexp="pattern") String> getListValRaw() {
 nullableStringItem[API_TYPE_FRAMEWORK]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.NotNull
@@ -63,6 +65,7 @@ private List<@Pattern(regexp="pattern") String> getListValRaw() {
 nullableStringItem[STANDARD]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.NotNull
@@ -94,6 +97,7 @@ private List<@Pattern(regexp="pattern") String> getListValRaw() {
 nullableStringItem[STANDARD_NO_VALIDATION]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.NotNull

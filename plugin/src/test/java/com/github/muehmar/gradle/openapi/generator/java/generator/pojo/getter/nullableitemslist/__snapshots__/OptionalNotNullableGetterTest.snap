@@ -2,6 +2,7 @@ nullableStringItem[API_TYPE]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.AssertTrue
@@ -58,6 +59,7 @@ nullableStringItem[API_TYPE_FRAMEWORK]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.AssertTrue
@@ -114,6 +116,7 @@ nullableStringItem[STANDARD]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.AssertTrue
@@ -170,6 +173,7 @@ nullableStringItem[STANDARD_NO_VALIDATION]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
 javax.validation.constraints.AssertTrue
