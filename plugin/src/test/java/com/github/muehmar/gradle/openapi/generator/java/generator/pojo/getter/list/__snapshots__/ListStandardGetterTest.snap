@@ -1,0 +1,53 @@
+listMembers[requiredListWithNullableItemsFullMapping]=[
+com.custom.CustomList
+com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+@JsonIgnore
+public List<Optional<String>> getRequiredListWithNullableItemsFullMapping() {
+  return mapList(
+      requiredListWithNullableItemsFullMapping,
+      i -> CustomString.fromString(i),
+      Optional::ofNullable,
+      l -> CustomList.fromList(l),
+      Function.identity()
+  );
+}
+]
+
+
+listMembers[requiredListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+@JsonIgnore
+public List<Optional<String>> getRequiredListWithNullableItems() {
+  return mapList(
+      requiredListWithNullableItems,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
+listMembers[stringList]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.function.Function
+
+@JsonIgnore
+public List<String> getStringList() {
+  return mapList(
+      stringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
