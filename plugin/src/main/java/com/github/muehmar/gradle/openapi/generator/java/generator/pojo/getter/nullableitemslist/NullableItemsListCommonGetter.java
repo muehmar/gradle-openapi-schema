@@ -40,10 +40,10 @@ class NullableItemsListCommonGetter {
         fullMemberMapWriterBuilder()
             .member(member)
             .prefix("return ")
-            .mapListItemTypeNotNecessary()
-            .wrapOptionalListItem()
-            .mapListTypeNotNecessary()
-            .wrapOptionalList()
+            .autoMapListItemType()
+            .autoWrapListItem()
+            .autoMapListType()
+            .autoWrapList()
             .trailingSemicolon()
             .build();
   }
@@ -73,9 +73,9 @@ class NullableItemsListCommonGetter {
           fullMemberMapWriterBuilder()
               .member(member)
               .prefix(": ")
-              .mapListItemTypeNotNecessary()
-              .wrapOptionalListItem()
-              .mapListTypeNotNecessary()
+              .autoMapListItemType()
+              .autoWrapListItem()
+              .autoMapListType()
               .wrapListNotNecessary()
               .trailingSemicolon()
               .build();

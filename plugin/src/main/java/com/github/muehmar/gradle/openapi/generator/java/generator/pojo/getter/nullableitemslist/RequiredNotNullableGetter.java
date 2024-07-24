@@ -49,10 +49,10 @@ class RequiredNotNullableGetter {
         fullMemberMapWriterBuilder()
             .member(member)
             .prefix("return ")
-            .mapListItemTypeNotNecessary()
-            .wrapOptionalListItem()
-            .mapListTypeNotNecessary()
-            .wrapListNotNecessary()
+            .autoMapListItemType()
+            .autoWrapListItem()
+            .autoMapListType()
+            .autoWrapList()
             .trailingSemicolon()
             .build();
   }
