@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
@@ -14,6 +15,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -43,18 +45,28 @@ class GetterGeneratorTest {
   }
 
   public static Stream<Arguments> pojoMembers() {
-    final PList<JavaPojoMember> allNecessityAndNullabilityVariants =
-        JavaPojos.allNecessityAndNullabilityVariants().getMembers();
+    final PList<JavaPojoMember> members =
+        JavaPojos.allNecessityAndNullabilityVariants()
+            .getMembers()
+            .add(TestJavaPojoMembers.stringList());
 
     final PList<JavaPojoMember> anyOfMembers =
-        allNecessityAndNullabilityVariants.map(
+        members.map(
             member ->
                 member
                     .withType(ANY_OF_MEMBER)
                     .withName(JavaName.fromString(member.getName().asString() + "AnyOf")));
 
-    return allNecessityAndNullabilityVariants
+    final PList<JavaPojoMember> allOfMembers =
+        members.map(
+            member ->
+                member
+                    .withType(ALL_OF_MEMBER)
+                    .withName(JavaName.fromString(member.getName().asString() + "AllOf")));
+
+    return members
         .concat(anyOfMembers)
+        .concat(allOfMembers)
         .add(requiredListWithNullableItems())
         .add(requiredNullableListWithNullableItems())
         .add(optionalListWithNullableItems())

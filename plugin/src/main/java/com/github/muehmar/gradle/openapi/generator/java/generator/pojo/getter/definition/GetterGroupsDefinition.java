@@ -126,7 +126,7 @@ public class GetterGroupsDefinition {
                 JavaPojoMember::isOptionalAndNullable,
                 generator(TRISTATE_GETTER),
                 generator(TRISTATE_JSON_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION))),
+                generator(FRAMEWORK_GETTER, NO_JSON))),
         nested(
             isArrayType(),
             group(
@@ -137,19 +137,17 @@ public class GetterGroupsDefinition {
                 JavaPojoMember::isRequiredAndNullable,
                 generator(LIST_OPTIONAL_GETTER),
                 generator(LIST_OPTIONAL_OR_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION),
-                generator(FLAG_VALIDATION_GETTER)),
+                generator(FRAMEWORK_GETTER, NO_VALIDATION)),
             group(
                 JavaPojoMember::isOptionalAndNotNullable,
                 generator(LIST_OPTIONAL_GETTER),
                 generator(LIST_OPTIONAL_OR_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION),
-                generator(FLAG_VALIDATION_GETTER)),
+                generator(FRAMEWORK_GETTER, NO_VALIDATION)),
             group(
                 JavaPojoMember::isOptionalAndNullable,
                 generator(LIST_TRISTATE_GETTER),
                 generator(TRISTATE_JSON_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION))));
+                generator(FRAMEWORK_GETTER, NO_JSON))));
   }
 
   private static Predicate<JavaPojoMember> isStandardMemberType() {
