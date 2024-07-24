@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.nullableitemslist;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.getterName;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.jacksonSerialisationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriterBuilder.fullMemberMapWriterBuilder;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -20,8 +19,6 @@ class OptionalNullableGetter {
   public static Generator<JavaPojoMember, PojoSettings> optionalNullableGetter(
       GetterType getterType) {
     return tristateGetterMethod()
-        .appendSingleBlankLine()
-        .append(jacksonSerialisationMethod())
         .append(
             GetterGroupsDefinition.create()
                 .generator()

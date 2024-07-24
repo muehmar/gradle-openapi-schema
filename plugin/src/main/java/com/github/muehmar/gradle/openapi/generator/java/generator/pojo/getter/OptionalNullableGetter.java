@@ -1,12 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
-import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.jacksonSerialisationMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.tristateGetterMethod;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
-import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
-
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGroupsDefinition;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -19,11 +12,6 @@ class OptionalNullableGetter {
   public static Generator<JavaPojoMember, PojoSettings> optionalNullableGetterGenerator(
       GetterType getterType) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
-        .append(jsonIgnore())
-        .append(tristateGetterMethod(PUBLIC))
-        .appendSingleBlankLine()
-        .append(jacksonSerialisationMethod())
         .append(
             GetterGroupsDefinition.create()
                 .generator()

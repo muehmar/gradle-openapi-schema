@@ -1,0 +1,11 @@
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+
+@JsonProperty("optionalNullableStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringValJackson() {
+  return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+}
+]
