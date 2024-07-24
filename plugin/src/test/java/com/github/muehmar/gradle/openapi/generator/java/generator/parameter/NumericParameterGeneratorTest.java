@@ -27,7 +27,6 @@ class NumericParameterGeneratorTest {
     assertEquals(
         "package com.github.muehmar.parameter;\n"
             + "\n"
-            + "\n"
             + "public final class LimitParam {\n"
             + "  private LimitParam() {}\n"
             + "\n"
@@ -59,7 +58,6 @@ class NumericParameterGeneratorTest {
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
-            + "\n"
             + "\n"
             + "public final class LimitParam {\n"
             + "  private LimitParam() {}\n"
@@ -98,7 +96,6 @@ class NumericParameterGeneratorTest {
     assertEquals(
         "package com.github.muehmar.parameter;\n"
             + "\n"
-            + "\n"
             + "public final class LimitParam {\n"
             + "  private LimitParam() {}\n"
             + "\n"
@@ -132,7 +129,6 @@ class NumericParameterGeneratorTest {
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
-            + "\n"
             + "\n"
             + "public final class LimitParam {\n"
             + "  private LimitParam() {}\n"

@@ -24,7 +24,7 @@ dependencyResolutionManagement {
             library('pojoBuilder-annotations', 'io.github.muehmar', 'pojo-builder-annotations').versionRef('pojo-builder')
             library('pojoBuilder', 'io.github.muehmar', 'pojo-builder').versionRef('pojo-builder')
 
-            version('code-generator', '0.22.0')
+            version('code-generator', '0.23.0')
             library('codeGenerator', 'io.github.muehmar', 'code-generator').versionRef('code-generator')
 
             version('lombok', '1.18.30')

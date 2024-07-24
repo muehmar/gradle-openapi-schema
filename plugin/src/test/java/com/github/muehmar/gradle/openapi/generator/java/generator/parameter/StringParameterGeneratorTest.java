@@ -36,7 +36,6 @@ class StringParameterGeneratorTest {
     assertEquals(
         "package com.github.muehmar.parameter;\n"
             + "\n"
-            + "\n"
             + "public final class StringParam {\n"
             + "  private StringParam() {}\n"
             + "\n"
@@ -68,7 +67,6 @@ class StringParameterGeneratorTest {
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
-            + "\n"
             + "\n"
             + "public final class StringParam {\n"
             + "  private StringParam() {}\n"
@@ -102,7 +100,6 @@ class StringParameterGeneratorTest {
     assertEquals(
         "package com.github.muehmar.parameter;\n"
             + "\n"
-            + "\n"
             + "public final class StringParam {\n"
             + "  private StringParam() {}\n"
             + "\n"
@@ -134,7 +131,6 @@ class StringParameterGeneratorTest {
 
     assertEquals(
         "package com.github.muehmar.parameter;\n"
-            + "\n"
             + "\n"
             + "public final class StringParam {\n"
             + "  private StringParam() {}\n"

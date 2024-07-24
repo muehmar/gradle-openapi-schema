@@ -1,7 +1,6 @@
 allStringTypeFormats[binary]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -12,8 +11,7 @@ public final class StringParam {
 
 allStringTypeFormats[byte]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -32,8 +30,7 @@ public final class StringParam {
 
 allStringTypeFormats[date-time]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -44,8 +41,7 @@ public final class StringParam {
 
 allStringTypeFormats[date]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -56,8 +52,7 @@ public final class StringParam {
 
 allStringTypeFormats[email]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -76,8 +71,7 @@ public final class StringParam {
 
 allStringTypeFormats[hostname]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -96,8 +90,7 @@ public final class StringParam {
 
 allStringTypeFormats[ipv4]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -116,8 +109,7 @@ public final class StringParam {
 
 allStringTypeFormats[ipv6]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -136,8 +128,7 @@ public final class StringParam {
 
 allStringTypeFormats[none]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -156,8 +147,7 @@ public final class StringParam {
 
 allStringTypeFormats[other]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -176,8 +166,7 @@ public final class StringParam {
 
 allStringTypeFormats[partial-time]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -188,8 +177,7 @@ public final class StringParam {
 
 allStringTypeFormats[password]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -208,8 +196,7 @@ public final class StringParam {
 
 allStringTypeFormats[uri]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -220,8 +207,7 @@ public final class StringParam {
 
 allStringTypeFormats[url]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
@@ -232,8 +218,7 @@ public final class StringParam {
 
 allStringTypeFormats[uuid]=[
 package com.github.muehmar.parameter;
-.
-.
+
 public final class StringParam {
   private StringParam() {}
 .
