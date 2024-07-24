@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.Tr
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalOrGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListStandardGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListTristateGetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -26,7 +27,7 @@ enum GetterMethod {
   LIST_STANDARD_GETTER(ListStandardGetter::listStandardGetterGenerator),
   LIST_OPTIONAL_GETTER(ListOptionalGetter::listOptionalGetterGenerator),
   LIST_OPTIONAL_OR_GETTER(ListOptionalOrGetter::listOptionalOrGetterGenerator),
-  LIST_TRISTATE_GETTER(generatorSettings -> Generator.emptyGen()),
+  LIST_TRISTATE_GETTER(ListTristateGetter::listTristateGetterGenerator),
   COMPOSITION_JSON_GETTER(generatorSettings -> Generator.emptyGen()),
   FLAG_VALIDATION_GETTER(FlagValidationGetter::flagValidationGetterGenerator);
 

@@ -181,6 +181,16 @@ public class TestJavaPojoMembers {
         .withName(JavaName.fromString("requiredNullableStringList"));
   }
 
+  public static JavaPojoMember optionalNullableStringList() {
+    return list(
+            StringType.noFormat()
+                .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+            OPTIONAL,
+            NULLABLE,
+            Constraints.ofSize(Size.ofMin(1)))
+        .withName(JavaName.fromString("optionalNullableStringList"));
+  }
+
   public static JavaPojoMember list(
       Type itemType, Necessity necessity, Nullability nullability, Constraints constraints) {
     return javaPojoMemberBuilder()
