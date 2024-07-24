@@ -27,6 +27,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMin;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Max;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Min;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.*;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -158,6 +159,16 @@ public class TestJavaPojoMembers {
         .necessity(necessity)
         .type(OBJECT_MEMBER)
         .build();
+  }
+
+  public static JavaPojoMember stringList() {
+    return list(
+            StringType.noFormat()
+                .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
+            Necessity.REQUIRED,
+            Nullability.NOT_NULLABLE,
+            Constraints.ofSize(Size.ofMin(1)))
+        .withName(JavaName.fromString("stringList"));
   }
 
   public static JavaPojoMember list(
