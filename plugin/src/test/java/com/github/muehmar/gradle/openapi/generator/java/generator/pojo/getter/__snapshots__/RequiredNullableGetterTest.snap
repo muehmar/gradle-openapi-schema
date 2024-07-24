@@ -25,7 +25,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * RequiredNullableStringVal
  */
@@ -62,7 +63,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -105,7 +107,8 @@ public boolean isStringValPresent() {
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs=[
 java.util.Optional
-
+.
+.
 /**
  * stringVal
  */
@@ -127,7 +130,8 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredN
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -160,7 +164,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -193,7 +198,8 @@ private boolean isStringValPresent() {
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredNullableGetterTest.generator_when_requiredNullableSuffix_then_correctOutputAndRefs=[
 java.util.Optional
-
+.
+.
 /**
  * stringVal
  */
@@ -221,7 +227,8 @@ javax.validation.constraints.Max
 javax.validation.constraints.Min
 javax.validation.constraints.NotNull
 javax.validation.constraints.Size
-
+.
+.
 /**
  * List
  */

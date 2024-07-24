@@ -5,7 +5,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * OptionalStringVal
  */
@@ -65,7 +66,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -111,7 +113,8 @@ com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalN
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -140,7 +143,8 @@ private boolean isStringValNotNull() {
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_disabledJacksonAndValidation_then_correctOutputAndRefs=[
 java.util.Optional
-
+.
+.
 /**
  * stringVal
  */
@@ -165,7 +169,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -199,7 +204,8 @@ private boolean isStringValNotNull() {
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalNotNullableGetterTest.generator_when_suffixForOptionalNotNullable_then_correctOutputAndRefs=[
 java.util.Optional
-
+.
+.
 /**
  * stringVal
  */
@@ -228,7 +234,8 @@ javax.validation.constraints.Max
 javax.validation.constraints.Min
 javax.validation.constraints.NotNull
 javax.validation.constraints.Size
-
+.
+.
 /**
  * List
  */

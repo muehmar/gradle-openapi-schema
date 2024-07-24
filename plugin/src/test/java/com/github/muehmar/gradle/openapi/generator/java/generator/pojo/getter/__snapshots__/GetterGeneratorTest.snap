@@ -209,7 +209,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * OptionalStringVal
  */
@@ -418,7 +419,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * RequiredNullableStringVal
  */
