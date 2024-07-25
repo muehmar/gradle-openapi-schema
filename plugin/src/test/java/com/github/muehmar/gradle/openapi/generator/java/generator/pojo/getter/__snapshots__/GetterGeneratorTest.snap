@@ -222,18 +222,14 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
-java.util.function.Function
 .
 .
+/**
+ * List
+ */
 @JsonIgnore
 public Tristate<List<String>> getOptionalNullableStringListAllOf() {
-  return mapList(
-      optionalNullableStringListAllOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableStringListAllOfNull)
-  );
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringListAllOf, isOptionalNullableStringListAllOfNull);
 }
 
 @JsonProperty("optionalNullableStringListAllOf")
@@ -384,7 +380,6 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
-java.util.function.Function
 .
 .
 /**
@@ -392,13 +387,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<List<String>> getOptionalStringListAllOf() {
-  return mapList(
-      optionalStringListAllOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Optional::ofNullable
-  );
+  return Optional.ofNullable(optionalStringListAllOf);
 }
 
 /**
@@ -406,15 +395,7 @@ public Optional<List<String>> getOptionalStringListAllOf() {
  */
 @JsonIgnore
 public List<String> getOptionalStringListAllOfOr(List<String> defaultValue) {
-  return this.optionalStringListAllOf == null
-      ? defaultValue
-      : mapList(
-          optionalStringListAllOf,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+  return this.optionalStringListAllOf == null ? defaultValue : this.optionalStringListAllOf;
 }
 
 @JsonProperty("optionalStringListAllOf")
@@ -818,7 +799,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
-java.util.function.Function
 .
 .
 /**
@@ -826,13 +806,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<List<String>> getRequiredNullableStringListAllOf() {
-  return mapList(
-      requiredNullableStringListAllOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Optional::ofNullable
-  );
+  return Optional.ofNullable(requiredNullableStringListAllOf);
 }
 
 /**
@@ -840,15 +814,7 @@ public Optional<List<String>> getRequiredNullableStringListAllOf() {
  */
 @JsonIgnore
 public List<String> getRequiredNullableStringListAllOfOr(List<String> defaultValue) {
-  return this.requiredNullableStringListAllOf == null
-      ? defaultValue
-      : mapList(
-          requiredNullableStringListAllOf,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+  return this.requiredNullableStringListAllOf == null ? defaultValue : this.requiredNullableStringListAllOf;
 }
 
 @JsonProperty("requiredNullableStringListAllOf")
@@ -1012,25 +978,13 @@ private boolean isRequiredNullableStringValPresent() {
 
 
 pojoMembers[requiredStringListAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-java.util.function.Function
 .
 .
-@JsonIgnore
+/**
+ * List
+ */
 public List<String> getRequiredStringListAllOf() {
-  return mapList(
-      requiredStringListAllOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
-}
-
-@JsonProperty("requiredStringListAllOf")
-private List<String> getRequiredStringListAllOfJson() {
   return requiredStringListAllOf;
 }
 
