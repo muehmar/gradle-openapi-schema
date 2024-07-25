@@ -5501,6 +5501,9 @@ public class NecessityAndNullabilityDto {
   }
 .
 .
+  /**
+   * RequiredListWithNullableItems
+   */
   @JsonIgnore
   public List<Optional<String>> getRequiredListWithNullableItems() {
     return mapList(
@@ -5607,6 +5610,9 @@ public class NecessityAndNullabilityDto {
   }
 .
 .
+  /**
+   * OptionalNullableListWithNullableItems
+   */
   @JsonIgnore
   public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
     return mapList(
