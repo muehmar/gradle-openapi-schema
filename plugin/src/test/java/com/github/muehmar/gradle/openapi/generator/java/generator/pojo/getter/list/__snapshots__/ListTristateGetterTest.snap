@@ -5,6 +5,9 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 java.util.Optional
 
+/**
+ * OptionalNullableListWithNullableItems
+ */
 @JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsFullMapping() {
   return mapList(
@@ -24,6 +27,9 @@ com.github.muehmar.openapi.util.Tristate
 java.util.Optional
 java.util.function.Function
 
+/**
+ * OptionalNullableListWithNullableItems
+ */
 @JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
   return mapList(
@@ -42,6 +48,9 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 java.util.function.Function
 
+/**
+ * List
+ */
 @JsonIgnore
 public Tristate<List<String>> getOptionalNullableStringList() {
   return mapList(
