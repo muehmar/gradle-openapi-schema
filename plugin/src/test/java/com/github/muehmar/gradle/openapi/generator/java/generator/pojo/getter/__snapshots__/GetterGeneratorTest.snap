@@ -135,7 +135,8 @@ java.util.Optional
 java.util.function.Function
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-
+.
+.
 @JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsAllOf() {
   return mapList(
@@ -194,7 +195,8 @@ java.util.Optional
 java.util.function.Function
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-
+.
+.
 @JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
   return mapList(
