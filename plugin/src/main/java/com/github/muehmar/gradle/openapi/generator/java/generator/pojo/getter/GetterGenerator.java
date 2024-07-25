@@ -1,8 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ComposedPropertiesGetter.composedPropertiesGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterType.STANDARD_NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ARRAY_VALUE;
@@ -11,7 +9,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Java
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGroupsDefinition;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.nullableitemslist.NullableItemsListGetterGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -24,32 +21,20 @@ public class GetterGenerator {
   }
 
   private static Generator<JavaPojoMember, PojoSettings> membersGenerator() {
-    return singleGetterGenerator()
-        .append(nullableItemsListGetterGenerator(STANDARD))
+    return GetterGroupsDefinition.create()
+        .generator()
         .filter(m -> m.getType().equals(OBJECT_MEMBER) || m.getType().equals(ARRAY_VALUE));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> allOfGenerator() {
-    return singleGetterGenerator()
-        .append(nullableItemsListGetterGenerator(STANDARD_NO_VALIDATION))
+    return GetterGroupsDefinition.create()
+        .generator()
         .filter(m -> m.getType().equals(ALL_OF_MEMBER));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> oneOfAndAnyOfGenerator() {
     return composedPropertiesGetterGenerator()
         .filter(m -> m.getType().equals(ONE_OF_MEMBER) || m.getType().equals(ANY_OF_MEMBER));
-  }
-
-  private static Generator<JavaPojoMember, PojoSettings> singleGetterGenerator() {
-    return GetterGroupsDefinition.create()
-        .generator()
-        .filter(GetterGenerator::isNotNullableListItemsMember);
-  }
-
-  private static Generator<JavaPojoMember, PojoSettings> nullableItemsListGetterGenerator(
-      GetterType getterType) {
-    return NullableItemsListGetterGenerator.nullableItemsListGetterGenerator(getterType)
-        .filter(GetterGenerator::isNullableListItemsMember);
   }
 
   private static boolean isNullableListItemsMember(JavaPojoMember member) {
