@@ -128,24 +128,46 @@ public class GetterGroupsDefinition {
                 generator(TRISTATE_JSON_GETTER))),
         nested(
             isArrayType(),
-            group(
-                JavaPojoMember::isRequiredAndNotNullable,
-                generator(LIST_STANDARD_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION)),
-            group(
-                JavaPojoMember::isRequiredAndNullable,
-                generator(LIST_OPTIONAL_GETTER),
-                generator(LIST_OPTIONAL_OR_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION)),
-            group(
-                JavaPojoMember::isOptionalAndNotNullable,
-                generator(LIST_OPTIONAL_GETTER),
-                generator(LIST_OPTIONAL_OR_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION)),
-            group(
-                JavaPojoMember::isOptionalAndNullable,
-                generator(LIST_TRISTATE_GETTER),
-                generator(TRISTATE_JSON_GETTER))));
+            groups(
+                nested(
+                    isNullableItemsList(),
+                    group(
+                        JavaPojoMember::isRequiredAndNotNullable,
+                        generator(LIST_STANDARD_GETTER),
+                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                    group(
+                        JavaPojoMember::isRequiredAndNullable,
+                        generator(LIST_OPTIONAL_GETTER),
+                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                    group(
+                        JavaPojoMember::isOptionalAndNotNullable,
+                        generator(LIST_OPTIONAL_GETTER),
+                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                    group(
+                        JavaPojoMember::isOptionalAndNullable,
+                        generator(LIST_TRISTATE_GETTER),
+                        generator(TRISTATE_JSON_GETTER))),
+                nested(
+                    isNotNullableItemsList(),
+                    group(
+                        JavaPojoMember::isRequiredAndNotNullable,
+                        generator(STANDARD_GETTER, NO_VALIDATION)),
+                    group(
+                        JavaPojoMember::isRequiredAndNullable,
+                        generator(OPTIONAL_GETTER),
+                        generator(OPTIONAL_OR_GETTER),
+                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                    group(
+                        JavaPojoMember::isOptionalAndNotNullable,
+                        generator(OPTIONAL_GETTER),
+                        generator(OPTIONAL_OR_GETTER),
+                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                    group(
+                        JavaPojoMember::isOptionalAndNullable,
+                        generator(TRISTATE_GETTER),
+                        generator(TRISTATE_JSON_GETTER))))));
   }
 
   private static Predicate<JavaPojoMember> isStandardMemberType() {
