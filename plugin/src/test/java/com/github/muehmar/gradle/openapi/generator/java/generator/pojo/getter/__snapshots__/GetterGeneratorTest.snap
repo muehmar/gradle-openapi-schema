@@ -151,7 +151,7 @@ public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems
 
 @JsonProperty("optionalNullableListWithNullableItemsAllOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItemsAllOfJackson() {
+private Object getOptionalNullableListWithNullableItemsAllOfJson() {
   return isOptionalNullableListWithNullableItemsAllOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItemsAllOf) : optionalNullableListWithNullableItemsAllOf;
 }
 
@@ -208,7 +208,7 @@ public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems
 
 @JsonProperty("optionalNullableListWithNullableItems")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItemsJackson() {
+private Object getOptionalNullableListWithNullableItemsJson() {
   return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
 }
 
@@ -240,7 +240,7 @@ public Tristate<List<String>> getOptionalNullableStringListAllOf() {
 
 @JsonProperty("optionalNullableStringListAllOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringListAllOfJackson() {
+private Object getOptionalNullableStringListAllOfJson() {
   return isOptionalNullableStringListAllOfNull ? new JacksonNullContainer<>(optionalNullableStringListAllOf) : optionalNullableStringListAllOf;
 }
 
@@ -290,7 +290,7 @@ public Tristate<List<String>> getOptionalNullableStringList() {
 
 @JsonProperty("optionalNullableStringList")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringListJackson() {
+private Object getOptionalNullableStringListJson() {
   return isOptionalNullableStringListNull ? new JacksonNullContainer<>(optionalNullableStringList) : optionalNullableStringList;
 }
 
@@ -321,7 +321,7 @@ public Tristate<String> getOptionalNullableStringValAllOf() {
 
 @JsonProperty("optionalNullableStringValAllOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringValAllOfJackson() {
+private Object getOptionalNullableStringValAllOfJson() {
   return isOptionalNullableStringValAllOfNull ? new JacksonNullContainer<>(optionalNullableStringValAllOf) : optionalNullableStringValAllOf;
 }
 
@@ -367,7 +367,7 @@ public Tristate<String> getOptionalNullableStringVal() {
 
 @JsonProperty("optionalNullableStringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringValJackson() {
+private Object getOptionalNullableStringValJson() {
   return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
 }
 
@@ -587,7 +587,7 @@ public Tristate<String> getPoint_() {
 
 @JsonProperty("point.")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getPoint_Jackson() {
+private Object getPoint_Json() {
   return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
 }
 
@@ -1109,7 +1109,7 @@ public Tristate<String> getSwitch() {
 
 @JsonProperty("switch")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getSwitchJackson() {
+private Object getSwitchJson() {
   return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
 }
 
