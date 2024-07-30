@@ -9,6 +9,20 @@ public Tristate<String> getOptionalNullableStringVal() {
 ]
 
 
+generatorSettings[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * OptionalNullableStringVal
+ */
+@JsonIgnore
+Tristate<String> getOptionalNullableStringVal() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
+}
+]
+
+
 generatorSettings[]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate

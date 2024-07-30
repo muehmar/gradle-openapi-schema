@@ -29,7 +29,6 @@ enum GetterMethod {
   LIST_OPTIONAL_GETTER(ListOptionalGetter::listOptionalGetterGenerator),
   LIST_OPTIONAL_OR_GETTER(ListOptionalOrGetter::listOptionalOrGetterGenerator),
   LIST_TRISTATE_GETTER(ListTristateGetter::listTristateGetterGenerator),
-  COMPOSITION_JSON_GETTER(generatorSettings -> Generator.emptyGen()),
   FLAG_VALIDATION_GETTER(FlagValidationGetter::flagValidationGetterGenerator);
 
   private final Function<GetterGeneratorSettings, Generator<JavaPojoMember, PojoSettings>>

@@ -11,6 +11,8 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.java.JavaModifier;
+import io.github.muehmar.codegenerator.java.JavaModifiers;
 import java.util.function.Predicate;
 import lombok.Value;
 
@@ -73,5 +75,9 @@ public class GetterGeneratorSettings {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(validationAnnotationsForMember())
         .filter(validationFilter());
+  }
+
+  public JavaModifiers modifiersWithDefault(JavaModifier... modifiers) {
+    return isPackagePrivate() ? JavaModifiers.empty() : JavaModifiers.of(modifiers);
   }
 }

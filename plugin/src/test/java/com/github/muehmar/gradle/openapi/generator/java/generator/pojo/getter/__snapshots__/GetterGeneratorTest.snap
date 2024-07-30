@@ -52,17 +52,26 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
-
+java.util.function.Function
+.
+.
 @JsonProperty("optionalListWithNullableItemsAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-List<String> getOptionalListWithNullableItemsAnyOfJson() {
+private List<String> getOptionalListWithNullableItemsAnyOfJson() {
   return optionalListWithNullableItemsAnyOf;
 }
 
 @JsonIgnore
-Optional<List<String>> getOptionalListWithNullableItemsAnyOf() {
-  return Optional.ofNullable(optionalListWithNullableItemsAnyOf);
+Optional<List<Optional<String>>> getOptionalListWithNullableItemsAnyOf() {
+  return mapList(
+      optionalListWithNullableItemsAnyOf,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
+
 ]
 
 
@@ -165,17 +174,27 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
-
+java.util.Optional
+java.util.function.Function
+.
+.
 @JsonProperty("optionalNullableListWithNullableItemsAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getOptionalNullableListWithNullableItemsAnyOfJson() {
+private Object getOptionalNullableListWithNullableItemsAnyOfJson() {
   return isOptionalNullableListWithNullableItemsAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItemsAnyOf) : optionalNullableListWithNullableItemsAnyOf;
 }
 
 @JsonIgnore
-Tristate<List<String>> getOptionalNullableListWithNullableItemsAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableListWithNullableItemsAnyOf, isOptionalNullableListWithNullableItemsAnyOfNull);
+Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsAnyOf() {
+  return mapList(
+      optionalNullableListWithNullableItemsAnyOf,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItemsAnyOfNull)
+  );
 }
+
 ]
 
 
@@ -254,17 +273,26 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
-
+java.util.function.Function
+.
+.
 @JsonProperty("optionalNullableStringListAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getOptionalNullableStringListAnyOfJson() {
+private Object getOptionalNullableStringListAnyOfJson() {
   return isOptionalNullableStringListAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringListAnyOf) : optionalNullableStringListAnyOf;
 }
 
 @JsonIgnore
 Tristate<List<String>> getOptionalNullableStringListAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringListAnyOf, isOptionalNullableStringListAnyOfNull);
+  return mapList(
+      optionalNullableStringListAnyOf,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableStringListAnyOfNull)
+  );
 }
+
 ]
 
 
@@ -334,10 +362,11 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-
+.
+.
 @JsonProperty("optionalNullableStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getOptionalNullableStringValAnyOfJson() {
+private Object getOptionalNullableStringValAnyOfJson() {
   return isOptionalNullableStringValAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringValAnyOf) : optionalNullableStringValAnyOf;
 }
 
@@ -345,6 +374,7 @@ Object getOptionalNullableStringValAnyOfJson() {
 Tristate<String> getOptionalNullableStringValAnyOf() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringValAnyOf, isOptionalNullableStringValAnyOfNull);
 }
+
 ]
 
 
@@ -419,17 +449,26 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
-
+java.util.function.Function
+.
+.
 @JsonProperty("optionalStringListAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-List<String> getOptionalStringListAnyOfJson() {
+private List<String> getOptionalStringListAnyOfJson() {
   return optionalStringListAnyOf;
 }
 
 @JsonIgnore
 Optional<List<String>> getOptionalStringListAnyOf() {
-  return Optional.ofNullable(optionalStringListAnyOf);
+  return mapList(
+      optionalStringListAnyOf,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
+
 ]
 
 
@@ -514,10 +553,11 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-
+.
+.
 @JsonProperty("optionalStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-String getOptionalStringValAnyOfJson() {
+private String getOptionalStringValAnyOfJson() {
   return optionalStringValAnyOf;
 }
 
@@ -525,6 +565,7 @@ String getOptionalStringValAnyOfJson() {
 Optional<String> getOptionalStringValAnyOf() {
   return Optional.ofNullable(optionalStringValAnyOf);
 }
+
 ]
 
 
@@ -634,17 +675,27 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-
+java.util.Optional
+java.util.function.Function
+.
+.
 @JsonProperty("requiredListWithNullableItemsAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-List<String> getRequiredListWithNullableItemsAnyOfJson() {
+private List<String> getRequiredListWithNullableItemsAnyOfJson() {
   return requiredListWithNullableItemsAnyOf;
 }
 
 @JsonIgnore
-List<String> getRequiredListWithNullableItemsAnyOf() {
-  return requiredListWithNullableItemsAnyOf;
+List<Optional<String>> getRequiredListWithNullableItemsAnyOf() {
+  return mapList(
+      requiredListWithNullableItemsAnyOf,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Function.identity()
+  );
 }
+
 ]
 
 
@@ -736,17 +787,26 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
-
+java.util.function.Function
+.
+.
 @JsonProperty("requiredNullableListWithNullableItemsAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getRequiredNullableListWithNullableItemsAnyOfJson() {
+private Object getRequiredNullableListWithNullableItemsAnyOfJson() {
   return isRequiredNullableListWithNullableItemsAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItemsAnyOf) : null;
 }
 
 @JsonIgnore
-Optional<List<String>> getRequiredNullableListWithNullableItemsAnyOf() {
-  return Optional.ofNullable(requiredNullableListWithNullableItemsAnyOf);
+Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAnyOf() {
+  return mapList(
+      requiredNullableListWithNullableItemsAnyOf,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
+
 ]
 
 
@@ -844,17 +904,26 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
-
+java.util.function.Function
+.
+.
 @JsonProperty("requiredNullableStringListAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getRequiredNullableStringListAnyOfJson() {
+private Object getRequiredNullableStringListAnyOfJson() {
   return isRequiredNullableStringListAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringListAnyOf) : null;
 }
 
 @JsonIgnore
 Optional<List<String>> getRequiredNullableStringListAnyOf() {
-  return Optional.ofNullable(requiredNullableStringListAnyOf);
+  return mapList(
+      requiredNullableStringListAnyOf,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Optional::ofNullable
+  );
 }
+
 ]
 
 
@@ -936,10 +1005,11 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-
+.
+.
 @JsonProperty("requiredNullableStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-Object getRequiredNullableStringValAnyOfJson() {
+private Object getRequiredNullableStringValAnyOfJson() {
   return isRequiredNullableStringValAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringValAnyOf) : null;
 }
 
@@ -947,6 +1017,7 @@ Object getRequiredNullableStringValAnyOfJson() {
 Optional<String> getRequiredNullableStringValAnyOf() {
   return Optional.ofNullable(requiredNullableStringValAnyOf);
 }
+
 ]
 
 
@@ -1008,17 +1079,26 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-
+java.util.function.Function
+.
+.
 @JsonProperty("requiredStringListAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-List<String> getRequiredStringListAnyOfJson() {
+private List<String> getRequiredStringListAnyOfJson() {
   return requiredStringListAnyOf;
 }
 
 @JsonIgnore
 List<String> getRequiredStringListAnyOf() {
-  return requiredStringListAnyOf;
+  return mapList(
+      requiredStringListAnyOf,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
 }
+
 ]
 
 
@@ -1056,20 +1136,13 @@ public String getRequiredStringValAllOf() {
 
 
 pojoMembers[requiredStringValAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-com.fasterxml.jackson.annotation.JsonInclude
-com.fasterxml.jackson.annotation.JsonProperty
+.
+.
 
-@JsonProperty("requiredStringValAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-String getRequiredStringValAnyOfJson() {
-  return requiredStringValAnyOf;
-}
-
-@JsonIgnore
 String getRequiredStringValAnyOf() {
   return requiredStringValAnyOf;
 }
+
 ]
 
 

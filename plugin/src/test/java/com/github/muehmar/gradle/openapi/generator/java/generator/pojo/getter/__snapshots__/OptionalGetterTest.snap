@@ -9,6 +9,20 @@ public Optional<String> getOptionalStringVal() {
 ]
 
 
+generatorSettings[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+Optional<String> getOptionalStringVal() {
+  return Optional.ofNullable(optionalStringVal);
+}
+]
+
+
 generatorSettings[]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
