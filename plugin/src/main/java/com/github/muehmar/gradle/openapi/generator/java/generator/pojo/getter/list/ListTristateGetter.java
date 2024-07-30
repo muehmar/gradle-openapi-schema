@@ -1,10 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list;
 
-import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CommonGetter.getterName;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriter.fullAutoMemberMapWriter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
-import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
@@ -20,14 +18,15 @@ public class ListTristateGetter {
   public static Generator<JavaPojoMember, PojoSettings> listTristateGetterGenerator(
       GetterGeneratorSettings generatorSettings) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)
+        .append(generatorSettings.javaDocGenerator())
         .append(jsonIgnore())
-        .append(method());
+        .append(method(generatorSettings));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> method() {
+  private static Generator<JavaPojoMember, PojoSettings> method(
+      GetterGeneratorSettings generatorSettings) {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers(PUBLIC)
+        .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
         .returnType(
             f ->

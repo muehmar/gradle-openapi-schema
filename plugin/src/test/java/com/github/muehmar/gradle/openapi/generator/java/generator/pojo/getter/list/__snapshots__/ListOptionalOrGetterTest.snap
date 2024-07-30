@@ -1,3 +1,46 @@
+generatorSettings[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+@JsonIgnore
+public List<String> getOptionalStringListOr(List<String> defaultValue) {
+  return this.optionalStringList == null
+      ? defaultValue
+      : mapList(
+          optionalStringList,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      );
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<String> getOptionalStringListOr(List<String> defaultValue) {
+  return this.optionalStringList == null
+      ? defaultValue
+      : mapList(
+          optionalStringList,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      );
+}
+]
+
+
 listMembers[optionalListWithNullableItemsFullMapping]=[
 com.custom.CustomList
 com.custom.CustomString

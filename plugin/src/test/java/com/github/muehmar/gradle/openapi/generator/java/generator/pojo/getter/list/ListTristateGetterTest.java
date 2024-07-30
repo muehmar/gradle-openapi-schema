@@ -1,8 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListTristateGetter.listTristateGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableStringList;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringList;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -11,6 +14,8 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -40,7 +45,7 @@ class ListTristateGetterTest {
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
 
-  public static Stream<Arguments> listMembers() {
+  private static Stream<Arguments> listMembers() {
     final TypeMappings fullTypeMappings =
         TypeMappings.ofClassTypeMappings(
             STRING_MAPPING_WITH_CONVERSION, LIST_MAPPING_WITH_CONVERSION);
@@ -49,6 +54,29 @@ class ListTristateGetterTest {
             optionalNullableListWithNullableItems(),
             optionalNullableListWithNullableItems(fullTypeMappings)
                 .withName(JavaName.fromString("optionalNullableListWithNullableItemsFullMapping")))
+        .map(Arguments::arguments);
+  }
+
+  @ParameterizedTest
+  @MethodSource("generatorSettings")
+  @SnapshotName("generatorSettings")
+  void generate_when_generatorSettings_then_matchSnapshot(
+      GetterGeneratorSettings generatorSettings) {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        listTristateGetterGenerator(generatorSettings);
+
+    final Writer writer;
+    writer = generator.generate(requiredStringList(), defaultTestSettings(), javaWriter());
+
+    expect
+        .scenario(generatorSettings.getSettings().mkString("|"))
+        .toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  private static Stream<Arguments> generatorSettings() {
+    return Stream.<PList<GetterGeneratorSetting>>of(
+            PList.empty(), PList.of(PACKAGE_PRIVATE), PList.of(NO_JAVA_DOC))
+        .map(GetterGeneratorSettings::new)
         .map(Arguments::arguments);
   }
 }

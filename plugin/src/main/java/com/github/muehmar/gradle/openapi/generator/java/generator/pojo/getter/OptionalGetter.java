@@ -18,12 +18,13 @@ public class OptionalGetter {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(generatorSettings.javaDocGenerator())
         .append(jsonIgnore())
-        .append(getterMethod());
+        .append(getterMethod(generatorSettings));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> getterMethod() {
+  private static Generator<JavaPojoMember, PojoSettings> getterMethod(
+      GetterGeneratorSettings generatorSettings) {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers(PUBLIC)
+        .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
         .returnType(f -> String.format("Optional<%s>", f.getJavaType().getParameterizedClassName()))
         .methodName(JavaPojoMember::getGetterNameWithSuffix)

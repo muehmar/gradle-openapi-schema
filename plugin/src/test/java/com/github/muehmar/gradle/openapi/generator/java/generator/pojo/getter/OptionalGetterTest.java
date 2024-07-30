@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalGetter.optionalGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringList;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -43,8 +44,9 @@ class OptionalGetterTest {
         .toMatchSnapshot(writerSnapshot(writer));
   }
 
-  public static Stream<Arguments> generatorSettings() {
-    return Stream.<PList<GetterGeneratorSetting>>of(PList.single(NO_JAVA_DOC), PList.empty())
+  private static Stream<Arguments> generatorSettings() {
+    return Stream.<PList<GetterGeneratorSetting>>of(
+            PList.single(NO_JAVA_DOC), PList.single(PACKAGE_PRIVATE), PList.empty())
         .map(GetterGeneratorSettings::new)
         .map(Arguments::arguments);
   }

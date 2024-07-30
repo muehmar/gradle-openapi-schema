@@ -1,3 +1,45 @@
+generatorSettings[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * stringVal
+ */
+@JsonIgnore
+Optional<String> getStringVal() {
+  return mapList(
+      stringVal,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * stringVal
+ */
+@JsonIgnore
+public Optional<String> getStringVal() {
+  return mapList(
+      stringVal,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
 listMembers[optionalListWithNullableItemsFullMapping]=[
 com.custom.CustomList
 com.custom.CustomString

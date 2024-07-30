@@ -1,3 +1,60 @@
+generatorSettings[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.function.Function
+
+@JsonIgnore
+public List<String> getRequiredStringList() {
+  return mapList(
+      requiredStringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
+generatorSettings[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+List<String> getRequiredStringList() {
+  return mapList(
+      requiredStringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<String> getRequiredStringList() {
+  return mapList(
+      requiredStringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
 listMembers[requiredListWithNullableItemsFullMapping]=[
 com.custom.CustomList
 com.custom.CustomString

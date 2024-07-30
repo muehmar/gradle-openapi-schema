@@ -1,3 +1,63 @@
+generatorSettings[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+@JsonIgnore
+public Tristate<List<String>> getRequiredStringList() {
+  return mapList(
+      requiredStringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
+generatorSettings[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+Tristate<List<String>> getRequiredStringList() {
+  return mapList(
+      requiredStringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+public Tristate<List<String>> getRequiredStringList() {
+  return mapList(
+      requiredStringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      Function.identity()
+  );
+}
+]
+
+
 listMembers[optionalNullableListWithNullableItemsFullMapping]=[
 com.custom.CustomList
 com.custom.CustomString
