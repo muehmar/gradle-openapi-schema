@@ -3553,7 +3553,7 @@ public class Illegal_IdentifierDto {
 
   @JsonProperty("switch")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Object getSwitchJackson() {
+  private Object getSwitchJson() {
     return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
   }
 
@@ -3573,7 +3573,7 @@ public class Illegal_IdentifierDto {
 
   @JsonProperty("point.")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Object getPoint_Jackson() {
+  private Object getPoint_Json() {
     return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
   }
 
@@ -5483,7 +5483,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonProperty("optionalNullableStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Object getOptionalNullableStringValJackson() {
+  private Object getOptionalNullableStringValJson() {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
@@ -5619,7 +5619,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonProperty("optionalNullableListWithNullableItems")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Object getOptionalNullableListWithNullableItemsJackson() {
+  private Object getOptionalNullableListWithNullableItemsJson() {
     return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
   }
 

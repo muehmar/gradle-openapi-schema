@@ -1,0 +1,102 @@
+members[optionalListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+
+@JsonProperty("optionalListWithNullableItems")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItemsJson() {
+  return optionalListWithNullableItems;
+}
+]
+
+
+members[optionalNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+java.util.List
+
+@JsonProperty("optionalNullableListWithNullableItems")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItemsJson() {
+  return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
+}
+]
+
+
+members[optionalNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+
+@JsonProperty("optionalNullableStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringValJson() {
+  return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
+}
+]
+
+
+members[optionalStringVal]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+
+@JsonProperty("optionalStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getOptionalStringValJson() {
+  return optionalStringVal;
+}
+]
+
+
+members[requiredListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
+
+@JsonProperty("requiredListWithNullableItems")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItemsJson() {
+  return requiredListWithNullableItems;
+}
+]
+
+
+members[requiredNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+java.util.List
+
+@JsonProperty("requiredNullableListWithNullableItems")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItemsJson() {
+  return isRequiredNullableListWithNullableItemsPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems) : null;
+}
+]
+
+
+members[requiredNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
+
+@JsonProperty("requiredNullableStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableStringValJson() {
+  return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+}
+]
+
+
+members[stringVal]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+
+@JsonProperty("stringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringValJson() {
+  return stringVal;
+}
+]
