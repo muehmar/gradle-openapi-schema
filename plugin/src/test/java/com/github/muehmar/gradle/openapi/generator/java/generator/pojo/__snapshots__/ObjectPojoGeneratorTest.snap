@@ -586,6 +586,7 @@ package com.github.muehmar;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -639,11 +640,23 @@ public class PersonDto {
   }
 .
 .
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
   LocalDate getBirthdate() {
     return birthdate;
   }
 .
 .
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
+    return username;
+  }
+
   String getUsername() {
     return username;
   }
@@ -8695,6 +8708,7 @@ package com.github.muehmar;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -8748,11 +8762,23 @@ public class PersonDto {
   }
 .
 .
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
   LocalDate getBirthdate() {
     return birthdate;
   }
 .
 .
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
+    return username;
+  }
+
   String getUsername() {
     return username;
   }

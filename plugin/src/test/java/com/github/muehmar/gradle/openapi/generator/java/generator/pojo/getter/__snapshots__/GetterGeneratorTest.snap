@@ -1136,8 +1136,15 @@ public String getRequiredStringValAllOf() {
 
 
 pojoMembers[requiredStringValAnyOf]=[
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
 .
 .
+@JsonProperty("requiredStringValAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getRequiredStringValAnyOfJson() {
+  return requiredStringValAnyOf;
+}
 
 String getRequiredStringValAnyOf() {
   return requiredStringValAnyOf;
