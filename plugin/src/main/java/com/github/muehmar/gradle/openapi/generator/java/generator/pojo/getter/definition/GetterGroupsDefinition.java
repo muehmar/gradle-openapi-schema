@@ -121,12 +121,12 @@ public class GetterGroupsDefinition {
                 JavaPojoMember::isRequiredAndNullable,
                 generator(OPTIONAL_GETTER),
                 generator(OPTIONAL_OR_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                generator(JSON_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNotNullable,
                 generator(OPTIONAL_GETTER),
                 generator(OPTIONAL_OR_GETTER),
-                generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                generator(JSON_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNullable,
                 generator(TRISTATE_GETTER),
@@ -139,17 +139,17 @@ public class GetterGroupsDefinition {
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
                         generator(LIST_STANDARD_GETTER),
-                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                        generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
                         generator(LIST_OPTIONAL_GETTER),
                         generator(LIST_OPTIONAL_OR_GETTER),
-                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                        generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
                         generator(LIST_OPTIONAL_GETTER),
                         generator(LIST_OPTIONAL_OR_GETTER),
-                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                        generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
                         generator(LIST_TRISTATE_GETTER),
@@ -163,12 +163,12 @@ public class GetterGroupsDefinition {
                         JavaPojoMember::isRequiredAndNullable,
                         generator(OPTIONAL_GETTER),
                         generator(OPTIONAL_OR_GETTER),
-                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                        generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
                         generator(OPTIONAL_GETTER),
                         generator(OPTIONAL_OR_GETTER),
-                        generator(FRAMEWORK_GETTER, NO_VALIDATION)),
+                        generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
                         generator(TRISTATE_GETTER),
