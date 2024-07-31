@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.StandardGetter.standardGetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JSON;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.list;
@@ -74,6 +75,7 @@ class StandardGetterTest {
     return Stream.of(
         arguments(GetterGeneratorSettings.empty()),
         arguments(new GetterGeneratorSettings(PList.single(NO_VALIDATION))),
+        arguments(new GetterGeneratorSettings(PList.single(NO_JSON))),
         arguments(new GetterGeneratorSettings(PList.single(NO_JAVA_DOC))),
         arguments(new GetterGeneratorSettings(PList.single(PACKAGE_PRIVATE))));
   }

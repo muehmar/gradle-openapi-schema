@@ -20,6 +20,7 @@ public class StandardGetter {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(generatorSettings.javaDocGenerator())
         .append(generatorSettings.validationAnnotationGenerator())
+        .append(generatorSettings.jsonIgnoreGenerator())
         .append(getterMethod(generatorSettings));
   }
 

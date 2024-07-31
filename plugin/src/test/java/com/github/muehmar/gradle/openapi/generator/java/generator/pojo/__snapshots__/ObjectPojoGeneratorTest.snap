@@ -642,6 +642,7 @@ public class PersonDto {
     return birthdate;
   }
 
+  @JsonIgnore
   LocalDate getBirthdate() {
     return birthdate;
   }
@@ -653,6 +654,7 @@ public class PersonDto {
     return username;
   }
 
+  @JsonIgnore
   String getUsername() {
     return username;
   }
@@ -8758,6 +8760,7 @@ public class PersonDto {
     return birthdate;
   }
 
+  @JsonIgnore
   LocalDate getBirthdate() {
     return birthdate;
   }
@@ -8769,6 +8772,7 @@ public class PersonDto {
     return username;
   }
 
+  @JsonIgnore
   String getUsername() {
     return username;
   }

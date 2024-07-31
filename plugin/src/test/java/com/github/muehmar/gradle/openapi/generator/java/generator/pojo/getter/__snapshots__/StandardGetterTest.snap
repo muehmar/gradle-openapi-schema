@@ -10,6 +10,23 @@ public List<@NotNull @Email String> getListVal() {
 ]
 
 
+genericType[NO_JSON]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.List
+javax.validation.constraints.Email
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+@JsonIgnore
+public List<@NotNull @Email String> getListVal() {
+  return listVal;
+}
+]
+
+
 genericType[NO_VALIDATION]=[
 java.util.List
 
@@ -58,6 +75,23 @@ javax.validation.constraints.Pattern
 
 @NotNull
 @Pattern(regexp="Hello")
+public String getStringVal() {
+  return stringVal;
+}
+]
+
+
+requiredString[NO_JSON]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+/**
+ * stringVal
+ */
+@NotNull
+@Pattern(regexp="Hello")
+@JsonIgnore
 public String getStringVal() {
   return stringVal;
 }
