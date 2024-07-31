@@ -182,7 +182,7 @@ public class GetterGroupsDefinition {
             group(
                 JavaPojoMember::isRequiredAndNotNullable,
                 generator(JSON_GETTER),
-                generator(STANDARD_GETTER, NO_VALIDATION, PACKAGE_PRIVATE, NO_JAVA_DOC)),
+                generator(STANDARD_GETTER, NO_VALIDATION, PACKAGE_PRIVATE, NO_JAVA_DOC, NO_JSON)),
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(JSON_GETTER),
