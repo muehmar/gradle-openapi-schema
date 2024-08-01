@@ -136,7 +136,7 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(List
  * RequiredNullableListWithNullableItems
  */
 public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
-  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems.orElse(null), requiredNullableListWithNullableItems.isPresent(), optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems.orElse(null), true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
 }
 
 /**
@@ -150,7 +150,7 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(Lis
  * RequiredNullableListWithNullableItems
  */
 public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)), requiredNullableListWithNullableItems.isPresent(), optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)), true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
 }
 ]
 
@@ -169,7 +169,7 @@ public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredN
  * RequiredNullableStringVal
  */
 public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), requiredNullableStringVal.isPresent(), optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+  return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
 }
 ]
 
@@ -246,7 +246,7 @@ public ObjectPojo1Dto withSurname(String surname) {
  * desc
  */
 public ObjectPojo1Dto withSurname(Optional<String> surname) {
-  return new ObjectPojo1Dto(surname.orElse(null), surname.isPresent(), name, isNameNull, additionalProperties);
+  return new ObjectPojo1Dto(surname.orElse(null), true, name, isNameNull, additionalProperties);
 }
 
 /**

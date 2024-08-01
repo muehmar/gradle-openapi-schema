@@ -30,8 +30,7 @@ class OptionalWitherMethod extends WitherMethod {
     if (pojoMember.isRequiredAndNullable()) {
       propertyNameReplacement.put(
           pojoMember.getName(), String.format("%s.orElse(null)", pojoMember.getName()));
-      propertyNameReplacement.put(
-          pojoMember.getIsPresentFlagName(), String.format("%s.isPresent()", pojoMember.getName()));
+      propertyNameReplacement.put(pojoMember.getIsPresentFlagName(), "true");
     } else if (pojoMember.isOptionalAndNotNullable()) {
       propertyNameReplacement.put(
           pojoMember.getName(), String.format("%s.orElse(null)", pojoMember.getName()));
