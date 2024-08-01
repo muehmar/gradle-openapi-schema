@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.ValidationGetter.validationGetterGenerator;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FlagValidationGetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FrameworkGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalOrGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.StandardGetter;
@@ -20,7 +19,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 enum GetterMethod {
-  FRAMEWORK_GETTER(FrameworkGetter::frameworkGetter),
   STANDARD_GETTER(StandardGetter::standardGetterGenerator),
   OPTIONAL_GETTER(OptionalGetter::optionalGetterGenerator),
   OPTIONAL_OR_GETTER(OptionalOrGetter::optionalOrGetterGenerator),

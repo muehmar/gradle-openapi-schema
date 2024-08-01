@@ -3074,6 +3074,10 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
+  private LanguageEnum getLanguageRaw() {
+    return language;
+  }
+
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -4746,6 +4750,11 @@ public class UserDto {
 
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LanguageEnum getLanguageJson() {
+    return language;
+  }
+
+  @JsonIgnore
   private LanguageEnum getLanguageRaw() {
     return language;
   }
@@ -5115,6 +5124,10 @@ public class UserDto {
     return this.language == null ? defaultValue : this.language;
   }
 
+  private LanguageEnum getLanguageRaw() {
+    return language;
+  }
+
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -5438,8 +5451,14 @@ public class NecessityAndNullabilityDto {
     return this.requiredNullableStringVal == null ? defaultValue : this.requiredNullableStringVal;
   }
 
-  @Pattern(regexp="Hello")
   @JsonProperty("requiredNullableStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredNullableStringValJson() {
+    return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+  }
+
+  @JsonIgnore
+  @Pattern(regexp="Hello")
   private String getRequiredNullableStringValRaw() {
     return requiredNullableStringVal;
   }
@@ -5467,9 +5486,14 @@ public class NecessityAndNullabilityDto {
     return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
   }
 
-  @Pattern(regexp="Hello")
   @JsonProperty("optionalStringVal")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getOptionalStringValJson() {
+    return optionalStringVal;
+  }
+
+  @JsonIgnore
+  @Pattern(regexp="Hello")
   private String getOptionalStringValRaw() {
     return optionalStringVal;
   }
@@ -5495,8 +5519,8 @@ public class NecessityAndNullabilityDto {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
-  @Pattern(regexp="Hello")
   @JsonIgnore
+  @Pattern(regexp="Hello")
   private String getOptionalNullableStringValRaw() {
     return optionalNullableStringVal;
   }
@@ -5516,9 +5540,15 @@ public class NecessityAndNullabilityDto {
     );
   }
 
+  @JsonProperty("requiredListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<String> getRequiredListWithNullableItemsJson() {
+    return requiredListWithNullableItems;
+  }
+
+  @JsonIgnore
   @NotNull
   @Size(min = 5, max = 10)
-  @JsonProperty("requiredListWithNullableItems")
   private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
     return requiredListWithNullableItems;
   }
@@ -5554,8 +5584,14 @@ public class NecessityAndNullabilityDto {
         );
   }
 
-  @Size(min = 5, max = 10)
   @JsonProperty("requiredNullableListWithNullableItems")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredNullableListWithNullableItemsJson() {
+    return isRequiredNullableListWithNullableItemsPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems) : null;
+  }
+
+  @JsonIgnore
+  @Size(min = 5, max = 10)
   private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
     return requiredNullableListWithNullableItems;
   }
@@ -5597,9 +5633,14 @@ public class NecessityAndNullabilityDto {
         );
   }
 
-  @Size(min = 5, max = 10)
   @JsonProperty("optionalListWithNullableItems")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<String> getOptionalListWithNullableItemsJson() {
+    return optionalListWithNullableItems;
+  }
+
+  @JsonIgnore
+  @Size(min = 5, max = 10)
   private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
     return optionalListWithNullableItems;
   }
@@ -5631,8 +5672,8 @@ public class NecessityAndNullabilityDto {
     return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
   }
 
-  @Size(min = 5, max = 10)
   @JsonIgnore
+  @Size(min = 5, max = 10)
   private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
     return optionalNullableListWithNullableItems;
   }
@@ -9741,6 +9782,11 @@ public class UserDto {
 
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LanguageEnum getLanguageJson() {
+    return language;
+  }
+
+  @JsonIgnore
   private LanguageEnum getLanguageRaw() {
     return language;
   }
@@ -10013,6 +10059,11 @@ public class ObjectPojo1Dto {
 
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
+  @JsonIgnore
   private LocalDate getBirthdateRaw() {
     return birthdate;
   }
