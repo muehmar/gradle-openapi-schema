@@ -20,14 +20,52 @@ public interface JavaType {
    */
   QualifiedClassName getQualifiedClassName();
 
+  /**
+   * Returns the {@link ApiType} of this {@link JavaType}, not for possible generics. I.e. it
+   * returns also an empty {@link Optional} in case the {@link JavaType} itself has no {@link
+   * ApiType} but it has generics with an {@link ApiType}.
+   */
   Optional<ApiType> getApiType();
 
+  /**
+   * Returns true if the {@link JavaType} has an {@link ApiType}, independent of possible {@link
+   * ApiType} of generics.
+   */
   default boolean hasApiType() {
     return getApiType().isPresent();
   }
 
+  /**
+   * Returns false if the {@link JavaType} has an {@link ApiType}, independent of possible {@link
+   * ApiType} of generics.
+   */
   default boolean hasNoApiType() {
     return not(hasApiType());
+  }
+
+  /** Returns true if the {@link JavaType} or any possible generics have an {@link ApiType}. */
+  default boolean hasApiTypeDeep() {
+    return fold(
+        arrayType -> arrayType.hasApiType() || arrayType.getItemType().hasApiTypeDeep(),
+        JavaBooleanType::hasApiType,
+        JavaEnumType::hasApiType,
+        mapType ->
+            mapType.hasApiType()
+                || mapType.getKey().hasApiTypeDeep()
+                || mapType.getValue().hasApiTypeDeep(),
+        JavaAnyType::hasApiType,
+        JavaNumericType::hasApiType,
+        JavaIntegerType::hasApiType,
+        JavaObjectType::hasApiType,
+        JavaStringType::hasApiType);
+  }
+
+  /**
+   * Returns false if neither the {@link JavaType} nor any possible generics have an {@link
+   * ApiType}.
+   */
+  default boolean hasNoApiTypeDeep() {
+    return not(hasApiTypeDeep());
   }
 
   /**
