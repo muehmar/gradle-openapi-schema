@@ -57,7 +57,7 @@ javax.validation.constraints.Size
 @JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
   return requiredListWithNullableItems;
 }
 ]

@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
@@ -43,7 +44,8 @@ public class ValidationGetter {
 
   private static BiFunction<JavaPojoMember, PojoSettings, String> methodName() {
     return (member, settings) -> {
-      if (member.isRequiredAndNotNullable()) {
+      if (member.isRequiredAndNotNullable()
+          && not(member.getJavaType().isNullableItemsArrayType())) {
         return member.getGetterName().asString();
       } else {
         return member.getValidationGetterName(settings).asString();

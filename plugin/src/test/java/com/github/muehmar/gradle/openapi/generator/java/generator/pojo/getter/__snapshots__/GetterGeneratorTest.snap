@@ -117,9 +117,14 @@ public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<S
       );
 }
 
-@Size(min = 5, max = 10)
 @JsonProperty("optionalListWithNullableItems")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItemsJson() {
+  return optionalListWithNullableItems;
+}
+
+@JsonIgnore
+@Size(min = 5, max = 10)
 private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
   return optionalListWithNullableItems;
 }
@@ -231,8 +236,8 @@ private Object getOptionalNullableListWithNullableItemsJson() {
   return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
 }
 
-@Size(min = 5, max = 10)
 @JsonIgnore
+@Size(min = 5, max = 10)
 private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
   return optionalNullableListWithNullableItems;
 }
@@ -322,8 +327,8 @@ private Object getOptionalNullableStringListJson() {
   return isOptionalNullableStringListNull ? new JacksonNullContainer<>(optionalNullableStringList) : optionalNullableStringList;
 }
 
-@Size(min = 1)
 @JsonIgnore
+@Size(min = 1)
 private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringListRaw() {
   return optionalNullableStringList;
 }
@@ -401,8 +406,8 @@ private Object getOptionalNullableStringValJson() {
   return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
 }
 
-@Pattern(regexp="Hello")
 @JsonIgnore
+@Pattern(regexp="Hello")
 private String getOptionalNullableStringValRaw() {
   return optionalNullableStringVal;
 }
@@ -500,9 +505,14 @@ public List<String> getOptionalStringListOr(List<String> defaultValue) {
   return this.optionalStringList == null ? defaultValue : this.optionalStringList;
 }
 
-@Size(min = 1)
 @JsonProperty("optionalStringList")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalStringListJson() {
+  return optionalStringList;
+}
+
+@JsonIgnore
+@Size(min = 1)
 private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringListRaw() {
   return optionalStringList;
 }
@@ -594,9 +604,14 @@ public String getOptionalStringValOr(String defaultValue) {
   return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
 }
 
-@Pattern(regexp="Hello")
 @JsonProperty("optionalStringVal")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+private String getOptionalStringValJson() {
+  return optionalStringVal;
+}
+
+@JsonIgnore
+@Pattern(regexp="Hello")
 private String getOptionalStringValRaw() {
   return optionalStringVal;
 }
@@ -703,6 +718,7 @@ List<Optional<String>> getRequiredListWithNullableItemsAnyOf() {
 
 pojoMembers[requiredListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
@@ -726,9 +742,15 @@ public List<Optional<String>> getRequiredListWithNullableItems() {
   );
 }
 
+@JsonProperty("requiredListWithNullableItems")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItemsJson() {
+  return requiredListWithNullableItems;
+}
+
+@JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-@JsonProperty("requiredListWithNullableItems")
 private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
   return requiredListWithNullableItems;
 }
@@ -817,7 +839,9 @@ Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAnyOf()
 
 pojoMembers[requiredNullableListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
@@ -856,8 +880,14 @@ public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Op
       );
 }
 
-@Size(min = 5, max = 10)
 @JsonProperty("requiredNullableListWithNullableItems")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItemsJson() {
+  return isRequiredNullableListWithNullableItemsPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems) : null;
+}
+
+@JsonIgnore
+@Size(min = 5, max = 10)
 private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
   return requiredNullableListWithNullableItems;
 }
@@ -937,7 +967,9 @@ Optional<List<String>> getRequiredNullableStringListAnyOf() {
 
 pojoMembers[requiredNullableStringList]=[
 com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 javax.validation.constraints.AssertTrue
@@ -962,8 +994,14 @@ public List<String> getRequiredNullableStringListOr(List<String> defaultValue) {
   return this.requiredNullableStringList == null ? defaultValue : this.requiredNullableStringList;
 }
 
-@Size(min = 1)
 @JsonProperty("requiredNullableStringList")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableStringListJson() {
+  return isRequiredNullableStringListPresent ? new JacksonNullContainer<>(requiredNullableStringList) : null;
+}
+
+@JsonIgnore
+@Size(min = 1)
 private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringListRaw() {
   return requiredNullableStringList;
 }
@@ -1034,7 +1072,9 @@ Optional<String> getRequiredNullableStringValAnyOf() {
 
 pojoMembers[requiredNullableStringVal]=[
 com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
+com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
@@ -1056,8 +1096,14 @@ public String getRequiredNullableStringValOr(String defaultValue) {
   return this.requiredNullableStringVal == null ? defaultValue : this.requiredNullableStringVal;
 }
 
-@Pattern(regexp="Hello")
 @JsonProperty("requiredNullableStringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableStringValJson() {
+  return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
+}
+
+@JsonIgnore
+@Pattern(regexp="Hello")
 private String getRequiredNullableStringValRaw() {
   return requiredNullableStringVal;
 }
