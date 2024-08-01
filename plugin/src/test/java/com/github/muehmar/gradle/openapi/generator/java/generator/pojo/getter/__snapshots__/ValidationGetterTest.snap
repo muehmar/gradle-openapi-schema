@@ -1,0 +1,117 @@
+members[optionalListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+@JsonIgnore
+@Size(min = 5, max = 10)
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+  return optionalListWithNullableItems;
+}
+]
+
+
+members[optionalNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+@JsonIgnore
+@Size(min = 5, max = 10)
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
+  return optionalNullableListWithNullableItems;
+}
+]
+
+
+members[optionalNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.Pattern
+
+@JsonIgnore
+@Pattern(regexp="Hello")
+private String getOptionalNullableStringValRaw() {
+  return optionalNullableStringVal;
+}
+]
+
+
+members[optionalStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.Pattern
+
+@JsonIgnore
+@Pattern(regexp="Hello")
+private String getOptionalStringValRaw() {
+  return optionalStringVal;
+}
+]
+
+
+members[requiredListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+@JsonIgnore
+@NotNull
+@Size(min = 5, max = 10)
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems() {
+  return requiredListWithNullableItems;
+}
+]
+
+
+members[requiredNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+@JsonIgnore
+@Size(min = 5, max = 10)
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
+  return requiredNullableListWithNullableItems;
+}
+]
+
+
+members[requiredNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.Pattern
+
+@JsonIgnore
+@Pattern(regexp="Hello")
+private String getRequiredNullableStringValRaw() {
+  return requiredNullableStringVal;
+}
+]
+
+
+members[requiredStringList]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+javax.validation.constraints.Size
+
+@JsonIgnore
+@NotNull
+@Size(min = 1)
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
+  return requiredStringList;
+}
+]
+
+
+members[stringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.NotNull
+javax.validation.constraints.Pattern
+
+@JsonIgnore
+@NotNull
+@Pattern(regexp="Hello")
+private String getStringVal() {
+  return stringVal;
+}
+]
