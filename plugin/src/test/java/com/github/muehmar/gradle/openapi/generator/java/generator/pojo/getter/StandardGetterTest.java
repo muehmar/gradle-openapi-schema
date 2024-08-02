@@ -5,8 +5,10 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JSON;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings.getterGeneratorSettings;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.list;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
+import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -22,10 +24,12 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -47,6 +51,22 @@ class StandardGetterTest {
     expect
         .scenario(generatorSettings.getSettings().mkString("|"))
         .toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("mappedString")
+  void generate_when_mappedString_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        standardGetterGenerator(getterGeneratorSettings(NO_VALIDATION, NO_JSON));
+
+    final Writer writer;
+    writer =
+        generator.generate(
+            requiredString(TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION)),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   @ParameterizedTest

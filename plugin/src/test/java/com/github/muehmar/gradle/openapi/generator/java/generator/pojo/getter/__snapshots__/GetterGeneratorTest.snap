@@ -3146,8 +3146,7 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
@@ -3251,8 +3250,7 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
@@ -3353,8 +3351,7 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
@@ -3458,8 +3455,7 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
@@ -3647,7 +3643,8 @@ String getStringValAnyOf() {
 pojoMembers[stringVal]=[
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -3667,8 +3664,8 @@ com.custom.CustomString
 /**
  * stringVal
  */
-public String getStringVal_FullyMappedAllOf() {
-  return stringVal_FullyMappedAllOf;
+public CustomString getStringVal_FullyMappedAllOf() {
+  return stringVal_FullyMappedAllOf != null ? CustomString.fromString(stringVal_FullyMappedAllOf) : null;
 }
 
 ]
@@ -3688,8 +3685,8 @@ private String getStringVal_FullyMappedAnyOfJson() {
 }
 
 @JsonIgnore
-String getStringVal_FullyMappedAnyOf() {
-  return stringVal_FullyMappedAnyOf;
+CustomString getStringVal_FullyMappedAnyOf() {
+  return stringVal_FullyMappedAnyOf != null ? CustomString.fromString(stringVal_FullyMappedAnyOf) : null;
 }
 
 ]
@@ -3697,15 +3694,31 @@ String getStringVal_FullyMappedAnyOf() {
 
 pojoMembers[stringVal_FullyMapped]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
+@JsonIgnore
+public CustomString getStringVal_FullyMapped() {
+  return stringVal_FullyMapped != null ? CustomString.fromString(stringVal_FullyMapped) : null;
+}
+
+@JsonProperty("stringVal-FullyMapped")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_FullyMappedJson() {
+  return stringVal_FullyMapped;
+}
+
+@JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-public String getStringVal_FullyMapped() {
+private String getStringVal_FullyMappedRaw() {
   return stringVal_FullyMapped;
 }
 
@@ -3749,7 +3762,8 @@ String getStringVal_ListMappedAnyOf() {
 pojoMembers[stringVal_ListMapped]=[
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
@@ -3769,8 +3783,8 @@ com.custom.CustomString
 /**
  * stringVal
  */
-public String getStringVal_StringMappedAllOf() {
-  return stringVal_StringMappedAllOf;
+public CustomString getStringVal_StringMappedAllOf() {
+  return stringVal_StringMappedAllOf != null ? CustomString.fromString(stringVal_StringMappedAllOf) : null;
 }
 
 ]
@@ -3790,8 +3804,8 @@ private String getStringVal_StringMappedAnyOfJson() {
 }
 
 @JsonIgnore
-String getStringVal_StringMappedAnyOf() {
-  return stringVal_StringMappedAnyOf;
+CustomString getStringVal_StringMappedAnyOf() {
+  return stringVal_StringMappedAnyOf != null ? CustomString.fromString(stringVal_StringMappedAnyOf) : null;
 }
 
 ]
@@ -3799,15 +3813,31 @@ String getStringVal_StringMappedAnyOf() {
 
 pojoMembers[stringVal_StringMapped]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * stringVal
  */
+@JsonIgnore
+public CustomString getStringVal_StringMapped() {
+  return stringVal_StringMapped != null ? CustomString.fromString(stringVal_StringMapped) : null;
+}
+
+@JsonProperty("stringVal-StringMapped")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_StringMappedJson() {
+  return stringVal_StringMapped;
+}
+
+@JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-public String getStringVal_StringMapped() {
+private String getStringVal_StringMappedRaw() {
   return stringVal_StringMapped;
 }
 

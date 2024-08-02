@@ -44,7 +44,15 @@ public class GetterGroupsDefinition {
     return groups(
         nested(
             isNotArrayType(),
-            group(JavaPojoMember::isRequiredAndNotNullable, generator(STANDARD_GETTER)),
+            groups(
+                nested(
+                    JavaPojoMember::isRequiredAndNotNullable,
+                    group(hasNoApiTypeDeep(), generator(STANDARD_GETTER)),
+                    group(
+                        hasApiTypeDeep(),
+                        generator(STANDARD_GETTER, NO_VALIDATION, NO_JSON),
+                        generator(JSON_GETTER),
+                        generator(VALIDATION_GETTER)))),
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(OPTIONAL_GETTER),
@@ -243,19 +251,19 @@ public class GetterGroupsDefinition {
     return isNullableItemsList().negate();
   }
 
-  private static Predicate<JavaPojoMember> hasApiType() {
-    return member -> member.getJavaType().hasApiType();
-  }
-
-  private static Predicate<JavaPojoMember> hasNoApiType() {
-    return hasApiType().negate();
-  }
-
   private static Predicate<JavaPojoMember> isArrayType() {
     return member -> member.getJavaType().isArrayType();
   }
 
   private static Predicate<JavaPojoMember> isNotArrayType() {
     return isArrayType().negate();
+  }
+
+  private static Predicate<JavaPojoMember> hasApiTypeDeep() {
+    return member -> member.getJavaType().hasApiTypeDeep();
+  }
+
+  private static Predicate<JavaPojoMember> hasNoApiTypeDeep() {
+    return hasApiTypeDeep().negate();
   }
 }

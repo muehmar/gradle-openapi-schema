@@ -1,16 +1,20 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion.toApiTypeConversion;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 public class StandardGetter {
   private StandardGetter() {}
@@ -34,9 +38,25 @@ public class StandardGetter {
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()
-        .content(f -> String.format("return %s;", f.getName()))
+        .content(getterContent())
         .build()
         .append(RefsGenerator.fieldRefs());
+  }
+
+  private static Generator<JavaPojoMember, PojoSettings> getterContent() {
+    return (member, settings, writer) -> {
+      final String value =
+          member
+              .getJavaType()
+              .getApiType()
+              .map(
+                  apiType ->
+                      toApiTypeConversion(
+                          apiType, member.getName().asString(), ConversionGenerationMode.NULL_SAFE))
+              .map(Writer::asString)
+              .orElse(member.getName().asString());
+      return writer.println("return %s;", value);
+    };
   }
 
   private static JavaModifiers modifiers(GetterGeneratorSettings generatorSettings) {
@@ -56,7 +76,13 @@ public class StandardGetter {
 
     final Generator<JavaPojoMember, PojoSettings> standardReturnType =
         Generator.<JavaPojoMember, PojoSettings>emptyGen()
-            .append((m, s, w) -> w.println("%s", m.getJavaType().getParameterizedClassName()))
+            .append(
+                (m, s, w) ->
+                    w.println(
+                        "%s",
+                        ParameterizedApiClassName.fromJavaType(m.getJavaType())
+                            .map(ParameterizedApiClassName::asString)
+                            .orElse(m.getJavaType().getParameterizedClassName().asString())))
             .filter(generatorSettings.<JavaPojoMember>validationFilter().negate());
 
     return deepAnnotatedReturnType.append(standardReturnType);
