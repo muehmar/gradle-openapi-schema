@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableStringList;
@@ -21,7 +22,9 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -46,9 +49,25 @@ class GetterGeneratorTest {
   }
 
   public static Stream<Arguments> pojoMembers() {
+    final TypeMappings fullConversion =
+        TypeMappings.ofClassTypeMappings(
+            ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
+    final TypeMappings listConversion =
+        TypeMappings.ofClassTypeMappings(ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
+    final TypeMappings stringConversion =
+        TypeMappings.ofClassTypeMappings(ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
     final PList<JavaPojoMember> members =
-        JavaPojos.allNecessityAndNullabilityVariants()
-            .getMembers()
+        allNecessityAndNullabilityVariants()
+            .concat(
+                allNecessityAndNullabilityVariants(fullConversion)
+                    .map(member -> member.withName(member.getName().append("-FullyMapped"))))
+            .concat(
+                allNecessityAndNullabilityVariants(stringConversion)
+                    .map(member -> member.withName(member.getName().append("-StringMapped"))))
+            .concat(
+                allNecessityAndNullabilityVariants(listConversion)
+                    .map(member -> member.withName(member.getName().append("-ListMapped"))))
             .add(requiredStringList())
             .add(requiredNullableStringList())
             .add(optionalStringList())

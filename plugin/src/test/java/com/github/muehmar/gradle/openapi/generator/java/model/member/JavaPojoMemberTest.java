@@ -17,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,8 @@ class JavaPojoMemberTest {
   @MethodSource("getterNameWithSuffix")
   void getGetterNameWithSuffix_when_calledForAllVariants_then_suffixedWithCorrespondingGetterSuffix(
       Necessity necessity, Nullability nullability, String getterName) {
-    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.string(necessity, nullability);
+    final JavaPojoMember javaPojoMember =
+        TestJavaPojoMembers.string(necessity, nullability, TypeMappings.empty());
 
     assertEquals(
         getterName,
