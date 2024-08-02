@@ -277,7 +277,8 @@ class ValidationAnnotationGeneratorTest {
 
   @Test
   void validationAnnotations_when_calledForOptionalStringField_then_minAndMaxWithRefs() {
-    final JavaPojoMember member = TestJavaPojoMembers.string(OPTIONAL, NOT_NULLABLE);
+    final JavaPojoMember member =
+        TestJavaPojoMembers.string(OPTIONAL, NOT_NULLABLE, TypeMappings.empty());
     final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());

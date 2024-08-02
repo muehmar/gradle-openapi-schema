@@ -242,10 +242,15 @@ public class TestJavaPojoMembers {
   }
 
   public static JavaPojoMember requiredString() {
-    return string(REQUIRED, NOT_NULLABLE);
+    return requiredString(TypeMappings.empty());
   }
 
-  public static JavaPojoMember string(Necessity necessity, Nullability nullability) {
+  public static JavaPojoMember requiredString(TypeMappings typeMappings) {
+    return string(REQUIRED, NOT_NULLABLE, typeMappings);
+  }
+
+  public static JavaPojoMember string(
+      Necessity necessity, Nullability nullability, TypeMappings typeMappings) {
     return javaPojoMemberBuilder()
         .pojoName(invoiceName())
         .name(JavaName.fromString("stringVal"))
@@ -254,7 +259,7 @@ public class TestJavaPojoMembers {
             JavaType.wrap(
                     StringType.noFormat()
                         .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-                    TypeMappings.empty())
+                    typeMappings)
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
@@ -262,6 +267,10 @@ public class TestJavaPojoMembers {
   }
 
   public static JavaPojoMember requiredNullableString() {
+    return requiredNullableString(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredNullableString(TypeMappings typeMappings) {
     return javaPojoMemberBuilder()
         .pojoName(invoiceName())
         .name(JavaName.fromString("requiredNullableStringVal"))
@@ -270,7 +279,7 @@ public class TestJavaPojoMembers {
             JavaType.wrap(
                     StringType.noFormat()
                         .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-                    TypeMappings.empty())
+                    typeMappings)
                 .withNullability(NULLABLE))
         .necessity(REQUIRED)
         .type(OBJECT_MEMBER)
@@ -278,6 +287,10 @@ public class TestJavaPojoMembers {
   }
 
   public static JavaPojoMember optionalString() {
+    return optionalString(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalString(TypeMappings typeMappings) {
     return javaPojoMemberBuilder()
         .pojoName(invoiceName())
         .name(JavaName.fromString("optionalStringVal"))
@@ -286,13 +299,17 @@ public class TestJavaPojoMembers {
             JavaType.wrap(
                 StringType.noFormat()
                     .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-                TypeMappings.empty()))
+                typeMappings))
         .necessity(OPTIONAL)
         .type(OBJECT_MEMBER)
         .build();
   }
 
   public static JavaPojoMember optionalNullableString() {
+    return optionalNullableString(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalNullableString(TypeMappings typeMappings) {
     return javaPojoMemberBuilder()
         .pojoName(invoiceName())
         .name(JavaName.fromString("optionalNullableStringVal"))
@@ -301,7 +318,7 @@ public class TestJavaPojoMembers {
             JavaType.wrap(
                     StringType.noFormat()
                         .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
-                    TypeMappings.empty())
+                    typeMappings)
                 .withNullability(NULLABLE))
         .necessity(OPTIONAL)
         .type(OBJECT_MEMBER)
@@ -415,7 +432,7 @@ public class TestJavaPojoMembers {
         .build();
   }
 
-  private static PList<JavaPojoMember> allNecessityAndNullabilityVariants() {
+  public static PList<JavaPojoMember> allNecessityAndNullabilityVariants() {
     return PList.of(
         requiredString(),
         requiredNullableString(),
@@ -425,6 +442,19 @@ public class TestJavaPojoMembers {
         requiredNullableListWithNullableItems(),
         optionalListWithNullableItems(),
         optionalNullableListWithNullableItems());
+  }
+
+  public static PList<JavaPojoMember> allNecessityAndNullabilityVariants(
+      TypeMappings typeMappings) {
+    return PList.of(
+        requiredString(typeMappings),
+        requiredNullableString(typeMappings),
+        optionalString(typeMappings),
+        optionalNullableString(typeMappings),
+        requiredListWithNullableItems(typeMappings),
+        requiredNullableListWithNullableItems(typeMappings),
+        optionalListWithNullableItems(typeMappings),
+        optionalNullableListWithNullableItems(typeMappings));
   }
 
   public static Stream<Arguments> allNecessityAndNullabilityVariantsTestSource() {
