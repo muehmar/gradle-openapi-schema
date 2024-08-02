@@ -69,6 +69,20 @@ public List<@NotNull @Email String> getListVal() {
 ]
 
 
+mappedString=[
+com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+
+/**
+ * stringVal
+ */
+@JsonIgnore
+public CustomString getStringVal() {
+  return stringVal != null ? CustomString.fromString(stringVal) : null;
+}
+]
+
+
 requiredString[NO_JAVA_DOC]=[
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
