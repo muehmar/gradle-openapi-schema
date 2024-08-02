@@ -49,3 +49,17 @@ public Optional<List<String>> getRequiredStringList() {
   return Optional.ofNullable(requiredStringList);
 }
 ]
+
+
+mappedString=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public Optional<CustomString> getOptionalStringVal() {
+  return Optional.ofNullable(optionalStringVal).map(value -> CustomString.fromString(value));
+}
+]

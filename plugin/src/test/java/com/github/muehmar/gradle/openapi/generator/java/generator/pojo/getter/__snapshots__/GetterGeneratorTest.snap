@@ -1641,8 +1641,8 @@ java.util.Optional
  * OptionalStringVal
  */
 @JsonIgnore
-public Optional<String> getOptionalStringVal_FullyMappedAllOf() {
-  return Optional.ofNullable(optionalStringVal_FullyMappedAllOf);
+public Optional<CustomString> getOptionalStringVal_FullyMappedAllOf() {
+  return Optional.ofNullable(optionalStringVal_FullyMappedAllOf).map(value -> CustomString.fromString(value));
 }
 
 /**
@@ -1677,8 +1677,8 @@ private String getOptionalStringVal_FullyMappedAnyOfJson() {
 }
 
 @JsonIgnore
-Optional<String> getOptionalStringVal_FullyMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_FullyMappedAnyOf);
+Optional<CustomString> getOptionalStringVal_FullyMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -1698,8 +1698,8 @@ javax.validation.constraints.Pattern
  * OptionalStringVal
  */
 @JsonIgnore
-public Optional<String> getOptionalStringVal_FullyMapped() {
-  return Optional.ofNullable(optionalStringVal_FullyMapped);
+public Optional<CustomString> getOptionalStringVal_FullyMapped() {
+  return Optional.ofNullable(optionalStringVal_FullyMapped).map(value -> CustomString.fromString(value));
 }
 
 /**
@@ -1842,8 +1842,8 @@ java.util.Optional
  * OptionalStringVal
  */
 @JsonIgnore
-public Optional<String> getOptionalStringVal_StringMappedAllOf() {
-  return Optional.ofNullable(optionalStringVal_StringMappedAllOf);
+public Optional<CustomString> getOptionalStringVal_StringMappedAllOf() {
+  return Optional.ofNullable(optionalStringVal_StringMappedAllOf).map(value -> CustomString.fromString(value));
 }
 
 /**
@@ -1878,8 +1878,8 @@ private String getOptionalStringVal_StringMappedAnyOfJson() {
 }
 
 @JsonIgnore
-Optional<String> getOptionalStringVal_StringMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_StringMappedAnyOf);
+Optional<CustomString> getOptionalStringVal_StringMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -1899,8 +1899,8 @@ javax.validation.constraints.Pattern
  * OptionalStringVal
  */
 @JsonIgnore
-public Optional<String> getOptionalStringVal_StringMapped() {
-  return Optional.ofNullable(optionalStringVal_StringMapped);
+public Optional<CustomString> getOptionalStringVal_StringMapped() {
+  return Optional.ofNullable(optionalStringVal_StringMapped).map(value -> CustomString.fromString(value));
 }
 
 /**
@@ -3197,8 +3197,8 @@ java.util.Optional
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public Optional<String> getRequiredNullableStringVal_FullyMappedAllOf() {
-  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAllOf);
+public Optional<CustomString> getRequiredNullableStringVal_FullyMappedAllOf() {
+  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAllOf).map(value -> CustomString.fromString(value));
 }
 
 /**
@@ -3234,8 +3234,8 @@ private Object getRequiredNullableStringVal_FullyMappedAnyOfJson() {
 }
 
 @JsonIgnore
-Optional<String> getRequiredNullableStringVal_FullyMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAnyOf);
+Optional<CustomString> getRequiredNullableStringVal_FullyMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -3255,8 +3255,8 @@ javax.validation.constraints.Pattern
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public Optional<String> getRequiredNullableStringVal_FullyMapped() {
-  return Optional.ofNullable(requiredNullableStringVal_FullyMapped);
+public Optional<CustomString> getRequiredNullableStringVal_FullyMapped() {
+  return Optional.ofNullable(requiredNullableStringVal_FullyMapped).map(value -> CustomString.fromString(value));
 }
 
 /**
@@ -3402,8 +3402,8 @@ java.util.Optional
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public Optional<String> getRequiredNullableStringVal_StringMappedAllOf() {
-  return Optional.ofNullable(requiredNullableStringVal_StringMappedAllOf);
+public Optional<CustomString> getRequiredNullableStringVal_StringMappedAllOf() {
+  return Optional.ofNullable(requiredNullableStringVal_StringMappedAllOf).map(value -> CustomString.fromString(value));
 }
 
 /**
@@ -3439,8 +3439,8 @@ private Object getRequiredNullableStringVal_StringMappedAnyOfJson() {
 }
 
 @JsonIgnore
-Optional<String> getRequiredNullableStringVal_StringMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_StringMappedAnyOf);
+Optional<CustomString> getRequiredNullableStringVal_StringMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -3460,8 +3460,8 @@ javax.validation.constraints.Pattern
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public Optional<String> getRequiredNullableStringVal_StringMapped() {
-  return Optional.ofNullable(requiredNullableStringVal_StringMapped);
+public Optional<CustomString> getRequiredNullableStringVal_StringMapped() {
+  return Optional.ofNullable(requiredNullableStringVal_StringMapped).map(value -> CustomString.fromString(value));
 }
 
 /**
