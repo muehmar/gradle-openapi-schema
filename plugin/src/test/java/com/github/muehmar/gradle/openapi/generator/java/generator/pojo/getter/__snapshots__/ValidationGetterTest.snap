@@ -97,7 +97,7 @@ javax.validation.constraints.Size
 @JsonIgnore
 @NotNull
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringListRaw() {
   return requiredStringList;
 }
 ]
@@ -111,7 +111,7 @@ javax.validation.constraints.Pattern
 @JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-private String getStringVal() {
+private String getStringValRaw() {
   return stringVal;
 }
 ]

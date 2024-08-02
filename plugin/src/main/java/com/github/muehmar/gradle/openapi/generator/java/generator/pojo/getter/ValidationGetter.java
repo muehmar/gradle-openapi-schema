@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
-import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
@@ -12,7 +11,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
-import java.util.function.BiFunction;
 
 public class ValidationGetter {
   private ValidationGetter() {}
@@ -30,7 +28,7 @@ public class ValidationGetter {
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType(returnType())
-        .methodName(methodName())
+        .methodName(JavaPojoMember::getValidationGetterName)
         .noArguments()
         .doesNotThrow()
         .content(f -> String.format("return %s;", f.getName()))
@@ -40,16 +38,5 @@ public class ValidationGetter {
   private static Generator<JavaPojoMember, PojoSettings> returnType() {
     return deepAnnotatedParameterizedClassName()
         .contraMap(ValidationAnnotationGenerator.PropertyType::fromMember);
-  }
-
-  private static BiFunction<JavaPojoMember, PojoSettings, String> methodName() {
-    return (member, settings) -> {
-      if (member.isRequiredAndNotNullable()
-          && not(member.getJavaType().isNullableItemsArrayType())) {
-        return member.getGetterName().asString();
-      } else {
-        return member.getValidationGetterName(settings).asString();
-      }
-    };
   }
 }
