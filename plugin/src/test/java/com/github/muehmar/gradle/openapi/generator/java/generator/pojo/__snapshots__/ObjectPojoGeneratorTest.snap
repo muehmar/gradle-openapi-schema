@@ -1617,7 +1617,9 @@ public class UserDto {
    * Level of this user
    */
   public Long getLevelOr(Long defaultValue) {
-    return this.level == null ? defaultValue : this.level;
+    return this.level == null
+        ? defaultValue
+        : this.level;
   }
 
   @Min(value = 5L)
@@ -1642,7 +1644,9 @@ public class UserDto {
    * Something uppercase
    */
   public String getUppercaseOr(String defaultValue) {
-    return this.uppercase == null ? defaultValue : this.uppercase;
+    return this.uppercase == null
+        ? defaultValue
+        : this.uppercase;
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
@@ -1667,7 +1671,9 @@ public class UserDto {
    * Multiple of value
    */
   public Long getMultipleOfValueOr(Long defaultValue) {
-    return this.multipleOfValue == null ? defaultValue : this.multipleOfValue;
+    return this.multipleOfValue == null
+        ? defaultValue
+        : this.multipleOfValue;
   }
 
   private Long getMultipleOfValueRaw() {
@@ -1691,7 +1697,9 @@ public class UserDto {
    * Another Pojo
    */
   public AnotherPojo getAnotherPojoOr(AnotherPojo defaultValue) {
-    return this.anotherPojo == null ? defaultValue : this.anotherPojo;
+    return this.anotherPojo == null
+        ? defaultValue
+        : this.anotherPojo;
   }
 
   @Valid
@@ -2364,7 +2372,9 @@ public class UserDto {
    * Level of this user
    */
   public Long getLevelOr(Long defaultValue) {
-    return this.level == null ? defaultValue : this.level;
+    return this.level == null
+        ? defaultValue
+        : this.level;
   }
 
   @Min(value = 5L)
@@ -2389,7 +2399,9 @@ public class UserDto {
    * Something uppercase
    */
   public String getUppercaseOr(String defaultValue) {
-    return this.uppercase == null ? defaultValue : this.uppercase;
+    return this.uppercase == null
+        ? defaultValue
+        : this.uppercase;
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
@@ -2414,7 +2426,9 @@ public class UserDto {
    * Multiple of value
    */
   public Long getMultipleOfValueOr(Long defaultValue) {
-    return this.multipleOfValue == null ? defaultValue : this.multipleOfValue;
+    return this.multipleOfValue == null
+        ? defaultValue
+        : this.multipleOfValue;
   }
 
   private Long getMultipleOfValueRaw() {
@@ -2438,7 +2452,9 @@ public class UserDto {
    * Another Pojo
    */
   public AnotherPojo getAnotherPojoOr(AnotherPojo defaultValue) {
-    return this.anotherPojo == null ? defaultValue : this.anotherPojo;
+    return this.anotherPojo == null
+        ? defaultValue
+        : this.anotherPojo;
   }
 
   @Valid
@@ -3071,7 +3087,9 @@ public class UserDto {
    * Preferred language of this user
    */
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return this.language == null ? defaultValue : this.language;
+    return this.language == null
+        ? defaultValue
+        : this.language;
   }
 
   private LanguageEnum getLanguageRaw() {
@@ -4745,7 +4763,9 @@ public class UserDto {
    */
   @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return this.language == null ? defaultValue : this.language;
+    return this.language == null
+        ? defaultValue
+        : this.language;
   }
 
   @JsonProperty("language")
@@ -5121,7 +5141,9 @@ public class UserDto {
    * Preferred language of this user
    */
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return this.language == null ? defaultValue : this.language;
+    return this.language == null
+        ? defaultValue
+        : this.language;
   }
 
   private LanguageEnum getLanguageRaw() {
@@ -5448,7 +5470,9 @@ public class NecessityAndNullabilityDto {
    */
   @JsonIgnore
   public String getRequiredNullableStringValOr(String defaultValue) {
-    return this.requiredNullableStringVal == null ? defaultValue : this.requiredNullableStringVal;
+    return this.requiredNullableStringVal == null
+        ? defaultValue
+        : this.requiredNullableStringVal;
   }
 
   @JsonProperty("requiredNullableStringVal")
@@ -5483,7 +5507,9 @@ public class NecessityAndNullabilityDto {
    */
   @JsonIgnore
   public String getOptionalStringValOr(String defaultValue) {
-    return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
+    return this.optionalStringVal == null
+        ? defaultValue
+        : this.optionalStringVal;
   }
 
   @JsonProperty("optionalStringVal")
@@ -9481,7 +9507,9 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return this.language == null ? defaultValue : this.language;
+    return this.language == null
+        ? defaultValue
+        : this.language;
   }
 
   private LanguageEnum getLanguageRaw() {
@@ -9777,7 +9805,9 @@ public class UserDto {
    */
   @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
-    return this.language == null ? defaultValue : this.language;
+    return this.language == null
+        ? defaultValue
+        : this.language;
   }
 
   @JsonProperty("language")
@@ -10054,7 +10084,9 @@ public class ObjectPojo1Dto {
    */
   @JsonIgnore
   public LocalDate getBirthdateOr(LocalDate defaultValue) {
-    return this.birthdate == null ? defaultValue : this.birthdate;
+    return this.birthdate == null
+        ? defaultValue
+        : this.birthdate;
   }
 
   @JsonProperty("birthdate")

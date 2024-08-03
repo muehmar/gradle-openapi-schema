@@ -1440,7 +1440,9 @@ public Optional<List<String>> getOptionalStringListAllOf() {
  */
 @JsonIgnore
 public List<String> getOptionalStringListAllOfOr(List<String> defaultValue) {
-  return this.optionalStringListAllOf == null ? defaultValue : this.optionalStringListAllOf;
+  return this.optionalStringListAllOf == null
+      ? defaultValue
+      : this.optionalStringListAllOf;
 }
 
 @JsonProperty("optionalStringListAllOf")
@@ -1506,7 +1508,9 @@ public Optional<List<String>> getOptionalStringList() {
  */
 @JsonIgnore
 public List<String> getOptionalStringListOr(List<String> defaultValue) {
-  return this.optionalStringList == null ? defaultValue : this.optionalStringList;
+  return this.optionalStringList == null
+      ? defaultValue
+      : this.optionalStringList;
 }
 
 @JsonProperty("optionalStringList")
@@ -1550,7 +1554,9 @@ public Optional<String> getOptionalStringValAllOf() {
  */
 @JsonIgnore
 public String getOptionalStringValAllOfOr(String defaultValue) {
-  return this.optionalStringValAllOf == null ? defaultValue : this.optionalStringValAllOf;
+  return this.optionalStringValAllOf == null
+      ? defaultValue
+      : this.optionalStringValAllOf;
 }
 
 @JsonProperty("optionalStringValAllOf")
@@ -1605,7 +1611,9 @@ public Optional<String> getOptionalStringVal() {
  */
 @JsonIgnore
 public String getOptionalStringValOr(String defaultValue) {
-  return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
+  return this.optionalStringVal == null
+      ? defaultValue
+      : this.optionalStringVal;
 }
 
 @JsonProperty("optionalStringVal")
@@ -1649,8 +1657,10 @@ public Optional<CustomString> getOptionalStringVal_FullyMappedAllOf() {
  * OptionalStringVal
  */
 @JsonIgnore
-public String getOptionalStringVal_FullyMappedAllOfOr(String defaultValue) {
-  return this.optionalStringVal_FullyMappedAllOf == null ? defaultValue : this.optionalStringVal_FullyMappedAllOf;
+public CustomString getOptionalStringVal_FullyMappedAllOfOr(CustomString defaultValue) {
+  return this.optionalStringVal_FullyMappedAllOf == null
+      ? defaultValue
+      : CustomString.fromString(this.optionalStringVal_FullyMappedAllOf);
 }
 
 @JsonProperty("optionalStringVal_FullyMappedAllOf")
@@ -1706,8 +1716,10 @@ public Optional<CustomString> getOptionalStringVal_FullyMapped() {
  * OptionalStringVal
  */
 @JsonIgnore
-public String getOptionalStringVal_FullyMappedOr(String defaultValue) {
-  return this.optionalStringVal_FullyMapped == null ? defaultValue : this.optionalStringVal_FullyMapped;
+public CustomString getOptionalStringVal_FullyMappedOr(CustomString defaultValue) {
+  return this.optionalStringVal_FullyMapped == null
+      ? defaultValue
+      : CustomString.fromString(this.optionalStringVal_FullyMapped);
 }
 
 @JsonProperty("optionalStringVal-FullyMapped")
@@ -1751,7 +1763,9 @@ public Optional<String> getOptionalStringVal_ListMappedAllOf() {
  */
 @JsonIgnore
 public String getOptionalStringVal_ListMappedAllOfOr(String defaultValue) {
-  return this.optionalStringVal_ListMappedAllOf == null ? defaultValue : this.optionalStringVal_ListMappedAllOf;
+  return this.optionalStringVal_ListMappedAllOf == null
+      ? defaultValue
+      : this.optionalStringVal_ListMappedAllOf;
 }
 
 @JsonProperty("optionalStringVal_ListMappedAllOf")
@@ -1806,7 +1820,9 @@ public Optional<String> getOptionalStringVal_ListMapped() {
  */
 @JsonIgnore
 public String getOptionalStringVal_ListMappedOr(String defaultValue) {
-  return this.optionalStringVal_ListMapped == null ? defaultValue : this.optionalStringVal_ListMapped;
+  return this.optionalStringVal_ListMapped == null
+      ? defaultValue
+      : this.optionalStringVal_ListMapped;
 }
 
 @JsonProperty("optionalStringVal-ListMapped")
@@ -1850,8 +1866,10 @@ public Optional<CustomString> getOptionalStringVal_StringMappedAllOf() {
  * OptionalStringVal
  */
 @JsonIgnore
-public String getOptionalStringVal_StringMappedAllOfOr(String defaultValue) {
-  return this.optionalStringVal_StringMappedAllOf == null ? defaultValue : this.optionalStringVal_StringMappedAllOf;
+public CustomString getOptionalStringVal_StringMappedAllOfOr(CustomString defaultValue) {
+  return this.optionalStringVal_StringMappedAllOf == null
+      ? defaultValue
+      : CustomString.fromString(this.optionalStringVal_StringMappedAllOf);
 }
 
 @JsonProperty("optionalStringVal_StringMappedAllOf")
@@ -1907,8 +1925,10 @@ public Optional<CustomString> getOptionalStringVal_StringMapped() {
  * OptionalStringVal
  */
 @JsonIgnore
-public String getOptionalStringVal_StringMappedOr(String defaultValue) {
-  return this.optionalStringVal_StringMapped == null ? defaultValue : this.optionalStringVal_StringMapped;
+public CustomString getOptionalStringVal_StringMappedOr(CustomString defaultValue) {
+  return this.optionalStringVal_StringMapped == null
+      ? defaultValue
+      : CustomString.fromString(this.optionalStringVal_StringMapped);
 }
 
 @JsonProperty("optionalStringVal-StringMapped")
@@ -2991,7 +3011,9 @@ public Optional<List<String>> getRequiredNullableStringListAllOf() {
  */
 @JsonIgnore
 public List<String> getRequiredNullableStringListAllOfOr(List<String> defaultValue) {
-  return this.requiredNullableStringListAllOf == null ? defaultValue : this.requiredNullableStringListAllOf;
+  return this.requiredNullableStringListAllOf == null
+      ? defaultValue
+      : this.requiredNullableStringListAllOf;
 }
 
 @JsonProperty("requiredNullableStringListAllOf")
@@ -3059,7 +3081,9 @@ public Optional<List<String>> getRequiredNullableStringList() {
  */
 @JsonIgnore
 public List<String> getRequiredNullableStringListOr(List<String> defaultValue) {
-  return this.requiredNullableStringList == null ? defaultValue : this.requiredNullableStringList;
+  return this.requiredNullableStringList == null
+      ? defaultValue
+      : this.requiredNullableStringList;
 }
 
 @JsonProperty("requiredNullableStringList")
@@ -3104,7 +3128,9 @@ public Optional<String> getRequiredNullableStringValAllOf() {
  */
 @JsonIgnore
 public String getRequiredNullableStringValAllOfOr(String defaultValue) {
-  return this.requiredNullableStringValAllOf == null ? defaultValue : this.requiredNullableStringValAllOf;
+  return this.requiredNullableStringValAllOf == null
+      ? defaultValue
+      : this.requiredNullableStringValAllOf;
 }
 
 @JsonProperty("requiredNullableStringValAllOf")
@@ -3160,7 +3186,9 @@ public Optional<String> getRequiredNullableStringVal() {
  */
 @JsonIgnore
 public String getRequiredNullableStringValOr(String defaultValue) {
-  return this.requiredNullableStringVal == null ? defaultValue : this.requiredNullableStringVal;
+  return this.requiredNullableStringVal == null
+      ? defaultValue
+      : this.requiredNullableStringVal;
 }
 
 @JsonProperty("requiredNullableStringVal")
@@ -3205,8 +3233,10 @@ public Optional<CustomString> getRequiredNullableStringVal_FullyMappedAllOf() {
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public String getRequiredNullableStringVal_FullyMappedAllOfOr(String defaultValue) {
-  return this.requiredNullableStringVal_FullyMappedAllOf == null ? defaultValue : this.requiredNullableStringVal_FullyMappedAllOf;
+public CustomString getRequiredNullableStringVal_FullyMappedAllOfOr(CustomString defaultValue) {
+  return this.requiredNullableStringVal_FullyMappedAllOf == null
+      ? defaultValue
+      : CustomString.fromString(this.requiredNullableStringVal_FullyMappedAllOf);
 }
 
 @JsonProperty("requiredNullableStringVal_FullyMappedAllOf")
@@ -3263,8 +3293,10 @@ public Optional<CustomString> getRequiredNullableStringVal_FullyMapped() {
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public String getRequiredNullableStringVal_FullyMappedOr(String defaultValue) {
-  return this.requiredNullableStringVal_FullyMapped == null ? defaultValue : this.requiredNullableStringVal_FullyMapped;
+public CustomString getRequiredNullableStringVal_FullyMappedOr(CustomString defaultValue) {
+  return this.requiredNullableStringVal_FullyMapped == null
+      ? defaultValue
+      : CustomString.fromString(this.requiredNullableStringVal_FullyMapped);
 }
 
 @JsonProperty("requiredNullableStringVal-FullyMapped")
@@ -3309,7 +3341,9 @@ public Optional<String> getRequiredNullableStringVal_ListMappedAllOf() {
  */
 @JsonIgnore
 public String getRequiredNullableStringVal_ListMappedAllOfOr(String defaultValue) {
-  return this.requiredNullableStringVal_ListMappedAllOf == null ? defaultValue : this.requiredNullableStringVal_ListMappedAllOf;
+  return this.requiredNullableStringVal_ListMappedAllOf == null
+      ? defaultValue
+      : this.requiredNullableStringVal_ListMappedAllOf;
 }
 
 @JsonProperty("requiredNullableStringVal_ListMappedAllOf")
@@ -3365,7 +3399,9 @@ public Optional<String> getRequiredNullableStringVal_ListMapped() {
  */
 @JsonIgnore
 public String getRequiredNullableStringVal_ListMappedOr(String defaultValue) {
-  return this.requiredNullableStringVal_ListMapped == null ? defaultValue : this.requiredNullableStringVal_ListMapped;
+  return this.requiredNullableStringVal_ListMapped == null
+      ? defaultValue
+      : this.requiredNullableStringVal_ListMapped;
 }
 
 @JsonProperty("requiredNullableStringVal-ListMapped")
@@ -3410,8 +3446,10 @@ public Optional<CustomString> getRequiredNullableStringVal_StringMappedAllOf() {
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public String getRequiredNullableStringVal_StringMappedAllOfOr(String defaultValue) {
-  return this.requiredNullableStringVal_StringMappedAllOf == null ? defaultValue : this.requiredNullableStringVal_StringMappedAllOf;
+public CustomString getRequiredNullableStringVal_StringMappedAllOfOr(CustomString defaultValue) {
+  return this.requiredNullableStringVal_StringMappedAllOf == null
+      ? defaultValue
+      : CustomString.fromString(this.requiredNullableStringVal_StringMappedAllOf);
 }
 
 @JsonProperty("requiredNullableStringVal_StringMappedAllOf")
@@ -3468,8 +3506,10 @@ public Optional<CustomString> getRequiredNullableStringVal_StringMapped() {
  * RequiredNullableStringVal
  */
 @JsonIgnore
-public String getRequiredNullableStringVal_StringMappedOr(String defaultValue) {
-  return this.requiredNullableStringVal_StringMapped == null ? defaultValue : this.requiredNullableStringVal_StringMapped;
+public CustomString getRequiredNullableStringVal_StringMappedOr(CustomString defaultValue) {
+  return this.requiredNullableStringVal_StringMapped == null
+      ? defaultValue
+      : CustomString.fromString(this.requiredNullableStringVal_StringMapped);
 }
 
 @JsonProperty("requiredNullableStringVal-StringMapped")

@@ -3,7 +3,9 @@ com.fasterxml.jackson.annotation.JsonIgnore
 
 @JsonIgnore
 public String getOptionalStringValOr(String defaultValue) {
-  return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
+  return this.optionalStringVal == null
+      ? defaultValue
+      : this.optionalStringVal;
 }
 ]
 
@@ -16,7 +18,9 @@ com.fasterxml.jackson.annotation.JsonIgnore
  */
 @JsonIgnore
 public String getOptionalStringValOr(String defaultValue) {
-  return this.optionalStringVal == null ? defaultValue : this.optionalStringVal;
+  return this.optionalStringVal == null
+      ? defaultValue
+      : this.optionalStringVal;
 }
 ]
 
@@ -29,6 +33,23 @@ com.fasterxml.jackson.annotation.JsonIgnore
  */
 @JsonIgnore
 public List<String> getRequiredStringListOr(List<String> defaultValue) {
-  return this.requiredStringList == null ? defaultValue : this.requiredStringList;
+  return this.requiredStringList == null
+      ? defaultValue
+      : this.requiredStringList;
+}
+]
+
+
+mappedString=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public CustomString getOptionalStringValOr(CustomString defaultValue) {
+  return this.optionalStringVal == null
+      ? defaultValue
+      : CustomString.fromString(this.optionalStringVal);
 }
 ]
