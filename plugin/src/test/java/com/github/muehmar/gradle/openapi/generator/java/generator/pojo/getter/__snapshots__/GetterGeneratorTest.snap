@@ -1189,8 +1189,8 @@ com.github.muehmar.openapi.util.Tristate
  * OptionalNullableStringVal
  */
 @JsonIgnore
-public Tristate<String> getOptionalNullableStringVal_FullyMappedAllOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAllOf, isOptionalNullableStringVal_FullyMappedAllOfNull);
+public Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAllOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAllOf, isOptionalNullableStringVal_FullyMappedAllOfNull).map(value -> CustomString.fromString(value));
 }
 
 @JsonProperty("optionalNullableStringVal_FullyMappedAllOf")
@@ -1218,8 +1218,8 @@ private Object getOptionalNullableStringVal_FullyMappedAnyOfJson() {
 }
 
 @JsonIgnore
-Tristate<String> getOptionalNullableStringVal_FullyMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAnyOf, isOptionalNullableStringVal_FullyMappedAnyOfNull);
+Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAnyOf, isOptionalNullableStringVal_FullyMappedAnyOfNull).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -1239,8 +1239,8 @@ javax.validation.constraints.Pattern
  * OptionalNullableStringVal
  */
 @JsonIgnore
-public Tristate<String> getOptionalNullableStringVal_FullyMapped() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMapped, isOptionalNullableStringVal_FullyMappedNull);
+public Tristate<CustomString> getOptionalNullableStringVal_FullyMapped() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMapped, isOptionalNullableStringVal_FullyMappedNull).map(value -> CustomString.fromString(value));
 }
 
 @JsonProperty("optionalNullableStringVal-FullyMapped")
@@ -1350,8 +1350,8 @@ com.github.muehmar.openapi.util.Tristate
  * OptionalNullableStringVal
  */
 @JsonIgnore
-public Tristate<String> getOptionalNullableStringVal_StringMappedAllOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAllOf, isOptionalNullableStringVal_StringMappedAllOfNull);
+public Tristate<CustomString> getOptionalNullableStringVal_StringMappedAllOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAllOf, isOptionalNullableStringVal_StringMappedAllOfNull).map(value -> CustomString.fromString(value));
 }
 
 @JsonProperty("optionalNullableStringVal_StringMappedAllOf")
@@ -1379,8 +1379,8 @@ private Object getOptionalNullableStringVal_StringMappedAnyOfJson() {
 }
 
 @JsonIgnore
-Tristate<String> getOptionalNullableStringVal_StringMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAnyOf, isOptionalNullableStringVal_StringMappedAnyOfNull);
+Tristate<CustomString> getOptionalNullableStringVal_StringMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAnyOf, isOptionalNullableStringVal_StringMappedAnyOfNull).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -1400,8 +1400,8 @@ javax.validation.constraints.Pattern
  * OptionalNullableStringVal
  */
 @JsonIgnore
-public Tristate<String> getOptionalNullableStringVal_StringMapped() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMapped, isOptionalNullableStringVal_StringMappedNull);
+public Tristate<CustomString> getOptionalNullableStringVal_StringMapped() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMapped, isOptionalNullableStringVal_StringMappedNull).map(value -> CustomString.fromString(value));
 }
 
 @JsonProperty("optionalNullableStringVal-StringMapped")

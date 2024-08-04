@@ -49,3 +49,17 @@ public Tristate<List<String>> getRequiredStringList() {
   return Tristate.ofNullableAndNullFlag(requiredStringList, isRequiredStringListNull);
 }
 ]
+
+
+mappedString=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * OptionalNullableStringVal
+ */
+@JsonIgnore
+public Tristate<CustomString> getOptionalNullableStringVal() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull).map(value -> CustomString.fromString(value));
+}
+]
