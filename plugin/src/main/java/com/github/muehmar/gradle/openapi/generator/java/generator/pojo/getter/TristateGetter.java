@@ -7,7 +7,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -29,7 +28,7 @@ public class TristateGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
-        .returnType(f -> String.format("Tristate<%s>", className(f)))
+        .returnType(m -> String.format("Tristate<%s>", ReturnType.fromPojoMember(m)))
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()
@@ -40,12 +39,6 @@ public class TristateGetter {
                     f.getName(), f.getIsNullFlagName(), apiMapping(f)))
         .build()
         .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
-  }
-
-  private static String className(JavaPojoMember member) {
-    return ParameterizedApiClassName.fromJavaType(member.getJavaType())
-        .map(ParameterizedApiClassName::asString)
-        .orElse(member.getJavaType().getParameterizedClassName().asString());
   }
 
   private static String apiMapping(JavaPojoMember member) {

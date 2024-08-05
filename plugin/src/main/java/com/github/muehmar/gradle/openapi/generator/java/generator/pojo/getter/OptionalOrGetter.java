@@ -9,7 +9,6 @@ import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -30,9 +29,9 @@ public class OptionalOrGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(OptionalOrGetter::className)
+        .returnType(ReturnType::fromPojoMember)
         .methodName(member -> String.format("%sOr", member.getGetterName()))
-        .singleArgument(member -> argument(className(member), "defaultValue"))
+        .singleArgument(member -> argument(ReturnType.fromPojoMember(member), "defaultValue"))
         .doesNotThrow()
         .content(getterContent())
         .build();
@@ -43,12 +42,6 @@ public class OptionalOrGetter {
         .append((m, s, w) -> w.println("return this.%s == null", m.getName()))
         .append(constant("? defaultValue"), 2)
         .append((m, s, w) -> w.println(": %s;", apiMapping(m)), 2);
-  }
-
-  private static String className(JavaPojoMember member) {
-    return ParameterizedApiClassName.fromJavaType(member.getJavaType())
-        .map(ParameterizedApiClassName::asString)
-        .orElse(member.getJavaType().getParameterizedClassName().asString());
   }
 
   private static String apiMapping(JavaPojoMember member) {
