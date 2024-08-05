@@ -27,13 +27,7 @@ public class ListOptionalGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
-        .returnType(
-            f ->
-                String.format(
-                    "Optional<%s>",
-                    f.getJavaType()
-                        .getParameterizedClassName()
-                        .asStringWrappingNullableValueType()))
+        .returnType(m -> String.format("Optional<%s>", ListReturnType.fromPojoMember(m)))
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()

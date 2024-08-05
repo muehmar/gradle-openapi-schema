@@ -27,13 +27,7 @@ public class ListTristateGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
-        .returnType(
-            f ->
-                String.format(
-                    "Tristate<%s>",
-                    f.getJavaType()
-                        .getParameterizedClassName()
-                        .asStringWrappingNullableValueType()))
+        .returnType(m -> String.format("Tristate<%s>", ListReturnType.fromPojoMember(m)))
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()

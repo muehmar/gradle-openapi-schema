@@ -50,7 +50,7 @@ java.util.Optional
  * OptionalListWithNullableItems
  */
 @JsonIgnore
-public Optional<List<Optional<String>>> getOptionalListWithNullableItemsFullMapping() {
+public Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItemsFullMapping() {
   return mapList(
       optionalListWithNullableItemsFullMapping,
       i -> CustomString.fromString(i),

@@ -28,14 +28,9 @@ public class ListOptionalOrGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(
-            f -> f.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType())
+        .returnType(ListReturnType::fromPojoMember)
         .methodName(f -> String.format("%sOr", f.getGetterName()))
-        .singleArgument(
-            f ->
-                argument(
-                    f.getJavaType().getParameterizedClassName().asStringWrappingNullableValueType(),
-                    "defaultValue"))
+        .singleArgument(f -> argument(ListReturnType.fromPojoMember(f), "defaultValue"))
         .doesNotThrow()
         .content(methodContent())
         .build()

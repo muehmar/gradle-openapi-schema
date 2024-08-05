@@ -52,7 +52,7 @@ java.util.function.Function
  * OptionalListWithNullableItems
  */
 @JsonIgnore
-public List<Optional<String>> getOptionalListWithNullableItemsFullMappingOr(List<Optional<String>> defaultValue) {
+public CustomList<Optional<CustomString>> getOptionalListWithNullableItemsFullMappingOr(CustomList<Optional<CustomString>> defaultValue) {
   return this.optionalListWithNullableItemsFullMapping == null
       ? defaultValue
       : mapList(

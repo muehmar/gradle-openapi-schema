@@ -69,7 +69,7 @@ java.util.Optional
  * OptionalNullableListWithNullableItems
  */
 @JsonIgnore
-public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsFullMapping() {
+public Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullableItemsFullMapping() {
   return mapList(
       optionalNullableListWithNullableItemsFullMapping,
       i -> CustomString.fromString(i),
