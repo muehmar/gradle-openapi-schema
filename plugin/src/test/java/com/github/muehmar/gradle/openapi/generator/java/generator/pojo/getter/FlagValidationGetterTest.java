@@ -9,7 +9,6 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
@@ -28,8 +27,7 @@ class FlagValidationGetterTest {
   @MethodSource("members")
   @SnapshotName("members")
   void generate_when_members_then_matchSnapshot(JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        flagValidationGetterGenerator(GetterGeneratorSettings.empty());
+    final Generator<JavaPojoMember, PojoSettings> generator = flagValidationGetterGenerator();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 

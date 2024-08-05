@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -16,8 +15,7 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 public class FlagValidationGetter {
   private FlagValidationGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> flagValidationGetterGenerator(
-      GetterGeneratorSettings generatorSettings) {
+  public static Generator<JavaPojoMember, PojoSettings> flagValidationGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
         .append(assertTrue(FlagValidationGetter::assertionMessage))
