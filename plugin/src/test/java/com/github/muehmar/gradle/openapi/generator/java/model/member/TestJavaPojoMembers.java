@@ -161,47 +161,80 @@ public class TestJavaPojoMembers {
   }
 
   public static JavaPojoMember requiredStringList() {
+    return requiredStringList(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredStringList(TypeMappings typeMappings) {
     return list(
             StringType.noFormat()
                 .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
             Necessity.REQUIRED,
             Nullability.NOT_NULLABLE,
-            Constraints.ofSize(Size.ofMin(1)))
+            Constraints.ofSize(Size.ofMin(1)),
+            typeMappings)
         .withName(JavaName.fromString("requiredStringList"));
   }
 
   public static JavaPojoMember requiredNullableStringList() {
+    return requiredNullableStringList(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredNullableStringList(TypeMappings typeMappings) {
     return list(
             StringType.noFormat()
                 .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
             Necessity.REQUIRED,
             NULLABLE,
-            Constraints.ofSize(Size.ofMin(1)))
+            Constraints.ofSize(Size.ofMin(1)),
+            typeMappings)
         .withName(JavaName.fromString("requiredNullableStringList"));
   }
 
   public static JavaPojoMember optionalStringList() {
+    return optionalStringList(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalStringList(TypeMappings typeMappings) {
     return list(
             StringType.noFormat()
                 .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
             OPTIONAL,
             NOT_NULLABLE,
-            Constraints.ofSize(Size.ofMin(1)))
+            Constraints.ofSize(Size.ofMin(1)),
+            typeMappings)
         .withName(JavaName.fromString("optionalStringList"));
   }
 
   public static JavaPojoMember optionalNullableStringList() {
+    return optionalNullableStringList(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalNullableStringList(TypeMappings typeMappings) {
     return list(
             StringType.noFormat()
                 .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
             OPTIONAL,
             NULLABLE,
-            Constraints.ofSize(Size.ofMin(1)))
+            Constraints.ofSize(Size.ofMin(1)),
+            typeMappings)
         .withName(JavaName.fromString("optionalNullableStringList"));
+  }
+
+  public static JavaPojoMember list(Type itemType, Necessity necessity, Nullability nullability) {
+    return list(itemType, necessity, nullability, Constraints.empty(), TypeMappings.empty());
   }
 
   public static JavaPojoMember list(
       Type itemType, Necessity necessity, Nullability nullability, Constraints constraints) {
+    return list(itemType, necessity, nullability, constraints, TypeMappings.empty());
+  }
+
+  public static JavaPojoMember list(
+      Type itemType,
+      Necessity necessity,
+      Nullability nullability,
+      Constraints constraints,
+      TypeMappings typeMappings) {
     return javaPojoMemberBuilder()
         .pojoName(invoiceName())
         .name(JavaName.fromString("listVal"))
@@ -209,7 +242,7 @@ public class TestJavaPojoMembers {
         .javaType(
             JavaType.wrap(
                     ArrayType.ofItemType(itemType, NOT_NULLABLE).withConstraints(constraints),
-                    TypeMappings.empty())
+                    typeMappings)
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)

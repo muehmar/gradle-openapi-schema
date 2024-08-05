@@ -57,6 +57,22 @@ class GetterGeneratorTest {
         TypeMappings.ofClassTypeMappings(ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
     final TypeMappings stringConversion =
         TypeMappings.ofClassTypeMappings(ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
+
+    final PList<JavaPojoMember> allNecessityAndNullabilityListVariants =
+        PList.of(
+            requiredStringList(),
+            requiredNullableStringList(),
+            optionalStringList(),
+            optionalNullableStringList());
+
+    final PList<JavaPojoMember> allNecessityAndNullabilityListVariantsFullyMapped =
+        PList.of(
+                requiredStringList(fullConversion),
+                requiredNullableStringList(fullConversion),
+                optionalStringList(fullConversion),
+                optionalNullableStringList(fullConversion))
+            .map(member -> member.withName(member.getName().append("-FullyMapped")));
+
     final PList<JavaPojoMember> members =
         allNecessityAndNullabilityVariants()
             .concat(
@@ -68,10 +84,8 @@ class GetterGeneratorTest {
             .concat(
                 allNecessityAndNullabilityVariants(listConversion)
                     .map(member -> member.withName(member.getName().append("-ListMapped"))))
-            .add(requiredStringList())
-            .add(requiredNullableStringList())
-            .add(optionalStringList())
-            .add(optionalNullableStringList());
+            .concat(allNecessityAndNullabilityListVariants)
+            .concat(allNecessityAndNullabilityListVariantsFullyMapped);
 
     final PList<JavaPojoMember> anyOfMembers =
         members.map(

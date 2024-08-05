@@ -80,8 +80,7 @@ class StandardGetterTest {
         list(
             StringType.noFormat().withConstraints(Constraints.ofEmail()),
             Necessity.REQUIRED,
-            Nullability.NOT_NULLABLE,
-            Constraints.empty());
+            Nullability.NOT_NULLABLE);
 
     final Writer writer;
     writer = generator.generate(genericType, defaultTestSettings(), javaWriter());

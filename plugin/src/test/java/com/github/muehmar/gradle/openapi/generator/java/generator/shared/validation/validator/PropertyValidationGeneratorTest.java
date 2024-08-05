@@ -197,8 +197,7 @@ class PropertyValidationGeneratorTest {
         list(
             StringType.noFormat().withConstraints(Constraints.ofSize(Size.of(10, 50))),
             REQUIRED,
-            NOT_NULLABLE,
-            Constraints.empty());
+            NOT_NULLABLE);
 
     final Writer writer = generator.generate(listType, defaultTestSettings(), javaWriter());
 
