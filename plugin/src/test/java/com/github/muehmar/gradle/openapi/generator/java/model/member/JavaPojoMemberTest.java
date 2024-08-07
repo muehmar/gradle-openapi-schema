@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder.fullEnumContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.birthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
@@ -12,9 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import java.util.Optional;
@@ -59,7 +65,7 @@ class JavaPojoMemberTest {
             .asString());
   }
 
-  public static Stream<Arguments> getterNameWithSuffix() {
+  private static Stream<Arguments> getterNameWithSuffix() {
     return Stream.of(
         Arguments.of(Necessity.REQUIRED, Nullability.NOT_NULLABLE, "getStringValRequired"),
         Arguments.of(Necessity.REQUIRED, NULLABLE, "getStringValNullable"),
@@ -106,7 +112,7 @@ class JavaPojoMemberTest {
     assertEquals(expected, technicalMembers.map(TechnicalPojoMember::getName).mkString(","));
   }
 
-  public static Stream<Arguments> membersForCreatingTechnicalMembers() {
+  private static Stream<Arguments> membersForCreatingTechnicalMembers() {
     return Stream.of(
         arguments(requiredBirthdate(), "birthdate"),
         arguments(
@@ -186,5 +192,41 @@ class JavaPojoMemberTest {
             birthdate,
             birthdate.withDescription("Other desc").withNecessity(REQUIRED),
             Optional.of(birthdate.withNecessity(REQUIRED))));
+  }
+
+  @Test
+  void asEnumContent_when_listWithEnumItemType_then_enumContentOfItemTypeReturned() {
+    final EnumType enumType =
+        EnumType.ofNameAndMembers(Name.ofString("PositionEnum"), PList.of("MANAGER", "DEVELOPER"));
+    final JavaPojoMember member =
+        TestJavaPojoMembers.list(enumType, REQUIRED, NOT_NULLABLE, Constraints.empty());
+
+    // method call
+    final Optional<EnumGenerator.EnumContent> enumContents = member.asEnumContent();
+
+    final EnumGenerator.EnumContent expectedEnumContent =
+        fullEnumContentBuilder()
+            .className(JavaName.fromString("PositionEnum"))
+            .description("")
+            .members(PList.of("MANAGER", "DEVELOPER").map(EnumConstantName::ofString))
+            .build();
+
+    assertEquals(Optional.of(expectedEnumContent), enumContents);
+  }
+
+  @Test
+  void asEnumContent_when_enumTypeMember_then_correctEnumContent() {
+    final JavaPojoMember member = TestJavaPojoMembers.requiredDirectionEnum();
+
+    final Optional<EnumGenerator.EnumContent> enumContents = member.asEnumContent();
+
+    final EnumGenerator.EnumContent expectedEnumContent =
+        fullEnumContentBuilder()
+            .className(JavaName.fromString("Direction"))
+            .description("Direction")
+            .members(PList.of("north", "east", "south", "west").map(EnumConstantName::ofString))
+            .build();
+
+    assertEquals(Optional.of(expectedEnumContent), enumContents);
   }
 }
