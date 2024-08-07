@@ -1,7 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder.fullEnumContentBuilder;
+
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator.EnumContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNotNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagName;
@@ -252,21 +253,37 @@ public class JavaPojoMember {
     }
   }
 
-  /** Creates {@link EnumContent} for this member in case its type is an {@link EnumType}. */
+  /**
+   * Creates {@link EnumContent}'s for this member in case its type is an {@link EnumType} or nested
+   * types are {@link EnumType}'s.
+   */
   public Optional<EnumContent> asEnumContent() {
-    final Function<JavaEnumType, Optional<EnumContent>> toEnumPojo =
+    final Function<JavaEnumType, Optional<EnumContent>> enumContentMapping =
         enumType ->
             Optional.of(
-                EnumContentBuilder.create()
+                fullEnumContentBuilder()
                     .className(JavaName.fromName(enumType.getQualifiedClassName().getClassName()))
                     .description(getDescription())
                     .members(enumType.getMembers())
                     .build());
+    return asEnumContent(javaType, enumContentMapping);
+  }
+
+  private static Optional<EnumContent> asEnumContent(
+      JavaType javaType, Function<JavaEnumType, Optional<EnumContent>> enumContentMapping) {
+    Function<JavaEnumType, Optional<EnumContent>> nestedEnumContentMapping =
+        enumType ->
+            Optional.of(
+                fullEnumContentBuilder()
+                    .className(JavaName.fromName(enumType.getQualifiedClassName().getClassName()))
+                    .description("")
+                    .members(enumType.getMembers())
+                    .build());
     return javaType.fold(
+        arrayType -> asEnumContent(arrayType.getItemType(), nestedEnumContentMapping),
         ignore -> Optional.empty(),
-        ignore -> Optional.empty(),
-        toEnumPojo,
-        ignore -> Optional.empty(),
+        enumContentMapping,
+        mapType -> asEnumContent(mapType.getValue(), nestedEnumContentMapping),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
