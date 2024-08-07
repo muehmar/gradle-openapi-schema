@@ -1,0 +1,16 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    InlineEnumArray:
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+            enum:
+              - HELLO
+              - WORLD
