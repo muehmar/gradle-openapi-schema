@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type.api;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,8 +18,8 @@ public class ConversionMethod {
     this.instanceMethodConversion = instanceMethodConversion;
   }
 
-  public static ConversionMethod ofString(String conversionMethod) {
-    return FactoryMethodConversion.fromString(conversionMethod)
+  public static ConversionMethod ofString(QualifiedClassName className, String conversionMethod) {
+    return FactoryMethodConversion.fromString(className, conversionMethod)
         .map(ConversionMethod::ofFactoryMethod)
         .orElseGet(
             () ->

@@ -15,13 +15,27 @@ class FactoryMethodConversionTest {
 
   @Test
   void fromString_when_correctFactoryMethodString_then_correctFactoryMethodConversionClass() {
+    final QualifiedClassName className =
+        QualifiedClassName.ofQualifiedClassName("com.github.muehmar.CustomObject");
     final Optional<FactoryMethodConversion> factoryMethodConversion =
-        FactoryMethodConversion.fromString("com.github.muehmar.CustomObject#methodName");
+        FactoryMethodConversion.fromString(className, "com.github.muehmar.CustomObject#methodName");
 
     final FactoryMethodConversion expectedFactoryMethodConversion =
-        new FactoryMethodConversion(
-            QualifiedClassName.ofQualifiedClassName("com.github.muehmar.CustomObject"),
-            Name.ofString("methodName"));
+        new FactoryMethodConversion(className, Name.ofString("methodName"));
+
+    assertEquals(Optional.of(expectedFactoryMethodConversion), factoryMethodConversion);
+  }
+
+  @Test
+  void
+      fromString_when_unqualifiedFactorMethodString_then_useQualifiedClassInFactoryMethodConversionClass() {
+    final QualifiedClassName className =
+        QualifiedClassName.ofQualifiedClassName("com.github.muehmar.CustomObject");
+    final Optional<FactoryMethodConversion> factoryMethodConversion =
+        FactoryMethodConversion.fromString(className, "CustomObject#methodName");
+
+    final FactoryMethodConversion expectedFactoryMethodConversion =
+        new FactoryMethodConversion(className, Name.ofString("methodName"));
 
     assertEquals(Optional.of(expectedFactoryMethodConversion), factoryMethodConversion);
   }
@@ -39,7 +53,9 @@ class FactoryMethodConversionTest {
       String factoryMethodConversion) {
     assertThrows(
         OpenApiGeneratorException.class,
-        () -> FactoryMethodConversion.fromString(factoryMethodConversion));
+        () ->
+            FactoryMethodConversion.fromString(
+                QualifiedClassName.ofQualifiedClassName("Clazz"), factoryMethodConversion));
   }
 
   @ParameterizedTest
@@ -47,7 +63,8 @@ class FactoryMethodConversionTest {
   void fromString_when_stringIsNotFactoryMethod_then_returnEmptyOptional(
       String factoryMethodConversionString) {
     final Optional<FactoryMethodConversion> factoryMethodConversion =
-        FactoryMethodConversion.fromString(factoryMethodConversionString);
+        FactoryMethodConversion.fromString(
+            QualifiedClassName.ofQualifiedClassName("Clazz"), factoryMethodConversionString);
 
     assertEquals(Optional.empty(), factoryMethodConversion);
   }

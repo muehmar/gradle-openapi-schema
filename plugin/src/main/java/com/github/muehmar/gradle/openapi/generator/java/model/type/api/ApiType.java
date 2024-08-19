@@ -19,9 +19,10 @@ public class ApiType {
     final ParameterizedApiClassName parameterizedClassName =
         ParameterizedApiClassName.ofClassNameAndGenerics(className, generics);
     final ToApiTypeConversion toApiTypeConversion =
-        new ToApiTypeConversion(ConversionMethod.ofString(conversion.getToCustomType()));
+        new ToApiTypeConversion(ConversionMethod.ofString(className, conversion.getToCustomType()));
     final FromApiTypeConversion fromApiTypeConversion =
-        new FromApiTypeConversion(ConversionMethod.ofString(conversion.getFromCustomType()));
+        new FromApiTypeConversion(
+            ConversionMethod.ofString(className, conversion.getFromCustomType()));
     return new ApiType(
         className, parameterizedClassName, toApiTypeConversion, fromApiTypeConversion);
   }

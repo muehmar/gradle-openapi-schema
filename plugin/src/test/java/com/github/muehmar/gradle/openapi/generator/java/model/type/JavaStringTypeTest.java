@@ -105,20 +105,22 @@ class JavaStringTypeTest {
     final JavaStringType javaType =
         JavaStringType.wrap(stringType, TypeMappings.ofSingleFormatTypeMapping(formatTypeMapping));
 
-    assertEquals(
-        Optional.of("com.custom.CustomBinary"),
-        javaType.getApiType().map(apiType -> apiType.getClassName().asString()));
+    final QualifiedClassName className =
+        QualifiedClassName.ofQualifiedClassName("com.custom.CustomBinary");
+
+    assertEquals(Optional.of(className), javaType.getApiType().map(ApiType::getClassName));
     assertEquals(
         Optional.of("CustomBinary"),
         javaType.getApiType().map(apiType -> apiType.getParameterizedClassName().asString()));
     assertEquals(
         Optional.of(
-            new ToApiTypeConversion(ConversionMethod.ofString(typeConversion.getToCustomType()))),
+            new ToApiTypeConversion(
+                ConversionMethod.ofString(className, typeConversion.getToCustomType()))),
         javaType.getApiType().map(ApiType::getToApiTypeConversion));
     assertEquals(
         Optional.of(
             new FromApiTypeConversion(
-                ConversionMethod.ofString(typeConversion.getFromCustomType()))),
+                ConversionMethod.ofString(className, typeConversion.getFromCustomType()))),
         javaType.getApiType().map(ApiType::getFromApiTypeConversion));
 
     assertEquals("byte[]", javaType.getParameterizedClassName().asString());

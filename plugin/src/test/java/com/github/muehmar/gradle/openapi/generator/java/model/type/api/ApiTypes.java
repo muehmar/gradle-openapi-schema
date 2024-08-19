@@ -8,20 +8,24 @@ public class ApiTypes {
   private ApiTypes() {}
 
   public static ApiType userId() {
+    final QualifiedClassName qualifiedClassName =
+        QualifiedClassName.ofQualifiedClassName("com.github.muehmar.UserId");
     return new ApiType(
         QualifiedClassNames.STRING,
-        ParameterizedApiClassName.ofClassNameAndGenerics(
-            QualifiedClassName.ofQualifiedClassName("com.github.muehmar.UserId")),
-        new ToApiTypeConversion(ConversionMethod.ofString("com.github.muehmar.UserId#fromString")),
-        new FromApiTypeConversion(ConversionMethod.ofString("com.github.muehmar.UserId#toString")));
+        ParameterizedApiClassName.ofClassNameAndGenerics(qualifiedClassName),
+        new ToApiTypeConversion(
+            ConversionMethod.ofString(qualifiedClassName, "com.github.muehmar.UserId#fromString")),
+        new FromApiTypeConversion(
+            ConversionMethod.ofString(qualifiedClassName, "com.github.muehmar.UserId#toString")));
   }
 
   public static ApiType counter() {
+    final QualifiedClassName qualifiedClassName =
+        QualifiedClassName.ofQualifiedClassName("com.github.muehmar.Counter");
     return new ApiType(
         QualifiedClassNames.LONG,
-        ParameterizedApiClassName.ofClassNameAndGenerics(
-            QualifiedClassName.ofQualifiedClassName("com.github.muehmar.Counter")),
-        new ToApiTypeConversion(ConversionMethod.ofString("toCounter")),
-        new FromApiTypeConversion(ConversionMethod.ofString("toLong")));
+        ParameterizedApiClassName.ofClassNameAndGenerics(qualifiedClassName),
+        new ToApiTypeConversion(ConversionMethod.ofString(qualifiedClassName, "toCounter")),
+        new FromApiTypeConversion(ConversionMethod.ofString(qualifiedClassName, "toLong")));
   }
 }

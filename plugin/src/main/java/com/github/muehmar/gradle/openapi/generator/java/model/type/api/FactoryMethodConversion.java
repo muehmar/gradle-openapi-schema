@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type.api;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -11,7 +13,8 @@ public class FactoryMethodConversion {
   QualifiedClassName className;
   Name methodName;
 
-  public static Optional<FactoryMethodConversion> fromString(String factoryMethodConversion) {
+  public static Optional<FactoryMethodConversion> fromString(
+      QualifiedClassName className, String factoryMethodConversion) {
     final String[] parts = factoryMethodConversion.split("#");
     if (parts.length != 2 && factoryMethodConversion.contains("#")) {
       throw createInvalidFormatException(factoryMethodConversion);
@@ -21,9 +24,13 @@ public class FactoryMethodConversion {
     }
 
     try {
-      return Optional.of(
-          new FactoryMethodConversion(
-              QualifiedClassName.ofQualifiedClassName(parts[0]), Name.ofString(parts[1])));
+      final QualifiedClassName parsedClassName = QualifiedClassName.ofQualifiedClassName(parts[0]);
+      final Name methodName = Name.ofString(parts[1]);
+      if (not(parsedClassName.getPackageName().isPresent())
+          && parsedClassName.getClassName().equals(className.getClassName())) {
+        return Optional.of(new FactoryMethodConversion(className, methodName));
+      }
+      return Optional.of(new FactoryMethodConversion(parsedClassName, methodName));
     } catch (Exception e) {
       throw createInvalidFormatException(factoryMethodConversion);
     }

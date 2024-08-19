@@ -68,20 +68,22 @@ class JavaArrayTypeTest {
     final JavaArrayType javaArrayType =
         JavaArrayType.wrap(arrayType, TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
 
-    assertEquals(
-        Optional.of("com.custom.CustomList"),
-        javaArrayType.getApiType().map(apiType -> apiType.getClassName().asString()));
+    final QualifiedClassName className =
+        QualifiedClassName.ofQualifiedClassName("com.custom.CustomList");
+
+    assertEquals(Optional.of(className), javaArrayType.getApiType().map(ApiType::getClassName));
     assertEquals(
         Optional.of("CustomList<UUID>"),
         javaArrayType.getApiType().map(apiType -> apiType.getParameterizedClassName().asString()));
     assertEquals(
         Optional.of(
-            new ToApiTypeConversion(ConversionMethod.ofString(typeConversion.getToCustomType()))),
+            new ToApiTypeConversion(
+                ConversionMethod.ofString(className, typeConversion.getToCustomType()))),
         javaArrayType.getApiType().map(ApiType::getToApiTypeConversion));
     assertEquals(
         Optional.of(
             new FromApiTypeConversion(
-                ConversionMethod.ofString(typeConversion.getFromCustomType()))),
+                ConversionMethod.ofString(className, typeConversion.getFromCustomType()))),
         javaArrayType.getApiType().map(ApiType::getFromApiTypeConversion));
 
     assertEquals("List<UUID>", javaArrayType.getParameterizedClassName().asString());

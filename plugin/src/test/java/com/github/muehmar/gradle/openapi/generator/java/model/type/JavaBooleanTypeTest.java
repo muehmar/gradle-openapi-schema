@@ -66,20 +66,22 @@ class JavaBooleanTypeTest {
             BooleanType.create(Nullability.NOT_NULLABLE),
             TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
 
-    assertEquals(
-        Optional.of("com.custom.CustomBoolean"),
-        javaType.getApiType().map(apiType -> apiType.getClassName().asString()));
+    final QualifiedClassName className =
+        QualifiedClassName.ofQualifiedClassName("com.custom.CustomBoolean");
+
+    assertEquals(Optional.of(className), javaType.getApiType().map(ApiType::getClassName));
     assertEquals(
         Optional.of("CustomBoolean"),
         javaType.getApiType().map(apiType -> apiType.getParameterizedClassName().asString()));
     assertEquals(
         Optional.of(
-            new ToApiTypeConversion(ConversionMethod.ofString(typeConversion.getToCustomType()))),
+            new ToApiTypeConversion(
+                ConversionMethod.ofString(className, typeConversion.getToCustomType()))),
         javaType.getApiType().map(ApiType::getToApiTypeConversion));
     assertEquals(
         Optional.of(
             new FromApiTypeConversion(
-                ConversionMethod.ofString(typeConversion.getFromCustomType()))),
+                ConversionMethod.ofString(className, typeConversion.getFromCustomType()))),
         javaType.getApiType().map(ApiType::getFromApiTypeConversion));
 
     assertEquals("Boolean", javaType.getParameterizedClassName().asString());

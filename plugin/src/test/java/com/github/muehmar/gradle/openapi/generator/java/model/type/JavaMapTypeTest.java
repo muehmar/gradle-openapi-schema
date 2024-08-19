@@ -68,20 +68,22 @@ class JavaMapTypeTest {
     final JavaMapType javaType =
         JavaMapType.wrap(mapType, TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
 
-    assertEquals(
-        Optional.of("com.custom.CustomMap"),
-        javaType.getApiType().map(apiType -> apiType.getClassName().asString()));
+    final QualifiedClassName className =
+        QualifiedClassName.ofQualifiedClassName("com.custom.CustomMap");
+
+    assertEquals(Optional.of(className), javaType.getApiType().map(ApiType::getClassName));
     assertEquals(
         Optional.of("CustomMap<String, UUID>"),
         javaType.getApiType().map(apiType -> apiType.getParameterizedClassName().asString()));
     assertEquals(
         Optional.of(
-            new ToApiTypeConversion(ConversionMethod.ofString(typeConversion.getToCustomType()))),
+            new ToApiTypeConversion(
+                ConversionMethod.ofString(className, typeConversion.getToCustomType()))),
         javaType.getApiType().map(ApiType::getToApiTypeConversion));
     assertEquals(
         Optional.of(
             new FromApiTypeConversion(
-                ConversionMethod.ofString(typeConversion.getFromCustomType()))),
+                ConversionMethod.ofString(className, typeConversion.getFromCustomType()))),
         javaType.getApiType().map(ApiType::getFromApiTypeConversion));
 
     assertEquals("Map<String, UUID>", javaType.getParameterizedClassName().asString());
