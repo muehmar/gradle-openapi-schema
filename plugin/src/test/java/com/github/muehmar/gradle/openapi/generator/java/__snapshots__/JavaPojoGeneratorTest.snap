@@ -2,6 +2,7 @@ arrayPojo=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,7 @@ public class PosologyDto {
    * Doses to be taken
    */
   @NotNull
+  @JsonProperty("items")
   public List<@NotNull Double> getItems() {
     return items;
   }
@@ -202,6 +204,7 @@ public class SampleObjectPojo1Dto {
    */
   @NotNull
   @Pattern(regexp="Hello")
+  @JsonProperty("stringVal")
   public String getStringVal() {
     return stringVal;
   }
@@ -212,6 +215,7 @@ public class SampleObjectPojo1Dto {
   @NotNull
   @Min(value = 10L)
   @Max(value = 50L)
+  @JsonProperty("intVal")
   public Integer getIntVal() {
     return intVal;
   }
@@ -222,6 +226,7 @@ public class SampleObjectPojo1Dto {
   @NotNull
   @DecimalMin(value = "12.5", inclusive = true)
   @DecimalMax(value = "50.1", inclusive = false)
+  @JsonProperty("doubleVal")
   public Double getDoubleVal() {
     return doubleVal;
   }

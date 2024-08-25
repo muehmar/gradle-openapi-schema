@@ -425,6 +425,7 @@ String getRequiredStringValAnyOf() {
 
 
 pojoMembers[requiredStringVal]=[
+com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 
@@ -433,6 +434,7 @@ javax.validation.constraints.Pattern
  */
 @NotNull
 @Pattern(regexp="Hello")
+@JsonProperty("requiredStringVal")
 public String getRequiredStringVal() {
   return requiredStringVal;
 }

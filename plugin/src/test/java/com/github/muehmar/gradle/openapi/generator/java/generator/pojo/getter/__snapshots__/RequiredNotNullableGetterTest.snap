@@ -6,6 +6,7 @@ allNecessityAndNullabilityVariants[NOT_NULLABLE_OPTIONAL]=[
 
 
 allNecessityAndNullabilityVariants[NOT_NULLABLE_REQUIRED]=[
+com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 
@@ -14,6 +15,7 @@ javax.validation.constraints.Pattern
  */
 @NotNull
 @Pattern(regexp="Hello")
+@JsonProperty("stringVal")
 public String getStringVal() {
   return stringVal;
 }
@@ -35,6 +37,7 @@ allNecessityAndNullabilityVariants[NULLABLE_REQUIRED]=[
 
 
 requiredAndNotNullableField=[
+com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 
@@ -43,6 +46,7 @@ javax.validation.constraints.Pattern
  */
 @NotNull
 @Pattern(regexp="Hello")
+@JsonProperty("stringVal")
 public String getStringVal() {
   return stringVal;
 }
@@ -50,11 +54,12 @@ public String getStringVal() {
 
 
 requiredAndNotNullableFieldNoValidationOption=[
-.
-.
+com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * stringVal
  */
+@JsonProperty("stringVal")
 public String getStringVal() {
   return stringVal;
 }
@@ -62,11 +67,12 @@ public String getStringVal() {
 
 
 requiredSuffix=[
-.
-.
+com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * stringVal
  */
+@JsonProperty("stringVal")
 public String getStringValReq() {
   return stringVal;
 }
@@ -74,11 +80,12 @@ public String getStringValReq() {
 
 
 validationDisabled=[
-.
-.
+com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * stringVal
  */
+@JsonProperty("stringVal")
 public String getStringVal() {
   return stringVal;
 }
@@ -86,6 +93,7 @@ public String getStringVal() {
 
 
 valueTypeOfArrayHasConstraints=[
+com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 javax.validation.constraints.Max
 javax.validation.constraints.Min
@@ -97,6 +105,7 @@ javax.validation.constraints.Size
  */
 @NotNull
 @Size(min = 5)
+@JsonProperty("listVal")
 public List<@NotNull @Min(value = 5L) @Max(value = 10L) Integer> getListVal() {
   return listVal;
 }
