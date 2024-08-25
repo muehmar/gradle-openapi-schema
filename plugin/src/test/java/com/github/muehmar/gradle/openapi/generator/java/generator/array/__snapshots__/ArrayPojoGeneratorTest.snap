@@ -2,6 +2,7 @@ arrayPojo=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,6 +37,7 @@ public class PosologyDto {
    * Doses to be taken
    */
   @NotNull
+  @JsonProperty("items")
   public List<@NotNull Double> getItems() {
     return items;
   }

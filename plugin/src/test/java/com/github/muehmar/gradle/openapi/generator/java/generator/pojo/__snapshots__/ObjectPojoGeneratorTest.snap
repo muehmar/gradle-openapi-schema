@@ -48,6 +48,7 @@ public class PersonDto {
    */
   @NotNull
   @Pattern(regexp="Hello")
+  @JsonProperty("requiredStringVal")
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
@@ -55,6 +56,7 @@ public class PersonDto {
   /**
    * Birthdate
    */
+  @JsonProperty("birthdate")
   public LocalDate getBirthdate() {
     return birthdate;
   }
@@ -62,6 +64,7 @@ public class PersonDto {
   /**
    * Username
    */
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -602,6 +605,7 @@ public class PersonDto {
    */
   @NotNull
   @Pattern(regexp="Hello")
+  @JsonProperty("requiredStringVal")
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
@@ -4610,6 +4614,7 @@ public class UserDto {
   /**
    * ID of this user
    */
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -4617,6 +4622,7 @@ public class UserDto {
   /**
    * Name of this user
    */
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -5278,6 +5284,7 @@ public class NecessityAndNullabilityDto {
    */
   @NotNull
   @Pattern(regexp="Hello")
+  @JsonProperty("requiredStringVal")
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
@@ -7681,6 +7688,7 @@ public class ObjectPojo1Dto {
    * List
    */
   @NotNull
+  @JsonProperty("listVal")
   public List<@NotNull String> getListVal() {
     return listVal;
   }
@@ -8024,6 +8032,7 @@ public class ObjectPojo1Dto {
    */
   @NotNull
   @Size(min = 3, max = 8)
+  @JsonProperty("mapVal")
   public Map<String, @NotNull UUID> getMapVal() {
     return mapVal;
   }
@@ -8376,6 +8385,7 @@ public class PersonDto {
    */
   @NotNull
   @Pattern(regexp="Hello")
+  @JsonProperty("requiredStringVal")
   public String getRequiredStringVal() {
     return requiredStringVal;
   }
@@ -9565,6 +9575,7 @@ public class ObjectPojo1Dto {
    */
   @NotNull
   @Email
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
