@@ -7,6 +7,36 @@ components:
   schemas:
     Role:
       type: object
+      oneOf:
+        - $ref: "#/components/schemas/OAuth"
+      required:
+        - TC1
+        - TC2
       properties:
-        TC:
+        TC1:
           type: string
+        TC2:
+          type: string
+          nullable: true
+        TC3:
+          type: string
+        TC4:
+          type: string
+          nullable: true
+
+    OAuth:
+      type: object
+      required:
+        - oAuth1
+        - oAuth2
+      properties:
+        oAuth1:
+          type: string
+        oAuth2:
+          type: string
+          nullable: true
+        oAuth3:
+          type: string
+        oAuth4:
+          type: string
+          nullable: true
