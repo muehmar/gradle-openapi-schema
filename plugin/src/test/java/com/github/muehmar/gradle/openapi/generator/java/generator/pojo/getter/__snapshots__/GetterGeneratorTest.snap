@@ -3876,12 +3876,14 @@ private boolean isRequiredNullableStringVal_StringMappedPresent() {
 
 
 pojoMembers[requiredStringListAllOf]=[
+com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 .
 .
 /**
  * List
  */
+@JsonProperty("requiredStringListAllOf")
 public List<String> getRequiredStringListAllOf() {
   return requiredStringListAllOf;
 }
@@ -3918,6 +3920,7 @@ List<String> getRequiredStringListAnyOf() {
 
 
 pojoMembers[requiredStringList]=[
+com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
@@ -3929,6 +3932,7 @@ javax.validation.constraints.Size
  */
 @NotNull
 @Size(min = 1)
+@JsonProperty("requiredStringList")
 public List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
   return requiredStringList;
 }
@@ -3939,12 +3943,14 @@ public List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
 pojoMembers[requiredStringList_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 .
 .
 /**
  * List
  */
+@JsonProperty("requiredStringList_FullyMappedAllOf")
 public CustomList<CustomString> getRequiredStringList_FullyMappedAllOf() {
   return requiredStringList_FullyMappedAllOf != null ? CustomList.fromList(requiredStringList_FullyMappedAllOf) : null;
 }
@@ -3985,6 +3991,7 @@ CustomList<CustomString> getRequiredStringList_FullyMappedAnyOf() {
 pojoMembers[requiredStringList_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
@@ -3996,6 +4003,7 @@ javax.validation.constraints.Size
  */
 @NotNull
 @Size(min = 1)
+@JsonProperty("requiredStringList-FullyMapped")
 public List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_FullyMapped() {
   return requiredStringList_FullyMapped != null ? CustomList.fromList(requiredStringList_FullyMapped) : null;
 }
@@ -4056,12 +4064,13 @@ public String getRequiredStringVal() {
 
 
 pojoMembers[stringValAllOf]=[
+com.fasterxml.jackson.annotation.JsonProperty
 .
 .
-
 /**
  * stringVal
  */
+@JsonProperty("stringValAllOf")
 public String getStringValAllOf() {
   return stringValAllOf;
 }
@@ -4090,6 +4099,7 @@ String getStringValAnyOf() {
 
 
 pojoMembers[stringVal]=[
+com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 .
@@ -4099,6 +4109,7 @@ javax.validation.constraints.Pattern
  */
 @NotNull
 @Pattern(regexp="Hello")
+@JsonProperty("stringVal")
 public String getStringVal() {
   return stringVal;
 }
@@ -4108,11 +4119,13 @@ public String getStringVal() {
 
 pojoMembers[stringVal_FullyMappedAllOf]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonProperty
 .
 .
 /**
  * stringVal
  */
+@JsonProperty("stringVal_FullyMappedAllOf")
 public CustomString getStringVal_FullyMappedAllOf() {
   return stringVal_FullyMappedAllOf != null ? CustomString.fromString(stringVal_FullyMappedAllOf) : null;
 }
@@ -4175,12 +4188,13 @@ private String getStringVal_FullyMappedRaw() {
 
 
 pojoMembers[stringVal_ListMappedAllOf]=[
+com.fasterxml.jackson.annotation.JsonProperty
 .
 .
-
 /**
  * stringVal
  */
+@JsonProperty("stringVal_ListMappedAllOf")
 public String getStringVal_ListMappedAllOf() {
   return stringVal_ListMappedAllOf;
 }
@@ -4209,6 +4223,7 @@ String getStringVal_ListMappedAnyOf() {
 
 
 pojoMembers[stringVal_ListMapped]=[
+com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 .
@@ -4218,6 +4233,7 @@ javax.validation.constraints.Pattern
  */
 @NotNull
 @Pattern(regexp="Hello")
+@JsonProperty("stringVal-ListMapped")
 public String getStringVal_ListMapped() {
   return stringVal_ListMapped;
 }
@@ -4227,11 +4243,13 @@ public String getStringVal_ListMapped() {
 
 pojoMembers[stringVal_StringMappedAllOf]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonProperty
 .
 .
 /**
  * stringVal
  */
+@JsonProperty("stringVal_StringMappedAllOf")
 public CustomString getStringVal_StringMappedAllOf() {
   return stringVal_StringMappedAllOf != null ? CustomString.fromString(stringVal_StringMappedAllOf) : null;
 }
