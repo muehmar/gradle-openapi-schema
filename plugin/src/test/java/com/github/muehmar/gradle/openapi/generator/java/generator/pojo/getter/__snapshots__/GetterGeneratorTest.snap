@@ -72,6 +72,11 @@ Optional<List<Optional<String>>> getOptionalListWithNullableItemsAnyOf() {
   );
 }
 
+@JsonIgnore
+boolean getIsOptionalListWithNullableItemsAnyOfNotNull() {
+  return isOptionalListWithNullableItemsAnyOfNotNull;
+}
+
 ]
 
 
@@ -213,6 +218,11 @@ Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItems_Fu
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonIgnore
+boolean getIsOptionalListWithNullableItems_FullyMappedAnyOfNotNull() {
+  return isOptionalListWithNullableItems_FullyMappedAnyOfNotNull;
 }
 
 ]
@@ -359,6 +369,11 @@ Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_ListMapp
   );
 }
 
+@JsonIgnore
+boolean getIsOptionalListWithNullableItems_ListMappedAnyOfNotNull() {
+  return isOptionalListWithNullableItems_ListMappedAnyOfNotNull;
+}
+
 ]
 
 
@@ -500,6 +515,11 @@ Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_StringMa
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonIgnore
+boolean getIsOptionalListWithNullableItems_StringMappedAnyOfNotNull() {
+  return isOptionalListWithNullableItems_StringMappedAnyOfNotNull;
 }
 
 ]
@@ -1577,6 +1597,11 @@ Optional<List<String>> getOptionalStringListAnyOf() {
   );
 }
 
+@JsonIgnore
+boolean getIsOptionalStringListAnyOfNotNull() {
+  return isOptionalStringListAnyOfNotNull;
+}
+
 ]
 
 
@@ -1696,6 +1721,11 @@ Optional<CustomList<CustomString>> getOptionalStringList_FullyMappedAnyOf() {
   );
 }
 
+@JsonIgnore
+boolean getIsOptionalStringList_FullyMappedAnyOfNotNull() {
+  return isOptionalStringList_FullyMappedAnyOfNotNull;
+}
+
 ]
 
 
@@ -1804,6 +1834,11 @@ Optional<String> getOptionalStringValAnyOf() {
   return Optional.ofNullable(optionalStringValAnyOf);
 }
 
+@JsonIgnore
+boolean getIsOptionalStringValAnyOfNotNull() {
+  return isOptionalStringValAnyOfNotNull;
+}
+
 ]
 
 
@@ -1907,6 +1942,11 @@ private String getOptionalStringVal_FullyMappedAnyOfJson() {
 @JsonIgnore
 Optional<CustomString> getOptionalStringVal_FullyMappedAnyOf() {
   return Optional.ofNullable(optionalStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
+@JsonIgnore
+boolean getIsOptionalStringVal_FullyMappedAnyOfNotNull() {
+  return isOptionalStringVal_FullyMappedAnyOfNotNull;
 }
 
 ]
@@ -2013,6 +2053,11 @@ Optional<String> getOptionalStringVal_ListMappedAnyOf() {
   return Optional.ofNullable(optionalStringVal_ListMappedAnyOf);
 }
 
+@JsonIgnore
+boolean getIsOptionalStringVal_ListMappedAnyOfNotNull() {
+  return isOptionalStringVal_ListMappedAnyOfNotNull;
+}
+
 ]
 
 
@@ -2116,6 +2161,11 @@ private String getOptionalStringVal_StringMappedAnyOfJson() {
 @JsonIgnore
 Optional<CustomString> getOptionalStringVal_StringMappedAnyOf() {
   return Optional.ofNullable(optionalStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
+@JsonIgnore
+boolean getIsOptionalStringVal_StringMappedAnyOfNotNull() {
+  return isOptionalStringVal_StringMappedAnyOfNotNull;
 }
 
 ]
@@ -2700,6 +2750,11 @@ Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAnyOf()
   );
 }
 
+@JsonIgnore
+boolean getIsRequiredNullableListWithNullableItemsAnyOfPresent() {
+  return isRequiredNullableListWithNullableItemsAnyOfPresent;
+}
+
 ]
 
 
@@ -2844,6 +2899,11 @@ Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithNullable
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonIgnore
+boolean getIsRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent() {
+  return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent;
 }
 
 ]
@@ -2993,6 +3053,11 @@ Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullableItems_
   );
 }
 
+@JsonIgnore
+boolean getIsRequiredNullableListWithNullableItems_ListMappedAnyOfPresent() {
+  return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent;
+}
+
 ]
 
 
@@ -3139,6 +3204,11 @@ Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullableItems_
   );
 }
 
+@JsonIgnore
+boolean getIsRequiredNullableListWithNullableItems_StringMappedAnyOfPresent() {
+  return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent;
+}
+
 ]
 
 
@@ -3270,6 +3340,11 @@ Optional<List<String>> getRequiredNullableStringListAnyOf() {
   );
 }
 
+@JsonIgnore
+boolean getIsRequiredNullableStringListAnyOfPresent() {
+  return isRequiredNullableStringListAnyOfPresent;
+}
+
 ]
 
 
@@ -3392,6 +3467,11 @@ Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMappedAnyO
   );
 }
 
+@JsonIgnore
+boolean getIsRequiredNullableStringList_FullyMappedAnyOfPresent() {
+  return isRequiredNullableStringList_FullyMappedAnyOfPresent;
+}
+
 ]
 
 
@@ -3503,6 +3583,11 @@ Optional<String> getRequiredNullableStringValAnyOf() {
   return Optional.ofNullable(requiredNullableStringValAnyOf);
 }
 
+@JsonIgnore
+boolean getIsRequiredNullableStringValAnyOfPresent() {
+  return isRequiredNullableStringValAnyOfPresent;
+}
+
 ]
 
 
@@ -3608,6 +3693,11 @@ private Object getRequiredNullableStringVal_FullyMappedAnyOfJson() {
 @JsonIgnore
 Optional<CustomString> getRequiredNullableStringVal_FullyMappedAnyOf() {
   return Optional.ofNullable(requiredNullableStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
+@JsonIgnore
+boolean getIsRequiredNullableStringVal_FullyMappedAnyOfPresent() {
+  return isRequiredNullableStringVal_FullyMappedAnyOfPresent;
 }
 
 ]
@@ -3716,6 +3806,11 @@ Optional<String> getRequiredNullableStringVal_ListMappedAnyOf() {
   return Optional.ofNullable(requiredNullableStringVal_ListMappedAnyOf);
 }
 
+@JsonIgnore
+boolean getIsRequiredNullableStringVal_ListMappedAnyOfPresent() {
+  return isRequiredNullableStringVal_ListMappedAnyOfPresent;
+}
+
 ]
 
 
@@ -3821,6 +3916,11 @@ private Object getRequiredNullableStringVal_StringMappedAnyOfJson() {
 @JsonIgnore
 Optional<CustomString> getRequiredNullableStringVal_StringMappedAnyOf() {
   return Optional.ofNullable(requiredNullableStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
+@JsonIgnore
+boolean getIsRequiredNullableStringVal_StringMappedAnyOfPresent() {
+  return isRequiredNullableStringVal_StringMappedAnyOfPresent;
 }
 
 ]

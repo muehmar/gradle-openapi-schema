@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JSON;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.FLAG_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.FLAG_VALIDATION_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.JSON_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.LIST_OPTIONAL_GETTER;
@@ -201,11 +202,13 @@ public class GetterGroupsDefinition {
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(JSON_GETTER),
-                generator(OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC)),
+                generator(OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
+                generator(FLAG_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNotNullable,
                 generator(JSON_GETTER),
-                generator(OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC)),
+                generator(OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
+                generator(FLAG_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNullable,
                 generator(JSON_GETTER),
@@ -219,11 +222,13 @@ public class GetterGroupsDefinition {
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(JSON_GETTER),
-                generator(LIST_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC)),
+                generator(LIST_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
+                generator(FLAG_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNotNullable,
                 generator(JSON_GETTER),
-                generator(LIST_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC)),
+                generator(LIST_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
+                generator(FLAG_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNullable,
                 generator(JSON_GETTER),

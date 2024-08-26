@@ -1,0 +1,18 @@
+pojoMembers[optionalStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+@JsonIgnore
+boolean getIsOptionalStringValNotNull() {
+  return isOptionalStringValNotNull;
+}
+]
+
+
+pojoMembers[requiredNullableStringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+@JsonIgnore
+boolean getIsRequiredNullableStringValPresent() {
+  return isRequiredNullableStringValPresent;
+}
+]
