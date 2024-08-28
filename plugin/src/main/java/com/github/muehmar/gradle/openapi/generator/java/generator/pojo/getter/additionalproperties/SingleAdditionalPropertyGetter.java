@@ -2,14 +2,16 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.a
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.javaTypeRefs;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs.TRISTATE;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -60,8 +62,11 @@ class SingleAdditionalPropertyGetter {
   }
 
   private static String methodReturnType(JavaAdditionalProperties props) {
-    final ParameterizedClassName parameterizedClassName =
-        props.getType().getParameterizedClassName();
+    final String parameterizedClassName =
+        ParameterizedApiClassName.fromJavaType(props.getType())
+            .map(ParameterizedApiClassName::asString)
+            .orElse(props.getType().getParameterizedClassName().asString());
+    props.getType().getParameterizedClassName();
     if (props.getType().getNullability().isNullable()) {
       return String.format("Tristate<%s>", parameterizedClassName);
     } else {
@@ -83,9 +88,13 @@ class SingleAdditionalPropertyGetter {
             .append(ref(TRISTATE))
             .filter(JavaAdditionalProperties::isValueAnyType);
     final Generator<JavaAdditionalProperties, PojoSettings> specificTypeConversion =
-        Generator.<JavaAdditionalProperties, PojoSettings>constant(
-                "return %s(%s.get(key));",
-                AdditionalPropertiesCastMethod.METHOD_NAME, additionalPropertiesName())
+        Generator.<JavaAdditionalProperties, PojoSettings>of(
+                (props, s, w) ->
+                    w.println(
+                        "return %s(%s.get(key))%s;",
+                        AdditionalPropertiesCastMethod.METHOD_NAME,
+                        additionalPropertiesName(),
+                        apiTypeMapping(props)))
             .filter(JavaAdditionalProperties::isNotValueAnyType);
     return Generator.<JavaAdditionalProperties, PojoSettings>constant(
             "if (%s.containsKey(key)) {", additionalPropertiesName())
@@ -107,11 +116,25 @@ class SingleAdditionalPropertyGetter {
     final Generator<JavaAdditionalProperties, PojoSettings> specificTypeConversion =
         Generator.<JavaAdditionalProperties, PojoSettings>constant(
                 "return Optional.ofNullable(%s.get(key))", additionalPropertiesName())
-            .append(constant(".flatMap(this::%s);", AdditionalPropertiesCastMethod.METHOD_NAME), 2)
+            .append(
+                (props, s, w) ->
+                    w.println(
+                        ".flatMap(this::%s)%s;",
+                        AdditionalPropertiesCastMethod.METHOD_NAME, apiTypeMapping(props)),
+                2)
             .append(ref(JAVA_UTIL_OPTIONAL))
             .filter(JavaAdditionalProperties::isNotValueAnyType);
     return anyTypeConversion
         .append(specificTypeConversion)
         .filter(props -> props.getType().getNullability().isNotNullable());
+  }
+
+  private static String apiTypeMapping(JavaAdditionalProperties props) {
+    return props
+        .getType()
+        .getApiType()
+        .map(apiType -> ToApiTypeConversion.toApiTypeConversion(apiType, "val", NO_NULL_CHECK))
+        .map(conversionWriter -> String.format(".map(val -> %s)", conversionWriter.asString()))
+        .orElse("");
   }
 }
