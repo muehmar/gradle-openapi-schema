@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
 
+/** This getter is used by validation and serialisation frameworks. */
 public class FrameworkAdditionalPropertiesGetter {
   private FrameworkAdditionalPropertiesGetter() {}
 

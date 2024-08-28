@@ -55,6 +55,28 @@ public List<AdditionalProperty<ObjectDto>> getAdditionalProperties() {
 ]
 
 
+notNullableStringTypeWithMapping=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.AdditionalProperty
+java.util.List
+java.util.stream.Collectors
+java.util.stream.Stream
+
+@JsonIgnore
+public List<AdditionalProperty<CustomString>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .flatMap(
+          entry -> 
+              castAdditionalProperty(entry.getValue())
+                  .map(val -> CustomString.fromString(val))
+                  .map(val -> new AdditionalProperty<>(entry.getKey(), val))
+                  .map(Stream::of)
+                  .orElseGet(Stream::empty))
+      .collect(Collectors.toList());
+}
+]
+
+
 nullableAnyType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.NullableAdditionalProperty
@@ -104,6 +126,28 @@ public List<NullableAdditionalProperty<ObjectDto>> getAdditionalProperties() {
       .flatMap(
           entry -> 
               castAdditionalProperty(entry.getValue())
+                  .onValue(val -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), val)))
+                  .onNull(() -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), null)))
+                  .onAbsent(Stream::empty))
+      .collect(Collectors.toList());
+}
+]
+
+
+nullableStringTypeWithMapping=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.NullableAdditionalProperty
+java.util.List
+java.util.stream.Collectors
+java.util.stream.Stream
+
+@JsonIgnore
+public List<NullableAdditionalProperty<CustomString>> getAdditionalProperties() {
+  return additionalProperties.entrySet().stream()
+      .flatMap(
+          entry -> 
+              castAdditionalProperty(entry.getValue())
+                  .map(val -> CustomString.fromString(val))
                   .onValue(val -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), val)))
                   .onNull(() -> Stream.of(NullableAdditionalProperty.ofNullable(entry.getKey(), null)))
                   .onAbsent(Stream::empty))
