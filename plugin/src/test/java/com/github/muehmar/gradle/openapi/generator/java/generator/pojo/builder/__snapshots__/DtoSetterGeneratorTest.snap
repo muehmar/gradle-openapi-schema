@@ -121,6 +121,37 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
 ]
 
 
+nestedOneOfPojo=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal(dto.getStringVal());
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+
+private Builder setOneOfPojo1Dto(OneOfPojo1Dto dto) {
+  setRequiredStringVal(dto.getRequiredStringVal());
+  if (dto.getIsRequiredNullableStringValPresent()) setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
+  if (dto.getIsOptionalStringValNotNull()) setOptionalStringVal(dto.getOptionalStringVal());
+  setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  if (dto.getIsRequiredNullableListWithNullableItemsPresent()) setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItems());
+  if (dto.getIsOptionalListWithNullableItemsNotNull()) setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
+  setStringVal(dto.getStringVal());
+  setBirthdate(dto.getBirthdate());
+  setEmail(dto.getEmail());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
 noBuilderSetMethodPrefix=[
 .
 .

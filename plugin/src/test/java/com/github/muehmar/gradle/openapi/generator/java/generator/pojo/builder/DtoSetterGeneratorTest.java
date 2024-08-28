@@ -184,4 +184,21 @@ class DtoSetterGeneratorTest {
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("nestedOneOfPojo")
+  void generator_when_nestedOneOfPojo_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    final JavaObjectPojo oneOfPojo =
+        JavaPojos.oneOfPojo(JavaPojos.allNecessityAndNullabilityVariants(), sampleObjectPojo2());
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.allOfPojo(sampleObjectPojo1(), oneOfPojo),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 }

@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ONE_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
@@ -65,7 +67,8 @@ public class DtoSetterGenerator {
         .append(
             (member, s, w) ->
                 w.println(
-                    "%s(dto.%s());",
+                    "%s%s(dto.%s());",
+                    member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
         .filter(PojosAndMember::isNotDiscriminatorAndNotNullableItemsListMember);
@@ -76,7 +79,8 @@ public class DtoSetterGenerator {
         .append(
             (member, s, w) ->
                 w.println(
-                    "%s_(dto.%s());",
+                    "%s%s_(dto.%s());",
+                    member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
         .filter(PojosAndMember::isNullableItemsListMember);
@@ -200,6 +204,19 @@ public class DtoSetterGenerator {
                               member.getJavaType().getQualifiedClassName().getClassName(),
                               enumName)))
           .orElse("");
+    }
+
+    String setterCondition() {
+      if (member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER)) {
+        if (member.isRequiredAndNullable()) {
+          return String.format(
+              "if (dto.%s()) ", member.getIsPresentFlagName().prefixedMethodName("get"));
+        } else if (member.isOptionalAndNotNullable()) {
+          return String.format(
+              "if (dto.%s()) ", member.getIsNotNullFlagName().prefixedMethodName("get"));
+        }
+      }
+      return "";
     }
 
     private boolean isNotDiscriminatorAndNotNullableItemsListMember() {
