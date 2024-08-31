@@ -31,10 +31,7 @@ class AdditionalPropertiesSetterGenerator {
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertiesSetters() {
-    return singleAdditionalPropertiesSetter(true)
-        .filter(JavaAdditionalProperties::isNotValueAnyType)
-        .appendSingleBlankLine()
-        .append(singleAdditionalPropertiesSetter(false))
+    return singleAdditionalPropertiesSetter()
         .appendSingleBlankLine()
         .append(singleOptionalAdditionalPropertiesSetter())
         .appendSingleBlankLine()
@@ -43,12 +40,13 @@ class AdditionalPropertiesSetterGenerator {
         .append(allAdditionalPropertiesSetter());
   }
 
-  private static Generator<JavaAdditionalProperties, PojoSettings> singleAdditionalPropertiesSetter(
-      boolean forAnyType) {
+  private static Generator<JavaAdditionalProperties, PojoSettings>
+      singleAdditionalPropertiesSetter() {
     final Generator<JavaAdditionalProperties, PojoSettings> method =
         MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
             .modifiers(
-                props -> createModifiersForSingleAdditionalPropertiesSetter(props, forAnyType))
+                AdditionalPropertiesSetterGenerator
+                    ::createModifiersForSingleAdditionalPropertiesSetter)
             .noGenericTypes()
             .returnType("Builder")
             .methodName("addAdditionalProperty")
@@ -57,10 +55,7 @@ class AdditionalPropertiesSetterGenerator {
                     PList.of(
                         new Argument("String", "key"),
                         new Argument(
-                            forAnyType
-                                ? "Object"
-                                : props.getType().getParameterizedClassName().asString(),
-                            "value")))
+                            props.getType().getParameterizedClassName().asString(), "value")))
             .doesNotThrow()
             .content(
                 (props, s, w) ->
@@ -68,21 +63,20 @@ class AdditionalPropertiesSetterGenerator {
                         .println("return this;"))
             .build()
             .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType);
-    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonAnySetter()
-        .filter(ignore -> not(forAnyType))
-        .append(method);
+    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonAnySetter().append(method);
   }
 
   private static JavaModifiers createModifiersForSingleAdditionalPropertiesSetter(
-      JavaAdditionalProperties props, boolean forAnyType) {
-    final boolean privateMethod = forAnyType || not(props.isAllowed());
+      JavaAdditionalProperties props) {
+    final boolean privateMethod = not(props.isAllowed());
     return JavaModifiers.of(privateMethod ? PRIVATE : PUBLIC);
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings>
       singleOptionalAdditionalPropertiesSetter() {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-        .modifiers(props -> createModifiersForSingleAdditionalPropertiesSetter(props, false))
+        .modifiers(
+            AdditionalPropertiesSetterGenerator::createModifiersForSingleAdditionalPropertiesSetter)
         .noGenericTypes()
         .returnType("Builder")
         .methodName("addAdditionalProperty")
@@ -112,7 +106,8 @@ class AdditionalPropertiesSetterGenerator {
   private static Generator<JavaAdditionalProperties, PojoSettings>
       singleTristateAdditionalPropertiesSetter() {
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-        .modifiers(props -> createModifiersForSingleAdditionalPropertiesSetter(props, false))
+        .modifiers(
+            AdditionalPropertiesSetterGenerator::createModifiersForSingleAdditionalPropertiesSetter)
         .noGenericTypes()
         .returnType("Builder")
         .methodName("addAdditionalProperty")

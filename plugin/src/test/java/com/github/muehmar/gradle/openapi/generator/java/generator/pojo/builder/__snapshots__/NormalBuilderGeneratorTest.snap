@@ -1120,11 +1120,6 @@ public static final class Builder {
 
   private Map<String, Object> additionalProperties = new HashMap<>();
 
-  private Builder addAdditionalProperty(String key, Object value) {
-    this.additionalProperties.put(key, value);
-    return this;
-  }
-
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, List<String> value) {
     this.additionalProperties.put(key, value);
