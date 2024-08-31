@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 class ArrayAdditionalPropertiesTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private String json;
 
   @Test
   void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned()
@@ -65,5 +66,25 @@ class ArrayAdditionalPropertiesTest {
 
     final String json = MAPPER.writeValueAsString(dto);
     assertEquals("{\"name\":\"name\",\"hello\":[\"world\"]}", json);
+  }
+
+  @Test
+  void deserialize_when_withArrayAsAdditionalProperty_then_correctDto()
+      throws JsonProcessingException {
+    final String json = "{\"name\":\"name\",\"hello\":[\"world\"]}";
+
+    final ArrayAdditionalPropertiesDto dto =
+        MAPPER.readValue(json, ArrayAdditionalPropertiesDto.class);
+
+    final ArrayAdditionalPropertiesDto expectedDto =
+        ArrayAdditionalPropertiesDto.builder()
+            .setName("name")
+            .andAllOptionals()
+            .addAdditionalProperty(
+                "hello",
+                new ArrayAdditionalPropertiesPropertyDto(Collections.singletonList("world")))
+            .build();
+
+    assertEquals(expectedDto, dto);
   }
 }

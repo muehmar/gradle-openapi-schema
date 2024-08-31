@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class StringAdditionalPropertyTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private String json;
 
   @Test
   void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned()
@@ -112,5 +113,24 @@ class StringAdditionalPropertyTest {
     final String json = MAPPER.writeValueAsString(dto);
 
     assertEquals("{\"name\":\"name\",\"HELLO\":\"WORLD\",\"hello\":\"world\"}", json);
+  }
+
+  @Test
+  void deserialize_when_jsonWithAdditionalProperties_then_correctDto()
+      throws JsonProcessingException {
+    final String json = "{\"name\":\"name\",\"HELLO\":\"WORLD\",\"hello\":\"world\"}";
+
+    final StringAdditionalPropertiesDto dto =
+        MAPPER.readValue(json, StringAdditionalPropertiesDto.class);
+
+    final StringAdditionalPropertiesDto expectedDto =
+        StringAdditionalPropertiesDto.builder()
+            .setName("name")
+            .andAllOptionals()
+            .addAdditionalProperty("hello", "world")
+            .addAdditionalProperty("HELLO", "WORLD")
+            .build();
+
+    assertEquals(expectedDto, dto);
   }
 }
