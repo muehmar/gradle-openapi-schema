@@ -150,3 +150,65 @@ public static final class OptPropertyBuilder0 {
   }
 }
 ]
+
+
+nullableStringTypeWithMappingAdditionalProperties=[
+com.custom.CustomString
+com.github.muehmar.openapi.util.Tristate
+java.util.Map
+
+public static final class FullOptPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, CustomString value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<CustomString> value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, CustomString> additionalProperties) {
+    return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public ObjectPojo1Dto build(){
+    return builder.build();
+  }
+}
+]
+
+
+stringTypeWithMappingAdditionalProperties=[
+com.custom.CustomString
+java.util.Map
+java.util.Optional
+
+public static final class FullOptPropertyBuilder0 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder0(Builder builder) {
+    this.builder = builder;
+  }
+
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, CustomString value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder0 addAdditionalProperty(String key, Optional<CustomString> value) {
+    return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+  }
+
+  public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, CustomString> additionalProperties) {
+    return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public ObjectPojo1Dto build(){
+    return builder.build();
+  }
+}
+]

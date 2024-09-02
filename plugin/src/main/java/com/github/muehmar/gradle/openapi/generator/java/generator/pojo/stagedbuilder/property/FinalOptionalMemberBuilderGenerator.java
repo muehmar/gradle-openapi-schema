@@ -125,7 +125,7 @@ public class FinalOptionalMemberBuilderGenerator {
                                     .getParentPojo()
                                     .getAdditionalProperties()
                                     .getType()
-                                    .getParameterizedClassName()
+                                    .getWriteableParameterizedClassName()
                                     .asString()),
                         "value")))
         .doesNotThrow()
@@ -154,7 +154,8 @@ public class FinalOptionalMemberBuilderGenerator {
                             .getParentPojo()
                             .getAdditionalProperties()
                             .getType()
-                            .getParameterizedClassName()),
+                            .getWriteableParameterizedClassName()
+                            .asString()),
                     additionalPropertiesName().asString()))
         .doesNotThrow()
         .content(
