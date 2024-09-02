@@ -16,7 +16,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additio
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -50,9 +49,7 @@ class GetAdditionalPropertiesList {
             ? NullableAdditionalPropertyClassGenerator.CLASSNAME
             : AdditionalPropertyClassGenerator.CLASSNAME;
     final String parameterizedClassName =
-        ParameterizedApiClassName.fromJavaType(props.getType())
-            .map(ParameterizedApiClassName::asString)
-            .orElse(props.getType().getParameterizedClassName().asString());
+        props.getType().getWriteableParameterizedClassName().asString();
     return String.format("List<%s<%s>>", additionalPropertyClassName, parameterizedClassName);
   }
 

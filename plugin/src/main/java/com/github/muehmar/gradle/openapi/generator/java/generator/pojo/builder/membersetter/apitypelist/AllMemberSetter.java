@@ -8,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.m
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
@@ -54,9 +53,7 @@ class AllMemberSetter implements MemberSetter {
 
   @Override
   public String argumentType() {
-    return ParameterizedApiClassName.fromJavaType(javaArrayType)
-        .map(ParameterizedApiClassName::asString)
-        .orElseGet(() -> javaArrayType.getParameterizedClassName().asString());
+    return javaArrayType.getWriteableParameterizedClassName().asString();
   }
 
   @Override

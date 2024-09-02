@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
  * any type parameters.
  */
 @EqualsAndHashCode
-public class ParameterizedClassName {
+public class ParameterizedClassName implements WriteableParameterizedClassName {
   private final QualifiedClassName qualifiedClassName;
   private final PList<JavaType> genericTypes;
   private final Optional<JavaType> genericValueType;
@@ -77,10 +77,12 @@ public class ParameterizedClassName {
     return asStringWithValueTypeAnnotations(createAnnotationsForValueType, RenderOption.DEFAULT);
   }
 
+  @Override
   public String asString() {
     return asStringWithValueTypeAnnotations(ignore -> "");
   }
 
+  @Override
   public String asStringWrappingNullableValueType() {
     return asStringWithValueTypeAnnotations(
         ignore -> "", RenderOption.WRAPPING_NULLABLE_VALUE_TYPE);

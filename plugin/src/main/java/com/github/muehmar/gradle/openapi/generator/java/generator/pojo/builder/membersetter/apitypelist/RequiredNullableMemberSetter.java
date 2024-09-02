@@ -7,7 +7,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.m
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -54,10 +53,7 @@ class RequiredNullableMemberSetter implements MemberSetter {
 
   @Override
   public String argumentType() {
-    final String parameterizedType =
-        ParameterizedApiClassName.fromJavaType(javaArrayType)
-            .map(ParameterizedApiClassName::asString)
-            .orElseGet(() -> javaArrayType.getParameterizedClassName().asString());
+    final String parameterizedType = javaArrayType.getWriteableParameterizedClassName().asString();
     return String.format("Optional<%s>", parameterizedType);
   }
 

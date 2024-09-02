@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * (including API types of the type parameters).
  */
 @EqualsAndHashCode
-public class ParameterizedApiClassName {
+public class ParameterizedApiClassName implements WriteableParameterizedClassName {
   private final QualifiedClassName qualifiedClassName;
   private final PList<QualifiedClassName> genericTypes;
   private final Optional<JavaType> genericValueType;
@@ -99,10 +99,12 @@ public class ParameterizedApiClassName {
     return PList.single(qualifiedClassName).concat(genericTypes);
   }
 
+  @Override
   public String asStringWrappingNullableValueType() {
     return asString(RenderOption.WRAPPING_NULLABLE_VALUE_TYPE);
   }
 
+  @Override
   public String asString() {
     return asString(RenderOption.DEFAULT);
   }

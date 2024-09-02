@@ -16,7 +16,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -225,8 +224,6 @@ class AdditionalPropertiesSetterGenerator {
   }
 
   private static String parameterizedClassName(JavaAdditionalProperties props) {
-    return ParameterizedApiClassName.fromJavaType(props.getType())
-        .map(ParameterizedApiClassName::asString)
-        .orElse(props.getType().getParameterizedClassName().asString());
+    return props.getType().getWriteableParameterizedClassName().asString();
   }
 }

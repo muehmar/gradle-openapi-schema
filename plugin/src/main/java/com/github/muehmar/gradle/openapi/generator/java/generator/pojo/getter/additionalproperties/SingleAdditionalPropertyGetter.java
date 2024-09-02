@@ -11,7 +11,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -63,9 +62,7 @@ class SingleAdditionalPropertyGetter {
 
   private static String methodReturnType(JavaAdditionalProperties props) {
     final String parameterizedClassName =
-        ParameterizedApiClassName.fromJavaType(props.getType())
-            .map(ParameterizedApiClassName::asString)
-            .orElse(props.getType().getParameterizedClassName().asString());
+        props.getType().getWriteableParameterizedClassName().asString();
     props.getType().getParameterizedClassName();
     if (props.getType().getNullability().isNullable()) {
       return String.format("Tristate<%s>", parameterizedClassName);

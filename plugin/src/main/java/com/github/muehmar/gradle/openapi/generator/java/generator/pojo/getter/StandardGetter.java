@@ -8,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.de
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -79,10 +78,7 @@ public class StandardGetter {
             .append(
                 (m, s, w) ->
                     w.println(
-                        "%s",
-                        ParameterizedApiClassName.fromJavaType(m.getJavaType())
-                            .map(ParameterizedApiClassName::asString)
-                            .orElse(m.getJavaType().getParameterizedClassName().asString())))
+                        "%s", m.getJavaType().getWriteableParameterizedClassName().asString()))
             .filter(generatorSettings.<JavaPojoMember>validationFilter().negate());
 
     return deepAnnotatedReturnType.append(standardReturnType);

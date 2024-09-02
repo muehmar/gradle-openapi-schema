@@ -9,7 +9,6 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.m
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Refs;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
@@ -66,11 +65,7 @@ public class OptionalNotNullableOptionalOverloadMemberSetter implements MemberSe
   @Override
   public String argumentType() {
     final String parameterizedType =
-        ParameterizedApiClassName.fromJavaType(javaArrayType)
-            .map(ParameterizedApiClassName::asStringWrappingNullableValueType)
-            .orElseGet(
-                () ->
-                    javaArrayType.getParameterizedClassName().asStringWrappingNullableValueType());
+        javaArrayType.getWriteableParameterizedClassName().asStringWrappingNullableValueType();
     return String.format("Optional<%s>", parameterizedType);
   }
 

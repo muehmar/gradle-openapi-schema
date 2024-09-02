@@ -3,8 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
@@ -80,6 +82,21 @@ public interface JavaType {
 
   /** Returns the parameterized classname of the java type used internally. */
   ParameterizedClassName getParameterizedClassName();
+
+  /** Returns the parameterized API classname of the java type if it has an api type. */
+  default Optional<ParameterizedApiClassName> getParameterizedApiClassName() {
+    return ParameterizedApiClassName.fromJavaType(this);
+  }
+
+  /**
+   * Returns a writeable parameterized classname which gets rendered as api type if any or as normal
+   * type if not.
+   */
+  default WriteableParameterizedClassName getWriteableParameterizedClassName() {
+    return getParameterizedApiClassName()
+        .<WriteableParameterizedClassName>map(Function.identity())
+        .orElse(getParameterizedClassName());
+  }
 
   /**
    * Returns true in case this class is a java array (not to be confused with the openapi

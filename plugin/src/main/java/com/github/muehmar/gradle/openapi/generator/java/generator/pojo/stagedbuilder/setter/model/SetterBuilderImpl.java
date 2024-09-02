@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.stagedbuilder.setter.model;
 
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.BuildMethod;
@@ -62,17 +61,13 @@ public class SetterBuilderImpl {
       @Override
       public String argumentType(SetterMember member) {
         final String unwrappedArgumentType;
-        final JavaType javaType = member.getMember().getJavaType();
+        final WriteableParameterizedClassName writeableParameterizedClassName =
+            member.getMember().getJavaType().getWriteableParameterizedClassName();
         if (setter.type.equals(SetterType.DEFAULT)) {
-          unwrappedArgumentType =
-              ParameterizedApiClassName.fromJavaType(javaType)
-                  .map(ParameterizedApiClassName::asString)
-                  .orElse(javaType.getParameterizedClassName().asString());
+          unwrappedArgumentType = writeableParameterizedClassName.asString();
         } else {
           unwrappedArgumentType =
-              ParameterizedApiClassName.fromJavaType(javaType)
-                  .map(ParameterizedApiClassName::asStringWrappingNullableValueType)
-                  .orElse(javaType.getParameterizedClassName().asStringWrappingNullableValueType());
+              writeableParameterizedClassName.asStringWrappingNullableValueType();
         }
         return String.format(setter.typeFormat, unwrappedArgumentType);
       }

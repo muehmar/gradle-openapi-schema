@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 
 class ListReturnType {
@@ -17,8 +16,6 @@ class ListReturnType {
 
   @Override
   public String toString() {
-    return ParameterizedApiClassName.fromJavaType(javaType)
-        .map(ParameterizedApiClassName::asStringWrappingNullableValueType)
-        .orElse(javaType.getParameterizedClassName().asStringWrappingNullableValueType());
+    return javaType.getWriteableParameterizedClassName().asStringWrappingNullableValueType();
   }
 }
