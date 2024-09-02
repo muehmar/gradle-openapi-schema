@@ -25,6 +25,35 @@ public Builder setAdditionalProperties(Map<String, Object> additionalProperties)
 ]
 
 
+nullableStringTypeWithMappingAdditionalProperties=[
+com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonAnySetter
+com.github.muehmar.openapi.util.Tristate
+java.util.HashMap
+java.util.Map
+
+@JsonAnySetter
+public Builder addAdditionalProperty(String key, CustomString value) {
+  this.additionalProperties.put(key, value != null ? CustomString.toString(value) : null);
+  return this;
+}
+
+public Builder addAdditionalProperty(String key, Tristate<CustomString> value) {
+  value
+      .onValue(val -> this.additionalProperties.put(key, CustomString.toString(val)))
+      .onNull(() -> this.additionalProperties.put(key, null))
+      .onAbsent(() -> null);
+  return this;
+}
+
+public Builder setAdditionalProperties(Map<String, CustomString> additionalProperties) {
+  this.additionalProperties = new HashMap<>();
+  additionalProperties.forEach((key, val) -> this.additionalProperties.put(key, val != null ? CustomString.toString(val) : null));
+  return this;
+}
+]
+
+
 objectPojoAnyTypeAdditionalProperties=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.github.muehmar.openapi.util.Tristate
@@ -71,6 +100,32 @@ public Builder addAdditionalProperty(String key, Optional<UserDto> value) {
 
 public Builder setAdditionalProperties(Map<String, UserDto> additionalProperties) {
   this.additionalProperties = new HashMap<>(additionalProperties);
+  return this;
+}
+]
+
+
+stringTypeWithMappingAdditionalProperties=[
+com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonAnySetter
+java.util.HashMap
+java.util.Map
+java.util.Optional
+
+@JsonAnySetter
+public Builder addAdditionalProperty(String key, CustomString value) {
+  this.additionalProperties.put(key, value != null ? CustomString.toString(value) : null);
+  return this;
+}
+
+public Builder addAdditionalProperty(String key, Optional<CustomString> value) {
+  value.ifPresent(val -> this.additionalProperties.put(key, CustomString.toString(val)));
+  return this;
+}
+
+public Builder setAdditionalProperties(Map<String, CustomString> additionalProperties) {
+  this.additionalProperties = new HashMap<>();
+  additionalProperties.forEach((key, val) -> this.additionalProperties.put(key, val != null ? CustomString.toString(val) : null));
   return this;
 }
 ]

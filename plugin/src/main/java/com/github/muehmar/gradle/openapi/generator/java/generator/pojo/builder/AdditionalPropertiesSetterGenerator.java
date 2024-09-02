@@ -12,8 +12,11 @@ import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -21,6 +24,7 @@ import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
+import io.github.muehmar.codegenerator.writer.Writer;
 
 class AdditionalPropertiesSetterGenerator {
   private AdditionalPropertiesSetterGenerator() {}
@@ -54,12 +58,14 @@ class AdditionalPropertiesSetterGenerator {
                 props ->
                     PList.of(
                         new Argument("String", "key"),
-                        new Argument(
-                            props.getType().getParameterizedClassName().asString(), "value")))
+                        new Argument(parameterizedClassName(props), "value")))
             .doesNotThrow()
             .content(
                 (props, s, w) ->
-                    w.println("this.%s.put(key, value);", additionalPropertiesName())
+                    w.println(
+                            "this.%s.put(key, %s);",
+                            additionalPropertiesName(),
+                            nullSafeApiTypeConversionOrValue(props, "value"))
                         .println("return this;"))
             .build()
             .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType);
@@ -84,9 +90,7 @@ class AdditionalPropertiesSetterGenerator {
             props ->
                 PList.of(
                     new Argument("String", "key"),
-                    new Argument(
-                        "Optional<" + props.getType().getParameterizedClassName().asString() + ">",
-                        "value")))
+                    new Argument("Optional<" + parameterizedClassName(props) + ">", "value")))
         .doesNotThrow()
         .content(singleOptionalAdditionalPropertiesSetterContent())
         .build()
@@ -99,7 +103,10 @@ class AdditionalPropertiesSetterGenerator {
       singleOptionalAdditionalPropertiesSetterContent() {
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
         .append(
-            constant("value.ifPresent(val -> this.%s.put(key, val));", additionalPropertiesName()))
+            (props, s, w) ->
+                w.println(
+                    "value.ifPresent(val -> this.%s.put(key, %s));",
+                    additionalPropertiesName(), apiTypeConversionOrValue(props, "val")))
         .append(constant("return this;"));
   }
 
@@ -115,9 +122,7 @@ class AdditionalPropertiesSetterGenerator {
             props ->
                 PList.of(
                     new Argument("String", "key"),
-                    new Argument(
-                        "Tristate<" + props.getType().getParameterizedClassName().asString() + ">",
-                        "value")))
+                    new Argument("Tristate<" + parameterizedClassName(props) + ">", "value")))
         .doesNotThrow()
         .content(singleTristateAdditionalPropertiesSetterContent())
         .build()
@@ -130,7 +135,12 @@ class AdditionalPropertiesSetterGenerator {
       singleTristateAdditionalPropertiesSetterContent() {
     return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
         .append(constant("value"))
-        .append(constant(".onValue(val -> this.%s.put(key, val))", additionalPropertiesName()), 2)
+        .append(
+            (props, s, w) ->
+                w.println(
+                    ".onValue(val -> this.%s.put(key, %s))",
+                    additionalPropertiesName(), apiTypeConversionOrValue(props, "val")),
+            2)
         .append(constant(".onNull(() -> this.%s.put(key, null))", additionalPropertiesName()), 2)
         .append(constant(".onAbsent(() -> null);", additionalPropertiesName()), 2)
         .append(constant("return this;"));
@@ -145,19 +155,78 @@ class AdditionalPropertiesSetterGenerator {
         .singleArgument(
             props ->
                 argument(
-                    props.getMapContainerType().getParameterizedClassName(),
+                    "Map<String, " + parameterizedClassName(props) + ">",
                     additionalPropertiesName()))
         .doesNotThrow()
-        .content(
-            (props, s, w) ->
-                w.println(
-                        "this.%s = new HashMap<>(%s);",
-                        additionalPropertiesName(), additionalPropertiesName())
-                    .println("return this;"))
+        .content(allAdditionalPropertiesSetterContent())
         .build()
         .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType)
         .append(ref(JavaRefs.JAVA_UTIL_MAP))
         .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP))
         .filter(JavaAdditionalProperties::isAllowed);
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings>
+      allAdditionalPropertiesSetterContent() {
+    return allAdditionalPropertiesSetterContentForStandardType()
+        .append(allAdditionalPropertiesSetterContentForApiType());
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings>
+      allAdditionalPropertiesSetterContentForStandardType() {
+    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+        .append(
+            constant(
+                "this.%s = new HashMap<>(%s);",
+                additionalPropertiesName(), additionalPropertiesName()))
+        .append(constant("return this;"))
+        .filter(props -> props.getType().hasNoApiTypeDeep());
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings>
+      allAdditionalPropertiesSetterContentForApiType() {
+    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
+        .append(
+            (props, s, w) -> w.println("this.%s = new HashMap<>();", additionalPropertiesName()))
+        .append(
+            (props, s, w) ->
+                w.println(
+                    "%s.forEach((key, val) -> this.%s.put(key, %s));",
+                    additionalPropertiesName(),
+                    additionalPropertiesName(),
+                    nullSafeApiTypeConversionOrValue(props, "val")))
+        .append(constant("return this;"))
+        .filter(props -> props.getType().hasApiTypeDeep());
+  }
+
+  private static String nullSafeApiTypeConversionOrValue(
+      JavaAdditionalProperties props, String valueName) {
+    return props
+        .getType()
+        .getApiType()
+        .map(
+            apiType ->
+                FromApiTypeConversion.fromApiTypeConversion(
+                    apiType, valueName, ConversionGenerationMode.NULL_SAFE))
+        .map(Writer::asString)
+        .orElse(valueName);
+  }
+
+  private static String apiTypeConversionOrValue(JavaAdditionalProperties props, String valueName) {
+    return props
+        .getType()
+        .getApiType()
+        .map(
+            apiType ->
+                FromApiTypeConversion.fromApiTypeConversion(
+                    apiType, valueName, ConversionGenerationMode.NO_NULL_CHECK))
+        .map(Writer::asString)
+        .orElse(valueName);
+  }
+
+  private static String parameterizedClassName(JavaAdditionalProperties props) {
+    return ParameterizedApiClassName.fromJavaType(props.getType())
+        .map(ParameterizedApiClassName::asString)
+        .orElse(props.getType().getParameterizedClassName().asString());
   }
 }
