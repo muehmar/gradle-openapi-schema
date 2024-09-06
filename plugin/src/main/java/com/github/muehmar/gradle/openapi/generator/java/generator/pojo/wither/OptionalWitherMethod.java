@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ class OptionalWitherMethod extends WitherMethod {
   }
 
   @Override
-  String argumentType(ParameterizedClassName parameterizedClassName) {
+  String argumentType(WriteableParameterizedClassName parameterizedClassName) {
     return String.format("Optional<%s>", parameterizedClassName);
   }
 

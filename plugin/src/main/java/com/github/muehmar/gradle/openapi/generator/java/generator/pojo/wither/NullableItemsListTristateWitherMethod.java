@@ -2,7 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -25,7 +25,7 @@ class NullableItemsListTristateWitherMethod extends WitherMethod {
   }
 
   @Override
-  String argumentType(ParameterizedClassName parameterizedClassName) {
+  String argumentType(WriteableParameterizedClassName parameterizedClassName) {
     return String.format(
         "Tristate<%s>", parameterizedClassName.asStringWrappingNullableValueType());
   }

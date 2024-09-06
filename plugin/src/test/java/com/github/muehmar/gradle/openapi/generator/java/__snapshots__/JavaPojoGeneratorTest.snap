@@ -44,7 +44,10 @@ public class PosologyDto {
    * Doses to be taken
    */
   public PosologyDto withItems(List<Double> items) {
-    return new PosologyDto(items);
+    return
+      new PosologyDto(
+        items
+      );
   }
 
   boolean isValid() {
@@ -277,21 +280,39 @@ public class SampleObjectPojo1Dto {
    * stringVal
    */
   public SampleObjectPojo1Dto withStringVal(String stringVal) {
-    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+    return
+      new SampleObjectPojo1Dto(
+        stringVal,
+        intVal,
+        doubleVal,
+        additionalProperties
+      );
   }
 
   /**
    * intVal
    */
   public SampleObjectPojo1Dto withIntVal(Integer intVal) {
-    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+    return
+      new SampleObjectPojo1Dto(
+        stringVal,
+        intVal,
+        doubleVal,
+        additionalProperties
+      );
   }
 
   /**
    * doubleVal
    */
   public SampleObjectPojo1Dto withDoubleVal(Double doubleVal) {
-    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+    return
+      new SampleObjectPojo1Dto(
+        stringVal,
+        intVal,
+        doubleVal,
+        additionalProperties
+      );
   }
 
   boolean isValid() {

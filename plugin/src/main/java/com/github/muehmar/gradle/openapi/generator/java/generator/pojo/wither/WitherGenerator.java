@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither;
 
+import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -42,7 +43,8 @@ public class WitherGenerator {
 
   private static Generator<WitherMethod, PojoSettings> methodContent() {
     return Generator.<WitherMethod, PojoSettings>emptyGen()
-        .append((wm, s, w) -> w.println("return %s;", wm.constructorCall()));
+        .append(constant("return"))
+        .append((wm, s, w) -> w.append(1, wm.constructorCall()));
   }
 
   @Value

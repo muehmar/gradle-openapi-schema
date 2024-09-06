@@ -127,21 +127,39 @@ public class PersonDto {
    * RequiredStringVal
    */
   public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    return
+      new PersonDto(
+        requiredStringVal,
+        birthdate,
+        username,
+        additionalProperties
+      );
   }
 
   /**
    * Birthdate
    */
   public PersonDto withBirthdate(LocalDate birthdate) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    return
+      new PersonDto(
+        requiredStringVal,
+        birthdate,
+        username,
+        additionalProperties
+      );
   }
 
   /**
    * Username
    */
   public PersonDto withUsername(String username) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    return
+      new PersonDto(
+        requiredStringVal,
+        birthdate,
+        username,
+        additionalProperties
+      );
   }
 
   private AdminDto asAdminDto() {
@@ -725,7 +743,13 @@ public class PersonDto {
    * RequiredStringVal
    */
   public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    return
+      new PersonDto(
+        requiredStringVal,
+        birthdate,
+        username,
+        additionalProperties
+      );
   }
 
   /**
@@ -1762,98 +1786,336 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level.orElse(null),
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase.orElse(null), isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase.orElse(null),
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue.orElse(null), isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue.orElse(null),
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo.orElse(null), isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo.orElse(null),
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -2517,98 +2779,336 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Lastname of this user
    */
   public UserDto withLastName(String lastName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Nickname of this user
    */
   public UserDto withNickName(String nickName) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Email of this user
    */
   public UserDto withEmail(String email) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Height of this user
    */
   public UserDto withHeight(Double height) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Long level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Level of this user
    */
   public UserDto withLevel(Optional<Long> level) {
-    return new UserDto(id, name, lastName, nickName, email, height, level.orElse(null), isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level.orElse(null),
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(String uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Something uppercase
    */
   public UserDto withUppercase(Optional<String> uppercase) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase.orElse(null), isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase.orElse(null),
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Long multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Multiple of value
    */
   public UserDto withMultipleOfValue(Optional<Long> multipleOfValue) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue.orElse(null), isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue.orElse(null),
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(AnotherPojo anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo, isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo,
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Another Pojo
    */
   public UserDto withAnotherPojo(Optional<AnotherPojo> anotherPojo) {
-    return new UserDto(id, name, lastName, nickName, email, height, level, isLevelNotNull, uppercase, isUppercaseNotNull, multipleOfValue, isMultipleOfValueNotNull, anotherPojo.orElse(null), isAnotherPojoNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        lastName,
+        nickName,
+        email,
+        height,
+        level,
+        isLevelNotNull,
+        uppercase,
+        isUppercaseNotNull,
+        multipleOfValue,
+        isMultipleOfValueNotNull,
+        anotherPojo.orElse(null),
+        isAnotherPojoNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -3136,28 +3636,56 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null), isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language.orElse(null),
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -3652,28 +4180,56 @@ public class Illegal_IdentifierDto {
    * Switch
    */
   public Illegal_IdentifierDto withSwitch(String switch_) {
-    return new Illegal_IdentifierDto(switch_, false, point_, isPoint_Null, additionalProperties);
+    return
+      new Illegal_IdentifierDto(
+        switch_,
+        false,
+        point_,
+        isPoint_Null,
+        additionalProperties
+      );
   }
 
   /**
    * Switch
    */
   public Illegal_IdentifierDto withSwitch(Tristate<String> switch_) {
-    return new Illegal_IdentifierDto(switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), point_, isPoint_Null, additionalProperties);
+    return
+      new Illegal_IdentifierDto(
+        switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        point_,
+        isPoint_Null,
+        additionalProperties
+      );
   }
 
   /**
    * Point
    */
   public Illegal_IdentifierDto withPoint_(String point_) {
-    return new Illegal_IdentifierDto(switch_, isSwitchNull, point_, false, additionalProperties);
+    return
+      new Illegal_IdentifierDto(
+        switch_,
+        isSwitchNull,
+        point_,
+        false,
+        additionalProperties
+      );
   }
 
   /**
    * Point
    */
   public Illegal_IdentifierDto withPoint_(Tristate<String> point_) {
-    return new Illegal_IdentifierDto(switch_, isSwitchNull, point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+    return
+      new Illegal_IdentifierDto(
+        switch_,
+        isSwitchNull,
+        point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -4812,28 +5368,56 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null), isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language.orElse(null),
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -5180,28 +5764,56 @@ public class UserDto {
    * ID of this user
    */
   public UserDto withId(Long id) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Name of this user
    */
   public UserDto withName(String name) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Preferred language of this user
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(id, name, language.orElse(null), isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        id,
+        name,
+        language.orElse(null),
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -5743,147 +6355,504 @@ public class NecessityAndNullabilityDto {
    * RequiredStringVal
    */
   public NecessityAndNullabilityDto withRequiredStringVal(String requiredStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(String requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        true,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredNullableStringVal
    */
   public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal.orElse(null), true, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal.orElse(null),
+        true,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalStringVal
    */
   public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optionalStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal.orElse(null), isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal.orElse(null),
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(String optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, false, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        false,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalNullableStringVal
    */
   public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredListWithNullableItems
    */
   public NecessityAndNullabilityDto withRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredListWithNullableItems
    */
   public NecessityAndNullabilityDto withRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, unwrapNullableItemsList(requiredListWithNullableItems), requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        unwrapNullableItemsList(requiredListWithNullableItems),
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        true,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems.orElse(null), true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems.orElse(null),
+        true,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems), true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        unwrapNullableItemsList(requiredNullableListWithNullableItems),
+        true,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * RequiredNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)), true, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)),
+        true,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems.orElse(null), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems.orElse(null),
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, unwrapNullableItemsList(optionalListWithNullableItems), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        unwrapNullableItemsList(optionalListWithNullableItems),
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, unwrapNullableItemsList(optionalListWithNullableItems.orElse(null)), isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        unwrapNullableItemsList(optionalListWithNullableItems.orElse(null)),
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, false, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        false,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null), optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        additionalProperties
+      );
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, unwrapNullableItemsList(optionalNullableListWithNullableItems), false, additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        unwrapNullableItemsList(optionalNullableListWithNullableItems),
+        false,
+        additionalProperties
+      );
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
   public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, unwrapNullableItemsList(optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)), optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false), additionalProperties);
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        unwrapNullableItemsList(optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)),
+        optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        additionalProperties
+      );
   }
 
   private static <T> List<Optional<T>> wrapNullableItemsList(List<T> list) {
@@ -8132,7 +9101,11 @@ public class ObjectPojo1Dto {
    * List
    */
   public ObjectPojo1Dto withListVal(List<String> listVal) {
-    return new ObjectPojo1Dto(listVal, additionalProperties);
+    return
+      new ObjectPojo1Dto(
+        listVal,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -8485,7 +9458,11 @@ public class ObjectPojo1Dto {
    * Map
    */
   public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
-    return new ObjectPojo1Dto(mapVal, additionalProperties);
+    return
+      new ObjectPojo1Dto(
+        mapVal,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -8891,7 +9868,13 @@ public class PersonDto {
    * RequiredStringVal
    */
   public PersonDto withRequiredStringVal(String requiredStringVal) {
-    return new PersonDto(requiredStringVal, birthdate, username, additionalProperties);
+    return
+      new PersonDto(
+        requiredStringVal,
+        birthdate,
+        username,
+        additionalProperties
+      );
   }
 
   /**
@@ -9537,7 +10520,12 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
@@ -9546,7 +10534,12 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null), isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        language.orElse(null),
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -9846,7 +10839,12 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(LanguageEnum language) {
-    return new UserDto(language, isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   /**
@@ -9855,7 +10853,12 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public UserDto withLanguage(Optional<LanguageEnum> language) {
-    return new UserDto(language.orElse(null), isLanguageNotNull, additionalProperties);
+    return
+      new UserDto(
+        language.orElse(null),
+        isLanguageNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -10145,21 +11148,39 @@ public class ObjectPojo1Dto {
    * email
    */
   public ObjectPojo1Dto withEmail(String email) {
-    return new ObjectPojo1Dto(email, birthdate, isBirthdateNotNull, additionalProperties);
+    return
+      new ObjectPojo1Dto(
+        email,
+        birthdate,
+        isBirthdateNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Birthdate
    */
   public ObjectPojo1Dto withBirthdate(LocalDate birthdate) {
-    return new ObjectPojo1Dto(email, birthdate, isBirthdateNotNull, additionalProperties);
+    return
+      new ObjectPojo1Dto(
+        email,
+        birthdate,
+        isBirthdateNotNull,
+        additionalProperties
+      );
   }
 
   /**
    * Birthdate
    */
   public ObjectPojo1Dto withBirthdate(Optional<LocalDate> birthdate) {
-    return new ObjectPojo1Dto(email, birthdate.orElse(null), isBirthdateNotNull, additionalProperties);
+    return
+      new ObjectPojo1Dto(
+        email,
+        birthdate.orElse(null),
+        isBirthdateNotNull,
+        additionalProperties
+      );
   }
 
   boolean isValid() {

@@ -46,7 +46,10 @@ public class PosologyDto {
    * Doses to be taken
    */
   public PosologyDto withItems(List<Double> items) {
-    return new PosologyDto(items);
+    return
+      new PosologyDto(
+        items
+      );
   }
 
   @AssertTrue(message = "items does not contain unique items")

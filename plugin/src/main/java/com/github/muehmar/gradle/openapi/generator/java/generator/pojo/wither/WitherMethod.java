@@ -4,7 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Map;
@@ -55,20 +55,31 @@ abstract class WitherMethod {
             pojoMember.getName().asString()));
   }
 
-  abstract String argumentType(ParameterizedClassName parameterizedClassName);
+  abstract String argumentType(WriteableParameterizedClassName parameterizedClassName);
 
-  String constructorCall() {
-    return String.format(
-        "new %s(%s)",
-        witherContent.getClassName(),
+  Writer constructorCall() {
+    final Writer newClassWriter =
+        Writer.javaWriter().println("new %s(", witherContent.getClassName());
+
+    final PList<String> members =
         witherContent
             .getTechnicalPojoMembers()
             .map(TechnicalPojoMember::getName)
             .map(
                 name ->
                     Optional.ofNullable(propertyNameReplacementForConstructorCall().get(name))
-                        .orElse(name.asString()))
-            .mkString(", "));
+                        .orElse(name.asString()));
+
+    return members
+        .zipWithIndex()
+        .foldLeft(
+            newClassWriter,
+            (w, p) -> {
+              final String memberValue = p.first();
+              final int index = p.second();
+              return w.tab(1).println("%s%s", memberValue, index == members.size() - 1 ? "" : ",");
+            })
+        .println(");");
   }
 
   abstract Map<JavaName, String> propertyNameReplacementForConstructorCall();
