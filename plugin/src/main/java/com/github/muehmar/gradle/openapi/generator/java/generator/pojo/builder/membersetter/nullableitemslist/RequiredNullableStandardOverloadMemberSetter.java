@@ -20,6 +20,7 @@ class RequiredNullableStandardOverloadMemberSetter extends RequiredNullableMembe
   public Writer memberAssigment() {
     return fullListAssigmentWriterBuilder()
         .member(member)
+        .fieldAssigment()
         .unwrapListNotNecessary()
         .unmapListTypeNotNecessary()
         .unwrapOptionalListItem()

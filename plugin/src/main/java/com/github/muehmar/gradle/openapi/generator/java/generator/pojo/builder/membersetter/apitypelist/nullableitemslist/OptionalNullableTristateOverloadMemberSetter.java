@@ -30,6 +30,7 @@ public class OptionalNullableTristateOverloadMemberSetter implements MemberSette
     this.listAssigmentWriter =
         fullListAssigmentWriterBuilder()
             .member(member)
+            .fieldAssigment()
             .unwrapTristateList()
             .unmapListType(javaArrayType)
             .unwrapOptionalListItem()

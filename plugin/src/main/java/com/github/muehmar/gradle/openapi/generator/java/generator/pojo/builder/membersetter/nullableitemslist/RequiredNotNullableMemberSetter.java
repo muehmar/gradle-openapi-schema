@@ -44,6 +44,7 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
   public Writer memberAssigment() {
     return fullListAssigmentWriterBuilder()
         .member(member)
+        .fieldAssigment()
         .unwrapListNotNecessary()
         .unmapListTypeNotNecessary()
         .unwrapOptionalListItem()

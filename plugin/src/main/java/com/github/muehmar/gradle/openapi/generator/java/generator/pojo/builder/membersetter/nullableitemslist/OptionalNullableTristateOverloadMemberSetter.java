@@ -26,6 +26,7 @@ class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMembe
   public Writer memberAssigment() {
     return fullListAssigmentWriterBuilder()
         .member(member)
+        .fieldAssigment()
         .unwrapTristateList()
         .unmapListTypeNotNecessary()
         .unwrapOptionalListItem()

@@ -20,6 +20,7 @@ class OptionalNotNullableStandardOverloadMemberSetter extends OptionalNotNullabl
   public Writer memberAssigment() {
     return fullListAssigmentWriterBuilder()
         .member(member)
+        .fieldAssigment()
         .unwrapListNotNecessary()
         .unmapListTypeNotNecessary()
         .unwrapOptionalListItem()

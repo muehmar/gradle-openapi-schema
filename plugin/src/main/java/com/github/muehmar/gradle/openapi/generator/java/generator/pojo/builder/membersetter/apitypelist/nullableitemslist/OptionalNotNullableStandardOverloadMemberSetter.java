@@ -29,6 +29,7 @@ public class OptionalNotNullableStandardOverloadMemberSetter implements MemberSe
     this.listAssigmentWriter =
         fullListAssigmentWriterBuilder()
             .member(member)
+            .fieldAssigment()
             .unwrapListNotNecessary()
             .unmapListType(javaArrayType)
             .unwrapOptionalListItem()

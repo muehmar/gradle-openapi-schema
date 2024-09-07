@@ -35,6 +35,23 @@ class ListAssigmentWriterTest {
     final Writer writer =
         fullListAssigmentWriterBuilder()
             .member(MEMBER)
+            .fieldAssigment()
+            .unwrapListNotNecessary()
+            .unmapListTypeNotNecessary()
+            .unwrapListItemNotNecessary()
+            .unmapListItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("expressionOnly")
+  void fullListAssigmentWriterBuilder_when_expressionOnly_then_matchSnapshot() {
+    final Writer writer =
+        fullListAssigmentWriterBuilder()
+            .member(MEMBER)
+            .expressionOnly()
             .unwrapListNotNecessary()
             .unmapListTypeNotNecessary()
             .unwrapListItemNotNecessary()
@@ -50,6 +67,7 @@ class ListAssigmentWriterTest {
     final Writer writer =
         fullListAssigmentWriterBuilder()
             .member(MEMBER)
+            .fieldAssigment()
             .unwrapOptionalList()
             .unmapListTypeNotNecessary()
             .unwrapOptionalListItem()
@@ -65,6 +83,7 @@ class ListAssigmentWriterTest {
     final Writer writer =
         fullListAssigmentWriterBuilder()
             .member(MEMBER)
+            .fieldAssigment()
             .unwrapTristateList()
             .unmapListTypeNotNecessary()
             .unwrapListItemNotNecessary()
@@ -80,6 +99,7 @@ class ListAssigmentWriterTest {
     final Writer writer =
         fullListAssigmentWriterBuilder()
             .member(MEMBER)
+            .fieldAssigment()
             .unwrapListNotNecessary()
             .unmapListType(JAVA_ARRAY_TYPE)
             .unwrapListItemNotNecessary()

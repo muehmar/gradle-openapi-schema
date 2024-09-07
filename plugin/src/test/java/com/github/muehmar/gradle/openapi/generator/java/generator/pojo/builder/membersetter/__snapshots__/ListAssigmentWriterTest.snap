@@ -12,6 +12,19 @@ this.optionalListWithNullableItems =
 ]
 
 
+expressionOnly=[
+java.util.function.Function
+
+unmapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    Function.identity()
+)
+]
+
+
 unmapListAndListItemType=[
 com.custom.CustomList
 com.custom.CustomString

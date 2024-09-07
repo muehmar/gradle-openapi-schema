@@ -27,6 +27,7 @@ class RequiredNullableMemberSetter implements MemberSetter {
     this.listAssigmentWriter =
         fullListAssigmentWriterBuilder()
             .member(member)
+            .fieldAssigment()
             .unwrapOptionalList()
             .unmapListType(javaArrayType)
             .unwrapListItemNotNecessary()

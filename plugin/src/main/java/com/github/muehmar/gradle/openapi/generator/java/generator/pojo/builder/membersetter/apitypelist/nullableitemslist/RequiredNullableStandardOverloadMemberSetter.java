@@ -29,6 +29,7 @@ class RequiredNullableStandardOverloadMemberSetter implements MemberSetter {
     this.listAssigmentWriter =
         fullListAssigmentWriterBuilder()
             .member(member)
+            .fieldAssigment()
             .unwrapListNotNecessary()
             .unmapListType(javaArrayType)
             .unwrapOptionalListItem()

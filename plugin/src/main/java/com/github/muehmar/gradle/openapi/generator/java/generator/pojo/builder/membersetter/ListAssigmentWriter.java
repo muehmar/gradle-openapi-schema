@@ -19,10 +19,22 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ListAssigmentWriter {
   private final JavaPojoMember member;
+  private final Mode mode;
   private final Writer unwrapList;
   private final Writer unmapListType;
   private final Writer unwrapListItem;
   private final Writer unmapListItemType;
+
+  @FieldBuilder(fieldName = "mode", disableDefaultMethods = true)
+  public static class ModeFieldBuilder {
+    static Mode fieldAssigment() {
+      return Mode.FIELD_ASSIGNMENT;
+    }
+
+    static Mode expressionOnly() {
+      return Mode.EXPRESSION_ONLY;
+    }
+  }
 
   @FieldBuilder(fieldName = "unwrapList", disableDefaultMethods = true)
   public static class UnwrapListFieldBuilder {
@@ -84,22 +96,64 @@ public class ListAssigmentWriter {
 
   @BuildMethod
   public static Writer build(ListAssigmentWriter listAssigmentWriter) {
-    return javaWriter()
-        .println("this.%s =", listAssigmentWriter.member.getName())
-        .tab(2)
+    final Mode mode = listAssigmentWriter.mode;
+
+    return mode.initialWriter(listAssigmentWriter.member)
+        .tab(mode.tabOffset())
         .println("%s(", UnmapListMethod.METHOD_NAME)
-        .tab(4)
+        .tab(mode.tabOffset() + 2)
         .println("%s,", listAssigmentWriter.member.getName())
-        .append(4, listAssigmentWriter.unwrapList.println(","))
-        .append(4, listAssigmentWriter.unmapListType.println(","))
-        .append(4, listAssigmentWriter.unwrapListItem.println(","))
-        .append(4, listAssigmentWriter.unmapListItemType)
-        .tab(2)
-        .println(");");
+        .append(mode.tabOffset() + 2, listAssigmentWriter.unwrapList.println(","))
+        .append(mode.tabOffset() + 2, listAssigmentWriter.unmapListType.println(","))
+        .append(mode.tabOffset() + 2, listAssigmentWriter.unwrapListItem.println(","))
+        .append(mode.tabOffset() + 2, listAssigmentWriter.unmapListItemType)
+        .tab(mode.tabOffset())
+        .println(")%s", mode.trailingComma());
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {
     return FromApiTypeConversion.fromApiTypeConversion(
         apiType, variableName, ConversionGenerationMode.NO_NULL_CHECK);
+  }
+
+  enum Mode {
+    EXPRESSION_ONLY {
+      @Override
+      Writer initialWriter(JavaPojoMember member) {
+        return javaWriter();
+      }
+
+      @Override
+      int tabOffset() {
+        return 0;
+      }
+
+      @Override
+      String trailingComma() {
+        return "";
+      }
+    },
+    FIELD_ASSIGNMENT {
+      @Override
+      Writer initialWriter(JavaPojoMember member) {
+        return javaWriter().println("this.%s =", member.getName());
+      }
+
+      @Override
+      int tabOffset() {
+        return 2;
+      }
+
+      @Override
+      String trailingComma() {
+        return ";";
+      }
+    };
+
+    abstract Writer initialWriter(JavaPojoMember member);
+
+    abstract int tabOffset();
+
+    abstract String trailingComma();
   }
 }

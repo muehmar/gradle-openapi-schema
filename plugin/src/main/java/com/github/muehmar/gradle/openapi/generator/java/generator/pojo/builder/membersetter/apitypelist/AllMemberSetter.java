@@ -27,6 +27,7 @@ class AllMemberSetter implements MemberSetter {
     this.listAssigmentWriter =
         fullListAssigmentWriterBuilder()
             .member(member)
+            .fieldAssigment()
             .unwrapListNotNecessary()
             .unmapListType(javaArrayType)
             .unwrapListItemNotNecessary()
