@@ -1,4 +1,4 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
+package com.github.muehmar.gradle.openapi.generator.java.generator.shared.list;
 
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
