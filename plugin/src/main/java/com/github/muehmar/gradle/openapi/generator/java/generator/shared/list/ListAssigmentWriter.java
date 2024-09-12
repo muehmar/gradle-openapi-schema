@@ -50,6 +50,19 @@ public class ListAssigmentWriter {
       return javaWriter()
           .print("l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)");
     }
+
+    static Writer unwrapList(UnwrapListFunction function) {
+      switch (function) {
+        case IDENTITY:
+          return unwrapListNotNecessary();
+        case UNWRAP_OPTIONAL:
+          return unwrapOptionalList();
+        case UNWRAP_TRISTATE:
+          return unwrapTristateList();
+        default:
+          throw new IllegalArgumentException("Unknown unwrap list function: " + function);
+      }
+    }
   }
 
   @FieldBuilder(fieldName = "unmapListType", disableDefaultMethods = true)
@@ -75,6 +88,17 @@ public class ListAssigmentWriter {
 
     static Writer unwrapOptionalListItem() {
       return javaWriter().print("i -> i.orElse(null)");
+    }
+
+    static Writer unwrapListItem(UnwrapListItemFunction function) {
+      switch (function) {
+        case IDENTITY:
+          return unwrapListItemNotNecessary();
+        case UNWRAP_OPTIONAL:
+          return unwrapOptionalListItem();
+        default:
+          throw new IllegalArgumentException("Unknown unwrap list item function: " + function);
+      }
     }
   }
 
@@ -155,5 +179,16 @@ public class ListAssigmentWriter {
     abstract int tabOffset();
 
     abstract String trailingComma();
+  }
+
+  public enum UnwrapListFunction {
+    IDENTITY,
+    UNWRAP_OPTIONAL,
+    UNWRAP_TRISTATE
+  }
+
+  public enum UnwrapListItemFunction {
+    IDENTITY,
+    UNWRAP_OPTIONAL
   }
 }

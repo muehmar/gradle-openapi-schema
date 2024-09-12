@@ -17,16 +17,19 @@ abstract class WitherMethod {
   public static PList<WitherMethod> fromWitherContent(WitherGenerator.WitherContent witherContent) {
     return witherContent
         .getMembersForWithers()
-        .flatMap(
-            member ->
-                PList.of(
-                    new NormalWitherMethod(witherContent, member),
-                    new OptionalWitherMethod(witherContent, member),
-                    new TristateWitherMethod(witherContent, member),
-                    new NullableItemsListNormalWitherMethod(witherContent, member),
-                    new NullableItemsListOptionalWitherMethod(witherContent, member),
-                    new NullableItemsListTristateWitherMethod(witherContent, member)))
+        .flatMap(member -> fromMember(witherContent, member))
         .filter(WitherMethod::shouldBeUsed);
+  }
+
+  private static PList<WitherMethod> fromMember(
+      WitherGenerator.WitherContent witherContent, JavaPojoMember member) {
+    final PList<WitherMethod> witherMethods =
+        PList.of(
+            new NormalWitherMethod(witherContent, member),
+            new OptionalWitherMethod(witherContent, member),
+            new TristateWitherMethod(witherContent, member));
+
+    return witherMethods.concat(ListWitherMethod.fromContentAndMember(witherContent, member));
   }
 
   WitherMethod(WitherGenerator.WitherContent witherContent, JavaPojoMember pojoMember) {
@@ -35,6 +38,10 @@ abstract class WitherMethod {
   }
 
   abstract boolean shouldBeUsed();
+
+  public JavaPojoMember getPojoMember() {
+    return pojoMember;
+  }
 
   public String javaDocString() {
     return pojoMember.getDescription();
@@ -51,7 +58,8 @@ abstract class WitherMethod {
   PList<MethodGen.Argument> argument() {
     return PList.single(
         new MethodGen.Argument(
-            String.format(argumentType(pojoMember.getJavaType().getParameterizedClassName())),
+            String.format(
+                argumentType(pojoMember.getJavaType().getWriteableParameterizedClassName())),
             pojoMember.getName().asString()));
   }
 
@@ -61,28 +69,60 @@ abstract class WitherMethod {
     final Writer newClassWriter =
         Writer.javaWriter().println("new %s(", witherContent.getClassName());
 
-    final PList<String> members =
+    final PList<StringOrWriter> members =
         witherContent
             .getTechnicalPojoMembers()
             .map(TechnicalPojoMember::getName)
             .map(
                 name ->
                     Optional.ofNullable(propertyNameReplacementForConstructorCall().get(name))
-                        .orElse(name.asString()));
+                        .orElse(companionFlagReplacementForConstructorCall(name)));
 
     return members
         .zipWithIndex()
         .foldLeft(
             newClassWriter,
             (w, p) -> {
-              final String memberValue = p.first();
+              final StringOrWriter memberValue = p.first();
               final int index = p.second();
-              return w.tab(1).println("%s%s", memberValue, index == members.size() - 1 ? "" : ",");
+              final String trailingComma = index == members.size() - 1 ? "" : ",";
+              return memberValue.fold(
+                  valueAsString -> w.tab(1).println("%s%s", valueAsString, trailingComma),
+                  valueAsWriter ->
+                      w.append(1, valueAsWriter.resetToLastNotEmptyLine().println(trailingComma)));
             })
         .println(");");
   }
 
-  abstract Map<JavaName, String> propertyNameReplacementForConstructorCall();
+  private StringOrWriter companionFlagReplacementForConstructorCall(JavaName propertyName) {
+    if (propertyName.equals(pojoMember.getIsPresentFlagName())
+        && pojoMember.isRequiredAndNullable()) {
+      return StringOrWriter.ofString("true");
+    } else if (propertyName.equals(pojoMember.getIsNotNullFlagName())
+        && pojoMember.isOptionalAndNotNullable()) {
+      return StringOrWriter.ofString("true");
+    } else if (propertyName.equals(pojoMember.getIsNullFlagName())
+        && pojoMember.isOptionalAndNullable()) {
+      if (isOverloadedWither()) {
+        final String flagValue =
+            String.format(
+                "%s.%s", pojoMember.getName().asString(), pojoMember.tristateToIsNullFlag());
+        return StringOrWriter.ofString(flagValue);
+      } else {
+        return StringOrWriter.ofString("false");
+      }
+    }
+    return StringOrWriter.ofString(propertyName.asString());
+  }
+
+  /**
+   * Returns true in case this wither is an overloaded version, i.e. wrapped in Optional or
+   * Tristate.
+   */
+  abstract boolean isOverloadedWither();
+
+  /** */
+  abstract Map<JavaName, StringOrWriter> propertyNameReplacementForConstructorCall();
 
   abstract Writer addRefs(Writer writer);
 }

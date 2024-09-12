@@ -1939,7 +1939,7 @@ public class UserDto {
         email,
         height,
         level,
-        isLevelNotNull,
+        true,
         uppercase,
         isUppercaseNotNull,
         multipleOfValue,
@@ -1963,7 +1963,7 @@ public class UserDto {
         email,
         height,
         level.orElse(null),
-        isLevelNotNull,
+        true,
         uppercase,
         isUppercaseNotNull,
         multipleOfValue,
@@ -1989,7 +1989,7 @@ public class UserDto {
         level,
         isLevelNotNull,
         uppercase,
-        isUppercaseNotNull,
+        true,
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo,
@@ -2013,7 +2013,7 @@ public class UserDto {
         level,
         isLevelNotNull,
         uppercase.orElse(null),
-        isUppercaseNotNull,
+        true,
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo,
@@ -2039,7 +2039,7 @@ public class UserDto {
         uppercase,
         isUppercaseNotNull,
         multipleOfValue,
-        isMultipleOfValueNotNull,
+        true,
         anotherPojo,
         isAnotherPojoNotNull,
         additionalProperties
@@ -2063,7 +2063,7 @@ public class UserDto {
         uppercase,
         isUppercaseNotNull,
         multipleOfValue.orElse(null),
-        isMultipleOfValueNotNull,
+        true,
         anotherPojo,
         isAnotherPojoNotNull,
         additionalProperties
@@ -2089,7 +2089,7 @@ public class UserDto {
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo,
-        isAnotherPojoNotNull,
+        true,
         additionalProperties
       );
   }
@@ -2113,7 +2113,7 @@ public class UserDto {
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo.orElse(null),
-        isAnotherPojoNotNull,
+        true,
         additionalProperties
       );
   }
@@ -2932,7 +2932,7 @@ public class UserDto {
         email,
         height,
         level,
-        isLevelNotNull,
+        true,
         uppercase,
         isUppercaseNotNull,
         multipleOfValue,
@@ -2956,7 +2956,7 @@ public class UserDto {
         email,
         height,
         level.orElse(null),
-        isLevelNotNull,
+        true,
         uppercase,
         isUppercaseNotNull,
         multipleOfValue,
@@ -2982,7 +2982,7 @@ public class UserDto {
         level,
         isLevelNotNull,
         uppercase,
-        isUppercaseNotNull,
+        true,
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo,
@@ -3006,7 +3006,7 @@ public class UserDto {
         level,
         isLevelNotNull,
         uppercase.orElse(null),
-        isUppercaseNotNull,
+        true,
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo,
@@ -3032,7 +3032,7 @@ public class UserDto {
         uppercase,
         isUppercaseNotNull,
         multipleOfValue,
-        isMultipleOfValueNotNull,
+        true,
         anotherPojo,
         isAnotherPojoNotNull,
         additionalProperties
@@ -3056,7 +3056,7 @@ public class UserDto {
         uppercase,
         isUppercaseNotNull,
         multipleOfValue.orElse(null),
-        isMultipleOfValueNotNull,
+        true,
         anotherPojo,
         isAnotherPojoNotNull,
         additionalProperties
@@ -3082,7 +3082,7 @@ public class UserDto {
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo,
-        isAnotherPojoNotNull,
+        true,
         additionalProperties
       );
   }
@@ -3106,7 +3106,7 @@ public class UserDto {
         multipleOfValue,
         isMultipleOfValueNotNull,
         anotherPojo.orElse(null),
-        isAnotherPojoNotNull,
+        true,
         additionalProperties
       );
   }
@@ -3669,7 +3669,7 @@ public class UserDto {
         id,
         name,
         language,
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -3683,7 +3683,7 @@ public class UserDto {
         id,
         name,
         language.orElse(null),
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -5401,7 +5401,7 @@ public class UserDto {
         id,
         name,
         language,
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -5415,7 +5415,7 @@ public class UserDto {
         id,
         name,
         language.orElse(null),
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -5797,7 +5797,7 @@ public class UserDto {
         id,
         name,
         language,
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -5811,7 +5811,7 @@ public class UserDto {
         id,
         name,
         language.orElse(null),
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -6433,7 +6433,7 @@ public class NecessityAndNullabilityDto {
         requiredNullableStringVal,
         isRequiredNullableStringValPresent,
         optionalStringVal,
-        isOptionalStringValNotNull,
+        true,
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
@@ -6457,7 +6457,7 @@ public class NecessityAndNullabilityDto {
         requiredNullableStringVal,
         isRequiredNullableStringValPresent,
         optionalStringVal.orElse(null),
-        isOptionalStringValNotNull,
+        true,
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
@@ -6532,7 +6532,13 @@ public class NecessityAndNullabilityDto {
         isOptionalStringValNotNull,
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
-        requiredListWithNullableItems,
+        unmapList(
+            requiredListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
@@ -6556,7 +6562,13 @@ public class NecessityAndNullabilityDto {
         isOptionalStringValNotNull,
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
-        unwrapNullableItemsList(requiredListWithNullableItems),
+        unmapList(
+            requiredListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        ),
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
@@ -6581,7 +6593,13 @@ public class NecessityAndNullabilityDto {
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
-        requiredNullableListWithNullableItems,
+        unmapList(
+            requiredNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
         true,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
@@ -6605,7 +6623,13 @@ public class NecessityAndNullabilityDto {
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
-        requiredNullableListWithNullableItems.orElse(null),
+        unmapList(
+            requiredNullableListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
         true,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
@@ -6629,7 +6653,13 @@ public class NecessityAndNullabilityDto {
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
-        unwrapNullableItemsList(requiredNullableListWithNullableItems),
+        unmapList(
+            requiredNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        ),
         true,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
@@ -6653,7 +6683,13 @@ public class NecessityAndNullabilityDto {
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
-        unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)),
+        unmapList(
+            requiredNullableListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        ),
         true,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
@@ -6679,8 +6715,14 @@ public class NecessityAndNullabilityDto {
         requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
-        optionalListWithNullableItems,
-        isOptionalListWithNullableItemsNotNull,
+        unmapList(
+            optionalListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
+        true,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         additionalProperties
@@ -6703,8 +6745,14 @@ public class NecessityAndNullabilityDto {
         requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
-        optionalListWithNullableItems.orElse(null),
-        isOptionalListWithNullableItemsNotNull,
+        unmapList(
+            optionalListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
+        true,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         additionalProperties
@@ -6727,8 +6775,14 @@ public class NecessityAndNullabilityDto {
         requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
-        unwrapNullableItemsList(optionalListWithNullableItems),
-        isOptionalListWithNullableItemsNotNull,
+        unmapList(
+            optionalListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        ),
+        true,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         additionalProperties
@@ -6751,8 +6805,14 @@ public class NecessityAndNullabilityDto {
         requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
-        unwrapNullableItemsList(optionalListWithNullableItems.orElse(null)),
-        isOptionalListWithNullableItemsNotNull,
+        unmapList(
+            optionalListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        ),
+        true,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         additionalProperties
@@ -6777,7 +6837,13 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
-        optionalNullableListWithNullableItems,
+        unmapList(
+            optionalNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
         false,
         additionalProperties
       );
@@ -6801,7 +6867,13 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
-        optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        unmapList(
+            optionalNullableListWithNullableItems,
+            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
         optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
         additionalProperties
       );
@@ -6825,7 +6897,13 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
-        unwrapNullableItemsList(optionalNullableListWithNullableItems),
+        unmapList(
+            optionalNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        ),
         false,
         additionalProperties
       );
@@ -6849,7 +6927,13 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
-        unwrapNullableItemsList(optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)),
+        unmapList(
+            optionalNullableListWithNullableItems,
+            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        ),
         optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
         additionalProperties
       );
@@ -9032,6 +9116,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
@@ -9103,7 +9188,13 @@ public class ObjectPojo1Dto {
   public ObjectPojo1Dto withListVal(List<String> listVal) {
     return
       new ObjectPojo1Dto(
-        listVal,
+        unmapList(
+            listVal,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
         additionalProperties
       );
   }
@@ -10523,7 +10614,7 @@ public class UserDto {
     return
       new UserDto(
         language,
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -10537,7 +10628,7 @@ public class UserDto {
     return
       new UserDto(
         language.orElse(null),
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -10842,7 +10933,7 @@ public class UserDto {
     return
       new UserDto(
         language,
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -10856,7 +10947,7 @@ public class UserDto {
     return
       new UserDto(
         language.orElse(null),
-        isLanguageNotNull,
+        true,
         additionalProperties
       );
   }
@@ -11165,7 +11256,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         email,
         birthdate,
-        isBirthdateNotNull,
+        true,
         additionalProperties
       );
   }
@@ -11178,7 +11269,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         email,
         birthdate.orElse(null),
-        isBirthdateNotNull,
+        true,
         additionalProperties
       );
   }

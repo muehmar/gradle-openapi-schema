@@ -72,7 +72,7 @@ public interface JavaType {
 
   /**
    * Returns the qualified classnames used for this type, including the classes of possible type
-   * parameters
+   * parameters as well as possible api types.
    */
   PList<QualifiedClassName> getAllQualifiedClassNames();
 

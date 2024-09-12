@@ -1,5 +1,133 @@
+allNullabilityAndNecessityVariants[optionalListWithNullableItemsMapped]=[
+com.custom.CustomString
+java.util.Optional
+java.util.function.Function
+
+/**
+ * OptionalListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalListWithNullableItemsMapped(List<CustomString> optionalListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      unmapList(
+          optionalListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalListWithNullableItemsMapped(Optional<List<CustomString>> optionalListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      unmapList(
+          optionalListWithNullableItemsMapped,
+          l -> l.orElse(null),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalListWithNullableItemsMapped_(List<Optional<CustomString>> optionalListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      unmapList(
+          optionalListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalListWithNullableItemsMapped_(Optional<List<Optional<CustomString>>> optionalListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      unmapList(
+          optionalListWithNullableItemsMapped,
+          l -> l.orElse(null),
+          Function.identity(),
+          i -> i.orElse(null),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+]
+
+
 allNullabilityAndNecessityVariants[optionalListWithNullableItems]=[
 java.util.Optional
+java.util.function.Function
 
 /**
  * OptionalListWithNullableItems
@@ -17,8 +145,14 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems(List<String>
       requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
-      optionalListWithNullableItems,
-      isOptionalListWithNullableItemsNotNull,
+      unmapList(
+          optionalListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      ),
+      true,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
       additionalProperties
@@ -41,8 +175,14 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems(Optional<Lis
       requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
-      optionalListWithNullableItems.orElse(null),
-      isOptionalListWithNullableItemsNotNull,
+      unmapList(
+          optionalListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      ),
+      true,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
       additionalProperties
@@ -65,8 +205,14 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems_(List<Option
       requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
-      unwrapNullableItemsList(optionalListWithNullableItems),
-      isOptionalListWithNullableItemsNotNull,
+      unmapList(
+          optionalListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity()
+      ),
+      true,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
       additionalProperties
@@ -89,10 +235,144 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems_(Optional<Li
       requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
-      unwrapNullableItemsList(optionalListWithNullableItems.orElse(null)),
-      isOptionalListWithNullableItemsNotNull,
+      unmapList(
+          optionalListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity()
+      ),
+      true,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
+      additionalProperties
+    );
+}
+]
+
+
+allNullabilityAndNecessityVariants[optionalNullableListWithNullableItemsMapped]=[
+com.custom.CustomString
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+java.util.function.Function
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalNullableListWithNullableItemsMapped(List<CustomString> optionalNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      unmapList(
+          optionalNullableListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i)
+      ),
+      false,
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalNullableListWithNullableItemsMapped(Tristate<List<CustomString>> optionalNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      unmapList(
+          optionalNullableListWithNullableItemsMapped,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i)
+      ),
+      optionalNullableListWithNullableItemsMapped.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalNullableListWithNullableItemsMapped_(List<Optional<CustomString>> optionalNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      unmapList(
+          optionalNullableListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          i -> CustomString.toString(i)
+      ),
+      false,
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withOptionalNullableListWithNullableItemsMapped_(Tristate<List<Optional<CustomString>>> optionalNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      unmapList(
+          optionalNullableListWithNullableItemsMapped,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          Function.identity(),
+          i -> i.orElse(null),
+          i -> CustomString.toString(i)
+      ),
+      optionalNullableListWithNullableItemsMapped.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
       additionalProperties
     );
 }
@@ -102,6 +382,7 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems_(Optional<Li
 allNullabilityAndNecessityVariants[optionalNullableListWithNullableItems]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.Optional
+java.util.function.Function
 
 /**
  * OptionalNullableListWithNullableItems
@@ -121,7 +402,13 @@ public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(List
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
-      optionalNullableListWithNullableItems,
+      unmapList(
+          optionalNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      ),
       false,
       additionalProperties
     );
@@ -145,7 +432,13 @@ public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(Tris
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
-      optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      unmapList(
+          optionalNullableListWithNullableItems,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      ),
       optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
       additionalProperties
     );
@@ -169,7 +462,13 @@ public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems_(Lis
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
-      unwrapNullableItemsList(optionalNullableListWithNullableItems),
+      unmapList(
+          optionalNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity()
+      ),
       false,
       additionalProperties
     );
@@ -193,8 +492,68 @@ public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems_(Tri
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
-      unwrapNullableItemsList(optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)),
+      unmapList(
+          optionalNullableListWithNullableItems,
+          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity()
+      ),
       optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      additionalProperties
+    );
+}
+]
+
+
+allNullabilityAndNecessityVariants[optionalNullableStringValMapped]=[
+com.custom.CustomString
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * OptionalNullableStringVal
+ */
+public NecessityAndNullabilityDto withOptionalNullableStringValMapped(CustomString optionalNullableStringValMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      CustomString.toString(optionalNullableStringValMapped),
+      false,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalNullableStringVal
+ */
+public NecessityAndNullabilityDto withOptionalNullableStringValMapped(Tristate<CustomString> optionalNullableStringValMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped.map(val -> CustomString.toString(val)).onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+      optionalNullableStringValMapped.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
       additionalProperties
     );
 }
@@ -254,6 +613,60 @@ public NecessityAndNullabilityDto withOptionalNullableStringVal(Tristate<String>
 ]
 
 
+allNullabilityAndNecessityVariants[optionalStringValMapped]=[
+com.custom.CustomString
+java.util.Optional
+
+/**
+ * OptionalStringVal
+ */
+public NecessityAndNullabilityDto withOptionalStringValMapped(CustomString optionalStringValMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      CustomString.toString(optionalStringValMapped),
+      true,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * OptionalStringVal
+ */
+public NecessityAndNullabilityDto withOptionalStringValMapped(Optional<CustomString> optionalStringValMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped.map(val -> CustomString.toString(val)).orElse(null),
+      true,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+]
+
+
 allNullabilityAndNecessityVariants[optionalStringVal]=[
 java.util.Optional
 
@@ -267,7 +680,7 @@ public NecessityAndNullabilityDto withOptionalStringVal(String optionalStringVal
       requiredNullableStringVal,
       isRequiredNullableStringValPresent,
       optionalStringVal,
-      isOptionalStringValNotNull,
+      true,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
@@ -291,7 +704,7 @@ public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optiona
       requiredNullableStringVal,
       isRequiredNullableStringValPresent,
       optionalStringVal.orElse(null),
-      isOptionalStringValNotNull,
+      true,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
@@ -307,8 +720,76 @@ public NecessityAndNullabilityDto withOptionalStringVal(Optional<String> optiona
 ]
 
 
+allNullabilityAndNecessityVariants[requiredListWithNullableItemsMapped]=[
+com.custom.CustomString
+java.util.Optional
+java.util.function.Function
+
+/**
+ * RequiredListWithNullableItems
+ */
+public NecessityAndNullabilityDto withRequiredListWithNullableItemsMapped(List<CustomString> requiredListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      unmapList(
+          requiredListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i)
+      ),
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * RequiredListWithNullableItems
+ */
+public NecessityAndNullabilityDto withRequiredListWithNullableItemsMapped_(List<Optional<CustomString>> requiredListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      unmapList(
+          requiredListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          i -> CustomString.toString(i)
+      ),
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+]
+
+
 allNullabilityAndNecessityVariants[requiredListWithNullableItems]=[
 java.util.Optional
+java.util.function.Function
 
 /**
  * RequiredListWithNullableItems
@@ -323,7 +804,13 @@ public NecessityAndNullabilityDto withRequiredListWithNullableItems(List<String>
       isOptionalStringValNotNull,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
-      requiredListWithNullableItems,
+      unmapList(
+          requiredListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      ),
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
@@ -347,7 +834,13 @@ public NecessityAndNullabilityDto withRequiredListWithNullableItems_(List<Option
       isOptionalStringValNotNull,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
-      unwrapNullableItemsList(requiredListWithNullableItems),
+      unmapList(
+          requiredListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity()
+      ),
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
@@ -360,8 +853,136 @@ public NecessityAndNullabilityDto withRequiredListWithNullableItems_(List<Option
 ]
 
 
+allNullabilityAndNecessityVariants[requiredNullableListWithNullableItemsMapped]=[
+com.custom.CustomString
+java.util.Optional
+java.util.function.Function
+
+/**
+ * RequiredNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withRequiredNullableListWithNullableItemsMapped(List<CustomString> requiredNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      unmapList(
+          requiredNullableListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * RequiredNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withRequiredNullableListWithNullableItemsMapped(Optional<List<CustomString>> requiredNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      unmapList(
+          requiredNullableListWithNullableItemsMapped,
+          l -> l.orElse(null),
+          Function.identity(),
+          Function.identity(),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * RequiredNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withRequiredNullableListWithNullableItemsMapped_(List<Optional<CustomString>> requiredNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      unmapList(
+          requiredNullableListWithNullableItemsMapped,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * RequiredNullableListWithNullableItems
+ */
+public NecessityAndNullabilityDto withRequiredNullableListWithNullableItemsMapped_(Optional<List<Optional<CustomString>>> requiredNullableListWithNullableItemsMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      unmapList(
+          requiredNullableListWithNullableItemsMapped,
+          l -> l.orElse(null),
+          Function.identity(),
+          i -> i.orElse(null),
+          i -> CustomString.toString(i)
+      ),
+      true,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+]
+
+
 allNullabilityAndNecessityVariants[requiredNullableListWithNullableItems]=[
 java.util.Optional
+java.util.function.Function
 
 /**
  * RequiredNullableListWithNullableItems
@@ -377,7 +998,13 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(List
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
-      requiredNullableListWithNullableItems,
+      unmapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      ),
       true,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
@@ -401,7 +1028,13 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Opti
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
-      requiredNullableListWithNullableItems.orElse(null),
+      unmapList(
+          requiredNullableListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      ),
       true,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
@@ -425,7 +1058,13 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(Lis
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
-      unwrapNullableItemsList(requiredNullableListWithNullableItems),
+      unmapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity()
+      ),
       true,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
@@ -449,12 +1088,72 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems_(Opt
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
-      unwrapNullableItemsList(requiredNullableListWithNullableItems.orElse(null)),
+      unmapList(
+          requiredNullableListWithNullableItems,
+          l -> l.orElse(null),
+          Function.identity(),
+          i -> i.orElse(null),
+          Function.identity()
+      ),
       true,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
+      additionalProperties
+    );
+}
+]
+
+
+allNullabilityAndNecessityVariants[requiredNullableStringValMapped]=[
+com.custom.CustomString
+java.util.Optional
+
+/**
+ * RequiredNullableStringVal
+ */
+public NecessityAndNullabilityDto withRequiredNullableStringValMapped(CustomString requiredNullableStringValMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      CustomString.toString(requiredNullableStringValMapped),
+      true,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
+      additionalProperties
+    );
+}
+
+/**
+ * RequiredNullableStringVal
+ */
+public NecessityAndNullabilityDto withRequiredNullableStringValMapped(Optional<CustomString> requiredNullableStringValMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      requiredStringValMapped,
+      requiredNullableStringValMapped.map(val -> CustomString.toString(val)).orElse(null),
+      true,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
       additionalProperties
     );
 }
@@ -508,6 +1207,35 @@ public NecessityAndNullabilityDto withRequiredNullableStringVal(Optional<String>
       isOptionalListWithNullableItemsNotNull,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
+      additionalProperties
+    );
+}
+]
+
+
+allNullabilityAndNecessityVariants[requiredStringValMapped]=[
+com.custom.CustomString
+
+/**
+ * RequiredStringVal
+ */
+public NecessityAndNullabilityDto withRequiredStringValMapped(CustomString requiredStringValMapped) {
+  return
+    new NecessityAndNullabilityDto(
+      CustomString.toString(requiredStringValMapped),
+      requiredNullableStringValMapped,
+      isRequiredNullableStringValMappedPresent,
+      optionalStringValMapped,
+      isOptionalStringValMappedNotNull,
+      optionalNullableStringValMapped,
+      isOptionalNullableStringValMappedNull,
+      requiredListWithNullableItemsMapped,
+      requiredNullableListWithNullableItemsMapped,
+      isRequiredNullableListWithNullableItemsMappedPresent,
+      optionalListWithNullableItemsMapped,
+      isOptionalListWithNullableItemsMappedNotNull,
+      optionalNullableListWithNullableItemsMapped,
+      isOptionalNullableListWithNullableItemsMappedNull,
       additionalProperties
     );
 }
