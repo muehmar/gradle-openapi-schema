@@ -5,7 +5,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
-import java.util.function.Predicate;
 
 public class ListMappingMethods {
   private ListMappingMethods() {}
@@ -18,14 +17,6 @@ public class ListMappingMethods {
   }
 
   private static boolean needsListMappingMethods(JavaObjectPojo pojo) {
-    final Predicate<JavaType> isNullableItemsArrayType = JavaType::isNullableItemsArrayType;
-    final Predicate<JavaType> hasApiType = JavaType::hasApiType;
-    final Predicate<JavaType> hasArrayItemApiType =
-        type -> type.onArrayType().map(JavaType::hasApiType).orElse(false);
-
-    return pojo.getAllMembers()
-        .map(JavaPojoMember::getJavaType)
-        .filter(JavaType::isArrayType)
-        .exists(isNullableItemsArrayType.or(hasApiType).or(hasArrayItemApiType));
+    return pojo.getAllMembers().map(JavaPojoMember::getJavaType).exists(JavaType::isArrayType);
   }
 }

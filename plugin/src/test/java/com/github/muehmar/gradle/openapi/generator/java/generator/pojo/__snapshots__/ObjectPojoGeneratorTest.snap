@@ -9199,6 +9199,53 @@ public class ObjectPojo1Dto {
       );
   }
 
+  private static <A, B, C, D, E> List<E> unmapList(
+      A list,
+      Function<A, B> unwrapList,
+      Function<B, List<C>> unmapListType,
+      Function<C, D> unwrapListItem,
+      Function<D, E> unmapListItemType) {
+    if (list == null) {
+      return null;
+    }
+
+    final B unwrappedList = unwrapList.apply(list);
+
+    if (unwrappedList == null) {
+      return null;
+    }
+
+    final List<C> unmappedListType = unmapListType.apply(unwrappedList);
+
+    if (unmappedListType == null) {
+      return null;
+    }
+
+    return unmappedListType.stream()
+        .map(i -> i != null ? unwrapListItem.apply(i) : null)
+        .map(i -> i != null ? unmapListItemType.apply(i) : null)
+        .collect(Collectors.toList());
+  }
+
+  private static <A, B, C, D, E> E mapList(
+      List<A> list,
+      Function<A, B> mapListItemType,
+      Function<B, C> wrapListItem,
+      Function<List<C>, D> mapListType,
+      Function<D, E> wrapListType) {
+    if (list == null) {
+      return wrapListType.apply(null);
+    }
+
+    final List<C> mappedListType =
+        list.stream()
+            .map(i -> i != null ? mapListItemType.apply(i) : null)
+            .map(wrapListItem)
+            .collect(Collectors.toList());
+
+    return wrapListType.apply(mapListType.apply(mappedListType));
+  }
+
   boolean isValid() {
     return new Validator().isValid();
   }
