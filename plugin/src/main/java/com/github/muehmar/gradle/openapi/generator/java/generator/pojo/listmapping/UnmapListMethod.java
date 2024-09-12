@@ -1,5 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_FUNCTION;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_LIST;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_STREAM_COLLECTORS;
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import io.github.muehmar.codegenerator.Generator;
@@ -36,6 +40,9 @@ public class UnmapListMethod {
         .append(constant(".map(i -> i != null ? unwrapListItem.apply(i) : null)"), 3)
         .append(constant(".map(i -> i != null ? unmapListItemType.apply(i) : null)"), 3)
         .append(constant(".collect(Collectors.toList());"), 3)
-        .append(constant("}"));
+        .append(constant("}"))
+        .append(ref(JAVA_UTIL_LIST))
+        .append(ref(JAVA_UTIL_FUNCTION))
+        .append(ref(JAVA_UTIL_STREAM_COLLECTORS));
   }
 }
