@@ -28,7 +28,15 @@ public class PosologyDto {
   }
 
   public static PosologyDto fromItems(List<Double> items) {
-    return new PosologyDto(items);
+    return new PosologyDto(
+        unmapList(
+            items,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        )
+    );
   }
 
   public static PosologyDto empty() {
