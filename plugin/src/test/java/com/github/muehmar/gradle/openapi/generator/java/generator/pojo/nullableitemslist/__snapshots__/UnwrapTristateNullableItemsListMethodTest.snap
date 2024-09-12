@@ -1,9 +1,0 @@
-unwrapTristateNullableItemsList=[
-com.github.muehmar.openapi.util.Tristate
-java.util.List
-java.util.Optional
-
-private static <T> Tristate<List<T>> unwrapTristateNullableItemsList(Tristate<List<Optional<T>>> list) {
-  return list.map(l -> unwrapNullableItemsList(l));
-}
-]
