@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -35,6 +36,20 @@ class JavaMapTypeTest {
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
+  }
+
+  @Test
+  void wrap_when_stringMapping_then_keyStringTypeNotMapped() {
+    final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat());
+    final JavaMapType javaType =
+        JavaMapType.wrap(
+            mapType, TypeMappings.ofSingleClassTypeMapping(STRING_MAPPING_WITH_CONVERSION));
+
+    assertEquals(Optional.empty(), javaType.getApiType());
+
+    assertEquals("Map<String, String>", javaType.getParameterizedClassName().asString());
+    assertEquals(
+        "Map<String, CustomString>", javaType.getWriteableParameterizedClassName().asString());
   }
 
   @Test

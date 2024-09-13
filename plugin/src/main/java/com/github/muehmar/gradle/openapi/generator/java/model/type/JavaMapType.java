@@ -45,7 +45,7 @@ public class JavaMapType implements JavaType {
   }
 
   public static JavaMapType wrap(MapType mapType, TypeMappings typeMappings) {
-    final JavaType key = JavaType.wrap(mapType.getKey(), typeMappings);
+    final JavaType key = JavaType.wrap(mapType.getKey(), TypeMappings.empty());
     final JavaType value = JavaType.wrap(mapType.getValue(), typeMappings);
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
