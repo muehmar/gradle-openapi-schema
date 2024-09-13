@@ -124,6 +124,25 @@ public class PosologyDto {
         .collect(Collectors.toList());
   }
 
+  private static <A, B, C, D, E> E mapList(
+      List<A> list,
+      Function<A, B> mapListItemType,
+      Function<B, C> wrapListItem,
+      Function<List<C>, D> mapListType,
+      Function<D, E> wrapListType) {
+    if (list == null) {
+      return wrapListType.apply(null);
+    }
+
+    final List<C> mappedListType =
+        list.stream()
+            .map(i -> i != null ? mapListItemType.apply(i) : null)
+            .map(wrapListItem)
+            .collect(Collectors.toList());
+
+    return wrapListType.apply(mapListType.apply(mappedListType));
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;

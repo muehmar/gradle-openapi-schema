@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.array.F
 import static com.github.muehmar.gradle.openapi.generator.java.generator.array.ValidatorClassGenerator.validationClassGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberGenerator.memberGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MapListMethod.mapListMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.UnmapListMethod.unmapListMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither.WitherGenerator.witherGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.EqualsGenerator.equalsMethod;
@@ -66,6 +67,8 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
         .append(validationContent())
         .appendSingleBlankLine()
         .append(unmapListMethod())
+        .appendSingleBlankLine()
+        .append(mapListMethod())
         .appendSingleBlankLine()
         .append(equalsHashCodeAndToString());
   }
