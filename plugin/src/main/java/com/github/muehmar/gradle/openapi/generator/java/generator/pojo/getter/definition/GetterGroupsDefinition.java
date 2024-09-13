@@ -104,24 +104,32 @@ public class GetterGroupsDefinition {
                         generator(VALIDATION_GETTER))),
                 nested(
                     isNotNullableItemsList(),
-                    group(JavaPojoMember::isRequiredAndNotNullable, generator(STANDARD_GETTER)),
+                    groups(
+                        nested(
+                            JavaPojoMember::isRequiredAndNotNullable,
+                            group(hasNoApiTypeDeep(), generator(STANDARD_GETTER)),
+                            group(
+                                hasApiTypeDeep(),
+                                generator(LIST_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
+                                generator(JSON_GETTER),
+                                generator(VALIDATION_GETTER)))),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
-                        generator(OPTIONAL_GETTER),
-                        generator(OPTIONAL_OR_GETTER),
+                        generator(LIST_OPTIONAL_GETTER),
+                        generator(LIST_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER),
                         generator(FLAG_VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
-                        generator(OPTIONAL_GETTER),
-                        generator(OPTIONAL_OR_GETTER),
+                        generator(LIST_OPTIONAL_GETTER),
+                        generator(LIST_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER),
                         generator(FLAG_VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
-                        generator(TRISTATE_GETTER),
+                        generator(LIST_TRISTATE_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER))))));
   }
@@ -174,20 +182,21 @@ public class GetterGroupsDefinition {
                     isNotNullableItemsList(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
-                        generator(STANDARD_GETTER, NO_VALIDATION)),
+                        generator(LIST_STANDARD_GETTER, NO_VALIDATION),
+                        generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
-                        generator(OPTIONAL_GETTER),
-                        generator(OPTIONAL_OR_GETTER),
+                        generator(LIST_OPTIONAL_GETTER),
+                        generator(LIST_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
-                        generator(OPTIONAL_GETTER),
-                        generator(OPTIONAL_OR_GETTER),
+                        generator(LIST_OPTIONAL_GETTER),
+                        generator(LIST_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
-                        generator(TRISTATE_GETTER),
+                        generator(LIST_TRISTATE_GETTER),
                         generator(JSON_GETTER))))));
   }
 
