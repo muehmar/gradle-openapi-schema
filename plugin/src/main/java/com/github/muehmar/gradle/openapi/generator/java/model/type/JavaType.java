@@ -142,17 +142,21 @@ public interface JavaType {
         .orElse(false);
   }
 
-  default boolean isMapType() {
+  default Optional<JavaMapType> onMapType() {
     return fold(
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance);
+        javaArrayType -> Optional.empty(),
+        javaBooleanType -> Optional.empty(),
+        javaEnumType -> Optional.empty(),
+        Optional::of,
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        javaObjectType -> Optional.empty(),
+        javaStringType -> Optional.empty());
+  }
+
+  default boolean isMapType() {
+    return onMapType().isPresent();
   }
 
   default boolean isAnyType() {

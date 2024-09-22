@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
+import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 
 public class PojoMembers {
@@ -137,6 +138,54 @@ public class PojoMembers {
             .withConstraints(Constraints.ofSize(Size.of(5, 10))),
         PropertyScope.DEFAULT,
         OPTIONAL);
+  }
+
+  public static PojoMember requiredMap() {
+    final StringType valueType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")));
+    return new PojoMember(
+        Name.ofString("requiredMap"),
+        "RequiredMap",
+        MapType.ofKeyAndValueType(StringType.noFormat(), valueType),
+        PropertyScope.DEFAULT,
+        Necessity.REQUIRED);
+  }
+
+  public static PojoMember requiredNullableMap() {
+    final StringType valueType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")));
+    return new PojoMember(
+        Name.ofString("requiredNullableMap"),
+        "RequiredNullableMap",
+        MapType.ofKeyAndValueType(StringType.noFormat(), valueType).withNullability(NULLABLE),
+        PropertyScope.DEFAULT,
+        Necessity.REQUIRED);
+  }
+
+  public static PojoMember optionalMap() {
+    final StringType valueType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")));
+    return new PojoMember(
+        Name.ofString("optionalMap"),
+        "OptionalMap",
+        MapType.ofKeyAndValueType(StringType.noFormat(), valueType),
+        PropertyScope.DEFAULT,
+        Necessity.OPTIONAL);
+  }
+
+  public static PojoMember optionalNullableMap() {
+    final StringType valueType =
+        StringType.noFormat()
+            .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")));
+    return new PojoMember(
+        Name.ofString("optionalNullableMap"),
+        "OptionalNullableMap",
+        MapType.ofKeyAndValueType(StringType.noFormat(), valueType).withNullability(NULLABLE),
+        PropertyScope.DEFAULT,
+        Necessity.OPTIONAL);
   }
 
   public static PojoMember ofType(Type type) {

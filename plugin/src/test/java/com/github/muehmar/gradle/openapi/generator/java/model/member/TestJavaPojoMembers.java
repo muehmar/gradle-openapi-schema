@@ -274,6 +274,38 @@ public class TestJavaPojoMembers {
         .build();
   }
 
+  public static JavaPojoMember requiredMap() {
+    return requiredMap(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredMap(TypeMappings typeMappings) {
+    return JavaPojoMember.wrap(PojoMembers.requiredMap(), invoiceName(), typeMappings);
+  }
+
+  public static JavaPojoMember requiredNullableMap() {
+    return requiredNullableMap(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember requiredNullableMap(TypeMappings typeMappings) {
+    return JavaPojoMember.wrap(PojoMembers.requiredNullableMap(), invoiceName(), typeMappings);
+  }
+
+  public static JavaPojoMember optionalMap() {
+    return optionalMap(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalMap(TypeMappings typeMappings) {
+    return JavaPojoMember.wrap(PojoMembers.optionalMap(), invoiceName(), typeMappings);
+  }
+
+  public static JavaPojoMember optionalNullableMap() {
+    return optionalNullableMap(TypeMappings.empty());
+  }
+
+  public static JavaPojoMember optionalNullableMap(TypeMappings typeMappings) {
+    return JavaPojoMember.wrap(PojoMembers.optionalNullableMap(), invoiceName(), typeMappings);
+  }
+
   public static JavaPojoMember requiredString() {
     return requiredString(TypeMappings.empty());
   }

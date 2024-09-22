@@ -15,4 +15,9 @@ public class ClassTypeMappings {
       new TypeConversion("com.custom.CustomList#toList", "com.custom.CustomList#fromList");
   public static final ClassTypeMapping LIST_MAPPING_WITH_CONVERSION =
       new ClassTypeMapping("List", "com.custom.CustomList", Optional.of(LIST_CONVERSION));
+
+  public static final TypeConversion MAP_CONVERSION =
+      new TypeConversion("com.custom.CustomMap#toMap", "com.custom.CustomMap#fromMap");
+  public static final ClassTypeMapping MAP_MAPPING_WITH_CONVERSION =
+      new ClassTypeMapping("Map", "com.custom.CustomMap", Optional.of(MAP_CONVERSION));
 }
