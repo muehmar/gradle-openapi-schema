@@ -9504,6 +9504,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -9579,6 +9580,63 @@ public class ObjectPojo1Dto {
         mapVal,
         additionalProperties
       );
+  }
+
+  private static <A, B, C, D, E> Map<String, E> unmapMap(
+      A map,
+      Function<A, B> unwrapMap,
+      Function<B, Map<String, C>> unmapMapType,
+      Function<C, D> unwrapMapItem,
+      Function<D, E> unmapMapItemType) {
+    if (map == null) {
+      return null;
+    }
+
+    final B unwrappedMap = unwrapMap.apply(map);
+
+    if (unwrappedMap == null) {
+      return null;
+    }
+
+    final Map<String, C> unmappedMapType = unmapMapType.apply(unwrappedMap);
+
+    if (unmappedMapType == null) {
+      return null;
+    }
+
+    return unmappedMapType.entrySet().stream()
+        .collect(
+            HashMap::new,
+            (m, entry) -> {
+              final D d = entry.getValue() != null ? unwrapMapItem.apply(entry.getValue()) : null;
+              final E e = d != null ? unmapMapItemType.apply(d) : null;
+              m.put(entry.getKey(), e);
+            },
+            HashMap::putAll);
+  }
+
+  private static <A, B, C, D, E> E mapMap(
+      Map<String, A> map,
+      Function<A, B> mapMapItemType,
+      Function<B, C> wrapMapItemType,
+      Function<Map<String, C>, D> mapMapType,
+      Function<D, E> wrapMapType) {
+    if (map == null) {
+      return wrapMapType.apply(null);
+    }
+
+    final Map<String, C> mappedMapType =
+        map.entrySet().stream()
+            .collect(
+                HashMap::new,
+                (m, entry) -> {
+                  final B b = entry.getValue() != null ? mapMapItemType.apply(entry.getValue()) : null;
+                  final C c = wrapMapItemType.apply(b);
+                  m.put(entry.getKey(), c);
+                },
+                HashMap::putAll);
+
+    return wrapMapType.apply(mapMapType.apply(mappedMapType));
   }
 
   boolean isValid() {
