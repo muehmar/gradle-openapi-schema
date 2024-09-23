@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriterBuilder.fullMemberMapWriterBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.ListMemberMappingWriterBuilder.fullListMemberMappingWriterBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredListWithNullableItems;
@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @SnapshotTest
-class MemberMapWriterTest {
+class ListMemberMappingWriterTest {
   private Expect expect;
 
   private static final JavaPojoMember MEMBER =
@@ -41,9 +41,9 @@ class MemberMapWriterTest {
 
   @Test
   @SnapshotName("allUnnecessary")
-  void fullMemberMapWriterBuilder_when_allUnnecessary_then_matchSnapshot() {
+  void fullListMemberMappingWriterBuilder_when_allUnnecessary_then_matchSnapshot() {
     final Writer writer =
-        fullMemberMapWriterBuilder()
+        fullListMemberMappingWriterBuilder()
             .member(MEMBER)
             .noPrefix()
             .mapListItemTypeNotNecessary()
@@ -58,9 +58,9 @@ class MemberMapWriterTest {
 
   @Test
   @SnapshotName("wrapOptionalListAndListItem")
-  void fullMemberMapWriterBuilder_when_wrapOptionalListAndListItem_then_matchSnapshot() {
+  void fullListMemberMappingWriterBuilder_when_wrapOptionalListAndListItem_then_matchSnapshot() {
     final Writer writer =
-        fullMemberMapWriterBuilder()
+        fullListMemberMappingWriterBuilder()
             .member(MEMBER)
             .noPrefix()
             .mapListItemTypeNotNecessary()
@@ -75,9 +75,9 @@ class MemberMapWriterTest {
 
   @Test
   @SnapshotName("wrapTristateList")
-  void fullMemberMapWriterBuilder_when_wrapTristateList_then_matchSnapshot() {
+  void fullListMemberMappingWriterBuilder_when_wrapTristateList_then_matchSnapshot() {
     final Writer writer =
-        fullMemberMapWriterBuilder()
+        fullListMemberMappingWriterBuilder()
             .member(MEMBER)
             .noPrefix()
             .mapListItemTypeNotNecessary()
@@ -92,9 +92,9 @@ class MemberMapWriterTest {
 
   @Test
   @SnapshotName("mapListAndListItemType")
-  void fullMemberMapWriterBuilder_when_mapListAndListItemType_then_matchSnapshot() {
+  void fullListMemberMappingWriterBuilder_when_mapListAndListItemType_then_matchSnapshot() {
     final Writer writer =
-        fullMemberMapWriterBuilder()
+        fullListMemberMappingWriterBuilder()
             .member(MEMBER)
             .noPrefix()
             .mapListItemType(JAVA_ARRAY_TYPE)
@@ -109,9 +109,9 @@ class MemberMapWriterTest {
 
   @Test
   @SnapshotName("prefixAndTrailingSemicolon")
-  void fullMemberMapWriterBuilder_when_prefixAndTrailingSemicolon_then_matchSnapshot() {
+  void fullListMemberMappingWriterBuilder_when_prefixAndTrailingSemicolon_then_matchSnapshot() {
     final Writer writer =
-        fullMemberMapWriterBuilder()
+        fullListMemberMappingWriterBuilder()
             .member(MEMBER)
             .prefix("return ")
             .mapListItemTypeNotNecessary()
@@ -127,10 +127,10 @@ class MemberMapWriterTest {
   @ParameterizedTest
   @MethodSource("listVariants")
   @SnapshotName("autoMapped")
-  void fullMemberMapWriterBuilder_when_everythingAutoMapped_then_matchSnapshot(
+  void fullListMemberMappingWriterBuilder_when_everythingAutoMapped_then_matchSnapshot(
       JavaPojoMember member) {
     final Writer writer =
-        fullMemberMapWriterBuilder()
+        fullListMemberMappingWriterBuilder()
             .member(member)
             .prefix("")
             .autoMapListItemType()

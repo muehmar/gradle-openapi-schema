@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriter.fullAutoMemberMapWriter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.ListMemberMappingWriter.fullAutoListMemberMappingWriter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
@@ -30,7 +30,7 @@ public class ListStandardGetter {
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()
-        .content((member, s, w) -> w.append(fullAutoMemberMapWriter(member, "return ")))
+        .content((member, s, w) -> w.append(fullAutoListMemberMappingWriter(member, "return ")))
         .build();
   }
 }

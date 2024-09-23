@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriterBuilder.fullMemberMapWriterBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.ListMemberMappingWriterBuilder.fullListMemberMappingWriterBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
@@ -40,7 +40,7 @@ public class ListOptionalOrGetter {
   private static Generator<JavaPojoMember, PojoSettings> methodContent() {
     return (member, settings, writer) -> {
       final Writer memberMapWriter =
-          fullMemberMapWriterBuilder()
+          fullListMemberMappingWriterBuilder()
               .member(member)
               .prefix(": ")
               .autoMapListItemType()

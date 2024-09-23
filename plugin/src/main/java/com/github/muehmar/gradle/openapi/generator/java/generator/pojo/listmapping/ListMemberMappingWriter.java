@@ -1,6 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MemberMapWriterBuilder.fullMemberMapWriterBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.ListMemberMappingWriterBuilder.fullListMemberMappingWriterBuilder;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 
 @PojoBuilder(enableStandardBuilder = false)
 @AllArgsConstructor
-public class MemberMapWriter {
+public class ListMemberMappingWriter {
   private final JavaPojoMember member;
   private final String prefix;
   private final Function<JavaPojoMember, Writer> mapListItemType;
@@ -28,8 +28,8 @@ public class MemberMapWriter {
   private final Function<JavaPojoMember, Writer> wrapList;
   private final boolean trailingSemicolon;
 
-  public static Writer fullAutoMemberMapWriter(JavaPojoMember member, String prefix) {
-    return fullMemberMapWriterBuilder()
+  public static Writer fullAutoListMemberMappingWriter(JavaPojoMember member, String prefix) {
+    return fullListMemberMappingWriterBuilder()
         .member(member)
         .prefix(prefix)
         .autoMapListItemType()
@@ -166,16 +166,16 @@ public class MemberMapWriter {
   }
 
   @BuildMethod
-  public static Writer build(MemberMapWriter memberMapWriter) {
+  public static Writer build(ListMemberMappingWriter mappingWriter) {
     return javaWriter()
-        .println("%s%s(", memberMapWriter.prefix, MapListMethod.METHOD_NAME)
+        .println("%s%s(", mappingWriter.prefix, MapListMethod.METHOD_NAME)
         .tab(2)
-        .println("%s,", memberMapWriter.member.getName())
-        .append(2, memberMapWriter.mapListItemType.apply(memberMapWriter.member).println(","))
-        .append(2, memberMapWriter.wrapListItem.apply(memberMapWriter.member).println(","))
-        .append(2, memberMapWriter.mapListType.apply(memberMapWriter.member).println(","))
-        .append(2, memberMapWriter.wrapList.apply(memberMapWriter.member))
-        .print(")%s", memberMapWriter.trailingSemicolon ? ";" : "");
+        .println("%s,", mappingWriter.member.getName())
+        .append(2, mappingWriter.mapListItemType.apply(mappingWriter.member).println(","))
+        .append(2, mappingWriter.wrapListItem.apply(mappingWriter.member).println(","))
+        .append(2, mappingWriter.mapListType.apply(mappingWriter.member).println(","))
+        .append(2, mappingWriter.wrapList.apply(mappingWriter.member))
+        .print(")%s", mappingWriter.trailingSemicolon ? ";" : "");
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {
