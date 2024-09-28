@@ -1,5 +1,6 @@
 ## Change Log
 
+* 3.1.6 - Fix inlining of container types, e.g. array items and map values (issue `#287`)
 * 3.1.5 - Fix serialisation of required not nullable properties with special naming pattern (issue `#272`)
 * 3.1.4 - Fix generation of inline enum definitions for item types of arrays (issue `#280`)
 * 3.1.3 - Fix unresolved array items (issue `#275`)
