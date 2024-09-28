@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.p
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -32,6 +33,20 @@ class PojoMemberTest {
     final PojoMember inlinedMember = pojoMember.replaceObjectType(referenceName, "", referenceType);
 
     assertEquals(originalType, inlinedMember.getType());
+  }
+
+  @Test
+  void replaceObjectReference_when_nameMatchesArrayObjectItemType_then_typeTypeUsed() {
+    final PojoName referenceName = pojoName("MemberReference", "Dto");
+    final StringType referenceType = StringType.noFormat();
+    final StandardObjectType itemType = StandardObjectType.ofName(referenceName);
+    final ArrayType arrayType = ArrayType.ofItemType(itemType, Nullability.NOT_NULLABLE);
+    final PojoMember pojoMember = PojoMembers.ofType(arrayType);
+
+    final PojoMember mappedMember = pojoMember.replaceObjectType(referenceName, "", referenceType);
+
+    assertEquals(
+        ArrayType.ofItemType(referenceType, Nullability.NOT_NULLABLE), mappedMember.getType());
   }
 
   @Test

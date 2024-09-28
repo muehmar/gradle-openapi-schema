@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -74,6 +75,12 @@ public class StringType implements Type {
   @Override
   public Type makeNullable() {
     return withNullability(Nullability.NULLABLE);
+  }
+
+  @Override
+  public Type replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+    return this;
   }
 
   @Override

@@ -12,4 +12,9 @@ public interface ObjectType extends Type {
   ObjectType withNullability(Nullability nullability);
 
   Optional<EnumObjectType> asEnumObjectType();
+
+  default ObjectType replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+    return this;
+  }
 }

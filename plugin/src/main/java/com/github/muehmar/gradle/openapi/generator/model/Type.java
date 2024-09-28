@@ -25,6 +25,9 @@ public interface Type {
 
   Type makeNullable();
 
+  Type replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType);
+
   default Type adjustNullablePojo(PojoName nullablePojo) {
     return asObjectType()
         .filter(objectType -> objectType.getName().equals(nullablePojo))
