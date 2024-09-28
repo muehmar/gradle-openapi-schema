@@ -1,0 +1,20 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    RoleId:
+      description: |
+        The id for a role.
+      type: integer
+
+    User:
+      properties:
+        roleIds:
+          description: |
+            A List of Role Ids.
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleId'
