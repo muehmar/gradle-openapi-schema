@@ -5,11 +5,15 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Java
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableStringList;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalStringList;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableStringList;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringList;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -52,7 +56,9 @@ class GetterGeneratorTest {
     final TypeMappings fullConversion =
         TypeMappings.ofClassTypeMappings(
             ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
-            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
+            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION,
+            ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION);
+
     final TypeMappings listConversion =
         TypeMappings.ofClassTypeMappings(ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
     final TypeMappings stringConversion =
@@ -73,6 +79,17 @@ class GetterGeneratorTest {
                 optionalNullableStringList(fullConversion))
             .map(member -> member.withName(member.getName().append("-FullyMapped")));
 
+    final PList<JavaPojoMember> allNecessityAndNullabilityMapVariants =
+        PList.of(requiredMap(), requiredNullableMap(), optionalMap(), optionalNullableMap());
+
+    final PList<JavaPojoMember> allNecessityAndNullabilityMapVariantsFullyMapped =
+        PList.of(
+                requiredMap(fullConversion),
+                requiredNullableMap(fullConversion),
+                optionalMap(fullConversion),
+                optionalNullableMap(fullConversion))
+            .map(member -> member.withName(member.getName().append("-FullyMapped")));
+
     final PList<JavaPojoMember> members =
         allNecessityAndNullabilityVariants()
             .concat(
@@ -85,7 +102,9 @@ class GetterGeneratorTest {
                 allNecessityAndNullabilityVariants(listConversion)
                     .map(member -> member.withName(member.getName().append("-ListMapped"))))
             .concat(allNecessityAndNullabilityListVariants)
-            .concat(allNecessityAndNullabilityListVariantsFullyMapped);
+            .concat(allNecessityAndNullabilityListVariantsFullyMapped)
+            .concat(allNecessityAndNullabilityMapVariants)
+            .concat(allNecessityAndNullabilityMapVariantsFullyMapped);
 
     final PList<JavaPojoMember> anyOfMembers =
         members.map(

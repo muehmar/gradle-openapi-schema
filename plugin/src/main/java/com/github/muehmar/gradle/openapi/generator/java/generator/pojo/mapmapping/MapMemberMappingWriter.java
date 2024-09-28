@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.MapMemberMappingWriterBuilder.fullMapMemberMappingWriterBuilder;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MapListMethod;
@@ -27,6 +28,18 @@ public class MapMemberMappingWriter {
   private final Function<JavaPojoMember, Writer> mapMapType;
   private final Function<JavaPojoMember, Writer> wrapMap;
   private final boolean trailingSemicolon;
+
+  public static Writer fullAutoMapMemberMappingWriter(JavaPojoMember member, String prefix) {
+    return fullMapMemberMappingWriterBuilder()
+        .member(member)
+        .prefix(prefix)
+        .autoMapMapItemType()
+        .autoWrapMapItem()
+        .autoMapMapType()
+        .autoWrapMap()
+        .trailingSemicolon()
+        .build();
+  }
 
   @FieldBuilder(fieldName = "prefix", disableDefaultMethods = true)
   public static class PrefixFieldBuilder {
@@ -77,7 +90,7 @@ public class MapMemberMappingWriter {
       return member -> javaWriter().print("Optional::ofNullable").ref(JavaRefs.JAVA_UTIL_OPTIONAL);
     }
 
-    static Function<JavaPojoMember, Writer> autoWrapListItem() {
+    static Function<JavaPojoMember, Writer> autoWrapMapItem() {
       return wrapMapItemNotNecessary();
     }
   }

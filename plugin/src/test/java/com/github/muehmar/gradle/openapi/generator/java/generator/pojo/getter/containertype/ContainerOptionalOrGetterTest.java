@@ -1,11 +1,12 @@
-package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list;
+package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalGetter.listOptionalGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype.ContainerOptionalOrGetter.containerOptionalOrGetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalStringList;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableStringList;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
@@ -30,22 +31,22 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @SnapshotTest
-class ListOptionalGetterTest {
+class ContainerOptionalOrGetterTest {
   private Expect expect;
 
   @ParameterizedTest
-  @MethodSource("listMembers")
-  @SnapshotName("listMembers")
+  @MethodSource("containerMembers")
+  @SnapshotName("containerMembers")
   void generate_when_listMembers_then_matchSnapshot(JavaPojoMember member) {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        listOptionalGetterGenerator(GetterGeneratorSettings.empty());
+        containerOptionalOrGetterGenerator(GetterGeneratorSettings.empty());
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
 
-  private static Stream<Arguments> listMembers() {
+  private static Stream<Arguments> containerMembers() {
     final TypeMappings fullTypeMappings =
         TypeMappings.ofClassTypeMappings(
             STRING_MAPPING_WITH_CONVERSION, LIST_MAPPING_WITH_CONVERSION);
@@ -53,7 +54,8 @@ class ListOptionalGetterTest {
             requiredNullableStringList(),
             requiredNullableListWithNullableItems(),
             optionalListWithNullableItems(fullTypeMappings)
-                .withName(JavaName.fromString("optionalListWithNullableItemsFullMapping")))
+                .withName(JavaName.fromString("optionalListWithNullableItemsFullMapping")),
+            requiredNullableMap())
         .map(Arguments::arguments);
   }
 
@@ -63,10 +65,10 @@ class ListOptionalGetterTest {
   void generate_when_generatorSettings_then_matchSnapshot(
       GetterGeneratorSettings generatorSettings) {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        listOptionalGetterGenerator(generatorSettings);
+        containerOptionalOrGetterGenerator(generatorSettings);
 
     final Writer writer;
-    writer = generator.generate(requiredString(), defaultTestSettings(), javaWriter());
+    writer = generator.generate(optionalStringList(), defaultTestSettings(), javaWriter());
 
     expect
         .scenario(generatorSettings.getSettings().mkString("|"))
@@ -74,7 +76,7 @@ class ListOptionalGetterTest {
   }
 
   private static Stream<Arguments> generatorSettings() {
-    return Stream.<PList<GetterGeneratorSetting>>of(PList.empty(), PList.of(PACKAGE_PRIVATE))
+    return Stream.<PList<GetterGeneratorSetting>>of(PList.empty(), PList.of(NO_JAVA_DOC))
         .map(GetterGeneratorSettings::new)
         .map(Arguments::arguments);
   }

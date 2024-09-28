@@ -133,7 +133,7 @@ class MapMemberMappingWriterTest {
             .member(member)
             .noPrefix()
             .autoMapMapItemType()
-            .autoWrapListItem()
+            .autoWrapMapItem()
             .autoMapMapType()
             .autoWrapMap()
             .noTrailingSemicolon()
@@ -143,10 +143,6 @@ class MapMemberMappingWriterTest {
   }
 
   public static Stream<Arguments> mapVariants() {
-    final TypeMappings stringTypeMapping =
-        TypeMappings.ofSingleClassTypeMapping(STRING_MAPPING_WITH_CONVERSION);
-    final TypeMappings mapTypeMapping =
-        TypeMappings.ofSingleClassTypeMapping(MAP_MAPPING_WITH_CONVERSION);
     final TypeMappings fullMapping =
         TypeMappings.ofClassTypeMappings(
             STRING_MAPPING_WITH_CONVERSION, MAP_MAPPING_WITH_CONVERSION);

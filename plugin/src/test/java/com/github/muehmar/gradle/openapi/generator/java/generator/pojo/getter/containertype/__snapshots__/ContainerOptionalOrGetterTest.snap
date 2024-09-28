@@ -1,0 +1,135 @@
+containerMembers[optionalListWithNullableItemsFullMapping]=[
+com.custom.CustomList
+com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * OptionalListWithNullableItems
+ */
+@JsonIgnore
+public CustomList<Optional<CustomString>> getOptionalListWithNullableItemsFullMappingOr(CustomList<Optional<CustomString>> defaultValue) {
+  return this.optionalListWithNullableItemsFullMapping == null
+      ? defaultValue
+      : mapList(
+          optionalListWithNullableItemsFullMapping,
+          i -> CustomString.fromString(i),
+          Optional::ofNullable,
+          l -> CustomList.fromList(l),
+          Function.identity()
+      );
+}
+]
+
+
+containerMembers[requiredNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * RequiredNullableListWithNullableItems
+ */
+@JsonIgnore
+public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Optional<String>> defaultValue) {
+  return this.requiredNullableListWithNullableItems == null
+      ? defaultValue
+      : mapList(
+          requiredNullableListWithNullableItems,
+          Function.identity(),
+          Optional::ofNullable,
+          Function.identity(),
+          Function.identity()
+      );
+}
+]
+
+
+containerMembers[requiredNullableMap]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * RequiredNullableMap
+ */
+@JsonIgnore
+public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
+  return this.requiredNullableMap == null
+      ? defaultValue
+      : mapList(
+          requiredNullableMap,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      );
+}
+]
+
+
+containerMembers[requiredNullableStringList]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<String> getRequiredNullableStringListOr(List<String> defaultValue) {
+  return this.requiredNullableStringList == null
+      ? defaultValue
+      : mapList(
+          requiredNullableStringList,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      );
+}
+]
+
+
+generatorSettings[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+@JsonIgnore
+public List<String> getOptionalStringListOr(List<String> defaultValue) {
+  return this.optionalStringList == null
+      ? defaultValue
+      : mapList(
+          optionalStringList,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      );
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<String> getOptionalStringListOr(List<String> defaultValue) {
+  return this.optionalStringList == null
+      ? defaultValue
+      : mapList(
+          optionalStringList,
+          Function.identity(),
+          Function.identity(),
+          Function.identity(),
+          Function.identity()
+      );
+}
+]

@@ -4,13 +4,13 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JSON;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_VALIDATION;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CONTAINER_OPTIONAL_GETTER;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CONTAINER_OPTIONAL_OR_GETTER;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CONTAINER_STANDARD_GETTER;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CONTAINER_TRISTATE_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.FLAG_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.FLAG_VALIDATION_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.JSON_GETTER;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.LIST_OPTIONAL_GETTER;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.LIST_OPTIONAL_OR_GETTER;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.LIST_STANDARD_GETTER;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.LIST_TRISTATE_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.OPTIONAL_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.OPTIONAL_OR_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.STANDARD_GETTER;
@@ -44,7 +44,7 @@ public class GetterGroupsDefinition {
   private static PList<GetterGroup> standardMemberType() {
     return groups(
         nested(
-            isNotArrayType(),
+            isNotContainerType(),
             groups(
                 nested(
                     JavaPojoMember::isRequiredAndNotNullable,
@@ -74,32 +74,32 @@ public class GetterGroupsDefinition {
                 generator(JSON_GETTER),
                 generator(VALIDATION_GETTER))),
         nested(
-            isArrayType(),
+            isContainerType(),
             groups(
                 nested(
                     isNullableItemsList(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
-                        generator(LIST_STANDARD_GETTER),
+                        generator(CONTAINER_STANDARD_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER),
                         generator(FLAG_VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER),
                         generator(FLAG_VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
-                        generator(LIST_TRISTATE_GETTER),
+                        generator(CONTAINER_TRISTATE_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER))),
                 nested(
@@ -110,26 +110,26 @@ public class GetterGroupsDefinition {
                             group(hasNoApiTypeDeep(), generator(STANDARD_GETTER)),
                             group(
                                 hasApiTypeDeep(),
-                                generator(LIST_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
+                                generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
                                 generator(JSON_GETTER),
                                 generator(VALIDATION_GETTER)))),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER),
                         generator(FLAG_VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER),
                         generator(FLAG_VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
-                        generator(LIST_TRISTATE_GETTER),
+                        generator(CONTAINER_TRISTATE_GETTER),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER))))));
   }
@@ -137,7 +137,7 @@ public class GetterGroupsDefinition {
   private static PList<GetterGroup> allOfMemberType() {
     return groups(
         nested(
-            isNotArrayType(),
+            isNotContainerType(),
             group(
                 JavaPojoMember::isRequiredAndNotNullable,
                 generator(STANDARD_GETTER, NO_VALIDATION)),
@@ -156,54 +156,54 @@ public class GetterGroupsDefinition {
                 generator(TRISTATE_GETTER),
                 generator(JSON_GETTER))),
         nested(
-            isArrayType(),
+            isContainerType(),
             groups(
                 nested(
                     isNullableItemsList(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
-                        generator(LIST_STANDARD_GETTER),
+                        generator(CONTAINER_STANDARD_GETTER),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
-                        generator(LIST_TRISTATE_GETTER),
+                        generator(CONTAINER_TRISTATE_GETTER),
                         generator(JSON_GETTER))),
                 nested(
                     isNotNullableItemsList(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
-                        generator(LIST_STANDARD_GETTER, NO_VALIDATION),
+                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNotNullable,
-                        generator(LIST_OPTIONAL_GETTER),
-                        generator(LIST_OPTIONAL_OR_GETTER),
+                        generator(CONTAINER_OPTIONAL_GETTER),
+                        generator(CONTAINER_OPTIONAL_OR_GETTER),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isOptionalAndNullable,
-                        generator(LIST_TRISTATE_GETTER),
+                        generator(CONTAINER_TRISTATE_GETTER),
                         generator(JSON_GETTER))))));
   }
 
   private static PList<GetterGroup> oneOfAnyOfMemberType() {
     return groups(
         nested(
-            isNotArrayType(),
+            isNotContainerType(),
             group(
                 JavaPojoMember::isRequiredAndNotNullable,
                 generator(JSON_GETTER),
@@ -223,25 +223,25 @@ public class GetterGroupsDefinition {
                 generator(JSON_GETTER),
                 generator(TRISTATE_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC))),
         nested(
-            isArrayType(),
+            isContainerType(),
             group(
                 JavaPojoMember::isRequiredAndNotNullable,
                 generator(JSON_GETTER),
-                generator(LIST_STANDARD_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC)),
+                generator(CONTAINER_STANDARD_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC)),
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(JSON_GETTER),
-                generator(LIST_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
+                generator(CONTAINER_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
                 generator(FLAG_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNotNullable,
                 generator(JSON_GETTER),
-                generator(LIST_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
+                generator(CONTAINER_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
                 generator(FLAG_GETTER)),
             group(
                 JavaPojoMember::isOptionalAndNullable,
                 generator(JSON_GETTER),
-                generator(LIST_TRISTATE_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC))));
+                generator(CONTAINER_TRISTATE_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC))));
   }
 
   private static Predicate<JavaPojoMember> isStandardMemberType() {
@@ -265,12 +265,12 @@ public class GetterGroupsDefinition {
     return isNullableItemsList().negate();
   }
 
-  private static Predicate<JavaPojoMember> isArrayType() {
-    return member -> member.getJavaType().isArrayType();
+  private static Predicate<JavaPojoMember> isContainerType() {
+    return member -> member.getJavaType().isArrayType() || member.getJavaType().isMapType();
   }
 
-  private static Predicate<JavaPojoMember> isNotArrayType() {
-    return isArrayType().negate();
+  private static Predicate<JavaPojoMember> isNotContainerType() {
+    return isContainerType().negate();
   }
 
   private static Predicate<JavaPojoMember> hasApiTypeDeep() {

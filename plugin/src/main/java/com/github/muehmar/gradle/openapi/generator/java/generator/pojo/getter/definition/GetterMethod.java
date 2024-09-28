@@ -9,10 +9,10 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.Op
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalOrGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.StandardGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.TristateGetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalGetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListOptionalOrGetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListStandardGetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.list.ListTristateGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype.ContainerOptionalGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype.ContainerOptionalOrGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype.ContainerStandardGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype.ContainerTristateGetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -24,10 +24,10 @@ enum GetterMethod {
   OPTIONAL_GETTER(OptionalGetter::optionalGetterGenerator),
   OPTIONAL_OR_GETTER(OptionalOrGetter::optionalOrGetterGenerator),
   TRISTATE_GETTER(TristateGetter::tristateGetterGenerator),
-  LIST_STANDARD_GETTER(ListStandardGetter::listStandardGetterGenerator),
-  LIST_OPTIONAL_GETTER(ListOptionalGetter::listOptionalGetterGenerator),
-  LIST_OPTIONAL_OR_GETTER(ListOptionalOrGetter::listOptionalOrGetterGenerator),
-  LIST_TRISTATE_GETTER(ListTristateGetter::listTristateGetterGenerator),
+  CONTAINER_STANDARD_GETTER(ContainerStandardGetter::containerStandardGetterGenerator),
+  CONTAINER_OPTIONAL_GETTER(ContainerOptionalGetter::containerOptionalGetterGenerator),
+  CONTAINER_OPTIONAL_OR_GETTER(ContainerOptionalOrGetter::containerOptionalOrGetterGenerator),
+  CONTAINER_TRISTATE_GETTER(ContainerTristateGetter::containerTristateGetterGenerator),
   JSON_GETTER(ignore -> jsonGetterGenerator()),
   VALIDATION_GETTER(ignore -> validationGetterGenerator()),
   FLAG_VALIDATION_GETTER(ignore -> flagValidationGetterGenerator()),
