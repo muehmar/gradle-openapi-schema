@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.type;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -46,6 +47,16 @@ public class ArrayType implements Type {
   @Override
   public Type makeNullable() {
     return new ArrayType(constraints, itemType.makeNullable(), nullability);
+  }
+
+  @Override
+  public Type replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+    return itemType
+        .asObjectType()
+        .filter(objectType -> objectType.getName().equals(objectTypeName))
+        .map(ignore -> new ArrayType(constraints, newObjectType, nullability))
+        .orElse(this);
   }
 
   @Override

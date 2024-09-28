@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.type;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,12 @@ public class AnyType implements Type {
   @Override
   public Type makeNullable() {
     return new AnyType(Nullability.NULLABLE);
+  }
+
+  @Override
+  public Type replaceObjectType(
+      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+    return this;
   }
 
   @Override

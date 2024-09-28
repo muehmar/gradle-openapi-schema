@@ -31,10 +31,15 @@ public class PojoMember {
 
   public PojoMember replaceObjectType(
       PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
-    return type.asObjectType()
-        .filter(objType -> objType.getName().equals(objectTypeName))
-        .map(ignore -> withDescription(newObjectTypeDescription).withType(newObjectType))
-        .orElse(this);
+    final PojoMember mappedMember =
+        type.asObjectType()
+            .filter(objType -> objType.getName().equals(objectTypeName))
+            .map(ignore -> withDescription(newObjectTypeDescription).withType(newObjectType))
+            .orElse(this);
+    return mappedMember.withType(
+        mappedMember
+            .getType()
+            .replaceObjectType(objectTypeName, newObjectTypeDescription, newObjectType));
   }
 
   public PojoMember applyMapping(PojoNameMapping pojoNameMapping) {
