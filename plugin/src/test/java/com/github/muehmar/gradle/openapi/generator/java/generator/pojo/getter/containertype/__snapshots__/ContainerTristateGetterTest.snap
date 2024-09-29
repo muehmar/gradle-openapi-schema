@@ -53,7 +53,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Tristate<Map<String, String>> getOptionalNullableMap() {
-  return mapList(
+  return mapMap(
       optionalNullableMap,
       Function.identity(),
       Function.identity(),

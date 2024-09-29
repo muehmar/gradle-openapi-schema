@@ -603,7 +603,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<Map<String, String>> getOptionalMapAllOf() {
-  return mapList(
+  return mapMap(
       optionalMapAllOf,
       Function.identity(),
       Function.identity(),
@@ -619,7 +619,7 @@ public Optional<Map<String, String>> getOptionalMapAllOf() {
 public Map<String, String> getOptionalMapAllOfOr(Map<String, String> defaultValue) {
   return this.optionalMapAllOf == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           optionalMapAllOf,
           Function.identity(),
           Function.identity(),
@@ -654,7 +654,7 @@ private Map<String, String> getOptionalMapAnyOfJson() {
 
 @JsonIgnore
 Optional<Map<String, String>> getOptionalMapAnyOf() {
-  return mapList(
+  return mapMap(
       optionalMapAnyOf,
       Function.identity(),
       Function.identity(),
@@ -688,7 +688,7 @@ javax.validation.constraints.Pattern
  */
 @JsonIgnore
 public Optional<Map<String, String>> getOptionalMap() {
-  return mapList(
+  return mapMap(
       optionalMap,
       Function.identity(),
       Function.identity(),
@@ -704,7 +704,7 @@ public Optional<Map<String, String>> getOptionalMap() {
 public Map<String, String> getOptionalMapOr(Map<String, String> defaultValue) {
   return this.optionalMap == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           optionalMap,
           Function.identity(),
           Function.identity(),
@@ -749,7 +749,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAllOf() {
-  return mapList(
+  return mapMap(
       optionalMap_FullyMappedAllOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -765,7 +765,7 @@ public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAllOf
 public CustomMap<String, CustomString> getOptionalMap_FullyMappedAllOfOr(CustomMap<String, CustomString> defaultValue) {
   return this.optionalMap_FullyMappedAllOf == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           optionalMap_FullyMappedAllOf,
           i -> CustomString.fromString(i),
           Function.identity(),
@@ -802,7 +802,7 @@ private Map<String, String> getOptionalMap_FullyMappedAnyOfJson() {
 
 @JsonIgnore
 Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAnyOf() {
-  return mapList(
+  return mapMap(
       optionalMap_FullyMappedAnyOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -838,7 +838,7 @@ javax.validation.constraints.Pattern
  */
 @JsonIgnore
 public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMapped() {
-  return mapList(
+  return mapMap(
       optionalMap_FullyMapped,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -854,7 +854,7 @@ public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMapped() {
 public CustomMap<String, CustomString> getOptionalMap_FullyMappedOr(CustomMap<String, CustomString> defaultValue) {
   return this.optionalMap_FullyMapped == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           optionalMap_FullyMapped,
           i -> CustomString.fromString(i),
           Function.identity(),
@@ -1335,7 +1335,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Tristate<Map<String, String>> getOptionalNullableMapAllOf() {
-  return mapList(
+  return mapMap(
       optionalNullableMapAllOf,
       Function.identity(),
       Function.identity(),
@@ -1371,7 +1371,7 @@ private Object getOptionalNullableMapAnyOfJson() {
 
 @JsonIgnore
 Tristate<Map<String, String>> getOptionalNullableMapAnyOf() {
-  return mapList(
+  return mapMap(
       optionalNullableMapAnyOf,
       Function.identity(),
       Function.identity(),
@@ -1400,7 +1400,7 @@ javax.validation.constraints.Pattern
  */
 @JsonIgnore
 public Tristate<Map<String, String>> getOptionalNullableMap() {
-  return mapList(
+  return mapMap(
       optionalNullableMap,
       Function.identity(),
       Function.identity(),
@@ -1440,7 +1440,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMappedAllOf() {
-  return mapList(
+  return mapMap(
       optionalNullableMap_FullyMappedAllOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -1478,7 +1478,7 @@ private Object getOptionalNullableMap_FullyMappedAnyOfJson() {
 
 @JsonIgnore
 Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMappedAnyOf() {
-  return mapList(
+  return mapMap(
       optionalNullableMap_FullyMappedAnyOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -1509,7 +1509,7 @@ javax.validation.constraints.Pattern
  */
 @JsonIgnore
 public Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMapped() {
-  return mapList(
+  return mapMap(
       optionalNullableMap_FullyMapped,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -3273,7 +3273,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Map<String, String> getRequiredMapAllOf() {
-  return mapList(
+  return mapMap(
       requiredMapAllOf,
       Function.identity(),
       Function.identity(),
@@ -3307,7 +3307,7 @@ private Map<String, String> getRequiredMapAnyOfJson() {
 
 @JsonIgnore
 Map<String, String> getRequiredMapAnyOf() {
-  return mapList(
+  return mapMap(
       requiredMapAnyOf,
       Function.identity(),
       Function.identity(),
@@ -3353,7 +3353,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public CustomMap<String, CustomString> getRequiredMap_FullyMappedAllOf() {
-  return mapList(
+  return mapMap(
       requiredMap_FullyMappedAllOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -3389,7 +3389,7 @@ private Map<String, String> getRequiredMap_FullyMappedAnyOfJson() {
 
 @JsonIgnore
 CustomMap<String, CustomString> getRequiredMap_FullyMappedAnyOf() {
-  return mapList(
+  return mapMap(
       requiredMap_FullyMappedAnyOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -3418,7 +3418,7 @@ javax.validation.constraints.Pattern
  */
 @JsonIgnore
 public CustomMap<String, CustomString> getRequiredMap_FullyMapped() {
-  return mapList(
+  return mapMap(
       requiredMap_FullyMapped,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -4060,7 +4060,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<Map<String, String>> getRequiredNullableMapAllOf() {
-  return mapList(
+  return mapMap(
       requiredNullableMapAllOf,
       Function.identity(),
       Function.identity(),
@@ -4076,7 +4076,7 @@ public Optional<Map<String, String>> getRequiredNullableMapAllOf() {
 public Map<String, String> getRequiredNullableMapAllOfOr(Map<String, String> defaultValue) {
   return this.requiredNullableMapAllOf == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           requiredNullableMapAllOf,
           Function.identity(),
           Function.identity(),
@@ -4112,7 +4112,7 @@ private Object getRequiredNullableMapAnyOfJson() {
 
 @JsonIgnore
 Optional<Map<String, String>> getRequiredNullableMapAnyOf() {
-  return mapList(
+  return mapMap(
       requiredNullableMapAnyOf,
       Function.identity(),
       Function.identity(),
@@ -4147,7 +4147,7 @@ javax.validation.constraints.Pattern
  */
 @JsonIgnore
 public Optional<Map<String, String>> getRequiredNullableMap() {
-  return mapList(
+  return mapMap(
       requiredNullableMap,
       Function.identity(),
       Function.identity(),
@@ -4163,7 +4163,7 @@ public Optional<Map<String, String>> getRequiredNullableMap() {
 public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
   return this.requiredNullableMap == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           requiredNullableMap,
           Function.identity(),
           Function.identity(),
@@ -4209,7 +4209,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMappedAllOf() {
-  return mapList(
+  return mapMap(
       requiredNullableMap_FullyMappedAllOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -4225,7 +4225,7 @@ public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMap
 public CustomMap<String, CustomString> getRequiredNullableMap_FullyMappedAllOfOr(CustomMap<String, CustomString> defaultValue) {
   return this.requiredNullableMap_FullyMappedAllOf == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           requiredNullableMap_FullyMappedAllOf,
           i -> CustomString.fromString(i),
           Function.identity(),
@@ -4263,7 +4263,7 @@ private Object getRequiredNullableMap_FullyMappedAnyOfJson() {
 
 @JsonIgnore
 Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMappedAnyOf() {
-  return mapList(
+  return mapMap(
       requiredNullableMap_FullyMappedAnyOf,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -4300,7 +4300,7 @@ javax.validation.constraints.Pattern
  */
 @JsonIgnore
 public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMapped() {
-  return mapList(
+  return mapMap(
       requiredNullableMap_FullyMapped,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -4316,7 +4316,7 @@ public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMap
 public CustomMap<String, CustomString> getRequiredNullableMap_FullyMappedOr(CustomMap<String, CustomString> defaultValue) {
   return this.requiredNullableMap_FullyMapped == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           requiredNullableMap_FullyMapped,
           i -> CustomString.fromString(i),
           Function.identity(),

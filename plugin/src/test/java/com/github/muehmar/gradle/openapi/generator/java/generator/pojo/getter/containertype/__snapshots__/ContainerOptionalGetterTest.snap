@@ -32,7 +32,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<CustomMap<String, CustomString>> getOptionalMapFullMapping() {
-  return mapList(
+  return mapMap(
       optionalMapFullMapping,
       i -> CustomString.fromString(i),
       Function.identity(),
@@ -74,7 +74,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<Map<String, String>> getRequiredNullableMap() {
-  return mapList(
+  return mapMap(
       requiredNullableMap,
       Function.identity(),
       Function.identity(),
@@ -116,7 +116,7 @@ java.util.function.Function
  */
 @JsonIgnore
 Optional<String> getStringVal() {
-  return mapList(
+  return mapMap(
       stringVal,
       Function.identity(),
       Function.identity(),
@@ -137,7 +137,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Optional<String> getStringVal() {
-  return mapList(
+  return mapMap(
       stringVal,
       Function.identity(),
       Function.identity(),

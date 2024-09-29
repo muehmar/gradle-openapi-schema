@@ -58,7 +58,7 @@ java.util.function.Function
 public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
   return this.requiredNullableMap == null
       ? defaultValue
-      : mapList(
+      : mapMap(
           requiredNullableMap,
           Function.identity(),
           Function.identity(),

@@ -3,7 +3,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmappi
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.MapMemberMappingWriterBuilder.fullMapMemberMappingWriterBuilder;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.MapListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -166,7 +165,7 @@ public class MapMemberMappingWriter {
   @BuildMethod
   public static Writer build(MapMemberMappingWriter mappingWriter) {
     return javaWriter()
-        .println("%s%s(", mappingWriter.prefix, MapListMethod.METHOD_NAME)
+        .println("%s%s(", mappingWriter.prefix, MapMapMethod.METHOD_NAME)
         .tab(2)
         .println("%s,", mappingWriter.member.getName())
         .append(2, mappingWriter.mapMapItemType.apply(mappingWriter.member).println(","))

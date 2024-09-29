@@ -51,7 +51,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Map<String, String> getRequiredMap() {
-  return mapList(
+  return mapMap(
       requiredMap,
       Function.identity(),
       Function.identity(),

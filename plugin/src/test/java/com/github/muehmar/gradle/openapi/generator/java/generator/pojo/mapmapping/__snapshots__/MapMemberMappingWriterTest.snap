@@ -1,7 +1,7 @@
 allUnnecessary=[
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalMap,
     Function.identity(),
     Function.identity(),
@@ -17,7 +17,7 @@ com.custom.CustomString
 java.util.Optional
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalMapWithFullMapping,
     i -> CustomString.fromString(i),
     Function.identity(),
@@ -31,7 +31,7 @@ autoMapped[optionalMap]=[
 java.util.Optional
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalMap,
     Function.identity(),
     Function.identity(),
@@ -47,7 +47,7 @@ com.custom.CustomString
 com.github.muehmar.openapi.util.Tristate
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalNullableMapWithFullMapping,
     i -> CustomString.fromString(i),
     Function.identity(),
@@ -61,7 +61,7 @@ autoMapped[optionalNullableMap]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalNullableMap,
     Function.identity(),
     Function.identity(),
@@ -76,7 +76,7 @@ com.custom.CustomMap
 com.custom.CustomString
 java.util.function.Function
 
-mapList(
+mapMap(
     requiredMapWithFullMapping,
     i -> CustomString.fromString(i),
     Function.identity(),
@@ -89,7 +89,7 @@ mapList(
 autoMapped[requiredMap]=[
 java.util.function.Function
 
-mapList(
+mapMap(
     requiredMap,
     Function.identity(),
     Function.identity(),
@@ -105,7 +105,7 @@ com.custom.CustomString
 java.util.Optional
 java.util.function.Function
 
-mapList(
+mapMap(
     requiredNullableMapWithFullMapping,
     i -> CustomString.fromString(i),
     Function.identity(),
@@ -119,7 +119,7 @@ autoMapped[requiredNullableMap]=[
 java.util.Optional
 java.util.function.Function
 
-mapList(
+mapMap(
     requiredNullableMap,
     Function.identity(),
     Function.identity(),
@@ -134,7 +134,7 @@ com.custom.CustomMap
 com.custom.CustomString
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalMap,
     i -> CustomString.fromString(i),
     Function.identity(),
@@ -147,7 +147,7 @@ mapList(
 prefixAndTrailingSemicolon=[
 java.util.function.Function
 
-prefixmapList(
+prefixmapMap(
     optionalMap,
     Function.identity(),
     Function.identity(),
@@ -161,7 +161,7 @@ wrapOptionalMapAndMapItem=[
 java.util.Optional
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalMap,
     Function.identity(),
     Optional::ofNullable,
@@ -175,7 +175,7 @@ wrapTristateMap=[
 com.github.muehmar.openapi.util.Tristate
 java.util.function.Function
 
-mapList(
+mapMap(
     optionalMap,
     Function.identity(),
     Function.identity(),
