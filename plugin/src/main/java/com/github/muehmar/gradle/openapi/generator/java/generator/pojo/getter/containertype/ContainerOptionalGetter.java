@@ -29,7 +29,7 @@ public class ContainerOptionalGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
-        .returnType(m -> String.format("Optional<%s>", getListReturnType(m)))
+        .returnType(m -> String.format("Optional<%s>", getReturnType(m)))
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()
@@ -38,7 +38,7 @@ public class ContainerOptionalGetter {
         .append(w -> w.ref(JavaRefs.JAVA_UTIL_OPTIONAL));
   }
 
-  private static Object getListReturnType(JavaPojoMember member) {
+  private static Object getReturnType(JavaPojoMember member) {
     if (member.getJavaType().isArrayType()) {
       return ListReturnType.fromPojoMember(member);
     } else {

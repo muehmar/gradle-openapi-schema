@@ -28,7 +28,7 @@ public class ContainerStandardGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
-        .returnType(ContainerStandardGetter::getListReturnType)
+        .returnType(ContainerStandardGetter::getReturnType)
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()
@@ -36,7 +36,7 @@ public class ContainerStandardGetter {
         .build();
   }
 
-  private static Object getListReturnType(JavaPojoMember member) {
+  private static Object getReturnType(JavaPojoMember member) {
     if (member.getJavaType().isArrayType()) {
       return ListReturnType.fromPojoMember(member);
     } else {

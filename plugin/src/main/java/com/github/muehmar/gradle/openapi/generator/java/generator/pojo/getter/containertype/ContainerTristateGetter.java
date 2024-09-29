@@ -29,7 +29,7 @@ public class ContainerTristateGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(generatorSettings.modifiersWithDefault(PUBLIC))
         .noGenericTypes()
-        .returnType(m -> String.format("Tristate<%s>", getListReturnType(m)))
+        .returnType(m -> String.format("Tristate<%s>", getReturnType(m)))
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()
@@ -38,7 +38,7 @@ public class ContainerTristateGetter {
         .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
   }
 
-  private static Object getListReturnType(JavaPojoMember member) {
+  private static Object getReturnType(JavaPojoMember member) {
     if (member.getJavaType().isArrayType()) {
       return ListReturnType.fromPojoMember(member);
     } else {

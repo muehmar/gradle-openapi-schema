@@ -29,7 +29,7 @@ public class ContainerOptionalOrGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(ListReturnType::fromPojoMember)
+        .returnType(ContainerOptionalOrGetter::getReturnType)
         .methodName(f -> String.format("%sOr", f.getGetterName()))
         .singleArgument(f -> argument(getReturnType(f), "defaultValue"))
         .doesNotThrow()
