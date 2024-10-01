@@ -1,12 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypemap.ApiTypeMapConditions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -31,7 +34,9 @@ public class ApiTypeOptionalNullableMemberSetter implements MemberSetter {
 
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
-    return member.isOptionalAndNullable();
+    return member.isOptionalAndNullable()
+        && not(ApiTypeListConditions.groupCondition().test(member))
+        && not(ApiTypeMapConditions.groupCondition().test(member));
   }
 
   @Override

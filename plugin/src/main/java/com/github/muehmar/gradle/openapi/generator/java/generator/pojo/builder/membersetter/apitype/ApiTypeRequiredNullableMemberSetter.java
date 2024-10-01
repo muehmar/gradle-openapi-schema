@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.m
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.SetterModifier.SetterJavaType;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListConditions;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypemap.ApiTypeMapConditions;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -34,7 +35,8 @@ public class ApiTypeRequiredNullableMemberSetter implements MemberSetter {
   @Override
   public boolean shouldBeUsed(PojoSettings settings) {
     return member.isRequiredAndNullable()
-        && not(ApiTypeListConditions.groupCondition().test(member));
+        && not(ApiTypeListConditions.groupCondition().test(member))
+        && not(ApiTypeMapConditions.groupCondition().test(member));
   }
 
   @Override

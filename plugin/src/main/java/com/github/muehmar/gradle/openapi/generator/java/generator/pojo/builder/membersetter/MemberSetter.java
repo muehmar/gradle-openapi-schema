@@ -5,6 +5,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitype.ApiTypeMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.ApiTypeListMemberSetters;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypemap.ApiTypeMapMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist.NullableItemsListMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.standardsetters.StandardMemberSetters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
@@ -22,7 +23,8 @@ public interface MemberSetter {
         .concat(StandardMemberSetters.fromMember(member))
         .concat(ApiTypeMemberSetters.fromMember(member))
         .concat(ApiTypeListMemberSetters.fromMember(member))
-        .concat(NullableItemsListMemberSetters.fromMember(member));
+        .concat(NullableItemsListMemberSetters.fromMember(member))
+        .concat(ApiTypeMapMemberSetters.fromMember(member));
   }
 
   boolean shouldBeUsed(PojoSettings settings);
