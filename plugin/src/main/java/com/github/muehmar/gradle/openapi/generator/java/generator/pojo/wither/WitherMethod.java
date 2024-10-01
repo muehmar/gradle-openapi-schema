@@ -29,7 +29,9 @@ abstract class WitherMethod {
             new OptionalWitherMethod(witherContent, member),
             new TristateWitherMethod(witherContent, member));
 
-    return witherMethods.concat(ListWitherMethod.fromContentAndMember(witherContent, member));
+    return witherMethods
+        .concat(ListWitherMethod.fromContentAndMember(witherContent, member))
+        .concat(MapWitherMethod.fromContentAndMember(witherContent, member));
   }
 
   WitherMethod(WitherGenerator.WitherContent witherContent, JavaPojoMember pojoMember) {

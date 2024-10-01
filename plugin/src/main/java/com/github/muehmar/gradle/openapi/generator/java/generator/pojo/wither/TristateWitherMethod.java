@@ -20,7 +20,7 @@ class TristateWitherMethod extends WitherMethod {
 
   @Override
   boolean shouldBeUsed() {
-    return pojoMember.isOptionalAndNullable() && not(pojoMember.getJavaType().isArrayType());
+    return pojoMember.isOptionalAndNullable() && not(pojoMember.getJavaType().isContainerType());
   }
 
   @Override

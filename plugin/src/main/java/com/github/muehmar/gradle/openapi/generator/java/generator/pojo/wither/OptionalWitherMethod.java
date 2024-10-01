@@ -21,7 +21,7 @@ class OptionalWitherMethod extends WitherMethod {
   @Override
   boolean shouldBeUsed() {
     return (pojoMember.isRequiredAndNullable() || pojoMember.isOptionalAndNotNullable())
-        && not(pojoMember.getJavaType().isArrayType());
+        && not(pojoMember.getJavaType().isContainerType());
   }
 
   @Override

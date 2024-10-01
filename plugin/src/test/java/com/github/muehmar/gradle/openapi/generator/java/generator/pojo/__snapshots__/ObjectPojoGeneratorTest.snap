@@ -9577,7 +9577,13 @@ public class ObjectPojo1Dto {
   public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
     return
       new ObjectPojo1Dto(
-        mapVal,
+        unmapMap(
+            mapVal,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            Function.identity()
+        ),
         additionalProperties
       );
   }

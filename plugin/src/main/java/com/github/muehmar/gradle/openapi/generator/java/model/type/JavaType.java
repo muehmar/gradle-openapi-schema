@@ -198,6 +198,11 @@ public interface JavaType {
         JavaNumericType.class::isInstance);
   }
 
+  /** Returns true if this type is a container type, i.e. a list or a map. */
+  default boolean isContainerType() {
+    return isArrayType() || isMapType();
+  }
+
   default PList<QualifiedClassName> getImports() {
     return getAllQualifiedClassNames()
         .filter(qualifiedClassName -> qualifiedClassName.getPackageName().isPresent())

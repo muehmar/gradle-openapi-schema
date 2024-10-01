@@ -19,7 +19,7 @@ class NormalWitherMethod extends WitherMethod {
 
   @Override
   boolean shouldBeUsed() {
-    return not(pojoMember.getJavaType().isArrayType());
+    return not(pojoMember.getJavaType().isContainerType());
   }
 
   @Override
