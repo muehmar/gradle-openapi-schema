@@ -16,6 +16,13 @@ public String toString() {
     "isOptionalListWithNullableItemsNotNull=" + isOptionalListWithNullableItemsNotNull + ", " +
     "optionalNullableListWithNullableItems=" + optionalNullableListWithNullableItems + ", " +
     "isOptionalNullableListWithNullableItemsNull=" + isOptionalNullableListWithNullableItemsNull + ", " +
+    "requiredMap=" + requiredMap + ", " +
+    "requiredNullableMap=" + requiredNullableMap + ", " +
+    "isRequiredNullableMapPresent=" + isRequiredNullableMapPresent + ", " +
+    "optionalMap=" + optionalMap + ", " +
+    "isOptionalMapNotNull=" + isOptionalMapNotNull + ", " +
+    "optionalNullableMap=" + optionalNullableMap + ", " +
+    "isOptionalNullableMapNull=" + isOptionalNullableMapNull + ", " +
     "additionalProperties=" + additionalProperties +
     "}";
 }

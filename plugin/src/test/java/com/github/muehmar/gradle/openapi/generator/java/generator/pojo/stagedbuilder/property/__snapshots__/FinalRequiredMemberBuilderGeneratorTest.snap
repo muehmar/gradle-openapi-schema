@@ -8,10 +8,10 @@ allNecessityAndNullabilityVariants[FULL]=[
 allNecessityAndNullabilityVariants[STANDARD]=[
 .
 .
-public static final class PropertyBuilder5 {
+public static final class PropertyBuilder7 {
   private final Builder builder;
 
-  private PropertyBuilder5(Builder builder) {
+  private PropertyBuilder7(Builder builder) {
     this.builder = builder;
   }
 

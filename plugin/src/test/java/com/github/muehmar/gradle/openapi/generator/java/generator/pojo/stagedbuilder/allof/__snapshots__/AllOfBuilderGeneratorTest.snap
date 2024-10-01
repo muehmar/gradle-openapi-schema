@@ -257,6 +257,7 @@ public static final class FullAllOfBuilderObjectPojo1 {
 allOfPojoWithAllNecessityAndNullabilityVariants=[
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Map
 java.util.Optional
 
 public static final class AllOfBuilderNecessityAndNullability0 {
@@ -454,29 +455,114 @@ public static final class AllOfBuilderNecessityAndNullability7 {
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability8 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability8(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredMap
+   */
+  public AllOfBuilderNecessityAndNullability9 setRequiredMap(Map<String, String> requiredMap) {
+    return new AllOfBuilderNecessityAndNullability9(builder.setRequiredMap(requiredMap));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability9 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability9(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  public AllOfBuilderNecessityAndNullability10 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    return new AllOfBuilderNecessityAndNullability10(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  public AllOfBuilderNecessityAndNullability10 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    return new AllOfBuilderNecessityAndNullability10(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability10 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability10(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public AllOfBuilderNecessityAndNullability11 setOptionalMap(Map<String, String> optionalMap) {
+    return new AllOfBuilderNecessityAndNullability11(builder.setOptionalMap(optionalMap));
+  }
+
+  /**
+   * OptionalMap
+   */
+  public AllOfBuilderNecessityAndNullability11 setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    return new AllOfBuilderNecessityAndNullability11(builder.setOptionalMap(optionalMap));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability11 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability11(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public PropertyBuilder0 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    return new PropertyBuilder0(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public PropertyBuilder0 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    return new PropertyBuilder0(builder.setOptionalNullableMap(optionalNullableMap));
   }
 
 }
@@ -485,9 +571,11 @@ public static final class AllOfBuilderNecessityAndNullability7 {
 
 allOfPojoWithAllNecessityAndNullabilityVariantsFullyTypeMapped=[
 com.custom.CustomList
+com.custom.CustomMap
 com.custom.CustomString
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Map
 java.util.Optional
 
 public static final class AllOfBuilderNecessityAndNullability0 {
@@ -685,29 +773,114 @@ public static final class AllOfBuilderNecessityAndNullability7 {
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems(CustomList<CustomString> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems(CustomList<CustomString> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems_(CustomList<Optional<CustomString>> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems_(CustomList<Optional<CustomString>> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems(Tristate<CustomList<CustomString>> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems(Tristate<CustomList<CustomString>> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems(optionalNullableListWithNullableItems));
   }
 
   /**
    * OptionalNullableListWithNullableItems
    */
-  public PropertyBuilder0 setOptionalNullableListWithNullableItems_(Tristate<CustomList<Optional<CustomString>>> optionalNullableListWithNullableItems) {
-    return new PropertyBuilder0(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  public AllOfBuilderNecessityAndNullability8 setOptionalNullableListWithNullableItems_(Tristate<CustomList<Optional<CustomString>>> optionalNullableListWithNullableItems) {
+    return new AllOfBuilderNecessityAndNullability8(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability8 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability8(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredMap
+   */
+  public AllOfBuilderNecessityAndNullability9 setRequiredMap(CustomMap<String, CustomString> requiredMap) {
+    return new AllOfBuilderNecessityAndNullability9(builder.setRequiredMap(requiredMap));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability9 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability9(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  public AllOfBuilderNecessityAndNullability10 setRequiredNullableMap(CustomMap<String, CustomString> requiredNullableMap) {
+    return new AllOfBuilderNecessityAndNullability10(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  public AllOfBuilderNecessityAndNullability10 setRequiredNullableMap(Optional<CustomMap<String, CustomString>> requiredNullableMap) {
+    return new AllOfBuilderNecessityAndNullability10(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability10 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability10(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public AllOfBuilderNecessityAndNullability11 setOptionalMap(CustomMap<String, CustomString> optionalMap) {
+    return new AllOfBuilderNecessityAndNullability11(builder.setOptionalMap(optionalMap));
+  }
+
+  /**
+   * OptionalMap
+   */
+  public AllOfBuilderNecessityAndNullability11 setOptionalMap(Optional<CustomMap<String, CustomString>> optionalMap) {
+    return new AllOfBuilderNecessityAndNullability11(builder.setOptionalMap(optionalMap));
+  }
+
+}
+
+public static final class AllOfBuilderNecessityAndNullability11 {
+  private final Builder builder;
+
+  private AllOfBuilderNecessityAndNullability11(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public PropertyBuilder0 setOptionalNullableMap(CustomMap<String, CustomString> optionalNullableMap) {
+    return new PropertyBuilder0(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public PropertyBuilder0 setOptionalNullableMap(Tristate<CustomMap<String, CustomString>> optionalNullableMap) {
+    return new PropertyBuilder0(builder.setOptionalNullableMap(optionalNullableMap));
   }
 
 }

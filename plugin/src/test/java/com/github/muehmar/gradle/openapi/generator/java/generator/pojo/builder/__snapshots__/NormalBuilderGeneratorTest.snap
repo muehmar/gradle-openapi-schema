@@ -29,6 +29,13 @@ public static final class Builder {
   private boolean isOptionalListWithNullableItemsNotNull = true;
   private List<String> optionalNullableListWithNullableItems;
   private boolean isOptionalNullableListWithNullableItemsNull = false;
+  private Map<String, String> requiredMap;
+  private Map<String, String> requiredNullableMap;
+  private boolean isRequiredNullableMapPresent = false;
+  private Map<String, String> optionalMap;
+  private boolean isOptionalMapNotNull = true;
+  private Map<String, String> optionalNullableMap;
+  private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   /**
@@ -365,6 +372,114 @@ public static final class Builder {
     return this;
   }
 
+  /**
+   * RequiredMap
+   */
+  @JsonProperty("requiredMap")
+  private Builder setRequiredMapJson(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredMap
+   */
+  @JsonIgnore
+  private Builder setRequiredMap(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonProperty("requiredNullableMap")
+  private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  private Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  private Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap.orElse(null);
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonProperty("optionalMap")
+  private Builder setOptionalMapJson(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    this.optionalMap = optionalMap.orElse(null);
+    this.isOptionalMapNotNull = true;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonProperty("optionalNullableMap")
+  private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, Object value) {
     this.additionalProperties.put(key, value);
@@ -397,8 +512,12 @@ public static final class Builder {
     additionalProperties.remove("requiredNullableListWithNullableItems");
     additionalProperties.remove("optionalListWithNullableItems");
     additionalProperties.remove("optionalNullableListWithNullableItems");
+    additionalProperties.remove("requiredMap");
+    additionalProperties.remove("requiredNullableMap");
+    additionalProperties.remove("optionalMap");
+    additionalProperties.remove("optionalNullableMap");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredNullableMap, isRequiredNullableMapPresent, optionalMap, isOptionalMapNotNull, optionalNullableMap, isOptionalNullableMapNull, additionalProperties);
   }
 }
 ]
@@ -430,6 +549,13 @@ public static final class Builder {
   private boolean isOptionalListWithNullableItemsNotNull = true;
   private List<String> optionalNullableListWithNullableItems;
   private boolean isOptionalNullableListWithNullableItemsNull = false;
+  private Map<String, String> requiredMap;
+  private Map<String, String> requiredNullableMap;
+  private boolean isRequiredNullableMapPresent = false;
+  private Map<String, String> optionalMap;
+  private boolean isOptionalMapNotNull = true;
+  private Map<String, String> optionalNullableMap;
+  private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   /**
@@ -667,6 +793,68 @@ public static final class Builder {
     return this;
   }
 
+  /**
+   * RequiredMap
+   */
+  private Builder setRequiredMap(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  private Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  private Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap.orElse(null);
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public Builder setOptionalMap(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    this.optionalMap = optionalMap.orElse(null);
+    this.isOptionalMapNotNull = true;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
   public Builder addAdditionalProperty(String key, Object value) {
     this.additionalProperties.put(key, value);
     return this;
@@ -694,8 +882,12 @@ public static final class Builder {
     additionalProperties.remove("requiredNullableListWithNullableItems");
     additionalProperties.remove("optionalListWithNullableItems");
     additionalProperties.remove("optionalNullableListWithNullableItems");
+    additionalProperties.remove("requiredMap");
+    additionalProperties.remove("requiredNullableMap");
+    additionalProperties.remove("optionalMap");
+    additionalProperties.remove("optionalNullableMap");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredNullableMap, isRequiredNullableMapPresent, optionalMap, isOptionalMapNotNull, optionalNullableMap, isOptionalNullableMapNull, additionalProperties);
   }
 }
 ]
@@ -733,6 +925,13 @@ public static final class Builder {
   private boolean isOptionalListWithNullableItemsNotNull = true;
   private List<String> optionalNullableListWithNullableItems;
   private boolean isOptionalNullableListWithNullableItemsNull = false;
+  private Map<String, String> requiredMap;
+  private Map<String, String> requiredNullableMap;
+  private boolean isRequiredNullableMapPresent = false;
+  private Map<String, String> optionalMap;
+  private boolean isOptionalMapNotNull = true;
+  private Map<String, String> optionalNullableMap;
+  private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   /**
@@ -1069,6 +1268,114 @@ public static final class Builder {
     return this;
   }
 
+  /**
+   * RequiredMap
+   */
+  @JsonProperty("requiredMap")
+  private Builder setRequiredMapJson(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredMap
+   */
+  @JsonIgnore
+  public Builder setRequiredMap(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonProperty("requiredNullableMap")
+  private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  public Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  public Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap.orElse(null);
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonProperty("optionalMap")
+  private Builder setOptionalMapJson(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    this.optionalMap = optionalMap.orElse(null);
+    this.isOptionalMapNotNull = true;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonProperty("optionalNullableMap")
+  private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, Object value) {
     this.additionalProperties.put(key, value);
@@ -1097,8 +1404,12 @@ public static final class Builder {
     additionalProperties.remove("requiredNullableListWithNullableItems");
     additionalProperties.remove("optionalListWithNullableItems");
     additionalProperties.remove("optionalNullableListWithNullableItems");
+    additionalProperties.remove("requiredMap");
+    additionalProperties.remove("requiredNullableMap");
+    additionalProperties.remove("optionalMap");
+    additionalProperties.remove("optionalNullableMap");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredNullableMap, isRequiredNullableMapPresent, optionalMap, isOptionalMapNotNull, optionalNullableMap, isOptionalNullableMapNull, additionalProperties);
   }
 }
 ]

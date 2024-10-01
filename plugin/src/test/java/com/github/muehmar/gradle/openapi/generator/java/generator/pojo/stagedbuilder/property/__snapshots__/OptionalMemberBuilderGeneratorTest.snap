@@ -1,8 +1,10 @@
 allNecessityAndNullabilityVariantsFullyTypeMapped[FULL]=[
 com.custom.CustomList
+com.custom.CustomMap
 com.custom.CustomString
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Map
 java.util.Optional
 
 public static final class FullOptPropertyBuilder0 {
@@ -123,14 +125,62 @@ public static final class FullOptPropertyBuilder3 {
     return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
   }
 }
+
+public static final class FullOptPropertyBuilder4 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder4(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public FullOptPropertyBuilder5 setOptionalMap(CustomMap<String, CustomString> optionalMap) {
+    return new FullOptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+  /**
+   * OptionalMap
+   */
+  public FullOptPropertyBuilder5 setOptionalMap(Optional<CustomMap<String, CustomString>> optionalMap) {
+    return new FullOptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+}
+
+public static final class FullOptPropertyBuilder5 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder5(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public FullOptPropertyBuilder6 setOptionalNullableMap(CustomMap<String, CustomString> optionalNullableMap) {
+    return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public FullOptPropertyBuilder6 setOptionalNullableMap(Tristate<CustomMap<String, CustomString>> optionalNullableMap) {
+    return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+}
 ]
 
 
 allNecessityAndNullabilityVariantsFullyTypeMapped[STANDARD]=[
 com.custom.CustomList
+com.custom.CustomMap
 com.custom.CustomString
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Map
 java.util.Optional
 
 public static final class OptPropertyBuilder0 {
@@ -251,12 +301,59 @@ public static final class OptPropertyBuilder3 {
     return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
   }
 }
+
+public static final class OptPropertyBuilder4 {
+  private final Builder builder;
+
+  private OptPropertyBuilder4(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public OptPropertyBuilder5 setOptionalMap(CustomMap<String, CustomString> optionalMap) {
+    return new OptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+  /**
+   * OptionalMap
+   */
+  public OptPropertyBuilder5 setOptionalMap(Optional<CustomMap<String, CustomString>> optionalMap) {
+    return new OptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+}
+
+public static final class OptPropertyBuilder5 {
+  private final Builder builder;
+
+  private OptPropertyBuilder5(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public OptPropertyBuilder6 setOptionalNullableMap(CustomMap<String, CustomString> optionalNullableMap) {
+    return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public OptPropertyBuilder6 setOptionalNullableMap(Tristate<CustomMap<String, CustomString>> optionalNullableMap) {
+    return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+}
 ]
 
 
 allNecessityAndNullabilityVariants[FULL]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Map
 java.util.Optional
 
 public static final class FullOptPropertyBuilder0 {
@@ -377,12 +474,59 @@ public static final class FullOptPropertyBuilder3 {
     return new FullOptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
   }
 }
+
+public static final class FullOptPropertyBuilder4 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder4(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public FullOptPropertyBuilder5 setOptionalMap(Map<String, String> optionalMap) {
+    return new FullOptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+  /**
+   * OptionalMap
+   */
+  public FullOptPropertyBuilder5 setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    return new FullOptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+}
+
+public static final class FullOptPropertyBuilder5 {
+  private final Builder builder;
+
+  private FullOptPropertyBuilder5(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public FullOptPropertyBuilder6 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public FullOptPropertyBuilder6 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+}
 ]
 
 
 allNecessityAndNullabilityVariants[STANDARD]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Map
 java.util.Optional
 
 public static final class OptPropertyBuilder0 {
@@ -502,5 +646,51 @@ public static final class OptPropertyBuilder3 {
   public OptPropertyBuilder4 setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
     return new OptPropertyBuilder4(builder.setOptionalNullableListWithNullableItems_(optionalNullableListWithNullableItems));
   }
+}
+
+public static final class OptPropertyBuilder4 {
+  private final Builder builder;
+
+  private OptPropertyBuilder4(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public OptPropertyBuilder5 setOptionalMap(Map<String, String> optionalMap) {
+    return new OptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+  /**
+   * OptionalMap
+   */
+  public OptPropertyBuilder5 setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    return new OptPropertyBuilder5(builder.setOptionalMap(optionalMap));
+  }
+
+}
+
+public static final class OptPropertyBuilder5 {
+  private final Builder builder;
+
+  private OptPropertyBuilder5(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public OptPropertyBuilder6 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public OptPropertyBuilder6 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+  }
+
 }
 ]

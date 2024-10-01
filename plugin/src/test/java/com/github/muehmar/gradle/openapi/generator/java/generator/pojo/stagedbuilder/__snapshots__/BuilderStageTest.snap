@@ -3,12 +3,16 @@ RequiredPropertyBuilderStage - FullPropertyBuilder0 for requiredStringVal(0), ne
 RequiredPropertyBuilderStage - FullPropertyBuilder1 for requiredNullableStringVal(1), next stage FullPropertyBuilder2
 RequiredPropertyBuilderStage - FullPropertyBuilder2 for requiredListWithNullableItems(2), next stage FullPropertyBuilder3
 RequiredPropertyBuilderStage - FullPropertyBuilder3 for requiredNullableListWithNullableItems(3), next stage FullPropertyBuilder4
-RequiredPropertyBuilderStage - FullPropertyBuilder4 for Prop2(4), next stage FullOptPropertyBuilder0
+RequiredPropertyBuilderStage - FullPropertyBuilder4 for requiredMap(4), next stage FullPropertyBuilder5
+RequiredPropertyBuilderStage - FullPropertyBuilder5 for requiredNullableMap(5), next stage FullPropertyBuilder6
+RequiredPropertyBuilderStage - FullPropertyBuilder6 for Prop2(6), next stage FullOptPropertyBuilder0
 OptionalPropertyBuilderStage - FullOptPropertyBuilder0 for optionalStringVal(0), next stage FullOptPropertyBuilder1
 OptionalPropertyBuilderStage - FullOptPropertyBuilder1 for optionalNullableStringVal(1), next stage FullOptPropertyBuilder2
 OptionalPropertyBuilderStage - FullOptPropertyBuilder2 for optionalListWithNullableItems(2), next stage FullOptPropertyBuilder3
 OptionalPropertyBuilderStage - FullOptPropertyBuilder3 for optionalNullableListWithNullableItems(3), next stage FullOptPropertyBuilder4
-LastOptionalPropertyBuilderStage - FullOptPropertyBuilder4
+OptionalPropertyBuilderStage - FullOptPropertyBuilder4 for optionalMap(4), next stage FullOptPropertyBuilder5
+OptionalPropertyBuilderStage - FullOptPropertyBuilder5 for optionalNullableMap(5), next stage FullOptPropertyBuilder6
+LastOptionalPropertyBuilderStage - FullOptPropertyBuilder6
 ]
 
 
@@ -17,13 +21,17 @@ RequiredPropertyBuilderStage - PropertyBuilder0 for requiredStringVal(0), next s
 RequiredPropertyBuilderStage - PropertyBuilder1 for requiredNullableStringVal(1), next stage PropertyBuilder2
 RequiredPropertyBuilderStage - PropertyBuilder2 for requiredListWithNullableItems(2), next stage PropertyBuilder3
 RequiredPropertyBuilderStage - PropertyBuilder3 for requiredNullableListWithNullableItems(3), next stage PropertyBuilder4
-RequiredPropertyBuilderStage - PropertyBuilder4 for Prop2(4), next stage PropertyBuilder5
-LastRequiredPropertyBuilderStage - PropertyBuilder5, next stage OptPropertyBuilder0
+RequiredPropertyBuilderStage - PropertyBuilder4 for requiredMap(4), next stage PropertyBuilder5
+RequiredPropertyBuilderStage - PropertyBuilder5 for requiredNullableMap(5), next stage PropertyBuilder6
+RequiredPropertyBuilderStage - PropertyBuilder6 for Prop2(6), next stage PropertyBuilder7
+LastRequiredPropertyBuilderStage - PropertyBuilder7, next stage OptPropertyBuilder0
 OptionalPropertyBuilderStage - OptPropertyBuilder0 for optionalStringVal(0), next stage OptPropertyBuilder1
 OptionalPropertyBuilderStage - OptPropertyBuilder1 for optionalNullableStringVal(1), next stage OptPropertyBuilder2
 OptionalPropertyBuilderStage - OptPropertyBuilder2 for optionalListWithNullableItems(2), next stage OptPropertyBuilder3
 OptionalPropertyBuilderStage - OptPropertyBuilder3 for optionalNullableListWithNullableItems(3), next stage OptPropertyBuilder4
-LastOptionalPropertyBuilderStage - OptPropertyBuilder4
+OptionalPropertyBuilderStage - OptPropertyBuilder4 for optionalMap(4), next stage OptPropertyBuilder5
+OptionalPropertyBuilderStage - OptPropertyBuilder5 for optionalNullableMap(5), next stage OptPropertyBuilder6
+LastOptionalPropertyBuilderStage - OptPropertyBuilder6
 ]
 
 
@@ -36,7 +44,11 @@ AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability4 for requiredListWit
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: FullAllOfBuilderNecessityAndNullability6
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: FullAllOfBuilderNecessityAndNullability7
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: FullAllOfBuilderNecessityAndNullability8
-AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: FullAllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability8 for requiredMap(8), next stage: FullAllOfBuilderNecessityAndNullability9
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability9 for requiredNullableMap(9), next stage: FullAllOfBuilderNecessityAndNullability10
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability10 for optionalMap(10), next stage: FullAllOfBuilderNecessityAndNullability11
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability11 for optionalNullableMap(11), next stage: FullAllOfBuilderNecessityAndNullability12
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability12 for Prop2(12), next stage: FullAllOfBuilderSampleObjectPojo10
 AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: FullAllOfBuilderSampleObjectPojo11
 AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo11 for intVal(1), next stage: FullAllOfBuilderSampleObjectPojo12
 AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: FullPropertyBuilder0
@@ -56,7 +68,11 @@ AllOfBuilderStage - AllOfBuilderNecessityAndNullability4 for requiredListWithNul
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: AllOfBuilderNecessityAndNullability6
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: AllOfBuilderNecessityAndNullability7
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: AllOfBuilderNecessityAndNullability8
-AllOfBuilderStage - AllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: AllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability8 for requiredMap(8), next stage: AllOfBuilderNecessityAndNullability9
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability9 for requiredNullableMap(9), next stage: AllOfBuilderNecessityAndNullability10
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability10 for optionalMap(10), next stage: AllOfBuilderNecessityAndNullability11
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability11 for optionalNullableMap(11), next stage: AllOfBuilderNecessityAndNullability12
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability12 for Prop2(12), next stage: AllOfBuilderSampleObjectPojo10
 AllOfBuilderStage - AllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: AllOfBuilderSampleObjectPojo11
 AllOfBuilderStage - AllOfBuilderSampleObjectPojo11 for intVal(1), next stage: AllOfBuilderSampleObjectPojo12
 AllOfBuilderStage - AllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: PropertyBuilder0
@@ -93,7 +109,11 @@ AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability3 for optionalNullabl
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: FullAllOfBuilderNecessityAndNullability5
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: FullAllOfBuilderNecessityAndNullability6
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: FullAllOfBuilderNecessityAndNullability7
-AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: FullAllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: FullAllOfBuilderNecessityAndNullability8
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability8 for requiredMap(8), next stage: FullAllOfBuilderNecessityAndNullability9
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability9 for requiredNullableMap(9), next stage: FullAllOfBuilderNecessityAndNullability10
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability10 for optionalMap(10), next stage: FullAllOfBuilderNecessityAndNullability11
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability11 for optionalNullableMap(11), next stage: FullAllOfBuilderSampleObjectPojo10
 AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: FullAllOfBuilderSampleObjectPojo11
 AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo11 for intVal(1), next stage: FullAllOfBuilderSampleObjectPojo12
 AllOfBuilderStage - FullAllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: FullPropertyBuilder0
@@ -111,7 +131,11 @@ AllOfBuilderStage - AllOfBuilderNecessityAndNullability3 for optionalNullableStr
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability4 for requiredListWithNullableItems(4), next stage: AllOfBuilderNecessityAndNullability5
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: AllOfBuilderNecessityAndNullability6
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: AllOfBuilderNecessityAndNullability7
-AllOfBuilderStage - AllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: AllOfBuilderSampleObjectPojo10
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: AllOfBuilderNecessityAndNullability8
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability8 for requiredMap(8), next stage: AllOfBuilderNecessityAndNullability9
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability9 for requiredNullableMap(9), next stage: AllOfBuilderNecessityAndNullability10
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability10 for optionalMap(10), next stage: AllOfBuilderNecessityAndNullability11
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability11 for optionalNullableMap(11), next stage: AllOfBuilderSampleObjectPojo10
 AllOfBuilderStage - AllOfBuilderSampleObjectPojo10 for stringVal(0), next stage: AllOfBuilderSampleObjectPojo11
 AllOfBuilderStage - AllOfBuilderSampleObjectPojo11 for intVal(1), next stage: AllOfBuilderSampleObjectPojo12
 AllOfBuilderStage - AllOfBuilderSampleObjectPojo12 for doubleVal(2), next stage: PropertyBuilder0
@@ -235,7 +259,11 @@ AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability4 for requiredListWit
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: FullAllOfBuilderNecessityAndNullability6
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: FullAllOfBuilderNecessityAndNullability7
 AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: FullAllOfBuilderNecessityAndNullability8
-AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: FullAllOfBuilderAllOfPojo10
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability8 for requiredMap(8), next stage: FullAllOfBuilderNecessityAndNullability9
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability9 for requiredNullableMap(9), next stage: FullAllOfBuilderNecessityAndNullability10
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability10 for optionalMap(10), next stage: FullAllOfBuilderNecessityAndNullability11
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability11 for optionalNullableMap(11), next stage: FullAllOfBuilderNecessityAndNullability12
+AllOfBuilderStage - FullAllOfBuilderNecessityAndNullability12 for Prop2(12), next stage: FullAllOfBuilderAllOfPojo10
 AllOfBuilderStage - FullAllOfBuilderAllOfPojo10 for stringVal(0), next stage: FullAllOfBuilderAllOfPojo11
 AllOfBuilderStage - FullAllOfBuilderAllOfPojo11 for intVal(1), next stage: FullAllOfBuilderAllOfPojo12
 AllOfBuilderStage - FullAllOfBuilderAllOfPojo12 for doubleVal(2), next stage: FullAllOfBuilderAllOfPojo14
@@ -255,7 +283,11 @@ AllOfBuilderStage - AllOfBuilderNecessityAndNullability4 for requiredListWithNul
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability5 for requiredNullableListWithNullableItems(5), next stage: AllOfBuilderNecessityAndNullability6
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability6 for optionalListWithNullableItems(6), next stage: AllOfBuilderNecessityAndNullability7
 AllOfBuilderStage - AllOfBuilderNecessityAndNullability7 for optionalNullableListWithNullableItems(7), next stage: AllOfBuilderNecessityAndNullability8
-AllOfBuilderStage - AllOfBuilderNecessityAndNullability8 for Prop2(8), next stage: AllOfBuilderAllOfPojo10
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability8 for requiredMap(8), next stage: AllOfBuilderNecessityAndNullability9
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability9 for requiredNullableMap(9), next stage: AllOfBuilderNecessityAndNullability10
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability10 for optionalMap(10), next stage: AllOfBuilderNecessityAndNullability11
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability11 for optionalNullableMap(11), next stage: AllOfBuilderNecessityAndNullability12
+AllOfBuilderStage - AllOfBuilderNecessityAndNullability12 for Prop2(12), next stage: AllOfBuilderAllOfPojo10
 AllOfBuilderStage - AllOfBuilderAllOfPojo10 for stringVal(0), next stage: AllOfBuilderAllOfPojo11
 AllOfBuilderStage - AllOfBuilderAllOfPojo11 for intVal(1), next stage: AllOfBuilderAllOfPojo12
 AllOfBuilderStage - AllOfBuilderAllOfPojo12 for doubleVal(2), next stage: AllOfBuilderAllOfPojo14

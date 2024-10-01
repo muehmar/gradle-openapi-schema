@@ -5,11 +5,15 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.member.Test
 import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties.anyTypeAllowed;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalMap;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableMap;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredMap;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableMap;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
@@ -216,7 +220,8 @@ public class JavaPojos {
     return allNecessityAndNullabilityVariantsTypeMapped(
         TypeMappings.ofClassTypeMappings(
             ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
-            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION));
+            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION,
+            ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION));
   }
 
   public static JavaObjectPojo allNecessityAndNullabilityVariantsTypeMapped(
@@ -240,7 +245,11 @@ public class JavaPojos {
                 requiredListWithNullableItems(),
                 requiredNullableListWithNullableItems(),
                 optionalListWithNullableItems(),
-                optionalNullableListWithNullableItems()))
+                optionalNullableListWithNullableItems(),
+                requiredMap(),
+                requiredNullableMap(),
+                optionalMap(),
+                optionalNullableMap()))
         .requiredAdditionalProperties(PList.empty())
         .constraints(constraints)
         .additionalProperties(anyTypeAllowed())

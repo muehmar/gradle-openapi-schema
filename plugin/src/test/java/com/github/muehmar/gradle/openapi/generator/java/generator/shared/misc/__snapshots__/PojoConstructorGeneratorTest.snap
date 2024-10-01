@@ -41,6 +41,13 @@ public NecessityAndNullabilityDto(
     boolean isOptionalListWithNullableItemsNotNull,
     List<String> optionalNullableListWithNullableItems,
     boolean isOptionalNullableListWithNullableItemsNull,
+    Map<String, String> requiredMap,
+    Map<String, String> requiredNullableMap,
+    boolean isRequiredNullableMapPresent,
+    Map<String, String> optionalMap,
+    boolean isOptionalMapNotNull,
+    Map<String, String> optionalNullableMap,
+    boolean isOptionalNullableMapNull,
     Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
@@ -57,6 +64,13 @@ public NecessityAndNullabilityDto(
   this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
   this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
+  this.requiredMap = requiredMap;
+  this.requiredNullableMap = requiredNullableMap;
+  this.isRequiredNullableMapPresent = isRequiredNullableMapPresent;
+  this.optionalMap = optionalMap;
+  this.isOptionalMapNotNull = isOptionalMapNotNull;
+  this.optionalNullableMap = optionalNullableMap;
+  this.isOptionalNullableMapNull = isOptionalNullableMapNull;
   this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]
@@ -78,6 +92,13 @@ public NecessityAndNullabilityDto(
     boolean isOptionalListWithNullableItemsNotNull,
     List<String> optionalNullableListWithNullableItems,
     boolean isOptionalNullableListWithNullableItemsNull,
+    Map<String, String> requiredMap,
+    Map<String, String> requiredNullableMap,
+    boolean isRequiredNullableMapPresent,
+    Map<String, String> optionalMap,
+    boolean isOptionalMapNotNull,
+    Map<String, String> optionalNullableMap,
+    boolean isOptionalNullableMapNull,
     Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
@@ -94,6 +115,13 @@ public NecessityAndNullabilityDto(
   this.isOptionalListWithNullableItemsNotNull = isOptionalListWithNullableItemsNotNull;
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
   this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
+  this.requiredMap = requiredMap;
+  this.requiredNullableMap = requiredNullableMap;
+  this.isRequiredNullableMapPresent = isRequiredNullableMapPresent;
+  this.optionalMap = optionalMap;
+  this.isOptionalMapNotNull = isOptionalMapNotNull;
+  this.optionalNullableMap = optionalNullableMap;
+  this.isOptionalNullableMapNull = isOptionalNullableMapNull;
   this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]

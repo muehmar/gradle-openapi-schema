@@ -2,23 +2,23 @@ allNecessityAndNullabilityVariants[FULL]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.Map
 
-public static final class FullOptPropertyBuilder4 {
+public static final class FullOptPropertyBuilder6 {
   private final Builder builder;
 
-  private FullOptPropertyBuilder4(Builder builder) {
+  private FullOptPropertyBuilder6(Builder builder) {
     this.builder = builder;
   }
 
-  public FullOptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
-    return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+  public FullOptPropertyBuilder6 addAdditionalProperty(String key, Object value) {
+    return new FullOptPropertyBuilder6(builder.addAdditionalProperty(key, value));
   }
 
-  public FullOptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
-    return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+  public FullOptPropertyBuilder6 addAdditionalProperty(String key, Tristate<Object> value) {
+    return new FullOptPropertyBuilder6(builder.addAdditionalProperty(key, value));
   }
 
-  public FullOptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
-    return new FullOptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
+  public FullOptPropertyBuilder6 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new FullOptPropertyBuilder6(builder.setAdditionalProperties(additionalProperties));
   }
 
   public NecessityAndNullabilityDto build(){
@@ -32,23 +32,23 @@ allNecessityAndNullabilityVariants[STANDARD]=[
 com.github.muehmar.openapi.util.Tristate
 java.util.Map
 
-public static final class OptPropertyBuilder4 {
+public static final class OptPropertyBuilder6 {
   private final Builder builder;
 
-  private OptPropertyBuilder4(Builder builder) {
+  private OptPropertyBuilder6(Builder builder) {
     this.builder = builder;
   }
 
-  public OptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
-    return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+  public OptPropertyBuilder6 addAdditionalProperty(String key, Object value) {
+    return new OptPropertyBuilder6(builder.addAdditionalProperty(key, value));
   }
 
-  public OptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
-    return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+  public OptPropertyBuilder6 addAdditionalProperty(String key, Tristate<Object> value) {
+    return new OptPropertyBuilder6(builder.addAdditionalProperty(key, value));
   }
 
-  public OptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
-    return new OptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
+  public OptPropertyBuilder6 setAdditionalProperties(Map<String, Object> additionalProperties) {
+    return new OptPropertyBuilder6(builder.setAdditionalProperties(additionalProperties));
   }
 
   public NecessityAndNullabilityDto build(){
