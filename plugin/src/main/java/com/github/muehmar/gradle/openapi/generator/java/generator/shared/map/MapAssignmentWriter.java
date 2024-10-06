@@ -119,20 +119,33 @@ public class MapAssignmentWriter {
   }
 
   @BuildMethod
-  public static Writer build(MapAssignmentWriter listAssigmentWriter) {
-    final Mode mode = listAssigmentWriter.mode;
+  public static Writer build(MapAssignmentWriter mapAssignmentWriter) {
+    final Mode mode = mapAssignmentWriter.mode;
 
-    return mode.initialWriter(listAssigmentWriter.member)
+    if (isIdentityWriter(mapAssignmentWriter.unwrapMap)
+        && isIdentityWriter(mapAssignmentWriter.unmapMapType)
+        && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
+        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)) {
+      return mode.initialWriter(mapAssignmentWriter.member)
+          .tab(mode.tabOffset())
+          .println("%s%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
+    }
+
+    return mode.initialWriter(mapAssignmentWriter.member)
         .tab(mode.tabOffset())
         .println("%s(", UnmapMapMethod.METHOD_NAME)
         .tab(mode.tabOffset() + 2)
-        .println("%s,", listAssigmentWriter.member.getName())
-        .append(mode.tabOffset() + 2, listAssigmentWriter.unwrapMap.println(","))
-        .append(mode.tabOffset() + 2, listAssigmentWriter.unmapMapType.println(","))
-        .append(mode.tabOffset() + 2, listAssigmentWriter.unwrapMapItem.println(","))
-        .append(mode.tabOffset() + 2, listAssigmentWriter.unmapMapItemType)
+        .println("%s,", mapAssignmentWriter.member.getName())
+        .append(mode.tabOffset() + 2, mapAssignmentWriter.unwrapMap.println(","))
+        .append(mode.tabOffset() + 2, mapAssignmentWriter.unmapMapType.println(","))
+        .append(mode.tabOffset() + 2, mapAssignmentWriter.unwrapMapItem.println(","))
+        .append(mode.tabOffset() + 2, mapAssignmentWriter.unmapMapItemType)
         .tab(mode.tabOffset())
         .println(")%s", mode.trailingComma());
+  }
+
+  private static boolean isIdentityWriter(Writer writer) {
+    return writer.asString().equals("Function.identity()");
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {

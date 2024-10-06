@@ -409,13 +409,7 @@ public NecessityAndNullabilityDto withOptionalMap(Map<String, String> optionalMa
       requiredMap,
       requiredNullableMap,
       isRequiredNullableMapPresent,
-      unmapMap(
-          optionalMap,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalMap,
       true,
       optionalNullableMap,
       isOptionalNullableMapNull,
@@ -877,13 +871,7 @@ public NecessityAndNullabilityDto withOptionalNullableMap(Map<String, String> op
       isRequiredNullableMapPresent,
       optionalMap,
       isOptionalMapNotNull,
-      unmapMap(
-          optionalNullableMap,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalNullableMap,
       false,
       additionalProperties
     );
@@ -1397,8 +1385,8 @@ public NecessityAndNullabilityDto withRequiredMapMapped(Map<String, CustomString
 
 
 allNullabilityAndNecessityVariants[requiredMap]=[
-java.util.function.Function
-
+.
+.
 /**
  * RequiredMap
  */
@@ -1419,13 +1407,7 @@ public NecessityAndNullabilityDto withRequiredMap(Map<String, String> requiredMa
       isOptionalListWithNullableItemsNotNull,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
-      unmapMap(
-          requiredMap,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredMap,
       requiredNullableMap,
       isRequiredNullableMapPresent,
       optionalMap,
@@ -1847,13 +1829,7 @@ public NecessityAndNullabilityDto withRequiredNullableMap(Map<String, String> re
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
       requiredMap,
-      unmapMap(
-          requiredNullableMap,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredNullableMap,
       true,
       optionalMap,
       isOptionalMapNotNull,

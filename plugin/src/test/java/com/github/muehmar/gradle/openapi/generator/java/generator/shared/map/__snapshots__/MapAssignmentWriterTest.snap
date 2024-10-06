@@ -1,27 +1,15 @@
 allUnnecessary=[
-java.util.function.Function
-
+.
+.
 this.optionalMap =
-    unmapMap(
-        optionalMap,
-        Function.identity(),
-        Function.identity(),
-        Function.identity(),
-        Function.identity()
-    );
+    optionalMap;
 ]
 
 
 expressionOnly=[
-java.util.function.Function
-
-unmapMap(
-    optionalMap,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-)
+.
+.
+optionalMap
 ]
 
 

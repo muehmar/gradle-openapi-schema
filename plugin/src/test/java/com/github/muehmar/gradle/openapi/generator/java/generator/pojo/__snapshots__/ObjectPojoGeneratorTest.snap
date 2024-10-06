@@ -7239,13 +7239,7 @@ public class NecessityAndNullabilityDto {
         isOptionalListWithNullableItemsNotNull,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
-        unmapMap(
-            requiredMap,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredMap,
         requiredNullableMap,
         isRequiredNullableMapPresent,
         optionalMap,
@@ -7277,13 +7271,7 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
-        unmapMap(
-            requiredNullableMap,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredNullableMap,
         true,
         optionalMap,
         isOptionalMapNotNull,
@@ -7353,13 +7341,7 @@ public class NecessityAndNullabilityDto {
         requiredMap,
         requiredNullableMap,
         isRequiredNullableMapPresent,
-        unmapMap(
-            optionalMap,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalMap,
         true,
         optionalNullableMap,
         isOptionalNullableMapNull,
@@ -7429,13 +7411,7 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableMapPresent,
         optionalMap,
         isOptionalMapNotNull,
-        unmapMap(
-            optionalNullableMap,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalNullableMap,
         false,
         additionalProperties
       );
@@ -10545,13 +10521,7 @@ public class ObjectPojo1Dto {
   public ObjectPojo1Dto withMapVal(Map<String, UUID> mapVal) {
     return
       new ObjectPojo1Dto(
-        unmapMap(
-            mapVal,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        mapVal,
         additionalProperties
       );
   }
