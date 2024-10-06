@@ -6738,13 +6738,7 @@ public class NecessityAndNullabilityDto {
         isOptionalStringValNotNull,
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
-        unmapList(
-            requiredListWithNullableItems,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
@@ -6813,13 +6807,7 @@ public class NecessityAndNullabilityDto {
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
-        unmapList(
-            requiredNullableListWithNullableItems,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredNullableListWithNullableItems,
         true,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
@@ -6963,13 +6951,7 @@ public class NecessityAndNullabilityDto {
         requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
-        unmapList(
-            optionalListWithNullableItems,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalListWithNullableItems,
         true,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
@@ -7113,13 +7095,7 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
-        unmapList(
-            optionalNullableListWithNullableItems,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalNullableListWithNullableItems,
         false,
         requiredMap,
         requiredNullableMap,
@@ -10164,13 +10140,7 @@ public class ObjectPojo1Dto {
   public ObjectPojo1Dto withListVal(List<String> listVal) {
     return
       new ObjectPojo1Dto(
-        unmapList(
-            listVal,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        listVal,
         additionalProperties
       );
   }

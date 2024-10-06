@@ -1,27 +1,15 @@
 allUnnecessary=[
-java.util.function.Function
-
+.
+.
 this.optionalListWithNullableItems =
-    unmapList(
-        optionalListWithNullableItems,
-        Function.identity(),
-        Function.identity(),
-        Function.identity(),
-        Function.identity()
-    );
+optionalListWithNullableItems;
 ]
 
 
 expressionOnly=[
-java.util.function.Function
-
-unmapList(
-    optionalListWithNullableItems,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-)
+.
+.
+optionalListWithNullableItems
 ]
 
 

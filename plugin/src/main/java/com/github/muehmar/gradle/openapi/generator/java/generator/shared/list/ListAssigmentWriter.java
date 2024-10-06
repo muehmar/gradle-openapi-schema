@@ -122,6 +122,14 @@ public class ListAssigmentWriter {
   public static Writer build(ListAssigmentWriter listAssigmentWriter) {
     final Mode mode = listAssigmentWriter.mode;
 
+    if (isIdentityWriter(listAssigmentWriter.unwrapList)
+        && isIdentityWriter(listAssigmentWriter.unmapListType)
+        && isIdentityWriter(listAssigmentWriter.unwrapListItem)
+        && isIdentityWriter(listAssigmentWriter.unmapListItemType)) {
+      return mode.initialWriter(listAssigmentWriter.member)
+          .println("%s%s", listAssigmentWriter.member.getName(), mode.trailingComma());
+    }
+
     return mode.initialWriter(listAssigmentWriter.member)
         .tab(mode.tabOffset())
         .println("%s(", UnmapListMethod.METHOD_NAME)
@@ -133,6 +141,10 @@ public class ListAssigmentWriter {
         .append(mode.tabOffset() + 2, listAssigmentWriter.unmapListItemType)
         .tab(mode.tabOffset())
         .println(")%s", mode.trailingComma());
+  }
+
+  private static boolean isIdentityWriter(Writer writer) {
+    return writer.asString().equals("Function.identity()");
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {

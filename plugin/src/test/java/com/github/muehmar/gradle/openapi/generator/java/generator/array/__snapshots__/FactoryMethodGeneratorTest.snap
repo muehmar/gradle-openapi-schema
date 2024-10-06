@@ -1,17 +1,10 @@
 arrayPojo=[
 java.util.Collections
 java.util.List
-java.util.function.Function
 
 public static PosologyDto fromItems(List<Double> items) {
   return new PosologyDto(
-      unmapList(
-          items,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      )
+      items
   );
 }
 
@@ -49,17 +42,10 @@ public static PosologyDto empty() {
 arrayPojoWithMappedListType=[
 java.util.Collections
 java.util.List
-java.util.function.Function
 
 public static PosologyDto fromItems(List<Double> items) {
   return new PosologyDto(
-      unmapList(
-          items,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      )
+      items
   );
 }
 

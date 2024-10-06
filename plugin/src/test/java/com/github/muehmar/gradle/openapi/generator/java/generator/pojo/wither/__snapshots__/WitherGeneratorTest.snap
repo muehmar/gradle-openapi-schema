@@ -173,13 +173,7 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems(List<String>
       requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
-      unmapList(
-          optionalListWithNullableItems,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalListWithNullableItems,
       true,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
@@ -647,13 +641,7 @@ public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(List
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
-      unmapList(
-          optionalNullableListWithNullableItems,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalNullableListWithNullableItems,
       false,
       requiredMap,
       requiredNullableMap,
@@ -1308,13 +1296,7 @@ public NecessityAndNullabilityDto withRequiredListWithNullableItems(List<String>
       isOptionalStringValNotNull,
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
-      unmapList(
-          requiredListWithNullableItems,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
@@ -1629,13 +1611,7 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(List
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
-      unmapList(
-          requiredNullableListWithNullableItems,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredNullableListWithNullableItems,
       true,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
