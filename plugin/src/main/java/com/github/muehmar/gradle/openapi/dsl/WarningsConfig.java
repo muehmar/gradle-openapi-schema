@@ -24,16 +24,21 @@ public class WarningsConfig implements Serializable {
   @Nullable private Boolean disableWarnings;
   @Nullable private Boolean failOnWarnings;
   @Nullable private Boolean failOnUnsupportedValidation;
+  @Nullable private Boolean failOnMissingMappingConversion;
 
   public WarningsConfig() {
-    this(null, null, null);
+    this(null, null, null, null);
   }
 
   public WarningsConfig(
-      Boolean disableWarnings, Boolean failOnWarnings, Boolean failOnUnsupportedValidation) {
+      Boolean disableWarnings,
+      Boolean failOnWarnings,
+      Boolean failOnUnsupportedValidation,
+      Boolean failOnMissingMappingConversion) {
     this.disableWarnings = disableWarnings;
     this.failOnWarnings = failOnWarnings;
     this.failOnUnsupportedValidation = failOnUnsupportedValidation;
+    this.failOnMissingMappingConversion = failOnMissingMappingConversion;
   }
 
   public static WarningsConfig allUndefined() {
@@ -54,6 +59,10 @@ public class WarningsConfig implements Serializable {
             Optionals.or(
                 Optional.ofNullable(failOnUnsupportedValidation),
                 Optional.ofNullable(commonWarnings.failOnUnsupportedValidation)))
+        .failOnMissingMappingConversion(
+            Optionals.or(
+                Optional.ofNullable(failOnMissingMappingConversion),
+                Optional.ofNullable(commonWarnings.failOnMissingMappingConversion)))
         .build();
   }
 
@@ -69,10 +78,17 @@ public class WarningsConfig implements Serializable {
     return Optional.ofNullable(failOnUnsupportedValidation).orElse(getFailOnWarnings());
   }
 
+  public boolean getFailOnMissingMappingConversion() {
+    return Optional.ofNullable(failOnMissingMappingConversion).orElse(getFailOnWarnings());
+  }
+
   public FailingWarningTypes getFailingWarningTypes() {
     final List<WarningType> types = new ArrayList<>();
     if (getFailOnUnsupportedValidation()) {
       types.add(WarningType.UNSUPPORTED_VALIDATION);
+    }
+    if (getFailOnMissingMappingConversion()) {
+      types.add(WarningType.MISSING_MAPPING_CONVERSION);
     }
     return new FailingWarningTypes(PList.fromIter(types));
   }
