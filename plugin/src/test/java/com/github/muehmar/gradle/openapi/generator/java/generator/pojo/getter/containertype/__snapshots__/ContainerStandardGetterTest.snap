@@ -44,96 +44,61 @@ public List<Optional<String>> getRequiredListWithNullableItems() {
 
 containerMembers[requiredMap]=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.function.Function
 
 /**
  * RequiredMap
  */
 @JsonIgnore
 public Map<String, String> getRequiredMap() {
-  return mapMap(
-      requiredMap,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredMap;
 }
 ]
 
 
 containerMembers[requiredStringList]=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.function.Function
 
 /**
  * List
  */
 @JsonIgnore
 public List<String> getRequiredStringList() {
-  return mapList(
-      requiredStringList,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringList;
 }
 ]
 
 
 generatorSettings[NO_JAVA_DOC]=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.function.Function
 
 @JsonIgnore
 public List<String> getRequiredStringList() {
-  return mapList(
-      requiredStringList,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringList;
 }
 ]
 
 
 generatorSettings[PACKAGE_PRIVATE]=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.function.Function
 
 /**
  * List
  */
 @JsonIgnore
 List<String> getRequiredStringList() {
-  return mapList(
-      requiredStringList,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringList;
 }
 ]
 
 
 generatorSettings[]=[
 com.fasterxml.jackson.annotation.JsonIgnore
-java.util.function.Function
 
 /**
  * List
  */
 @JsonIgnore
 public List<String> getRequiredStringList() {
-  return mapList(
-      requiredStringList,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringList;
 }
 ]

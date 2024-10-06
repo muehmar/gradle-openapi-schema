@@ -167,6 +167,18 @@ public class ListMemberMappingWriter {
 
   @BuildMethod
   public static Writer build(ListMemberMappingWriter mappingWriter) {
+    if (isIdentityWriter(mappingWriter.mapListItemType.apply(mappingWriter.member))
+        && isIdentityWriter(mappingWriter.wrapListItem.apply(mappingWriter.member))
+        && isIdentityWriter(mappingWriter.mapListType.apply(mappingWriter.member))
+        && isIdentityWriter(mappingWriter.wrapList.apply(mappingWriter.member))) {
+      return javaWriter()
+          .print(
+              "%s%s%s",
+              mappingWriter.prefix,
+              mappingWriter.member.getName(),
+              mappingWriter.trailingSemicolon ? ";" : "");
+    }
+
     return javaWriter()
         .println("%s%s(", mappingWriter.prefix, MapListMethod.METHOD_NAME)
         .tab(2)
@@ -176,6 +188,10 @@ public class ListMemberMappingWriter {
         .append(2, mappingWriter.mapListType.apply(mappingWriter.member).println(","))
         .append(2, mappingWriter.wrapList.apply(mappingWriter.member))
         .print(")%s", mappingWriter.trailingSemicolon ? ";" : "");
+  }
+
+  private static boolean isIdentityWriter(Writer writer) {
+    return writer.asString().equals("Function.identity()");
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {

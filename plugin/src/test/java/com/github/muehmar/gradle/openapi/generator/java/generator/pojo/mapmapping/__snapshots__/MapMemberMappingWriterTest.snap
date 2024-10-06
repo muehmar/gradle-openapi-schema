@@ -1,13 +1,7 @@
 allUnnecessary=[
-java.util.function.Function
-
-mapMap(
-    optionalMap,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-)
+.
+.
+optionalMap
 ]
 
 
@@ -87,15 +81,9 @@ mapMap(
 
 
 autoMapped[requiredMap]=[
-java.util.function.Function
-
-mapMap(
-    requiredMap,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-)
+.
+.
+requiredMap
 ]
 
 
@@ -145,15 +133,9 @@ mapMap(
 
 
 prefixAndTrailingSemicolon=[
-java.util.function.Function
-
-prefixmapMap(
-    optionalMap,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-);
+.
+.
+prefixoptionalMap;
 ]
 
 

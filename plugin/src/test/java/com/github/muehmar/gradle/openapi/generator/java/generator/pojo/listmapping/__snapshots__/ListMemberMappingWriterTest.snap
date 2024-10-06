@@ -1,13 +1,7 @@
 allUnnecessary=[
-java.util.function.Function
-
-mapList(
-    optionalListWithNullableItems,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-)
+.
+.
+optionalListWithNullableItems
 ]
 
 
@@ -115,15 +109,9 @@ mapList(
 
 
 autoMapped[requiredStringList]=[
-java.util.function.Function
-
-mapList(
-    requiredStringList,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-);
+.
+.
+requiredStringList;
 ]
 
 
@@ -143,15 +131,9 @@ mapList(
 
 
 prefixAndTrailingSemicolon=[
-java.util.function.Function
-
-return mapList(
-    optionalListWithNullableItems,
-    Function.identity(),
-    Function.identity(),
-    Function.identity(),
-    Function.identity()
-);
+.
+.
+return optionalListWithNullableItems;
 ]
 
 

@@ -6359,13 +6359,7 @@ public class NecessityAndNullabilityDto {
   public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
     return this.requiredNullableMap == null
         ? defaultValue
-        : mapMap(
-            requiredNullableMap,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        );
+        : requiredNullableMap;
   }
 
   @JsonProperty("requiredNullableMap")
@@ -6407,13 +6401,7 @@ public class NecessityAndNullabilityDto {
   public Map<String, String> getOptionalMapOr(Map<String, String> defaultValue) {
     return this.optionalMap == null
         ? defaultValue
-        : mapMap(
-            optionalMap,
-            Function.identity(),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        );
+        : optionalMap;
   }
 
   @JsonProperty("optionalMap")

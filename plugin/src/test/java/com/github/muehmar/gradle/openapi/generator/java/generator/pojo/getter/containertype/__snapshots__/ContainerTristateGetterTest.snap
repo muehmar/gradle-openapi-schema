@@ -88,17 +88,10 @@ public Tristate<List<String>> getOptionalNullableStringList() {
 generatorSettings[NO_JAVA_DOC]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
-java.util.function.Function
 
 @JsonIgnore
 public Tristate<List<String>> getRequiredStringList() {
-  return mapList(
-      requiredStringList,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringList;
 }
 ]
 
@@ -106,20 +99,13 @@ public Tristate<List<String>> getRequiredStringList() {
 generatorSettings[PACKAGE_PRIVATE]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
-java.util.function.Function
 
 /**
  * List
  */
 @JsonIgnore
 Tristate<List<String>> getRequiredStringList() {
-  return mapList(
-      requiredStringList,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringList;
 }
 ]
 
@@ -127,19 +113,12 @@ Tristate<List<String>> getRequiredStringList() {
 generatorSettings[]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
-java.util.function.Function
 
 /**
  * List
  */
 @JsonIgnore
 public Tristate<List<String>> getRequiredStringList() {
-  return mapList(
-      requiredStringList,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringList;
 }
 ]

@@ -49,7 +49,6 @@ public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Op
 containerMembers[requiredNullableMap]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
-java.util.function.Function
 
 /**
  * RequiredNullableMap
@@ -58,13 +57,7 @@ java.util.function.Function
 public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
   return this.requiredNullableMap == null
       ? defaultValue
-      : mapMap(
-          requiredNullableMap,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : requiredNullableMap;
 }
 ]
 
@@ -72,7 +65,6 @@ public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultV
 containerMembers[requiredNullableStringList]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
-java.util.function.Function
 
 /**
  * List
@@ -81,13 +73,7 @@ java.util.function.Function
 public List<String> getRequiredNullableStringListOr(List<String> defaultValue) {
   return this.requiredNullableStringList == null
       ? defaultValue
-      : mapList(
-          requiredNullableStringList,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : requiredNullableStringList;
 }
 ]
 
@@ -95,19 +81,12 @@ public List<String> getRequiredNullableStringListOr(List<String> defaultValue) {
 generatorSettings[NO_JAVA_DOC]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
-java.util.function.Function
 
 @JsonIgnore
 public List<String> getOptionalStringListOr(List<String> defaultValue) {
   return this.optionalStringList == null
       ? defaultValue
-      : mapList(
-          optionalStringList,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : optionalStringList;
 }
 ]
 
@@ -115,7 +94,6 @@ public List<String> getOptionalStringListOr(List<String> defaultValue) {
 generatorSettings[]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
-java.util.function.Function
 
 /**
  * List
@@ -124,12 +102,6 @@ java.util.function.Function
 public List<String> getOptionalStringListOr(List<String> defaultValue) {
   return this.optionalStringList == null
       ? defaultValue
-      : mapList(
-          optionalStringList,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : optionalStringList;
 }
 ]

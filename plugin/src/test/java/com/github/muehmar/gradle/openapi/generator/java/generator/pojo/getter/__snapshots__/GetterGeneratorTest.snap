@@ -619,13 +619,7 @@ public Optional<Map<String, String>> getOptionalMapAllOf() {
 public Map<String, String> getOptionalMapAllOfOr(Map<String, String> defaultValue) {
   return this.optionalMapAllOf == null
       ? defaultValue
-      : mapMap(
-          optionalMapAllOf,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : optionalMapAllOf;
 }
 
 @JsonProperty("optionalMapAllOf")
@@ -704,13 +698,7 @@ public Optional<Map<String, String>> getOptionalMap() {
 public Map<String, String> getOptionalMapOr(Map<String, String> defaultValue) {
   return this.optionalMap == null
       ? defaultValue
-      : mapMap(
-          optionalMap,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : optionalMap;
 }
 
 @JsonProperty("optionalMap")
@@ -2100,13 +2088,7 @@ public Optional<List<String>> getOptionalStringListAllOf() {
 public List<String> getOptionalStringListAllOfOr(List<String> defaultValue) {
   return this.optionalStringListAllOf == null
       ? defaultValue
-      : mapList(
-          optionalStringListAllOf,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : optionalStringListAllOf;
 }
 
 @JsonProperty("optionalStringListAllOf")
@@ -2186,13 +2168,7 @@ public Optional<List<String>> getOptionalStringList() {
 public List<String> getOptionalStringListOr(List<String> defaultValue) {
   return this.optionalStringList == null
       ? defaultValue
-      : mapList(
-          optionalStringList,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : optionalStringList;
 }
 
 @JsonProperty("optionalStringList")
@@ -3265,7 +3241,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
-java.util.function.Function
 .
 .
 /**
@@ -3273,13 +3248,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public Map<String, String> getRequiredMapAllOf() {
-  return mapMap(
-      requiredMapAllOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredMapAllOf;
 }
 
 @JsonProperty("requiredMapAllOf")
@@ -3296,7 +3265,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
-java.util.function.Function
 .
 .
 @JsonProperty("requiredMapAnyOf")
@@ -3307,13 +3275,7 @@ private Map<String, String> getRequiredMapAnyOfJson() {
 
 @JsonIgnore
 Map<String, String> getRequiredMapAnyOf() {
-  return mapMap(
-      requiredMapAnyOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredMapAnyOf;
 }
 
 ]
@@ -4076,13 +4038,7 @@ public Optional<Map<String, String>> getRequiredNullableMapAllOf() {
 public Map<String, String> getRequiredNullableMapAllOfOr(Map<String, String> defaultValue) {
   return this.requiredNullableMapAllOf == null
       ? defaultValue
-      : mapMap(
-          requiredNullableMapAllOf,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : requiredNullableMapAllOf;
 }
 
 @JsonProperty("requiredNullableMapAllOf")
@@ -4163,13 +4119,7 @@ public Optional<Map<String, String>> getRequiredNullableMap() {
 public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
   return this.requiredNullableMap == null
       ? defaultValue
-      : mapMap(
-          requiredNullableMap,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : requiredNullableMap;
 }
 
 @JsonProperty("requiredNullableMap")
@@ -4376,13 +4326,7 @@ public Optional<List<String>> getRequiredNullableStringListAllOf() {
 public List<String> getRequiredNullableStringListAllOfOr(List<String> defaultValue) {
   return this.requiredNullableStringListAllOf == null
       ? defaultValue
-      : mapList(
-          requiredNullableStringListAllOf,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : requiredNullableStringListAllOf;
 }
 
 @JsonProperty("requiredNullableStringListAllOf")
@@ -4464,13 +4408,7 @@ public Optional<List<String>> getRequiredNullableStringList() {
 public List<String> getRequiredNullableStringListOr(List<String> defaultValue) {
   return this.requiredNullableStringList == null
       ? defaultValue
-      : mapList(
-          requiredNullableStringList,
-          Function.identity(),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      );
+      : requiredNullableStringList;
 }
 
 @JsonProperty("requiredNullableStringList")
@@ -5100,7 +5038,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-java.util.function.Function
 .
 .
 /**
@@ -5108,13 +5045,7 @@ java.util.function.Function
  */
 @JsonIgnore
 public List<String> getRequiredStringListAllOf() {
-  return mapList(
-      requiredStringListAllOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringListAllOf;
 }
 
 @JsonProperty("requiredStringListAllOf")
@@ -5131,7 +5062,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-java.util.function.Function
 .
 .
 @JsonProperty("requiredStringListAnyOf")
@@ -5142,13 +5072,7 @@ private List<String> getRequiredStringListAnyOfJson() {
 
 @JsonIgnore
 List<String> getRequiredStringListAnyOf() {
-  return mapList(
-      requiredStringListAnyOf,
-      Function.identity(),
-      Function.identity(),
-      Function.identity(),
-      Function.identity()
-  );
+  return requiredStringListAnyOf;
 }
 
 ]
