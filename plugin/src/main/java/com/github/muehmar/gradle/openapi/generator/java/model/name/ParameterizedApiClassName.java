@@ -46,7 +46,7 @@ public class ParameterizedApiClassName implements WriteableParameterizedClassNam
   }
 
   private static Optional<ParameterizedApiClassName> ofJavaArrayType(JavaArrayType arrayType) {
-    if (arrayType.hasApiType() || arrayType.getItemType().hasApiType()) {
+    if (arrayType.hasApiTypeDeep()) {
       final QualifiedClassName apiQualifiedClassName =
           arrayType
               .getApiType()
@@ -60,7 +60,7 @@ public class ParameterizedApiClassName implements WriteableParameterizedClassNam
   }
 
   private static Optional<ParameterizedApiClassName> ofJavaMapType(JavaMapType mapType) {
-    if (mapType.hasApiType() || mapType.getKey().hasApiType() || mapType.getValue().hasApiType()) {
+    if (mapType.hasApiTypeDeep()) {
       final QualifiedClassName apiQualifiedClassName =
           mapType.getApiType().map(ApiType::getClassName).orElse(mapType.getQualifiedClassName());
       return Optional.of(

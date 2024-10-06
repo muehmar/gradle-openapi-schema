@@ -12,7 +12,7 @@ public class SetterModifier {
   public static JavaModifier forMember(
       JavaPojoMember member, PojoSettings settings, SetterJavaType type) {
     final JavaType javaType = member.getJavaType();
-    if (type == SetterJavaType.DEFAULT && javaType.hasApiType()) {
+    if (type == SetterJavaType.DEFAULT && javaType.hasApiTypeDeep()) {
       return JavaModifier.PRIVATE;
     }
     if (settings.isEnableStagedBuilder() && member.isRequired()) {

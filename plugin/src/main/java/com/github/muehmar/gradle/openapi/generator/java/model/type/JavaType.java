@@ -29,37 +29,21 @@ public interface JavaType {
    */
   Optional<ApiType> getApiType();
 
-  /**
-   * Returns true if the {@link JavaType} has an {@link ApiType}, independent of possible {@link
-   * ApiType} of generics.
-   */
-  default boolean hasApiType() {
-    return getApiType().isPresent();
-  }
-
-  /**
-   * Returns false if the {@link JavaType} has an {@link ApiType}, independent of possible {@link
-   * ApiType} of generics.
-   */
-  default boolean hasNoApiType() {
-    return not(hasApiType());
-  }
-
   /** Returns true if the {@link JavaType} or any possible generics have an {@link ApiType}. */
   default boolean hasApiTypeDeep() {
     return fold(
-        arrayType -> arrayType.hasApiType() || arrayType.getItemType().hasApiTypeDeep(),
-        JavaBooleanType::hasApiType,
-        JavaEnumType::hasApiType,
+        arrayType -> arrayType.getApiType().isPresent() || arrayType.getItemType().hasApiTypeDeep(),
+        javaBooleanType -> javaBooleanType.getApiType().isPresent(),
+        javaEnumType -> javaEnumType.getApiType().isPresent(),
         mapType ->
-            mapType.hasApiType()
+            mapType.getApiType().isPresent()
                 || mapType.getKey().hasApiTypeDeep()
                 || mapType.getValue().hasApiTypeDeep(),
-        JavaAnyType::hasApiType,
-        JavaNumericType::hasApiType,
-        JavaIntegerType::hasApiType,
-        JavaObjectType::hasApiType,
-        JavaStringType::hasApiType);
+        javaAnyType -> javaAnyType.getApiType().isPresent(),
+        javaNumericType -> javaNumericType.getApiType().isPresent(),
+        javaIntegerType -> javaIntegerType.getApiType().isPresent(),
+        javaObjectType -> javaObjectType.getApiType().isPresent(),
+        javaStringType -> javaStringType.getApiType().isPresent());
   }
 
   /**

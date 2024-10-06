@@ -12,6 +12,6 @@ public class StandardSetterConditions {
     return ApiTypeListConditions.groupCondition()
         .negate()
         .and(ApiTypeMapConditions.groupCondition().negate())
-        .and(member -> member.getJavaType().hasNoApiType());
+        .and(member -> member.getJavaType().hasNoApiTypeDeep());
   }
 }
