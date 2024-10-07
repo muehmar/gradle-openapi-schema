@@ -14,6 +14,10 @@ public class WarningsContext {
 
   private WarningsContext() {}
 
+  public static void resetWarningsForTask(TaskIdentifier identifier) {
+    map.remove(identifier);
+  }
+
   public static void addWarningForTask(TaskIdentifier identifier, Warning warning) {
     final Set<Warning> warnings =
         new HashSet<>(map.getOrDefault(identifier, Collections.emptySet()));
