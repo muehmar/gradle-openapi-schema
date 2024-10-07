@@ -91,6 +91,7 @@ public class GenerateSchemasTask extends DefaultTask {
   }
 
   private void handleWarnings() {
+    pojoSettings.get().validate();
     if (not(warningsConfig.get().getDisableWarnings())) {
       WarningsHandler.handleWarnings(
           pojoSettings.get().getTaskIdentifier(), warningsConfig.get().getFailingWarningTypes());
