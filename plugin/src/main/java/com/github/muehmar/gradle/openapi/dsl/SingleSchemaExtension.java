@@ -47,6 +47,7 @@ public class SingleSchemaExtension implements Serializable {
   private StagedBuilder stagedBuilder;
   private String builderMethodPrefix;
   private Boolean enableValidation;
+  private Boolean nonStrictOneOfValidation;
   private String validationApi;
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
@@ -190,6 +191,10 @@ public class SingleSchemaExtension implements Serializable {
     return Optional.ofNullable(enableValidation).orElse(false);
   }
 
+  public boolean getNonStrictOneOfValidation() {
+    return Optional.ofNullable(nonStrictOneOfValidation).orElse(false);
+  }
+
   // DSL API
   public void setValidationApi(String validationApi) {
     this.validationApi = validationApi;
@@ -220,6 +225,11 @@ public class SingleSchemaExtension implements Serializable {
   // DSL API
   public void setEnableValidation(Boolean enableValidation) {
     this.enableValidation = enableValidation;
+  }
+
+  // DSL API
+  public void setNonStrictOneOfValidation(Boolean nonStrictOneOfValidation) {
+    this.nonStrictOneOfValidation = nonStrictOneOfValidation;
   }
 
   // DSL API
@@ -358,6 +368,7 @@ public class SingleSchemaExtension implements Serializable {
         .stagedBuilder(stagedBuilderSettings)
         .builderMethodPrefix(getBuilderMethodPrefix())
         .enableValidation(getEnableValidation())
+        .nonStrictOneOfValidation(getNonStrictOneOfValidation())
         .validationApi(getValidationApi())
         .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(
@@ -414,6 +425,14 @@ public class SingleSchemaExtension implements Serializable {
   SingleSchemaExtension withCommonEnableValidation(Optional<Boolean> commonEnableValidation) {
     if (enableValidation == null) {
       commonEnableValidation.ifPresent(this::setEnableValidation);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonNonStrictOneOfValidation(
+      Optional<Boolean> commonNonStrictOneOfValidation) {
+    if (nonStrictOneOfValidation == null) {
+      commonNonStrictOneOfValidation.ifPresent(this::setNonStrictOneOfValidation);
     }
     return this;
   }

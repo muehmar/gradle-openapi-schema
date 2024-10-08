@@ -254,4 +254,31 @@ class SingleSchemaExtensionTest {
         OpenApiGeneratorException.class,
         () -> extension.formatTypeMapping(formatTypeMappingAction));
   }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void withCommonNonStrictOneOfValidation_when_nothingSet_then_commonSettingsUsed(
+      boolean commonNonStrictOneOfValidation) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+
+    // method call
+    extension.withCommonNonStrictOneOfValidation(Optional.of(commonNonStrictOneOfValidation));
+
+    final boolean nonStrictOneOfValidation = extension.getNonStrictOneOfValidation();
+
+    assertEquals(commonNonStrictOneOfValidation, nonStrictOneOfValidation);
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void withCommonNonStrictOneOfValidation_when_alreadySet_then_commonSettingIgnored(
+      boolean nonStrictOneOfValidation) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    extension.setNonStrictOneOfValidation(nonStrictOneOfValidation);
+
+    // method call
+    extension.withCommonNonStrictOneOfValidation(Optional.of(true));
+
+    assertEquals(nonStrictOneOfValidation, extension.getNonStrictOneOfValidation());
+  }
 }

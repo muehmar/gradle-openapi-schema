@@ -24,6 +24,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private String jsonSupport;
   private StagedBuilder stagedBuilder;
   private Boolean enableValidation;
+  private Boolean nonStrictOneOfValidation;
   private String validationApi;
   private String builderMethodPrefix;
   private EnumDescriptionExtension enumDescriptionExtension = null;
@@ -75,6 +76,11 @@ public class OpenApiSchemaExtension implements Serializable {
   // DSL API
   public void setEnableValidation(Boolean enableValidation) {
     this.enableValidation = enableValidation;
+  }
+
+  // DSL API
+  public void setNonStrictOneOfValidation(Boolean nonStrictOneOfValidation) {
+    this.nonStrictOneOfValidation = nonStrictOneOfValidation;
   }
 
   // DSL API
@@ -191,6 +197,10 @@ public class OpenApiSchemaExtension implements Serializable {
     return Optional.ofNullable(enableValidation);
   }
 
+  public Optional<Boolean> getCommonNonStrictOneOfValidation() {
+    return Optional.ofNullable(nonStrictOneOfValidation);
+  }
+
   private Optional<String> getCommonValidationApi() {
     return Optional.ofNullable(validationApi);
   }
@@ -208,6 +218,7 @@ public class OpenApiSchemaExtension implements Serializable {
         .map(ext -> ext.withCommonStagedBuilder(getCommonStagedBuilder()))
         .map(ext -> ext.withCommonEnableValidation(getCommonEnableValidation()))
         .map(ext -> ext.withCommonValidationApi(getCommonValidationApi()))
+        .map(ext -> ext.withCommonNonStrictOneOfValidation(getCommonNonStrictOneOfValidation()))
         .map(ext -> ext.withCommonBuilderMethodPrefix(getCommonBuilderMethodPrefix()))
         .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
         .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
@@ -239,6 +250,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + stagedBuilder
         + ", enableValidation="
         + enableValidation
+        + ", nonStrictOneOfValidation="
+        + nonStrictOneOfValidation
         + ", validationApi='"
         + validationApi
         + '\''
