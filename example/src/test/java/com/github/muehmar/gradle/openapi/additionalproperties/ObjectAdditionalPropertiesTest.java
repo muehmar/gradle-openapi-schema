@@ -43,7 +43,9 @@ class ObjectAdditionalPropertiesTest {
   @Test
   void deserialize_when_objectWithObjectAdditionalProperty_then_correctDto()
       throws JsonProcessingException {
-    assertEquals(DTO, MAPPER.readValue(JSON, ObjectAdditionalPropertiesDto.class));
+    final ObjectAdditionalPropertiesDto actual =
+        MAPPER.readValue(JSON, ObjectAdditionalPropertiesDto.class);
+    assertEquals(DTO, actual);
   }
 
   @Test
@@ -75,7 +77,7 @@ class ObjectAdditionalPropertiesTest {
         "size must be between 5 and 2147483647",
         violations.stream().findFirst().get().getMessage());
     assertEquals(
-        "additionalProperties_[prop1].descriptionRaw",
+        "additionalProperties_[prop1].description",
         violations.stream().findFirst().get().getPropertyPath().toString());
   }
 }

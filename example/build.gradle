@@ -66,7 +66,8 @@ def specifications =
                 [name: 'sasis', file: 'sasis-api.json'],
                 [name: 'promotion', file: 'openapi-promotion.yml'],
                 [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml'],
-                [name: 'nullableitemslist', file: 'openapi-nullable-items-list.yml']
+                [name: 'nullableitemslist', file: 'openapi-nullable-items-list.yml'],
+                [name: 'typemappingwithconversion', file: 'openapi-type-mapping-with-conversion.yml']
         ]
 
 def issueNumbers = [
@@ -92,6 +93,7 @@ def issueNumbers = [
         '272',
         '275',
         '280',
+        '278',
         '287']
 
 specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
@@ -118,11 +120,15 @@ openApiGenerator {
     formatTypeMapping {
         formatType = "username"
         classType = "com.package.UserName"
+        conversion.fromCustomType = "getValue"
+        conversion.toCustomType = "UserName#fromString"
     }
 
     formatTypeMapping {
         formatType = "password"
         classType = "com.package.Password"
+        conversion.fromCustomType = "getValue"
+        conversion.toCustomType = "Password#fromString"
     }
 
     validationMethods {
@@ -133,6 +139,7 @@ openApiGenerator {
         disableWarnings = false
         failOnWarnings = true
         failOnUnsupportedValidation = true
+        failOnMissingMappingConversion = true
     }
 
     constantSchemaNameMapping {
@@ -162,6 +169,10 @@ openApiGenerator {
             classMapping {
                 fromClass = "List"
                 toClass = "java.util.ArrayList"
+            }
+
+            warnings {
+                failOnMissingMappingConversion = false
             }
         }
         apiV2 {
@@ -215,6 +226,7 @@ openApiGenerator {
 
             warnings {
                 failOnUnsupportedValidation = false
+                failOnMissingMappingConversion = false
             }
         }
         oneOf {
@@ -258,6 +270,10 @@ openApiGenerator {
                 formatType = "date-time"
                 classType = "java.time.LocalDate"
             }
+
+            warnings {
+                failOnMissingMappingConversion = false
+            }
         }
         promotion {
             inputSpec = "$projectDir/src/main/resources/openapi-promotion.yml"
@@ -272,7 +288,6 @@ openApiGenerator {
             jsonSupport = "none"
             enableValidation = false
             builderMethodPrefix = ""
-
         }
         oneOfEnumDiscriminator {
             inputSpec = "$projectDir/src/main/resources/openapi-oneof-enum-discriminator.yml"
@@ -281,6 +296,24 @@ openApiGenerator {
         nullableItemsList {
             inputSpec = "$projectDir/src/main/resources/openapi-nullable-items-list.yml"
             packageName = "com.github.muehmar.gradle.openapi.nullableitemslist"
+        }
+        typeMappingWithConversion {
+            inputSpec = "$projectDir/src/main/resources/openapi-type-mapping-with-conversion.yml"
+            packageName = "com.github.muehmar.gradle.openapi.typemappingwithconversion"
+
+            classMapping {
+                fromClass = "String"
+                toClass = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomString"
+                conversion.fromCustomType = "getValue"
+                conversion.toCustomType = "CustomString#fromString"
+            }
+
+            classMapping {
+                fromClass = "List"
+                toClass = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomList"
+                conversion.fromCustomType = "asList"
+                conversion.toCustomType = "CustomList#fromList"
+            }
         }
         issueNumbers.forEach { issueNumber ->
             {

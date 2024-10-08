@@ -45,7 +45,7 @@ class ValidationTest {
     assertEquals(
         Arrays.asList(
             "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[User].ageRaw -> must be less than or equal to 199",
+            "invalidOneOf[User].age -> must be less than or equal to 199",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));

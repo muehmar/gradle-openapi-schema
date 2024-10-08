@@ -45,7 +45,7 @@ class DiscriminatorValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[User].ageRaw -> must be less than or equal to 199",
+            "invalidOneOf[User].age -> must be less than or equal to 199",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations),

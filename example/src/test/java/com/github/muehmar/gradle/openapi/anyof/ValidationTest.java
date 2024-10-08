@@ -58,7 +58,7 @@ class ValidationTest {
     assertEquals(
         Arrays.asList(
             "invalidAnyOf[Admin].adminname -> must not be null",
-            "invalidAnyOf[User].ageRaw -> must be less than or equal to 199",
+            "invalidAnyOf[User].age -> must be less than or equal to 199",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
@@ -78,7 +78,7 @@ class ValidationTest {
     assertEquals(
         Arrays.asList(
             "adminOrUser.invalidAnyOf[Admin].adminname -> must not be null",
-            "adminOrUser.invalidAnyOf[User].ageRaw -> must be less than or equal to 199",
+            "adminOrUser.invalidAnyOf[User].age -> must be less than or equal to 199",
             "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));

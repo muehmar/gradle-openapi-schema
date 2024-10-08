@@ -1,0 +1,54 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    FullObject:
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+
+    NestedFullObject:
+      required:
+        - amount
+      anyOf:
+        - $ref: '#/components/schemas/FullObject'
+        - $ref: '#/components/schemas/Member'
+      properties:
+        amount:
+          type: integer
+
+    User:
+      required:
+        - type
+        - username
+      properties:
+        type:
+          type: string
+        username:
+          type: string
+
+    Admin:
+      required:
+        - type
+        - adminname
+      properties:
+        type:
+          type: string
+        adminname:
+          type: string
+          nullable: true
+
+    Member:
+      required:
+        - type
+        - membername
+      properties:
+        type:
+          type: string
+        membername:
+          type: string
+

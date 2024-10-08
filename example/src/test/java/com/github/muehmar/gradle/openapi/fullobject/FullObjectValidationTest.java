@@ -119,7 +119,7 @@ class FullObjectValidationTest {
     final Set<ConstraintViolation<FullObjectDto>> violations = validate(dto);
 
     assertEquals(
-        Arrays.asList("messageRaw -> size must be between 0 and 10"),
+        Arrays.asList("message -> size must be between 0 and 10"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());

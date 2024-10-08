@@ -1,0 +1,178 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    User:
+      required:
+        - id
+        - username
+      properties:
+        id:
+          type: string
+          minLength: 6
+          maxLength: 10
+        username:
+          type: string
+          nullable: true
+          minLength: 5
+          maxLength: 20
+        email:
+          type: string
+          pattern: '[A-Za-z0-9]+@[A-Za-z0-9]+\.[a-z]+'
+        phone:
+          type: string
+          nullable: true
+          pattern: '\+41[0-9]{7}'
+      additionalProperties:
+        type: string
+        nullable: true
+
+    ListObject:
+      required:
+        - ids
+        - usernames
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            nullable: true
+            minLength: 6
+            maxLength: 10
+          minItems: 1
+          maxItems: 2
+        usernames:
+          type: array
+          items:
+            type: string
+            nullable: true
+            minLength: 9
+            maxLength: 12
+          nullable: true
+          minItems: 3
+          maxItems: 4
+        emails:
+          type: array
+          items:
+            type: string
+            nullable: true
+            pattern: '[a-z]+-[0-9]{4}'
+          minItems: 5
+          maxItems: 6
+        phones:
+          type: array
+          items:
+            type: string
+            nullable: true
+            pattern: 'phone-[0-9]{4}'
+          minItems: 7
+          maxItems: 8
+          nullable: true
+      additionalProperties:
+        type: string
+
+    MapObject:
+      type: object
+      required:
+        - idsMap
+        - usernamesMap
+      properties:
+        idsMap:
+          additionalProperties:
+            type: string
+            minLength: 6
+            maxLength: 10
+        usernamesMap:
+          nullable: true
+          additionalProperties:
+            type: string
+            nullable: true
+            minLength: 9
+            maxLength: 12
+        emailsMap:
+          additionalProperties:
+            type: string
+            nullable: true
+            pattern: '[a-z]+-[0-9]{4}'
+        phonesMap:
+          nullable: true
+          additionalProperties:
+            type: string
+            nullable: true
+            pattern: 'phone-[0-9]{4}'
+
+    AllOfListObject:
+      allOf:
+        - $ref: '#/components/schemas/ListObject'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    OneOfListObject:
+      oneOf:
+        - $ref: '#/components/schemas/ListObject'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    AnyOfListObject:
+      anyOf:
+        - $ref: '#/components/schemas/ListObject'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    AllOfMapObject:
+      allOf:
+        - $ref: '#/components/schemas/MapObject'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    OneOfMapObject:
+      oneOf:
+        - $ref: '#/components/schemas/MapObject'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    AnyOfMapObject:
+      anyOf:
+        - $ref: '#/components/schemas/MapObject'
+        - type: object
+          properties:
+            superUserId:
+              type: string
+
+    Posology:
+      description: |
+        Doses to be taken (morning, midday, evening, night). Used for
+        package size calculation.
+      type: array
+      maxItems: 4
+      items:
+        type: string
+        minLength: 1
+      example:
+        - "1"
+        - "0"
+        - "2"
+        - "0"
+
+    ArrayAdditionalProperties:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+
+
+
