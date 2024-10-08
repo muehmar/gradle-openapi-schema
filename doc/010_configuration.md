@@ -357,6 +357,7 @@ warnings {
     disableWarnings = false
     failOnWarnings = true
     failOnUnsupportedValidation = true
+    failOnMissingConversion = true
 }
 ```
 
@@ -365,3 +366,4 @@ warnings {
 | disableWarnings             | boolean   | false                     | Disables the generation of the warnings, i.e. emits no warnings in the gradle output                             |
 | failOnWarnings              | boolean   | false                     | Global setting to fail on warnings. Will be used as default for every warning type if not configured explicitly. |
 | failOnUnsupportedValidation | boolean   | value of `failOnWarnings` | Fail on unsupported validations. Uses `failOnWarnings` if omitted.                                               |
+| failOnMissingConversion     | boolean   | value of `failOnWarnings` | Fail on missing conversions in class mappings or format type mappings. Uses `failOnWarnings` if omitted.         |
