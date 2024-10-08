@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 
 class ArrayAdditionalPropertiesTest {
   private static final ObjectMapper MAPPER = MapperFactory.mapper();
-  private String json;
 
   @Test
   void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned()
