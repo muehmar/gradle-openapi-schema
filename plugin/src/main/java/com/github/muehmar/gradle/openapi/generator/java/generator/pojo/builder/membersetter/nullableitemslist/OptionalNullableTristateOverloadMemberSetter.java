@@ -1,7 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.list.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
+
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.FlagAssignments;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -21,19 +23,24 @@ class OptionalNullableTristateOverloadMemberSetter extends OptionalNullableMembe
   }
 
   @Override
-  public String memberValue() {
-    return String.format(
-        "%s.onValue(l -> %s(l)).onNull(() -> null).onAbsent(() -> null)",
-        member.getName(), UnwrapNullableItemsListMethod.METHOD_NAME);
+  public Writer memberAssigment() {
+    return fullListAssigmentWriterBuilder()
+        .member(member)
+        .fieldAssigment()
+        .unwrapTristateList()
+        .unmapListTypeNotNecessary()
+        .unwrapOptionalListItem()
+        .unmapListItemTypeNotNecessary()
+        .build();
   }
 
   @Override
   public Optional<String> flagAssignment() {
-    return Optional.of(FlagAssignments.wrappedOptionalNullableFlagAssignment(member));
+    return Optional.of(FlagAssignments.Wrapped.optionalNullableFlagAssignment(member));
   }
 
   @Override
-  public Writer addRefs(Writer writer) {
-    return super.addRefs(writer).ref(OpenApiUtilRefs.TRISTATE);
+  public PList<String> getRefs() {
+    return super.getRefs().cons(OpenApiUtilRefs.TRISTATE);
   }
 }

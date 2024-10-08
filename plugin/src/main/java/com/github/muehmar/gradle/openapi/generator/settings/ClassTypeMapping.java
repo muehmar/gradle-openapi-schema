@@ -1,25 +1,23 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
 import java.io.Serializable;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.util.Optional;
+import lombok.Value;
 
-@EqualsAndHashCode
-@ToString
+@Value
 public class ClassTypeMapping implements Serializable {
-  private final String fromClass;
-  private final String toClass;
+  String fromClass;
+  String toClass;
+  TypeConversion typeConversion;
 
-  public ClassTypeMapping(String fromClass, String toClass) {
+  public ClassTypeMapping(
+      String fromClass, String toClass, Optional<TypeConversion> typeConversion) {
     this.fromClass = fromClass;
     this.toClass = toClass;
+    this.typeConversion = typeConversion.orElse(null);
   }
 
-  public String getFromClass() {
-    return fromClass;
-  }
-
-  public String getToClass() {
-    return toClass;
+  public Optional<TypeConversion> getTypeConversion() {
+    return Optional.ofNullable(typeConversion);
   }
 }

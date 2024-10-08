@@ -115,30 +115,69 @@ public static final class BuilderStages {
     /**
      * RequiredNullableListWithNullableItems
      */
-    public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+    public FullPropertyBuilder4 setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
+      return new FullPropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
     }
 
     /**
      * RequiredNullableListWithNullableItems
      */
-    public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
+    public FullPropertyBuilder4 setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
+      return new FullPropertyBuilder4(builder.setRequiredNullableListWithNullableItems(requiredNullableListWithNullableItems));
     }
 
     /**
      * RequiredNullableListWithNullableItems
      */
-    public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+    public FullPropertyBuilder4 setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
+      return new FullPropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
     }
 
     /**
      * RequiredNullableListWithNullableItems
      */
-    public FullOptPropertyBuilder0 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-      return new FullOptPropertyBuilder0(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
+    public FullPropertyBuilder4 setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
+      return new FullPropertyBuilder4(builder.setRequiredNullableListWithNullableItems_(requiredNullableListWithNullableItems));
     }
+  }
+
+  public static final class FullPropertyBuilder4 {
+    private final Builder builder;
+
+    private FullPropertyBuilder4(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredMap
+     */
+    public FullPropertyBuilder5 setRequiredMap(Map<String, String> requiredMap) {
+      return new FullPropertyBuilder5(builder.setRequiredMap(requiredMap));
+    }
+
+  }
+
+  public static final class FullPropertyBuilder5 {
+    private final Builder builder;
+
+    private FullPropertyBuilder5(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredNullableMap
+     */
+    public FullOptPropertyBuilder0 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+      return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+    }
+
+    /**
+     * RequiredNullableMap
+     */
+    public FullOptPropertyBuilder0 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+      return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+    }
+
   }
 
   public static final class FullOptPropertyBuilder0 {
@@ -267,16 +306,62 @@ public static final class BuilderStages {
       this.builder = builder;
     }
 
-    public FullOptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
-      return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalMap
+     */
+    public FullOptPropertyBuilder5 setOptionalMap(Map<String, String> optionalMap) {
+      return new FullOptPropertyBuilder5(builder.setOptionalMap(optionalMap));
     }
 
-    public FullOptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
-      return new FullOptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalMap
+     */
+    public FullOptPropertyBuilder5 setOptionalMap(Optional<Map<String, String>> optionalMap) {
+      return new FullOptPropertyBuilder5(builder.setOptionalMap(optionalMap));
     }
 
-    public FullOptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new FullOptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public static final class FullOptPropertyBuilder5 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder5(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalNullableMap
+     */
+    public FullOptPropertyBuilder6 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+      return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+    }
+
+    /**
+     * OptionalNullableMap
+     */
+    public FullOptPropertyBuilder6 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+      return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+    }
+
+  }
+
+  public static final class FullOptPropertyBuilder6 {
+    private final Builder builder;
+
+    private FullOptPropertyBuilder6(Builder builder) {
+      this.builder = builder;
+    }
+
+    public FullOptPropertyBuilder6 addAdditionalProperty(String key, Object value) {
+      return new FullOptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder6 addAdditionalProperty(String key, Tristate<Object> value) {
+      return new FullOptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+    }
+
+    public FullOptPropertyBuilder6 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new FullOptPropertyBuilder6(builder.setAdditionalProperties(additionalProperties));
     }
 
     public NecessityAndNullabilityDto build(){
@@ -386,6 +471,45 @@ public static final class BuilderStages {
     private final Builder builder;
 
     private PropertyBuilder4(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredMap
+     */
+    public PropertyBuilder5 setRequiredMap(Map<String, String> requiredMap) {
+      return new PropertyBuilder5(builder.setRequiredMap(requiredMap));
+    }
+
+  }
+
+  public static final class PropertyBuilder5 {
+    private final Builder builder;
+
+    private PropertyBuilder5(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * RequiredNullableMap
+     */
+    public PropertyBuilder6 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+      return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+    }
+
+    /**
+     * RequiredNullableMap
+     */
+    public PropertyBuilder6 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+      return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+    }
+
+  }
+
+  public static final class PropertyBuilder6 {
+    private final Builder builder;
+
+    private PropertyBuilder6(Builder builder) {
       this.builder = builder;
     }
 
@@ -528,16 +652,62 @@ public static final class BuilderStages {
       this.builder = builder;
     }
 
-    public OptPropertyBuilder4 addAdditionalProperty(String key, Object value) {
-      return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalMap
+     */
+    public OptPropertyBuilder5 setOptionalMap(Map<String, String> optionalMap) {
+      return new OptPropertyBuilder5(builder.setOptionalMap(optionalMap));
     }
 
-    public OptPropertyBuilder4 addAdditionalProperty(String key, Tristate<Object> value) {
-      return new OptPropertyBuilder4(builder.addAdditionalProperty(key, value));
+    /**
+     * OptionalMap
+     */
+    public OptPropertyBuilder5 setOptionalMap(Optional<Map<String, String>> optionalMap) {
+      return new OptPropertyBuilder5(builder.setOptionalMap(optionalMap));
     }
 
-    public OptPropertyBuilder4 setAdditionalProperties(Map<String, Object> additionalProperties) {
-      return new OptPropertyBuilder4(builder.setAdditionalProperties(additionalProperties));
+  }
+
+  public static final class OptPropertyBuilder5 {
+    private final Builder builder;
+
+    private OptPropertyBuilder5(Builder builder) {
+      this.builder = builder;
+    }
+
+    /**
+     * OptionalNullableMap
+     */
+    public OptPropertyBuilder6 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+      return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+    }
+
+    /**
+     * OptionalNullableMap
+     */
+    public OptPropertyBuilder6 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+      return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+    }
+
+  }
+
+  public static final class OptPropertyBuilder6 {
+    private final Builder builder;
+
+    private OptPropertyBuilder6(Builder builder) {
+      this.builder = builder;
+    }
+
+    public OptPropertyBuilder6 addAdditionalProperty(String key, Object value) {
+      return new OptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder6 addAdditionalProperty(String key, Tristate<Object> value) {
+      return new OptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+    }
+
+    public OptPropertyBuilder6 setAdditionalProperties(Map<String, Object> additionalProperties) {
+      return new OptPropertyBuilder6(builder.setAdditionalProperties(additionalProperties));
     }
 
     public NecessityAndNullabilityDto build(){

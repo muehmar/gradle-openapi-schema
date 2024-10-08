@@ -1,8 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
+import com.github.muehmar.gradle.openapi.warnings.Warning;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import io.github.muehmar.pojobuilder.annotations.FieldBuilder;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
@@ -100,5 +104,23 @@ public class PojoSettings implements Serializable {
                 PojoNameMapping.replaceConstant(
                     constantNameMapping.getConstant(), constantNameMapping.getReplacement()))
         .foldLeft(PojoNameMapping.noMapping(), PojoNameMapping::andThen);
+  }
+
+  public void validate() {
+    classTypeMappings.forEach(
+        classTypeMapping -> {
+          if (not(classTypeMapping.getTypeConversion().isPresent())) {
+            final Warning warning = Warning.missingMappingConversion(classTypeMapping);
+            WarningsContext.addWarningForTask(taskIdentifier, warning);
+          }
+        });
+
+    formatTypeMappings.forEach(
+        formatTypeMapping -> {
+          if (not(formatTypeMapping.getTypeConversion().isPresent())) {
+            final Warning warning = Warning.missingMappingConversion(formatTypeMapping);
+            WarningsContext.addWarningForTask(taskIdentifier, warning);
+          }
+        });
   }
 }

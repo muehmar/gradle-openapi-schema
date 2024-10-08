@@ -1,0 +1,167 @@
+allUnnecessary=[
+.
+.
+optionalMap
+]
+
+
+autoMapped[optionalMapWithFullMapping]=[
+com.custom.CustomMap
+com.custom.CustomString
+java.util.Optional
+java.util.function.Function
+
+mapMap(
+    optionalMapWithFullMapping,
+    i -> CustomString.fromString(i),
+    Function.identity(),
+    m -> CustomMap.fromMap(m),
+    Optional::ofNullable
+)
+]
+
+
+autoMapped[optionalMap]=[
+java.util.Optional
+java.util.function.Function
+
+mapMap(
+    optionalMap,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    Optional::ofNullable
+)
+]
+
+
+autoMapped[optionalNullableMapWithFullMapping]=[
+com.custom.CustomMap
+com.custom.CustomString
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+mapMap(
+    optionalNullableMapWithFullMapping,
+    i -> CustomString.fromString(i),
+    Function.identity(),
+    m -> CustomMap.fromMap(m),
+    m -> Tristate.ofNullableAndNullFlag(m, isOptionalNullableMapWithFullMappingNull)
+)
+]
+
+
+autoMapped[optionalNullableMap]=[
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+mapMap(
+    optionalNullableMap,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    m -> Tristate.ofNullableAndNullFlag(m, isOptionalNullableMapNull)
+)
+]
+
+
+autoMapped[requiredMapWithFullMapping]=[
+com.custom.CustomMap
+com.custom.CustomString
+java.util.function.Function
+
+mapMap(
+    requiredMapWithFullMapping,
+    i -> CustomString.fromString(i),
+    Function.identity(),
+    m -> CustomMap.fromMap(m),
+    Function.identity()
+)
+]
+
+
+autoMapped[requiredMap]=[
+.
+.
+requiredMap
+]
+
+
+autoMapped[requiredNullableMapWithFullMapping]=[
+com.custom.CustomMap
+com.custom.CustomString
+java.util.Optional
+java.util.function.Function
+
+mapMap(
+    requiredNullableMapWithFullMapping,
+    i -> CustomString.fromString(i),
+    Function.identity(),
+    m -> CustomMap.fromMap(m),
+    Optional::ofNullable
+)
+]
+
+
+autoMapped[requiredNullableMap]=[
+java.util.Optional
+java.util.function.Function
+
+mapMap(
+    requiredNullableMap,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    Optional::ofNullable
+)
+]
+
+
+mapMapAndMapItemType=[
+com.custom.CustomMap
+com.custom.CustomString
+java.util.function.Function
+
+mapMap(
+    optionalMap,
+    i -> CustomString.fromString(i),
+    Function.identity(),
+    m -> CustomMap.fromMap(m),
+    Function.identity()
+)
+]
+
+
+prefixAndTrailingSemicolon=[
+.
+.
+prefixoptionalMap;
+]
+
+
+wrapOptionalMapAndMapItem=[
+java.util.Optional
+java.util.function.Function
+
+mapMap(
+    optionalMap,
+    Function.identity(),
+    Optional::ofNullable,
+    Function.identity(),
+    Optional::ofNullable
+)
+]
+
+
+wrapTristateMap=[
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+mapMap(
+    optionalMap,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    m -> Tristate.ofNullableAndNullFlag(m, isOptionalMapNull)
+)
+]

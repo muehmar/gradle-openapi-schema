@@ -1,12 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.nullableitemslist;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.list.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_FUNCTION;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_OPTIONAL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.MemberSetter;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
-import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -18,8 +20,9 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
   JavaPojoMember member;
 
   @Override
-  public boolean shouldBeUsed() {
-    return member.isRequiredAndNotNullable() && member.getJavaType().isNullableItemsArrayType();
+  public boolean shouldBeUsed(PojoSettings settings) {
+    return NullableItemsListConditions.groupCondition().test(member)
+        && member.isRequiredAndNotNullable();
   }
 
   @Override
@@ -38,8 +41,15 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public String memberValue() {
-    return String.format("%s(%s)", UnwrapNullableItemsListMethod.METHOD_NAME, member.getName());
+  public Writer memberAssigment() {
+    return fullListAssigmentWriterBuilder()
+        .member(member)
+        .fieldAssigment()
+        .unwrapListNotNecessary()
+        .unmapListTypeNotNecessary()
+        .unwrapOptionalListItem()
+        .unmapListItemTypeNotNecessary()
+        .build();
   }
 
   @Override
@@ -48,7 +58,7 @@ class RequiredNotNullableMemberSetter implements MemberSetter {
   }
 
   @Override
-  public Writer addRefs(Writer writer) {
-    return writer.ref(JavaRefs.JAVA_UTIL_OPTIONAL);
+  public PList<String> getRefs() {
+    return PList.of(JAVA_UTIL_OPTIONAL, JAVA_UTIL_FUNCTION);
   }
 }

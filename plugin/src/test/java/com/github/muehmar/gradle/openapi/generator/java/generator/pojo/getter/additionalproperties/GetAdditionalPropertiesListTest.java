@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTy
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
+import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -16,9 +17,12 @@ import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProp
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -134,6 +138,46 @@ class GetAdditionalPropertiesListTest {
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(stringListType().withNullability(NULLABLE));
+    final JavaObjectPojo pojo =
+        JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("notNullableStringTypeWithMapping")
+  void generate_when_notNullableStringTypeWithMapping_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        getAdditionalPropertiesListGenerator();
+
+    final TypeMappings stringTypeMapping =
+        TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION);
+    final JavaStringType stringType = JavaStringType.wrap(StringType.noFormat(), stringTypeMapping);
+
+    final JavaAdditionalProperties additionalProperties =
+        JavaAdditionalProperties.allowedFor(stringType.withNullability(NOT_NULLABLE));
+    final JavaObjectPojo pojo =
+        JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("nullableStringTypeWithMapping")
+  void generate_when_nullableStringTypeWithMapping_then_matchSnapshot() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        getAdditionalPropertiesListGenerator();
+
+    final TypeMappings stringTypeMapping =
+        TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION);
+    final JavaStringType stringType = JavaStringType.wrap(StringType.noFormat(), stringTypeMapping);
+
+    final JavaAdditionalProperties additionalProperties =
+        JavaAdditionalProperties.allowedFor(stringType.withNullability(NULLABLE));
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);
 

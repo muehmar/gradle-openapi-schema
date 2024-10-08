@@ -380,7 +380,11 @@ class ObjectPojoGeneratorTest {
 
     final JavaPojoMember member =
         TestJavaPojoMembers.list(
-            StringType.noFormat(), REQUIRED, NOT_NULLABLE, Constraints.ofUniqueItems(true));
+            StringType.noFormat(),
+            REQUIRED,
+            NOT_NULLABLE,
+            Constraints.ofUniqueItems(true),
+            TypeMappings.empty());
 
     final String content =
         generator

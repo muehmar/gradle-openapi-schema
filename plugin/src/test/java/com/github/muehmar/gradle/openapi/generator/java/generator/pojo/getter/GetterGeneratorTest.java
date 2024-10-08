@@ -1,11 +1,21 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.GetterGenerator.getterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.allNecessityAndNullabilityVariants;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableMap;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableStringList;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalStringList;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableListWithNullableItems;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableMap;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableStringList;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringList;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -16,7 +26,9 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -37,24 +49,80 @@ class GetterGeneratorTest {
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
-    expect
-        .scenario(member.getName().getOriginalName().asString())
-        .toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
 
   public static Stream<Arguments> pojoMembers() {
-    final PList<JavaPojoMember> allNecessityAndNullabilityVariants =
-        JavaPojos.allNecessityAndNullabilityVariants().getMembers();
+    final TypeMappings fullConversion =
+        TypeMappings.ofClassTypeMappings(
+            ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION,
+            ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION);
+
+    final TypeMappings listConversion =
+        TypeMappings.ofClassTypeMappings(ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
+    final TypeMappings stringConversion =
+        TypeMappings.ofClassTypeMappings(ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
+
+    final PList<JavaPojoMember> allNecessityAndNullabilityListVariants =
+        PList.of(
+            requiredStringList(),
+            requiredNullableStringList(),
+            optionalStringList(),
+            optionalNullableStringList());
+
+    final PList<JavaPojoMember> allNecessityAndNullabilityListVariantsFullyMapped =
+        PList.of(
+                requiredStringList(fullConversion),
+                requiredNullableStringList(fullConversion),
+                optionalStringList(fullConversion),
+                optionalNullableStringList(fullConversion))
+            .map(member -> member.withName(member.getName().append("-FullyMapped")));
+
+    final PList<JavaPojoMember> allNecessityAndNullabilityMapVariants =
+        PList.of(requiredMap(), requiredNullableMap(), optionalMap(), optionalNullableMap());
+
+    final PList<JavaPojoMember> allNecessityAndNullabilityMapVariantsFullyMapped =
+        PList.of(
+                requiredMap(fullConversion),
+                requiredNullableMap(fullConversion),
+                optionalMap(fullConversion),
+                optionalNullableMap(fullConversion))
+            .map(member -> member.withName(member.getName().append("-FullyMapped")));
+
+    final PList<JavaPojoMember> members =
+        allNecessityAndNullabilityVariants()
+            .concat(
+                allNecessityAndNullabilityVariants(fullConversion)
+                    .map(member -> member.withName(member.getName().append("-FullyMapped"))))
+            .concat(
+                allNecessityAndNullabilityVariants(stringConversion)
+                    .map(member -> member.withName(member.getName().append("-StringMapped"))))
+            .concat(
+                allNecessityAndNullabilityVariants(listConversion)
+                    .map(member -> member.withName(member.getName().append("-ListMapped"))))
+            .concat(allNecessityAndNullabilityListVariants)
+            .concat(allNecessityAndNullabilityListVariantsFullyMapped)
+            .concat(allNecessityAndNullabilityMapVariants)
+            .concat(allNecessityAndNullabilityMapVariantsFullyMapped);
 
     final PList<JavaPojoMember> anyOfMembers =
-        allNecessityAndNullabilityVariants.map(
+        members.map(
             member ->
                 member
                     .withType(ANY_OF_MEMBER)
                     .withName(JavaName.fromString(member.getName().asString() + "AnyOf")));
 
-    return allNecessityAndNullabilityVariants
+    final PList<JavaPojoMember> allOfMembers =
+        members.map(
+            member ->
+                member
+                    .withType(ALL_OF_MEMBER)
+                    .withName(JavaName.fromString(member.getName().asString() + "AllOf")));
+
+    return members
         .concat(anyOfMembers)
+        .concat(allOfMembers)
         .add(requiredListWithNullableItems())
         .add(requiredNullableListWithNullableItems())
         .add(optionalListWithNullableItems())

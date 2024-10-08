@@ -176,12 +176,16 @@ public class JavaPojoMember {
   }
 
   public JavaName getValidationGetterName(PojoSettings settings) {
-    return JavaName.fromString(getGetterName().asString())
-        .append(settings.getValidationMethods().getGetterSuffix());
+    final String getterSuffix = determineSuffix(settings);
+    if (getterSuffix.isEmpty()) {
+      return getGetterName().append(settings.getValidationMethods().getGetterSuffix());
+    } else {
+      return getGetterName();
+    }
   }
 
   public JavaName getGetterNameWithSuffix(PojoSettings settings) {
-    return JavaName.fromString(getGetterName().asString()).append(determineSuffix(settings));
+    return getGetterName().append(determineSuffix(settings));
   }
 
   private String determineSuffix(PojoSettings settings) {

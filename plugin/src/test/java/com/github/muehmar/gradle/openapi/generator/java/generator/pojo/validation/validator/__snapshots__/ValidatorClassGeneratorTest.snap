@@ -236,6 +236,70 @@ private class Validator {
     return true;
   }
 
+  private boolean isRequiredMapValid() {
+    if(requiredMap != null) {
+      return requiredMap.values().stream().allMatch(this::isRequiredMapValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isRequiredMapValueValid(String requiredMapValue) {
+    if(requiredMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredMapValue);
+    }
+
+    return false;
+  }
+
+  private boolean isRequiredNullableMapValid() {
+    if(requiredNullableMap != null) {
+      return requiredNullableMap.values().stream().allMatch(this::isRequiredNullableMapValueValid);
+    }
+
+    return isRequiredNullableMapPresent;
+  }
+
+  private boolean isRequiredNullableMapValueValid(String requiredNullableMapValue) {
+    if(requiredNullableMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredNullableMapValue);
+    }
+
+    return false;
+  }
+
+  private boolean isOptionalMapValid() {
+    if(optionalMap != null) {
+      return optionalMap.values().stream().allMatch(this::isOptionalMapValueValid);
+    }
+
+    return isOptionalMapNotNull;
+  }
+
+  private boolean isOptionalMapValueValid(String optionalMapValue) {
+    if(optionalMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalMapValue);
+    }
+
+    return false;
+  }
+
+  private boolean isOptionalNullableMapValid() {
+    if(optionalNullableMap != null) {
+      return optionalNullableMap.values().stream().allMatch(this::isOptionalNullableMapValueValid);
+    }
+
+    return true;
+  }
+
+  private boolean isOptionalNullableMapValueValid(String optionalNullableMapValue) {
+    if(optionalNullableMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalNullableMapValue);
+    }
+
+    return false;
+  }
+
   private boolean isAdditionalPropertiesValid() {
     if(getAdditionalProperties_() != null) {
       return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
@@ -257,6 +321,10 @@ private class Validator {
         && isRequiredNullableListWithNullableItemsValid()
         && isOptionalListWithNullableItemsValid()
         && isOptionalNullableListWithNullableItemsValid()
+        && isRequiredMapValid()
+        && isRequiredNullableMapValid()
+        && isOptionalMapValid()
+        && isOptionalNullableMapValid()
         && getPropertyCount() <= 8
         && isAdditionalPropertiesValid();
   }
@@ -370,6 +438,70 @@ private class Validator {
     return true;
   }
 
+  private boolean isRequiredMapValid() {
+    if(requiredMap != null) {
+      return requiredMap.values().stream().allMatch(this::isRequiredMapValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isRequiredMapValueValid(String requiredMapValue) {
+    if(requiredMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredMapValue);
+    }
+
+    return false;
+  }
+
+  private boolean isRequiredNullableMapValid() {
+    if(requiredNullableMap != null) {
+      return requiredNullableMap.values().stream().allMatch(this::isRequiredNullableMapValueValid);
+    }
+
+    return isRequiredNullableMapPresent;
+  }
+
+  private boolean isRequiredNullableMapValueValid(String requiredNullableMapValue) {
+    if(requiredNullableMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", requiredNullableMapValue);
+    }
+
+    return false;
+  }
+
+  private boolean isOptionalMapValid() {
+    if(optionalMap != null) {
+      return optionalMap.values().stream().allMatch(this::isOptionalMapValueValid);
+    }
+
+    return isOptionalMapNotNull;
+  }
+
+  private boolean isOptionalMapValueValid(String optionalMapValue) {
+    if(optionalMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalMapValue);
+    }
+
+    return false;
+  }
+
+  private boolean isOptionalNullableMapValid() {
+    if(optionalNullableMap != null) {
+      return optionalNullableMap.values().stream().allMatch(this::isOptionalNullableMapValueValid);
+    }
+
+    return true;
+  }
+
+  private boolean isOptionalNullableMapValueValid(String optionalNullableMapValue) {
+    if(optionalNullableMapValue != null) {
+      return java.util.regex.Pattern.matches("Hello", optionalNullableMapValue);
+    }
+
+    return false;
+  }
+
   private boolean isAdditionalPropertiesValid() {
     if(getAdditionalProperties_() != null) {
       return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
@@ -391,6 +523,10 @@ private class Validator {
         && isRequiredNullableListWithNullableItemsValid()
         && isOptionalListWithNullableItemsValid()
         && isOptionalNullableListWithNullableItemsValid()
+        && isRequiredMapValid()
+        && isRequiredNullableMapValid()
+        && isOptionalMapValid()
+        && isOptionalNullableMapValid()
         && 5 <= getPropertyCount()
         && isAdditionalPropertiesValid();
   }

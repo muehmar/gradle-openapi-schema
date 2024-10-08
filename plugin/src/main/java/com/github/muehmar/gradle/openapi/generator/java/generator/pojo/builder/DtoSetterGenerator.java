@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ONE_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
@@ -7,9 +9,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapNullableItemsListMethod;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapOptionalNullableItemsListMethod;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.nullableitemslist.UnwrapTristateNullableItemsListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -68,7 +67,8 @@ public class DtoSetterGenerator {
         .append(
             (member, s, w) ->
                 w.println(
-                    "%s(dto.%s());",
+                    "%s%s(dto.%s());",
+                    member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
         .filter(PojosAndMember::isNotDiscriminatorAndNotNullableItemsListMember);
@@ -79,21 +79,11 @@ public class DtoSetterGenerator {
         .append(
             (member, s, w) ->
                 w.println(
-                    "%s(%s(dto.%s()));",
+                    "%s%s_(dto.%s());",
+                    member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
-                    unwrapMethodForNullableItemsListMember(member.getMember()),
                     member.getGetterNameWithSuffix(s)))
         .filter(PojosAndMember::isNullableItemsListMember);
-  }
-
-  private static String unwrapMethodForNullableItemsListMember(JavaPojoMember member) {
-    if (member.isRequiredAndNotNullable()) {
-      return UnwrapNullableItemsListMethod.METHOD_NAME;
-    } else if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
-      return UnwrapOptionalNullableItemsListMethod.METHOD_NAME;
-    } else {
-      return UnwrapTristateNullableItemsListMethod.METHOD_NAME;
-    }
   }
 
   private static Generator<PojosAndMember, PojoSettings> setSingleDiscriminatorMember() {
@@ -214,6 +204,19 @@ public class DtoSetterGenerator {
                               member.getJavaType().getQualifiedClassName().getClassName(),
                               enumName)))
           .orElse("");
+    }
+
+    String setterCondition() {
+      if (member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER)) {
+        if (member.isRequiredAndNullable()) {
+          return String.format(
+              "if (dto.%s()) ", member.getIsPresentFlagName().prefixedMethodName("get"));
+        } else if (member.isOptionalAndNotNullable()) {
+          return String.format(
+              "if (dto.%s()) ", member.getIsNotNullFlagName().prefixedMethodName("get"));
+        }
+      }
+      return "";
     }
 
     private boolean isNotDiscriminatorAndNotNullableItemsListMember() {

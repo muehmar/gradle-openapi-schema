@@ -3,8 +3,11 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -13,11 +16,47 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface JavaType {
+  /**
+   * Returns the qualified classname of the java type used internally in the DTO for serialization
+   * and validation.
+   */
   QualifiedClassName getQualifiedClassName();
 
   /**
+   * Returns the {@link ApiType} of this {@link JavaType}, not for possible generics. I.e. it
+   * returns also an empty {@link Optional} in case the {@link JavaType} itself has no {@link
+   * ApiType} but it has generics with an {@link ApiType}.
+   */
+  Optional<ApiType> getApiType();
+
+  /** Returns true if the {@link JavaType} or any possible generics have an {@link ApiType}. */
+  default boolean hasApiTypeDeep() {
+    return fold(
+        arrayType -> arrayType.getApiType().isPresent() || arrayType.getItemType().hasApiTypeDeep(),
+        javaBooleanType -> javaBooleanType.getApiType().isPresent(),
+        javaEnumType -> javaEnumType.getApiType().isPresent(),
+        mapType ->
+            mapType.getApiType().isPresent()
+                || mapType.getKey().hasApiTypeDeep()
+                || mapType.getValue().hasApiTypeDeep(),
+        javaAnyType -> javaAnyType.getApiType().isPresent(),
+        javaNumericType -> javaNumericType.getApiType().isPresent(),
+        javaIntegerType -> javaIntegerType.getApiType().isPresent(),
+        javaObjectType -> javaObjectType.getApiType().isPresent(),
+        javaStringType -> javaStringType.getApiType().isPresent());
+  }
+
+  /**
+   * Returns false if neither the {@link JavaType} nor any possible generics have an {@link
+   * ApiType}.
+   */
+  default boolean hasNoApiTypeDeep() {
+    return not(hasApiTypeDeep());
+  }
+
+  /**
    * Returns the qualified classnames used for this type, including the classes of possible type
-   * parameters
+   * parameters as well as possible api types.
    */
   PList<QualifiedClassName> getAllQualifiedClassNames();
 
@@ -25,7 +64,23 @@ public interface JavaType {
 
   JavaType withNullability(Nullability nullability);
 
+  /** Returns the parameterized classname of the java type used internally. */
   ParameterizedClassName getParameterizedClassName();
+
+  /** Returns the parameterized API classname of the java type if it has an api type. */
+  default Optional<ParameterizedApiClassName> getParameterizedApiClassName() {
+    return ParameterizedApiClassName.fromJavaType(this);
+  }
+
+  /**
+   * Returns a writeable parameterized classname which gets rendered as api type if any or as normal
+   * type if not.
+   */
+  default WriteableParameterizedClassName getWriteableParameterizedClassName() {
+    return getParameterizedApiClassName()
+        .<WriteableParameterizedClassName>map(Function.identity())
+        .orElse(getParameterizedClassName());
+  }
 
   /**
    * Returns true in case this class is a java array (not to be confused with the openapi
@@ -71,17 +126,21 @@ public interface JavaType {
         .orElse(false);
   }
 
-  default boolean isMapType() {
+  default Optional<JavaMapType> onMapType() {
     return fold(
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance,
-        JavaMapType.class::isInstance);
+        javaArrayType -> Optional.empty(),
+        javaBooleanType -> Optional.empty(),
+        javaEnumType -> Optional.empty(),
+        Optional::of,
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        javaObjectType -> Optional.empty(),
+        javaStringType -> Optional.empty());
+  }
+
+  default boolean isMapType() {
+    return onMapType().isPresent();
   }
 
   default boolean isAnyType() {
@@ -121,6 +180,11 @@ public interface JavaType {
         JavaNumericType.class::isInstance,
         JavaNumericType.class::isInstance,
         JavaNumericType.class::isInstance);
+  }
+
+  /** Returns true if this type is a container type, i.e. a list or a map. */
+  default boolean isContainerType() {
+    return isArrayType() || isMapType();
   }
 
   default PList<QualifiedClassName> getImports() {

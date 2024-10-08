@@ -7,6 +7,7 @@ com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 java.util.Optional
+java.util.function.Function
 
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {
@@ -28,12 +29,28 @@ public static final class Builder {
   private boolean isOptionalListWithNullableItemsNotNull = true;
   private List<String> optionalNullableListWithNullableItems;
   private boolean isOptionalNullableListWithNullableItemsNull = false;
+  private Map<String, String> requiredMap;
+  private Map<String, String> requiredNullableMap;
+  private boolean isRequiredNullableMapPresent = false;
+  private Map<String, String> optionalMap;
+  private boolean isOptionalMapNotNull = true;
+  private Map<String, String> optionalNullableMap;
+  private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   /**
    * RequiredStringVal
    */
   @JsonProperty("requiredStringVal")
+  private Builder setRequiredStringValJson(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonIgnore
   private Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
     return this;
@@ -43,6 +60,16 @@ public static final class Builder {
    * RequiredNullableStringVal
    */
   @JsonProperty("requiredNullableStringVal")
+  private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
   private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
@@ -63,6 +90,16 @@ public static final class Builder {
    * OptionalStringVal
    */
   @JsonProperty("optionalStringVal")
+  private Builder setOptionalStringValJson(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = optionalStringVal != null;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
     this.isOptionalStringValNotNull = optionalStringVal != null;
@@ -83,6 +120,16 @@ public static final class Builder {
    * OptionalNullableStringVal
    */
   @JsonProperty("optionalNullableStringVal")
+  private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
@@ -103,6 +150,15 @@ public static final class Builder {
    * RequiredListWithNullableItems
    */
   @JsonProperty("requiredListWithNullableItems")
+  private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
+    this.requiredListWithNullableItems = requiredListWithNullableItems;
+    return this;
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  @JsonIgnore
   private Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
     return this;
@@ -113,7 +169,14 @@ public static final class Builder {
    */
   @JsonIgnore
   private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
-    this.requiredListWithNullableItems = unwrapNullableItemsList(requiredListWithNullableItems);
+    this.requiredListWithNullableItems =
+        unmapList(
+            requiredListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     return this;
   }
 
@@ -121,6 +184,16 @@ public static final class Builder {
    * RequiredNullableListWithNullableItems
    */
   @JsonProperty("requiredNullableListWithNullableItems")
+  private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
+    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+    this.isRequiredNullableListWithNullableItemsPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -142,7 +215,14 @@ public static final class Builder {
    */
   @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
-    this.requiredNullableListWithNullableItems = unwrapNullableItemsList(requiredNullableListWithNullableItems);
+    this.requiredNullableListWithNullableItems =
+        unmapList(
+            requiredNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isRequiredNullableListWithNullableItemsPresent = true;
     return this;
   }
@@ -152,7 +232,14 @@ public static final class Builder {
    */
   @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    this.requiredNullableListWithNullableItems =
+        unmapList(
+            requiredNullableListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isRequiredNullableListWithNullableItemsPresent = true;
     return this;
   }
@@ -161,6 +248,16 @@ public static final class Builder {
    * OptionalListWithNullableItems
    */
   @JsonProperty("optionalListWithNullableItems")
+  private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
+    this.optionalListWithNullableItems = optionalListWithNullableItems;
+    this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+    return this;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
     this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
@@ -182,7 +279,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
-    this.optionalListWithNullableItems = unwrapNullableItemsList(optionalListWithNullableItems);
+    this.optionalListWithNullableItems =
+        unmapList(
+            optionalListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
@@ -192,7 +296,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
-    this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    this.optionalListWithNullableItems =
+        unmapList(
+            optionalListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
@@ -201,6 +312,16 @@ public static final class Builder {
    * OptionalNullableListWithNullableItems
    */
   @JsonProperty("optionalNullableListWithNullableItems")
+  private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
+    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+    this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
@@ -222,7 +343,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
-    this.optionalNullableListWithNullableItems = unwrapNullableItemsList(optionalNullableListWithNullableItems);
+    this.optionalNullableListWithNullableItems =
+        unmapList(
+            optionalNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     isOptionalNullableListWithNullableItemsNull = false;
     return this;
   }
@@ -232,8 +360,123 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
+    this.optionalNullableListWithNullableItems =
+        unmapList(
+            optionalNullableListWithNullableItems,
+            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  /**
+   * RequiredMap
+   */
+  @JsonProperty("requiredMap")
+  private Builder setRequiredMapJson(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredMap
+   */
+  @JsonIgnore
+  private Builder setRequiredMap(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonProperty("requiredNullableMap")
+  private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  private Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  private Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap.orElse(null);
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonProperty("optionalMap")
+  private Builder setOptionalMapJson(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    this.optionalMap = optionalMap.orElse(null);
+    this.isOptionalMapNotNull = true;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonProperty("optionalNullableMap")
+  private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
     return this;
   }
 
@@ -269,8 +512,12 @@ public static final class Builder {
     additionalProperties.remove("requiredNullableListWithNullableItems");
     additionalProperties.remove("optionalListWithNullableItems");
     additionalProperties.remove("optionalNullableListWithNullableItems");
+    additionalProperties.remove("requiredMap");
+    additionalProperties.remove("requiredNullableMap");
+    additionalProperties.remove("optionalMap");
+    additionalProperties.remove("optionalNullableMap");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredNullableMap, isRequiredNullableMapPresent, optionalMap, isOptionalMapNotNull, optionalNullableMap, isOptionalNullableMapNull, additionalProperties);
   }
 }
 ]
@@ -281,6 +528,7 @@ com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 java.util.Optional
+java.util.function.Function
 
 public static final class Builder {
 
@@ -301,6 +549,13 @@ public static final class Builder {
   private boolean isOptionalListWithNullableItemsNotNull = true;
   private List<String> optionalNullableListWithNullableItems;
   private boolean isOptionalNullableListWithNullableItemsNull = false;
+  private Map<String, String> requiredMap;
+  private Map<String, String> requiredNullableMap;
+  private boolean isRequiredNullableMapPresent = false;
+  private Map<String, String> optionalMap;
+  private boolean isOptionalMapNotNull = true;
+  private Map<String, String> optionalNullableMap;
+  private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   /**
@@ -377,7 +632,14 @@ public static final class Builder {
    * RequiredListWithNullableItems
    */
   private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
-    this.requiredListWithNullableItems = unwrapNullableItemsList(requiredListWithNullableItems);
+    this.requiredListWithNullableItems =
+        unmapList(
+            requiredListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     return this;
   }
 
@@ -403,7 +665,14 @@ public static final class Builder {
    * RequiredNullableListWithNullableItems
    */
   private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
-    this.requiredNullableListWithNullableItems = unwrapNullableItemsList(requiredNullableListWithNullableItems);
+    this.requiredNullableListWithNullableItems =
+        unmapList(
+            requiredNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isRequiredNullableListWithNullableItemsPresent = true;
     return this;
   }
@@ -412,7 +681,14 @@ public static final class Builder {
    * RequiredNullableListWithNullableItems
    */
   private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    this.requiredNullableListWithNullableItems =
+        unmapList(
+            requiredNullableListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isRequiredNullableListWithNullableItemsPresent = true;
     return this;
   }
@@ -439,7 +715,14 @@ public static final class Builder {
    * OptionalListWithNullableItems
    */
   public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
-    this.optionalListWithNullableItems = unwrapNullableItemsList(optionalListWithNullableItems);
+    this.optionalListWithNullableItems =
+        unmapList(
+            optionalListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
@@ -448,7 +731,14 @@ public static final class Builder {
    * OptionalListWithNullableItems
    */
   public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
-    this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    this.optionalListWithNullableItems =
+        unmapList(
+            optionalListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
@@ -475,7 +765,14 @@ public static final class Builder {
    * OptionalNullableListWithNullableItems
    */
   public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
-    this.optionalNullableListWithNullableItems = unwrapNullableItemsList(optionalNullableListWithNullableItems);
+    this.optionalNullableListWithNullableItems =
+        unmapList(
+            optionalNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     isOptionalNullableListWithNullableItemsNull = false;
     return this;
   }
@@ -484,8 +781,77 @@ public static final class Builder {
    * OptionalNullableListWithNullableItems
    */
   public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
+    this.optionalNullableListWithNullableItems =
+        unmapList(
+            optionalNullableListWithNullableItems,
+            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  /**
+   * RequiredMap
+   */
+  private Builder setRequiredMap(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  private Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  private Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap.orElse(null);
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public Builder setOptionalMap(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    this.optionalMap = optionalMap.orElse(null);
+    this.isOptionalMapNotNull = true;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
     return this;
   }
 
@@ -516,8 +882,12 @@ public static final class Builder {
     additionalProperties.remove("requiredNullableListWithNullableItems");
     additionalProperties.remove("optionalListWithNullableItems");
     additionalProperties.remove("optionalNullableListWithNullableItems");
+    additionalProperties.remove("requiredMap");
+    additionalProperties.remove("requiredNullableMap");
+    additionalProperties.remove("optionalMap");
+    additionalProperties.remove("optionalNullableMap");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredNullableMap, isRequiredNullableMapPresent, optionalMap, isOptionalMapNotNull, optionalNullableMap, isOptionalNullableMapNull, additionalProperties);
   }
 }
 ]
@@ -532,6 +902,7 @@ com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 java.util.Optional
+java.util.function.Function
 
 public static Builder newBuilder() {
   return new Builder();
@@ -554,12 +925,28 @@ public static final class Builder {
   private boolean isOptionalListWithNullableItemsNotNull = true;
   private List<String> optionalNullableListWithNullableItems;
   private boolean isOptionalNullableListWithNullableItemsNull = false;
+  private Map<String, String> requiredMap;
+  private Map<String, String> requiredNullableMap;
+  private boolean isRequiredNullableMapPresent = false;
+  private Map<String, String> optionalMap;
+  private boolean isOptionalMapNotNull = true;
+  private Map<String, String> optionalNullableMap;
+  private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   /**
    * RequiredStringVal
    */
   @JsonProperty("requiredStringVal")
+  private Builder setRequiredStringValJson(String requiredStringVal) {
+    this.requiredStringVal = requiredStringVal;
+    return this;
+  }
+
+  /**
+   * RequiredStringVal
+   */
+  @JsonIgnore
   public Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
     return this;
@@ -569,6 +956,16 @@ public static final class Builder {
    * RequiredNullableStringVal
    */
   @JsonProperty("requiredNullableStringVal")
+  private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
+    this.requiredNullableStringVal = requiredNullableStringVal;
+    this.isRequiredNullableStringValPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableStringVal
+   */
+  @JsonIgnore
   public Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
@@ -589,6 +986,16 @@ public static final class Builder {
    * OptionalStringVal
    */
   @JsonProperty("optionalStringVal")
+  private Builder setOptionalStringValJson(String optionalStringVal) {
+    this.optionalStringVal = optionalStringVal;
+    this.isOptionalStringValNotNull = optionalStringVal != null;
+    return this;
+  }
+
+  /**
+   * OptionalStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
     this.isOptionalStringValNotNull = optionalStringVal != null;
@@ -609,6 +1016,16 @@ public static final class Builder {
    * OptionalNullableStringVal
    */
   @JsonProperty("optionalNullableStringVal")
+  private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
+    this.optionalNullableStringVal = optionalNullableStringVal;
+    this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableStringVal
+   */
+  @JsonIgnore
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
@@ -629,6 +1046,15 @@ public static final class Builder {
    * RequiredListWithNullableItems
    */
   @JsonProperty("requiredListWithNullableItems")
+  private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
+    this.requiredListWithNullableItems = requiredListWithNullableItems;
+    return this;
+  }
+
+  /**
+   * RequiredListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
     return this;
@@ -639,7 +1065,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
-    this.requiredListWithNullableItems = unwrapNullableItemsList(requiredListWithNullableItems);
+    this.requiredListWithNullableItems =
+        unmapList(
+            requiredListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     return this;
   }
 
@@ -647,6 +1080,16 @@ public static final class Builder {
    * RequiredNullableListWithNullableItems
    */
   @JsonProperty("requiredNullableListWithNullableItems")
+  private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
+    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
+    this.isRequiredNullableListWithNullableItemsPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -668,7 +1111,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
-    this.requiredNullableListWithNullableItems = unwrapNullableItemsList(requiredNullableListWithNullableItems);
+    this.requiredNullableListWithNullableItems =
+        unmapList(
+            requiredNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isRequiredNullableListWithNullableItemsPresent = true;
     return this;
   }
@@ -678,7 +1128,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
-    this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    this.requiredNullableListWithNullableItems =
+        unmapList(
+            requiredNullableListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isRequiredNullableListWithNullableItemsPresent = true;
     return this;
   }
@@ -687,6 +1144,16 @@ public static final class Builder {
    * OptionalListWithNullableItems
    */
   @JsonProperty("optionalListWithNullableItems")
+  private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
+    this.optionalListWithNullableItems = optionalListWithNullableItems;
+    this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
+    return this;
+  }
+
+  /**
+   * OptionalListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
     this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
@@ -708,7 +1175,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
-    this.optionalListWithNullableItems = unwrapNullableItemsList(optionalListWithNullableItems);
+    this.optionalListWithNullableItems =
+        unmapList(
+            optionalListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
@@ -718,7 +1192,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
-    this.optionalListWithNullableItems = optionalListWithNullableItems.map(l -> unwrapNullableItemsList(l)).orElse(null);
+    this.optionalListWithNullableItems =
+        unmapList(
+            optionalListWithNullableItems,
+            l -> l.orElse(null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalListWithNullableItemsNotNull = true;
     return this;
   }
@@ -727,6 +1208,16 @@ public static final class Builder {
    * OptionalNullableListWithNullableItems
    */
   @JsonProperty("optionalNullableListWithNullableItems")
+  private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
+    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
+    this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableListWithNullableItems
+   */
+  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
@@ -748,7 +1239,14 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
-    this.optionalNullableListWithNullableItems = unwrapNullableItemsList(optionalNullableListWithNullableItems);
+    this.optionalNullableListWithNullableItems =
+        unmapList(
+            optionalNullableListWithNullableItems,
+            Function.identity(),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     isOptionalNullableListWithNullableItemsNull = false;
     return this;
   }
@@ -758,8 +1256,123 @@ public static final class Builder {
    */
   @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
-    this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(l -> unwrapNullableItemsList(l)).onNull(() -> null).onAbsent(() -> null);
+    this.optionalNullableListWithNullableItems =
+        unmapList(
+            optionalNullableListWithNullableItems,
+            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            Function.identity(),
+            i -> i.orElse(null),
+            Function.identity()
+        );
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+    return this;
+  }
+
+  /**
+   * RequiredMap
+   */
+  @JsonProperty("requiredMap")
+  private Builder setRequiredMapJson(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredMap
+   */
+  @JsonIgnore
+  public Builder setRequiredMap(Map<String, String> requiredMap) {
+    this.requiredMap = requiredMap;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonProperty("requiredNullableMap")
+  private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  public Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap;
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  @JsonIgnore
+  public Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    this.requiredNullableMap = requiredNullableMap.orElse(null);
+    this.isRequiredNullableMapPresent = true;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonProperty("optionalMap")
+  private Builder setOptionalMapJson(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Map<String, String> optionalMap) {
+    this.optionalMap = optionalMap;
+    this.isOptionalMapNotNull = optionalMap != null;
+    return this;
+  }
+
+  /**
+   * OptionalMap
+   */
+  @JsonIgnore
+  public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
+    this.optionalMap = optionalMap.orElse(null);
+    this.isOptionalMapNotNull = true;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonProperty("optionalNullableMap")
+  private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap;
+    this.isOptionalNullableMapNull = optionalNullableMap == null;
+    return this;
+  }
+
+  /**
+   * OptionalNullableMap
+   */
+  @JsonIgnore
+  public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+    this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+    this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
     return this;
   }
 
@@ -791,8 +1404,12 @@ public static final class Builder {
     additionalProperties.remove("requiredNullableListWithNullableItems");
     additionalProperties.remove("optionalListWithNullableItems");
     additionalProperties.remove("optionalNullableListWithNullableItems");
+    additionalProperties.remove("requiredMap");
+    additionalProperties.remove("requiredNullableMap");
+    additionalProperties.remove("optionalMap");
+    additionalProperties.remove("optionalNullableMap");
 
-    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, additionalProperties);
+    return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredNullableMap, isRequiredNullableMapPresent, optionalMap, isOptionalMapNotNull, optionalNullableMap, isOptionalNullableMapNull, additionalProperties);
   }
 }
 ]
@@ -813,11 +1430,6 @@ public static final class Builder {
   }
 
   private Map<String, Object> additionalProperties = new HashMap<>();
-
-  private Builder addAdditionalProperty(String key, Object value) {
-    this.additionalProperties.put(key, value);
-    return this;
-  }
 
   @JsonAnySetter
   public Builder addAdditionalProperty(String key, List<String> value) {
@@ -844,6 +1456,7 @@ public static final class Builder {
 
 nestedRequiredAdditionalPropertiesInAllOfSubPojos=[
 com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
@@ -867,6 +1480,15 @@ public static final class Builder {
    * stringVal
    */
   @JsonProperty("stringVal")
+  private Builder setStringValJson(String stringVal) {
+    this.stringVal = stringVal;
+    return this;
+  }
+
+  /**
+   * stringVal
+   */
+  @JsonIgnore
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
     return this;
@@ -876,6 +1498,15 @@ public static final class Builder {
    * intVal
    */
   @JsonProperty("intVal")
+  private Builder setIntValJson(Integer intVal) {
+    this.intVal = intVal;
+    return this;
+  }
+
+  /**
+   * intVal
+   */
+  @JsonIgnore
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
     return this;
@@ -885,6 +1516,15 @@ public static final class Builder {
    * doubleVal
    */
   @JsonProperty("doubleVal")
+  private Builder setDoubleValJson(Double doubleVal) {
+    this.doubleVal = doubleVal;
+    return this;
+  }
+
+  /**
+   * doubleVal
+   */
+  @JsonIgnore
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
     return this;
@@ -894,6 +1534,15 @@ public static final class Builder {
    * Birthdate
    */
   @JsonProperty("birthdate")
+  private Builder setBirthdateJson(LocalDate birthdate) {
+    this.birthdate = birthdate;
+    return this;
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonIgnore
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
     return this;
@@ -903,6 +1552,15 @@ public static final class Builder {
    * email
    */
   @JsonProperty("email")
+  private Builder setEmailJson(String email) {
+    this.email = email;
+    return this;
+  }
+
+  /**
+   * email
+   */
+  @JsonIgnore
   private Builder setEmail(String email) {
     this.email = email;
     return this;
@@ -959,6 +1617,7 @@ public static final class Builder {
 
 oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
@@ -982,6 +1641,15 @@ public static final class Builder {
    * stringVal
    */
   @JsonProperty("stringVal")
+  private Builder setStringValJson(String stringVal) {
+    this.stringVal = stringVal;
+    return this;
+  }
+
+  /**
+   * stringVal
+   */
+  @JsonIgnore
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
     return this;
@@ -991,6 +1659,15 @@ public static final class Builder {
    * intVal
    */
   @JsonProperty("intVal")
+  private Builder setIntValJson(Integer intVal) {
+    this.intVal = intVal;
+    return this;
+  }
+
+  /**
+   * intVal
+   */
+  @JsonIgnore
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
     return this;
@@ -1000,6 +1677,15 @@ public static final class Builder {
    * doubleVal
    */
   @JsonProperty("doubleVal")
+  private Builder setDoubleValJson(Double doubleVal) {
+    this.doubleVal = doubleVal;
+    return this;
+  }
+
+  /**
+   * doubleVal
+   */
+  @JsonIgnore
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
     return this;
@@ -1009,6 +1695,15 @@ public static final class Builder {
    * Birthdate
    */
   @JsonProperty("birthdate")
+  private Builder setBirthdateJson(LocalDate birthdate) {
+    this.birthdate = birthdate;
+    return this;
+  }
+
+  /**
+   * Birthdate
+   */
+  @JsonIgnore
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
     return this;
@@ -1018,6 +1713,15 @@ public static final class Builder {
    * email
    */
   @JsonProperty("email")
+  private Builder setEmailJson(String email) {
+    this.email = email;
+    return this;
+  }
+
+  /**
+   * email
+   */
+  @JsonIgnore
   private Builder setEmail(String email) {
     this.email = email;
     return this;

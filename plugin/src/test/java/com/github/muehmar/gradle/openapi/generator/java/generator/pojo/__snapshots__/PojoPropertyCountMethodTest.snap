@@ -31,6 +31,10 @@ public int getPropertyCount() {
     (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
     (optionalListWithNullableItems != null ? 1 : 0) +
     ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
+    (requiredMap != null ? 1 : 0) +
+    (isRequiredNullableMapPresent ? 1 : 0) +
+    (optionalMap != null ? 1 : 0) +
+    ((isOptionalNullableMapNull || optionalNullableMap != null) ? 1 : 0) +
     (stringVal != null ? 1 : 0) +
     (intVal != null ? 1 : 0) +
     (doubleVal != null ? 1 : 0) +
@@ -60,6 +64,10 @@ public int getPropertyCount() {
     (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
     (optionalListWithNullableItems != null ? 1 : 0) +
     ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
+    (requiredMap != null ? 1 : 0) +
+    (isRequiredNullableMapPresent ? 1 : 0) +
+    (optionalMap != null ? 1 : 0) +
+    ((isOptionalNullableMapNull || optionalNullableMap != null) ? 1 : 0) +
     additionalProperties.size();
 }
 ]
@@ -84,6 +92,10 @@ public int getPropertyCount() {
     (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
     (optionalListWithNullableItems != null ? 1 : 0) +
     ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
+    (requiredMap != null ? 1 : 0) +
+    (isRequiredNullableMapPresent ? 1 : 0) +
+    (optionalMap != null ? 1 : 0) +
+    ((isOptionalNullableMapNull || optionalNullableMap != null) ? 1 : 0) +
     additionalProperties.size();
 }
 ]
@@ -106,6 +118,10 @@ public int getPropertyCount() {
     (isRequiredNullableListWithNullableItemsPresent ? 1 : 0) +
     (optionalListWithNullableItems != null ? 1 : 0) +
     ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
+    (requiredMap != null ? 1 : 0) +
+    (isRequiredNullableMapPresent ? 1 : 0) +
+    (optionalMap != null ? 1 : 0) +
+    ((isOptionalNullableMapNull || optionalNullableMap != null) ? 1 : 0) +
     additionalProperties.size();
 }
 ]

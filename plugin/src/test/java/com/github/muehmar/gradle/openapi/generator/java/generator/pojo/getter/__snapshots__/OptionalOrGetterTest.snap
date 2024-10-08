@@ -1,0 +1,55 @@
+generatorSettings[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+@JsonIgnore
+public String getOptionalStringValOr(String defaultValue) {
+  return this.optionalStringVal == null
+      ? defaultValue
+      : this.optionalStringVal;
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public String getOptionalStringValOr(String defaultValue) {
+  return this.optionalStringVal == null
+      ? defaultValue
+      : this.optionalStringVal;
+}
+]
+
+
+genericType=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+/**
+ * List
+ */
+@JsonIgnore
+public List<String> getRequiredStringListOr(List<String> defaultValue) {
+  return this.requiredStringList == null
+      ? defaultValue
+      : this.requiredStringList;
+}
+]
+
+
+mappedString=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public CustomString getOptionalStringValOr(CustomString defaultValue) {
+  return this.optionalStringVal == null
+      ? defaultValue
+      : CustomString.fromString(this.optionalStringVal);
+}
+]

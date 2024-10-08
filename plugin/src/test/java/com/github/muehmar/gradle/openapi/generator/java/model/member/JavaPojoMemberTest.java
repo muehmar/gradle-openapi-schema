@@ -2,8 +2,12 @@ package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder.fullEnumContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.birthdate;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredBirthdate;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredDouble;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableString;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.OPTIONAL;
 import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIRED;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
@@ -23,6 +27,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -56,7 +61,8 @@ class JavaPojoMemberTest {
   @MethodSource("getterNameWithSuffix")
   void getGetterNameWithSuffix_when_calledForAllVariants_then_suffixedWithCorrespondingGetterSuffix(
       Necessity necessity, Nullability nullability, String getterName) {
-    final JavaPojoMember javaPojoMember = TestJavaPojoMembers.string(necessity, nullability);
+    final JavaPojoMember javaPojoMember =
+        TestJavaPojoMembers.string(necessity, nullability, TypeMappings.empty());
 
     assertEquals(
         getterName,
@@ -81,11 +87,26 @@ class JavaPojoMemberTest {
     assertEquals(expectedMethodName, member.prefixedMethodName(prefix).asString());
   }
 
-  @Test
-  void getValidationGetterName_when_calledWithDefaultSettings_then_correctMethodName() {
-    JavaPojoMember member = TestJavaPojoMembers.requiredString();
-    JavaName validationGetterName = member.getValidationGetterName(defaultTestSettings());
-    assertEquals("getStringValRaw", validationGetterName.asString());
+  @ParameterizedTest
+  @MethodSource("membersWithValidationGetterName")
+  void getValidationGetterName_when_calledWithMemberAndGetterSuffixes_then_correctMethodName(
+      JavaPojoMember member, GetterSuffixes getterSuffixes, String expectedValidationGetterName) {
+    JavaName validationGetterName =
+        member.getValidationGetterName(defaultTestSettings().withGetterSuffixes(getterSuffixes));
+    assertEquals(expectedValidationGetterName, validationGetterName.asString());
+  }
+
+  public static Stream<Arguments> membersWithValidationGetterName() {
+    final GetterSuffixes getterSuffixes = new GetterSuffixes("", "", "", "");
+    return Stream.of(
+        arguments(requiredString(), getterSuffixes, "getStringValRaw"),
+        arguments(requiredNullableString(), getterSuffixes, "getRequiredNullableStringValRaw"),
+        arguments(optionalString(), getterSuffixes, "getOptionalStringValRaw"),
+        arguments(optionalNullableString(), getterSuffixes, "getOptionalNullableStringValRaw"),
+        arguments(requiredString(), GETTER_SUFFIXES, "getStringVal"),
+        arguments(requiredNullableString(), GETTER_SUFFIXES, "getRequiredNullableStringVal"),
+        arguments(optionalString(), GETTER_SUFFIXES, "getOptionalStringVal"),
+        arguments(optionalNullableString(), GETTER_SUFFIXES, "getOptionalNullableStringVal"));
   }
 
   @Test
@@ -115,14 +136,12 @@ class JavaPojoMemberTest {
   private static Stream<Arguments> membersForCreatingTechnicalMembers() {
     return Stream.of(
         arguments(requiredBirthdate(), "birthdate"),
-        arguments(
-            TestJavaPojoMembers.optionalString(), "optionalStringVal,isOptionalStringValNotNull"),
+        arguments(optionalString(), "optionalStringVal,isOptionalStringValNotNull"),
         arguments(
             TestJavaPojoMembers.requiredNullableString(),
             "requiredNullableStringVal,isRequiredNullableStringValPresent"),
         arguments(
-            TestJavaPojoMembers.optionalNullableString(),
-            "optionalNullableStringVal,isOptionalNullableStringValNull"));
+            optionalNullableString(), "optionalNullableStringVal,isOptionalNullableStringValNull"));
   }
 
   @Test

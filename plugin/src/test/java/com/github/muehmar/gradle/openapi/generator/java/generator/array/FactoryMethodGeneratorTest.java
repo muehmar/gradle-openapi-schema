@@ -14,12 +14,15 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
@@ -55,7 +58,34 @@ class FactoryMethodGeneratorTest {
         JavaArrayPojo.wrap(
             arrayPojo,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping(JavaRefs.JAVA_UTIL_LIST, "custom.CustomList")));
+                new ClassTypeMapping(
+                    JavaRefs.JAVA_UTIL_LIST, "custom.CustomList", Optional.empty())));
+
+    final Writer writer = generator.generate(javaArrayPojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("arrayPojoFullyTypeMappedWithConversion")
+  void generate_when_arrayPojoFullyTypeMappedWithConversion_then_correctOutput() {
+    final Generator<JavaArrayPojo, PojoSettings> generator =
+        FactoryMethodGenerator.factoryMethodGenerator();
+
+    final ArrayPojo arrayPojo =
+        ArrayPojo.of(
+            componentName("Posology", "Dto"),
+            "Doses to be taken",
+            Nullability.NOT_NULLABLE,
+            StringType.noFormat(),
+            Constraints.empty());
+
+    final TypeMappings typeMappings =
+        TypeMappings.ofClassTypeMappings(
+            ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION,
+            ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
+
+    final JavaArrayPojo javaArrayPojo = JavaArrayPojo.wrap(arrayPojo, typeMappings);
 
     final Writer writer = generator.generate(javaArrayPojo, defaultTestSettings(), javaWriter());
 

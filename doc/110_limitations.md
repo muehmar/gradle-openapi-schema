@@ -6,5 +6,6 @@
 * For `allOf`, `anyOf` and `oneOf` compositions, properties with the same name but different types or constraints are
   currently not supported. The generator will throw an exception in this
   case ([Issue 133](https://github.com/muehmar/gradle-openapi-schema/issues/133)).
-* Only object types are supported with
-  compositions (`allOf`, `anyOf`, `oneOf`) ([Issue 265](https://github.com/muehmar/gradle-openapi-schema/issues/265)).
+* Only object types are supported with compositions (`allOf`, `anyOf`,
+  `oneOf`) ([Issue 265](https://github.com/muehmar/gradle-openapi-schema/issues/265)).
+* Conversions for mappings of maps as additional property is currently not supported.

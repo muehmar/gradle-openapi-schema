@@ -40,6 +40,21 @@ public Optional<ObjectDto> getAdditionalProperty(String key) {
 ]
 
 
+notNullableStringTypeWithMapping=[
+com.custom.CustomString
+java.util.Optional
+
+/**
+ * Returns the additional property with {@code key} wrapped in an {@link Optional}
+ * if present, {@link Optional#empty()} otherwise
+ */
+public Optional<CustomString> getAdditionalProperty(String key) {
+  return Optional.ofNullable(additionalProperties.get(key))
+      .flatMap(this::castAdditionalProperty).map(val -> CustomString.fromString(val));
+}
+]
+
+
 nullableAnyType=[
 com.github.muehmar.openapi.util.Tristate
 java.util.Optional
@@ -91,6 +106,25 @@ com.github.muehmar.openapi.util.Tristate
 public Tristate<ObjectDto> getAdditionalProperty(String key) {
   if (additionalProperties.containsKey(key)) {
     return castAdditionalProperty(additionalProperties.get(key));
+  } else {
+    return Tristate.ofAbsent();
+  }
+}
+]
+
+
+nullableStringTypeWithMapping=[
+com.custom.CustomString
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * Returns the additional property with {@code key} where the {@link Tristate}
+ * class represents the possible three states of the property: present and
+ * non-null, present and null, absent.
+ */
+public Tristate<CustomString> getAdditionalProperty(String key) {
+  if (additionalProperties.containsKey(key)) {
+    return castAdditionalProperty(additionalProperties.get(key)).map(val -> CustomString.fromString(val));
   } else {
     return Tristate.ofAbsent();
   }

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -24,7 +26,9 @@ public class PosologyDto {
   }
 
   public static PosologyDto fromItems(List<Double> items) {
-    return new PosologyDto(items);
+    return new PosologyDto(
+        items
+    );
   }
 
   public static PosologyDto empty() {
@@ -44,7 +48,10 @@ public class PosologyDto {
    * Doses to be taken
    */
   public PosologyDto withItems(List<Double> items) {
-    return new PosologyDto(items);
+    return
+      new PosologyDto(
+        items
+      );
   }
 
   boolean isValid() {
@@ -67,6 +74,53 @@ public class PosologyDto {
     private boolean isValid() {
       return isItemsValid();
     }
+  }
+
+  private static <A, B, C, D, E> List<E> unmapList(
+      A list,
+      Function<A, B> unwrapList,
+      Function<B, List<C>> unmapListType,
+      Function<C, D> unwrapListItem,
+      Function<D, E> unmapListItemType) {
+    if (list == null) {
+      return null;
+    }
+
+    final B unwrappedList = unwrapList.apply(list);
+
+    if (unwrappedList == null) {
+      return null;
+    }
+
+    final List<C> unmappedListType = unmapListType.apply(unwrappedList);
+
+    if (unmappedListType == null) {
+      return null;
+    }
+
+    return unmappedListType.stream()
+        .map(i -> i != null ? unwrapListItem.apply(i) : null)
+        .map(i -> i != null ? unmapListItemType.apply(i) : null)
+        .collect(Collectors.toList());
+  }
+
+  private static <A, B, C, D, E> E mapList(
+      List<A> list,
+      Function<A, B> mapListItemType,
+      Function<B, C> wrapListItem,
+      Function<List<C>, D> mapListType,
+      Function<D, E> wrapListType) {
+    if (list == null) {
+      return wrapListType.apply(null);
+    }
+
+    final List<C> mappedListType =
+        list.stream()
+            .map(i -> i != null ? mapListItemType.apply(i) : null)
+            .map(wrapListItem)
+            .collect(Collectors.toList());
+
+    return wrapListType.apply(mapListType.apply(mappedListType));
   }
 
   @Override
@@ -208,7 +262,8 @@ public class SampleObjectPojo1Dto {
   public String getStringVal() {
     return stringVal;
   }
-
+.
+.
   /**
    * intVal
    */
@@ -219,7 +274,8 @@ public class SampleObjectPojo1Dto {
   public Integer getIntVal() {
     return intVal;
   }
-
+.
+.
   /**
    * doubleVal
    */
@@ -275,21 +331,39 @@ public class SampleObjectPojo1Dto {
    * stringVal
    */
   public SampleObjectPojo1Dto withStringVal(String stringVal) {
-    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+    return
+      new SampleObjectPojo1Dto(
+        stringVal,
+        intVal,
+        doubleVal,
+        additionalProperties
+      );
   }
 
   /**
    * intVal
    */
   public SampleObjectPojo1Dto withIntVal(Integer intVal) {
-    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+    return
+      new SampleObjectPojo1Dto(
+        stringVal,
+        intVal,
+        doubleVal,
+        additionalProperties
+      );
   }
 
   /**
    * doubleVal
    */
   public SampleObjectPojo1Dto withDoubleVal(Double doubleVal) {
-    return new SampleObjectPojo1Dto(stringVal, intVal, doubleVal, additionalProperties);
+    return
+      new SampleObjectPojo1Dto(
+        stringVal,
+        intVal,
+        doubleVal,
+        additionalProperties
+      );
   }
 
   boolean isValid() {
@@ -389,6 +463,15 @@ public class SampleObjectPojo1Dto {
      * stringVal
      */
     @JsonProperty("stringVal")
+    private Builder setStringValJson(String stringVal) {
+      this.stringVal = stringVal;
+      return this;
+    }
+
+    /**
+     * stringVal
+     */
+    @JsonIgnore
     private Builder setStringVal(String stringVal) {
       this.stringVal = stringVal;
       return this;
@@ -398,6 +481,15 @@ public class SampleObjectPojo1Dto {
      * intVal
      */
     @JsonProperty("intVal")
+    private Builder setIntValJson(Integer intVal) {
+      this.intVal = intVal;
+      return this;
+    }
+
+    /**
+     * intVal
+     */
+    @JsonIgnore
     private Builder setIntVal(Integer intVal) {
       this.intVal = intVal;
       return this;
@@ -407,6 +499,15 @@ public class SampleObjectPojo1Dto {
      * doubleVal
      */
     @JsonProperty("doubleVal")
+    private Builder setDoubleValJson(Double doubleVal) {
+      this.doubleVal = doubleVal;
+      return this;
+    }
+
+    /**
+     * doubleVal
+     */
+    @JsonIgnore
     private Builder setDoubleVal(Double doubleVal) {
       this.doubleVal = doubleVal;
       return this;

@@ -14,9 +14,9 @@ class WarningsConfigTest {
   @MethodSource("commonAndExplicitFlags")
   void withCommonWarnings_when_disableWarningsFlag_then_matchExpected(
       Boolean common, Boolean explicit, Boolean expected) {
-    final WarningsConfig commonWarnings = new WarningsConfig(common, false, false);
+    final WarningsConfig commonWarnings = new WarningsConfig(common, false, false, false);
 
-    final WarningsConfig explicitWarnings = new WarningsConfig(explicit, false, false);
+    final WarningsConfig explicitWarnings = new WarningsConfig(explicit, false, false, false);
 
     final WarningsConfig resultingWarnings = explicitWarnings.withCommonWarnings(commonWarnings);
 
@@ -27,9 +27,9 @@ class WarningsConfigTest {
   @MethodSource("commonAndExplicitFlags")
   void withCommonWarnings_when_failOnWarningsFlag_then_matchExpected(
       Boolean common, Boolean explicit, Boolean expected) {
-    final WarningsConfig commonWarnings = new WarningsConfig(false, common, false);
+    final WarningsConfig commonWarnings = new WarningsConfig(false, common, false, false);
 
-    final WarningsConfig explicitWarnings = new WarningsConfig(false, explicit, false);
+    final WarningsConfig explicitWarnings = new WarningsConfig(false, explicit, false, false);
 
     final WarningsConfig resultingWarnings = explicitWarnings.withCommonWarnings(commonWarnings);
 
@@ -40,13 +40,26 @@ class WarningsConfigTest {
   @MethodSource("commonAndExplicitFlags")
   void withCommonWarnings_when_failOnUnsupportedValidationFlag_then_matchExpected(
       Boolean common, Boolean explicit, Boolean expected) {
-    final WarningsConfig commonWarnings = new WarningsConfig(false, false, common);
+    final WarningsConfig commonWarnings = new WarningsConfig(false, false, common, false);
 
-    final WarningsConfig explicitWarnings = new WarningsConfig(false, false, explicit);
+    final WarningsConfig explicitWarnings = new WarningsConfig(false, false, explicit, false);
 
     final WarningsConfig resultingWarnings = explicitWarnings.withCommonWarnings(commonWarnings);
 
     assertEquals(expected, resultingWarnings.getFailOnUnsupportedValidation());
+  }
+
+  @ParameterizedTest
+  @MethodSource("commonAndExplicitFlags")
+  void withCommonWarnings_when_failOnMissingMappingConversion_then_matchExpected(
+      Boolean common, Boolean explicit, Boolean expected) {
+    final WarningsConfig commonWarnings = new WarningsConfig(false, false, false, common);
+
+    final WarningsConfig explicitWarnings = new WarningsConfig(false, false, false, explicit);
+
+    final WarningsConfig resultingWarnings = explicitWarnings.withCommonWarnings(commonWarnings);
+
+    assertEquals(expected, resultingWarnings.getFailOnMissingMappingConversion());
   }
 
   private static Stream<Arguments> commonAndExplicitFlags() {

@@ -66,4 +66,24 @@ class ArrayAdditionalPropertiesTest {
     final String json = MAPPER.writeValueAsString(dto);
     assertEquals("{\"name\":\"name\",\"hello\":[\"world\"]}", json);
   }
+
+  @Test
+  void deserialize_when_withArrayAsAdditionalProperty_then_correctDto()
+      throws JsonProcessingException {
+    final String json = "{\"name\":\"name\",\"hello\":[\"world\"]}";
+
+    final ArrayAdditionalPropertiesDto dto =
+        MAPPER.readValue(json, ArrayAdditionalPropertiesDto.class);
+
+    final ArrayAdditionalPropertiesDto expectedDto =
+        ArrayAdditionalPropertiesDto.builder()
+            .setName("name")
+            .andAllOptionals()
+            .addAdditionalProperty(
+                "hello",
+                new ArrayAdditionalPropertiesPropertyDto(Collections.singletonList("world")))
+            .build();
+
+    assertEquals(expectedDto, dto);
+  }
 }

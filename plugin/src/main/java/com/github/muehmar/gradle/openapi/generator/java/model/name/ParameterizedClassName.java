@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
  * any type parameters.
  */
 @EqualsAndHashCode
-public class ParameterizedClassName {
+public class ParameterizedClassName implements WriteableParameterizedClassName {
   private final QualifiedClassName qualifiedClassName;
   private final PList<JavaType> genericTypes;
   private final Optional<JavaType> genericValueType;
@@ -48,12 +48,13 @@ public class ParameterizedClassName {
   }
 
   private String asStringWithValueTypeAnnotations(
-      Function<JavaType, String> createAnnotationsForValueType, boolean wrapNullableValueType) {
+      Function<JavaType, String> createAnnotationsForValueType, RenderOption renderOption) {
     final Optional<String> annotatedValueType =
         genericValueType.map(
             type -> {
               final String typeFormat =
-                  wrapNullableValueType && type.getNullability().isNullable()
+                  renderOption.equals(RenderOption.WRAPPING_NULLABLE_VALUE_TYPE)
+                          && type.getNullability().isNullable()
                       ? "Optional<%s>"
                       : "%s";
               return String.format(
@@ -73,19 +74,27 @@ public class ParameterizedClassName {
 
   public String asStringWithValueTypeAnnotations(
       Function<JavaType, String> createAnnotationsForValueType) {
-    return asStringWithValueTypeAnnotations(createAnnotationsForValueType, false);
+    return asStringWithValueTypeAnnotations(createAnnotationsForValueType, RenderOption.DEFAULT);
   }
 
+  @Override
   public String asString() {
     return asStringWithValueTypeAnnotations(ignore -> "");
   }
 
+  @Override
   public String asStringWrappingNullableValueType() {
-    return asStringWithValueTypeAnnotations(ignore -> "", true);
+    return asStringWithValueTypeAnnotations(
+        ignore -> "", RenderOption.WRAPPING_NULLABLE_VALUE_TYPE);
   }
 
   @Override
   public String toString() {
     return asString();
+  }
+
+  public enum RenderOption {
+    DEFAULT,
+    WRAPPING_NULLABLE_VALUE_TYPE
   }
 }

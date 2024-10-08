@@ -1,5 +1,10 @@
 ## Change Log
 
+* 3.2.0
+    * Support for conversions of type and class mappings (issue `#160`)
+    * Fix serialisation of multiple nested required and nullable property in anyOf or oneOf compositions (issue `#278`)
+    * Fix mapping for map keys (issue `#286`)
+* 3.1.9 - Fix inlining of container types, e.g. array items and map values (issue `#287`)
 * 3.1.6 - Fix inlining of container types, e.g. array items and map values (issue `#287`)
 * 3.1.5 - Fix serialisation of required not nullable properties with special naming pattern (issue `#272`)
 * 3.1.4 - Fix generation of inline enum definitions for item types of arrays (issue `#280`)

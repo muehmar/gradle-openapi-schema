@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     testFixturesImplementation libs.codeGenerator
-    testFixturesApi libs.javaSnapshot
+    testFixturesApi testLibs.javaSnapshot
 
-    testFixturesApi libs.junit
+    testFixturesApi testLibs.junit
 }

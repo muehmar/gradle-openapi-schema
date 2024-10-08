@@ -1,0 +1,29 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.MapMapMethodTest.mapMapMethod_when_called_then_correctOutput=[
+java.util.HashMap
+java.util.Map
+java.util.function.Function
+
+private static <A, B, C, D, E> E mapMap(
+    Map<String, A> map,
+    Function<A, B> mapMapItemType,
+    Function<B, C> wrapMapItemType,
+    Function<Map<String, C>, D> mapMapType,
+    Function<D, E> wrapMapType) {
+  if (map == null) {
+    return wrapMapType.apply(null);
+  }
+
+  final Map<String, C> mappedMapType =
+      map.entrySet().stream()
+          .collect(
+              HashMap::new,
+              (m, entry) -> {
+                final B b = entry.getValue() != null ? mapMapItemType.apply(entry.getValue()) : null;
+                final C c = wrapMapItemType.apply(b);
+                m.put(entry.getKey(), c);
+              },
+              HashMap::putAll);
+
+  return wrapMapType.apply(mapMapType.apply(mappedMapType));
+}
+]

@@ -20,17 +20,19 @@ dependencyResolutionManagement {
             version('swaggerParser', '2.1.19')
             library('swaggerParser', 'io.swagger.parser.v3', 'swagger-parser-v3').versionRef('swaggerParser')
 
-            version('pojo-builder', '1.5.0')
+            version('pojo-builder', '1.8.0')
             library('pojoBuilder-annotations', 'io.github.muehmar', 'pojo-builder-annotations').versionRef('pojo-builder')
             library('pojoBuilder', 'io.github.muehmar', 'pojo-builder').versionRef('pojo-builder')
 
-            version('code-generator', '0.22.0')
+            version('code-generator', '0.24.0')
             library('codeGenerator', 'io.github.muehmar', 'code-generator').versionRef('code-generator')
 
             version('lombok', '1.18.30')
             library('lombok', 'org.projectlombok', 'lombok').versionRef('lombok')
 
-            // Dependencies for sample projects
+        }
+
+        sampleLibs {
             version('hibernate8', '8.0.1.Final')
             library('hibernate8-validator', 'org.hibernate', 'hibernate-validator').versionRef('hibernate8')
 
@@ -55,8 +57,9 @@ dependencyResolutionManagement {
             library('jackson-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson')
             library('jackson-datatype', 'com.fasterxml.jackson.datatype', 'jackson-datatype-jsr310').versionRef('jackson')
             bundle('jackson', ['jackson-core', 'jackson-databind', 'jackson-annotations', 'jackson-datatype'])
+        }
 
-            // Test dependencies
+        testLibs {
             version('mockito', '4.11.0')
             library('mockito-core', 'org.mockito', 'mockito-core').versionRef('mockito')
             library('mockito-junit-jupiter', 'org.mockito', 'mockito-junit-jupiter').versionRef('mockito')
@@ -74,8 +77,9 @@ dependencyResolutionManagement {
 
             version('reflections', '0.10.2')
             library('reflections', 'org.reflections', 'reflections').versionRef('reflections')
+        }
 
-            // Plugins
+        pluginLibs {
             plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.1.6')
             plugin('springboot2', 'org.springframework.boot').version('2.7.9')
             plugin('springboot3', 'org.springframework.boot').version('3.2.3')

@@ -1,0 +1,165 @@
+allUnnecessary=[
+.
+.
+optionalListWithNullableItems
+]
+
+
+autoMapped[optionalListWithNullableItems]=[
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Optional::ofNullable,
+    Function.identity(),
+    Optional::ofNullable
+);
+]
+
+
+autoMapped[optionalNullableListWithNullableItems]=[
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    optionalNullableListWithNullableItems,
+    Function.identity(),
+    Optional::ofNullable,
+    Function.identity(),
+    l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItemsNull)
+);
+]
+
+
+autoMapped[requiredListWithNullableItemsFullMapping]=[
+com.custom.CustomList
+com.custom.CustomString
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    requiredListWithNullableItemsFullMapping,
+    i -> CustomString.fromString(i),
+    Optional::ofNullable,
+    l -> CustomList.fromList(l),
+    Function.identity()
+);
+]
+
+
+autoMapped[requiredListWithNullableItemsListMapping]=[
+com.custom.CustomList
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    requiredListWithNullableItemsListMapping,
+    Function.identity(),
+    Optional::ofNullable,
+    l -> CustomList.fromList(l),
+    Function.identity()
+);
+]
+
+
+autoMapped[requiredListWithNullableItemsStringMapping]=[
+com.custom.CustomString
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    requiredListWithNullableItemsStringMapping,
+    i -> CustomString.fromString(i),
+    Optional::ofNullable,
+    Function.identity(),
+    Function.identity()
+);
+]
+
+
+autoMapped[requiredListWithNullableItems]=[
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    requiredListWithNullableItems,
+    Function.identity(),
+    Optional::ofNullable,
+    Function.identity(),
+    Function.identity()
+);
+]
+
+
+autoMapped[requiredNullableListWithNullableItems]=[
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    requiredNullableListWithNullableItems,
+    Function.identity(),
+    Optional::ofNullable,
+    Function.identity(),
+    Optional::ofNullable
+);
+]
+
+
+autoMapped[requiredStringList]=[
+.
+.
+requiredStringList;
+]
+
+
+mapListAndListItemType=[
+com.custom.CustomList
+com.custom.CustomString
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    i -> CustomString.fromString(i),
+    Function.identity(),
+    l -> CustomList.fromList(l),
+    Function.identity()
+)
+]
+
+
+prefixAndTrailingSemicolon=[
+.
+.
+return optionalListWithNullableItems;
+]
+
+
+wrapOptionalListAndListItem=[
+java.util.Optional
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Optional::ofNullable,
+    Function.identity(),
+    Optional::ofNullable
+)
+]
+
+
+wrapTristateList=[
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+mapList(
+    optionalListWithNullableItems,
+    Function.identity(),
+    Function.identity(),
+    Function.identity(),
+    l -> Tristate.ofNullableAndNullFlag(l, isOptionalListWithNullableItemsNull)
+)
+]

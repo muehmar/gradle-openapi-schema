@@ -15,10 +15,14 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
   setOptionalStringVal(dto.getOptionalStringVal());
   setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
-  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
-  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItems()));
-  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItems()));
-  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItems()));
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItems());
+  setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
+  setRequiredMap(dto.getRequiredMap());
+  setRequiredNullableMap(dto.getRequiredNullableMap());
+  setOptionalMap(dto.getOptionalMap());
+  setOptionalNullableMap(dto.getOptionalNullableMap());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
@@ -43,10 +47,14 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
   setOptionalStringVal(dto.getOptionalStringVal());
   setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
-  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
-  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItems()));
-  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItems()));
-  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItems()));
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItems());
+  setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
+  setRequiredMap(dto.getRequiredMap());
+  setRequiredNullableMap(dto.getRequiredNullableMap());
+  setOptionalMap(dto.getOptionalMap());
+  setOptionalNullableMap(dto.getOptionalNullableMap());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
@@ -121,6 +129,41 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
 ]
 
 
+nestedOneOfPojo=[
+.
+.
+private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+  setStringVal(dto.getStringVal());
+  setIntVal(dto.getIntVal());
+  setDoubleVal(dto.getDoubleVal());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+
+private Builder setOneOfPojo1Dto(OneOfPojo1Dto dto) {
+  setRequiredStringVal(dto.getRequiredStringVal());
+  if (dto.getIsRequiredNullableStringValPresent()) setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
+  if (dto.getIsOptionalStringValNotNull()) setOptionalStringVal(dto.getOptionalStringVal());
+  setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  if (dto.getIsRequiredNullableListWithNullableItemsPresent()) setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItems());
+  if (dto.getIsOptionalListWithNullableItemsNotNull()) setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
+  setRequiredMap(dto.getRequiredMap());
+  if (dto.getIsRequiredNullableMapPresent()) setRequiredNullableMap(dto.getRequiredNullableMap());
+  if (dto.getIsOptionalMapNotNull()) setOptionalMap(dto.getOptionalMap());
+  setOptionalNullableMap(dto.getOptionalNullableMap());
+  setStringVal(dto.getStringVal());
+  setBirthdate(dto.getBirthdate());
+  setEmail(dto.getEmail());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
 noBuilderSetMethodPrefix=[
 .
 .
@@ -161,10 +204,14 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setRequiredNullableStringVal(dto.getRequiredNullableStringValOpt1());
   setOptionalStringVal(dto.getOptionalStringValOpt2());
   setOptionalNullableStringVal(dto.getOptionalNullableStringValTristate());
-  setRequiredListWithNullableItems(unwrapNullableItemsList(dto.getRequiredListWithNullableItems()));
-  setRequiredNullableListWithNullableItems(unwrapOptionalNullableItemsList(dto.getRequiredNullableListWithNullableItemsOpt1()));
-  setOptionalListWithNullableItems(unwrapOptionalNullableItemsList(dto.getOptionalListWithNullableItemsOpt2()));
-  setOptionalNullableListWithNullableItems(unwrapTristateNullableItemsList(dto.getOptionalNullableListWithNullableItemsTristate()));
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
+  setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItemsOpt1());
+  setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItemsOpt2());
+  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItemsTristate());
+  setRequiredMap(dto.getRequiredMap());
+  setRequiredNullableMap(dto.getRequiredNullableMapOpt1());
+  setOptionalMap(dto.getOptionalMapOpt2());
+  setOptionalNullableMap(dto.getOptionalNullableMapTristate());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;

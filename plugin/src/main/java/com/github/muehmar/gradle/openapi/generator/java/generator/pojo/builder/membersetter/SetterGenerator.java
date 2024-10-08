@@ -10,7 +10,6 @@ import io.github.muehmar.codegenerator.java.JavaDocGenerator;
 import io.github.muehmar.codegenerator.java.JavaModifiers;
 import io.github.muehmar.codegenerator.java.MethodGen;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
-import io.github.muehmar.codegenerator.writer.Writer;
 
 public class SetterGenerator {
   private SetterGenerator() {}
@@ -44,19 +43,13 @@ public class SetterGenerator {
                     argument(memberSetter.argumentType(), memberSetter.getMember().getName()))
             .doesNotThrow()
             .content(
-                ((memberSetter, settings, writer) -> {
-                  final Writer valueAssigmentWriter =
-                      writer.println(
-                          "this.%s = %s;",
-                          memberSetter.getMember().getName(), memberSetter.memberValue());
-                  final Writer flagAssigmentWriter =
-                      memberSetter
-                          .flagAssignment()
-                          .map(valueAssigmentWriter::println)
-                          .orElse(valueAssigmentWriter)
-                          .println("return this;");
-                  return memberSetter.addRefs(flagAssigmentWriter);
-                }))
+                (memberSetter, settings, writer) ->
+                    memberSetter
+                        .flagAssignment()
+                        .map(memberSetter.memberAssigment()::println)
+                        .orElse(memberSetter.memberAssigment())
+                        .println("return this;")
+                        .refs(memberSetter.getRefs()))
             .build();
     return Generator.<MemberSetter, PojoSettings>emptyGen()
         .append(

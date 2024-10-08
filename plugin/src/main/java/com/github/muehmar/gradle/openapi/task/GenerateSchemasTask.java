@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.Language;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.util.Suppliers;
+import com.github.muehmar.gradle.openapi.warnings.WarningsContext;
 import com.github.muehmar.gradle.openapi.warnings.WarningsHandler;
 import com.github.muehmar.gradle.openapi.writer.BaseDirFileWriter;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
@@ -75,6 +76,7 @@ public class GenerateSchemasTask extends DefaultTask {
   }
 
   private void runTask() {
+    WarningsContext.resetWarningsForTask(pojoSettings.get().getTaskIdentifier());
     final MapResult mapResult = cachedMapping.get();
     final Generators generators = GeneratorFactory.create(Language.JAVA);
 
@@ -91,6 +93,7 @@ public class GenerateSchemasTask extends DefaultTask {
   }
 
   private void handleWarnings() {
+    pojoSettings.get().validate();
     if (not(warningsConfig.get().getDisableWarnings())) {
       WarningsHandler.handleWarnings(
           pojoSettings.get().getTaskIdentifier(), warningsConfig.get().getFailingWarningTypes());

@@ -4,10 +4,13 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,47 +19,60 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class JavaArrayType implements JavaType {
-  private final QualifiedClassName qualifiedClassName;
+  private final QualifiedClassName className;
+  private final Optional<ApiType> apiType;
   private final JavaType itemType;
   private final Nullability nullability;
   private final Constraints constraints;
 
-  private static final QualifiedClassName JAVA_CLASS_NAME = QualifiedClassNames.LIST;
+  private static final QualifiedClassName INTERNAL_JAVA_CLASS_NAME = QualifiedClassNames.LIST;
 
   private JavaArrayType(
-      QualifiedClassName qualifiedClassName,
+      QualifiedClassName className,
+      Optional<ApiType> apiType,
       JavaType itemType,
       Nullability nullability,
       Constraints constraints) {
-    this.qualifiedClassName = qualifiedClassName;
+    this.className = className;
+    this.apiType = apiType;
     this.itemType = itemType;
     this.nullability = nullability;
     this.constraints = constraints;
   }
 
   public static JavaArrayType wrap(ArrayType arrayType, TypeMappings typeMappings) {
-    final QualifiedClassName className =
-        JAVA_CLASS_NAME.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    final JavaType itemType = JavaType.wrap(arrayType.getItemType(), typeMappings);
+    final TypeMapping typeMapping =
+        TypeMapping.fromClassMappings(
+            INTERNAL_JAVA_CLASS_NAME, typeMappings.getClassTypeMappings(), PList.single(itemType));
     return new JavaArrayType(
-        className,
-        JavaType.wrap(arrayType.getItemType(), typeMappings),
+        typeMapping.getClassName(),
+        typeMapping.getApiType(),
+        itemType,
         arrayType.getNullability(),
         arrayType.getConstraints());
   }
 
   @Override
   public QualifiedClassName getQualifiedClassName() {
-    return qualifiedClassName;
+    return className;
+  }
+
+  @Override
+  public Optional<ApiType> getApiType() {
+    return apiType;
   }
 
   @Override
   public PList<QualifiedClassName> getAllQualifiedClassNames() {
-    return PList.single(qualifiedClassName).concat(itemType.getAllQualifiedClassNames());
+    return PList.single(getQualifiedClassName())
+        .concat(PList.fromOptional(getApiType().map(ApiType::getClassName)))
+        .concat(itemType.getAllQualifiedClassNames());
   }
 
   @Override
   public ParameterizedClassName getParameterizedClassName() {
-    return ParameterizedClassName.fromGenericClass(qualifiedClassName, PList.single(itemType));
+    return ParameterizedClassName.fromGenericClass(getQualifiedClassName(), PList.single(itemType));
   }
 
   @Override
@@ -71,7 +87,7 @@ public class JavaArrayType implements JavaType {
 
   @Override
   public JavaArrayType withNullability(Nullability nullability) {
-    return new JavaArrayType(qualifiedClassName, itemType, nullability, constraints);
+    return new JavaArrayType(className, apiType, itemType, nullability, constraints);
   }
 
   @Override

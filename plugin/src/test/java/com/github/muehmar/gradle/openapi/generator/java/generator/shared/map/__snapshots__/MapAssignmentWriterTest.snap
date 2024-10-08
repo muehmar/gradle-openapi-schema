@@ -1,0 +1,43 @@
+allUnnecessary=[
+.
+.
+this.optionalMap =
+    optionalMap;
+]
+
+
+expressionOnly=[
+.
+.
+optionalMap
+]
+
+
+unmapMapAndMapItemType=[
+com.custom.CustomMap
+com.custom.CustomString
+java.util.function.Function
+
+this.optionalMap =
+    unmapMap(
+        optionalMap,
+        Function.identity(),
+        l -> CustomMap.toMap(l),
+        Function.identity(),
+        i -> CustomString.toString(i)
+    );
+]
+
+
+unwrapTristateMap=[
+java.util.function.Function
+
+this.optionalMap =
+    unmapMap(
+        optionalMap,
+        l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        Function.identity(),
+        Function.identity(),
+        Function.identity()
+    );
+]

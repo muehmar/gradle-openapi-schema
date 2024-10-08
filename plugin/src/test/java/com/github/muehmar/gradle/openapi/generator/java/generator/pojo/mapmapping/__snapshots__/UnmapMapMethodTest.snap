@@ -1,0 +1,38 @@
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.UnmapMapMethodTest.unmapMapMethod_when_called_then_correctOutput=[
+java.util.HashMap
+java.util.Map
+java.util.function.Function
+
+private static <A, B, C, D, E> Map<String, E> unmapMap(
+    A map,
+    Function<A, B> unwrapMap,
+    Function<B, Map<String, C>> unmapMapType,
+    Function<C, D> unwrapMapItem,
+    Function<D, E> unmapMapItemType) {
+  if (map == null) {
+    return null;
+  }
+
+  final B unwrappedMap = unwrapMap.apply(map);
+
+  if (unwrappedMap == null) {
+    return null;
+  }
+
+  final Map<String, C> unmappedMapType = unmapMapType.apply(unwrappedMap);
+
+  if (unmappedMapType == null) {
+    return null;
+  }
+
+  return unmappedMapType.entrySet().stream()
+      .collect(
+          HashMap::new,
+          (m, entry) -> {
+            final D d = entry.getValue() != null ? unwrapMapItem.apply(entry.getValue()) : null;
+            final E e = d != null ? unmapMapItemType.apply(d) : null;
+            m.put(entry.getKey(), e);
+          },
+          HashMap::putAll);
+}
+]

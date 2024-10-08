@@ -18,6 +18,13 @@ public int hashCode() {
     isOptionalListWithNullableItemsNotNull,
     optionalNullableListWithNullableItems,
     isOptionalNullableListWithNullableItemsNull,
+    requiredMap,
+    requiredNullableMap,
+    isRequiredNullableMapPresent,
+    optionalMap,
+    isOptionalMapNotNull,
+    optionalNullableMap,
+    isOptionalNullableMapNull,
     additionalProperties
   );
 }

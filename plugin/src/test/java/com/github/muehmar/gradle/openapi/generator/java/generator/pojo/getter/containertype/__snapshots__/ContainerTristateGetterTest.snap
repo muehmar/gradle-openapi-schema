@@ -1,0 +1,124 @@
+containerMembers[optionalNullableListWithNullableItemsFullMapping]=[
+com.custom.CustomList
+com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+@JsonIgnore
+public Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullableItemsFullMapping() {
+  return mapList(
+      optionalNullableListWithNullableItemsFullMapping,
+      i -> CustomString.fromString(i),
+      Optional::ofNullable,
+      l -> CustomList.fromList(l),
+      l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItemsFullMappingNull)
+  );
+}
+]
+
+
+containerMembers[optionalNullableListWithNullableItems]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+java.util.Optional
+java.util.function.Function
+
+/**
+ * OptionalNullableListWithNullableItems
+ */
+@JsonIgnore
+public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
+  return mapList(
+      optionalNullableListWithNullableItems,
+      Function.identity(),
+      Optional::ofNullable,
+      Function.identity(),
+      l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItemsNull)
+  );
+}
+]
+
+
+containerMembers[optionalNullableMap]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+/**
+ * OptionalNullableMap
+ */
+@JsonIgnore
+public Tristate<Map<String, String>> getOptionalNullableMap() {
+  return mapMap(
+      optionalNullableMap,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      m -> Tristate.ofNullableAndNullFlag(m, isOptionalNullableMapNull)
+  );
+}
+]
+
+
+containerMembers[optionalNullableStringList]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+java.util.function.Function
+
+/**
+ * List
+ */
+@JsonIgnore
+public Tristate<List<String>> getOptionalNullableStringList() {
+  return mapList(
+      optionalNullableStringList,
+      Function.identity(),
+      Function.identity(),
+      Function.identity(),
+      l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableStringListNull)
+  );
+}
+]
+
+
+generatorSettings[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+@JsonIgnore
+public Tristate<List<String>> getRequiredStringList() {
+  return requiredStringList;
+}
+]
+
+
+generatorSettings[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * List
+ */
+@JsonIgnore
+Tristate<List<String>> getRequiredStringList() {
+  return requiredStringList;
+}
+]
+
+
+generatorSettings[]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.github.muehmar.openapi.util.Tristate
+
+/**
+ * List
+ */
+@JsonIgnore
+public Tristate<List<String>> getRequiredStringList() {
+  return requiredStringList;
+}
+]

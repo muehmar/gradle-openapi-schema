@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -22,7 +23,7 @@ public class JavaObjectType extends NonGenericJavaType {
       Nullability nullability,
       Constraints constraints,
       TypeOrigin origin) {
-    super(className, nullability);
+    super(className, Optional.empty(), nullability);
     this.constraints = constraints;
     this.origin = origin;
   }

@@ -3,6 +3,8 @@ package com.github.muehmar.gradle.openapi.warnings;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType;
+import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import lombok.Value;
 
 /** Warning which may occur during the generation of the code for the schemas. */
@@ -20,5 +22,21 @@ public class Warning {
             propertyInfoName,
             constraintType.name().toLowerCase());
     return new Warning(WarningType.UNSUPPORTED_VALIDATION, message);
+  }
+
+  public static Warning missingMappingConversion(ClassTypeMapping classTypeMapping) {
+    final String message =
+        String.format(
+            "ClassTypeMapping for class %s has no conversion defined.",
+            classTypeMapping.getFromClass());
+    return new Warning(WarningType.MISSING_MAPPING_CONVERSION, message);
+  }
+
+  public static Warning missingMappingConversion(FormatTypeMapping formatTypeMapping) {
+    final String message =
+        String.format(
+            "FormatTypeMapping for format %s has no conversion defined.",
+            formatTypeMapping.getFormatType());
+    return new Warning(WarningType.MISSING_MAPPING_CONVERSION, message);
   }
 }

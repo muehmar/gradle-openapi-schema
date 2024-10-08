@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.array;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.list.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.JavaModifier.STATIC;
@@ -31,11 +32,34 @@ public class FactoryMethodGenerator {
         .methodName("fromItems")
         .singleArgument(
             p ->
-                argument(p.getArrayPojoMember().getJavaType().getParameterizedClassName(), "items"))
+                argument(
+                    p.getArrayPojoMember()
+                        .getJavaType()
+                        .getWriteableParameterizedClassName()
+                        .asString(),
+                    "items"))
         .doesNotThrow()
-        .content(p -> String.format("return new %s(items);", p.getClassName()))
+        .content(factoryMethodContent())
         .build()
         .append(RefsGenerator.fieldRefs(), JavaArrayPojo::getArrayPojoMember);
+  }
+
+  private static Generator<JavaArrayPojo, PojoSettings> factoryMethodContent() {
+    return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
+        .append((p, s, w) -> w.println("return new %s(", p.getClassName().asString()))
+        .append(
+            (p, s, w) ->
+                w.append(
+                    2,
+                    fullListAssigmentWriterBuilder()
+                        .member(p.getArrayPojoMember())
+                        .expressionOnly()
+                        .unwrapListNotNecessary()
+                        .unmapListType(p.getJavaArrayType())
+                        .unwrapListItemNotNecessary()
+                        .unmapListItemType(p.getJavaArrayType())
+                        .build()))
+        .append(constant(");"));
   }
 
   private static Generator<JavaArrayPojo, PojoSettings> emptyFactoryMethod() {
@@ -54,6 +78,7 @@ public class FactoryMethodGenerator {
   }
 
   private static boolean arrayPojoHasStandardListType(JavaArrayPojo arrayPojo) {
-    return arrayPojo.getJavaArrayType().getQualifiedClassName().equals(QualifiedClassNames.LIST);
+    return arrayPojo.getJavaArrayType().getQualifiedClassName().equals(QualifiedClassNames.LIST)
+        && arrayPojo.getJavaArrayType().hasNoApiTypeDeep();
   }
 }

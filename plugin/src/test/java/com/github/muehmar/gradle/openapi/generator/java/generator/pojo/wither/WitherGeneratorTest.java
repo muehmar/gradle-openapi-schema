@@ -15,6 +15,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -56,7 +57,22 @@ class WitherGeneratorTest {
   static Stream<Arguments> allNullabilityAndNecessityVariantsSingleMember() {
     final JavaObjectPojo pojo = JavaPojos.allNecessityAndNullabilityVariants();
     final WitherGenerator.WitherContent witherContent = pojo.getWitherContent();
-    return pojo.getMembers().map(member -> Arguments.of(witherContent, member)).toStream();
+    final JavaObjectPojo pojoTypeMapped = JavaPojos.allNecessityAndNullabilityVariantsTypeMapped();
+    final JavaObjectPojo pojoTypeMappedWithCorrectNames =
+        pojoTypeMapped.withMembers(
+            JavaPojoMembers.fromMembers(
+                pojoTypeMapped
+                    .getMembers()
+                    .map(member -> member.withName(member.getName().append("Mapped")))));
+    final WitherGenerator.WitherContent witherContentTypeMapped =
+        pojoTypeMappedWithCorrectNames.getWitherContent();
+    return pojo.getMembers()
+        .map(member -> Arguments.of(witherContent, member))
+        .concat(
+            pojoTypeMappedWithCorrectNames
+                .getMembers()
+                .map(member -> Arguments.of(witherContentTypeMapped, member)))
+        .toStream();
   }
 
   @Test

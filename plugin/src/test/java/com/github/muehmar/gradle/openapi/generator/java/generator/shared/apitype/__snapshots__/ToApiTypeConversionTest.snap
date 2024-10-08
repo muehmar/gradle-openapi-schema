@@ -1,0 +1,26 @@
+apiTypeWithFactoryMethods[NO_NULL_CHECK]=[
+com.github.muehmar.UserId
+
+UserId.fromString(field)
+]
+
+
+apiTypeWithFactoryMethods[NULL_SAFE]=[
+com.github.muehmar.UserId
+
+field != null ? UserId.fromString(field) : null
+]
+
+
+apiTypeWithInstanceMethods[NO_NULL_CHECK]=[
+.
+.
+field.toCounter()
+]
+
+
+apiTypeWithInstanceMethods[NULL_SAFE]=[
+.
+.
+field != null ? field.toCounter() : null
+]

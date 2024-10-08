@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_LIST;
 import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA_UTIL_STREAM_COLLECTORS;
@@ -12,6 +13,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.AdditionalPropertyClassGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.NullableAdditionalPropertyClassGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -46,8 +48,9 @@ class GetAdditionalPropertiesList {
         props.getType().getNullability().isNullable()
             ? NullableAdditionalPropertyClassGenerator.CLASSNAME
             : AdditionalPropertyClassGenerator.CLASSNAME;
-    return String.format(
-        "List<%s<%s>>", additionalPropertyClassName, props.getType().getParameterizedClassName());
+    final String parameterizedClassName =
+        props.getType().getWriteableParameterizedClassName().asString();
+    return String.format("List<%s<%s>>", additionalPropertyClassName, parameterizedClassName);
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> methodContent() {
@@ -61,10 +64,12 @@ class GetAdditionalPropertiesList {
                 NullableAdditionalPropertyClassGenerator.CLASSNAME)
             .append(ref(NULLABLE_ADDITIONAL_PROPERTY))
             .filter(JavaAdditionalProperties::isValueAnyType);
+
     final Generator<JavaAdditionalProperties, PojoSettings> specificTypeMap =
         Generator.<JavaAdditionalProperties, PojoSettings>constant(".flatMap(")
             .append(constant("entry -> "), 2)
             .append(constant("%s(entry.getValue())", AdditionalPropertiesCastMethod.METHOD_NAME), 4)
+            .append(apiTypeMapping(), 6)
             .append(
                 constant(
                     ".onValue(val -> Stream.of(%s.ofNullable(entry.getKey(), val)))",
@@ -79,6 +84,7 @@ class GetAdditionalPropertiesList {
             .append(ref(NULLABLE_ADDITIONAL_PROPERTY))
             .append(ref(JAVA_UTIL_STREAM_STREAM))
             .filter(JavaAdditionalProperties::isNotValueAnyType);
+
     return Generator.<JavaAdditionalProperties, PojoSettings>constant(
             "return %s.entrySet().stream()", additionalPropertiesName())
         .append(anyTypeMap.append(specificTypeMap), 2)
@@ -95,10 +101,12 @@ class GetAdditionalPropertiesList {
                 AdditionalPropertyClassGenerator.CLASSNAME)
             .append(ref(ADDITIONAL_PROPERTY))
             .filter(JavaAdditionalProperties::isValueAnyType);
+
     final Generator<JavaAdditionalProperties, PojoSettings> specificTypeMap =
         Generator.<JavaAdditionalProperties, PojoSettings>constant(".flatMap(")
             .append(constant("entry -> "), 2)
             .append(constant("%s(entry.getValue())", AdditionalPropertiesCastMethod.METHOD_NAME), 4)
+            .append(apiTypeMapping(), 6)
             .append(
                 constant(
                     ".map(val -> new %s<>(entry.getKey(), val))",
@@ -109,11 +117,22 @@ class GetAdditionalPropertiesList {
             .append(ref(ADDITIONAL_PROPERTY))
             .append(ref(JAVA_UTIL_STREAM_STREAM))
             .filter(JavaAdditionalProperties::isNotValueAnyType);
+
     return Generator.<JavaAdditionalProperties, PojoSettings>constant(
             "return %s.entrySet().stream()", additionalPropertiesName())
         .append(anyTypeMap.append(specificTypeMap), 2)
         .append(constant(".collect(Collectors.toList());"), 2)
         .append(ref(JAVA_UTIL_STREAM_COLLECTORS))
         .filter(props -> props.getType().getNullability().isNotNullable());
+  }
+
+  private static Generator<JavaAdditionalProperties, PojoSettings> apiTypeMapping() {
+    return (props, s, w) ->
+        props
+            .getType()
+            .getApiType()
+            .map(apiType -> ToApiTypeConversion.toApiTypeConversion(apiType, "val", NO_NULL_CHECK))
+            .map(conversionWriter -> w.println(".map(val -> %s)", conversionWriter.asString()))
+            .orElse(w);
   }
 }

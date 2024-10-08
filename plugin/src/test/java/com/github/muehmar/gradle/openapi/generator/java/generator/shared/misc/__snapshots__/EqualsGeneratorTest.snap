@@ -20,6 +20,13 @@ public boolean equals(Object obj) {
       && Objects.deepEquals(this.isOptionalListWithNullableItemsNotNull, other.isOptionalListWithNullableItemsNotNull)
       && Objects.deepEquals(this.optionalNullableListWithNullableItems, other.optionalNullableListWithNullableItems)
       && Objects.deepEquals(this.isOptionalNullableListWithNullableItemsNull, other.isOptionalNullableListWithNullableItemsNull)
+      && Objects.deepEquals(this.requiredMap, other.requiredMap)
+      && Objects.deepEquals(this.requiredNullableMap, other.requiredNullableMap)
+      && Objects.deepEquals(this.isRequiredNullableMapPresent, other.isRequiredNullableMapPresent)
+      && Objects.deepEquals(this.optionalMap, other.optionalMap)
+      && Objects.deepEquals(this.isOptionalMapNotNull, other.isOptionalMapNotNull)
+      && Objects.deepEquals(this.optionalNullableMap, other.optionalNullableMap)
+      && Objects.deepEquals(this.isOptionalNullableMapNull, other.isOptionalNullableMapNull)
       && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
 }
 ]

@@ -1,12 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
-import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
-import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.EnumMap;
 import java.util.Map;
@@ -23,29 +23,42 @@ public class JavaNumericType extends NonGenericJavaType {
   private final Constraints constraints;
 
   protected JavaNumericType(
-      QualifiedClassName className, Nullability nullability, Constraints constraints) {
-    super(className, nullability);
+      QualifiedClassName className,
+      Optional<ApiType> apiType,
+      Nullability nullability,
+      Constraints constraints) {
+    super(className, apiType, nullability);
     this.constraints = constraints;
   }
 
   public static JavaNumericType wrap(NumericType numericType, TypeMappings typeMappings) {
-    final QualifiedClassName className =
-        classNameFromFormat(numericType, typeMappings.getFormatTypeMappings());
-    final QualifiedClassName finalClassName =
-        className.mapWithClassMappings(typeMappings.getClassTypeMappings());
+    final QualifiedClassName originalClassName = internalClassNameFromFormat(numericType);
+    final TypeMapping typeMapping = mapType(numericType, typeMappings, originalClassName);
     return new JavaNumericType(
-        finalClassName, numericType.getNullability(), numericType.getConstraints());
+        typeMapping.getClassName(),
+        typeMapping.getApiType(),
+        numericType.getNullability(),
+        numericType.getConstraints());
   }
 
-  private static QualifiedClassName classNameFromFormat(
-      NumericType numericType, PList<FormatTypeMapping> formatTypeMappings) {
-    final Optional<QualifiedClassName> userFormatMappedClassName =
-        QualifiedClassName.fromFormatTypeMapping(
-            numericType.getFormat().asString(), formatTypeMappings);
-    final QualifiedClassName formatMappedClassName =
-        Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(numericType.getFormat()))
-            .orElse(QualifiedClassNames.DOUBLE);
-    return userFormatMappedClassName.orElse(formatMappedClassName);
+  private static TypeMapping mapType(
+      NumericType numericType, TypeMappings typeMappings, QualifiedClassName internalClassName) {
+
+    final TypeMapping formatTypeMapping =
+        TypeMapping.fromFormatMappings(
+            internalClassName,
+            numericType.getFormat().asString(),
+            typeMappings.getFormatTypeMappings());
+
+    final TypeMapping classTypeMapping =
+        TypeMapping.fromClassMappings(internalClassName, typeMappings.getClassTypeMappings());
+
+    return formatTypeMapping.or(classTypeMapping, internalClassName);
+  }
+
+  private static QualifiedClassName internalClassNameFromFormat(NumericType numericType) {
+    return Optional.ofNullable(FORMAT_CLASS_NAME_MAP.get(numericType.getFormat()))
+        .orElse(QualifiedClassNames.DOUBLE);
   }
 
   private static Map<NumericType.Format, QualifiedClassName> createFormatClassNameMap() {
@@ -62,7 +75,7 @@ public class JavaNumericType extends NonGenericJavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaNumericType(getQualifiedClassName(), nullability, constraints);
+    return new JavaNumericType(getQualifiedClassName(), apiType, nullability, constraints);
   }
 
   @Override

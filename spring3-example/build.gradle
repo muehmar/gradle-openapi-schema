@@ -1,21 +1,21 @@
 plugins {
-    alias(libs.plugins.openApiSchema)
+    alias(pluginLibs.plugins.openApiSchema)
     id "com.diffplug.spotless"
     id 'openapischema.java17'
     id 'idea'
 
-    alias(libs.plugins.integrationTest)
+    alias(pluginLibs.plugins.integrationTest)
 
-    alias(libs.plugins.springboot3)
-    alias(libs.plugins.springDependencyManagement)
+    alias(pluginLibs.plugins.springboot3)
+    alias(pluginLibs.plugins.springDependencyManagement)
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    testImplementation libs.junit
-    testImplementation libs.junit.params
+    testImplementation testLibs.junit
+    testImplementation testLibs.junit.params
 
     integrationImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

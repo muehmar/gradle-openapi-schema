@@ -33,7 +33,7 @@ class QualifiedClassNameTest {
   void fromFormatTypeMapping_when_called_then_correctClassNameCreated() {
     final QualifiedClassName className =
         QualifiedClassName.fromFormatTypeMapping(
-            new FormatTypeMapping("uuid", "com.custom.CustomUUID"));
+            new FormatTypeMapping("uuid", "com.custom.CustomUUID", Optional.empty()));
     assertEquals("CustomUUID", className.getClassName().asString());
     assertEquals("com.custom.CustomUUID", className.asName().asString());
   }
@@ -42,7 +42,8 @@ class QualifiedClassNameTest {
   void fromFormatTypeMapping_when_noMatchingFormat_then_emptyReturned() {
     final Optional<QualifiedClassName> className =
         QualifiedClassName.fromFormatTypeMapping(
-            "url", PList.single(new FormatTypeMapping("uuid", "com.custom.CustomUUID")));
+            "url",
+            PList.single(new FormatTypeMapping("uuid", "com.custom.CustomUUID", Optional.empty())));
     assertEquals(Optional.empty(), className);
   }
 
@@ -50,7 +51,8 @@ class QualifiedClassNameTest {
   void fromFormatTypeMapping_when_matchingFormat_then_mappedClassNameReturned() {
     final Optional<QualifiedClassName> className =
         QualifiedClassName.fromFormatTypeMapping(
-            "uuid", PList.single(new FormatTypeMapping("uuid", "com.custom.CustomUUID")));
+            "uuid",
+            PList.single(new FormatTypeMapping("uuid", "com.custom.CustomUUID", Optional.empty())));
     assertTrue(className.isPresent());
     assertEquals("CustomUUID", className.get().getClassName().asString());
     assertEquals("com.custom.CustomUUID", className.get().asName().asString());
@@ -60,27 +62,33 @@ class QualifiedClassNameTest {
   void fromClassTypeMapping_when_called_then_correctClassNameCreated() {
     final QualifiedClassName className =
         QualifiedClassName.fromClassTypeMapping(
-            new ClassTypeMapping("Double", "com.custom.CustomDouble"));
+            new ClassTypeMapping("Double", "com.custom.CustomDouble", Optional.empty()));
     assertEquals("CustomDouble", className.getClassName().asString());
     assertEquals("com.custom.CustomDouble", className.asName().asString());
   }
 
   @Test
   void mapWithClassMappings_when_matchingClass_then_correctMapped() {
-    final QualifiedClassName className =
+    final Optional<QualifiedClassName> maybeClassName =
         QualifiedClassNames.DOUBLE.mapWithClassMappings(
-            PList.single(new ClassTypeMapping("Double", "com.custom.CustomDouble")));
+            PList.single(
+                new ClassTypeMapping("Double", "com.custom.CustomDouble", Optional.empty())));
+
+    assertTrue(maybeClassName.isPresent());
+    final QualifiedClassName className = maybeClassName.get();
+
     assertEquals("CustomDouble", className.getClassName().asString());
     assertEquals("com.custom.CustomDouble", className.asName().asString());
   }
 
   @Test
-  void mapWithClassMappings_when_noMatchingClass_then_notMapped() {
-    final QualifiedClassName className =
+  void mapWithClassMappings_when_noMatchingClass_then_emptyMappingReturned() {
+    final Optional<QualifiedClassName> maybeClassName =
         QualifiedClassNames.INTEGER.mapWithClassMappings(
-            PList.single(new ClassTypeMapping("Double", "com.custom.CustomDouble")));
-    assertEquals("Integer", className.getClassName().asString());
-    assertEquals("java.lang.Integer", className.asName().asString());
+            PList.single(
+                new ClassTypeMapping("Double", "com.custom.CustomDouble", Optional.empty())));
+
+    assertEquals(Optional.empty(), maybeClassName);
   }
 
   @Test
