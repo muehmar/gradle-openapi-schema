@@ -178,9 +178,13 @@ stagedBuilder {
 
 ### Class Mappings
 
-The plugin allows one to map specific classes to custom types. The following example would use the custom List
-implementation `com.package.CustomList` for lists instead of `java.util.List`. The config-property `toClass` should be
-the fully qualified classname to properly generate import-statements. The `conversion.fromCustomType` and
+The plugin allows one to map specific standard java classes, used in the DTO to custom types. The mapping is not applied
+to generated DTO classes itself, this only includes the java class used for properties in the DTO. The following example
+would use the custom List implementation `com.package.CustomList`
+for lists instead of
+`java.util.List`. The config-property
+`toClass` should be the fully qualified classname to properly generate import-statements. The
+`conversion.fromCustomType` and
 `conversion.toCustomType` are used in the DTO to convert from and to the custom type,
 see [Conversion for Mappings](#conversions-for-mappings).
 
