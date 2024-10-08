@@ -131,7 +131,7 @@ class NestedFullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].messageRaw -> size must be between 0 and 10",
+            "invalidAnyOf[FullObject].message -> size must be between 0 and 10",
             "invalidAnyOf[Member].membername -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations),

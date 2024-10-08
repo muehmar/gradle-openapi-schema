@@ -57,6 +57,7 @@ dependencyResolutionManagement {
             library('jackson-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson')
             library('jackson-datatype', 'com.fasterxml.jackson.datatype', 'jackson-datatype-jsr310').versionRef('jackson')
             bundle('jackson', ['jackson-core', 'jackson-databind', 'jackson-annotations', 'jackson-datatype'])
+
         }
 
         testLibs {
@@ -80,7 +81,7 @@ dependencyResolutionManagement {
         }
 
         pluginLibs {
-            plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.1.6')
+            plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.2.0')
             plugin('springboot2', 'org.springframework.boot').version('2.7.9')
             plugin('springboot3', 'org.springframework.boot').version('3.2.3')
             plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.4')

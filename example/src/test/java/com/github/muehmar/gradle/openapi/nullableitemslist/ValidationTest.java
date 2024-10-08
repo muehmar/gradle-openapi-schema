@@ -173,7 +173,7 @@ public class ValidationTest {
     final Set<ConstraintViolation<UserDto>> violations = validate(userDto);
 
     assertEquals(
-        Collections.singletonList("usernamesRaw -> size must be between 3 and 4"),
+        Collections.singletonList("usernames -> size must be between 3 and 4"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(userDto.isValid());
@@ -188,8 +188,7 @@ public class ValidationTest {
     final Set<ConstraintViolation<UserDto>> violations = validate(userDto);
 
     assertEquals(
-        Collections.singletonList(
-            "usernamesRaw[1].<list element> -> size must be between 9 and 12"),
+        Collections.singletonList("usernames[1].<list element> -> size must be between 9 and 12"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(userDto.isValid());
@@ -248,7 +247,7 @@ public class ValidationTest {
     final Set<ConstraintViolation<UserDto>> violations = validate(userDto);
 
     assertEquals(
-        Collections.singletonList("emailsRaw -> size must be between 5 and 6"),
+        Collections.singletonList("emails -> size must be between 5 and 6"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(userDto.isValid());
@@ -279,7 +278,7 @@ public class ValidationTest {
     final Set<ConstraintViolation<UserDto>> violations = validate(userDto);
 
     assertEquals(
-        Collections.singletonList("emailsRaw[0].<list element> -> must match \"[a-z]+-[0-9]{4}\""),
+        Collections.singletonList("emails[0].<list element> -> must match \"[a-z]+-[0-9]{4}\""),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(userDto.isValid());
@@ -338,7 +337,7 @@ public class ValidationTest {
     final Set<ConstraintViolation<UserDto>> violations = validate(userDto);
 
     assertEquals(
-        Collections.singletonList("phonesRaw -> size must be between 7 and 8"),
+        Collections.singletonList("phones -> size must be between 7 and 8"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(userDto.isValid());
@@ -354,7 +353,7 @@ public class ValidationTest {
     final Set<ConstraintViolation<UserDto>> violations = validate(userDto);
 
     assertEquals(
-        Collections.singletonList("phonesRaw[0].<list element> -> must match \"phone-[0-9]{4}\""),
+        Collections.singletonList("phones[0].<list element> -> must match \"phone-[0-9]{4}\""),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(userDto.isValid());

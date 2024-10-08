@@ -12,11 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
@@ -85,15 +85,16 @@ class NullableStringPropertiesTest {
 
   @Test
   void validate_when_additionalPropertyNotStringType_then_violation()
-      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+      throws IllegalAccessException, NoSuchFieldException {
 
     final NullableStringPropertiesDto.Builder builder =
         nullableStringPropertiesDtoBuilder().andOptionals().setFoo("foo");
 
-    final Method addAdditionalProperty =
-        builder.getClass().getDeclaredMethod("addAdditionalProperty", String.class, Object.class);
-    addAdditionalProperty.setAccessible(true);
-    addAdditionalProperty.invoke(builder, "hello", 1);
+    final Field additionalPropertiesField =
+        builder.getClass().getDeclaredField("additionalProperties");
+    additionalPropertiesField.setAccessible(true);
+    final Map<String, Object> props = (Map<String, Object>) additionalPropertiesField.get(builder);
+    props.put("hello", 1);
 
     final NullableStringPropertiesDto dto = builder.build();
 
@@ -108,15 +109,16 @@ class NullableStringPropertiesTest {
 
   @Test
   void getAdditionalProperties_when_additionalPropertyNotStringType_then_listIsEmpty()
-      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+      throws IllegalAccessException, NoSuchFieldException {
 
     final NullableStringPropertiesDto.Builder builder =
         nullableStringPropertiesDtoBuilder().andOptionals().setFoo("foo");
 
-    final Method addAdditionalProperty =
-        builder.getClass().getDeclaredMethod("addAdditionalProperty", String.class, Object.class);
-    addAdditionalProperty.setAccessible(true);
-    addAdditionalProperty.invoke(builder, "hello", 1);
+    final Field additionalPropertiesField =
+        builder.getClass().getDeclaredField("additionalProperties");
+    additionalPropertiesField.setAccessible(true);
+    final Map<String, Object> props = (Map<String, Object>) additionalPropertiesField.get(builder);
+    props.put("hello", 1);
 
     final NullableStringPropertiesDto dto = builder.build();
 
