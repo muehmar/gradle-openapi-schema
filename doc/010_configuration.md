@@ -46,6 +46,8 @@ openApiGenerator {
             formatTypeMapping {
                 formatType = "username"
                 classType = "com.package.UserName"
+                conversion.fromCustomType = "getValue"
+                conversion.toCustomType = "UserName#fromString"
             }
 
             // Additional format type mapping
@@ -178,12 +180,16 @@ stagedBuilder {
 
 The plugin allows one to map specific classes to custom types. The following example would use the custom List
 implementation `com.package.CustomList` for lists instead of `java.util.List`. The config-property `toClass` should be
-the fully qualified classname to properly generate import-statements.
+the fully qualified classname to properly generate import-statements. The `conversion.fromCustomType` and
+`conversion.toCustomType` are used in the DTO to convert from and to the custom type,
+see [Conversion for Mappings](#conversions-for-mappings).
 
 ```
 classMapping {
     fromClass = "List"
     toClass = "com.package.CustomList"
+    conversion.fromCustomType = "asList"
+    conversion.toCustomType = "CustomList#fromList"
 }
 
 ```
@@ -209,13 +215,38 @@ and a formatTypeMapping block in the configuration
 formatTypeMapping {
     formatType = "username"
     classType = "com.package.UserName"
+    conversion.fromCustomType = "getValue"
+    conversion.toCustomType = "UserName#fromString"
 }
 ```
 
 will use the class `com.package.UserName` for the property `userName`. The config-property `classType` should be the
-fully qualified classname to properly generate import-statements.
+fully qualified classname to properly generate import-statements. The `conversion.fromCustomType` and
+`conversion.toCustomType` are used in the DTO to convert from and to the custom type,
+see [Conversion for Mappings](#conversions-for-mappings).
 
 Repeat this block for each format type mapping.
+
+### Conversions for mappings
+
+The conversion can be defined in one of the following ways:
+
+| Type            | Description                                                                                                                                                                                                                                                                                          | Example                                                                                                                     |
+|-----------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| instance method | If a class provides a method to convert to the other type which can be called directly.                                                                                                                                                                                                              | `conversion.fromCustomType = "getValue"`                                                                                    |
+| static method   | The static factory method can either be a static method of the custom type itself or a static method of any other factory class. A fully qualified classname is necessary for arbitrary factory class to generate proper import statements.<br/> The method name an the class is separated by a `#`. | `conversion.toCustomType = "UserName#fromString"`<br/> `conversion.toCustomType = "com.package.UserNameFactory#fromString"` |
+
+Format type mappings and class mappings could also be used without conversion. In this case, the custom types are
+directly used in the DTO with the following consequences:
+
+* The custom type is serialized by Jackson, therefore one needs to configure Jackson to properly serialize and
+  deserialize the custom type.
+* Automatic validation will most likely not be possible, as the standard validation frameworks like hibernate can only
+  validate the standard java types. The plugin does not generate any validation annotations for custom types without
+  mapping.
+
+The plugin provides warnings for defined mappings without conversion to be able to ensure one does not encounter one of
+the mentioned issues with mappings without conversions.
 
 ### Schema Name Mappings
 
@@ -236,8 +267,8 @@ Multiple configured constant mappings are applied in the order they are configur
 
 ### Enum description extraction
 
-Enables and configures the extraction of a description for enums from the openapi specification.
-The `enumDescriptionExtraction` block is optional.
+Enables and configures the extraction of a description for enums from the openapi specification. The
+`enumDescriptionExtraction` block is optional.
 
 ```
 enumDescriptionExtraction {
