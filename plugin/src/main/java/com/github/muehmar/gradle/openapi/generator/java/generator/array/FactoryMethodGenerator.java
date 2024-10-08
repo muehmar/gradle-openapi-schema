@@ -78,6 +78,7 @@ public class FactoryMethodGenerator {
   }
 
   private static boolean arrayPojoHasStandardListType(JavaArrayPojo arrayPojo) {
-    return arrayPojo.getJavaArrayType().getQualifiedClassName().equals(QualifiedClassNames.LIST);
+    return arrayPojo.getJavaArrayType().getQualifiedClassName().equals(QualifiedClassNames.LIST)
+        && arrayPojo.getJavaArrayType().hasNoApiTypeDeep();
   }
 }

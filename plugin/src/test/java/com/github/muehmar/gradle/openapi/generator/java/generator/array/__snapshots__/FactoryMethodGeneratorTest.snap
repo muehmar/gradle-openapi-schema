@@ -17,7 +17,6 @@ public static PosologyDto empty() {
 arrayPojoFullyTypeMappedWithConversion=[
 com.custom.CustomList
 com.custom.CustomString
-java.util.Collections
 java.util.List
 java.util.function.Function
 
@@ -33,9 +32,6 @@ public static PosologyDto fromItems(CustomList<CustomString> items) {
   );
 }
 
-public static PosologyDto empty() {
-  return fromItems(Collections.emptyList());
-}
 ]
 
 
