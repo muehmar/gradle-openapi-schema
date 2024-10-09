@@ -647,6 +647,29 @@ private class Validator {
 ]
 
 
+oneOfPojoWithDiscriminatorAndNonStrictOneOfValidation=[
+private class Validator {
+
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    return true;
+  }
+
+  private boolean isValid() {
+    return isValidAgainstTheCorrectOneOfSchema()
+        && isAdditionalPropertiesValid();
+  }
+}
+]
+
+
 oneOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {

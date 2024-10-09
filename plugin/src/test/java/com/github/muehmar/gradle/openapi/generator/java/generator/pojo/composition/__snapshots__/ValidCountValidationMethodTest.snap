@@ -26,3 +26,15 @@ private boolean isValidAgainstMoreThanOneSchema() {
   return getOneOfValidCount() > 1;
 }
 ]
+
+
+oneOfPojoWithDiscriminatorAndNonStrictValidation=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertFalse
+
+@AssertFalse(message = "Is not valid against one of the schemas [Yellow, Orange]")
+@JsonIgnore
+private boolean isValidAgainstNoOneOfSchema() {
+  return getOneOfValidCount() == 0;
+}
+]

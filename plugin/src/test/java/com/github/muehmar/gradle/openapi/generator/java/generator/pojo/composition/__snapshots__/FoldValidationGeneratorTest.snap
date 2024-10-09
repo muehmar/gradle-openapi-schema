@@ -66,3 +66,18 @@ protected Object getOneOf() {
   return foldOneOf(dto -> dto, dto -> dto, () -> null);
 }
 ]
+
+
+oneOfWithDiscriminatorAndNonStrictValidation=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.Valid
+
+@Valid
+@JsonIgnore
+private Object getOneOf() {
+  if (getOneOfValidCount() == 0) {
+    return null;
+  }
+  return foldOneOf(dto -> dto, dto -> dto, () -> null);
+}
+]

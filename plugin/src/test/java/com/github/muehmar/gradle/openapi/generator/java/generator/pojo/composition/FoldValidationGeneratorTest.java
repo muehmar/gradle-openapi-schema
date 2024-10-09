@@ -38,6 +38,20 @@ class FoldValidationGeneratorTest {
   }
 
   @Test
+  @SnapshotName("oneOfWithDiscriminatorAndNonStrictValidation")
+  void generate_when_oneOfWithDiscriminatorAndNonStrictValidation_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = foldValidationGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojoWithEnumDiscriminator(),
+            defaultTestSettings().withNonStrictOneOfValidation(true),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("oneOfProtectedAndDeprecatedSettings")
   void generate_when_protectedAndDeprecatedSettings_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = foldValidationGenerator();

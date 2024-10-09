@@ -73,7 +73,7 @@ public class InvalidCompositionDtoGetterGenerator {
     return Generator.<CompositionContainer, PojoSettings>emptyGen()
         .append(
             (container, s, w) ->
-                w.println("if(%s) {", invalidCondition(container.getComposition())))
+                w.println("if(%s) {", invalidCondition(container.getComposition(), s)))
         .appendOptional(
             singleResultDiscriminatorHandling().indent(1),
             DiscriminatorAndMemberPojo::fromCompositionContainer)
@@ -81,12 +81,14 @@ public class InvalidCompositionDtoGetterGenerator {
         .append(constant("}"));
   }
 
-  private static String invalidCondition(DiscriminatableJavaComposition composition) {
+  private static String invalidCondition(
+      DiscriminatableJavaComposition composition, PojoSettings settings) {
     final DiscriminatableJavaComposition.Type type = composition.getType();
     final String validCountCondition =
         String.format(
             "%s() %s",
-            getCompositionValidCountMethodName(type), type.equals(ONE_OF) ? "!= 1" : "== 0");
+            getCompositionValidCountMethodName(type),
+            composition.validateExactlyOneMatch(settings) ? "!= 1" : "== 0");
     final String discriminatorCondition =
         String.format("!%s()", isValidAgainstTheCorrectSchemaMethodName(type));
     return PList.of(

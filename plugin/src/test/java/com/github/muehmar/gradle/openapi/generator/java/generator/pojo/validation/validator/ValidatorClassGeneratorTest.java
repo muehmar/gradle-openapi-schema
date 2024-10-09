@@ -95,6 +95,25 @@ class ValidatorClassGeneratorTest {
   }
 
   @Test
+  @SnapshotName("oneOfPojoWithDiscriminatorAndNonStrictOneOfValidation")
+  void generate_when_oneOfPojoWithDiscriminatorAndNonStrictOneOfValidation_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaOneOfComposition javaOneOfComposition =
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.of(sampleObjectPojo1(), sampleObjectPojo2()),
+            UntypedDiscriminator.fromPropertyName(Name.ofString("type")));
+
+    final JavaObjectPojo pojo = JavaPojos.oneOfPojo(javaOneOfComposition);
+
+    final Writer writer =
+        generator.generate(
+            pojo, defaultTestSettings().withNonStrictOneOfValidation(true), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
   @SnapshotName("anyOfPojoWithMembers")
   void generate_when_anyOfPojoWithMembers_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
